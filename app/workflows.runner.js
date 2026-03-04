@@ -183,7 +183,6 @@ window.DPRWorkflowRunner = (function () {
         <div id="dpr-workflow-header">
           <div style="font-weight:600;">工作流触发</div>
           <div style="display:flex; gap:8px; align-items:center;">
-            <button id="dpr-workflow-reset-btn" class="arxiv-tool-btn" style="padding:2px 10px; background:#c62828; color:#fff; border-color:#b71c1c;">删除所有</button>
             <button id="dpr-workflow-refresh-btn" class="arxiv-tool-btn" style="padding:2px 10px;">刷新</button>
             <button id="dpr-workflow-close-btn" class="arxiv-tool-btn" style="padding:2px 6px;">关闭</button>
           </div>
@@ -228,27 +227,6 @@ window.DPRWorkflowRunner = (function () {
       });
     }
 
-    const resetAllBtn = document.getElementById('dpr-workflow-reset-btn');
-    if (resetAllBtn) {
-      resetAllBtn.addEventListener('click', async () => {
-        if (String(window.DPR_ACCESS_MODE || '') !== 'full') {
-          setStatus('未检测到完整登录权限，危险操作未开启。', '#c00');
-          return;
-        }
-        const confirmText = window.prompt(
-          '危险操作：该操作会将 docs 备份为 docs_backup_xxx 后恢复为 docs_init，并清空 archive。输入「RESET_ALL」确认。',
-        );
-        if (confirmText !== 'RESET_ALL') {
-          setStatus('已取消危险操作。', '#666');
-          return;
-        }
-        try {
-          await runWorkflowByKey('reset-content');
-        } catch (err) {
-          setStatus(`触发失败：${err && err.message ? err.message : err}`, '#c00');
-        }
-      });
-    }
   };
 
   const open = () => {

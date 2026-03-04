@@ -16,6 +16,8 @@ window.SubscriptionsManager = (function () {
   let quickRunYearSelect = null;
   let quickRunConferenceSelect = null;
   let quickRunMsgEl = null;
+  let resetContentBtn = null;
+  let resetContentMsgEl = null;
 
   let draftConfig = null;
   let hasUnsavedChanges = false;
@@ -258,6 +260,41 @@ window.SubscriptionsManager = (function () {
     }
   };
 
+  const runResetContent = (msgEl) => {
+    if (String(window.DPR_ACCESS_MODE || '') !== 'full') {
+      if (msgEl) {
+        msgEl.textContent = '未检测到完整登录权限，危险操作未开启。';
+        msgEl.style.color = '#c00';
+      }
+      return;
+    }
+
+    const confirmText = window.prompt(
+      '危险操作：该操作会将 docs 备份为 docs_backup_xxx 后恢复为 docs_init，并清空 archive。输入「RESET_ALL」确认。',
+    );
+    if (confirmText !== 'RESET_ALL') {
+      if (msgEl) {
+        msgEl.textContent = '已取消危险操作。';
+        msgEl.style.color = '#666';
+      }
+      return;
+    }
+
+    if (!window.DPRWorkflowRunner || typeof window.DPRWorkflowRunner.runWorkflowByKey !== 'function') {
+      if (msgEl) {
+        msgEl.textContent = '工作流触发器未加载到当前页面。';
+        msgEl.style.color = '#c00';
+      }
+      return;
+    }
+
+    window.DPRWorkflowRunner.runWorkflowByKey('reset-content');
+    if (msgEl) {
+      msgEl.textContent = '已发起删除并重置任务，已触发工作流。';
+      msgEl.style.color = '#080';
+    }
+  };
+
   const normalizeProfiles = (subs) => {
     const profiles = Array.isArray(subs.intent_profiles) ? subs.intent_profiles : [];
     return profiles
@@ -430,6 +467,18 @@ window.SubscriptionsManager = (function () {
             </div>
             <button id="arxiv-admin-quick-run-conference-run-btn" class="chat-quick-run-run-btn" type="button">运行</button>
             <div id="arxiv-admin-quick-run-msg" class="chat-quick-run-msg"></div>
+
+            <div class="chat-quick-run-divider" aria-hidden="true"></div>
+            <div class="chat-quick-run-title">危险操作</div>
+            <button
+              id="arxiv-admin-reset-content-btn"
+              class="chat-quick-run-run-btn"
+              type="button"
+              style="background:#c62828; color:#fff; border-color:#b71c1c;"
+            >
+              删除所有
+            </button>
+            <div id="arxiv-admin-reset-content-msg" class="chat-quick-run-msg"></div>
           </div>
         </div>
       </div>
@@ -616,6 +665,8 @@ window.SubscriptionsManager = (function () {
       'arxiv-admin-quick-run-conference-select',
     );
     quickRunMsgEl = document.getElementById('arxiv-admin-quick-run-msg');
+    resetContentBtn = document.getElementById('arxiv-admin-reset-content-btn');
+    resetContentMsgEl = document.getElementById('arxiv-admin-reset-content-msg');
     fillQuickRunOptions(quickRunYearSelect, quickRunConferenceSelect);
     [quickRun10dBtn, quickRun30dBtn].forEach((btn) => {
       if (!btn) return;
@@ -647,6 +698,13 @@ window.SubscriptionsManager = (function () {
           quickRunConferenceSelect,
           quickRunMsgEl,
         );
+      });
+    }
+
+    if (resetContentBtn && !resetContentBtn._bound) {
+      resetContentBtn._bound = true;
+      resetContentBtn.addEventListener('click', () => {
+        runResetContent(resetContentMsgEl);
       });
     }
 
