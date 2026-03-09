@@ -791,9 +791,9 @@ window.$docsify = {
               if (aiSummaryText) {
                 aiBlock += aiSummaryText;
               }
-              addMetaBlock(DETAIL_MARKER, aiBlock);
+              addMetaBlock(START_MARKER, aiBlock);
               addRawMetaBlock(
-                DETAIL_MARKER,
+                START_MARKER,
                 [rawSummary]
                   .filter(Boolean)
                   .join('\n\n'),
