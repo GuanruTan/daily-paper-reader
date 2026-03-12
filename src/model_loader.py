@@ -19,7 +19,9 @@ _DEFAULT_RETRIES = 3
 _DEFAULT_HF_BACKOFF_RETRIES = 1
 _DEFAULT_REMOTE_TIMEOUT_SECONDS = 60
 _DEFAULT_REMOTE_EMBED_ENDPOINT = "https://embed.zwwen.online/embed"
-_DEFAULT_REMOTE_EMBED_API_KEY = "dpr-embed-public"
+# 当前服务默认按公开模式接入，不主动发送 Authorization 头。
+# 若后续需要固定鉴权，可直接把该常量改成固定字符串。
+_DEFAULT_REMOTE_EMBED_API_KEY = ""
 
 
 def _log_default(message: str) -> None:
@@ -93,12 +95,24 @@ class RemoteSentenceTransformer:
     )
 
     for chunk_index, chunk in enumerate(chunks, start=1):
+      headers = self._headers()
       response = requests.post(
         self.endpoint,
-        headers=self._headers(),
+        headers=headers,
         json={"texts": chunk},
         timeout=self.timeout,
       )
+      if response.status_code == 401 and headers.get("Authorization"):
+        self._log("[WARN] 远程 embedding 鉴权失败，自动回退为无鉴权请求重试一次。")
+        headers = {
+          "Content-Type": "application/json",
+        }
+        response = requests.post(
+          self.endpoint,
+          headers=headers,
+          json={"texts": chunk},
+          timeout=self.timeout,
+        )
       response.raise_for_status()
       data = response.json()
       embeddings = data.get("embeddings")
