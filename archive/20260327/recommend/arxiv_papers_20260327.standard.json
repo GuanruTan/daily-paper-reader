@@ -1,0 +1,686 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-03-27T19:43:07.468040+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 17,
+    "deep_cap": 6,
+    "deep_selected": 6,
+    "quick_candidates": 50,
+    "quick_skim_target": 11,
+    "quick_selected": 11
+  },
+  "deep_dive": [
+    {
+      "id": "2603.24936v1",
+      "title": "TIGFlow-GRPO: Trajectory Forecasting via Interaction-Aware Flow Matching and Reward-Driven Optimization",
+      "abstract": "Human trajectory forecasting is important for intelligent multimedia systems operating in visually complex environments, such as autonomous driving and crowd surveillance. Although Conditional Flow Matching (CFM) has shown strong ability in modeling trajectory distributions from spatio-temporal observations, existing approaches still focus primarily on supervised fitting, which may leave social norms and scene constraints insufficiently reflected in generated trajectories. To address this issue, we propose TIGFlow-GRPO, a two-stage generative framework that aligns flow-based trajectory generation with behavioral rules. In the first stage, we build a CFM-based predictor with a Trajectory-Interaction-Graph (TIG) module to model fine-grained visual-spatial interactions and strengthen context encoding. This stage captures both agent-agent and agent-scene relations more effectively, providing more informative conditional features for subsequent alignment. In the second stage, we perform Flow-GRPO post-training,where deterministic flow rollout is reformulated as stochastic ODE-to-SDE sampling to enable trajectory exploration, and a composite reward combines view-aware social compliance with map-aware physical feasibility. By evaluating trajectories explored through SDE rollout, GRPO progressively steers multimodal predictions toward behaviorally plausible futures. Experiments on the ETH/UCY and SDD datasets show that TIGFlow-GRPO improves forecasting accuracy and long-horizon stability while generating trajectories that are more socially compliant and physically feasible. These results suggest that the proposed framework provides an effective way to connect flow-based trajectory modeling with behavior-aware alignment in dynamic multimedia environments.",
+      "authors": [
+        "Xuepeng Jing",
+        "Wenhuan Lu",
+        "Hao Meng",
+        "Zhizhi Yu",
+        "Jianguo Wei"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-03-26T01:59:10+00:00",
+      "link": "https://arxiv.org/pdf/2603.24936v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "human trajectory forecasting in visually complex environments and crowds",
+      "llm_evidence_cn": "视觉复杂环境和人群中的行人轨迹预测",
+      "llm_evidence": "视觉复杂环境和人群中的行人轨迹预测",
+      "canonical_evidence": "视觉复杂环境和人群中的行人轨迹预测",
+      "llm_tldr_en": "A generative framework using flow matching and interaction graphs for rule-aligned human trajectory forecasting.",
+      "llm_tldr_cn": "一种利用流匹配和交互图进行符合行为规则的人类轨迹预测生成框架。",
+      "llm_tldr": "一种利用流匹配和交互图进行符合行为规则的人类轨迹预测生成框架。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "pedestrian trajectory prediction in crowded scenes",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.19675v1",
+      "title": "DynFlowDrive: Flow-Based Dynamic World Modeling for Autonomous Driving",
+      "abstract": "Recently, world models have been incorporated into the autonomous driving systems to improve the planning reliability. Existing approaches typically predict future states through appearance generation or deterministic regression, which limits their ability to capture trajectory-conditioned scene evolution and leads to unreliable action planning. To address this, we propose DynFlowDrive, a latent world model that leverages flow-based dynamics to model the transition of world states under different driving actions. By adopting the rectifiedflow formulation, the model learns a velocity field that describes how the scene state changes under different driving actions, enabling progressive prediction of future latent states. Building upon this, we further introduce a stability-aware multi-mode trajectory selection strategy that evaluates candidate trajectories according to the stability of the induced scene transitions. Extensive experiments on the nuScenes and NavSim benchmarks demonstrate consistent improvements across diverse driving frameworks without introducing additional inference overhead. Source code will be abaliable at https://github.com/xiaolul2/DynFlowDrive.",
+      "authors": [
+        "Xiaolu Liu",
+        "Yicong Li",
+        "Song Wang",
+        "Junbo Chen",
+        "Angela Yao",
+        "Jianke Zhu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "published": "2026-03-20T06:19:31+00:00",
+      "link": "https://arxiv.org/pdf/2603.19675v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "flow-based world modeling for trajectory-conditioned scene evolution in driving",
+      "llm_evidence_cn": "基于流的世界模型，用于驾驶中轨迹条件下的场景演化",
+      "llm_evidence": "基于流的世界模型，用于驾驶中轨迹条件下的场景演化",
+      "canonical_evidence": "基于流的世界模型，用于驾驶中轨迹条件下的场景演化",
+      "llm_tldr_en": "Models scene transitions under different driving actions using flow-based dynamics for better planning.",
+      "llm_tldr_cn": "利用流动力学模拟不同驾驶动作下的场景演化，提升自动驾驶规划的可靠性。",
+      "llm_tldr": "利用流动力学模拟不同驾驶动作下的场景演化，提升自动驾驶规划的可靠性。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.24238v1",
+      "title": "Decentralized End-to-End Multi-AAV Pursuit Using Predictive Spatio-Temporal Observation via Deep Reinforcement Learning",
+      "abstract": "Decentralized cooperative pursuit in cluttered environments is challenging for autonomous aerial swarms, especially under partial and noisy perception. Existing methods often rely on abstracted geometric features or privileged ground-truth states, and therefore sidestep perceptual uncertainty in real-world settings. We propose a decentralized end-to-end multi-agent reinforcement learning (MARL) framework that maps raw LiDAR observations directly to continuous control commands. Central to the framework is the Predictive Spatio-Temporal Observation (PSTO), an egocentric grid representation that aligns obstacle geometry with predictive adversarial intent and teammate motion in a unified, fixed-resolution projection. Built on PSTO, a single decentralized policy enables agents to navigate static obstacles, intercept dynamic targets, and maintain cooperative encirclement. Simulations demonstrate that the proposed method achieves superior capture efficiency and competitive success rates compared to state-of-the-art learning-based approaches relying on privileged obstacle information. Furthermore, the unified policy scales seamlessly across different team sizes without retraining. Finally, fully autonomous outdoor experiments validate the framework on a quadrotor swarm relying on only onboard sensing and computing.",
+      "authors": [
+        "Yude Li",
+        "Zhexuan Zhou",
+        "Huizhe Li",
+        "Yanke Sun",
+        "Yenan Wu",
+        "Yichen Lai",
+        "Yiming Wang",
+        "Youmin Gong",
+        "Jie Mei"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-25T12:23:35+00:00",
+      "link": "https://arxiv.org/pdf/2603.24238v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "predictive adversarial intent and teammate motion",
+      "llm_evidence_cn": "预测性对抗意图与队友运动",
+      "llm_evidence": "预测性对抗意图与队友运动",
+      "canonical_evidence": "预测性对抗意图与队友运动",
+      "llm_tldr_en": "A MARL framework using predictive spatio-temporal observations for multi-agent pursuit.",
+      "llm_tldr_cn": "一种利用预测性时空观测进行多智能体追逐的强化学习框架。",
+      "llm_tldr": "一种利用预测性时空观测进行多智能体追逐的强化学习框架。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "multi-agent trajectory forecasting and interaction modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.25462v1",
+      "title": "Temporally Decoupled Diffusion Planning for Autonomous Driving",
+      "abstract": "Motion planning in dynamic urban environments requires balancing immediate safety with long-term goals. While diffusion models effectively capture multi-modal decision-making, existing approaches treat trajectories as monolithic entities, overlooking heterogeneous temporal dependencies where near-term plans are constrained by instantaneous dynamics and far-term plans by navigational goals. To address this, we propose Temporally Decoupled Diffusion Model (TDDM), which reformulates trajectory generation via a noise-as-mask paradigm. By partitioning trajectories into segments with independent noise levels, we implicitly treat high noise as information voids and weak noise as contextual cues. This compels the model to reconstruct corrupted near-term states by leveraging internal correlations with better-preserved temporal contexts. Architecturally, we introduce a Temporally Decoupled Adaptive Layer Normalization (TD-AdaLN) to inject segment-specific timesteps. During inference, our Asymmetric Temporal Classifier-Free Guidance utilizes weakly noised far-term priors to guide immediate path generation. Evaluations on the nuPlan benchmark show TDDM approaches or exceeds state-of-the-art baselines, particularly excelling in the challenging Test14-hard subset.",
+      "authors": [
+        "Xiang Li",
+        "Bikun Wang",
+        "John Zhang",
+        "Jianjun Wang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-03-26T14:04:15+00:00",
+      "link": "https://arxiv.org/pdf/2603.25462v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "trajectory generation and motion planning for autonomous driving",
+      "llm_evidence_cn": "自动驾驶的轨迹生成与运动规划",
+      "llm_evidence": "自动驾驶的轨迹生成与运动规划",
+      "canonical_evidence": "自动驾驶的轨迹生成与运动规划",
+      "llm_tldr_en": "A temporally decoupled diffusion model for trajectory generation in dynamic urban autonomous driving.",
+      "llm_tldr_cn": "一种用于动态城市自动驾驶轨迹生成的时域解耦扩散模型。",
+      "llm_tldr": "一种用于动态城市自动驾驶轨迹生成的时域解耦扩散模型。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.21327v1",
+      "title": "KHMP: Frequency-Domain Kalman Refinement for High-Fidelity Human Motion Prediction",
+      "abstract": "Stochastic human motion prediction aims to generate diverse, plausible futures from observed sequences. Despite advances in generative modeling, existing methods often produce predictions corrupted by high-frequency jitter and temporal discontinuities. To address these challenges, we introduce KHMP, a novel framework featuring an adaptiveKalman filter applied in the DCT domain to generate high-fidelity human motion predictions. By treating high-frequency DCT coefficients as a frequency-indexed noisy signal, the Kalman filter recursively suppresses noise while preserving motion details. Notably, its noise parameters are dynamically adjusted based on estimated Signal-to-Noise Ratio (SNR), enabling aggressive denoising for jittery predictions and conservative filtering for clean motions. This refinement is complemented by training-time physical constraints (temporal smoothness and joint angle limits) that encode biomechanical principles into the generative model. Together, these innovations establish a new paradigm integrating adaptive signal processing with physics-informed learning. Experiments on the Human3.6M and HumanEva-I datasets demonstrate that KHMP achieves state-of-the-art accuracy, effectively mitigating jitter artifacts to produce smooth and physically plausible motions.",
+      "authors": [
+        "Wenhan Wu",
+        "Zhishuai Guo",
+        "Chen Chen",
+        "Srijan Das",
+        "Hongfei Xue",
+        "Pu Wang",
+        "Aidong Lu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-03-22T17:10:43+00:00",
+      "link": "https://arxiv.org/pdf/2603.21327v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "stochastic human motion prediction",
+      "llm_evidence_cn": "随机人体运动预测",
+      "llm_evidence": "随机人体运动预测",
+      "canonical_evidence": "随机人体运动预测",
+      "llm_tldr_en": "Introduces a Kalman filter in the frequency domain to refine and denoise human motion predictions.",
+      "llm_tldr_cn": "引入频域卡尔曼滤波来优化和去噪人体运动预测。",
+      "llm_tldr": "引入频域卡尔曼滤波来优化和去噪人体运动预测。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "study of pedestrian and vehicle trajectory prediction models",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.21635v1",
+      "title": "RTD-RAX: Fast, Safe Trajectory Planning for Systems under Unknown Disturbances",
+      "abstract": "Reachability-based Trajectory Design (RTD) is a provably safe, real-time trajectory planning framework that combines offline reachable-set computation with online trajectory optimization. However, standard RTD implementations suffer from two key limitations: conservatism induced by worst-case reachable-set overapproximations, and an inability to account for real-time disturbances during execution. This paper presents RTD-RAX, a runtime-assurance extension of RTD that utilizes a non-conservative RTD formulation to rapidly generate goal-directed candidate trajectories, and utilizes mixed monotone reachability for fast, disturbance-aware online safety certification. When proposed trajectories fail safety certification under real-time uncertainty, a repair procedure finds nearby safe trajectories that preserve progress toward the goal while guaranteeing safety under real-time disturbances.",
+      "authors": [
+        "Evanns Morales-Cuadrado",
+        "Long Kiu Chung",
+        "Shreyas Kousik",
+        "Samuel Coogan"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "eess.SY"
+      ],
+      "published": "2026-03-23T06:59:13+00:00",
+      "link": "https://arxiv.org/pdf/2603.21635v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "real-time trajectory planning and safety certification under disturbances",
+      "llm_evidence_cn": "扰动下的实时轨迹规划与安全认证",
+      "llm_evidence": "扰动下的实时轨迹规划与安全认证",
+      "canonical_evidence": "扰动下的实时轨迹规划与安全认证",
+      "llm_tldr_en": "A fast, reachability-based trajectory planning framework that ensures safety under real-time disturbances.",
+      "llm_tldr_cn": "一种快速的基于可达性的轨迹规划框架，确保实时扰动下的安全性。",
+      "llm_tldr": "一种快速的基于可达性的轨迹规划框架，确保实时扰动下的安全性。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2603.21810v1",
+      "title": "Partial Attention in Deep Reinforcement Learning for Safe Multi-Agent Control",
+      "abstract": "Attention mechanisms excel at learning sequential patterns by discriminating data based on relevance and importance. This provides state-of-the-art performance in advanced generative artificial intelligence models. This paper applies this concept of an attention mechanism for multi-agent safe control. We specifically consider the design of a neural network to control autonomous vehicles in a highway merging scenario. The environment is modeled as a Decentralized Partially Observable Markov Decision Process (Dec-POMDP). Within a QMIX framework, we include partial attention for each autonomous vehicle, thus allowing each ego vehicle to focus on the most relevant neighboring vehicles. Moreover, we propose a comprehensive reward signal that considers the global objectives of the environment (e.g., safety and vehicle flow) and the individual interests of each agent. Simulations are conducted in the Simulation of Urban Mobility (SUMO). The results show better performance compared to other driving algorithms in terms of safety, driving speed, and reward.",
+      "authors": [
+        "Turki Bin Mohaya",
+        "Peter Seiler"
+      ],
+      "primary_category": "eess.SY",
+      "categories": [
+        "eess.SY",
+        "cs.MA",
+        "cs.RO"
+      ],
+      "published": "2026-03-23T10:53:34+00:00",
+      "link": "https://arxiv.org/pdf/2603.21810v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "partial attention for multi-agent safe control in highway merging scenarios",
+      "llm_evidence_cn": "高速公路汇入场景下多智能体安全控制的局部注意力机制",
+      "llm_evidence": "高速公路汇入场景下多智能体安全控制的局部注意力机制",
+      "canonical_evidence": "高速公路汇入场景下多智能体安全控制的局部注意力机制",
+      "llm_tldr_en": "Applies attention mechanisms in a multi-agent RL framework for safe autonomous vehicle coordination.",
+      "llm_tldr_cn": "在多智能体强化学习框架中应用注意力机制，实现自动驾驶车辆在汇入场景下的安全协作。",
+      "llm_tldr": "在多智能体强化学习框架中应用注意力机制，实现自动驾驶车辆在汇入场景下的安全协作。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "multi-agent trajectory forecasting and interaction modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2603.18400v1",
+      "title": "Graph-of-Constraints Model Predictive Control for Reactive Multi-agent Task and Motion Planning",
+      "abstract": "Sequences of interdependent geometric constraints are central to many multi-agent Task and Motion Planning (TAMP) problems. However, existing methods for handling such constraint sequences struggle with partially ordered tasks and dynamic agent assignments. They typically assume static assignments and cannot adapt when disturbances alter task allocations. To overcome these limitations, we introduce Graph-of-Constraints Model Predictive Control (GoC-MPC), a generalized sequence-of-constraints framework integrated with MPC. GoC-MPC naturally supports partially ordered tasks, dynamic agent coordination, and disturbance recovery. By defining constraints over tracked 3D keypoints, our method robustly solves diverse multi-agent manipulation tasks-coordinating agents and adapting online from visual observations alone, without relying on training data or environment models. Experiments demonstrate that GoC-MPC achieves higher success rates, significantly faster TAMP computation, and shorter overall paths compared to recent baselines, establishing it as an efficient and robust solution for multi-agent manipulation under real-world disturbances. Our supplementary video and code can be found at https://sites.google.com/view/goc-mpc/home .",
+      "authors": [
+        "Anastasios Manganaris",
+        "Jeremy Lu",
+        "Ahmed H. Qureshi",
+        "Suresh Jagannathan"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-19T01:45:14+00:00",
+      "link": "https://arxiv.org/pdf/2603.18400v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "multi-agent task and motion planning with geometric constraints",
+      "llm_evidence_cn": "具有几何约束的多智能体任务和运动规划",
+      "llm_evidence": "具有几何约束的多智能体任务和运动规划",
+      "canonical_evidence": "具有几何约束的多智能体任务和运动规划",
+      "llm_tldr_en": "Introduces GoC-MPC for reactive multi-agent task and motion planning under dynamic constraints.",
+      "llm_tldr_cn": "引入 GoC-MPC 用于动态约束下的反应式多智能体任务和运动规划。",
+      "llm_tldr": "引入 GoC-MPC 用于动态约束下的反应式多智能体任务和运动规划。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "multi-agent trajectory forecasting and interaction modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.18400v2",
+      "title": "Graph-of-Constraints Model Predictive Control for Reactive Multi-agent Task and Motion Planning",
+      "abstract": "Sequences of interdependent geometric constraints are central to many multi-agent Task and Motion Planning (TAMP) problems. However, existing methods for handling such constraint sequences struggle with partially ordered tasks and dynamic agent assignments. They typically assume static assignments and cannot adapt when disturbances alter task allocations. To overcome these limitations, we introduce Graph-of-Constraints Model Predictive Control (GoC-MPC), a generalized sequence-of-constraints framework integrated with MPC. GoC-MPC naturally supports partially ordered tasks, dynamic agent coordination, and disturbance recovery. By defining constraints over tracked 3D keypoints, our method robustly solves diverse multi-agent manipulation tasks-coordinating agents and adapting online from visual observations alone, without relying on training data or environment models. Experiments demonstrate that GoC-MPC achieves higher success rates, significantly faster TAMP computation, and shorter overall paths compared to recent baselines, establishing it as an efficient and robust solution for multi-agent manipulation under real-world disturbances. Our supplementary video and code can be found at https://sites.google.com/view/goc-mpc/home .",
+      "authors": [
+        "Anastasios Manganaris",
+        "Jeremy Lu",
+        "Ahmed H. Qureshi",
+        "Suresh Jagannathan"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-19T01:45:14+00:00",
+      "link": "https://arxiv.org/pdf/2603.18400v2",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "multi-agent motion planning with dynamic coordination and MPC",
+      "llm_evidence_cn": "具有动态协调和MPC的多智能体运动规划",
+      "llm_evidence": "具有动态协调和MPC的多智能体运动规划",
+      "canonical_evidence": "具有动态协调和MPC的多智能体运动规划",
+      "llm_tldr_en": "A generalized sequence-of-constraints framework for reactive multi-agent task and motion planning.",
+      "llm_tldr_cn": "一种用于反应式多智能体任务和运动规划的广义约束序列框架。",
+      "llm_tldr": "一种用于反应式多智能体任务和运动规划的广义约束序列框架。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "multi-agent trajectory forecasting and interaction modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2603.22800v1",
+      "title": "CATNAV: Cached Vision-Language Traversability for Efficient Zero-Shot Robot Navigation",
+      "abstract": "Navigating unstructured environments requires assessing traversal risk relative to a robot's physical capabilities, a challenge that varies across embodiments. We present CATNAV, a cost-aware traversability navigation framework that leverages multimodal LLMs for zero-shot, embodiment-aware costmap generation without task-specific training. We introduce a visuosemantic caching mechanism that detects scene novelty and reuses prior risk assessments for semantically similar frames, reducing online VLM queries by 85.7%. Furthermore, we introduce a VLM-based trajectory selection module that evaluates proposals through visual reasoning to choose the safest path given behavioral constraints. We evaluate CATNAV on a quadruped robot across indoor and outdoor unstructured environments, comparing against state-of-the-art vision-language-action baselines. Across five navigation tasks, CATNAV achieves 10 percentage point higher average goal-reaching rate and 33% fewer behavioral constraint violations.",
+      "authors": [
+        "Aditya Potnis",
+        "Francisco Affonso",
+        "Shreya Gummadi",
+        "Naveen Kumar Uppalapati",
+        "Girish Chowdhary"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-24T04:47:33+00:00",
+      "link": "https://arxiv.org/pdf/2603.22800v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "VLM-based trajectory selection and multimodal LLMs for navigation",
+      "llm_evidence_cn": "基于视觉语言模型的轨迹选择与多模态大模型导航",
+      "llm_evidence": "基于视觉语言模型的轨迹选择与多模态大模型导航",
+      "canonical_evidence": "基于视觉语言模型的轨迹选择与多模态大模型导航",
+      "llm_tldr_en": "Uses multimodal LLMs and visuosemantic caching for zero-shot robot navigation and safe trajectory selection.",
+      "llm_tldr_cn": "利用多模态大模型和视觉语义缓存实现零样本机器人导航和安全轨迹选择。",
+      "llm_tldr": "利用多模态大模型和视觉语义缓存实现零样本机器人导航和安全轨迹选择。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning based on multimodal large language model",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2603.18561v1",
+      "title": "CausalVAD: De-confounding End-to-End Autonomous Driving via Causal Intervention",
+      "abstract": "Planning-oriented end-to-end driving models show great promise, yet they fundamentally learn statistical correlations instead of true causal relationships. This vulnerability leads to causal confusion, where models exploit dataset biases as shortcuts, critically harming their reliability and safety in complex scenarios. To address this, we introduce CausalVAD, a de-confounding training framework that leverages causal intervention. At its core, we design the sparse causal intervention scheme (SCIS), a lightweight, plug-and-play module to instantiate the backdoor adjustment theory in neural networks. SCIS constructs a dictionary of prototypes representing latent driving contexts. It then uses this dictionary to intervene on the model's sparse vectorized queries. This step actively eliminates spurious associations induced by confounders, thereby eliminating spurious factors from the representations for downstream tasks. Extensive experiments on benchmarks like nuScenes show CausalVAD achieves state-of-the-art planning accuracy and safety. Furthermore, our method demonstrates superior robustness against both data bias and noisy scenarios configured to induce causal confusion.",
+      "authors": [
+        "Jiacheng Tang",
+        "Zhiyuan Zhou",
+        "Zhuolin He",
+        "Jia Zhang",
+        "Kai Zhang",
+        "Jian Pu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.LG"
+      ],
+      "published": "2026-03-19T07:21:01+00:00",
+      "link": "https://arxiv.org/pdf/2603.18561v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "planning-oriented end-to-end driving and causal intervention",
+      "llm_evidence_cn": "面向规划的端到端驾驶与因果干预",
+      "llm_evidence": "面向规划的端到端驾驶与因果干预",
+      "canonical_evidence": "面向规划的端到端驾驶与因果干预",
+      "llm_tldr_en": "Improves autonomous driving reliability by using causal intervention to de-confound planning and trajectory models.",
+      "llm_tldr_cn": "通过因果干预消除规划与轨迹模型中的混杂偏差，提高自动驾驶的可靠性。",
+      "llm_tldr": "通过因果干预消除规划与轨迹模型中的混杂偏差，提高自动驾驶的可靠性。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.18958v1",
+      "title": "Optimal Path Planning in Hostile Environments",
+      "abstract": "Coordinating agents through hazardous environments, such as aid-delivering drones navigating conflict zones or field robots traversing deployment areas filled with obstacles, poses fundamental planning challenges. We introduce and analyze the computational complexity of a new multi-agent path planning problem that captures this setting. A group of identical agents begins at a common start location and must navigate a graph-based environment to reach a common target. The graph contains hazards that eliminate agents upon contact but then enter a known cooldown period before reactivating. In this discrete-time, fully-observable, deterministic setting, the planning task is to compute a movement schedule that maximizes the number of agents reaching the target. We first prove that, despite the exponentially large space of feasible plans, optimal plans require only polynomially-many steps, establishing membership in NP. We then show that the problem is NP-hard even when the environment graph is a tree. On the positive side, we present a polynomial-time algorithm for graphs consisting of vertex-disjoint paths from start to target. Our results establish a rich computational landscape for this problem, identifying both intractable and tractable fragments.",
+      "authors": [
+        "Andrzej Kaczmarczyk",
+        "Šimon Schierreich",
+        "Nicholas Axel Tanujaya",
+        "Haifeng Xu"
+      ],
+      "primary_category": "cs.GT",
+      "categories": [
+        "cs.GT",
+        "cs.MA"
+      ],
+      "published": "2026-03-19T14:25:30+00:00",
+      "link": "https://arxiv.org/pdf/2603.18958v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "multi-agent path planning in hostile environments",
+      "llm_evidence_cn": "敌对环境下的多智能体路径规划",
+      "llm_evidence": "敌对环境下的多智能体路径规划",
+      "canonical_evidence": "敌对环境下的多智能体路径规划",
+      "llm_tldr_en": "Analyzes multi-agent path planning complexity for navigating groups through hazardous, time-varying environments.",
+      "llm_tldr_cn": "分析了在危险且随时间变化的环境中引导多智能体群体的路径规划复杂性。",
+      "llm_tldr": "分析了在危险且随时间变化的环境中引导多智能体群体的路径规划复杂性。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "multi-agent trajectory forecasting and interaction modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2603.24054v1",
+      "title": "Hierarchical Spatial-Temporal Graph-Enhanced Model for Map-Matching",
+      "abstract": "The integration of GNSS data into portable devices has led to the generation of vast amounts of trajectory data, which is crucial for applications such as map-matching. To tackle the limitations of rule-based methods, recent works in deep learning for trajectory-related tasks occur. However, existing models remain challenging due to issues such as the difficulty of large-scale data labeling, ineffective modeling of spatial-temporal relationships, and discrepancies between training and test data distributions. To tackle these challenges, we propose HSTGMatch, a novel model designed to enhance map-matching performance. Our approach involves a two-stage process: hierarchical self-supervised learning and spatial-temporal supervised learning. We introduce a hierarchical trajectory representation, leveraging both grid cells and geographic tuples to capture moving patterns effectively. The model constructs an Adaptive Trajectory Adjacency Graph to dynamically capture spatial relationships, optimizing GATs for improved efficiency. Furthermore, we incorporate a Spatial-Temporal Factor to extract relevant features and employ a decay coefficient to address variations in trajectory length. Our extensive experiments demonstrate the model's superior performance, module effectiveness, and robustness, providing a promising solution for overcoming the existing limitations in map-matching applications. The source code of HSTGMatch is publicly available on GitHub at https://github.com/Nerooo-g/HSTGMatch.",
+      "authors": [
+        "Anjun Gao",
+        "Zhenglin Wan",
+        "Pingfu Chao",
+        "Shunyu Yao"
+      ],
+      "primary_category": "cs.DB",
+      "categories": [
+        "cs.DB",
+        "cs.IR",
+        "cs.LG"
+      ],
+      "published": "2026-03-25T08:01:13+00:00",
+      "link": "https://arxiv.org/pdf/2603.24054v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "spatial-temporal graph-enhanced model for trajectory data",
+      "llm_evidence_cn": "轨迹数据的时空图增强模型",
+      "llm_evidence": "轨迹数据的时空图增强模型",
+      "canonical_evidence": "轨迹数据的时空图增强模型",
+      "llm_tldr_en": "Introduces a hierarchical spatial-temporal graph model for trajectory map-matching and representation.",
+      "llm_tldr_cn": "引入了一种用于轨迹地图匹配和表示的分层时空图模型。",
+      "llm_tldr": "引入了一种用于轨迹地图匹配和表示的分层时空图模型。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning and feature extraction",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2603.19762v1",
+      "title": "PCSTracker: Long-Term Scene Flow Estimation for Point Cloud Sequences",
+      "abstract": "Point cloud scene flow estimation is fundamental to long-term and fine-grained 3D motion analysis. However, existing methods are typically limited to pairwise settings and struggle to maintain temporal consistency over long sequences as geometry evolves, occlusions emerge, and errors accumulate. In this work, we propose PCSTracker, the first end-to-end framework specifically designed for consistent scene flow estimation in point cloud sequences. Specifically, we introduce an iterative geometry motion joint optimization module (IGMO) that explicitly models the temporal evolution of point features to alleviate correspondence inconsistencies caused by dynamic geometric changes. In addition, a spatio-temporal point trajectory update module (STTU) is proposed to leverage broad temporal context to infer plausible positions for occluded points, ensuring coherent motion estimation. To further handle long sequences, we employ an overlapping sliding-window inference strategy that alternates cross-window propagation and in-window refinement, effectively suppressing error accumulation and maintaining stable long-term motion consistency. Extensive experiments on the synthetic PointOdyssey3D and real-world ADT3D datasets show that PCSTracker achieves the best accuracy in long-term scene flow estimation and maintains real-time performance at 32.5 FPS, while demonstrating superior 3D motion understanding compared to RGB-D-based approaches.",
+      "authors": [
+        "Min Lin",
+        "Gangwei Xu",
+        "Xianqi Wang",
+        "Yuyi Peng",
+        "Xin Yang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-03-20T08:45:27+00:00",
+      "link": "https://arxiv.org/pdf/2603.19762v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "spatio-temporal point trajectory update module for motion analysis",
+      "llm_evidence_cn": "用于运动分析的时空点轨迹更新模块",
+      "llm_evidence": "用于运动分析的时空点轨迹更新模块",
+      "canonical_evidence": "用于运动分析的时空点轨迹更新模块",
+      "llm_tldr_en": "Proposes PCSTracker for consistent long-term scene flow and point trajectory estimation in 3D sequences.",
+      "llm_tldr_cn": "提出PCSTracker，用于点云序列中一致的长期场景流和点轨迹估计。",
+      "llm_tldr": "提出PCSTracker，用于点云序列中一致的长期场景流和点轨迹估计。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning and feature extraction",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.19552v1",
+      "title": "StreetForward: Perceiving Dynamic Street with Feedforward Causal Attention",
+      "abstract": "Feedforward reconstruction is crucial for autonomous driving applications, where rapid scene reconstruction enables efficient utilization of large-scale driving datasets in closed-loop simulation and other downstream tasks, eliminating the need for time-consuming per-scene optimization. We present StreetForward, a pose-free and tracker-free feedforward framework for dynamic street reconstruction. Building upon the alternating attention mechanism from Visual Geometry Grounded Transformer (VGGT), we propose a simple yet effective temporal mask attention module that captures dynamic motion information from image sequences and produces motion-aware latent representations. Static content and dynamic instances are represented uniformly with 3D Gaussian Splatting, and are optimized jointly by cross-frame rendering with spatio-temporal consistency, allowing the model to infer per-pixel velocities and produce high-fidelity novel views at new poses and times. We train and evaluate our model on the Waymo Open Dataset, demonstrating superior performance on novel view synthesis and depth estimation compared to existing methods. Furthermore, zero-shot inference on CARLA and other datasets validates the generalization capability of our approach. More visualizations are available on our project page: https://streetforward.github.io.",
+      "authors": [
+        "Zhongrui Yu",
+        "Zhao Wang",
+        "Yijia Xie",
+        "Yida Wang",
+        "Xueyang Zhang",
+        "Yifei Zhan",
+        "Kun Zhan"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-03-20T01:31:05+00:00",
+      "link": "https://arxiv.org/pdf/2603.19552v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "motion-aware latent representations for dynamic street reconstruction",
+      "llm_evidence_cn": "用于动态街道重建的运动感知潜表示",
+      "llm_evidence": "用于动态街道重建的运动感知潜表示",
+      "canonical_evidence": "用于动态街道重建的运动感知潜表示",
+      "llm_tldr_en": "A feedforward framework for dynamic street reconstruction using temporal attention to capture motion information.",
+      "llm_tldr_cn": "一种利用时间注意力捕捉运动信息进行动态街道重建的前馈框架。",
+      "llm_tldr": "一种利用时间注意力捕捉运动信息进行动态街道重建的前馈框架。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning and feature extraction",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2603.24581v1",
+      "title": "Latent-WAM: Latent World Action Modeling for End-to-End Autonomous Driving",
+      "abstract": "We introduce Latent-WAM, an efficient end-to-end autonomous driving framework that achieves strong trajectory planning through spatially-aware and dynamics-informed latent world representations. Existing world-model-based planners suffer from inadequately compressed representations, limited spatial understanding, and underutilized temporal dynamics, resulting in sub-optimal planning under constrained data and compute budgets. Latent-WAM addresses these limitations with two core modules: a Spatial-Aware Compressive World Encoder (SCWE) that distills geometric knowledge from a foundation model and compresses multi-view images into compact scene tokens via learnable queries, and a Dynamic Latent World Model (DLWM) that employs a causal Transformer to autoregressively predict future world status conditioned on historical visual and motion representations. Extensive experiments on NAVSIM v2 and HUGSIM demonstrate new state-of-the-art results: 89.3 EPDMS on NAVSIM v2 and 28.9 HD-Score on HUGSIM, surpassing the best prior perception-free method by 3.2 EPDMS with significantly less training data and a compact 104M-parameter model.",
+      "authors": [
+        "Linbo Wang",
+        "Yupeng Zheng",
+        "Qiang Chen",
+        "Shiwei Li",
+        "Yichen Zhang",
+        "Zebin Xing",
+        "Qichao Zhang",
+        "Xiang Li",
+        "Deheng Qian",
+        "Pengxuan Yang",
+        "Yihang Dong",
+        "Ce Hao",
+        "Xiaoqing Ye",
+        "Junyu han",
+        "Yifeng Pan",
+        "Dongbin Zhao"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "published": "2026-03-25T17:56:07+00:00",
+      "link": "https://arxiv.org/pdf/2603.24581v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "trajectory planning for end-to-end autonomous driving",
+      "llm_evidence_cn": "端到端自动驾驶的轨迹规划",
+      "llm_evidence": "端到端自动驾驶的轨迹规划",
+      "canonical_evidence": "端到端自动驾驶的轨迹规划",
+      "llm_tldr_en": "Develops a latent world model for efficient trajectory planning in end-to-end autonomous driving systems.",
+      "llm_tldr_cn": "开发了一种潜空间世界模型，用于端到端自动驾驶系统中的高效轨迹规划。",
+      "llm_tldr": "开发了一种潜空间世界模型，用于端到端自动驾驶系统中的高效轨迹规划。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2603.19822v1",
+      "title": "HUGE-Bench: A Benchmark for High-Level UAV Vision-Language-Action Tasks",
+      "abstract": "Existing UAV vision-language navigation (VLN) benchmarks have enabled language-guided flight, but they largely focus on long, step-wise route descriptions with goal-centric evaluation, making them less diagnostic for real operations where brief, high-level commands must be grounded into safe multi-stage behaviors. We present HUGE-Bench, a benchmark for High-Level UAV Vision-Language-Action (HL-VLA) tasks that tests whether an agent can interpret concise language and execute complex, process-oriented trajectories with safety awareness. HUGE-Bench comprises 4 real-world digital twin scenes, 8 high-level tasks, and 2.56M meters of trajectories, and is built on an aligned 3D Gaussian Splatting (3DGS)-Mesh representation that combines photorealistic rendering with collision-capable geometry for scalable generation and collision-aware evaluation. We introduce process-oriented and collision-aware metrics to assess process fidelity, terminal accuracy, and safety. Experiments on representative state-of-the-art VLA models reveal significant gaps in high-level semantic completion and safe execution, highlighting HUGE-Bench as a diagnostic testbed for high-level UAV autonomy.",
+      "authors": [
+        "Jingyu Guo",
+        "Ziye Chen",
+        "Ziwen Li",
+        "Zhengqing Gao",
+        "Jiaxin Huang",
+        "Hanlue Zhang",
+        "Fengming Huang",
+        "Yu Yao",
+        "Tongliang Liu",
+        "Mingming Gong"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-03-20T10:08:42+00:00",
+      "link": "https://arxiv.org/pdf/2603.19822v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "UAV trajectory execution and safety awareness",
+      "llm_evidence_cn": "无人机轨迹执行与安全意识",
+      "llm_evidence": "无人机轨迹执行与安全意识",
+      "canonical_evidence": "无人机轨迹执行与安全意识",
+      "llm_tldr_en": "A benchmark for UAVs to interpret language and execute complex, safe trajectories.",
+      "llm_tldr_cn": "一个用于无人机理解语言并执行复杂、安全轨迹的基准测试。",
+      "llm_tldr": "一个用于无人机理解语言并执行复杂、安全轨迹的基准测试。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
