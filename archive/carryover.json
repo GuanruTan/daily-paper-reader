@@ -1,6 +1,507 @@
 {
-  "generated_at": "2026-03-27T02:28:31.924218+00:00",
+  "generated_at": "2026-03-27T02:49:07.269830+00:00",
   "updated_date": "20260318-20260327",
   "carryover_days": 9,
-  "items": []
+  "items": [
+    {
+      "id": "2603.22800v1",
+      "title": "CATNAV: Cached Vision-Language Traversability for Efficient Zero-Shot Robot Navigation",
+      "abstract": "Navigating unstructured environments requires assessing traversal risk relative to a robot's physical capabilities, a challenge that varies across embodiments. We present CATNAV, a cost-aware traversability navigation framework that leverages multimodal LLMs for zero-shot, embodiment-aware costmap generation without task-specific training. We introduce a visuosemantic caching mechanism that detects scene novelty and reuses prior risk assessments for semantically similar frames, reducing online VLM queries by 85.7%. Furthermore, we introduce a VLM-based trajectory selection module that evaluates proposals through visual reasoning to choose the safest path given behavioral constraints. We evaluate CATNAV on a quadruped robot across indoor and outdoor unstructured environments, comparing against state-of-the-art vision-language-action baselines. Across five navigation tasks, CATNAV achieves 10 percentage point higher average goal-reaching rate and 33% fewer behavioral constraint violations.",
+      "authors": [
+        "Aditya Potnis",
+        "Francisco Affonso",
+        "Shreya Gummadi",
+        "Naveen Kumar Uppalapati",
+        "Girish Chowdhary"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-24T04:47:33+00:00",
+      "link": "https://arxiv.org/pdf/2603.22800v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "VLM-based trajectory selection and multimodal LLMs for navigation",
+      "llm_evidence_cn": "基于视觉语言模型的轨迹选择与多模态大模型导航",
+      "llm_evidence": "基于视觉语言模型的轨迹选择与多模态大模型导航",
+      "canonical_evidence": "基于视觉语言模型的轨迹选择与多模态大模型导航",
+      "llm_tldr_en": "Uses multimodal LLMs and a VLM-based trajectory selection module for zero-shot robot navigation.",
+      "llm_tldr_cn": "利用多模态大模型和基于VLM的轨迹选择模块实现零样本机器人导航。",
+      "llm_tldr": "利用多模态大模型和基于VLM的轨迹选择模块实现零样本机器人导航。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning based on multimodal large language model",
+      "matched_requirement_id": "req-10",
+      "selection_source": "carryover_cache",
+      "paper_id": "2603.22800v1",
+      "carry_days": 1
+    },
+    {
+      "id": "2603.24581v1",
+      "title": "Latent-WAM: Latent World Action Modeling for End-to-End Autonomous Driving",
+      "abstract": "We introduce Latent-WAM, an efficient end-to-end autonomous driving framework that achieves strong trajectory planning through spatially-aware and dynamics-informed latent world representations. Existing world-model-based planners suffer from inadequately compressed representations, limited spatial understanding, and underutilized temporal dynamics, resulting in sub-optimal planning under constrained data and compute budgets. Latent-WAM addresses these limitations with two core modules: a Spatial-Aware Compressive World Encoder (SCWE) that distills geometric knowledge from a foundation model and compresses multi-view images into compact scene tokens via learnable queries, and a Dynamic Latent World Model (DLWM) that employs a causal Transformer to autoregressively predict future world status conditioned on historical visual and motion representations. Extensive experiments on NAVSIM v2 and HUGSIM demonstrate new state-of-the-art results: 89.3 EPDMS on NAVSIM v2 and 28.9 HD-Score on HUGSIM, surpassing the best prior perception-free method by 3.2 EPDMS with significantly less training data and a compact 104M-parameter model.",
+      "authors": [
+        "Linbo Wang",
+        "Yupeng Zheng",
+        "Qiang Chen",
+        "Shiwei Li",
+        "Yichen Zhang",
+        "Zebin Xing",
+        "Qichao Zhang",
+        "Xiang Li",
+        "Deheng Qian",
+        "Pengxuan Yang",
+        "Yihang Dong",
+        "Ce Hao",
+        "Xiaoqing Ye",
+        "Junyu han",
+        "Yifeng Pan",
+        "Dongbin Zhao"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "published": "2026-03-25T17:56:07+00:00",
+      "link": "https://arxiv.org/pdf/2603.24581v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "trajectory planning through dynamics-informed latent world representations",
+      "llm_evidence_cn": "通过动力学感知的潜空间世界表示进行轨迹规划",
+      "llm_evidence": "通过动力学感知的潜空间世界表示进行轨迹规划",
+      "canonical_evidence": "通过动力学感知的潜空间世界表示进行轨迹规划",
+      "llm_tldr_en": "An end-to-end autonomous driving framework using world models for trajectory planning and scene understanding.",
+      "llm_tldr_cn": "一种利用世界模型进行轨迹规划和场景理解的端到端自动驾驶框架。",
+      "llm_tldr": "一种利用世界模型进行轨迹规划和场景理解的端到端自动驾驶框架。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "carryover_cache",
+      "paper_id": "2603.24581v1",
+      "carry_days": 1
+    },
+    {
+      "id": "2603.19822v1",
+      "title": "HUGE-Bench: A Benchmark for High-Level UAV Vision-Language-Action Tasks",
+      "abstract": "Existing UAV vision-language navigation (VLN) benchmarks have enabled language-guided flight, but they largely focus on long, step-wise route descriptions with goal-centric evaluation, making them less diagnostic for real operations where brief, high-level commands must be grounded into safe multi-stage behaviors. We present HUGE-Bench, a benchmark for High-Level UAV Vision-Language-Action (HL-VLA) tasks that tests whether an agent can interpret concise language and execute complex, process-oriented trajectories with safety awareness. HUGE-Bench comprises 4 real-world digital twin scenes, 8 high-level tasks, and 2.56M meters of trajectories, and is built on an aligned 3D Gaussian Splatting (3DGS)-Mesh representation that combines photorealistic rendering with collision-capable geometry for scalable generation and collision-aware evaluation. We introduce process-oriented and collision-aware metrics to assess process fidelity, terminal accuracy, and safety. Experiments on representative state-of-the-art VLA models reveal significant gaps in high-level semantic completion and safe execution, highlighting HUGE-Bench as a diagnostic testbed for high-level UAV autonomy.",
+      "authors": [
+        "Jingyu Guo",
+        "Ziye Chen",
+        "Ziwen Li",
+        "Zhengqing Gao",
+        "Jiaxin Huang",
+        "Hanlue Zhang",
+        "Fengming Huang",
+        "Yu Yao",
+        "Tongliang Liu",
+        "Mingming Gong"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-03-20T10:08:42+00:00",
+      "link": "https://arxiv.org/pdf/2603.19822v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "UAV benchmark for executing complex process-oriented trajectories",
+      "llm_evidence_cn": "无人机执行复杂过程导向轨迹的基准测试",
+      "llm_evidence": "无人机执行复杂过程导向轨迹的基准测试",
+      "canonical_evidence": "无人机执行复杂过程导向轨迹的基准测试",
+      "llm_tldr_en": "A new benchmark for UAVs to ground high-level commands into safe, complex flight trajectories.",
+      "llm_tldr_cn": "一个全新的无人机基准，旨在将高级指令转化为安全且复杂的飞行轨迹。",
+      "llm_tldr": "一个全新的无人机基准，旨在将高级指令转化为安全且复杂的飞行轨迹。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "carryover_cache",
+      "paper_id": "2603.19822v1",
+      "carry_days": 1
+    },
+    {
+      "id": "2603.21577v1",
+      "title": "Mind over Space: Can Multimodal Large Language Models Mentally Navigate?",
+      "abstract": "Despite the widespread adoption of MLLMs in embodied agents, their capabilities remain largely confined to reactive planning from immediate observations, consistently failing in spatial reasoning across extensive spatiotemporal scales. Cognitive science reveals that Biological Intelligence (BI) thrives on \"mental navigation\": the strategic construction of spatial representations from experience and the subsequent mental simulation of paths prior to action. To bridge the gap between AI and BI, we introduce Video2Mental, a pioneering benchmark for evaluating the mental navigation capabilities of MLLMs. The task requires constructing hierarchical cognitive maps from long egocentric videos and generating landmark-based path plans step by step, with planning accuracy verified through simulator-based physical interaction. Our benchmarking results reveal that mental navigation capability does not naturally emerge from standard pre-training. Frontier MLLMs struggle profoundly with zero-shot structured spatial representation, and their planning accuracy decays precipitously over extended horizons. To overcome this, we propose \\textbf{NavMind}, a reasoning model that internalizes mental navigation using explicit, fine-grained cognitive maps as learnable intermediate representations. Through a difficulty-stratified progressive supervised fine-tuning paradigm, NavMind effectively bridges the gap between raw perception and structured planning. Experiments demonstrate that NavMind achieves superior mental navigation capabilities, significantly outperforming frontier commercial and spatial MLLMs.",
+      "authors": [
+        "Qihui Zhu",
+        "Shouwei Ruan",
+        "Xiao Yang",
+        "Hao Jiang",
+        "Yao Huang",
+        "Shiji Zhao",
+        "Hanwei Fan",
+        "Hang Su",
+        "Xingxing Wei"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-03-23T04:59:25+00:00",
+      "link": "https://arxiv.org/pdf/2603.21577v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "mental simulation of paths using multimodal large language models",
+      "llm_evidence_cn": "基于多模态大模型的路径心理模拟",
+      "llm_evidence": "基于多模态大模型的路径心理模拟",
+      "canonical_evidence": "基于多模态大模型的路径心理模拟",
+      "llm_tldr_en": "Evaluates MLLMs on mental navigation, including spatial representation construction and path simulation.",
+      "llm_tldr_cn": "评估多模态大模型的心理导航能力，包括空间表示构建与路径模拟。",
+      "llm_tldr": "评估多模态大模型的心理导航能力，包括空间表示构建与路径模拟。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning based on multimodal large language model",
+      "matched_requirement_id": "req-10",
+      "selection_source": "carryover_cache",
+      "paper_id": "2603.21577v1",
+      "carry_days": 1
+    },
+    {
+      "id": "2603.24238v1",
+      "title": "Decentralized End-to-End Multi-AAV Pursuit Using Predictive Spatio-Temporal Observation via Deep Reinforcement Learning",
+      "abstract": "Decentralized cooperative pursuit in cluttered environments is challenging for autonomous aerial swarms, especially under partial and noisy perception. Existing methods often rely on abstracted geometric features or privileged ground-truth states, and therefore sidestep perceptual uncertainty in real-world settings. We propose a decentralized end-to-end multi-agent reinforcement learning (MARL) framework that maps raw LiDAR observations directly to continuous control commands. Central to the framework is the Predictive Spatio-Temporal Observation (PSTO), an egocentric grid representation that aligns obstacle geometry with predictive adversarial intent and teammate motion in a unified, fixed-resolution projection. Built on PSTO, a single decentralized policy enables agents to navigate static obstacles, intercept dynamic targets, and maintain cooperative encirclement. Simulations demonstrate that the proposed method achieves superior capture efficiency and competitive success rates compared to state-of-the-art learning-based approaches relying on privileged obstacle information. Furthermore, the unified policy scales seamlessly across different team sizes without retraining. Finally, fully autonomous outdoor experiments validate the framework on a quadrotor swarm relying on only onboard sensing and computing.",
+      "authors": [
+        "Yude Li",
+        "Zhexuan Zhou",
+        "Huizhe Li",
+        "Yanke Sun",
+        "Yenan Wu",
+        "Yichen Lai",
+        "Yiming Wang",
+        "Youmin Gong",
+        "Jie Mei"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-25T12:23:35+00:00",
+      "link": "https://arxiv.org/pdf/2603.24238v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "predictive adversarial intent and teammate motion in multi-agent pursuit",
+      "llm_evidence_cn": "多智能体追逐中的预测性对手意图与队友运动",
+      "llm_evidence": "多智能体追逐中的预测性对手意图与队友运动",
+      "canonical_evidence": "多智能体追逐中的预测性对手意图与队友运动",
+      "llm_tldr_en": "Proposes a MARL framework using predictive spatio-temporal observations for multi-agent pursuit and interaction.",
+      "llm_tldr_cn": "提出一种多智能体强化学习框架，利用预测性时空观测进行追逐与交互。",
+      "llm_tldr": "提出一种多智能体强化学习框架，利用预测性时空观测进行追逐与交互。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "multi-agent trajectory forecasting and interaction modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "carryover_cache",
+      "paper_id": "2603.24238v1",
+      "carry_days": 1
+    },
+    {
+      "id": "2603.21880v1",
+      "title": "Optimal Solutions for the Moving Target Vehicle Routing Problem with Obstacles via Lazy Branch and Price",
+      "abstract": "The Moving Target Vehicle Routing Problem with Obstacles (MT-VRP-O) seeks trajectories for several agents that collectively intercept a set of moving targets. Each target has one or more time windows where it must be visited, and the agents must avoid static obstacles and satisfy speed and capacity constraints. We introduce Lazy Branch-and-Price with Relaxed Continuity (Lazy BPRC), which finds optimal solutions for the MT-VRP-O. Lazy BPRC applies the branch-and-price framework for VRPs, which alternates between a restricted master problem (RMP) and a pricing problem. The RMP aims to select a sequence of target-time window pairings (called a tour) for each agent to follow, from a limited subset of tours. The pricing problem adds tours to the limited subset. Conventionally, solving the RMP requires computing the cost for an agent to follow each tour in the limited subset. Computing these costs in the MT-VRP-O is computationally intensive, since it requires collision-free motion planning between moving targets. Lazy BPRC defers cost computations by solving the RMP using lower bounds on the costs of each tour, computed via motion planning with relaxed continuity constraints. We lazily evaluate the true costs of tours as-needed. We compute a tour's cost by searching for a shortest path on a Graph of Convex Sets (GCS), and we accelerate this search using our continuity relaxation method. We demonstrate that Lazy BPRC runs up to an order of magnitude faster than two ablations.",
+      "authors": [
+        "Anoop Bhat",
+        "Geordan Gutow",
+        "Surya Singh",
+        "Zhongqiang Ren",
+        "Sivakumar Rathinam",
+        "Howie Choset"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-23T12:10:12+00:00",
+      "link": "https://arxiv.org/pdf/2603.21880v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "seeks trajectories for several agents to intercept moving targets",
+      "llm_evidence_cn": "寻求多个智能体拦截移动目标的轨迹",
+      "llm_evidence": "寻求多个智能体拦截移动目标的轨迹",
+      "canonical_evidence": "寻求多个智能体拦截移动目标的轨迹",
+      "llm_tldr_en": "Introduces an optimal solution for multi-agent vehicle routing and trajectory planning with moving targets.",
+      "llm_tldr_cn": "为带有移动目标和障碍物的多智能体路径规划与轨迹生成提供最优解法。",
+      "llm_tldr": "为带有移动目标和障碍物的多智能体路径规划与轨迹生成提供最优解法。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "carryover_cache",
+      "paper_id": "2603.21880v1",
+      "carry_days": 1
+    },
+    {
+      "id": "2603.23404v1",
+      "title": "Unleashing Spatial Reasoning in Multimodal Large Language Models via Textual Representation Guided Reasoning",
+      "abstract": "Existing Multimodal Large Language Models (MLLMs) struggle with 3D spatial reasoning, as they fail to construct structured abstractions of the 3D environment depicted in video inputs. To bridge this gap, drawing inspiration from cognitive theories of allocentric spatial reasoning, we investigate how to enable MLLMs to model and reason over text-based spatial representations of video. Specifically, we introduce Textual Representation of Allocentric Context from Egocentric Video (TRACE), a prompting method that induces MLLMs to generate text-based representations of 3D environments as intermediate reasoning traces for more accurate spatial question answering. TRACE encodes meta-context, camera trajectories, and detailed object entities to support structured spatial reasoning over egocentric videos. Extensive experiments on VSI-Bench and OST-Bench demonstrate that TRACE yields notable and consistent improvements over prior prompting strategies across a diverse range of MLLM backbones, spanning different parameter scales and training schemas. We further present ablation studies to validate our design choices, along with detailed analyses that probe the bottlenecks of 3D spatial reasoning in MLLMs.",
+      "authors": [
+        "Jiacheng Hua",
+        "Yishu Yin",
+        "Yuhang Wu",
+        "Tai Wang",
+        "Yifei Huang",
+        "Miao Liu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.CL"
+      ],
+      "published": "2026-03-24T16:38:09+00:00",
+      "link": "https://arxiv.org/pdf/2603.23404v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "textual representation of camera trajectories and 3D environments in MLLMs",
+      "llm_evidence_cn": "多模态大模型中相机轨迹和3D环境的文本表示",
+      "llm_evidence": "多模态大模型中相机轨迹和3D环境的文本表示",
+      "canonical_evidence": "多模态大模型中相机轨迹和3D环境的文本表示",
+      "llm_tldr_en": "TRACE induces MLLMs to reason over camera trajectories and spatial contexts for better 3D understanding.",
+      "llm_tldr_cn": "TRACE 引导多模态大模型对相机轨迹和空间上下文进行推理，以提升3D理解能力。",
+      "llm_tldr": "TRACE 引导多模态大模型对相机轨迹和空间上下文进行推理，以提升3D理解能力。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning based on multimodal large language model",
+      "matched_requirement_id": "req-10",
+      "selection_source": "carryover_cache",
+      "paper_id": "2603.23404v1",
+      "carry_days": 1
+    },
+    {
+      "id": "2603.24442v1",
+      "title": "Relaxing Constraints in Anonymous Multi Agent Path Finding for Large Agents",
+      "abstract": "The study addressed the problem of Anonymous Multi-Agent Path-finding (AMAPF). Unlike the classical formulation, where the assignment of agents to goals is fixed, in the anonymous MAPF setting it is irrelevant which agent reaches specific goal, provided that all goals are occupied. Most existing multi-agent pathfinding algorithms rely on a discrete representation of the environment (e.g., square grids) and do not account for the sizes of agents. This limits their applicability in real-world scenarios, such as trajectory planning for mobile robots in warehouses. Conversely, methods operating in continuous space typically impose substantial restrictions on the input data, such as constraints on the distances between initial and goal positions or between start/goal positions and obstacles. In this work, we considered one of the AMAPF algorithms designed for continuous space, where agents are modeled as disks of equal size. The algorithm requires a strict minimum separation of $4$ agent radii between any start/goal positions. Proposed a modification aimed at relaxing the constraints and reduce this limit from $4$ to $2\\sqrt{3}$. We theoretically demonstrated that the proposed enhancements preserve original theoretical properties, including the guarantee that all agents will eventually achieve their goals safely and without collisions.",
+      "authors": [
+        "Stepan Dergachev",
+        "Dmitry Avdeev"
+      ],
+      "primary_category": "cs.MA",
+      "categories": [
+        "cs.MA"
+      ],
+      "published": "2026-03-25T15:54:55+00:00",
+      "link": "https://arxiv.org/pdf/2603.24442v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "multi-agent path-finding and trajectory planning",
+      "llm_evidence_cn": "多智能体路径搜索与轨迹规划",
+      "llm_evidence": "多智能体路径搜索与轨迹规划",
+      "canonical_evidence": "多智能体路径搜索与轨迹规划",
+      "llm_tldr_en": "Explores anonymous multi-agent path-finding in continuous space for large agents like mobile robots.",
+      "llm_tldr_cn": "探索了连续空间中大型智能体（如移动机器人）的匿名多智能体路径搜索。",
+      "llm_tldr": "探索了连续空间中大型智能体（如移动机器人）的匿名多智能体路径搜索。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "multi-agent trajectory forecasting and interaction modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "carryover_cache",
+      "paper_id": "2603.24442v1",
+      "carry_days": 1
+    },
+    {
+      "id": "2603.21913v1",
+      "title": "Collision-Free Velocity Scheduling for Multi-Agent Systems on Predefined Routes via Inexact-Projection ADMM",
+      "abstract": "In structured multi-agent transportation systems, agents often must follow predefined routes, making spatial rerouting undesirable or impossible. This paper addresses route-constrained multi-agent coordination by optimizing waypoint passage times while preserving each agent's assigned waypoint order and nominal route assignment. A differentiable surrogate trajectory model maps waypoint timings to smooth position profiles and captures first-order tracking lag, enabling pairwise safety to be encoded through distance-based penalties evaluated on a dense temporal grid spanning the mission horizon. The resulting nonlinear and nonconvex velocity-scheduling problem is solved using an inexact-projection Alternating Direction Method of Multipliers (ADMM) algorithm that combines structured timing updates with gradient-based collision-correction steps and avoids explicit integer sequencing variables. Numerical experiments on random-crossing, bottleneck, and graph-based network scenarios show that the proposed method computes feasible and time-efficient schedules across a range of congestion levels and yields shorter mission completion times than a representative hierarchical baseline in the tested bottleneck cases.",
+      "authors": [
+        "Seungyeop Lee",
+        "Jong-Han Kim"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "eess.SY",
+        "math.OC"
+      ],
+      "published": "2026-03-23T12:34:18+00:00",
+      "link": "https://arxiv.org/pdf/2603.21913v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "multi-agent coordination and collision-free velocity scheduling on routes",
+      "llm_evidence_cn": "多智能体协同与路径上的无碰撞速度调度",
+      "llm_evidence": "多智能体协同与路径上的无碰撞速度调度",
+      "canonical_evidence": "多智能体协同与路径上的无碰撞速度调度",
+      "llm_tldr_en": "Optimizes waypoint timing for multi-agent systems to ensure collision-free navigation on predefined routes.",
+      "llm_tldr_cn": "优化多智能体系统的航点时间，以确保预定义路线上的无碰撞导航。",
+      "llm_tldr": "优化多智能体系统的航点时间，以确保预定义路线上的无碰撞导航。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "multi-agent trajectory forecasting and interaction modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "carryover_cache",
+      "paper_id": "2603.21913v1",
+      "carry_days": 1
+    },
+    {
+      "id": "2603.21327v1",
+      "title": "KHMP: Frequency-Domain Kalman Refinement for High-Fidelity Human Motion Prediction",
+      "abstract": "Stochastic human motion prediction aims to generate diverse, plausible futures from observed sequences. Despite advances in generative modeling, existing methods often produce predictions corrupted by high-frequency jitter and temporal discontinuities. To address these challenges, we introduce KHMP, a novel framework featuring an adaptiveKalman filter applied in the DCT domain to generate high-fidelity human motion predictions. By treating high-frequency DCT coefficients as a frequency-indexed noisy signal, the Kalman filter recursively suppresses noise while preserving motion details. Notably, its noise parameters are dynamically adjusted based on estimated Signal-to-Noise Ratio (SNR), enabling aggressive denoising for jittery predictions and conservative filtering for clean motions. This refinement is complemented by training-time physical constraints (temporal smoothness and joint angle limits) that encode biomechanical principles into the generative model. Together, these innovations establish a new paradigm integrating adaptive signal processing with physics-informed learning. Experiments on the Human3.6M and HumanEva-I datasets demonstrate that KHMP achieves state-of-the-art accuracy, effectively mitigating jitter artifacts to produce smooth and physically plausible motions.",
+      "authors": [
+        "Wenhan Wu",
+        "Zhishuai Guo",
+        "Chen Chen",
+        "Srijan Das",
+        "Hongfei Xue",
+        "Pu Wang",
+        "Aidong Lu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-03-22T17:10:43+00:00",
+      "link": "https://arxiv.org/pdf/2603.21327v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "stochastic human motion prediction and refinement",
+      "llm_evidence_cn": "随机人体运动预测与优化",
+      "llm_evidence": "随机人体运动预测与优化",
+      "canonical_evidence": "随机人体运动预测与优化",
+      "llm_tldr_en": "KHMP uses frequency-domain Kalman refinement to generate high-fidelity and jitter-free human motion predictions.",
+      "llm_tldr_cn": "KHMP 利用频域卡尔曼优化生成高保真且无抖动的人体运动预测。",
+      "llm_tldr": "KHMP 利用频域卡尔曼优化生成高保真且无抖动的人体运动预测。",
+      "llm_tags": [
+        "query:tp:composite"
+      ],
+      "matched_query_tag": "query:tp:composite",
+      "matched_query_text": "Papers central to 轨迹预测（车辆、行人、船舶、飞机等）相关的论文，考虑密集场景、目标意图、多智能体、轨迹表示学习等概念, especially work that connects or combines: trajectory prediction for autonomous agents; pedestrian trajectory prediction in crowded scenes; maritime vessel trajectory and path prediction algorithms; multi-agent trajectory forecasting and interaction modeling; target intent and goal estimation for trajectory prediction; trajectory representation learning and feature extraction; study of pedestrian and vehicle trajectory prediction models; trajectory prediction in complex maritime environments; deep learning techniques for intent aware trajectory forecasting; trajectory representation learning based on multimodal large language model.",
+      "matched_requirement_id": "req-composite-tp",
+      "selection_source": "carryover_cache",
+      "paper_id": "2603.21327v1",
+      "carry_days": 1
+    },
+    {
+      "id": "2603.23487v1",
+      "title": "TETO: Tracking Events with Teacher Observation for Motion Estimation and Frame Interpolation",
+      "abstract": "Event cameras capture per-pixel brightness changes with microsecond resolution, offering continuous motion information lost between RGB frames. However, existing event-based motion estimators depend on large-scale synthetic data that often suffers from a significant sim-to-real gap. We propose TETO (Tracking Events with Teacher Observation), a teacher-student framework that learns event motion estimation from only $\\sim$25 minutes of unannotated real-world recordings through knowledge distillation from a pretrained RGB tracker. Our motion-aware data curation and query sampling strategy maximizes learning from limited data by disentangling object motion from dominant ego-motion. The resulting estimator jointly predicts point trajectories and dense optical flow, which we leverage as explicit motion priors to condition a pretrained video diffusion transformer for frame interpolation. We achieve state-of-the-art point tracking on EVIMO2 and optical flow on DSEC using orders of magnitude less training data, and demonstrate that accurate motion estimation translates directly to superior frame interpolation quality on BS-ERGB and HQ-EVFI.",
+      "authors": [
+        "Jini Yang",
+        "Eunbeen Hong",
+        "Soowon Son",
+        "Hyunkoo Lee",
+        "Sunghwan Hong",
+        "Sunok Kim",
+        "Seungryong Kim"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-03-24T17:53:41+00:00",
+      "link": "https://arxiv.org/pdf/2603.23487v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "jointly predicts point trajectories and motion",
+      "llm_evidence_cn": "联合预测点轨迹与运动",
+      "llm_evidence": "联合预测点轨迹与运动",
+      "canonical_evidence": "联合预测点轨迹与运动",
+      "llm_tldr_en": "TETO uses knowledge distillation to learn event-based motion estimation and point trajectory prediction.",
+      "llm_tldr_cn": "TETO 利用知识蒸馏学习基于事件的运动估计和点轨迹预测。",
+      "llm_tldr": "TETO 利用知识蒸馏学习基于事件的运动估计和点轨迹预测。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "carryover_cache",
+      "paper_id": "2603.23487v1",
+      "carry_days": 1
+    },
+    {
+      "id": "2603.21723v1",
+      "title": "Can a Robot Walk the Robotic Dog: Triple-Zero Collaborative Navigation for Heterogeneous Multi-Agent Systems",
+      "abstract": "We present Triple Zero Path Planning (TZPP), a collaborative framework for heterogeneous multi-robot systems that requires zero training, zero prior knowledge, and zero simulation. TZPP employs a coordinator--explorer architecture: a humanoid robot handles task coordination, while a quadruped robot explores and identifies feasible paths using guidance from a multimodal large language model. We implement TZPP on Unitree G1 and Go2 robots and evaluate it across diverse indoor and outdoor environments, including obstacle-rich and landmark-sparse settings. Experiments show that TZPP achieves robust, human-comparable efficiency and strong adaptability to unseen scenarios. By eliminating reliance on training and simulation, TZPP offers a practical path toward real-world deployment of heterogeneous robot cooperation. Our code and video are provided at: https://github.com/triple-zeropp/Triple-zero-robot-agent",
+      "authors": [
+        "Yaxuan Wang",
+        "Yifan Xiang",
+        "Ke Li",
+        "Xun Zhang",
+        "BoWen Ye",
+        "Zhuochen Fan",
+        "Fei Wei",
+        "Tong Yang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.MA"
+      ],
+      "published": "2026-03-23T09:12:45+00:00",
+      "link": "https://arxiv.org/pdf/2603.21723v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "collaborative path planning for multi-robot systems using multimodal LLMs",
+      "llm_evidence_cn": "利用多模态大语言模型进行多机器人系统协作路径规划",
+      "llm_evidence": "利用多模态大语言模型进行多机器人系统协作路径规划",
+      "canonical_evidence": "利用多模态大语言模型进行多机器人系统协作路径规划",
+      "llm_tldr_en": "Introduces TZPP for zero-training collaborative navigation in heterogeneous multi-agent systems.",
+      "llm_tldr_cn": "引入 TZPP 框架，实现异构多智能体系统中的零训练协作导航。",
+      "llm_tldr": "引入 TZPP 框架，实现异构多智能体系统中的零训练协作导航。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "multi-agent trajectory forecasting and interaction modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "carryover_cache",
+      "paper_id": "2603.21723v1",
+      "carry_days": 1
+    }
+  ]
 }
