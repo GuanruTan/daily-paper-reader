@@ -25,3 +25,48 @@ subscriptions:
     stage: A
     diff_threshold_pct: 15
   keyword_recall_mode: or
+  intent_profiles:
+    - tag: TP
+      description: 轨迹预测（车辆、行人、船舶、飞机等）相关的论文，考虑密集场景、目标意图、多智能体、轨迹表示学习等概念
+      enabled: true
+      keywords:
+        - keyword: trajectory prediction
+          keyword_cn: 轨迹预测
+          query: trajectory prediction for autonomous agents
+        - keyword: pedestrian trajectory
+          keyword_cn: 行人轨迹
+          query: pedestrian trajectory prediction in crowded scenes
+        - keyword: vessel trajectory prediction
+          keyword_cn: 船舶轨迹预测
+          query: maritime vessel trajectory and path prediction algorithms
+        - keyword: multi-agent forecasting
+          keyword_cn: 多智能体预测
+          query: multi-agent trajectory forecasting and interaction modeling
+        - keyword: intent recognition
+          keyword_cn: 意图识别
+          query: target intent and goal estimation for trajectory prediction
+        - keyword: trajectory representation learning
+          keyword_cn: 轨迹表示学习
+          query: trajectory representation learning and feature extraction
+      intent_queries:
+        - query: study of pedestrian and vehicle trajectory prediction models
+          query_cn: 行人与车辆轨迹预测模型的研究
+          enabled: true
+          source: manual
+          note: ''
+        - query: trajectory prediction in complex maritime environments
+          query_cn: 复杂海事环境下的轨迹预测
+          enabled: true
+          source: manual
+          note: ''
+        - query: deep learning techniques for intent aware trajectory forecasting
+          query_cn: 基于意图感知的轨迹预测深度学习技术
+          enabled: true
+          source: manual
+          note: ''
+        - query: trajectory representation learning based on multimodal large language model
+          query_cn: 基于多模态大模型的轨迹表示学习
+          enabled: true
+          source: manual
+          note: ''
+      updated_at: '2026-03-27T02:43:24.677Z'
