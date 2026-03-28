@@ -1,133 +1,8 @@
 {
-  "generated_at": "2026-03-27T19:43:07.469179+00:00",
-  "updated_date": "20260327",
+  "generated_at": "2026-03-28T20:08:06.605584+00:00",
+  "updated_date": "20260328",
   "carryover_days": 9,
   "items": [
-    {
-      "id": "2603.25741v1",
-      "title": "Vega: Learning to Drive with Natural Language Instructions",
-      "abstract": "Vision-language-action models have reshaped autonomous driving to incorporate languages into the decision-making process. However, most existing pipelines only utilize the language modality for scene descriptions or reasoning and lack the flexibility to follow diverse user instructions for personalized driving. To address this, we first construct a large-scale driving dataset (InstructScene) containing around 100,000 scenes annotated with diverse driving instructions with the corresponding trajectories. We then propose a unified Vision-Language-World-Action model, Vega, for instruction-based generation and planning. We employ the autoregressive paradigm to process visual inputs (vision) and language instructions (language) and the diffusion paradigm to generate future predictions (world modeling) and trajectories (action). We perform joint attention to enable interactions between the modalities and use individual projection layers for different modalities for more capabilities. Extensive experiments demonstrate that our method not only achieves superior planning performance but also exhibits strong instruction-following abilities, paving the way for more intelligent and personalized driving systems.",
-      "authors": [
-        "Sicheng Zuo",
-        "Yuxuan Li",
-        "Wenzhao Zheng",
-        "Zheng Zhu",
-        "Jie Zhou",
-        "Jiwen Lu"
-      ],
-      "primary_category": "cs.CV",
-      "categories": [
-        "cs.CV",
-        "cs.AI",
-        "cs.RO"
-      ],
-      "published": "2026-03-26T17:59:56+00:00",
-      "link": "https://arxiv.org/pdf/2603.25741v1",
-      "tags": [
-        "keyword:TP",
-        "query:TP"
-      ],
-      "llm_score": 8.0,
-      "llm_evidence_en": "instruction-based trajectory generation using vision-language-action model",
-      "llm_evidence_cn": "基于视觉-语言-动作模型的指令驱动轨迹生成",
-      "llm_evidence": "基于视觉-语言-动作模型的指令驱动轨迹生成",
-      "canonical_evidence": "基于视觉-语言-动作模型的指令驱动轨迹生成",
-      "llm_tldr_en": "Presents Vega, a model that generates driving trajectories based on natural language instructions and visual input.",
-      "llm_tldr_cn": "提出Vega模型，根据自然语言指令和视觉输入生成驾驶轨迹。",
-      "llm_tldr": "提出Vega模型，根据自然语言指令和视觉输入生成驾驶轨迹。",
-      "llm_tags": [
-        "query:tp"
-      ],
-      "matched_query_tag": "query:tp",
-      "matched_query_text": "trajectory representation learning based on multimodal large language model",
-      "matched_requirement_id": "req-10",
-      "selection_source": "carryover_cache",
-      "paper_id": "2603.25741v1",
-      "carry_days": 1
-    },
-    {
-      "id": "2603.24989v1",
-      "title": "Learning Rollout from Sampling:An R1-Style Tokenized Traffic Simulation Model",
-      "abstract": "Learning diverse and high-fidelity traffic simulations from human driving demonstrations is crucial for autonomous driving evaluation. The recent next-token prediction (NTP) paradigm, widely adopted in large language models (LLMs), has been applied to traffic simulation and achieves iterative improvements via supervised fine-tuning (SFT). However, such methods limit active exploration of potentially valuable motion tokens, particularly in suboptimal regions. Entropy patterns provide a promising perspective for enabling exploration driven by motion token uncertainty. Motivated by this insight, we propose a novel tokenized traffic simulation policy, R1Sim, which represents an initial attempt to explore reinforcement learning based on motion token entropy patterns, and systematically analyzes the impact of different motion tokens on simulation outcomes. Specifically, we introduce an entropy-guided adaptive sampling mechanism that focuses on previously overlooked motion tokens with high uncertainty yet high potential. We further optimize motion behaviors using Group Relative Policy Optimization (GRPO), guided by a safety-aware reward design. Overall, these components enable a balanced exploration-exploitation trade-off through diverse high-uncertainty sampling and group-wise comparative estimation, resulting in realistic, safe, and diverse multi-agent behaviors. Extensive experiments on the Waymo Sim Agent benchmark demonstrate that R1Sim achieves competitive performance compared to state-of-the-art methods.",
-      "authors": [
-        "Ziyan Wang",
-        "Peng Chen",
-        "Ding Li",
-        "Chiwei Li",
-        "Qichao Zhang",
-        "Zhongpu Xia",
-        "Guizhen Yu"
-      ],
-      "primary_category": "cs.RO",
-      "categories": [
-        "cs.RO",
-        "cs.AI"
-      ],
-      "published": "2026-03-26T03:29:46+00:00",
-      "link": "https://arxiv.org/pdf/2603.24989v1",
-      "tags": [
-        "keyword:TP",
-        "query:TP"
-      ],
-      "llm_score": 8.0,
-      "llm_evidence_en": "tokenized traffic simulation for multi-agent motion prediction",
-      "llm_evidence_cn": "用于多智能体运动预测的令牌化交通仿真",
-      "llm_evidence": "用于多智能体运动预测的令牌化交通仿真",
-      "canonical_evidence": "用于多智能体运动预测的令牌化交通仿真",
-      "llm_tldr_en": "Proposes R1Sim, a reinforcement learning-based traffic simulation model using motion tokens for diverse rollouts.",
-      "llm_tldr_cn": "提出R1Sim，一种基于强化学习和运动令牌的交通仿真模型，用于生成多样化轨迹。",
-      "llm_tldr": "提出R1Sim，一种基于强化学习和运动令牌的交通仿真模型，用于生成多样化轨迹。",
-      "llm_tags": [
-        "query:tp"
-      ],
-      "matched_query_tag": "query:tp",
-      "matched_query_text": "multi-agent trajectory forecasting and interaction modeling",
-      "matched_requirement_id": "req-4",
-      "selection_source": "carryover_cache",
-      "paper_id": "2603.24989v1",
-      "carry_days": 1
-    },
-    {
-      "id": "2603.24931v1",
-      "title": "COIN: Collaborative Interaction-Aware Multi-Agent Reinforcement Learning for Self-Driving Systems",
-      "abstract": "Multi-Agent Self-Driving (MASD) systems provide an effective solution for coordinating autonomous vehicles to reduce congestion and enhance both safety and operational efficiency in future intelligent transportation systems. Multi-Agent Reinforcement Learning (MARL) has emerged as a promising approach for developing advanced end-to-end MASD systems. However, achieving efficient and safe collaboration in dynamic MASD systems remains a significant challenge in dense scenarios with complex agent interactions. To address this challenge, we propose a novel collaborative(CO-) interaction-aware(-IN) MARL framework, named COIN. Specifically, we develop a new counterfactual individual-global twin delayed deep deterministic policy gradient (CIG-TD3) algorithm, crafted in a \"centralized training, decentralized execution\" (CTDE) manner, which aims to jointly optimize the individual objectives (navigation) and the global objectives (collaboration) of agents. We further introduce a dual-level interaction-aware centralized critic architecture that captures both local pairwise interactions and global system-level dependencies, enabling more accurate global value estimation and improved credit assignment for collaborative policy learning. We conduct extensive simulation experiments in dense urban traffic environments, which demonstrate that COIN consistently outperforms other advanced baseline methods in both safety and efficiency across various system sizes. These results highlight its superiority in complex and dynamic MASD scenarios, as further validated through real-world robot demonstrations. Supplementary videos are available at https://marmotlab.github.io/COIN/",
-      "authors": [
-        "Yifeng Zhang",
-        "Jieming Chen",
-        "Tingguang Zhou",
-        "Tanishq Duhan",
-        "Jianghong Dong",
-        "Yuhong Cao",
-        "Guillaume Sartoretti"
-      ],
-      "primary_category": "cs.RO",
-      "categories": [
-        "cs.RO"
-      ],
-      "published": "2026-03-26T01:48:25+00:00",
-      "link": "https://arxiv.org/pdf/2603.24931v1",
-      "tags": [
-        "keyword:TP",
-        "query:TP"
-      ],
-      "llm_score": 8.0,
-      "llm_evidence_en": "Multi-agent interaction modeling in dense scenarios for autonomous vehicles",
-      "llm_evidence_cn": "密集场景下自动驾驶车辆的多智能体交互建模",
-      "llm_evidence": "密集场景下自动驾驶车辆的多智能体交互建模",
-      "canonical_evidence": "密集场景下自动驾驶车辆的多智能体交互建模",
-      "llm_tldr_en": "Proposes a MARL framework for collaborative interaction-aware coordination in dense self-driving systems.",
-      "llm_tldr_cn": "提出了一种用于密集自动驾驶系统中协作交互感知协调的多智能体强化学习框架。",
-      "llm_tldr": "提出了一种用于密集自动驾驶系统中协作交互感知协调的多智能体强化学习框架。",
-      "llm_tags": [
-        "query:tp"
-      ],
-      "matched_query_tag": "query:tp",
-      "matched_query_text": "multi-agent trajectory forecasting and interaction modeling",
-      "matched_requirement_id": "req-4",
-      "selection_source": "carryover_cache",
-      "paper_id": "2603.24931v1",
-      "carry_days": 1
-    },
     {
       "id": "2603.25395v1",
       "title": "UMBRELLA: Uncertainty-aware Multi-robot Reactive Coordination under Dynamic Temporal Logic Tasks",
@@ -151,54 +26,13 @@
         "query:TP"
       ],
       "llm_score": 8.0,
-      "llm_evidence_en": "uncertainty-aware target motion prediction for multi-robot coordination",
-      "llm_evidence_cn": "多机器人协作中的不确定性感知目标运动预测",
-      "llm_evidence": "多机器人协作中的不确定性感知目标运动预测",
-      "canonical_evidence": "多机器人协作中的不确定性感知目标运动预测",
-      "llm_tldr_en": "UMBRELLA coordinates multi-robot systems by explicitly modeling uncertainty in dynamic target motion prediction.",
-      "llm_tldr_cn": "UMBRELLA 通过对动态目标运动预测中的不确定性进行显式建模来协调多机器人系统。",
-      "llm_tldr": "UMBRELLA 通过对动态目标运动预测中的不确定性进行显式建模来协调多机器人系统。",
-      "llm_tags": [
-        "query:tp:composite"
-      ],
-      "matched_query_tag": "query:tp:composite",
-      "matched_query_text": "Papers central to 轨迹预测（车辆、行人、船舶、飞机等）相关的论文，考虑密集场景、目标意图、多智能体、轨迹表示学习等概念, especially work that connects or combines: trajectory prediction for autonomous agents; pedestrian trajectory prediction in crowded scenes; maritime vessel trajectory and path prediction algorithms; multi-agent trajectory forecasting and interaction modeling; target intent and goal estimation for trajectory prediction; trajectory representation learning and feature extraction; study of pedestrian and vehicle trajectory prediction models; trajectory prediction in complex maritime environments; deep learning techniques for intent aware trajectory forecasting; trajectory representation learning based on multimodal large language model.",
-      "matched_requirement_id": "req-composite-tp",
-      "selection_source": "carryover_cache",
-      "paper_id": "2603.25395v1",
-      "carry_days": 1
-    },
-    {
-      "id": "2603.25382v1",
-      "title": "IntentReact: Guiding Reactive Object-Centric Navigation via Topological Intent",
-      "abstract": "Object-goal visual navigation requires robots to reason over semantic structure and act effectively under partial observability. Recent approaches based on object-level topological maps enable long-horizon navigation without dense geometric reconstruction, but their execution remains limited by the gap between global topological guidance and local perception-driven control. In particular, local decisions are made solely from the current egocentric observation, without access to information beyond the robot's field of view. As a result, the robot may persist along its current heading even when initially oriented away from the goal, moving toward directions that do not decrease the global topological distance. In this work, we propose IntentReact, an intent-conditioned object-centric navigation framework that introduces a compact interface between global topological planning and reactive object-centric control. Our approach encodes global topological guidance as a low-dimensional directional signal, termed intent, which conditions a learned waypoint prediction policy to bias navigation toward topologically consistent progression. This design enables the robot to promptly reorient when local observations are misleading, guiding motion toward directions that decrease global topological distance while preserving the reactivity and robustness of object-centric control. We evaluate the proposed framework through extensive experiments, demonstrating improved navigation success and execution quality compared to prior object-centric navigation methods.",
-      "authors": [
-        "Yanmei Jiao",
-        "Anpeng Lu",
-        "Wenhan Hu",
-        "Rong Xiong",
-        "Yue Wang",
-        "Huajin Tang",
-        "Wen-an Zhang"
-      ],
-      "primary_category": "cs.RO",
-      "categories": [
-        "cs.RO"
-      ],
-      "published": "2026-03-26T12:32:11+00:00",
-      "link": "https://arxiv.org/pdf/2603.25382v1",
-      "tags": [
-        "keyword:TP",
-        "query:TP"
-      ],
-      "llm_score": 8.0,
-      "llm_evidence_en": "topological intent for guiding reactive navigation and goal estimation",
-      "llm_evidence_cn": "用于引导反应式导航和目标估计的拓扑意图",
-      "llm_evidence": "用于引导反应式导航和目标估计的拓扑意图",
-      "canonical_evidence": "用于引导反应式导航和目标估计的拓扑意图",
-      "llm_tldr_en": "Uses topological intent to bridge global guidance and local control for object-centric robot navigation.",
-      "llm_tldr_cn": "利用拓扑意图连接全局引导和局部控制，实现以物体为中心的机器人导航。",
-      "llm_tldr": "利用拓扑意图连接全局引导和局部控制，实现以物体为中心的机器人导航。",
+      "llm_evidence_en": "explicitly model the uncertainty in target motion prediction",
+      "llm_evidence_cn": "对目标运动预测的不确定性进行显式建模",
+      "llm_evidence": "对目标运动预测的不确定性进行显式建模",
+      "canonical_evidence": "对目标运动预测的不确定性进行显式建模",
+      "llm_tldr_en": "Coordinates multi-robot systems by modeling target motion uncertainty for dynamic collaborative tasks.",
+      "llm_tldr_cn": "通过对目标运动不确定性建模，协调多机器人系统执行动态协作任务。",
+      "llm_tldr": "通过对目标运动不确定性建模，协调多机器人系统执行动态协作任务。",
       "llm_tags": [
         "query:tp"
       ],
@@ -206,7 +40,7 @@
       "matched_query_text": "target intent and goal estimation for trajectory prediction",
       "matched_requirement_id": "req-5",
       "selection_source": "carryover_cache",
-      "paper_id": "2603.25382v1",
+      "paper_id": "2603.25395v1",
       "carry_days": 1
     },
     {
@@ -242,12 +76,12 @@
       ],
       "llm_score": 8.0,
       "llm_evidence_en": "latent world model for efficient reinforcement learning in autonomous driving",
-      "llm_evidence_cn": "用于自动驾驶高效强化学习的潜世界模型",
-      "llm_evidence": "用于自动驾驶高效强化学习的潜世界模型",
-      "canonical_evidence": "用于自动驾驶高效强化学习的潜世界模型",
-      "llm_tldr_en": "Accelerates autonomous driving policy training using a latent world model for efficient imagination.",
-      "llm_tldr_cn": "利用潜世界模型加速自动驾驶策略训练，实现高效的想象推理。",
-      "llm_tldr": "利用潜世界模型加速自动驾驶策略训练，实现高效的想象推理。",
+      "llm_evidence_cn": "用于自动驾驶高效强化学习的潜在世界模型",
+      "llm_evidence": "用于自动驾驶高效强化学习的潜在世界模型",
+      "canonical_evidence": "用于自动驾驶高效强化学习的潜在世界模型",
+      "llm_tldr_en": "An efficient latent world model for autonomous driving that speeds up diffusion-based RL training.",
+      "llm_tldr_cn": "一种高效的自动驾驶潜在世界模型，可加速基于扩散的强化学习训练。",
+      "llm_tldr": "一种高效的自动驾驶潜在世界模型，可加速基于扩散的强化学习训练。",
       "llm_tags": [
         "query:tp"
       ],
@@ -280,13 +114,13 @@
         "query:TP"
       ],
       "llm_score": 8.0,
-      "llm_evidence_en": "trajectory image transformer for representation learning and anomaly detection",
-      "llm_evidence_cn": "用于表示学习和异常检测的轨迹图像Transformer",
-      "llm_evidence": "用于表示学习和异常检测的轨迹图像Transformer",
-      "canonical_evidence": "用于表示学习和异常检测的轨迹图像Transformer",
-      "llm_tldr_en": "Proposes a trajectory image representation to enable scalable multi-month trajectory analysis and anomaly detection.",
-      "llm_tldr_cn": "提出了一种轨迹图像表示方法，实现了可扩展的跨月轨迹分析和异常检测。",
-      "llm_tldr": "提出了一种轨迹图像表示方法，实现了可扩展的跨月轨迹分析和异常检测。",
+      "llm_evidence_en": "trajectory image transformer for trajectory representation and anomaly detection",
+      "llm_evidence_cn": "用于轨迹表示和异常检测的轨迹图像Transformer",
+      "llm_evidence": "用于轨迹表示和异常检测的轨迹图像Transformer",
+      "canonical_evidence": "用于轨迹表示和异常检测的轨迹图像Transformer",
+      "llm_tldr_en": "Proposes a trajectory image representation to enable long-term trajectory analysis and anomaly detection.",
+      "llm_tldr_cn": "提出一种轨迹图像表示方法，以实现长期轨迹分析和异常检测。",
+      "llm_tldr": "提出一种轨迹图像表示方法，以实现长期轨迹分析和异常检测。",
       "llm_tags": [
         "query:tp"
       ],
@@ -295,6 +129,164 @@
       "matched_requirement_id": "req-6",
       "selection_source": "carryover_cache",
       "paper_id": "2603.25255v1",
+      "carry_days": 1
+    },
+    {
+      "id": "2603.24442v1",
+      "title": "Relaxing Constraints in Anonymous Multi Agent Path Finding for Large Agents",
+      "abstract": "The study addressed the problem of Anonymous Multi-Agent Path-finding (AMAPF). Unlike the classical formulation, where the assignment of agents to goals is fixed, in the anonymous MAPF setting it is irrelevant which agent reaches specific goal, provided that all goals are occupied. Most existing multi-agent pathfinding algorithms rely on a discrete representation of the environment (e.g., square grids) and do not account for the sizes of agents. This limits their applicability in real-world scenarios, such as trajectory planning for mobile robots in warehouses. Conversely, methods operating in continuous space typically impose substantial restrictions on the input data, such as constraints on the distances between initial and goal positions or between start/goal positions and obstacles. In this work, we considered one of the AMAPF algorithms designed for continuous space, where agents are modeled as disks of equal size. The algorithm requires a strict minimum separation of $4$ agent radii between any start/goal positions. Proposed a modification aimed at relaxing the constraints and reduce this limit from $4$ to $2\\sqrt{3}$. We theoretically demonstrated that the proposed enhancements preserve original theoretical properties, including the guarantee that all agents will eventually achieve their goals safely and without collisions.",
+      "authors": [
+        "Stepan Dergachev",
+        "Dmitry Avdeev"
+      ],
+      "primary_category": "cs.MA",
+      "categories": [
+        "cs.MA"
+      ],
+      "published": "2026-03-25T15:54:55+00:00",
+      "link": "https://arxiv.org/pdf/2603.24442v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "multi-agent path-finding and trajectory planning for mobile robots",
+      "llm_evidence_cn": "多智能体路径规划与移动机器人轨迹规划",
+      "llm_evidence": "多智能体路径规划与移动机器人轨迹规划",
+      "canonical_evidence": "多智能体路径规划与移动机器人轨迹规划",
+      "llm_tldr_en": "Addresses anonymous multi-agent path-finding in continuous space for large-sized agents.",
+      "llm_tldr_cn": "解决了连续空间中大型智能体的匿名多智能体路径规划问题。",
+      "llm_tldr": "解决了连续空间中大型智能体的匿名多智能体路径规划问题。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "multi-agent trajectory forecasting and interaction modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "carryover_cache",
+      "paper_id": "2603.24442v1",
+      "carry_days": 1
+    },
+    {
+      "id": "2603.25740v1",
+      "title": "Drive My Way: Preference Alignment of Vision-Language-Action Model for Personalized Driving",
+      "abstract": "Human driving behavior is inherently personal, which is shaped by long-term habits and influenced by short-term intentions. Individuals differ in how they accelerate, brake, merge, yield, and overtake across diverse situations. However, existing end-to-end autonomous driving systems either optimize for generic objectives or rely on fixed driving modes, lacking the ability to adapt to individual preferences or interpret natural language intent. To address this gap, we propose Drive My Way (DMW), a personalized Vision-Language-Action (VLA) driving framework that aligns with users' long-term driving habits and adapts to real-time user instructions. DMW learns a user embedding from our personalized driving dataset collected across multiple real drivers and conditions the policy on this embedding during planning, while natural language instructions provide additional short-term guidance. Closed-loop evaluation on the Bench2Drive benchmark demonstrates that DMW improves style instruction adaptation, and user studies show that its generated behaviors are recognizable as each driver's own style, highlighting personalization as a key capability for human-centered autonomous driving. Our data and code are available at https://dmw-cvpr.github.io/.",
+      "authors": [
+        "Zehao Wang",
+        "Huaide Jiang",
+        "Shuaiwu Dong",
+        "Yuping Wang",
+        "Hang Qiu",
+        "Jiachen Li"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "cs.CV",
+        "cs.LG",
+        "cs.MA"
+      ],
+      "published": "2026-03-26T17:59:54+00:00",
+      "link": "https://arxiv.org/pdf/2603.25740v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "interpreting natural language intent for personalized driving",
+      "llm_evidence_cn": "解释个性化驾驶的自然语言意图",
+      "llm_evidence": "解释个性化驾驶的自然语言意图",
+      "canonical_evidence": "解释个性化驾驶的自然语言意图",
+      "llm_tldr_en": "A VLA framework that aligns driving behavior with user habits and real-time language instructions.",
+      "llm_tldr_cn": "一种将驾驶行为与用户习惯和实时语言指令对齐的VLA框架。",
+      "llm_tldr": "一种将驾驶行为与用户习惯和实时语言指令对齐的VLA框架。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "deep learning techniques for intent aware trajectory forecasting",
+      "matched_requirement_id": "req-9",
+      "selection_source": "carryover_cache",
+      "paper_id": "2603.25740v1",
+      "carry_days": 1
+    },
+    {
+      "id": "2603.24908v1",
+      "title": "Integrated Multi-Drone Task Allocation, Sequencing, and Optimal Trajectory Generation in Obstacle-Rich 3D Environments",
+      "abstract": "Coordinating teams of aerial robots in cluttered three-dimensional (3D) environments requires a principled integration of discrete mission planning-deciding which robot serves which goals and in what order -- with continuous-time trajectory synthesis that enforces collision avoidance and dynamic feasibility. This paper introduces IMD-TAPP (Integrated Multi-Drone Task Allocation and Path Planning), an end-to-end framework that jointly addresses multi-goal allocation, tour sequencing, and safe trajectory generation for quadrotor teams operating in obstacle-rich spaces. IMD--TAPP first discretizes the workspace into a 3D navigation graph and computes obstacle-aware robot-to-goal and goal-to-goal travel costs via graph-search-based pathfinding. These costs are then embedded within an Injected Particle Swarm Optimization (IPSO) scheme, guided by multiple linear assignment, to efficiently explore coupled assignment/ordering alternatives and to minimize mission makespan. Finally, the resulting waypoint tours are transformed into time-parameterized minimum-snap trajectories through a generation-and-optimization routine equipped with iterative validation of obstacle clearance and inter-robot separation, triggering re-planning when safety margins are violated. Extensive MATLAB simulations across cluttered 3D scenarios demonstrate that IMD--TAPP consistently produces dynamically feasible, collision-free trajectories while achieving competitive completion times. In a representative case study with two drones serving multiple goals, the proposed approach attains a minimum mission time of 136~s while maintaining the required safety constraints throughout execution.",
+      "authors": [
+        "Yunes Alqudsi",
+        "Murat Makaraci"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "cs.MA"
+      ],
+      "published": "2026-03-26T00:46:26+00:00",
+      "link": "https://arxiv.org/pdf/2603.24908v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "safe trajectory generation for quadrotor teams in obstacle-rich spaces",
+      "llm_evidence_cn": "障碍物密集空间中四旋翼机队的安轨迹生成",
+      "llm_evidence": "障碍物密集空间中四旋翼机队的安轨迹生成",
+      "canonical_evidence": "障碍物密集空间中四旋翼机队的安轨迹生成",
+      "llm_tldr_en": "Integrates task allocation and path planning for multi-drone teams to generate safe, dynamically feasible trajectories.",
+      "llm_tldr_cn": "集成多无人机任务分配与路径规划，生成安全且符合动力学约束的轨迹。",
+      "llm_tldr": "集成多无人机任务分配与路径规划，生成安全且符合动力学约束的轨迹。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "multi-agent trajectory forecasting and interaction modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "carryover_cache",
+      "paper_id": "2603.24908v1",
+      "carry_days": 1
+    },
+    {
+      "id": "2603.24748v1",
+      "title": "Distributed MPC For Coordinated Path-Following",
+      "abstract": "In this paper, we consider a distributed model predictive control (MPC) algorithm for coordinated path-following. Relying on the time-critical cooperative path-following framework, which decouples space and time and reduces the coordination problem to a one-dimensional setting, we formulate a distributed MPC scheme for time coordination. Leveraging properties of the normalized Laplacian, we decouple the MPC dynamics into independent modes and derive a recursive relation linking current and predicted states. Using this structure, we prove that, for prediction horizon $K=1$ and a fixed connected communication network, the system is exponentially stable even in the presence of path-following errors. This provides a first result on the convergence analysis of discrete-time distributed MPC schemes within this framework.   The proposed approach enables scalable and efficient real-time implementation with low communication overhead. Moreover, in contrast to the time-critical cooperative path-following framework, the optimization-based structure relaxes the reliance on preplanning by allowing the incorporation of mission-specific requirements, such as vehicle limitations, collision avoidance, and conflict resolution. Simulation results demonstrate applicability to complex scenarios, highlighting agility and exponential convergence under communication failures.",
+      "authors": [
+        "Lusine Poghosyan",
+        "Anna Manucharyan",
+        "Mikayel Aramyan",
+        "Naira Hovakimyan",
+        "Tigran Bakaryan"
+      ],
+      "primary_category": "math.DS",
+      "categories": [
+        "math.DS",
+        "math.OC"
+      ],
+      "published": "2026-03-25T19:19:19+00:00",
+      "link": "https://arxiv.org/pdf/2603.24748v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "distributed MPC for coordinated path-following and time coordination",
+      "llm_evidence_cn": "用于协同路径跟随和时间协调的分布式模型预测控制",
+      "llm_evidence": "用于协同路径跟随和时间协调的分布式模型预测控制",
+      "canonical_evidence": "用于协同路径跟随和时间协调的分布式模型预测控制",
+      "llm_tldr_en": "Formulates a distributed MPC scheme for multi-agent coordinated path-following with stability proofs.",
+      "llm_tldr_cn": "制定了一种用于多智能体协同路径跟随的分布式MPC方案，并提供了稳定性证明。",
+      "llm_tldr": "制定了一种用于多智能体协同路径跟随的分布式MPC方案，并提供了稳定性证明。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "multi-agent trajectory forecasting and interaction modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "carryover_cache",
+      "paper_id": "2603.24748v1",
       "carry_days": 1
     }
   ]
