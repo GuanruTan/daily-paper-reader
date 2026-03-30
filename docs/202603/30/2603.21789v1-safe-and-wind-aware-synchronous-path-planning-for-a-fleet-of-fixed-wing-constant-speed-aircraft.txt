@@ -1,0 +1,365 @@
+Title: 2603.21789v1.pdf
+
+URL Source: https://arxiv.org/pdf/2603.21789v1
+
+Published Time: Tue, 24 Mar 2026 02:06:57 GMT
+
+Number of Pages: 8
+
+Markdown Content:
+# Safe and wind-aware synchronous path planning for a fleet of fixed-wing constant speed aircraft 
+
+Ma¨ el Feurgard 1, Gautier Hattenberger 1, Nicolas Durand 1 and Simon Lacroix 2
+
+Abstract — Path planning for multiple unmanned aerial ve-hicles is a difficult task, and even more for a fleet of fixed-wing aircraft. One specific case is the transition to, or between, formation flight patterns, which requires synchronous arrivals while ensuring minimal separation, and ideally maintaining cruise speed. We present a centralized method to solve this problem based on enumerating different Dubins paths. Given a travel time for the fleet, it builds a set of possible paths for each aircraft. Then, it checks in parallel separation between each path pair. This yields coefficients for an Integer Linear Programming problem determining if a fleet-wide conflict-free solution exists. This process is repeated for different travel times sampled with increasing resolution until the user-defined accuracy is met. The method is benchmarked with Monte-Carlo simulations considering up to 20 aircraft simultaneously, achieving an 95% success rate for an average 8 seconds computation time. 
+
+I. I NTRODUCTION 
+
+Unmanned Aerial Vehicles (UAVs) are getting more and more available at relatively low cost, motivating both ap-plications and research flying several autonomous aircraft simultaneously. In particular, the deployment of several fixed-wing aircraft is relevant to long missions, requiring significant payload or airspeed ; aerial cartography [1], airborne particles sensing [2], [3] and forest monitoring [4], [5] are examples of such tasks. They all require solving a common problem: cooperative path planning. Cooperative path planning consists in moving multiple agents in a shared space to achieve a common goal. Several constraints can be considered, the most common being colli-sion avoidance, synchronous arrival to destination, maintain formation and feasible dynamics. This problem has been significantly studied for aerial vehicles [6]–[8], with some methods dating back from the 1990s [9]. We are particularly interested in collision-free 2D movements with synchronous arrivals, since such movements correspond to transitions between planar formations which may be needed for take off, landing or during the mission. Different strategies exist to achieve such transitions: discretize the airspace using a grid [9]–[11], a Voronoi decomposition [12] or sets of lines [13] first, then generate safe flight paths and finally smooth them; use leader-follower or swarm schemes to handle collision avoidance dynamically, and vary speed for synchronization [14]–[18]; or directly generate valid paths.   
+
+> 1F´ ed´ eration ENAC ISAE-SUPAERO ONERA, Universit´ e de Toulouse, France
+
+[name].[surname]@enac.fr          
+
+> 2Deceased, was with Laboratoire d’Analyse et d’Architecture des Syst` emes, Universit´ e de Toulouse, CNRS, Toulouse, France. https:// sites.laas.fr/Simon_Lacroix/
+
+We focus on this last category as it does not rely on a discretization parameter and provide an explicit path to be followed for each agent. This ensures that there are no deadlocks, but usually requires more computational power and may still fail to find a solution in some cases. Paths can be generated along several models; some can consider the acceleration limitations of the aircraft, and will use clothoids [19], B´ ezier splines [20], [21] or Pythagorean Hodograph splines [22]–[24]; others will use the Dubins model [25], as it simplifies trajectory generation into a geometry problem with circles and lines [26], [27] at the cost of introducing acceleration discontinuities. Among the full path generation methods, only a limited amount of aircraft are considered and performances are poorly studied. In [21], several Monte Carlo simulations are done, measuring accuracy and runtime of the planner, testing from 2 to 7 aircraft. But this article does not manage collisions. The other articles show only sample cases, without timing computations and the number of aircraft does not exceed 5. This is especially limited compared to the leader follower techniques, such as in [16] where 3 groups of 7 aircraft were deployed in real conditions. We present a new method based on Dubins paths to solve the fixed-wing fleet path planning problem with the constraints of constant airspeed, collision avoidance and synchronous arrival in 2D. The main difference with [26], [27] is that instead of looking for one specific combination of curves in a continuous domain satisfying both synchroniza-tion and collision avoidance, we build sets of synchronous curves for each aircraft in which we look for a collision-free combination. This allows us to parallelize computations and push the benchmark from 3 to 20 aircraft simultaneously. Furthermore, the method is able to take into account a constant uniform wind. II. P ROBLEM FORMULATION 
+
+We consider the problem of path planning for a fleet of fixed-wing aircraft flying at constant air speed and altitude, using simplified dynamics in an obstacle-free area. Let the aircraft be numbered from 1 to N , and represented using a 2D position [xk, y k] ∈ R2 and a 2D orientation 
+
+θk ∈ S := ( −π, π ] with respect to the ground. We combine these values in a state vector pk = [ xk, y k, θ k]. For the sake of simplicity, we assume all aircraft have the same characteristics, namely the same cruise air speed V , minimal turn radius ρmin , and minimal separation distance δ.This yields the following dynamics for each aircraft 
+
+> arXiv:2603.21789v1 [math.OC] 23 Mar 2026
+
+k ∈ [1 , N ], the so-called Dubins vehicle [25]: 
+
+dpk
+
+dt =
+
+
+
+˙xk
+
+˙yk
+
+˙θk
+
+ := 
+
+
+
+V cos θk
+
+V sin θk
+
+uk
+
+ (1) The sole control parameter is the change in orientation 
+
+uk ∈ [−V/ρmin , V/ρmin ]. Note that the vehicle is always aligned with its speed vector. As such, for a differentiable trajectory 
+
+γ : R → R2, we may abuse the notation pk(t) = γ(t)
+
+to state that γ(t) = [xk(t), y k(t)] and γ′(t) is aligned with [cos θk(t), sin θk(t)] , i.e. the aircraft follows γ both in position and orientation. We require synchronicity: all aircraft reach their destina-tion at the same time. This constraint stems from formation flights, and can be adapted to sequencing for instance. We develop this aspect in section IV. Let us formulate our optimization problem. Given for each aircraft k an initial state Sk, a final state Ek both in R2 × S, and a set of possible twice differentiable paths 
+
+Γ ⊂ D 2(R+, R2), we seek to minimize the time taken by the fleet to reach its final configuration while satisfying the constraints. Formally: 
+
+min    
+
+> τ∈R+
+> γk∈Γ,1≤k≤N
+
+τ (Flight time) (2) Such that we achieve: 1) Correct synchronous trajectory: 
+
+∀ k ∈ [1 , N ] γk(0) = Sk ∧ γk(τ ) = Ek
+
+2) Collision avoidance: 
+
+∀ k, s, k ̸ = s ∀ t ∈ [0 , τ ] ∥γk(t) − γs(t)∥ > δ 
+
+3) Constant speed: 
+
+∀ k ∀ t ∈ [0 , τ ] ∥γ′
+
+> k
+
+(t)∥ = V
+
+4) Bounded acceleration: 
+
+∀ k ∀ t ∈ [0 , τ ] ∥γ′′  
+
+> k
+
+(t)∥ ≤ V 2
+
+ρmin 
+
+The core starting point for solving this problem is to define the set of possible paths Γ. Often this set is made of splines [20], [22]–[24] as they provide a continuous family with a convenient representation for integrating spatial and dynamic constraints in a solver. But they heavily rely on a good initial guess and continuous optimization. This can be tempered by the use of global heuristics like Particle Swarm Optimization (PSO), at a significant computational cost. The method presented here is based on a finite set of solutions. It has the advantage of exploring significantly different paths, which may then be used as a better starting point for locally optimized methods. We now present the elements making our set of solutions: the Dubins paths .III. D UBINS PATHS 
+
+Dubins showed in [25] that the shortest path between any two states of a vehicle described in (1) is made of straight lines and circle arcs of radius ρmin . We denote the possible components S, L, R , respectively for Straight, Left and Right [turn]. The optimal solution is among the following six possibilities: RSR, LSL ; RSL, LSR and 
+
+LRL, RLR . Since there is only a limited set of solutions, it is easy to find the best one by trying each of them. We may still need more variety in the choice of paths in order to avoid conflicts. We add the single-turn paths 
+
+SLS and SRS . They have a limited scope of application, but can still extend the number of possibilities. With the six basic Dubins paths and these two, we define the set of basic paths Γ0, which has cardinality 8. For any type 
+
+γ ∈ Γ0, a path is exactly defined by starting and ending poses S, E ∈ R2 × S and a turn radius ρ > 0, and we denote 
+
+γ[S, E, ρ ] ∈ D 2(R, R2) the corresponding function, when it exists. They are all showcased in Figure 1. By construction, all of these solutions are guaranteed to satisfy the Constant speed and Bounded acceleration con-straints. Two main questions remain: how to detect conflicts and how to tune the paths to achieve synchronicity ? 
+
+A. Finding a fitting solution 
+
+Dubins paths provide a direct solution to the individual path planning problem, but offer little tuning mechanisms for achieving a specific path length. This question has been studied, and several methods devised: artificially increase the turning radius [26], use circles with different radii [28], introduce straight extensions [29] or deform straight parts [30]. We use two strategies: increasing the turn radius and adding straight segments at the start or end of the path. More formally, fitting length ℓ > 0 by tweaking radius 
+
+ρ of a path from S = [ xS , y S , θ S ] to E = [ xE , y E , θ E ]
+
+corresponds to the following optimization problem: 
+
+min 
+
+> ρ>ρ min
+
+(len (γ[S, E, ρ ]) − ℓ)2 (3) Similarly, using length extensions distributed with ratio 
+
+r ∈ [0 , 1] along the initial direction VS = [cos θS , sin θS , 0] 
+
+and final one VE = [cos θE , sin θE , 0] yields the problem: 
+
+min  
+
+> l≥0
+
+(len (γ[S + lrV S , E − l(1 − r)VE , ρ min ]) + l − ℓ)2 (4) Note that the second method introduces new types of paths: Dubins extended by straight lines. The ratio parameter 
+
+Fig. 1: Examples of the six Dubins paths plus two extras (SRS, SLS) Fig. 2: Start, end and both extended paths: RSR and LSL 
+
+allows many variations, but for the sake of simplicity we will only keep three: start extended ( r = 1 ), noted S-AAA ; end extended ( r = 0 ) AAA -S and both extended ( r = 1/2) S-AAA -S, where in all cases AAA represents one of the three letters combination characterizing an element of Γ0. A showcase of some Dubins extended paths is given in Figure 2. Let 
+
+Γ define the set containing the basic paths Γ0 length fitted using the aforementioned methods; its cardinal is 8 + 3 × 8.Solving problems (3) and (4) is manageable since they are unidimensional and quite monotonous, in spite of some discontinuities (see [21, Figure 4] for path length as afunction of the turn radius). We use Brent’s method [31, Chapter 4] to efficiently find solutions. 
+
+B. Conflicts detection 
+
+Dubins path are made of straight lines and circle arcs. Thus the question of detecting a conflict between two paths of Γ can be broken down into finding conflicts between their components. Three subcases emerge: line-line, line-circle and circle-circle. Both 2D lines and circles can be conveniently represented using complex functions:  
+
+> •
+
+For a line, let f (t) = v·t+a, with v, a ∈ C and |v| = V 
+
+> •
+
+For a circle, f (t) = C + re i(ω·t+ϕ), with 
+
+C ∈ C, ϕ ∈ [0 , 2π], ω ∈ R+, r ≥ ρmin and rω = V
+
+For two parametric functions f1, f 2 : [0 , τ ] → C repre-senting two trajectories, we define two types of separations with respect to some minimal distance δ > 0: 
+
+> •
+
+Temporal separation : two points following prescribed trajectories must stay separated by at least δ.
+
+min   
+
+> t∈[0 ,τ ]
+
+|f1(t) − f2(t)| > δ (5)  
+
+> •
+
+Spatial separation : two shapes must be separated by at least δ.
+
+min   
+
+> (t1,t 2)∈[0 ,τ ]2
+
+|f1(t1) − f2(t2)| > δ (6) One can easily verify that if (6) is satisfied, then so is (5). Practically, we are interested in temporal separation . But, if it is easy to compute in the line-line case (it becomes a second degree polynomial equation), this is not true for the line-circle and circle-circle cases. For those, even if it is a scalar optimization problem, we require a global solver (the interval method [32] for instance). To limit the use of such computationally expensive procedures, we perform pre-filtering by computing the spatial separation . Indeed, since we are using only lines and circles, it is a straightforward geometry exercise to evaluate this separation. We have presented in this section the set of paths Γ used for solving problem (2). We have shown how to fit them to specific length and how to detect conflicts between them. Let us now put this together into a fleet path planner. IV. F LEET PATH PLANNING 
+
+A. Presentation of the algorithm 
+
+Our procedure for planning a path for the fleet respecting the constraints given in (2) works by combinatorial optimiza-tion. We consider two main factors regarding complexity: the number of different possible paths |Γ| and the number of aircraft N . The former can be increased or reduced by modifying the chosen individual path planning methods, and the latter expresses the scale and difficulty of the problem. Three primitives are required to describe our method, whose underlying principles have been given in section III:  
+
+> •
+
+τk, γ k ←− ShortestDubins( Sk, E k, V, ρ min ) : Given starting and ending states Sk, E k, the aircraft speed V
+
+and its minimal turn radius ρmin , compute the shortest path γk belonging to Γ and give the travel time τk.Its complexity scales linearly with |Γ|, since each path must be considered to find the shortest.  
+
+> •
+
+Lk ←− FitDubins( Sk, E k, V, ρ min , τ ) : Given starting and ending states Sk, E k, the aircraft speed V , its minimal turn radius ρmin and a travel time τ , output a set of paths Lk taken from Γ with turning radii greater or equal than ρmin and having a travel time of τ . This set may be empty if there is no way to go from Sk to 
+
+Ek given the constraints and possible paths. Its complexity also scales linearly with |Γ|, since each path must be considered.  
+
+> •
+
+True |False ←− AreSeparated( δ, γ 1, . . . , γ N ) : Given a minimal separation distance δ and a list of paths 
+
+γ1, . . . , γ N , check if there is a loss of separation be-tween any two pairs. We can safely assume that there is an underlying 
+
+IsPairSeparated( δ, γ a, γ b) subroutine checking for sep-aration between two given paths, solving spatial (6) then possibly temporal (5) separations. AreSeparated 
+
+requires N (N −1) 2 = O  N 2 calls to the subroutine (since separation is a symmetric notion). We can now describe the general principles, also sum-marized in pseudocode algorithm 1. It starts by computing for each aircraft its best individual solution, ignoring col-lisions, by using the ShortestDubins primitive. We want synchronous arrivals, i.e. same travel time for everyone. A first good guess is the maximum of the minimum individual times, which we denote τmin . Using a user-defined parameter 
+
+R, the maximum possible time is set to R × τmin . We use these two values to initialize a priority queue Q containing the flight times considered. The rest of algorithm 1 executes the main loop until a stop condition is met: For every untested flight time 
+
+τ in Q, compute the possible paths Lk for each aircraft 
+
+k ∈ [1 , N ] using FitDubins , and look through all com-binations (γ1, . . . γ N ) ∈ L1 × · · · × LN ; if one satisfies 
+
+AreSeparated with the desired separation δ, break the loop, and otherwise move to the next value in Q.If a solution was found, remove all elements in Q with flight time greater than the one of the solution, since they cannot be optimal. Then, Q is populated by inserting b values regularly spaced between every two successive τk, τ k+1 ∈ Q
+
+(if b = 1 , this is equivalent to successive dichotomies). To limit sampling to a reasonable resolution, a minimum width 
+
+w > 0 is specified by the user, such that if τk+1 − τk ≤ w,no samples are added between these two values. The number of iterations is counted as the number of different flight times τ tested. Once above a given threshold, the program stops. The second stop condition is maximum total execution time, and is evaluated before testing a new 
+
+τ . The last stop condition is progress; the program stops if no new τ are added to Q when re-sampling. 
+
+B. Algorithm analysis 
+
+The different stop conditions ensure the program termi-nates in a timely manner, but does not guarantee that a solution is found. Furthermore, there is no guarantee at large to find a solution, even with unlimited computations, as it may not exist in the Γ set chosen. Still, we can evaluate the complexity of testing a flight duration τ , which is the core of this algorithm. Computing the set of possible paths for each aircraft contributes N · O (|Γ|). Then, there are at most 
+
+|Γ| paths per aircraft, meaning a total of |Γ|N combinations. Each combination has to be tested for conflicts, yielding a cost per iteration of O
+
+
+
+N 2 |Γ|N 
+
+. This is polynomial with respect to the number of different paths |Γ| and exponential 
+
+with respect to the number of aircraft N .There are ways to accelerate computations. Since conflicts involve aircraft two by two, it is possible to compute for each of the N (N −1) 2 unordered aircraft pairs the |Γ|2 paths pairs, and check for conflict. This provides N 2 |Γ|2 binary coefficients ca,b,g,h denoting whether there is a conflict between aircraft a and b using respectively paths g and h.We can formulate a 0-1 Integer Linear Program (ILP) with variables xa,g defining if aircraft a uses path g. There are two types of constraints: avoiding conflicts 
+
+∀a̸ = b ∈ [1 , N ] ∀g, h ∈ Γ ca,b,g,h · (xa,g + xb,h ) ≤ 1
+
+and choosing a unique path for each aircraft 
+
+∀a ∈ [1 , N ] X
+
+> g∈Γ
+
+xa,g = 1 
+
+This is a well-known NP-complete problem, and an efficient existing solver can be used, for instance [33]. Another important point is that this algorithm is easily parallelizable. Indeed, each aircraft k can independently 
+
+Algorithm 1: Dubins based path planning algorithm 
+
+Data: Initial and final states (Sk, E k)1≤i≤N ; flight parameters V, ρ min , δ ; optimization parameters 
+
+R, w, b 
+
+Result: Duration τ and Dubins trajectories 
+
+(γk)1≤i≤N
+
+for 1 ≤ i ≤ N do // Initial solutions 
+
+τk, γ k ←− ShortestDubins( Sk, E k, V, ρ min )
+
+end 
+
+τmin ←− max 1≤i≤N (τk)
+
+// Ascending priority queue 
+
+Q ←− [τmin ; R · τmin ]
+
+Best ←− ∅ 
+
+repeat foreach untested τ ∈ Q do 
+
+// Compute all solutions for agiven length 
+
+for 1 ≤ i ≤ N do 
+
+Lk ←− FitDubins( Sk, E k, V, ρ min , τ )
+
+end 
+
+// If one Lk is empty, this loop is skipped 
+
+foreach Combination (γ1, . . . , γ N ) of 
+
+L1 × · · · × LN do if AreSeparated( δ, γ 1, . . . , γ N ) then 
+
+Best ←− τ, (γ1, . . . , γ N )
+
+break twice 
+
+end end 
+
+Mark τ as tested 
+
+end if Best is not empty then 
+
+Remove from Q all τ > Best[0] 
+
+end for Each successive pair τi, τ i+1 ∈ Q do 
+
+∆τ ←− τi+1 − τi
+
+if ∆τ > w then for 1 ≤ j ≤ b do Add τi + j ∆τb + 1 to Q
+
+end end until Stop condition 
+
+return Best compute its set of possible paths Lk, and each conflict check is independent of the others. Hence, if we consider a cen-tralized multiprocessor unit, we may use at most |Γ|2N (N −1) 2
+
+cores to compute the aforementioned ca,b,g,h .
+
+C. Algorithm extensions 
+
+The capabilities of algorithm 1 can be extended by a clever use of its formulation. The first one is that it is possible to take into account a constant uniform wind W . Since the flight time τ is set before planning the paths, it is possible to update the ending point by integrating the wind deviation. This amounts to replacing Ek by Ek − W τ , thereby anticipating the wind induced drift. Note that since the same linear change of referential is applied to every aircraft, conflict detection does not need to be changed. Regarding the initial guess for τmin , there exist methods to compute it in presence of uniform wind, for instance [34]. The second modification consists in incorporating tempo-ral separation at arrival. Assume that aircraft k ∈ [2 , N ]
+
+must reach their destination with a time difference ∆tk with respect to the previous aircraft k − 1. This is implemented by replacing τ in the call of FitDubins by τ + Pk−1 
+
+> j=1
+
+∆tj .One use case of such modification is landing sequencing. V. S IMULATIONS 
+
+The method is tested in simulation, based on three main types of scenarios: transition between formations, random state to formation and random state to another random state, respectively referred as Formation, RNG to Formation and Full RNG in Figure 3. Transitions between formations can be grouped into two subcategories: switch from a formation to a different one with same orientation, or perform a turn with the same formation. A total of 22 formations were considered, ranging from circular and linear to rectangular and their variants. A random initial state is generated by sampling points in an area, then using repulsion forces until minimal required separation is achieved, and finally orientations are randomly picked. For a final state, it can be generated like the initial state, it can be uniformly shifted, or it can be generated based on disks: for each initial point, its associated final point is sampled at a given distance from it, then orientation is randomly picked. The repulsion forces are still applied to avoid trivially unfeasible cases. Note that this repulsion force may push the points out of their initial area. We based our simulations on a fixed-wing drone of 1 m 
+
+wingspan (equivalent to a Parrot Disco). The airspeed is set to 15 m /s, minimal turn radius to 40 m and minimal separation to 80 m . When using random positions, initial sampling was done in a 1 × 1 km square before applying repulsion until 240 m of separation was achieved; this allows each aircraft to do a full circle at minimal turn radius without loss of separation. When using positions in formation, the distance is set to 120 m . The distance between initial and final formations is of 1 km . No wind was considered in these tests. Regarding the algorithm parameters, we set R = 3 ,
+
+b = 2 and w = max(0 .1 s , R × τmin × 10 −4). The stop conditions values are 300 iterations maximum and a 60 s 
+
+timeout. The solver has been benchmarked on a 12th Gen Intel(R) Core(TM) i7-1255U, using 12 threads. An example of solutions produced by the solver is given in Figure 5, with two different wind conditions: 0 and 10 m /s.Tests have been done for fleets of sizes from 3 to 20 air-craft, with 5230 cases each: 300 fully random, 530 formation transitions and 4400 random to formation. The proportion of successful cases per aircraft number and problem type is reported in Figure 3. Success rate starts to decrease after 12 aircraft. Two main reasons can be given for failures. First, formation cases use tighter margins on endpoints and do 
+
+Fig. 3: Success rate as function of aircraft number and type of test case 
+
+Fig. 4: Computation time log distribution as function of aircraft number not optimize aircraft reordering between formations, instead using an arbitrary one which may be extra difficult. Second, randomly selected initial points may hinder synchronicity, especially when the arrivals are tightly ordered. Nevertheless, for 12 aircraft and less, no failures were reported, and the rate stays above 95% when testing with 20 aircraft. Computation times are reported in Figure 4. We measured the main thread time since parallelism has been exploited in our implementation. For 9 aircraft and below, 99% of cases are solved in less than 1 s . For 20 aircraft, 90% of cases were each completed in less than 13 s . A detailed analysis reveals that the 60 s timeout is reached only for some cases with 17 aircraft or more. The number of iterations is never a limiting factor; the maximal value measured is 87 iterations. The most difficult cases are the transitions between forma-tions, then random to formations and finally fully random; the computation times with 20 aircraft average to 5065 ms ,
+
+3877 ms and 417 ms respectively. It can be explained by the lack of geometric separation between trajectories with formations, as it incurs the use of more time-consuming algorithms for detecting potential conflicts. VI. C ONCLUSIONS AND FUTURE WORKS 
+
+In this article we showed a method to solve synchronous wind-aware path planning for a fleet of constant speed Dubins vehicles, and benchmarked it from 3 to 20 aircraft. On average, even up to 20 aircraft, the computation time is 
+
+8 s for a success rate superior to 95%. The method enforces synchronicity by setting the travel time first, then creating a finite set of paths per aircraft satisfying the constraints, Fig. 5: Demonstration of conflict free path planning without and with wind, from circular to chevron formations. and finally seeking a conflict-free combination, which is a solution to the fleet path planning problem. This algorithm has several limitations, the first one being that there are no guarantees to find a solution. This may be mitigated by adding possible paths and reducing margins, but these come with computational and safety costs. Secondly, computational cost scales exponentially with the number of aircraft, limiting scalability. This method was not made to replace swarm-like tactics used to handle large amounts of UAVs, but the time to find a solution can be an obstacle depending on the available hardware and expected reactivity. Lastly, the paths presented here are based on Dubins model. If it simplifies greatly path planning, it does not match an actual aircraft model, since lateral acceleration is discontinu-ous. Given how important separation between aircraft is, we wish that path following is as precise as possible. There are multiple ways of improving this method. One could integrate vertical movement [35], or incorporate static obstacle avoidance [36]. Computation time could be im-proved by studying how conflicts between paths evolve as they are continuously deformed to fit a different length, by using homotopy based methods for instance [37]. Such insight could limit the need to recompute the ILP coefficients defined in subsection IV-B. Lastly, it is possible to locally improve the solution by smoothing without violating the satisfied constraints, using B-Splines [21] or Pythagorean Hodograph splines [22], [24]. Our C++ implementation of the solver can be found at https://github.com/enacuavlab/ DubinsFleetPlanner .REFERENCES 
+
+[1] E. Salam´ ı, C. Barrado, and E. Pastor, “Uav flight experiments applied to the remote sensing of vegetated areas,” Remote Sensing , vol. 6, no. 11, pp. 11 051– 11 081, Nov. 2014, ISSN : 2072-4292. DOI : 10.3390/ rs61111051 .[2] F. Gonzalez, M. P. Castro, P. Narayan, R. Walker, and L. Zeller, “Development of an autonomous unmanned aerial system to collect time-stamped samples from the atmosphere and localize potential pathogen sources,” 
+
+Journal of Field Robotics , vol. 28, no. 6, pp. 961–976, Oct. 2011, ISSN : 1556-4967. DOI : 10.1002/rob. 20417 .[3] L. Techy, C. A. Woolsey, and D. G. Schmale, “Path planning for efficient uav coordination in aerobiologi-cal sampling missions,” in 2008 47th IEEE Conference on Decision and Control , IEEE, 2008, pp. 2814–2819. 
+
+> DOI
+
+: 10.1109/cdc.2008.4739456 .[4] D. Casbeer, R. Beard, T. McLain, S.-M. Li, and R. Mehra, “Forest fire monitoring with multiple small uavs,” in Proceedings of the 2005, American Control Conference, 2005. , 2005, 3530–3535 vol. 5. DOI : 10. 1109/ACC.2005.1470520 .[5] L. R. Salinas, G. Tzoumas, L. Pitonakova, and S. Hauert, “Digital twin technology for wildfire mon-itoring using uav swarms,” in 2023 International Conference on Unmanned Aircraft Systems (ICUAS) ,IEEE, Jun. 2023, pp. 586–593. DOI : 10 . 1109 / icuas57906.2023.10155819 .[6] H. Zhang, B. Xin, L.-h. Dou, J. Chen, and K. Hirota, “A review of cooperative path planning of an un-manned aerial vehicle group,” Frontiers of Information Technology & Electronic Engineering , vol. 21, no. 12, pp. 1671–1694, Dec. 2020, ISSN : 2095-9230. DOI :
+
+10.1631/fitee.2000228 .[7] S.-J. Chung, A. A. Paranjape, P. Dames, S. Shen, and V. Kumar, “A survey on aerial swarm robotics,” IEEE Transactions on Robotics , vol. 34, no. 4, pp. 837– 855, 4 Aug. 2018, ISSN : 1941-0468. DOI : 10.1109/ tro.2018.2857475 .[8] Y. Liu and R. Bucknall, “A survey of formation control and motion planning of multiple unmanned vehicles,” Robotica , vol. 36, no. 7, pp. 1019–1047, Mar. 2018, ISSN : 1469-8668. DOI : 10 . 1017 / s0263574718000218 .[9] M. Pellazar, “Vehicle route planning with con-straints using genetic algorithms,” in Proceedings of the IEEE 1998 National Aerospace and Electronics Conference. NAECON 1998. Celebrating 50 Years (Cat. No.98CH36185) , ser. NAECON-98, IEEE, 1998, pp. 392–399. DOI : 10 . 1109 / naecon . 1998 . 710141 .[10] H. Shorakaei, M. Vahdani, B. Imani, and A. Gholami, “Optimal cooperative path planning of unmanned aerial vehicles by a parallel genetic algorithm,” Robot-ica , vol. 34, no. 4, pp. 823–836, Jul. 2014, ISSN : 1469-8668. DOI : 10.1017/s0263574714001878 .[11] H. Su, H. Yun, J. He, F. Zhang, and Y. Wang, “Multi-aircraft path planning method based on cooperative search a-star algorithm,” 2019 IEEE International Conference on Unmanned Systems (ICUS) , 2019. DOI :
+
+10.1109/icus48101.2019.8995994 .[12] T. McLain and R. Beard, “Trajectory planning for coordinated rendezvous of unmanned air vehicles,” in 
+
+AIAA Guidance, Navigation, and Control Conference and Exhibit , American Institute of Aeronautics and Astronautics, Aug. 2000. DOI : 10.2514/6.2000-4369 .[13] L. Babel, “Coordinated target assignment and uav path planning with timing constraints,” Journal of Intelli-gent & Robotic Systems , vol. 94, no. 3–4, pp. 857– 869, Jul. 2018, ISSN : 1573-0409. DOI : 10 . 1007 / s10846-018-0910-9 .[14] H. Chen, X. Wang, L. Shen, Z. Li, Z. Liu, and Y. Yu, “Formation reconfiguration for fixed-wing uavs: A coordinated path following approach,” Journal of Intelligent and Robotic Systems , vol. 102, no. 1, Apr. 2021, ISSN : 1573-0409. DOI : 10.1007/s10846-021-01384-4 .[15] X. Wang, L. Shen, Z. Liu, et al. , “Coordinated flight control of miniature fixed-wing uav swarms: Methods and experiments,” Science China Information Sci-ences , vol. 62, no. 11, Sep. 2019, ISSN : 1869-1919. 
+
+> DOI
+
+: 10.1007/s11432-018-9887-5 .[16] Z. Liu, X. Wang, L. Shen, et al. , “Mission-oriented miniature fixed-wing uav swarms: A multilayered and distributed architecture,” IEEE Transactions on Sys-tems, Man, and Cybernetics: Systems , vol. 52, no. 3, pp. 1588–1602, Mar. 2022, ISSN : 2168-2232. DOI :
+
+10.1109/tsmc.2020.3033935 .[17] Y. Song, S. Lim, H. Myung, et al. , “Distributed swarm system with hybrid-flocking control for small fixed-wing uavs: Algorithms and flight experiments,” Expert Systems with Applications , vol. 229, p. 120 457, Nov. 2023, ISSN : 0957-4174. DOI : 10.1016/j.eswa. 2023.120457 .[18] V. Madabushi, Y. Kopel, A. Polevoy, and J. Moore, “Dense fixed-wing swarming using receding-horizon nmpc,” in 2025 IEEE International Conference on Robotics and Automation (ICRA) , IEEE, May 2025, pp. 8656–8662. DOI : 10 . 1109 / icra55743 . 2025.11127916 .[19] M. Shanmugavel, A. Tsourdos, R. Zbikowski, and B. White, “Path planning of multiple uavs with clothoid curves in two dimensions,” IFAC Proceedings Vol-umes , vol. 40, no. 7, pp. 461–466, 2007, ISSN : 1474-6670. DOI : 10.3182/20070625- 5- fr- 2916. 00079 .[20] W. Yu, W. Shuo, W. Rui, and T. Min, “Generation of temporal–spatial bezier curve for simultaneous arrival of multiple unmanned vehicles,” Information Sciences ,vol. 418–419, pp. 34–45, Dec. 2017, ISSN : 0020-0255. 
+
+> DOI
+
+: 10.1016/j.ins.2017.07.031 .[21] L. Shumway and R. W. Beard, “Time-synchronized b-spline path planning for multi-agent uav systems with fixed speed profiles,” in 2025 International Conference on Unmanned Aircraft Systems (ICUAS) , IEEE, May 2025, pp. 272–278. DOI : 10.1109/icuas65942. 2025.11007834 .[22] M. Shanmugavel, A. Tsourdos, R. Zbikowski, and B. White, “3d path planning for multiple uavs us-ing pythagorean hodograph curves,” in AIAA Guid-ance, Navigation and Control Conference and Exhibit ,American Institute of Aeronautics and Astronautics, Jun. 2007. DOI : 10.2514/6.2007-6455 .[23] V. Cichella, R. Choe, B. S. Mehdi, et al. , “Trajectory generation and collision avoidance for safe operation of cooperating uavs,” in AIAA Guidance, Navigation, and Control Conference , American Institute of Aero-nautics and Astronautics, Jan. 2014. DOI : 10.2514/ 6.2014-0972 .[24] R. Choe, J. Puig-Navarro, V. Cichella, E. Xargay, and N. Hovakimyan, “Cooperative trajectory generation using pythagorean hodograph b´ ezier curves,” Journal of Guidance, Control, and Dynamics , vol. 39, no. 8, pp. 1744–1763, Aug. 2016, ISSN : 1533-3884. DOI :
+
+10.2514/1.g001531 .[25] L. E. Dubins, “On curves of minimal length with a constraint on average curvature, and with prescribed initial and terminal positions and tangents,” American Journal of Mathematics , vol. 79, no. 3, p. 497, Jul. 1957, ISSN : 0002-9327. DOI : 10.2307/2372560 .[Online]. Available: http://www.jstor.org/ stable/2372560 (visited on 07/02/2025). [26] M. Shanmugavel, A. Tsourdos, R. ˙ Zbikowski, and B. White, “Path planning of multiple uavs using dubins sets,” 2005. DOI : 10.2514/6.2005-5827 .[27] Q.-y. Chen, Y.-f. Lu, G.-w. Jia, Y. Li, B.-j. Zhu, and J.-c. Lin, “Path planning for uavs formation reconfigu-ration based on dubins trajectory,” Journal of Central South University , vol. 25, no. 11, pp. 2664–2676, Nov. 2018, ISSN : 2227-5223. DOI : 10.1007/s11771-018-3944-z .[28] A. K. Rao, K. P. Singh, and T. Tripathy, “Curva-ture bounded trajectories of desired lengths for adubins vehicle,” Automatica , vol. 167, p. 111 749, Sep. 2024, ISSN : 0005-1098. DOI : 10 . 1016 / j . automatica.2024.111749 .[29] Z. Chen, K. Wang, and H. Shi, “Elongation of curvature-bounded path,” Automatica , vol. 151, p. 110 936, May 2023, ISSN : 0005-1098. DOI : 10 . 1016/j.automatica.2023.110936 .[30] W. Yao, N. Qi, J. Zhao, and N. Wan, “Bounded curvature path planning with expected length for dubins vehicle entering target manifold,” Robotics and Autonomous Systems , vol. 97, pp. 217–229, Nov. 2017, ISSN : 0921-8890. DOI : 10.1016/j.robot. 2017 . 09 . 003 . [Online]. Available: https : / / www . sciencedirect . com / science / article/pii/S092188901730132X .[31] R. P. Brent, Algorithms for minimization without derivatives . Prentice-Hall, 1973. [32] E. R. Hansen, “Global optimization using interval analysis: The one-dimensional case,” Journal of Op-timization Theory and Applications , vol. 29, no. 3, pp. 331–344, 1979, ISSN : 1573-2878. DOI : 10 . 1007/BF00933139 .[33] Q. Huangfu and J. A. J. Hall, “Parallelizing the dual revised simplex method,” Mathematical Programming Computation , vol. 10, no. 1, pp. 119–142, 2018, ISSN :1867-2957. DOI : 10.1007/s12532-017-0130-5. [Online]. Available: https://doi.org/10. 1007/s12532-017-0130-5 .[34] F. Wu and Z. Chen, “Minimum-time paths for du-bins airplane in steady wind,” Journal of Guidance, Control, and Dynamics , pp. 1–13, Aug. 2025, ISSN :1533-3884. DOI : 10.2514/1.g008932 .[35] M. Owen, R. W. Beard, and T. W. McLain, “Imple-menting dubins airplane paths on fixed-wing uavs*,” in Handbook of Unmanned Aerial Vehicles , K. P. Valavanis and G. J. Vachtsevanos, Eds. Dordrecht: Springer Netherlands, Aug. 2014, pp. 1677–1701, 
+
+> ISBN
+
+: 978-90-481-9707-1. DOI : 10 . 1007 / 978 -90-481-9707-1_120 .[36] B. Jha, Z. Chen, and T. Shima, “Time-optimal dubins trajectory for moving obstacle avoidance,” 
+
+Automatica , vol. 146, p. 110 637, 2022, ISSN :0005-1098. DOI : https : / / doi . org / 10 . 1016 / j . automatica . 2022 .110637 . [Online]. Available: https : / / www . sciencedirect . com / science / article / pii/S0005109822005015 .[37] H. Vazquez-Leal, A. Marin-Hernandez, Y. Khan, et al. , “Exploring collision-free path planning by using homotopy continuation methods,” Applied Mathemat-ics and Computation , vol. 219, no. 14, pp. 7514– 7532, 2013, ISSN : 0096-3003. DOI : 10 . 1016 / j . amc.2013.01.038 . [Online]. Available: https: / / www . sciencedirect . com / science / article/pii/S0096300313000775 .
