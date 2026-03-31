@@ -1,6 +1,48 @@
 {
-  "generated_at": "2026-03-30T20:13:22.447799+00:00",
-  "updated_date": "20260330",
+  "generated_at": "2026-03-31T19:55:40.927954+00:00",
+  "updated_date": "20260331",
   "carryover_days": 9,
-  "items": []
+  "items": [
+    {
+      "id": "2603.28522v1",
+      "title": "RAD-LAD: Rule and Language Grounded Autonomous Driving in Real-Time",
+      "abstract": "We present LAD, a real-time language--action planner with an interruptible architecture that produces a motion plan in a single forward pass (~20 Hz) or generates textual reasoning alongside a motion plan (~10 Hz). LAD is fast enough for real-time closed-loop deployment, achieving ~3x lower latency than prior driving language models while setting a new learning-based state of the art on nuPlan Test14-Hard and InterPlan. We also introduce RAD, a rule-based planner designed to address structural limitations of PDM-Closed. RAD achieves state-of-the-art performance among rule-based planners on nuPlan Test14-Hard and InterPlan. Finally, we show that combining RAD and LAD enables hybrid planning that captures the strengths of both approaches. This hybrid system demonstrates that rules and learning provide complementary capabilities: rules support reliable maneuvering, while language enables adaptive and explainable decision-making.",
+      "authors": [
+        "Anurag Ghosh",
+        "Srinivasa Narasimhan",
+        "Manmohan Chandraker",
+        "Francesco Pittaluga"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "cs.CV",
+        "cs.LG"
+      ],
+      "published": "2026-03-30T14:50:37+00:00",
+      "link": "https://arxiv.org/pdf/2603.28522v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "real-time motion planning for autonomous driving using language models",
+      "llm_evidence_cn": "基于语言模型的自动驾驶实时运动规划",
+      "llm_evidence": "基于语言模型的自动驾驶实时运动规划",
+      "canonical_evidence": "基于语言模型的自动驾驶实时运动规划",
+      "llm_tldr_en": "Presents a real-time language-action planner for autonomous driving that generates motion plans and reasoning.",
+      "llm_tldr_cn": "提出一种用于自动驾驶的实时语言动作规划器，可生成运动规划和文本推理。",
+      "llm_tldr": "提出一种用于自动驾驶的实时语言动作规划器，可生成运动规划和文本推理。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "carryover_cache",
+      "paper_id": "2603.28522v1",
+      "carry_days": 1
+    }
+  ]
 }

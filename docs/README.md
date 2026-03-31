@@ -6,67 +6,73 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-03-30
-- 运行时间：2026-03-30 20:14:57 UTC
+- 最新运行日期：2026-03-31
+- 运行时间：2026-03-31 19:57:38 UTC
 - 运行状态：成功
-- 本次总论文数：15
-- 精读区：4
+- 本次总论文数：17
+- 精读区：6
 - 速读区：11
 
 ### 今日简报（AI）
-今日精选 15 篇前沿论文，深度聚焦毫米波 V2I 通信感知与轨迹预测的安全性攻防。
-重点关注利用多模态数据解决遮挡下的波束预测难题，以及针对轨迹预测模型的决策基黑盒对抗攻击研究。
-建议关注多模态大模型加速技术及合成数据集在复杂场景感知中的应用潜力。
-- 详情：[/202603/30/README](/202603/30/README)
+今日聚焦 17 篇前沿论文，深度解析运动预测与视觉导航的跨代演进。
+满分力作 SHARP 重新定义了流式预测的精准度，语言引导的世界模型正成为自动驾驶决策的核心。
+建议优先研读大模型与物理环境建模的融合方案，把握具身智能的最新风向。
+- 详情：[/202603/31/README](/202603/31/README)
 
 ### 精读区论文标签
-1. [Occlusion-Aware Multimodal Beam Prediction and Pose Estimation for mmWave V2I](/202603/30/2603.25799v1-occlusion-aware-multimodal-beam-prediction-and-pose-estimation-for-mmwave-v2i)  
+1. [SHARP: Short-Window Streaming for Accurate and Robust Prediction in Motion Forecasting](/202603/31/2603.28091v1-sharp-short-window-streaming-for-accurate-and-robust-prediction-in-motion-forecasting)  
+   标签：评分：10.0/10、query:tp
+   evidence：动态交通中的运动预测与轨迹预测
+2. [Language-Conditioned World Modeling for Visual Navigation](/202603/31/2603.26741v1-language-conditioned-world-modeling-for-visual-navigation)  
    标签：评分：9.0/10、query:tp
-   evidence：用于车辆轨迹解释和位置预测的多模态学习
-2. [DTP-Attack: A decision-based black-box adversarial attack on trajectory prediction](/202603/30/2603.26462v1-dtp-attack-a-decision-based-black-box-adversarial-attack-on-trajectory-prediction)  
+   evidence：具身智能体的开环轨迹预测
+3. [Predictive Modeling in AUV Navigation: A Perspective from Kalman Filtering](/202603/31/2603.27422v1-predictive-modeling-in-auv-navigation-a-perspective-from-kalman-filtering)  
    标签：评分：9.0/10、query:tp
-   evidence：针对自动驾驶轨迹预测系统的黑盒对抗攻击
-3. [Think over Trajectories: Leveraging Video Generation to Reconstruct GPS Trajectories from Cellular Signaling](/202603/30/2603.26610v1-think-over-trajectories-leveraging-video-generation-to-reconstruct-gps-trajectories-from-cellular-signaling)  
+   evidence：自主水下航行器轨迹预测
+4. [From Vessel Trajectories to Safety-Critical Encounter Scenarios: A Generative AI Framework for Autonomous Ship Digital Testing](/202603/31/2603.28067v1-from-vessel-trajectories-to-safety-critical-encounter-scenarios-a-generative-ai-framework-for-autonomous-ship-digital-testing)  
+   标签：评分：9.0/10、query:tp
+   evidence：自主船舶AIS数据的生成式轨迹建模
+5. [CTS-PLL: A Robust and Anytime Framework for Collaborative Task Sequencing and Multi-Agent Path Finding](/202603/31/2603.25121v1-cts-pll-a-robust-and-anytime-framework-for-collaborative-task-sequencing-and-multi-agent-path-finding)  
    标签：评分：8.0/10、query:tp
-   evidence：重建GPS轨迹与轨迹表示学习
-4. [Tunable Soft Equivariance with Guarantees](/202603/30/2603.26657v1-tunable-soft-equivariance-with-guarantees)  
+   evidence：密集环境中的多智能体路径规划与避障
+6. [Unified Number-Free Text-to-Motion Generation Via Flow Matching](/202603/31/2603.27040v1-unified-number-free-text-to-motion-generation-via-flow-matching)  
    标签：评分：8.0/10、query:tp
-   evidence：在人类轨迹预测任务上证明了有效性
+   evidence：多智能体运动生成与反应建模
 
 ### 速读区论文标签
-1. [Safe and wind-aware synchronous path planning for a fleet of fixed-wing constant speed aircraft](/202603/30/2603.21789v1-safe-and-wind-aware-synchronous-path-planning-for-a-fleet-of-fixed-wing-constant-speed-aircraft)  
+1. [Vega: Learning to Drive with Natural Language Instructions](/202603/31/2603.25741v2-vega-learning-to-drive-with-natural-language-instructions)  
+   标签：评分：8.0/10、query:tp
+   evidence：基于指令的驾驶轨迹生成与规划
+2. [Uni-World VLA: Interleaved World Modeling and Planning for Autonomous Driving](/202603/31/2603.27287v1-uni-world-vla-interleaved-world-modeling-and-planning-for-autonomous-driving)  
+   标签：评分：8.0/10、query:tp
+   evidence：自动驾驶中交替进行的未来帧预测与轨迹规划
+3. [E-TIDE: Fast, Structure-Preserving Motion Forecasting from Event Sequences](/202603/31/2603.27757v1-e-tide-fast-structure-preserving-motion-forecasting-from-event-sequences)  
+   标签：评分：8.0/10、query:tp
+   evidence：基于事件序列的高速动态运动预测
+4. [Data is All You Need: Markov Chain Car-Following (MC-CF) Model](/202603/31/2603.27909v1-data-is-all-you-need-markov-chain-car-following-mc-cf-model)  
+   标签：评分：8.0/10、query:tp
+   evidence：跟车行为与状态转移预测
+5. [Optimal Solutions for the Moving Target Vehicle Routing Problem with Obstacles via Lazy Branch and Price](/202603/31/2603.21880v2-optimal-solutions-for-the-moving-target-vehicle-routing-problem-with-obstacles-via-lazy-branch-and-price)  
    标签：评分：7.0/10、query:tp
-   evidence：具有间隔约束的飞机集群路径规划
-2. [SpecEyes: Accelerating Agentic Multimodal LLMs via Speculative Perception and Planning](/202603/30/2603.23483v1-speceyes-accelerating-agentic-multimodal-llms-via-speculative-perception-and-planning)  
+   evidence：多个智能体拦截运动目标的轨迹规划
+6. [Infinite Gaze Generation for Videos with Autoregressive Diffusion](/202603/31/2603.24938v1-infinite-gaze-generation-for-videos-with-autoregressive-diffusion)  
    标签：评分：7.0/10、query:tp
-   evidence：多模态大模型中用于预测执行轨迹的投机规划器
-3. [SynMVCrowd: A Large Synthetic Benchmark for Multi-view Crowd Counting and Localization](/202603/30/2603.23956v1-synmvcrowd-a-large-synthetic-benchmark-for-multi-view-crowd-counting-and-localization)  
+   evidence：原始注视轨迹的生成框架
+7. [IntentReact: Guiding Reactive Object-Centric Navigation via Topological Intent](/202603/31/2603.25382v1-intentreact-guiding-reactive-object-centric-navigation-via-topological-intent)  
    标签：评分：7.0/10、query:tp
-   evidence：大型场景下多视图人群计数与定位的合成基准
-4. [Relaxing Constraints in Anonymous Multi Agent Path Finding for Large Agents](/202603/30/2603.24442v1-relaxing-constraints-in-anonymous-multi-agent-path-finding-for-large-agents)  
+   evidence：通过拓扑意图和目标推理引导导航
+8. [ETA-VLA: Efficient Token Adaptation via Temporal Fusion and Intra-LLM Sparsification for Vision-Language-Action Models](/202603/31/2603.25766v1-eta-vla-efficient-token-adaptation-via-temporal-fusion-and-intra-llm-sparsification-for-vision-language-action-models)  
    标签：评分：7.0/10、query:tp
-   evidence：连续空间中多智能体路径搜索的轨迹规划
-5. [Distributed MPC For Coordinated Path-Following](/202603/30/2603.24748v1-distributed-mpc-for-coordinated-path-following)  
-   标签：评分：7.0/10、query:tp
-   evidence：用于协同路径跟随的分布式模型预测控制
-6. [Integrated Multi-Drone Task Allocation, Sequencing, and Optimal Trajectory Generation in Obstacle-Rich 3D Environments](/202603/30/2603.24908v1-integrated-multi-drone-task-allocation-sequencing-and-optimal-trajectory-generation-in-obstacle-rich-3d-environments)  
-   标签：评分：7.0/10、query:tp
-   evidence：障碍物密集空间中四旋翼机队的安全轨迹生成
-7. [Can a Robot Walk the Robotic Dog: Triple-Zero Collaborative Navigation for Heterogeneous Multi-Agent Systems](/202603/30/2603.21723v2-can-a-robot-walk-the-robotic-dog-triple-zero-collaborative-navigation-for-heterogeneous-multi-agent-systems)  
+   evidence：用于自动驾驶的时间推理与视觉-语言-动作模型
+9. [Cross-Modal Reinforcement Learning for Navigation with Degraded Depth Measurements](/202603/31/2603.22182v1-cross-modal-reinforcement-learning-for-navigation-with-degraded-depth-measurements)  
    标签：评分：6.0/10、query:tp
-   evidence：利用多模态大语言模型指导路径规划
-8. [VLGOR: Visual-Language Knowledge Guided Offline Reinforcement Learning for Generalizable Agents](/202603/30/2603.22892v1-vlgor-visual-language-knowledge-guided-offline-reinforcement-learning-for-generalizable-agents)  
+   evidence：非结构化环境下无碰撞导航的跨模态学习
+10. [COVTrack++: Learning Open-Vocabulary Multi-Object Tracking from Continuous Videos via a Synergistic Paradigm](/202603/31/2603.24016v1-covtrack-learning-open-vocabulary-multi-object-tracking-from-continuous-videos-via-a-synergistic-paradigm)  
    标签：评分：6.0/10、query:tp
-   evidence：视觉语言模型预测未来状态和动作
-9. [PoseDriver: A Unified Approach to Multi-Category Skeleton Detection for Autonomous Driving](/202603/30/2603.23215v2-posedriver-a-unified-approach-to-multi-category-skeleton-detection-for-autonomous-driving)  
+   evidence：视频中的多目标跟踪与关联
+11. [ELITE: Experiential Learning and Intent-Aware Transfer for Self-improving Embodied Agents](/202603/31/2603.24018v1-elite-experiential-learning-and-intent-aware-transfer-for-self-improving-embodied-agents)  
    标签：评分：6.0/10、query:tp
-   evidence：驾驶场景中的目标骨架检测
-10. [StateLinFormer: Stateful Training Enhancing Long-term Memory in Navigation](/202603/30/2603.23571v1-statelinformer-stateful-training-enhancing-long-term-memory-in-navigation)  
-   标签：评分：6.0/10、query:tp
-   evidence：导航智能的长时记忆与持续适应
-11. [See, Remember, Explore: A Benchmark and Baselines for Streaming Spatial Reasoning](/202603/30/2603.23864v1-see-remember-explore-a-benchmark-and-baselines-for-streaming-spatial-reasoning)  
-   标签：评分：6.0/10、query:tp
-   evidence：具有可控轨迹的流式空间推理基准
+   evidence：具身智能体的意图感知迁移与动作规划
 
 
 <div class="dpr-home-promo-card">

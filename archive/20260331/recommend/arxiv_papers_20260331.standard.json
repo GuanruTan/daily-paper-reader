@@ -1,0 +1,678 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-03-31T19:55:40.926751+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 11,
+    "deep_cap": 6,
+    "deep_selected": 6,
+    "quick_candidates": 32,
+    "quick_skim_target": 11,
+    "quick_selected": 11
+  },
+  "deep_dive": [
+    {
+      "id": "2603.28091v1",
+      "title": "SHARP: Short-Window Streaming for Accurate and Robust Prediction in Motion Forecasting",
+      "abstract": "In dynamic traffic environments, motion forecasting models must be able to accurately estimate future trajectories continuously. Streaming-based methods are a promising solution, but despite recent advances, their performance often degrades when exposed to heterogeneous observation lengths. To address this, we propose a novel streaming-based motion forecasting framework that explicitly focuses on evolving scenes. Our method incrementally processes incoming observation windows and leverages an instance-aware context streaming to maintain and update latent agent representations across inference steps. A dual training objective further enables consistent forecasting accuracy across diverse observation horizons. Extensive experiments on Argoverse 2, nuScenes, and Argoverse 1 demonstrate the robustness of our approach under evolving scene conditions and also on the single-agent benchmarks. Our model achieves state-of-the-art performance in streaming inference on the Argoverse 2 multi-agent benchmark, while maintaining minimal latency, highlighting its suitability for real-world deployment.",
+      "authors": [
+        "Alexander Prutsch",
+        "Christian Fruhwirth-Reisinger",
+        "David Schinagl",
+        "Horst Possegger"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "published": "2026-03-30T06:47:19+00:00",
+      "link": "https://arxiv.org/pdf/2603.28091v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "motion forecasting and trajectory prediction in dynamic traffic",
+      "llm_evidence_cn": "动态交通中的运动预测与轨迹预测",
+      "llm_evidence": "动态交通中的运动预测与轨迹预测",
+      "canonical_evidence": "动态交通中的运动预测与轨迹预测",
+      "llm_tldr_en": "Proposes a streaming-based motion forecasting framework for accurate and robust trajectory prediction.",
+      "llm_tldr_cn": "提出一种基于流式的运动预测框架，用于准确且鲁棒的轨迹预测。",
+      "llm_tldr": "提出一种基于流式的运动预测框架，用于准确且鲁棒的轨迹预测。",
+      "llm_tags": [
+        "query:tp:composite"
+      ],
+      "matched_query_tag": "query:tp:composite",
+      "matched_query_text": "Papers central to 轨迹预测（车辆、行人、船舶、飞机等）相关的论文，考虑密集场景、目标意图、多智能体、轨迹表示学习等概念, especially work that connects or combines: trajectory prediction for autonomous agents; pedestrian trajectory prediction in crowded scenes; maritime vessel trajectory and path prediction algorithms; multi-agent trajectory forecasting and interaction modeling; target intent and goal estimation for trajectory prediction; trajectory representation learning and feature extraction; study of pedestrian and vehicle trajectory prediction models; trajectory prediction in complex maritime environments; deep learning techniques for intent aware trajectory forecasting; trajectory representation learning based on multimodal large language model.",
+      "matched_requirement_id": "req-composite-tp",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.26741v1",
+      "title": "Language-Conditioned World Modeling for Visual Navigation",
+      "abstract": "We study language-conditioned visual navigation (LCVN), in which an embodied agent is asked to follow a natural language instruction based only on an initial egocentric observation. Without access to goal images, the agent must rely on language to shape its perception and continuous control, making the grounding problem particularly challenging. We formulate this problem as open-loop trajectory prediction conditioned on linguistic instructions and introduce the LCVN Dataset, a benchmark of 39,016 trajectories and 117,048 human-verified instructions that supports reproducible research across a range of environments and instruction styles. Using this dataset, we develop LCVN frameworks that link language grounding, future-state prediction, and action generation through two complementary model families. The first family combines LCVN-WM, a diffusion-based world model, with LCVN-AC, an actor-critic agent trained in the latent space of the world model. The second family, LCVN-Uni, adopts an autoregressive multimodal architecture that predicts both actions and future observations. Experiments show that these families offer different advantages: the former provides more temporally coherent rollouts, whereas the latter generalizes better to unseen environments. Taken together, these observations point to the value of jointly studying language grounding, imagination, and policy learning in a unified task setting, and LCVN provides a concrete basis for further investigation of language-conditioned world models. The code is available at https://github.com/F1y1113/LCVN.",
+      "authors": [
+        "Yifei Dong",
+        "Fengyi Wu",
+        "Yilong Dai",
+        "Lingdong Kong",
+        "Guangyu Chen",
+        "Xu Zhu",
+        "Qiyu Hu",
+        "Tianyu Wang",
+        "Johnalbert Garnica",
+        "Feng Liu",
+        "Siyu Huang",
+        "Qi Dai",
+        "Zhi-Qi Cheng"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.RO"
+      ],
+      "published": "2026-03-23T04:10:14+00:00",
+      "link": "https://arxiv.org/pdf/2603.26741v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "open-loop trajectory prediction for embodied agents",
+      "llm_evidence_cn": "具身智能体的开环轨迹预测",
+      "llm_evidence": "具身智能体的开环轨迹预测",
+      "canonical_evidence": "具身智能体的开环轨迹预测",
+      "llm_tldr_en": "Formulates visual navigation as language-conditioned trajectory prediction using a new LCVN dataset.",
+      "llm_tldr_cn": "将视觉导航建模为受语言指令约束的轨迹预测问题，并发布了LCVN数据集。",
+      "llm_tldr": "将视觉导航建模为受语言指令约束的轨迹预测问题，并发布了LCVN数据集。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.27422v1",
+      "title": "Predictive Modeling in AUV Navigation: A Perspective from Kalman Filtering",
+      "abstract": "We present a safety-oriented framework for autonomous underwater vehicles (AUVs) that improves localization accuracy, enhances trajectory prediction, and supports efficient search operations during communication loss. Acoustic signals emitted by the AUV are detected by a network of fixed buoys, which compute Time-Difference-of-Arrival (TDOA) range-difference measurements serving as position observations. These observations are subsequently fused with a Kalman-based prediction model to obtain continuous, noise-robust state estimates. The combined method achieves significantly better localization precision and trajectory stability than TDOA-only baselines.   Beyond real-time tracking, our framework offers targeted search-and-recovery capability by predicting post-disconnection motion and explicitly modeling uncertainty growth. The search module differentiates between continued navigation and propulsion failure, allowing search resources to be deployed toward the most probable recovery region. Our framework fuses multi-buoy acoustic data with Kalman filtering and uncertainty propagation to maintain navigation accuracy and yield robust search-region definitions during communication loss.",
+      "authors": [
+        "Zizhan Tang",
+        "Yao Liu",
+        "Jessica Liu"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-28T21:47:22+00:00",
+      "link": "https://arxiv.org/pdf/2603.27422v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "trajectory prediction for autonomous underwater vehicles",
+      "llm_evidence_cn": "自主水下航行器轨迹预测",
+      "llm_evidence": "自主水下航行器轨迹预测",
+      "canonical_evidence": "自主水下航行器轨迹预测",
+      "llm_tldr_en": "Improves AUV localization and trajectory stability using Kalman-based prediction models.",
+      "llm_tldr_cn": "利用卡尔曼滤波预测模型提升自主水下航行器的定位精度与轨迹稳定性。",
+      "llm_tldr": "利用卡尔曼滤波预测模型提升自主水下航行器的定位精度与轨迹稳定性。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "maritime vessel trajectory and path prediction algorithms",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.28067v1",
+      "title": "From Vessel Trajectories to Safety-Critical Encounter Scenarios: A Generative AI Framework for Autonomous Ship Digital Testing",
+      "abstract": "Digital testing has emerged as a key paradigm for the development and verification of autonomous maritime navigation systems, yet the availability of realistic and diverse safety-critical encounter scenarios remains limited. Existing approaches either rely on handcrafted templates, which lack realism, or extract cases directly from historical data, which cannot systematically expand rare high-risk situations.   This paper proposes a data-driven framework that converts large-scale Automatic Identification System (AIS) trajectories into structured safety-critical encounter scenarios. The framework combines generative trajectory modeling with automated encounter pairing and temporal parameterization to enable scalable scenario construction while preserving real traffic characteristics. To enhance trajectory realism and robustness under noisy AIS observations, a multi-scale temporal variational autoencoder is introduced to capture vessel motion dynamics across different temporal resolutions.   Experiments on real-world maritime traffic flows demonstrate that the proposed method improves trajectory fidelity and smoothness, maintains statistical consistency with observed data, and enables the generation of diverse safety-critical encounter scenarios beyond those directly recorded. The resulting framework provides a practical pathway for building scenario libraries to support digital testing, benchmarking, and safety assessment of autonomous navigation and intelligent maritime traffic management systems. Code is available at https://anonymous.4open.science/r/traj-gen-anonymous-review.",
+      "authors": [
+        "Sijin Sun",
+        "Liangbin Zhao",
+        "Ming Deng",
+        "Xiuju Fu"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-03-30T06:14:04+00:00",
+      "link": "https://arxiv.org/pdf/2603.28067v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "generative trajectory modeling for autonomous ship AIS data",
+      "llm_evidence_cn": "自主船舶AIS数据的生成式轨迹建模",
+      "llm_evidence": "自主船舶AIS数据的生成式轨迹建模",
+      "canonical_evidence": "自主船舶AIS数据的生成式轨迹建模",
+      "llm_tldr_en": "Converts AIS trajectories into safety-critical encounter scenarios using generative AI for maritime testing.",
+      "llm_tldr_cn": "利用生成式人工智能将AIS轨迹转换为安全关键的遭遇场景，用于船舶数字测试。",
+      "llm_tldr": "利用生成式人工智能将AIS轨迹转换为安全关键的遭遇场景，用于船舶数字测试。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "maritime vessel trajectory and path prediction algorithms",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.25121v1",
+      "title": "CTS-PLL: A Robust and Anytime Framework for Collaborative Task Sequencing and Multi-Agent Path Finding",
+      "abstract": "The Collaborative Task Sequencing and Multi-Agent Path Finding (CTS-MAPF) problem requires agents to accomplish sequences of tasks while avoiding collisions, posing significant challenges due to its combinatorial complexity. This work introduces CTS-PLL, a hierarchical framework that extends the configuration-based CTS-MAPF planning paradigm with two key enhancements: a lock agents detection and release mechanism leveraging a complete planning method for local re-planning, and an anytime refinement procedure based on Large Neighborhood Search (LNS). These additions ensure robustness in dense environments and enable continuous improvement of solution quality. Extensive evaluations across sparse and dense benchmarks demonstrate that CTS-PLL achieves higher success rates and solution quality compared with existing methods, while maintaining competitive runtime efficiency. Real-world robot experiments further demonstrate the feasibility of the approach in practice.",
+      "authors": [
+        "Junkai Jiang",
+        "Yitao Xu",
+        "Ruochen Li",
+        "Shaobing Xu",
+        "Jianqiang Wang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-26T07:45:44+00:00",
+      "link": "https://arxiv.org/pdf/2603.25121v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "multi-agent path finding and collision avoidance in dense environments",
+      "llm_evidence_cn": "密集环境中的多智能体路径规划与避障",
+      "llm_evidence": "密集环境中的多智能体路径规划与避障",
+      "canonical_evidence": "密集环境中的多智能体路径规划与避障",
+      "llm_tldr_en": "A hierarchical framework for multi-agent path finding that ensures robustness in crowded scenarios.",
+      "llm_tldr_cn": "一种多智能体路径规划框架，确保了在密集场景下的鲁棒性。",
+      "llm_tldr": "一种多智能体路径规划框架，确保了在密集场景下的鲁棒性。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "multi-agent trajectory forecasting and interaction modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.27040v1",
+      "title": "Unified Number-Free Text-to-Motion Generation Via Flow Matching",
+      "abstract": "Generative models excel at motion synthesis for a fixed number of agents but struggle to generalize with variable agents. Based on limited, domain-specific data, existing methods employ autoregressive models to generate motion recursively, which suffer from inefficiency and error accumulation. We propose Unified Motion Flow (UMF), which consists of Pyramid Motion Flow (P-Flow) and Semi-Noise Motion Flow (S-Flow). UMF decomposes the number-free motion generation into a single-pass motion prior generation stage and multi-pass reaction generation stages. Specifically, UMF utilizes a unified latent space to bridge the distribution gap between heterogeneous motion datasets, enabling effective unified training. For motion prior generation, P-Flow operates on hierarchical resolutions conditioned on different noise levels, thereby mitigating computational overheads. For reaction generation, S-Flow learns a joint probabilistic path that adaptively performs reaction transformation and context reconstruction, alleviating error accumulation. Extensive results and user studies demonstrate UMF' s effectiveness as a generalist model for multi-person motion generation from text. Project page: https://githubhgh.github.io/umf/.",
+      "authors": [
+        "Guanhe Huang",
+        "Oya Celiktutan"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-03-27T23:10:56+00:00",
+      "link": "https://arxiv.org/pdf/2603.27040v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "multi-agent motion generation and reaction modeling",
+      "llm_evidence_cn": "多智能体运动生成与反应建模",
+      "llm_evidence": "多智能体运动生成与反应建模",
+      "canonical_evidence": "多智能体运动生成与反应建模",
+      "llm_tldr_en": "Introduces UMF for generating motion for variable numbers of agents using flow matching.",
+      "llm_tldr_cn": "引入 UMF 框架，利用流匹配技术为可变数量的智能体生成运动轨迹。",
+      "llm_tldr": "引入 UMF 框架，利用流匹配技术为可变数量的智能体生成运动轨迹。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "multi-agent trajectory forecasting and interaction modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2603.25741v2",
+      "title": "Vega: Learning to Drive with Natural Language Instructions",
+      "abstract": "Vision-language-action models have reshaped autonomous driving to incorporate languages into the decision-making process. However, most existing pipelines only utilize the language modality for scene descriptions or reasoning and lack the flexibility to follow diverse user instructions for personalized driving. To address this, we first construct a large-scale driving dataset (InstructScene) containing around 100,000 scenes annotated with diverse driving instructions with the corresponding trajectories. We then propose a unified Vision-Language-World-Action model, Vega, for instruction-based generation and planning. We employ the autoregressive paradigm to process visual inputs (vision) and language instructions (language) and the diffusion paradigm to generate future predictions (world modeling) and trajectories (action). We perform joint attention to enable interactions between the modalities and use individual projection layers for different modalities for more capabilities. Extensive experiments demonstrate that our method not only achieves superior planning performance but also exhibits strong instruction-following abilities, paving the way for more intelligent and personalized driving systems.",
+      "authors": [
+        "Sicheng Zuo",
+        "Yuxuan Li",
+        "Wenzhao Zheng",
+        "Zheng Zhu",
+        "Jie Zhou",
+        "Jiwen Lu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.RO"
+      ],
+      "published": "2026-03-26T17:59:56+00:00",
+      "link": "https://arxiv.org/pdf/2603.25741v2",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "instruction-based trajectory generation and planning for driving",
+      "llm_evidence_cn": "基于指令的驾驶轨迹生成与规划",
+      "llm_evidence": "基于指令的驾驶轨迹生成与规划",
+      "canonical_evidence": "基于指令的驾驶轨迹生成与规划",
+      "llm_tldr_en": "Introduces Vega, a VLA model for generating driving trajectories from natural language instructions.",
+      "llm_tldr_cn": "引入Vega模型，通过自然语言指令生成驾驶轨迹并进行规划。",
+      "llm_tldr": "引入Vega模型，通过自然语言指令生成驾驶轨迹并进行规划。",
+      "llm_tags": [
+        "query:tp:composite"
+      ],
+      "matched_query_tag": "query:tp:composite",
+      "matched_query_text": "Papers central to 轨迹预测（车辆、行人、船舶、飞机等）相关的论文，考虑密集场景、目标意图、多智能体、轨迹表示学习等概念, especially work that connects or combines: trajectory prediction for autonomous agents; pedestrian trajectory prediction in crowded scenes; maritime vessel trajectory and path prediction algorithms; multi-agent trajectory forecasting and interaction modeling; target intent and goal estimation for trajectory prediction; trajectory representation learning and feature extraction; study of pedestrian and vehicle trajectory prediction models; trajectory prediction in complex maritime environments; deep learning techniques for intent aware trajectory forecasting; trajectory representation learning based on multimodal large language model.",
+      "matched_requirement_id": "req-composite-tp",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2603.21880v2",
+      "title": "Optimal Solutions for the Moving Target Vehicle Routing Problem with Obstacles via Lazy Branch and Price",
+      "abstract": "The Moving Target Vehicle Routing Problem with Obstacles (MT-VRP-O) seeks trajectories for several agents that collectively intercept a set of moving targets. Each target has one or more time windows where it must be visited, and the agents must avoid static obstacles and satisfy speed and capacity constraints. We introduce Lazy Branch-and-Price with Relaxed Continuity (Lazy BPRC), which finds optimal solutions for the MT-VRP-O. Lazy BPRC applies the branch-and-price framework for VRPs, which alternates between a restricted master problem (RMP) and a pricing problem. The RMP aims to select a sequence of target-time window pairings (called a tour) for each agent to follow, from a limited subset of tours. The pricing problem adds tours to the limited subset. Conventionally, solving the RMP requires computing the cost for an agent to follow each tour in the limited subset. Computing these costs in the MT-VRP-O is computationally intensive, since it requires collision-free motion planning between moving targets. Lazy BPRC defers cost computations by solving the RMP using lower bounds on the costs of each tour, computed via motion planning with relaxed continuity constraints. We lazily evaluate the true costs of tours as-needed. We compute a tour's cost by searching for a shortest path on a Graph of Convex Sets (GCS), and we accelerate this search using our continuity relaxation method. We demonstrate that Lazy BPRC runs up to an order of magnitude faster than two ablations.",
+      "authors": [
+        "Anoop Bhat",
+        "Geordan Gutow",
+        "Surya Singh",
+        "Zhongqiang Ren",
+        "Sivakumar Rathinam",
+        "Howie Choset"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-23T12:10:12+00:00",
+      "link": "https://arxiv.org/pdf/2603.21880v2",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "trajectories for several agents to intercept moving targets",
+      "llm_evidence_cn": "多个智能体拦截运动目标的轨迹规划",
+      "llm_evidence": "多个智能体拦截运动目标的轨迹规划",
+      "canonical_evidence": "多个智能体拦截运动目标的轨迹规划",
+      "llm_tldr_en": "Solves the moving target vehicle routing problem with obstacles for multi-agent trajectory optimization.",
+      "llm_tldr_cn": "解决了带障碍物的运动目标车辆路径问题，用于多智能体轨迹优化。",
+      "llm_tldr": "解决了带障碍物的运动目标车辆路径问题，用于多智能体轨迹优化。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "multi-agent trajectory forecasting and interaction modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.22182v1",
+      "title": "Cross-Modal Reinforcement Learning for Navigation with Degraded Depth Measurements",
+      "abstract": "This paper presents a cross-modal learning framework that exploits complementary information from depth and grayscale images for robust navigation. We introduce a Cross-Modal Wasserstein Autoencoder that learns shared latent representations by enforcing cross-modal consistency, enabling the system to infer depth-relevant features from grayscale observations when depth measurements are corrupted. The learned representations are integrated with a Reinforcement Learning-based policy for collision-free navigation in unstructured environments when depth sensors experience degradation due to adverse conditions such as poor lighting or reflective surfaces. Simulation and real-world experiments demonstrate that our approach maintains robust performance under significant depth degradation and successfully transfers to real environments.",
+      "authors": [
+        "Omkar Sawant",
+        "Luca Zanatta",
+        "Grzegorz Malczyk",
+        "Kostas Alexis"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-23T16:45:03+00:00",
+      "link": "https://arxiv.org/pdf/2603.22182v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "cross-modal learning for collision-free navigation in unstructured environments",
+      "llm_evidence_cn": "非结构化环境下无碰撞导航的跨模态学习",
+      "llm_evidence": "非结构化环境下无碰撞导航的跨模态学习",
+      "canonical_evidence": "非结构化环境下无碰撞导航的跨模态学习",
+      "llm_tldr_en": "Develops a cross-modal reinforcement learning framework for robust robot navigation under sensor degradation.",
+      "llm_tldr_cn": "开发了一种跨模态强化学习框架，用于在传感器退化时实现鲁棒的机器人导航。",
+      "llm_tldr": "开发了一种跨模态强化学习框架，用于在传感器退化时实现鲁棒的机器人导航。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2603.27287v1",
+      "title": "Uni-World VLA: Interleaved World Modeling and Planning for Autonomous Driving",
+      "abstract": "Autonomous driving requires reasoning about how the environment evolves and planning actions accordingly. Existing world-model-based approaches typically predict future scenes first and plan afterwards, resulting in open-loop imagination that may drift from the actual decision process. In this paper, we present Uni-World VLA, a unified vision-language-action (VLA) model that tightly interleaves future frame prediction and trajectory planning. Instead of generating a full world rollout before planning, our model alternates between predicting future frames and ego actions step by step, allowing planning decisions to be continuously conditioned on the imagined future observations. This interleaved generation forms a closed-loop interaction between world modeling and control, enabling more adaptive decision-making in dynamic traffic scenarios. In addition, we incorporate monocular depth information into frames to provide stronger geometric cues for world modeling, improving long-horizon scene prediction. Experiments on the NAVSIM benchmark show that our approach achieves competitive closed-loop planning performance while producing high-fidelity future frame predictions. These results demonstrate that tightly coupling world prediction and planning is a promising direction for scalable VLA driving systems.",
+      "authors": [
+        "Qiqi Liu",
+        "Huan Xu",
+        "Jingyu Li",
+        "Bin Sun",
+        "Zhihui Hao",
+        "Dangen She",
+        "Xiatian Zhu",
+        "Li Zhang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.CV"
+      ],
+      "published": "2026-03-28T14:39:51+00:00",
+      "link": "https://arxiv.org/pdf/2603.27287v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "interleaved future frame prediction and trajectory planning for autonomous driving",
+      "llm_evidence_cn": "自动驾驶中交替进行的未来帧预测与轨迹规划",
+      "llm_evidence": "自动驾驶中交替进行的未来帧预测与轨迹规划",
+      "canonical_evidence": "自动驾驶中交替进行的未来帧预测与轨迹规划",
+      "llm_tldr_en": "A unified VLA model that interleaves world modeling and trajectory planning for closed-loop autonomous driving.",
+      "llm_tldr_cn": "一种统一的VLA模型，通过交替进行世界建模和轨迹规划实现闭环自动驾驶。",
+      "llm_tldr": "一种统一的VLA模型，通过交替进行世界建模和轨迹规划实现闭环自动驾驶。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2603.24938v1",
+      "title": "Infinite Gaze Generation for Videos with Autoregressive Diffusion",
+      "abstract": "Predicting human gaze in video is fundamental to advancing scene understanding and multimodal interaction. While traditional saliency maps provide spatial probability distributions and scanpaths offer ordered fixations, both abstractions often collapse the fine-grained temporal dynamics of raw gaze. Furthermore, existing models are typically constrained to short-term windows ($\\approx$ 3-5s), failing to capture the long-range behavioral dependencies inherent in real-world content. We present a generative framework for infinite-horizon raw gaze prediction in videos of arbitrary length. By leveraging an autoregressive diffusion model, we synthesize gaze trajectories characterized by continuous spatial coordinates and high-resolution timestamps. Our model is conditioned on a saliency-aware visual latent space. Quantitative and qualitative evaluations demonstrate that our approach significantly outperforms existing approaches in long-range spatio-temporal accuracy and trajectory realism.",
+      "authors": [
+        "Jenna Kang",
+        "Colin Groth",
+        "Tong Wu",
+        "Finley Torrens",
+        "Patsorn Sangkloy",
+        "Gordon Wetzstein",
+        "Qi Sun"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-03-26T02:02:08+00:00",
+      "link": "https://arxiv.org/pdf/2603.24938v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "generative framework for raw gaze trajectories",
+      "llm_evidence_cn": "原始注视轨迹的生成框架",
+      "llm_evidence": "原始注视轨迹的生成框架",
+      "canonical_evidence": "原始注视轨迹的生成框架",
+      "llm_tldr_en": "Uses autoregressive diffusion to predict long-term human gaze trajectories in videos.",
+      "llm_tldr_cn": "利用自回归扩散模型预测视频中人类的长期注视轨迹。",
+      "llm_tldr": "利用自回归扩散模型预测视频中人类的长期注视轨迹。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning and feature extraction",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.24016v1",
+      "title": "COVTrack++: Learning Open-Vocabulary Multi-Object Tracking from Continuous Videos via a Synergistic Paradigm",
+      "abstract": "Multi-Object Tracking (MOT) has traditionally focused on a few specific categories, restricting its applicability to real-world scenarios involving diverse objects. Open-Vocabulary Multi-Object Tracking (OVMOT) addresses this by enabling tracking of arbitrary categories, including novel objects unseen during training. However, current progress is constrained by two challenges: the lack of continuously annotated video data for training, and the lack of a customized OVMOT framework to synergistically handle detection and association. We address the data bottleneck by constructing C-TAO, the first continuously annotated training set for OVMOT, which increases annotation density by 26x over the original TAO and captures smooth motion dynamics and intermediate object states. For the framework bottleneck, we propose COVTrack++, a synergistic framework that achieves a bidirectional reciprocal mechanism between detection and association through three modules: (1) Multi-Cue Adaptive Fusion (MCF) dynamically balances appearance, motion, and semantic cues for association feature learning; (2) Multi-Granularity Hierarchical Aggregation (MGA) exploits hierarchical spatial relationships in dense detections, where visible child nodes (e.g., object parts) assist occluded parent objects (e.g., whole body) for association feature enhancement; (3) Temporal Confidence Propagation (TCP) recovers flickering detections through high-confidence tracked objects boosting low-confidence candidates across frames, stabilizing trajectories. Extensive experiments on TAO demonstrate state-of-the-art performance, with novel TETA reaching 35.4% and 30.5% on validation and test sets, improving novel AssocA by 4.8% and novel LocA by 5.8% over previous methods, and show strong zero-shot generalization on BDD100K. The code and dataset will be publicly available.",
+      "authors": [
+        "Zekun Qian",
+        "Wei Feng",
+        "Ruize Han",
+        "Junhui Hou"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.LG"
+      ],
+      "published": "2026-03-25T07:20:27+00:00",
+      "link": "https://arxiv.org/pdf/2603.24016v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "multi-object tracking and association in videos",
+      "llm_evidence_cn": "视频中的多目标跟踪与关联",
+      "llm_evidence": "视频中的多目标跟踪与关联",
+      "canonical_evidence": "视频中的多目标跟踪与关联",
+      "llm_tldr_en": "Presents COVTrack++ for open-vocabulary multi-object tracking with a new continuous annotation dataset.",
+      "llm_tldr_cn": "提出COVTrack++用于开放词汇多目标跟踪，并提供了一个新的连续标注数据集。",
+      "llm_tldr": "提出COVTrack++用于开放词汇多目标跟踪，并提供了一个新的连续标注数据集。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "multi-agent trajectory forecasting and interaction modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2603.27757v1",
+      "title": "E-TIDE: Fast, Structure-Preserving Motion Forecasting from Event Sequences",
+      "abstract": "Event-based cameras capture visual information as asynchronous streams of per-pixel brightness changes, generating sparse, temporally precise data. Compared to conventional frame-based sensors, they offer significant advantages in capturing high-speed dynamics while consuming substantially less power. Predicting future event representations from past observations is an important problem, enabling downstream tasks such as future semantic segmentation or object tracking without requiring access to future sensor measurements. While recent state-of-the-art approaches achieve strong performance, they often rely on computationally heavy backbones and, in some cases, large-scale pretraining, limiting their applicability in resource-constrained scenarios. In this work, we introduce E-TIDE, a lightweight, end-to-end trainable architecture for event-tensor prediction that is designed to operate efficiently without large-scale pretraining. Our approach employs the TIDE module (Temporal Interaction for Dynamic Events), motivated by efficient spatiotemporal interaction design for sparse event tensors, to capture temporal dependencies via large-kernel mixing and activity-aware gating while maintaining low computational complexity. Experiments on standard event-based datasets demonstrate that our method achieves competitive performance with significantly reduced model size and training requirements, making it well-suited for real-time deployment under tight latency and memory budgets.",
+      "authors": [
+        "Biswadeep Sen",
+        "Benoit R. Cottereau",
+        "Nicolas Cuperlier",
+        "Terence Sim"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "published": "2026-03-29T16:34:12+00:00",
+      "link": "https://arxiv.org/pdf/2603.27757v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "motion forecasting from event sequences for high-speed dynamics",
+      "llm_evidence_cn": "基于事件序列的高速动态运动预测",
+      "llm_evidence": "基于事件序列的高速动态运动预测",
+      "canonical_evidence": "基于事件序列的高速动态运动预测",
+      "llm_tldr_en": "Introduces E-TIDE for fast, structure-preserving motion forecasting from event-based camera data.",
+      "llm_tldr_cn": "引入E-TIDE，用于从事件相机数据中进行快速、保持结构的运动预测。",
+      "llm_tldr": "引入E-TIDE，用于从事件相机数据中进行快速、保持结构的运动预测。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2603.25382v1",
+      "title": "IntentReact: Guiding Reactive Object-Centric Navigation via Topological Intent",
+      "abstract": "Object-goal visual navigation requires robots to reason over semantic structure and act effectively under partial observability. Recent approaches based on object-level topological maps enable long-horizon navigation without dense geometric reconstruction, but their execution remains limited by the gap between global topological guidance and local perception-driven control. In particular, local decisions are made solely from the current egocentric observation, without access to information beyond the robot's field of view. As a result, the robot may persist along its current heading even when initially oriented away from the goal, moving toward directions that do not decrease the global topological distance. In this work, we propose IntentReact, an intent-conditioned object-centric navigation framework that introduces a compact interface between global topological planning and reactive object-centric control. Our approach encodes global topological guidance as a low-dimensional directional signal, termed intent, which conditions a learned waypoint prediction policy to bias navigation toward topologically consistent progression. This design enables the robot to promptly reorient when local observations are misleading, guiding motion toward directions that decrease global topological distance while preserving the reactivity and robustness of object-centric control. We evaluate the proposed framework through extensive experiments, demonstrating improved navigation success and execution quality compared to prior object-centric navigation methods.",
+      "authors": [
+        "Yanmei Jiao",
+        "Anpeng Lu",
+        "Wenhan Hu",
+        "Rong Xiong",
+        "Yue Wang",
+        "Huajin Tang",
+        "Wen-an Zhang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-26T12:32:11+00:00",
+      "link": "https://arxiv.org/pdf/2603.25382v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "guiding navigation via topological intent and goal reasoning",
+      "llm_evidence_cn": "通过拓扑意图和目标推理引导导航",
+      "llm_evidence": "通过拓扑意图和目标推理引导导航",
+      "canonical_evidence": "通过拓扑意图和目标推理引导导航",
+      "llm_tldr_en": "Uses topological intent to bridge global guidance and local control in object-centric navigation.",
+      "llm_tldr_cn": "在以物体为中心的导航中，利用拓扑意图连接全局引导和局部控制。",
+      "llm_tldr": "在以物体为中心的导航中，利用拓扑意图连接全局引导和局部控制。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "target intent and goal estimation for trajectory prediction",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.24018v1",
+      "title": "ELITE: Experiential Learning and Intent-Aware Transfer for Self-improving Embodied Agents",
+      "abstract": "Vision-language models (VLMs) have shown remarkable general capabilities, yet embodied agents built on them fail at complex tasks, often skipping critical steps, proposing invalid actions, and repeating mistakes. These failures arise from a fundamental gap between the static training data of VLMs and the physical interaction for embodied tasks. VLMs can learn rich semantic knowledge from static data but lack the ability to interact with the world. To address this issue, we introduce ELITE, an embodied agent framework with {E}xperiential {L}earning and {I}ntent-aware {T}ransfer that enables agents to continuously learn from their own environment interaction experiences, and transfer acquired knowledge to procedurally similar tasks. ELITE operates through two synergistic mechanisms, \\textit{i.e.,} self-reflective knowledge construction and intent-aware retrieval. Specifically, self-reflective knowledge construction extracts reusable strategies from execution trajectories and maintains an evolving strategy pool through structured refinement operations. Then, intent-aware retrieval identifies relevant strategies from the pool and applies them to current tasks. Experiments on the EB-ALFRED and EB-Habitat benchmarks show that ELITE achieves 9\\% and 5\\% performance improvement over base VLMs in the online setting without any supervision. In the supervised setting, ELITE generalizes effectively to unseen task categories, achieving better performance compared to state-of-the-art training-based methods. These results demonstrate the effectiveness of ELITE for bridging the gap between semantic understanding and reliable action execution.",
+      "authors": [
+        "Bingqing Wei",
+        "Zhongyu Xia",
+        "Dingai Liu",
+        "Xiaoyu Zhou",
+        "Zhiwei Lin",
+        "Yongtao Wang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-03-25T07:25:51+00:00",
+      "link": "https://arxiv.org/pdf/2603.24018v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "intent-aware transfer for embodied agents and action planning",
+      "llm_evidence_cn": "具身智能体的意图感知迁移与动作规划",
+      "llm_evidence": "具身智能体的意图感知迁移与动作规划",
+      "canonical_evidence": "具身智能体的意图感知迁移与动作规划",
+      "llm_tldr_en": "Introduces a framework for embodied agents to learn from experience and transfer intent-aware knowledge.",
+      "llm_tldr_cn": "引入了一个具身智能体框架，通过经验学习和意图感知迁移来改进任务执行。",
+      "llm_tldr": "引入了一个具身智能体框架，通过经验学习和意图感知迁移来改进任务执行。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "target intent and goal estimation for trajectory prediction",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2603.27909v1",
+      "title": "Data is All You Need: Markov Chain Car-Following (MC-CF) Model",
+      "abstract": "Car-following behavior is fundamental to traffic flow theory, yet traditional models often fail to capture the stochasticity of naturalistic driving. This paper introduces a new car-following modeling category called the empirical probabilistic paradigm, which bypasses conventional parametric assumptions. Within this paradigm, we propose the Markov Chain Car-Following (MC-CF) model, which represents state transitions as a Markov process and predicts behavior by randomly sampling accelerations from empirical distributions within discretized state bins. Evaluation of the MC-CF model trained on the Waymo Open Motion Dataset (WOMD) demonstrates that its variants significantly outperform physics-based models including IDM, Gipps, FVDM, and SIDM in both one-step and open-loop trajectory prediction accuracy. Statistical analysis of transition probabilities confirms that the model-generated trajectories are indistinguishable from real-world behavior, successfully reproducing the probabilistic structure of naturalistic driving across all interaction types. Zero-shot generalization on the Naturalistic Phoenix (PHX) dataset further confirms the model's robustness. Finally, microscopic ring road simulations validate the framework's scalability. By incrementally integrating unconstrained free-flow trajectories and high-speed freeway data (TGSIM) alongside a conservative inference strategy, the model drastically reduces collisions, achieving zero crashes in multiple equilibrium and shockwave scenarios, while successfully reproducing naturalistic and stochastic shockwave propagation. Overall, the proposed MC-CF model provides a robust, scalable, and calibration-free foundation for high-fidelity stochastic traffic modeling, uniquely suited for the data-rich future of intelligent transportation.",
+      "authors": [
+        "Sungyong Chung",
+        "Yanlin Zhang",
+        "Nachuan Li",
+        "Dana Monzer",
+        "Alireza Talebpour"
+      ],
+      "primary_category": "eess.SY",
+      "categories": [
+        "eess.SY",
+        "cs.LG",
+        "cs.RO"
+      ],
+      "published": "2026-03-29T23:33:24+00:00",
+      "link": "https://arxiv.org/pdf/2603.27909v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "car-following behavior and state transition prediction",
+      "llm_evidence_cn": "跟车行为与状态转移预测",
+      "llm_evidence": "跟车行为与状态转移预测",
+      "canonical_evidence": "跟车行为与状态转移预测",
+      "llm_tldr_en": "Proposes a Markov Chain model for car-following behavior to capture driving stochasticity.",
+      "llm_tldr_cn": "提出一种马尔可夫链跟车模型，通过经验概率分布捕捉驾驶行为的随机性。",
+      "llm_tldr": "提出一种马尔可夫链跟车模型，通过经验概率分布捕捉驾驶行为的随机性。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "study of pedestrian and vehicle trajectory prediction models",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2603.25766v1",
+      "title": "ETA-VLA: Efficient Token Adaptation via Temporal Fusion and Intra-LLM Sparsification for Vision-Language-Action Models",
+      "abstract": "The integration of Vision-Language-Action (VLA) models into autonomous driving systems offers a unified framework for interpreting complex scenes and executing control commands. However, the necessity to incorporate historical multi-view frames for accurate temporal reasoning imposes a severe computational burden, primarily driven by the quadratic complexity of self-attention mechanisms in Large Language Models (LLMs). To alleviate this bottleneck, we propose ETA-VLA, an Efficient Token Adaptation framework for VLA models. ETA-VLA processes the past $n$ frames of multi-view images and introduces a novel Intra-LLM Sparse Aggregator (ILSA). Drawing inspiration from human driver attention allocation, ILSA dynamically identifies and prunes redundant visual tokens guided by textual queries and temporal consistency. Specifically, we utilize a text-guided scoring mechanism alongside a diversity-preserving sparsification strategy to select a sparse subset of critical tokens, ensuring comprehensive awareness of the driving scene. Extensive experiments on the NAVSIM v2 demonstrate that ETA-VLA achieves driving performance comparable to state-of-the-art baselines while reducing computational FLOPs by approximately 32\\%. Notably, our method prunes 85% of visual tokens and reduces inference FLOPs by 61\\%, but still retaining 94% of the original accuracy on the NAVSIM v2 benchmark.",
+      "authors": [
+        "Yiru Wang",
+        "Anqing Jiang",
+        "Shuo Wang",
+        "Yuwen Heng",
+        "Zichong Gu",
+        "Hao Sun"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-03-26T06:53:42+00:00",
+      "link": "https://arxiv.org/pdf/2603.25766v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "temporal reasoning and vision-language-action models for autonomous driving",
+      "llm_evidence_cn": "用于自动驾驶的时间推理与视觉-语言-动作模型",
+      "llm_evidence": "用于自动驾驶的时间推理与视觉-语言-动作模型",
+      "canonical_evidence": "用于自动驾驶的时间推理与视觉-语言-动作模型",
+      "llm_tldr_en": "Optimizes VLA models for autonomous driving using temporal fusion and intra-LLM sparsification.",
+      "llm_tldr_cn": "通过时间融合和LLM内部稀疏化优化用于自动驾驶的VLA模型。",
+      "llm_tldr": "通过时间融合和LLM内部稀疏化优化用于自动驾驶的VLA模型。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning based on multimodal large language model",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
