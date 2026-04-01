@@ -1,0 +1,691 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-04-01T20:48:05.196986+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 12,
+    "deep_cap": 6,
+    "deep_selected": 6,
+    "quick_candidates": 27,
+    "quick_skim_target": 11,
+    "quick_selected": 11
+  },
+  "deep_dive": [
+    {
+      "id": "2603.29362v1",
+      "title": "Uncertainty-Aware Trajectory Prediction: A Unified Framework Harnessing Positional and Semantic Uncertainties",
+      "abstract": "Trajectory prediction seeks to forecast the future motion of dynamic entities, such as vehicles and pedestrians, given a temporal horizon of historical movement data and environmental context. A central challenge in this domain is the inherent uncertainty in real-time maps, arising from two primary sources: (1) positional inaccuracies due to sensor limitations or environmental occlusions, and (2) semantic errors stemming from misinterpretations of scene context. To address these challenges, we propose a novel unified framework that jointly models positional and semantic uncertainties and explicitly integrates them into the trajectory prediction pipeline. Our approach employs a dual-head architecture to independently estimate semantic and positional predictions in a dual-pass manner, deriving prediction variances as uncertainty indicators in an end-to-end fashion. These uncertainties are subsequently fused with the semantic and positional predictions to enhance the robustness of trajectory forecasts. We evaluate our uncertainty-aware framework on the nuScenes real-world driving dataset, conducting extensive experiments across four map estimation methods and two trajectory prediction baselines. Results verify that our method (1) effectively quantifies map uncertainties through both positional and semantic dimensions, and (2) consistently improves the performance of existing trajectory prediction models across multiple metrics, including minimum Average Displacement Error (minADE), minimum Final Displacement Error (minFDE), and Miss Rate (MR). Code will available at https://github.com/JT-Sun/UATP.",
+      "authors": [
+        "Jintao Sun",
+        "Hu Zhang",
+        "Gangyi Ding",
+        "Zhedong Zheng"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-03-31T07:35:55+00:00",
+      "link": "https://arxiv.org/pdf/2603.29362v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "unified framework for trajectory prediction of vehicles and pedestrians with uncertainty modeling",
+      "llm_evidence_cn": "针对车辆和行人的轨迹预测统一框架，包含位置和语义不确定性建模",
+      "llm_evidence": "针对车辆和行人的轨迹预测统一框架，包含位置和语义不确定性建模",
+      "canonical_evidence": "针对车辆和行人的轨迹预测统一框架，包含位置和语义不确定性建模",
+      "llm_tldr_en": "Proposes a framework to improve trajectory prediction by modeling positional and semantic uncertainties.",
+      "llm_tldr_cn": "提出一种通过建模位置和语义不确定性来优化车辆与行人轨迹预测的统一框架。",
+      "llm_tldr": "提出一种通过建模位置和语义不确定性来优化车辆与行人轨迹预测的统一框架。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "study of pedestrian and vehicle trajectory prediction models",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.29163v1",
+      "title": "SparseDriveV2: Scoring is All You Need for End-to-End Autonomous Driving",
+      "abstract": "End-to-end multi-modal planning has been widely adopted to model the uncertainty of driving behavior, typically by scoring candidate trajectories and selecting the optimal one. Existing approaches generally fall into two categories: scoring a large static trajectory vocabulary, or scoring a small set of dynamically generated proposals. While static vocabularies often suffer from coarse discretization of the action space, dynamic proposals provide finer-grained precision and have shown stronger empirical performance on existing benchmarks. However, it remains unclear whether dynamic generation is fundamentally necessary, or whether static vocabularies can already achieve comparable performance when they are sufficiently dense to cover the action space. In this work, we start with a systematic scaling study of Hydra-MDP, a representative scoring-based method, revealing that performance consistently improves as trajectory anchors become denser, without exhibiting saturation before computational constraints are reached. Motivated by this observation, we propose SparseDriveV2 to push the performance boundary of scoring-based planning through two complementary innovations: (1) a scalable vocabulary representation with a factorized structure that decomposes trajectories into geometric paths and velocity profiles, enabling combinatorial coverage of the action space, and (2) a scalable scoring strategy with coarse factorized scoring over paths and velocity profiles followed by fine-grained scoring on a small set of composed trajectories. By combining these two techniques, SparseDriveV2 achieves 92.0 PDMS and 90.1 EPDMS on NAVSIM, with 89.15 Driving Score and 70.00 Success Rate on Bench2Drive with a lightweight ResNet-34 as backbone. Code and model are released at https://github.com/swc-17/SparseDriveV2.",
+      "authors": [
+        "Wenchao Sun",
+        "Xuewu Lin",
+        "Keyu Chen",
+        "Zixiang Pei",
+        "Xiang Li",
+        "Yining Shi",
+        "Sifa Zheng"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-03-31T02:20:40+00:00",
+      "link": "https://arxiv.org/pdf/2603.29163v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "scoring candidate trajectories for autonomous driving",
+      "llm_evidence_cn": "自动驾驶候选轨迹评分",
+      "llm_evidence": "自动驾驶候选轨迹评分",
+      "canonical_evidence": "自动驾驶候选轨迹评分",
+      "llm_tldr_en": "Evaluates static vs dynamic trajectory vocabularies for end-to-end autonomous driving planning.",
+      "llm_tldr_cn": "评估了端到端自动驾驶规划中静态与动态轨迹词汇表的表现。",
+      "llm_tldr": "评估了端到端自动驾驶规划中静态与动态轨迹词汇表的表现。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.29512v1",
+      "title": "Communication Outage-Resistant UUV State Estimation: A Variational History Distillation Approach",
+      "abstract": "The reliable operation of Unmanned Underwater Vehicle (UUV) clusters is highly dependent on continuous acoustic communication. However, this communication method is highly susceptible to intermittent interruptions. When communication outages occur, standard state estimators such as the Unscented Kalman Filter (UKF) will be forced to make open-loop predictions. If the environment contains unmodeled dynamic factors, such as unknown ocean currents, this estimation error will grow rapidly, which may eventually lead to mission failure. To address this critical issue, this paper proposes a Variational History Distillation (VHD) approach. VHD regards trajectory prediction as an approximate Bayesian reasoning process, which links a standard motion model based on physics with a pattern extracted directly from the past trajectory of the UUV. This is achieved by synthesizing ``virtual measurements'' distilled from historical trajectories. Recognizing that the reliability of extrapolated historical trends degrades over extended prediction horizons, an adaptive confidence mechanism is introduced. This mechanism allows the filter to gradually reduce the trust of virtual measurements as the communication outage time is extended. Extensive Monte Carlo simulations in a high-fidelity environment demonstrate that the proposed method achieves a 91\\% reduction in prediction Root Mean Square Error (RMSE), reducing the error from approximately 170 m to 15 m during a 40-second communication outage. These results demonstrate that VHD can maintain robust state estimation performance even under complete communication loss.",
+      "authors": [
+        "Shuyue Li",
+        "Miguel López-Benítez",
+        "Eng Gee Lim",
+        "Fei Ma",
+        "Qian Dong",
+        "Mengze Cao",
+        "Limin Yu",
+        "Xiaohui Qin"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "eess.SY"
+      ],
+      "published": "2026-03-31T09:53:54+00:00",
+      "link": "https://arxiv.org/pdf/2603.29512v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "regards trajectory prediction as an approximate Bayesian reasoning process for UUVs",
+      "llm_evidence_cn": "将无人水下航行器的轨迹预测视为近似贝叶斯推理过程",
+      "llm_evidence": "将无人水下航行器的轨迹预测视为近似贝叶斯推理过程",
+      "canonical_evidence": "将无人水下航行器的轨迹预测视为近似贝叶斯推理过程",
+      "llm_tldr_en": "Proposes a Variational History Distillation approach for UUV trajectory prediction during communication outages.",
+      "llm_tldr_cn": "提出一种变分历史蒸馏方法，用于解决通信中断期间无人水下航行器的轨迹预测问题。",
+      "llm_tldr": "提出一种变分历史蒸馏方法，用于解决通信中断期间无人水下航行器的轨迹预测问题。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "maritime vessel trajectory and path prediction algorithms",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.24806v1",
+      "title": "FODMP: Fast One-Step Diffusion of Movement Primitives Generation for Time-Dependent Robot Actions",
+      "abstract": "Diffusion models are increasingly used for robot learning, but current designs face a clear trade-off. Action-chunking diffusion policies like ManiCM are fast to run, yet they only predict short segments of motion. This makes them reactive, but unable to capture time-dependent motion primitives, such as following a spring-damper-like behavior with built-in dynamic profiles of acceleration and deceleration. Recently, Movement Primitive Diffusion (MPD) partially addresses this limitation by parameterizing full trajectories using Probabilistic Dynamic Movement Primitives (ProDMPs), thereby enabling the generation of temporally structured motions. Nevertheless, MPD integrates the motion decoder directly into a multi-step diffusion process, resulting in prohibitively high inference latency that limits its applicability in real-time control settings. We propose FODMP (Fast One-step Diffusion of Movement Primitives), a new framework that distills diffusion models into the ProDMPs trajectory parameter space and generates motion using a single-step decoder. FODMP retains the temporal structure of movement primitives while eliminating the inference bottleneck through single-step consistency distillation. This enables robots to execute time-dependent primitives at high inference speed, suitable for closed-loop vision-based control. On standard manipulation benchmarks (MetaWorld, ManiSkill), FODMP runs up to 10 times faster than MPD and 7 times faster than action-chunking diffusion policies, while matching or exceeding their success rates. Beyond speed, by generating fast acceleration-deceleration motion primitives, FODMP allows the robot to intercept and securely catch a fast-flying ball, whereas action-chunking diffusion policy and MPD respond too slowly for real-time interception.",
+      "authors": [
+        "Xirui Shi",
+        "Arya Ebrahimi",
+        "Yi Hu",
+        "Jun Jin"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-03-25T20:38:42+00:00",
+      "link": "https://arxiv.org/pdf/2603.24806v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "generating full trajectories for robot actions using diffusion models",
+      "llm_evidence_cn": "使用扩散模型生成机器人动作的完整轨迹",
+      "llm_evidence": "使用扩散模型生成机器人动作的完整轨迹",
+      "canonical_evidence": "使用扩散模型生成机器人动作的完整轨迹",
+      "llm_tldr_en": "Generates temporally structured robot motion trajectories using a fast one-step diffusion process.",
+      "llm_tldr_cn": "使用快速单步扩散过程生成具有时间结构化的机器人运动轨迹。",
+      "llm_tldr": "使用快速单步扩散过程生成具有时间结构化的机器人运动轨迹。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.28963v1",
+      "title": "AutoWorld: Scaling Multi-Agent Traffic Simulation with Self-Supervised World Models",
+      "abstract": "Multi-agent traffic simulation is central to developing and testing autonomous driving systems. Recent data-driven simulators have achieved promising results, but rely heavily on supervised learning from labeled trajectories or semantic annotations, making it costly to scale their performance. Meanwhile, large amounts of unlabeled sensor data can be collected at scale but remain largely unused by existing traffic simulation frameworks. This raises a key question: How can a method harness unlabeled data to improve traffic simulation performance? In this work, we propose AutoWorld, a traffic simulation framework that employs a world model learned from unlabeled occupancy representations of LiDAR data. Given world model samples, AutoWorld constructs a coarse-to-fine predictive scene context as input to a multi-agent motion generation model. To promote sample diversity, AutoWorld uses a cascaded Determinantal Point Process framework to guide the sampling processes of both the world model and the motion model. Furthermore, we designed a motion-aware latent supervision objective that enhances AutoWorld's representation of scene dynamics. Experiments on the WOSAC benchmark show that AutoWorld ranks first on the leaderboard according to the primary Realism Meta Metric (RMM). We further show that simulation performance consistently improves with the inclusion of unlabeled LiDAR data, and study the efficacy of each component with ablations. Our method paves the way for scaling traffic simulation realism without additional labeling. Our project page contains additional visualizations and released code.",
+      "authors": [
+        "Mozhgan Pourkeshavatz",
+        "Tianran Liu",
+        "Nicholas Rhinehart"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "cs.CV",
+        "cs.LG"
+      ],
+      "published": "2026-03-30T20:10:21+00:00",
+      "link": "https://arxiv.org/pdf/2603.28963v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "multi-agent traffic simulation and trajectory learning",
+      "llm_evidence_cn": "多智能体交通仿真与轨迹学习",
+      "llm_evidence": "多智能体交通仿真与轨迹学习",
+      "canonical_evidence": "多智能体交通仿真与轨迹学习",
+      "llm_tldr_en": "Uses self-supervised world models and unlabeled LiDAR data to scale multi-agent traffic simulation.",
+      "llm_tldr_cn": "利用自监督世界模型和无标签激光雷达数据来扩展多智能体交通仿真规模。",
+      "llm_tldr": "利用自监督世界模型和无标签激光雷达数据来扩展多智能体交通仿真规模。",
+      "llm_tags": [
+        "query:tp:composite"
+      ],
+      "matched_query_tag": "query:tp:composite",
+      "matched_query_text": "Papers central to 轨迹预测（车辆、行人、船舶、飞机等）相关的论文，考虑密集场景、目标意图、多智能体、轨迹表示学习等概念, especially work that connects or combines: trajectory prediction for autonomous agents; pedestrian trajectory prediction in crowded scenes; maritime vessel trajectory and path prediction algorithms; multi-agent trajectory forecasting and interaction modeling; target intent and goal estimation for trajectory prediction; trajectory representation learning and feature extraction; study of pedestrian and vehicle trajectory prediction models; trajectory prediction in complex maritime environments; deep learning techniques for intent aware trajectory forecasting; trajectory representation learning based on multimodal large language model.",
+      "matched_requirement_id": "req-composite-tp",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.25158v3",
+      "title": "Trace2Skill: Distill Trajectory-Local Lessons into Transferable Agent Skills",
+      "abstract": "Equipping Large Language Model (LLM) agents with domain-specific skills is critical for tackling complex tasks. Yet, manual authoring creates a severe scalability bottleneck. Conversely, automated skill generation often yields fragile or fragmented results because it either relies on shallow parametric knowledge or sequentially overfits to non-generalizable trajectory-local lessons. To overcome this, we introduce Trace2Skill, a framework that mirrors how human experts author skills: by holistically analyzing broad execution experience before distilling it into a single, comprehensive guide. Instead of reacting sequentially to individual trajectories, Trace2Skill dispatches a parallel fleet of sub-agents to analyze a diverse pool of executions. It extracts trajectory-specific lessons and hierarchically consolidates them into a unified, conflict-free skill directory via inductive reasoning. Trace2Skill supports both deepening existing human-written skills and creating new ones from scratch. Experiments in challenging domains, such as spreadsheet, VisionQA and math reasoning, show that Trace2Skill significantly improves upon strong baselines, including Anthropic's official xlsx skills. Crucially, this trajectory-grounded evolution does not merely memorize task instances or model-specific quirks: evolved skills transfer across LLM scales and generalize to OOD settings. For example, skills evolved by Qwen3.5-35B on its own trajectories improved a Qwen3.5-122B agent by up to 57.65 absolute percentage points on WikiTableQuestions. Ultimately, our results demonstrate that complex agent experience can be packaged into highly transferable, declarative skills -- requiring no parameter updates, no external retrieval modules, and utilizing open-source models as small as 35B parameters.",
+      "authors": [
+        "Jingwei Ni",
+        "Yihao Liu",
+        "Xinpeng Liu",
+        "Yutao Sun",
+        "Mengyu Zhou",
+        "Pengyu Cheng",
+        "Dexin Wang",
+        "Erchao Zhao",
+        "Xiaoxi Jiang",
+        "Guanjun Jiang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-03-26T08:26:38+00:00",
+      "link": "https://arxiv.org/pdf/2603.25158v3",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "distill trajectory-local lessons into agent skills using LLMs",
+      "llm_evidence_cn": "利用大语言模型将局部轨迹经验提炼为智能体技能",
+      "llm_evidence": "利用大语言模型将局部轨迹经验提炼为智能体技能",
+      "canonical_evidence": "利用大语言模型将局部轨迹经验提炼为智能体技能",
+      "llm_tldr_en": "Analyzes execution trajectories with LLMs to distill transferable skills for complex tasks.",
+      "llm_tldr_cn": "利用大语言模型分析执行轨迹，为复杂任务提炼可迁移的智能体技能。",
+      "llm_tldr": "利用大语言模型分析执行轨迹，为复杂任务提炼可迁移的智能体技能。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning based on multimodal large language model",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2603.25946v1",
+      "title": "Collision-Aware Vision-Language Learning for End-to-End Driving with Multimodal Infraction Datasets",
+      "abstract": "High infraction rates remain the primary bottleneck for end-to-end (E2E) autonomous driving, as evidenced by the low driving scores on the CARLA Leaderboard. Despite collision-related infractions being the dominant failure mode in closed-loop evaluations, collision-aware representation learning has received limited attention. To address this gap, we first develop a Video-Language-Augmented Anomaly Detector (VLAAD), leveraging a Multiple Instance Learning (MIL) formulation to obtain stable, temporally localized collision signals for proactive prediction. To transition these capabilities into closed-loop simulations, we must overcome the limitations of existing simulator datasets, which lack multimodality and are frequently restricted to simple intersection scenarios. Therefore, we introduce CARLA-Collide, a large-scale multimodal dataset capturing realistic collision events across highly diverse road networks. Trained on this diverse simulator data, VLAAD serves as a collision-aware plug-in module that can be seamlessly integrated into existing E2E driving models. By integrating our module into a pretrained TransFuser++ agent, we demonstrate a 14.12% relative increase in driving score with minimal fine-tuning. Beyond closed-loop evaluation, we further assess the generalization capability of VLAAD in an open-loop setting using real-world driving data. To support this analysis, we introduce Real-Collide, a multimodal dataset of diverse dashcam videos paired with semantically rich annotations for collision detection and prediction. On this benchmark, despite containing only 0.6B parameters, VLAAD outperforms a multi-billion-parameter vision-language model, achieving a 23.3% improvement in AUC.",
+      "authors": [
+        "Alex Koran",
+        "Dimitrios Sinodinos",
+        "Hadi Hojjati",
+        "Takuya Nanri",
+        "Fangge Chen",
+        "Narges Armanfard"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-03-26T22:32:52+00:00",
+      "link": "https://arxiv.org/pdf/2603.25946v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "collision-aware representation learning and proactive infraction prediction",
+      "llm_evidence_cn": "碰撞感知表征学习与主动违规预测",
+      "llm_evidence": "碰撞感知表征学习与主动违规预测",
+      "canonical_evidence": "碰撞感知表征学习与主动违规预测",
+      "llm_tldr_en": "A vision-language learning framework for proactive collision prediction in end-to-end autonomous driving.",
+      "llm_tldr_cn": "一种用于端到端自动驾驶中主动碰撞预测的视觉语言学习框架。",
+      "llm_tldr": "一种用于端到端自动驾驶中主动碰撞预测的视觉语言学习框架。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "target intent and goal estimation for trajectory prediction",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2603.27165v1",
+      "title": "RiskProp: Collision-Anchored Self-Supervised Risk Propagation for Early Accident Anticipation",
+      "abstract": "Accident anticipation aims to predict impending collisions from dashcam videos and trigger early alerts. Existing methods rely on binary supervision with manually annotated \"anomaly onset\" frames, which are subjective and inconsistent, leading to inaccurate risk estimation. In contrast, we propose RiskProp, a novel collision-anchored self-supervised risk propagation paradigm for early accident anticipation, which removes the need for anomaly onset annotations and leverages only the reliably annotated collision frame. RiskProp models temporal risk evolution through two observation-driven losses: first, since future frames contain more definitive evidence of an impending accident, we introduce a future-frame regularization loss that uses the model's next-frame prediction as a soft target to supervise the current frame, enabling backward propagation of risk signals; second, inspired by the empirical trend of rising risk before accidents, we design an adaptive monotonic constraint to encourage a non-decreasing progression over time. Experiments on CAP and Nexar demonstrate that RiskProp achieves state-of-the-art performance and produces smoother, more discriminative risk curves, improving both early anticipation and interpretability.",
+      "authors": [
+        "Yiyang Zou",
+        "Tianhao Zhao",
+        "Peilun Xiao",
+        "Hongyu Jin",
+        "Longyu Qi",
+        "Yuxuan Li",
+        "Liyin Liang",
+        "Yifeng Qian",
+        "Chunbo Lai",
+        "Yutian Lin",
+        "Zhihui Li",
+        "Yu Wu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-03-28T07:04:16+00:00",
+      "link": "https://arxiv.org/pdf/2603.27165v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "predict impending collisions from dashcam videos",
+      "llm_evidence_cn": "从行车记录仪视频中预测即将发生的碰撞",
+      "llm_evidence": "从行车记录仪视频中预测即将发生的碰撞",
+      "canonical_evidence": "从行车记录仪视频中预测即将发生的碰撞",
+      "llm_tldr_en": "Proposes RiskProp for self-supervised accident anticipation using collision-anchored risk propagation.",
+      "llm_tldr_cn": "提出RiskProp，通过碰撞锚定的自监督风险传播实现早期事故预警。",
+      "llm_tldr": "提出RiskProp，通过碰撞锚定的自监督风险传播实现早期事故预警。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.24014v1",
+      "title": "Language-Grounded Multi-Agent Planning for Personalized and Fair Participatory Urban Sensing",
+      "abstract": "Participatory urban sensing leverages human mobility for large-scale urban data collection, yet existing methods typically rely on centralized optimization and assume homogeneous participants, resulting in rigid assignments that overlook personal preferences and heterogeneous urban contexts. We propose MAPUS, an LLM-based multi-agent framework for personalized and fair participatory urban sensing. In our framework, participants are modeled as autonomous agents with individual profiles and schedules, while a coordinator agent performs fairness-aware selection and refines sensing routes through language-based negotiation. Experiments on real-world datasets show that MAPUS achieves competitive sensing coverage while substantially improving participant satisfaction and fairness, promoting more human-centric and sustainable urban sensing systems.",
+      "authors": [
+        "Xusen Guo",
+        "Mingxing Peng",
+        "Hongliang Lu",
+        "Hai Yang",
+        "Jun Ma",
+        "Yuxuan Liang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-03-25T07:19:45+00:00",
+      "link": "https://arxiv.org/pdf/2603.24014v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "refines sensing routes through language-based negotiation for multi-agent framework",
+      "llm_evidence_cn": "通过基于语言的协商为多智能体框架优化感知路线",
+      "llm_evidence": "通过基于语言的协商为多智能体框架优化感知路线",
+      "canonical_evidence": "通过基于语言的协商为多智能体框架优化感知路线",
+      "llm_tldr_en": "MAPUS is an LLM-based multi-agent framework that plans personalized sensing routes for autonomous agents.",
+      "llm_tldr_cn": "MAPUS是一个基于大模型的多智能体框架，为自主智能体规划个性化的感知路径。",
+      "llm_tldr": "MAPUS是一个基于大模型的多智能体框架，为自主智能体规划个性化的感知路径。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "multi-agent trajectory forecasting and interaction modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2603.27194v1",
+      "title": "Multi-AUV Ad-hoc Networks-Based Multi-Target Tracking Based on Scene-Adaptive Embodied Intelligence",
+      "abstract": "With the rapid advancement of underwater net-working and multi-agent coordination technologies, autonomous underwater vehicle (AUV) ad-hoc networks have emerged as a pivotal framework for executing complex maritime missions, such as multi-target tracking. However, traditional data-centricarchitectures struggle to maintain operational consistency under highly dynamic topological fluctuations and severely constrained acoustic communication bandwidth. This article proposes a scene-adaptive embodied intelligence (EI) architecture for multi-AUV ad-hoc networks, which re-envisions AUVs as embodied entities by integrating perception, decision-making, and physical execution into a unified cognitive loop. To materialize the functional interaction between these layers, we define a beacon-based communication and control model that treats the communication link as a dynamic constraint-aware channel, effectively bridging the gap between high-level policy inference and decentralized physical actuation. Specifically, the proposed architecture employs a three-layer functional framework and introduces a Scene-Adaptive MARL (SA-MARL) algorithm featuring a dual-path critic mechanism. By integrating a scene critic network and a general critic network through a weight-based dynamic fusion process, SA-MARL effectively decouples specialized tracking tasks from global safety constraints, facilitating autonomous policy evolution. Evaluation results demonstrate that the proposedscheme significantly accelerates policy convergence and achieves superior tracking accuracy compared to mainstream MARL approaches, maintaining robust performance even under intense environmental interference and fluid topological shifts.",
+      "authors": [
+        "Kai Tian",
+        "Jialun Wang",
+        "Chuan Lin",
+        "Guangjie Han",
+        "Shengchao Zhu",
+        "Ying Liu",
+        "Qian Zhu"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-03-28T08:48:22+00:00",
+      "link": "https://arxiv.org/pdf/2603.27194v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "multi-target tracking for autonomous underwater vehicle networks",
+      "llm_evidence_cn": "自主水下航行器网络的多目标跟踪",
+      "llm_evidence": "自主水下航行器网络的多目标跟踪",
+      "canonical_evidence": "自主水下航行器网络的多目标跟踪",
+      "llm_tldr_en": "A scene-adaptive embodied intelligence architecture for multi-target tracking in maritime AUV networks.",
+      "llm_tldr_cn": "一种用于海事AUV网络多目标跟踪的场景自适应具身智能架构。",
+      "llm_tldr": "一种用于海事AUV网络多目标跟踪的场景自适应具身智能架构。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "multi-agent trajectory forecasting and interaction modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2603.27281v1",
+      "title": "HiFlow: Tokenization-Free Scale-Wise Autoregressive Policy Learning via Flow Matching",
+      "abstract": "Coarse-to-fine autoregressive modeling has recently shown strong promise for visuomotor policy learning, combining the inference efficiency of autoregressive methods with the global trajectory coherence of diffusion-based policies. However, existing approaches rely on discrete action tokenizers that map continuous action sequences to codebook indices, a design inherited from image generation where learned compression is necessary for high-dimensional pixel data. We observe that robot actions are inherently low-dimensional continuous vectors, for which such tokenization introduces unnecessary quantization error and a multi-stage training pipeline. In this work, we propose Hierarchical Flow Policy (HiFlow), a tokenization-free coarse-to-fine autoregressive policy that operates directly on raw continuous actions. HiFlow constructs multi-scale continuous action targets from each action chunk via simple temporal pooling. Specifically, it averages contiguous action windows to produce coarse summaries that are refined at finer temporal resolutions. The entire model is trained end-to-end in a single stage, eliminating the need for a separate tokenizer. Experiments on MimicGen, RoboTwin 2.0, and real-world environments demonstrate that HiFlow consistently outperforms existing methods including diffusion-based and tokenization-based autoregressive policies.",
+      "authors": [
+        "Daichi Yashima",
+        "Koki Seno",
+        "Shuhei Kurita",
+        "Yusuke Oda",
+        "Komei Sugiura"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-28T14:22:58+00:00",
+      "link": "https://arxiv.org/pdf/2603.27281v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Global trajectory coherence and continuous action sequence modeling for autonomous agents",
+      "llm_evidence_cn": "针对自主智能体的全局轨迹连贯性与连续动作序列建模",
+      "llm_evidence": "针对自主智能体的全局轨迹连贯性与连续动作序列建模",
+      "canonical_evidence": "针对自主智能体的全局轨迹连贯性与连续动作序列建模",
+      "llm_tldr_en": "HiFlow improves trajectory coherence in robot policy learning using a tokenization-free flow matching approach.",
+      "llm_tldr_cn": "HiFlow通过无标记化的流匹配方法，提升了机器人策略学习中的轨迹连贯性。",
+      "llm_tldr": "HiFlow通过无标记化的流匹配方法，提升了机器人策略学习中的轨迹连贯性。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.24584v1",
+      "title": "TAG: Target-Agnostic Guidance for Stable Object-Centric Inference in Vision-Language-Action Models",
+      "abstract": "Vision--Language--Action (VLA) policies have shown strong progress in mapping language instructions and visual observations to robotic actions, yet their reliability degrades in cluttered scenes with distractors. By analyzing failure cases, we find that many errors do not arise from infeasible motions, but from instance-level grounding failures: the policy often produces a plausible grasp trajectory that lands slightly off-target or even on the wrong object instance. To address this issue, we propose TAG (Target-Agnostic Guidance), a simple inference-time guidance mechanism that explicitly reduces distractor- and appearance-induced bias in VLA policies. Inspired by classifier-free guidance (CFG), TAG contrasts policy predictions under the original observation and an object-erased observation, and uses their difference as a residual steering signal that strengthens the influence of object evidence in the decision process. TAG does not require modifying the policy architecture and can be integrated with existing VLA policies with minimal training and inference changes. We evaluate TAG on standard manipulation benchmarks, including LIBERO, LIBERO-Plus, and VLABench, where it consistently improves robustness under clutter and reduces near-miss and wrong-object executions.",
+      "authors": [
+        "Jiaying Zhou",
+        "Zhihao Zhan",
+        "Ruifeng Zhai",
+        "Qinhan Lyu",
+        "Hao Liu",
+        "Keze Wang",
+        "Liang Lin",
+        "Guangrun Wang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "published": "2026-03-25T17:56:32+00:00",
+      "link": "https://arxiv.org/pdf/2603.24584v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "produces grasp trajectory for object-centric inference in VLA models",
+      "llm_evidence_cn": "在VLA模型中生成以物体为中心的抓取轨迹",
+      "llm_evidence": "在VLA模型中生成以物体为中心的抓取轨迹",
+      "canonical_evidence": "在VLA模型中生成以物体为中心的抓取轨迹",
+      "llm_tldr_en": "TAG improves the reliability of grasp trajectories in vision-language-action models by reducing distractor bias.",
+      "llm_tldr_cn": "TAG通过减少干扰物偏差，提高了视觉-语言-动作模型中抓取轨迹生成的可靠性。",
+      "llm_tldr": "TAG通过减少干扰物偏差，提高了视觉-语言-动作模型中抓取轨迹生成的可靠性。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning and feature extraction",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2603.27268v1",
+      "title": "TrackMAE: Video Representation Learning via Track Mask and Predict",
+      "abstract": "Masked video modeling (MVM) has emerged as a simple and scalable self-supervised pretraining paradigm, but only encodes motion information implicitly, limiting the encoding of temporal dynamics in the learned representations. As a result, such models struggle on motion-centric tasks that require fine-grained motion awareness. To address this, we propose TrackMAE, a simple masked video modeling paradigm that explicitly uses motion information as a reconstruction signal. In TrackMAE, we use an off-the-shelf point tracker to sparsely track points in the input videos, generating motion trajectories. Furthermore, we exploit the extracted trajectories to improve random tube masking with a motion-aware masking strategy. We enhance video representations learned in both pixel and feature semantic reconstruction spaces by providing a complementary supervision signal in the form of motion targets. We evaluate on six datasets across diverse downstream settings and find that TrackMAE consistently outperforms state-of-the-art video self-supervised learning baselines, learning more discriminative and generalizable representations. Code available at https://github.com/rvandeghen/TrackMAE",
+      "authors": [
+        "Renaud Vandeghen",
+        "Fida Mohammad Thoker",
+        "Marc Van Droogenbroeck",
+        "Bernard Ghanem"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-03-28T13:35:23+00:00",
+      "link": "https://arxiv.org/pdf/2603.27268v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "explicitly uses motion trajectories as a reconstruction signal",
+      "llm_evidence_cn": "明确使用运动轨迹作为重建信号",
+      "llm_evidence": "明确使用运动轨迹作为重建信号",
+      "canonical_evidence": "明确使用运动轨迹作为重建信号",
+      "llm_tldr_en": "TrackMAE uses point tracking and motion-aware masking to improve video representation learning.",
+      "llm_tldr_cn": "TrackMAE利用点追踪和运动感知掩码改进视频表示学习。",
+      "llm_tldr": "TrackMAE利用点追踪和运动感知掩码改进视频表示学习。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning and feature extraction",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2603.27371v1",
+      "title": "HMPDM: A Diffusion Model for Driving Video Prediction with Historical Motion Priors",
+      "abstract": "Video prediction is a useful function for autonomous driving, enabling intelligent vehicles to reliably anticipate how driving scenes will evolve and thereby supporting reasoning and safer planning. However, existing models are constrained by multi-stage training pipelines and remain insufficient in modeling the diverse motion patterns in real driving scenes, leading to degraded temporal consistency and visual quality. To address these challenges, this paper introduces the historical motion priors-informed diffusion model (HMPDM), a video prediction model that leverages historical motion priors to enhance motion understanding and temporal coherence. The proposed deep learning system introduces three key designs: (i) a Temporal-aware Latent Conditioning (TaLC) module for implicit historical motion injection; (ii) a Motion-aware Pyramid Encoder (MaPE) for multi-scale motion representation; (iii) a Self-Conditioning (SC) strategy for stable iterative denoising. Extensive experiments on the Cityscapes and KITTI benchmarks demonstrate that HMPDM outperforms state-of-the-art video prediction methods with efficiency, achieving a 28.2% improvement in FVD on Cityscapes under the same monocular RGB input configuration setting. The implementation codes are publicly available at https://github.com/KELISBU/HMPDM.",
+      "authors": [
+        "Ke Li",
+        "Tianjia Yang",
+        "Kaidi Liang",
+        "Xianbiao Hu",
+        "Ruwen Qin"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-03-28T18:37:08+00:00",
+      "link": "https://arxiv.org/pdf/2603.27371v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "anticipate how driving scenes will evolve",
+      "llm_evidence_cn": "预测驾驶场景的演变",
+      "llm_evidence": "预测驾驶场景的演变",
+      "canonical_evidence": "预测驾驶场景的演变",
+      "llm_tldr_en": "A diffusion model using historical motion priors for driving video and motion prediction.",
+      "llm_tldr_cn": "一种利用历史运动先验进行驾驶视频和运动预测的扩散模型。",
+      "llm_tldr": "一种利用历史运动先验进行驾驶视频和运动预测的扩散模型。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.25298v1",
+      "title": "Connectivity-Aware Representations for Constrained Motion Planning via Multi-Scale Contrastive Learning",
+      "abstract": "The objective of constrained motion planning is to connect start and goal configurations while satisfying task-specific constraints. Motion planning becomes inefficient or infeasible when the configurations lie in disconnected regions, known as essentially mutually disconnected (EMD) components. Constraints further restrict feasible space to a lower-dimensional submanifold, while redundancy introduces additional complexity because a single end-effector pose admits infinitely many inverse kinematic solutions that may form discrete self-motion manifolds. This paper addresses these challenges by learning a connectivity-aware representation for selecting start and goal configurations prior to planning. Joint configurations are embedded into a latent space through multi-scale manifold learning across neighborhood ranges from local to global, and clustering generates pseudo-labels that supervise a contrastive learning framework. The proposed framework provides a connectivity-aware measure that biases the selection of start and goal configurations in connected regions, avoiding EMDs and yielding higher success rates with reduced planning time. Experiments on various manipulation tasks showed that our method achieves 1.9 times higher success rates and reduces the planning time by a factor of 0.43 compared to baselines.",
+      "authors": [
+        "Suhyun Jeon",
+        "Yumin Lim",
+        "Woo-Jeong Baek",
+        "Hyeonseo Kim",
+        "Suhan Park",
+        "Jaeheung Park"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-26T10:44:21+00:00",
+      "link": "https://arxiv.org/pdf/2603.25298v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "connectivity-aware representation for motion planning",
+      "llm_evidence_cn": "用于运动规划的连通性感知表示学习",
+      "llm_evidence": "用于运动规划的连通性感知表示学习",
+      "canonical_evidence": "用于运动规划的连通性感知表示学习",
+      "llm_tldr_en": "Learns connectivity-aware representations to improve start-goal configuration selection in constrained planning.",
+      "llm_tldr_cn": "学习连通性感知表示，以改进受限运动规划中的起点-终点配置选择。",
+      "llm_tldr": "学习连通性感知表示，以改进受限运动规划中的起点-终点配置选择。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning and feature extraction",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2603.27943v1",
+      "title": "Stochastic Safety-critical Control Compensating Safety Probability for Marine Vessel Tracking",
+      "abstract": "A marine vessel is a nonlinear system subject to irregular disturbances such as wind and waves, which cause tracking errors between the nominal and actual trajectories. In this study, a nonlinear vessel maneuvering model that includes a tracking controller is formulated and then controlled using a linear approximation around the nominal trajectory. The resulting stochastic linearized system is analyzed using a stochastic zeroing control barrier function (ZCBF). A stochastic safety compensator is designed to ensure probabilistic safety, and its effectiveness is verified through numerical simulations.",
+      "authors": [
+        "Too Matsuo",
+        "Yuki Nishimura",
+        "Kenta Hoshino",
+        "Daisuke Tabuchi"
+      ],
+      "primary_category": "eess.SY",
+      "categories": [
+        "eess.SY"
+      ],
+      "published": "2026-03-30T01:37:57+00:00",
+      "link": "https://arxiv.org/pdf/2603.27943v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "marine vessel tracking and trajectory control under disturbances",
+      "llm_evidence_cn": "干扰下的船舶跟踪与轨迹控制",
+      "llm_evidence": "干扰下的船舶跟踪与轨迹控制",
+      "canonical_evidence": "干扰下的船舶跟踪与轨迹控制",
+      "llm_tldr_en": "A stochastic safety-critical control method for marine vessel trajectory tracking under environmental disturbances.",
+      "llm_tldr_cn": "一种用于环境干扰下船舶轨迹跟踪的随机安全关键控制方法。",
+      "llm_tldr": "一种用于环境干扰下船舶轨迹跟踪的随机安全关键控制方法。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "maritime vessel trajectory and path prediction algorithms",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2603.27583v1",
+      "title": "LLM-Enabled Low-Altitude UAV Natural Language Navigation via Signal Temporal Logic Specification Translation and Repair",
+      "abstract": "Natural language (NL) navigation for low-altitude unmanned aerial vehicles (UAVs) offers an intelligent and convenient solution for low-altitude aerial services by enabling an intuitive interface for non-expert operators. However, deploying this capability in urban environments necessitates the precise grounding of underspecified instructions into safety-critical, dynamically feasible motion plans subject to spatiotemporal constraints. To address this challenge, we propose a unified framework that translates NL instructions into Signal Temporal Logic (STL) specifications and subsequently synthesizes trajectories via mixed-integer linear programming (MILP). Specifically, to generate executable STL formulas from free-form NL, we develop a reasoning-enhanced large language model (LLM) leveraging chain-of-thought (CoT) supervision and group-relative policy optimization (GRPO), which ensures high syntactic validity and semantic consistency. Furthermore, to resolve infeasibilities induced by stringent logical or spatial requirements, we introduce a specification repair mechanism. This module combines MILP-based diagnosis with LLM-guided semantic reasoning to selectively relax task constraints while strictly enforcing safety guarantees. Extensive simulations and real-world flight experiments demonstrate that the proposed closed-loop framework significantly improves NL-to-STL translation robustness, enabling safe, interpretable, and adaptable UAV navigation in complex scenarios.",
+      "authors": [
+        "Yuqi Ping",
+        "Huahao Ding",
+        "Tianhao Liang",
+        "Longyu Zhou",
+        "Guangyu Lei",
+        "Xinglin Chen",
+        "Junwei Wu",
+        "Jieyu Zhou",
+        "Tingting Zhang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "eess.SY"
+      ],
+      "published": "2026-03-29T08:46:28+00:00",
+      "link": "https://arxiv.org/pdf/2603.27583v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "synthesizes trajectories for UAV navigation",
+      "llm_evidence_cn": "为无人机导航合成轨迹",
+      "llm_evidence": "为无人机导航合成轨迹",
+      "canonical_evidence": "为无人机导航合成轨迹",
+      "llm_tldr_en": "Translates natural language into logic specifications to synthesize safe trajectories for UAVs.",
+      "llm_tldr_cn": "将自然语言指令转换为逻辑规范，为无人机合成安全的导航轨迹。",
+      "llm_tldr": "将自然语言指令转换为逻辑规范，为无人机合成安全的导航轨迹。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}

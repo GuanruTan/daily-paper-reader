@@ -1,0 +1,870 @@
+Title: Stochastic Safety-critical Control Compensating Safety Probability for Marine Vessel Tracking
+
+URL Source: https://arxiv.org/pdf/2603.27943v1
+
+Published Time: Tue, 31 Mar 2026 01:29:43 GMT
+
+Number of Pages: 26
+
+Markdown Content:
+# Stochastic Safety-critical Control Compensating Safety Probability for Marine Vessel Tracking 
+
+## Too Matsuo ∗
+
+## , Yˆ uki Nishimura †
+
+## , Kenta Hoshino ‡and Daisuke Tabuchi ∗
+
+## March 30, 2026 ‡
+
+Abstract 
+
+A marine vessel is a nonlinear system subject to irregular disturbances such as wind and waves, which cause tracking errors between the nomi-nal and actual trajectories. In this study, a nonlinear vessel maneuvering model that includes a tracking controller is formulated and then con-trolled using a linear approximation around the nominal trajectory. The resulting stochastic linearized system is analyzed using a stochastic ze-roing control barrier function (ZCBF). A stochastic safety compensator is designed to ensure probabilistic safety, and its effectiveness is verified through numerical simulations. 
+
+# 1 Introduction 
+
+Autonomous marine vessel control is an essential control application problem aimed at reducing labor shortages and maritime accidents. Since vessel dynam-ics constitutes nonlinear control systems subject to disturbances such as wind and waves, their control problems are generally challenging, and various meth-ods have been developed. The basic modelings of the system and control design procedures for the vessels are summarized in Fossen [3]. Recently, control designs that stabilize vessels to follow a nominal trajectory are proposed based on nonlinear control theory [4, 12]. Fujii et al. [4] proposed a control design that stabilizes the vessel to track the nominal trajectory based on input-to-state stability, and Saback et al. [12] developed a control approach based on nonlinear model predictive control. These strategies achieve compen-sation for obstacle avoidance, modeling errors, and disturbance suppression, which are essential from practical perspectives. For more flexible achievement of safety and ease of control design, control designs based on safety-critical control theory are effective; see, for example 
+
+> ∗
+
+Kagoshima University 
+
+> †
+
+Okayama University 
+
+> ‡
+
+DENSO IT Laboratory 
+
+> §
+
+This work has been submitted to the Journal of Marine Science and Technology for possible publication. Copyright may be transferred without notice, after which this version may no longer be accessible. 
+
+1
+
+> arXiv:2603.27943v1 [eess.SY] 30 Mar 2026
+
+Ames et al. [1]. Otsuki et al. [10] applies the safety-critical control theory into the tracking problem of a vessel by combining model predictive control with safety-critical control for guidance in port environments. At the same time, because marine vessels are systems subject to various irregular disturbances, safety under disturbances is required to compensate as in [2]. When irregular disturbances are regarded as stochastic fluctuations, the systems are sometimes considered as stochastic systems [5, 6]. Maki et al. [5] analyzes the stabilizability and destabilizability effects of the multiplicative stochastic fluctuations for ship’s maneuvering motion. Maki et al. [6] analyzes the mechanism of parametric rolling in irregular seas based on stochastic Lya-punov stability theory. However, to the best of the author’s knowledge, the application of the recent results of stochastic safety-critical control theory to ship automation remains a challenging task. Safety-critical control theory for stochastic systems are developed by Pra-jana et al. [11], Xue et al. [13] and Nejati et al. [7] based on the stochastic safety verification. These methods are effective for complex safety-critical con-trol problems, while the analyzing and control methods are complicated. An advantage of safety-critical control is its simple control design framework based on a control barrier function. Taking advantage of this feature, a stochastic safety-critical control theory is proposed by Nishimura and Hoshino [9]. Fur-thermore, an analytical method for safety probability compensation in stable linear systems is developed by Nishimura and Hoshino [8]. In the methods, the diffusion coefficient, which directly characterizes the influence of disturbances on the system, explicitly appears in the sufficient condition for safety. Therefore, in a control design that utilizes the sufficient condition, the diffusion coefficient directly influences the control law. At the same time, for the purpose of com-pensating for the influence of stochastic noises of tracking problems, the results in [9] and [8] should be improved a little. In this paper, we slightly modify the stochastic safety-critical control theory in [9] and [8], followed by formulating a vessel maneuvering model as a stochastic linear system subject to disturbances. Then, we apply the modified stochastic safety-critical control technique to a tracking problem of a vessel under irregular disturbances so that the vessel remains within a designed region with a specified probability. The validity of the designed compensator is confirmed by numerical simulation. This paper is organized as follows. In Section 2 , we describe our target system based on Fossen [3]. In Section 3, we design a tracking controller us-ing the linear quadratic (LQ) control scheme for the linearized system model. In Section 4, we analyze the safety probability, which is the probability that the error trajectory remains the designed region when Gaussian white noise is introduced into the linearized system. Then, in Section 5, we design a linear compensator to increase the safety probability for the linearized system, and in Section 6, we also design a nonlinear compensator of the safety probability for the target nonlinear system. In Section 7, we confirm the validity of the de-signed compensators by numerical simulations. The safety-probability control theory is proposed in Section 8 by modifying the results of [9] and [8], and in 2Figure 1: marine vessel maneuvering kinematic model [3]. 
+
+Figure 2: Marine vessel maneuvering kinematic model for nominal and actual trajectories. Section 9, we conclude the paper. 
+
+# 2 System Model 
+
+In this section, we consider a marine vessel maneuvering kinematic model based on global position coordinates based on [3]. Let the variables be defined as shown in Fig. 1. Then we obtain 
+
+
+
+˙xglo = vsur cos θglo − vswa sin θglo ,
+
+˙yglo = vsur sin θglo + vswa cos θglo ,
+
+˙θglo = ωyaw ,
+
+(1) where xglo [m] is the horizontal position of the marine vessel, yglo [m] is vertical position of the marine vessel, θglo [rad] is the angle from the xglo -axis, vsur 
+
+[m/s] is surge velocity of the marine vessel, vswa [m/s] is sway velocity, and 
+
+ωyaw [rad/s] is yaw angular velocity. In the same way as in [3], we modify the above model by pivoting on the point, which serves as the turning axis of the vessel. If the pivoting point is 3located at a distance c [m] ahead of the vessel’s center of gravity, we have 
+
+c = − vswa 
+
+ωyaw 
+
+, (2) where we assume c̸ = −1. By substituting (2) to (1), we obtain a state-space model 
+
+˙xglo = vsur cos θglo + cω yaw sin θglo ,
+
+˙yglo = vsur sin θglo − cω yaw cos θglo ,
+
+˙θglo = ωywa .
+
+(3) Here, defining the reference states xr , yr , and θr and the reference control inputs vr and ωr with vr̸ = 0, the reference model for (3) is described as follows: 
+
+
+
+˙xr = vr cos θr + cω r sin θr ,
+
+˙yr = vr sin θr − cω r cos θr ,
+
+˙θr = ωr .
+
+(4) We define the tracking errors with respect to the reference states by xe, y e, θ e.From the geometric relations illustrated in Fig. 2, these errors are given by 
+
+
+
+xe = ( xr − xglo ) cos θglo + ( yr − yglo ) sin θglo ,ye = −(xr − xglo ) sin θglo + ( yr − yglo ) cos θglo ,θe = θr − θglo .
+
+(5) Differentiating both terms of the above, the error dynamics is derived as 
+
+
+
+˙xe = vr cos θe + cω r sin θe − vsur + yeωyaw ,
+
+˙ye = vr sin θe − cω r cos θe + ( c − xe)ωyaw ,
+
+˙θe = ωr − ωyaw .
+
+(6) Moreover, we set new control inputs v and ω and design 
+
+vsur = vr cos( θe) + v, (7) 
+
+ωyaw = ωr cos( θe) + ω, (8) so that the right-hand sides of (6) become all zero as xe = ye = θe = 0. Then, we obtain ˙x(t) = f (x(t)) + g(x(t)) u(t), (9) where x = ( xe, y e, θ e)T is a state vector, u = ( v, ω )T is a control input vector, and 
+
+f (x) = 
+
+
+
+cω r sin θe + ωr ye cos θe
+
+vr sin θe − ωr xe cos θe
+
+ωr (1 − cos θe)
+
+ , (10) 
+
+g(x) = 
+
+
+
+−1 ye
+
+0 c − xe
+
+0 −1
+
+ . (11) 4Finally, assuming that Gaussian white noise (roughly, dw (t)/dt , where w is a one-dimensional standard Wiener process) is imposed on the above model, we obtain the following stochastic system: 
+
+dx (t) = {f (x(t)) + g(x(t)) u(t)}dt + Gdw (t), (12) where 
+
+G =
+
+σx
+
+σy
+
+σθ
+
+ (13) with σx, σ y , σ θ being constants. Moreover, we assume that g(x)T G̸ = 0 is satis-fied regardless of the value of x.
+
+Remark 1 The reason for employing the stochastic differential equation (12) is that the Wiener process w(t) is theoretically not differentiable almost everywhere, while the Gaussian white noise is formally derived as dw/dt .
+
+# 3 Control Design for Trajectory Tracking 
+
+In this section, we design a trajectory tracking control law under the assumption of no noise. Because the target system (9) is a nonlinear system, assuming that the initial state x(0) is not so large, we consider the following linearized model: ˙x(t) = Ax (t) + Bu (t), (14) where 
+
+A = ∂f ∂x x=0 
+
+=
+
+
+
+0 ωr cw r
+
+−ωr 0 vr
+
+0 0 0
+
+ , B = g(0) = 
+
+
+
+−1 00 c
+
+0 −1
+
+ . (15) Since we assume c̸ = −1 and vr̸ = 0, ( A, B ) is controllable. Here, we design the state-feedback law u(t) = utra (x(t)) so that the trajec-tory tracking is achieved. Considering a linear state-feedback law 
+
+utra (x) = −Kx, (16) where K is a 2 ×3 matrix, if there exist 3 ×3 positive definite symmetric matrices 
+
+P and Q satisfying the Lyapunov equation 
+
+P ¯A + ¯AT P = −Q (17) with ¯A = A − BK , then x = 0 of the system (14) with (16) is asymptotically stable. To determine the feedback gain K, we design utra (x) as a linear-quadratic (LQ) control law; that is, 
+
+K = −R−1BT P x, (18) 5which minimizes the following cost 
+
+J(x, u ) = 
+
+Z ∞
+
+> 0
+
+(xT Q′x + uT Ru )dt. (19) The matrix P is the positive definite solution of the following algebraic Riccati equation: 
+
+P A + AT P − P BR −1BT P + Q′ = 0 , (20) which results in (17) with (18) and Q = Q′ + P BR −1BT P .
+
+# 4 Safety Probability Analysis 
+
+In this section, we consider the situation of the existence of noise for the lin-earized model (14), and derive the safety probability that remains within a safe set against the noise. Consider the linearized system with a linear state-feedback law and Gaussian white noise; that is, (14) with u = utra (x) and adding the diffusion term with 
+
+G in (13), then we obtain 
+
+dx (t) = ¯Ax (t)dt + Gdw (t). (21) When there is no noise, tracking is achieved through the LQ control. How-ever, when noise is introduced into the system, the tracking error x may become large. Therefore, we design the acceptable error range and analyze the proba-bility that x remains within this range. A simple way to determine the range is to consider a sublevel set of the Lyapunov function V (x) = xT P x ; that is, 
+
+{x|V (x) ≤ M } for some M > 0, because it is an invariant set when there is no noise for any M . Therefore, we define 
+
+h(x) = −xT P x + M (22) and 
+
+χ = {x|h(x) > 0} = {x|V (x) < M }, (23) where the function h(x) is said to be a stochastic zeroing control barrier function (stochastic ZCBF) and χ is said to be a safe set. The reason for defining χ as an open set and using h(x) is to consider stochastic safety-critical control theory, which is proposed in Section 8 below. Then, consider Theorem 2 (in Section 8). Let μ ∈ (0 , M ) and 
+
+b = eigmin[ Q] − eigmin[ P ] tr[ GT P G ] 
+
+> M−μ
+
+2eigmax[ P GG T P ] , (24) 6Figure 3: The brief sketch of the Lyapunov function V (x), the stochastic ZCBF 
+
+h(x), the safe set χ and the initial state set χh>μ for a state space ( x1, x 2)T .where tr[ X] is the trace, eigmax[ X] is the maximum eigenvalue, and eigmin[ X]is the minimum eigenvalue of a positive semi-definite matrix X, respectively. If 
+
+b > 0; that is, 
+
+M − μ > tr[ GT P G ] eigmin[ P ]eigmin[ Q] (25) is satisfied for some μ ∈ (0 , M ), the system (21) is safe in ( χh>μ , χ, 1 − e−bμ ), which means that, if the initial value x(0) is in the initial state set χh>μ =
+
+{x|h(x) > μ } = {x|V (x) ≤ M − μ}, the state x(t) remains the safe set χ for all 
+
+t ≥ 0 at least the probability of 1 − e−bμ .The specific image for the relationship between the Lyapunov function V (x), the stochastic ZCBF h(x), the safe set χ and the initial state set χh>μ is drawn in Fig. 3, provided that the state space is reduced to two dimensions ( x1, x 2)T
+
+to simplify drawings. 
+
+# 5 Stochastic Safety-critical Compensation by Lin-ear State Feedback 
+
+In this section, we design a linear compensator ucom (x(t)) = −K′x for the stabilized system (21) to increase the probability that the error state vector x
+
+keeps staying at χ. To do this, we consider the system (14) with u = utra (x) + 
+
+ucom (x) and (16) under the additive noise; that is, 
+
+dx (t) = ( ¯Ax (t) + Bu com (x(t))) dt + Gdw (t). (26) We also consider the stochastic ZCBF h(x) in (22) and the safe set χ in (23). 7Set 
+
+ucom (x) = −R′− 1BT P x, (27) where R′ is a 2 × 2 positive definite and symmetric matrix. Then, according to Corollary 1 (in Section 8), we achieve that the system (14) with u = utra (x) + 
+
+ucom (x) = −(R−1 + R′− 1)BT P x is safe in ( χh>μ , χ, 1 − e−(b+b′)μ) with 
+
+b+ = GT BR ′BT GGT G . (28) Because we assume BT G̸ = 0, b+ > 0 is satisfied. Thus, the addition of ucom (x)increases the safety probability; that is, 1 − e−(b+b′)μ > 1 − e−bμ .
+
+# 6 Stochastic Safety-critical Compensation by Non-linear State Feedback 
+
+In this section, we consider the nonlinear system (12) with u(t) = utra (x) + 
+
+unlc (x), where unlc (x) is a nonlinear compensator. If the initial value of the state x(0) is not so large, the behavior of the system (12) is approximated by the linearized system (14). If the noise is not very large, the linear compensator ucom (x) achieves high safety probability as stated in the previous section. However, because we consider Gaussian white noise, the impact of noise could become extremely large instantaneously, and in such cases, the state value may also become large. Therefore, in this section, we design a nonlinear compensator for the nonlinear system (12). Letting a design parameter b′ > 0 and 
+
+γ(x, b ) = 2 xT P (f (x) + g(x)utra (x) + b′GG T P x ) + GT P G, (29) we design ϕs(x) as follows: if γ(x, b ) > 0 and xT P g (x)̸ = 0, 
+
+ϕs(x) = −utra (x)
+
+− 2xT P (f (x) + b′GG T P x ) + GT P G 
+
+2xT P g (x)gT (x)P x gT (x)P x ; (30) otherwise, ϕs(x) = 0. Moreover, we consider 
+
+unlc (x) := 
+
+
+
+ϕs(x), h(x) ≤ μϕ′
+
+> s
+
+(x), h(x) ∈ (μ, M ′)0, h(x) ≥ M ′
+
+(31) and 
+
+ϕ′
+
+> s
+
+(x) = ϕs(x) h(x) − M ′
+
+μ − M ′ , (32) 8where M ′ ∈ (μ, M ] is designed so that unlc = 0 for all x ∈ χh>M ′ ⊂ χh>μ .Using Corollary 2, we see that the system (12) with control input u = unlc (x)is safe in ( χh>μ , χ, 1 − e−b′μ). Moreover, if 2xT P (f (x) + b′GG T P x ) + GT P G > 0 (33) holds for all x ∈ χμ with some μ > 0 satisfying xT P g (x) = 0, unlc (x) is continuous regardless of the value of x.
+
+# 7 Numerical Simulation 
+
+## 7.1 Parameter Settings 
+
+In this section, we confirm the validity of the safety-probability compensators by calculating concrete problem settings and their numerical simulation. We first consider to add the LQ controller utra (x) with (16) without any safety-probability compensator; that is, u = utra (x). Setting c = 3, ωr = 0 .1, and vr = 1, we obtain 
+
+A =
+
+
+
+0 0.1 0.3
+
+−0.1 0 10 0 0
+
+ , B =
+
+
+
+−1 00 30 −1
+
+ , (34) and by setting 
+
+Q′ =
+
+
+
+0.1 0 00 0.3 00 0 0.2
+
+ , R =
+
+40 00 40 
+
+
+
+, (35) the matrix P is obtained as 
+
+P =
+
+
+
+1.99 −0.06 −0.92 
+
+−0.06 2.64 11 .32 
+
+−0.92 11 .32 63 .81 
+
+ . (36) Thus, the feedback gain K is obtained as 
+
+K =
+
+−0.05 0.00 0.02 0.02 −0.09 −0.75 
+
+
+
+(37) and the ¯A = A − BK is given by ¯A =
+
+
+
+−0.05 0.10 0.32 
+
+−0.16 0.25 3.24 0.02 −0.08 −0.75 
+
+ . (38) Moreover, the diffusion coefficient G is assumed to be 
+
+G =
+
+
+
+0.08 0.08 0.08 
+
+ . (39) 9To satisfy the condition (25), M − μ > 3.53 is needed. Noting the condition, we set M = 10 and μ = 1; then, we obtain b = 0 .0043, and the system (14) with 
+
+u = utra (x) is safe in ( χh>μ , χ, 0.0043). Next, to enhance the safety of the safe set, we consider to design the linear safety-probability compensator ucom (x) given by (27). By choosing 
+
+R′ =
+
+15 00 15 
+
+
+
+, (40) we obtain b+ = 5 .79 from (28). Thus, the system (14) with u = utra (x)+ ucom (x)is safe in ( χh>μ , χ, 0.997). Finally, we employ the nonlinear safety-probability compensator unlc (x)given by (31) and apply u = utra (x) + unlc (x) to the system (12). Setting 
+
+b′ = 3 and M ′ = 9, the system is safe in ( χh>μ , χ, 0.950). 
+
+## 7.2 Simulation Results 
+
+In this subsection, we compare the safety-probability performances of the three controllers u = utra (x), u = utra (x) + ucom (x) and u = utra (x) + unlc (x) for the target nonlinear stochastic system (12) through numerical simulations. For all simulations, we set the initial state vector x(0) = (0 .5, 0.5, 0) T , and thus h(x0) = 8 .87. For each condition, we perform ten simulations with G in (39) and one simulation with G = 0. Figs. 4–13 show the results of u = utra (x), u = utra (x) + ucom (x) and 
+
+u = utra (x) + unlc (x), respectively. The ten sample paths are depicted by gray lines, the average of the sample paths is shown by the red line, and the results without noise (that is, G = 0) are shown by the blue line. Moreover, the purple lines in Figs. 4, 5, 6, 7, 10, and 11 indicate the boundary of the safe set χ, and the green line in Figs. 5, 7, 11 indicates the boundary of the initial state set 
+
+χh>μ .When u = utra (x); that is, without any safety-probability compensator, h(x)takes negative values as shown in Fig. 5; therefore, in Fig. 4, the trajectories of 
+
+x escape from the boundary of the safe set. This result accurately reflects the theoretically calculated safety probability of 0 .0043. When u = utra (x) + ucom (x); that is, with the linear safety-probability compensator, all sample paths remain in the safe set h(x) > 0 as shown in Fig. 7; therefore, in Fig. 6,the trajectories of x also remain inside the safe set. This result accurately reflects the theoretically calculated safety probability of 0.997. When u = utra (x) + unlc (x); that is, with the nonlinear safety-probability compensator, all sample paths remain in the safe set h(x) > 0 as shown in Fig. 11; therefore, in Fig. 10, the trajectories of x also remain inside the safe set. This result accurately reflects the theoretically calculated safety probability of 0 .950. 10 8 Theory 
+
+## 8.1 Notations 
+
+Let Rn be an n-dimensional Euclidean space and especially, R := R1. A Lie derivative of a smooth mapping W : Rn → R in a mapping F = ( F1, ..., F q ) : 
+
+Rn → Rn × Rq with F1, ..., F q : Rn → Rn is denoted by 
+
+Lf W (x) = 
+
+ ∂W ∂x F1(x), ..., ∂W ∂x Fq (x)
+
+
+
+. (41) For constants a, b > 0, a continuous mapping α : [ −b, a ] → R is said to be an extended class K function if it is strictly increasing and satisfies α(0) = 0. Aclass K function α is said to be of class K∞ if lim s→∞ α(s) = ∞. If a function 
+
+α is r times continuously differentiable, it is denoted as Cr . The boundary of a set A is denoted by ∂A.Let (Ω , F, {F t}t≥0, P) be a filtered probability space where Ω is the sample space, F is the σ-algebra that is a collection of all the events, {F t}t≥0 is a filtration of F and P is a probabilistic measure. In the filtered probability space, P[A|Ao] denotes the probability of some event A under some condition 
+
+Ao and Wt is a d-dimensional standard Wiener process. For a Markov process 
+
+Xt ∈ Rn with an initial state Xt = x0, we often use the following notation 
+
+Px0 [A] = P[A|X0 = x0]. The differential form of an Itˆ o integral of f : Rn → Rn
+
+over Wt is represented by f (x)dW t. The trace of a square matrix Q is denoted by tr[ Q]. 
+
+## 8.2 Stochastic System 
+
+We consider the following stochastic system: 
+
+dX t = {f (Xt) + g(Xt)( uo(Xt) + u(t)) }dt + σ(Xt)dW t, (42) where Xt ∈ Rn is a state vector with a fixed initial value x0 = x(0) ∈ Rn, uo :
+
+Rn → Rm is a pre-input assumed to be a continuous state-feedback, u ∈ U ⊂
+
+Rm is a compensator for safety-critical control, where U denotes an admissible control set, and maps f : Rn → Rn, g : Rn → Rn × Rm, σ : Rn → Rn × Rd
+
+are assumed to be all locally Lipschitz. The local Lipschitz condition on f , g, σ
+
+implies the existence of a stopping time T > 0 such that ( Xt)t<T is the maximal solution of the system. For a C2 mapping y : M → R, with M ⊂ Rn,
+
+LDf,g (u, u o(x), y (x)) := ( Lf y)( x) + ( Lg y)( x)( u + uo(x)) (43) 
+
+LIσ (y(x)) := 12 tr 
+
+"
+
+σ(x)σ(x)T
+
+"
+
+∂∂x 
+
+ ∂y ∂x 
+
+T #
+
+(x)
+
+#
+
+(44) 
+
+Lf,g,σ (u, u o, y (x)) := LDf,g (u, u o(x), y (x)) + LIσ (y(x)) (45) 
+
+Hσ (h(x)) := 12 Lσ h(x)( Lσ h(x)) T . (46) 11 8.3 Safety-probability Analysis and Design 
+
+8.3.1 Safety Probability 
+
+In this subsection, we improve the stochastic safety analysis method proposed in [9], which is based on stochastic zeroing control barrier functions (stochastic ZCBFs). Let us define a safe set χ ⊂ Rn being open, and there exists a mapping 
+
+h : Rn → R satisfying all the following conditions: (Z1 ) h(x) is C2.(Z2 ) h(x) is proper on χ; that is, for any L > 0, for any superlevel set {x ∈
+
+Rn|h(x) ≥ L} is compact. (Z3 ) The closure of χ is the 0-superlevel set of h(x); that is, 
+
+χ = {x ∈ Rn|h(x) > 0}, (47) 
+
+∂χ = {x ∈ Rn|h(x) = 0 } (48) are both satisfied. We set some sets and stopping times used in this subsection. For μ > 0, let 
+
+χμ := {x ∈ Rn|h(x) ∈ (0 , μ ]} ⊂ χ (49) 
+
+χh>μ := χ\χμ = {x ∈ Rn|h(x) > μ } (50) 
+
+Rnh≤μ := ˜ χ ∪ χμ = {x ∈ Rn|h(x) ≤ μ} (51) be defined. For a solution to system (42) with x0 ∈ χ, the first exit time from 
+
+χ is denoted by τ0.Let p ∈ [0 , 1]. System (42) said to be safe in (χh>μ , χ, p ) if, for any x0 ∈
+
+χh>μ ,
+
+Px0
+
+
+
+inf  
+
+> t≥0
+
+h(Xt∧τ0 ) > 0
+
+
+
+≥ p (52) is satisfied. To analyze the safety of a stochastic system, we define the following: 
+
+Definition 1 (Stochastic ZCBF [8]) Let (42) be considered with χ and h(x)
+
+satisfying (Z1), (Z2) and (Z3). If there exist continuous mapping ϕ : Rn → Rm
+
+and b > 0 such that, for all x ∈ Rnh≤μ,
+
+Lf,g,σ (uo(x), ϕ (x), h (x)) ≥ bH σ (h(x)) (53) 
+
+is satisfied with some b > 0, then h(x) is said to be a stochastic zeroing control barrier function (ZCBF) .
+
+Theorem 1 Let the system (42) be considered. If there exists a stochastic ZCBF h(x), then the system becomes safe in (χh>μ , χ, 1 − e−bμ ) by designing 
+
+u = ϕ(x) that satisfies all the conditions in Definition 1. ♦
+
+12 The proof for Theorem 1 is written in Appendix A below. 
+
+Remark 2 The results of this subsection are different from those in [9] in two points. The first is that we define safe in (χh>μ , χ, p ), which is the notion for a global time; in contrast, the previous work considers transiently safe, which is the notion for a specific Markov time. The other is that we set the initial state set (the first element of the triple for safety) as χh>μ , while the previous work considers the initial state set as χμ. The change in the initial state enables us to consider safety in global time. ♢
+
+8.3.2 Safety Probability Analysis and Linear Control Design For Stochastic Linear Systems 
+
+In this subsection, we improve the design compensators of the safety probability for a linear system with additive noises by improving the results of [8] using the safety proposed in the previous subsection. Consider a linear system with additive noise 
+
+dX t = ( AX t + Bu o(Xt)) dt + GdW t, (54) which is (42) with f (x) = Ax , g(x) = B, σ(x) = G and u = 0, where A ∈ Rn×n,
+
+B ∈ Rn×m and G ∈ Rn×d.
+
+Theorem 2 Letting uo(x) = −BKx with K ∈ Rm×n and ¯A = A−BK , assume that there exist positive definite and symmetric matrices P, Q ∈ Rn×n satisfying a Lyapunov equation 
+
+P ¯A + ¯AT P = −Q. (55) 
+
+Let us also consider a candidate for a stochastic ZBF 
+
+h(x) = −xT P x + M, M > 0, (56) 
+
+a safe set χ and the related sets χμ, χh>μ , and Rnh≤μ with μ ∈ (0 , M ). If 
+
+L := eigmin[ Q] − eigmin[ P ] tr[ GT P G ]
+
+M − μ > 0 (57) 
+
+is satisfied, then the system (54) is safe in (χh>μ , χ, 1 − e−bμ ), where 
+
+b ≤ L
+
+2eigmax[ P GG T P ] . (58) 
+
+♦
+
+The proof for Theorem 2 is written in Appendix B below. Next, we consider adding the compensator u for (54); that is, 
+
+dX t = ( AX t + B(uo(Xt) + u(t))) dt + GdW t. (59) 13 Corollary 1 Assume that the conditions in Theorem 2 are all satisfied. If there exist a positive definite and symmetric matrix R ∈ Rm × Rm and b+ > 0 such that 
+
+BR −1BT = b+GG T , (60) 
+
+then, the system (59) with u = ϕpo (x), where 
+
+ϕpo (x) := −R−1BT P x, (61) 
+
+is safe in (χh>μ , χ, 1 − e−(b+b+)μ). ♦
+
+The proof for Corollary 1 is shown in Appendix C. 
+
+8.3.3 Safety Probability Control Design For Stochastic Nonlinear Systems 
+
+In this subsection, we provide the design procedure for a compensator of the safety probability for a nonlinear system by applying our result of Theorem 1 to the result of [9]. 
+
+Corollary 2 Let the system (42) be considered with the safe set χ and a can-didate of a stochastic ZCBF h(x) satisfying all the conditions of (Z1)–(Z3). Let 
+
+Is(uo(x), h (x)) := Lf,g,σ (0 , u o(x), h (x)) (62) 
+
+Js(h(x)) := bH σ (h(x)) (63) 
+
+and ϕs : Rn → Rm be designed as 
+
+ϕs(x) = − Is(uo(x), h (x)) − Js(h(x)) 
+
+Lg h(x)( Lg h(x)) T (Lg h(x)) T (64) 
+
+for Is < J s ∩ Lg h̸ = 0 , and ϕs(x) = 0 for Is ≥ Js ∪ Lg h = 0 . Moreover, we consider 
+
+Φs := 
+
+ ϕs, x ∈ Rnh≤μ,ϕ′
+
+> s
+
+, x ∈ χh>μ , (65) 
+
+where ϕ′ 
+
+> s
+
+: χh>μ → Rm is continuous and satisfies ϕ′
+
+> s
+
+(x) = ϕs(x) for all x ∈
+
+∂χ h>μ .If, for all x ∈ χμ with some μ > 0 satisfying Lg h = 0 ,
+
+Lf h(x) + LIσ (h(X)) > bH σ (h(x)) (66) 
+
+holds, then Φs is continuous all in Rn and the system (42) with u = Φ s(x) is safe in (χh>μ , χ, 1 − e−bμ ). ♦
+
+While the proof is quite similar to Corollary 2 in [9], we describe it Appendix D for the sake of self-containment in this paper. 14 9 Conclusion 
+
+In this paper, we modified stochastic safety-critical control theory using the stochastic zeroing control barrier function (ZCBF) in [8] and applied it to safety-critical compensation for a trajectory tracking problem of marine vessels subject to irregular disturbances. The error dynamics of the vessel motion is stated in the state-space model and the tracking control is achieved by linear quadratic control for the linearized model. The safety probability was defined as the prob-ability that the error trajectory remains the designed region against irregular disturbances, which is assumed to be Gaussian white noise. Then, the linear and nonlinear safety probability compensators were proposed based on the mod-ified stochastic safety-critical control theory, and the effects of the compensators were confirmed by numerical simulation. 
+
+# References 
+
+[1] A. D. Ames, S. Coogan, M. Egerstedt, G. Notomista, K. Sreenath, and P. Tabuada. Control barrier functions: theory and applications. Proc. 18th Euro. Control Conf. , pages 3420–3431, 2019. [2] H. N. Esfahani and R. Szlapczynski. Robust-adaptive dynamic programming-based time-delay control of autonomous ships under stochas-tic disturbances using an actor-critic learning algorithm. J Marine Sci Technol , 26(4):1262–1279, 2021. [3] T. I. Fossen. Handbook of Marine Craft Hydrodynamics and Motion Con-trol . John Wiley & Sons Ltd., Chichester, UK, second edition, 2021. [4] Y. Fujii, H. Nakamura, and Y. Sato. Stability gain design method based on L2 norms for differentially flat systems. Transactions of the Society of Instrument and Control Engineers , 56(5):259–268, 2020. [5] A. Maki, K. Hoshino, L. Dostal, Y. Maruyama, F. Hane, and Y. Yoshimura. Stochastic stabilization and destabilization of ship maneuvering motion by multiplicative noise. J Marine Sci Technol , 28(8):704–718, 2023. [6] A. Maki, Y. Maruyama, Y. Liu, and L. Dostal. Comparison of stochastic stability boundaries for parametrically forced systems with application to ship rolling motion. J Marine Sci Technol , 29(5):446–456, 2024. [7] A. Nejati, S. Soudjani, and M. Zamani. Compositional construction of con-trol barrier functions for continuous-time stochastic hybrid systems. Auto-matica , 145:110513, 2022. [8] Y. Nishimura and K. Hoshino. Safety-probability analysis and control for stochastic systems based on lyapunov candidate functions. Proc. 62nd IEEE Conf. Decis. Contr. , pages 4818–4823, 2023. 15 [9] Y. Nishimura and K. Hoshino. Control barrier functions for stochastic systems and safety-critical control designs. IEEE Trans. Autom. Control ,69(11):8088–8095, 2024. [10] S. Otsuki, N. Hatta, M. Hanif, T. Hatanaka, and K. Nakashima. Hierarchi-cal vessel autonomous operation in a port with safety certificates: combined mpc and cbf approach. Proc. IFAC World Congress 2023 , pages 3481–3488, 2023. [11] S. Prajna, A. Jadbabaie, and G. J. Pappas. A framework for worst-case and stochastic safety verification using barrier certificates. IEEE Trans. Autom. Control , 52(8):1415–1428, 2007. [12] R. M. Saback, A. G. S. Conceicao, T. L. M. Santos, J. Albiez, and M. Reis. Nonlinear model predictive control applied to an autonomous underwater vehicle. IEEE J. Oceanic Engineering , 45(3):799–812, 2020. [13] B. Xue, N. Zhan, and M. Franzle. Reach-avoid analysis for stochastic differential equations. IEEE Trans. Autom. Control , 69(3):1882–1889, 2024. 
+
+# A Proof of Theorem 1 
+
+## A.1 Existence of Solution 
+
+First, we prove that the existence of a stochastic ZCBF h(x) ensures that the system (42) with u = ϕ(x) has a solution in global time. To do this, we consider the following definition and theorem. 
+
+Definition 2 (FCiP, [8]) Let system (42) be considered with u = ϕ(x), where 
+
+ϕ : Rn → Rm is a continuous mapping. If a C2 mapping Y : Rn → [0 , ∞)
+
+is proper; that is, for any L ∈ [0 , ∞), any sublevel set {x ∈ Rn|Y (x) ≤ L} is compact, and a continuous mapping ψ : [0 , ∞) × (0 , 1) → [0 , ∞) both exist for every x0 ∈ Rn such that 
+
+Px0 [∀t ∈ [0 , l ], Y (Xt) ≤ ψ(l, ϵ )] ≥ 1 − ϵ (67) 
+
+holds for all l ∈ [0 , ∞) and all ϵ ∈ (0 , 1] , then the system is said to be forward complete in probability (FCiP). ■
+
+Theorem 3 ([8]) Let us consider system (42) , a continuous mapping ϕ : Rn →
+
+Rm and an initial condition x0 ∈ Rn. If there exists a proper and C2 mapping 
+
+Y : Rn → [0 , ∞) such that 
+
+Lf,g,σ (ϕ(x), u o(x), Y (x)) ≤ c1Y (x) + c2 (68) 
+
+is satisfied for all x ∈ Rn and for some c1 ∈ [0 , ∞) and c2 ∈ [0 , ∞), then the system with u = ϕ(x) is FCiP. ♦
+
+16 Let 
+
+hb(x) := ebh (x). (69) Because 
+
+LDf,g (ϕ(x), u o(x), h b(x)) = bh b(x)LDf,g (ϕ, u o(x), h (x)) , (70) is satisfied, (53) changes as follows: 
+
+LDf,g (ϕ(x), u o(x), h b(x)) ≥ bh b(x) bH σ (h(x)) − LIσ (h(x)) . (71) Moreover, letting 
+
+Bb(x) := ( hb(x)) −1 = e−bh (x), (72) we obtain 
+
+LIσ (Bb(x)) = bB b(x) bH σ (h(x)) − LIσ (h(x)) , (73) which transforms (71) into 
+
+LDf,g (ϕ, u o(x), h b(x)) ≥ (hb(x)) 2LIσ (Bb(x)) . (74) Therefore, using the relationship 
+
+LDf,g (u, u o(x), h b(x)) = −(hb(x)) 2LDf,g (u, u o(x), B b(x)) , (75) we obtain 
+
+−LDf,g (ϕ, u o(x), B b(x)) ≥ LIσ (Bb(x)); (76) that is, 
+
+Lf,g,σ (ϕ, u o(x), B b(x)) ≤ 0, x ∈ Rnh≤μ. (77) Here, we consider the rest space χh>μ , where the assumption (Z2) implies that the space is bounded and h is bounded from above in the space. In addition, 
+
+Bb is decreasing, uo is continuous, and f , g, and σ are all locally Lipschitz. Therefore, Lf,g,σ (ϕ, u o(x), B b(x)) is bounded from above; that is, for sufficiently large values c1 > 0 and c2 > 0, we obtain 
+
+Lf,g,σ (ϕ, u o(x), B b(x)) ≤ c1Bb(x) + c2, x ∈ χh>μ . (78) Considering (77) and (78), all the conditions of Theorem 3 are satisfied with 
+
+Y = Bb; that is, the system (42) with u = ϕ(x) is FCiP. 17 A.2 Safety Probability 
+
+Next, considering 
+
+{Xt ∈ χ, ∀t ≥ 0} = {τ0 = ∞} (79) = {inf  
+
+> t≥0
+
+h(Xt) > 0} (80) = {inf  
+
+> t≥0
+
+h(Xt∧τ0 ) > 0} (81) = {sup 
+
+> t≥0
+
+Bb(Xt∧τ0 ) < 1} (82) and Markov inequality, for x ∈ χh>μ ,
+
+Px0
+
+
+
+{sup 
+
+> t≥0
+
+Bb(Xt∧τ0 ) ≥ m} ∩ { τμ < ∞} 
+
+
+
+≤ Ex0
+
+sup t≥0 Bb(Xt∧τ0 )I{τμ<∞} 
+
+
+
+m (83) for any m > 0. Choosing m = 1, we obtain 
+
+Px0
+
+
+
+{inf  
+
+> t≥0
+
+h(Xt∧τ0 ) ≤ 0} ∩ { τμ < ∞} 
+
+
+
+= Px0
+
+
+
+{sup 
+
+> t≥0
+
+Bb(Xt∧τ0 ) ≥ 1} ∩ { τμ < ∞} 
+
+
+
+(84) 
+
+≤ Ex0
+
+
+
+sup 
+
+> t≥0
+
+Bb(Xt∧τ0 )I{τμ<∞} 
+
+
+
+. (85) Here, considering the strong Markov property, we obtain 
+
+Ex0
+
+
+
+sup 
+
+> t≥0
+
+Bb(Xt∧τ0 )I{τμ<∞} 
+
+
+
+= Ex0
+
+"
+
+Exτμ 
+
+"
+
+sup 
+
+> t≥τμ
+
+Bb(X(t−τμ)∧τ0 )
+
+#
+
+I{τμ<∞} 
+
+#
+
+(86) 
+
+≤ Ex0
+
+Bb(Xτμ )I{τμ<∞} 
+
+ (87) = e−bμ Px0 [{τμ < ∞} ], (88) where we use Dynkin’s formula with the given condition (77): 
+
+Exτμ 
+
+Bb(X(t−τμ)∧τ0 ) − Bb(Xτμ ) (89) = Exτμ 
+
+"Z (t−tμ )∧τ0
+
+> τμ
+
+Lf,g,σ (ϕ(Xτ ), u o(Xτ ), B b(Xτ )dτ 
+
+#
+
+≤ 0. (90) 18 Substituting the above result to (85), we obtain 
+
+Px0
+
+
+
+{inf  
+
+> t≥0
+
+h(Xt∧τ0 ) ≤ 0} ∩ { τμ < ∞} 
+
+
+
+≤ e−bμ Px0 [{τμ < ∞} ]; (91) thus, 
+
+Px0 [{Xt ∈ χ, ∀t ≥ 0} ∩ { τμ < ∞} ]= Px0
+
+
+
+{inf  
+
+> t≥0
+
+h(Xt∧τ0 ) > 0} ∩ { τμ < ∞} 
+
+
+
+(92) 
+
+≥ (1 − e−bμ )Px0 [{τμ < ∞} ] (93) On the other hand, for x ∈ χh>μ , we obtain 
+
+Px0 [{Xt ∈ χ, ∀t ≥ 0} ∩ { τμ = ∞} ]= Px0 [{τμ = ∞} ] (94) 
+
+≥ (1 − e−bμ )Px0 [{τμ = ∞} ] (95) Combining (95) and (93), we obtain 
+
+Px0 [{Xt ∈ χ, ∀t ≥ 0}]= Px0 [{Xt ∈ χ, ∀t ≥ 0} ∩ { τμ = ∞} ]+ Px0 [{Xt ∈ χ, ∀t ≥ 0} ∩ { τμ < ∞} ] (96) 
+
+≥ (1 − e−bμ ) ( Px0 [{τμ = ∞} ] + Px0 [{τμ < ∞} ]) (97) = 1 − e−bμ . (98) This completes the proof. 
+
+# B Proof of Theorem 2 
+
+This theorem is proven by showing that h(x) is a stochastic ZCBF. In the proof, we often use the relationship eigmin[ Y ]xT x ≤ xT Y x ≤ eigmax[ Y ]xT x (99) for a symmetric matrix Y ∈ Rn × Rn.First, because the assumption of (53) has to hold for x ∈ Rnh≤μ; that is, 
+
+xT P x ≥ M − μ. (100) Therefore, it is sufficient for 
+
+xT x ≥ M − μ
+
+eigmin[ P ] (101) 19 to satisfy assumption (53). On the other hand, the given assumptions (57) and (58) yield eigmin[ Q] − 2b · eigmax[ P GG T P ] ≥ eigmax[ P ] tr[ GT P G ]
+
+M − μ . (102) Thus, we obtain the following condition of 
+
+M − μ
+
+eigmin[ P ] ≥ tr[ GT P G ]eigmin[ Q] − 2b · eigmax[ P GG T P ] . (103) This results in 
+
+xT x ≥ tr[ GT P G ]eigmin[ Q] − 2b · eigmax[ P GG T P ] . (104) Applying (99) to the above inequality, we obtain 
+
+xT Qx − tr[ GT P G ] ≥ 2bx T P GG T P x, (105) which is the same as 
+
+LAx,B,G (0 , −BKx, h (x)) ≥ bH G(h(x)) . (106) This is a sufficient condition that h(x) is a stochastic ZCBF with ϕ = 0. Con-sequently, by Theorem 1, the system is safe in ( χh>μ , χ, 1 − e−bμ ). 
+
+# C Proof of Corollary 1 
+
+Considering u = ϕpo (x) with (61) and h(x) with (56), we obtain 
+
+LAx,B,G (ϕpo (x), −BKx, h (x)) = xT Qx − tr GT P G 
+
++ 2 xT P BR −1BT P x ; (107) thus, applying (106), we obtain 
+
+LAx,B,G (ϕpo (x), −BKx, h (x)) 
+
+≥ 2bx T P GG T P x + 2 xT P BR −1BT P x. (108) Moreover, we also consider the additional assumption (60), the above inequality results in 
+
+LAx,B,G (ϕpo (x), −BKx, h (x)) ≥ 2( b + b+)xT P GG T P x, (109) which implies (53), provided that b is replaced by b + b+. This completes the proof. 20 D Proof of Corollary 2 
+
+First, consider the case L g h̸ = 0 in χμ. If Is < J s, we obtain 
+
+Lf,g,σ (ϕs(x), u o(x), h (x)) = bH σ (h(x)) (110) and if Is ≥ Js, we obtain 
+
+Lf,g,σ (ϕs(x), u o(x), h (x)) = Is(uo(x), h (x)) 
+
+≥ Js(h(x)) = bH σ (h(x)) .
+
+Therefore, regardless of Is < J s or Is ≥ Js, the inequality (53) is satisfied. Moreover, because L g h(x), Is(uo(x), h (x)) and Js(h(x)) are all continuous in Lg h(x)̸ = 0 and ϕs(x) → 0 as Is → Js uniformly when L g h(x)̸ = 0, ϕs(x) is continuous in L g h(x)̸ = 0. Then, we consider the other case, i.e., L g h = 0 in 
+
+χμ. The additional condition (66) implies that there exists a sufficiently small constant ϵ > 0 such that Lf h(x) + LIσ (h(x)) − ϵ ≥ bH σ (h(x)) (111) is satisfied. Combining the inequality and the assumption of uo to be continuous, for a subset Goμ ⊂ χμ, which is a neighborhood of xg ∈ { x ∈ χμ|Lg h(x) = 0 }|| Lg h(x)uo(x)|| ≤ ϵ (112) is satisfied. Thus, for x ∈ Goμ , we obtain Lf h(x) + LIσ (h(x)) + L g h(x)uo(x) ≥ bH σ (h(x)) , (113) which implies that Is ≥ Js; namely, ϕs = 0 in Go. Therefore, ϕs is continuous around L g h(x) = 0 in χμ.Consequently, ϕs is always continuous in χ and satisfies all the assumptions and conditions of Theorem 1. Moreover, because u = ϕ′
+
+> s
+
+(x) is continuous in 
+
+χh>μ and ϕ′
+
+> s
+
+(x) = ϕs(x) for all x ∈ ∂χ h>μ , u is continuous for all χ. This completes the proof. 21 Figure 4: Trajectories with u = utra and safety boundary. 
+
+Figure 5: Time responses of h(x) with u = utra .22 Figure 6: Trajectories with u = utra + ucom and safety boundary. 
+
+Figure 7: Time responses of h(x) with u = utra + ucom .23 Figure 8: Time responses of vcom .
+
+Figure 9: Time responses of ωcom .24 Figure 10: Trajectories with u = utra + unlc and safety boundary. 
+
+Figure 11: Time responses of h(x) with u = utra + unlc .25 Figure 12: Time responses of vnlc .
+
+Figure 13: Time responses of ωnlc .26
