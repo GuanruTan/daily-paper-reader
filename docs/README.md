@@ -6,74 +6,73 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-04-01
-- 运行时间：2026-04-01 20:57:09 UTC
+- 最新运行日期：2026-04-02
+- 运行时间：2026-04-02 19:41:38 UTC
 - 运行状态：成功
 - 本次总论文数：17
 - 精读区：6
 - 速读区：11
 
 ### 今日简报（AI）
-- 今日共生成 17 篇推荐（精读 6 篇，速读 11 篇）
-- 精读：《Uncertainty-Aware Trajectory Prediction: A Unified Framework Harnessing Positional and Semantic Uncertainties》（10.0/10）, 《SparseDriveV2: Scoring is All You Need for End-to-End Autonomous Driving》（9.0/10）
-- 速读：《Collision-Aware Vision-Language Learning for End-to-End Driving with Multimodal Infraction Datasets》（8.0/10）, 《Multi-AUV Ad-hoc Networks-Based Multi-Target Tracking Based on Scene-Adaptive Embodied Intelligence》（8.0/10）, 《TrackMAE: Video Representation Learning via Track Mask and Predict》（8.0/10）
-- 这些结果覆盖了当下较热的方向，建议先看精读区论文的关键问题与方法。
-- 详情：[/202604/01/README](/202604/01/README)
+今日深度解析 17 篇 AI 顶尖成果，重点攻克自动驾驶轨迹预测与类人机器人导航难题。
+满分论文 COTTA 揭示了上下文感知迁移的巨大潜力，而人类数据驱动的导航技术正让机器人更具“人味”。
+推荐关注强化学习在 OOD 驾驶场景生成中的应用，以应对复杂多变的现实环境挑战。
+- 详情：[/202604/02/README](/202604/02/README)
 
 ### 精读区论文标签
-1. [Uncertainty-Aware Trajectory Prediction: A Unified Framework Harnessing Positional and Semantic Uncertainties](/202604/01/2603.29362v1-uncertainty-aware-trajectory-prediction-a-unified-framework-harnessing-positional-and-semantic-uncertainties)  
+1. [COTTA: Context-Aware Transfer Adaptation for Trajectory Prediction in Autonomous Driving](/202604/02/2604.00402v1-cotta-context-aware-transfer-adaptation-for-trajectory-prediction-in-autonomous-driving)  
    标签：评分：10.0/10、query:tp
-   evidence：针对车辆和行人的轨迹预测统一框架，包含位置和语义不确定性建模
-2. [SparseDriveV2: Scoring is All You Need for End-to-End Autonomous Driving](/202604/01/2603.29163v1-sparsedrivev2-scoring-is-all-you-need-for-end-to-end-autonomous-driving)  
+   evidence：自动驾驶轨迹预测的迁移自适应
+2. [Learning Humanoid Navigation from Human Data](/202604/02/2604.00416v1-learning-humanoid-navigation-from-human-data)  
    标签：评分：9.0/10、query:tp
-   evidence：自动驾驶候选轨迹评分
-3. [Communication Outage-Resistant UUV State Estimation: A Variational History Distillation Approach](/202604/01/2603.29512v1-communication-outage-resistant-uuv-state-estimation-a-variational-history-distillation-approach)  
-   标签：评分：9.0/10、query:tp
-   evidence：将无人水下航行器的轨迹预测视为近似贝叶斯推理过程
-4. [FODMP: Fast One-Step Diffusion of Movement Primitives Generation for Time-Dependent Robot Actions](/202604/01/2603.24806v1-fodmp-fast-one-step-diffusion-of-movement-primitives-generation-for-time-dependent-robot-actions)  
+   evidence：扩散模型预测类人机器人的可能未来轨迹分布
+3. [RAD-LAD: Rule and Language Grounded Autonomous Driving in Real-Time](/202604/02/2603.28522v1-rad-lad-rule-and-language-grounded-autonomous-driving-in-real-time)  
    标签：评分：8.0/10、query:tp
-   evidence：使用扩散模型生成机器人动作的完整轨迹
-5. [Trace2Skill: Distill Trajectory-Local Lessons into Transferable Agent Skills](/202604/01/2603.25158v3-trace2skill-distill-trajectory-local-lessons-into-transferable-agent-skills)  
+   evidence：自动驾驶的实时运动规划
+4. [C-TRAIL: A Commonsense World Framework for Trajectory Planning in Autonomous Driving](/202604/02/2603.29908v1-c-trail-a-commonsense-world-framework-for-trajectory-planning-in-autonomous-driving)  
    标签：评分：8.0/10、query:tp
-   evidence：利用大语言模型将局部轨迹经验提炼为智能体技能
-6. [AutoWorld: Scaling Multi-Agent Traffic Simulation with Self-Supervised World Models](/202604/01/2603.28963v1-autoworld-scaling-multi-agent-traffic-simulation-with-self-supervised-world-models)  
+   evidence：利用大语言模型进行自动驾驶轨迹规划
+5. [MVNN: A Measure-Valued Neural Network for Learning McKean-Vlasov Dynamics from Particle Data](/202604/02/2604.00333v1-mvnn-a-measure-valued-neural-network-for-learning-mckean-vlasov-dynamics-from-particle-data)  
    标签：评分：8.0/10、query:tp
-   evidence：多智能体交通仿真与轨迹学习
+   evidence：从粒子轨迹观测中学习相互作用力
+6. [Behavioral Score Diffusion: Model-Free Trajectory Planning via Kernel-Based Score Estimation from Data](/202604/02/2604.00391v1-behavioral-score-diffusion-model-free-trajectory-planning-via-kernel-based-score-estimation-from-data)  
+   标签：评分：8.0/10、query:tp
+   evidence：通过得分估计进行无模型轨迹规划
 
 ### 速读区论文标签
-1. [Collision-Aware Vision-Language Learning for End-to-End Driving with Multimodal Infraction Datasets](/202604/01/2603.25946v1-collision-aware-vision-language-learning-for-end-to-end-driving-with-multimodal-infraction-datasets)  
+1. [Forecasting Motion in the Wild](/202604/02/2604.01015v1-forecasting-motion-in-the-wild)  
    标签：评分：8.0/10、query:tp
-   evidence：碰撞感知表征学习与主动违规预测
-2. [Multi-AUV Ad-hoc Networks-Based Multi-Target Tracking Based on Scene-Adaptive Embodied Intelligence](/202604/01/2603.27194v1-multi-auv-ad-hoc-networks-based-multi-target-tracking-based-on-scene-adaptive-embodied-intelligence)  
+   evidence：将稠密点轨迹作为行为表示的视觉标记
+2. [ReinDriveGen: Reinforcement Post-Training for Out-of-Distribution Driving Scene Generation](/202604/02/2604.01129v1-reindrivegen-reinforcement-post-training-for-out-of-distribution-driving-scene-generation)  
    标签：评分：8.0/10、query:tp
-   evidence：自主水下航行器网络的多目标跟踪
-3. [TrackMAE: Video Representation Learning via Track Mask and Predict](/202604/01/2603.27268v1-trackmae-video-representation-learning-via-track-mask-and-predict)  
-   标签：评分：8.0/10、query:tp
-   evidence：明确使用运动轨迹作为重建信号
-4. [Stochastic Safety-critical Control Compensating Safety Probability for Marine Vessel Tracking](/202604/01/2603.27943v1-stochastic-safety-critical-control-compensating-safety-probability-for-marine-vessel-tracking)  
-   标签：评分：8.0/10、query:tp
-   evidence：干扰下的船舶跟踪与轨迹控制
-5. [RiskProp: Collision-Anchored Self-Supervised Risk Propagation for Early Accident Anticipation](/202604/01/2603.27165v1-riskprop-collision-anchored-self-supervised-risk-propagation-for-early-accident-anticipation)  
+   evidence：编辑交通参与者轨迹以生成驾驶场景
+3. [SCRAMPPI: Efficient Contingency Planning for Mobile Robot Navigation via Hamilton-Jacobi Reachability](/202604/02/2603.26995v1-scramppi-efficient-contingency-planning-for-mobile-robot-navigation-via-hamilton-jacobi-reachability)  
    标签：评分：7.0/10、query:tp
-   evidence：从行车记录仪视频中预测即将发生的碰撞
-6. [HiFlow: Tokenization-Free Scale-Wise Autoregressive Policy Learning via Flow Matching](/202604/01/2603.27281v1-hiflow-tokenization-free-scale-wise-autoregressive-policy-learning-via-flow-matching)  
+   evidence：具有安全约束的自主机器人轨迹优化问题
+4. [Energy-Aware Imitation Learning for Steering Prediction Using Events and Frames](/202604/02/2603.28008v1-energy-aware-imitation-learning-for-steering-prediction-using-events-and-frames)  
    标签：评分：7.0/10、query:tp
-   evidence：针对自主智能体的全局轨迹连贯性与连续动作序列建模
-7. [HMPDM: A Diffusion Model for Driving Video Prediction with Historical Motion Priors](/202604/01/2603.27371v1-hmpdm-a-diffusion-model-for-driving-video-prediction-with-historical-motion-priors)  
+   evidence：利用多模态传感器的自动驾驶转向预测
+5. [Beyond Scanpaths: Graph-Based Gaze Simulation in Dynamic Scenes](/202604/02/2603.28319v1-beyond-scanpaths-graph-based-gaze-simulation-in-dynamic-scenes)  
    标签：评分：7.0/10、query:tp
-   evidence：预测驾驶场景的演变
-8. [LLM-Enabled Low-Altitude UAV Natural Language Navigation via Signal Temporal Logic Specification Translation and Repair](/202604/01/2603.27583v1-llm-enabled-low-altitude-uav-natural-language-navigation-via-signal-temporal-logic-specification-translation-and-repair)  
+   evidence：在驾驶场景中随时间展开原始注视轨迹
+6. [Collisionless Multi-Agent Path Planning in the Hamilton-Jacobi Formulation](/202604/02/2603.28993v1-collisionless-multi-agent-path-planning-in-the-hamilton-jacobi-formulation)  
    标签：评分：7.0/10、query:tp
-   evidence：为无人机导航合成轨迹
-9. [Language-Grounded Multi-Agent Planning for Personalized and Fair Participatory Urban Sensing](/202604/01/2603.24014v1-language-grounded-multi-agent-planning-for-personalized-and-fair-participatory-urban-sensing)  
+   evidence：无碰撞多智能体路径规划与最优轨迹
+7. [Multi-AUV Cooperative Target Tracking Based on Supervised Diffusion-Aided Multi-Agent Reinforcement Learning](/202604/02/2603.29426v1-multi-auv-cooperative-target-tracking-based-on-supervised-diffusion-aided-multi-agent-reinforcement-learning)  
+   标签：评分：7.0/10、query:tp
+   evidence：海洋勘探中的多AUV协同目标跟踪
+8. [Long-Horizon Geometry-Aware Navigation among Polytopes via MILP-MPC and Minkowski-Based CBFs](/202604/02/2604.00162v1-long-horizon-geometry-aware-navigation-among-polytopes-via-milp-mpc-and-minkowski-based-cbfs)  
+   标签：评分：7.0/10、query:tp
+   evidence：自主导航的标称轨迹生成
+9. [Bilingual Text-to-Motion Generation: A New Benchmark and Baselines](/202604/02/2603.25178v1-bilingual-text-to-motion-generation-a-new-benchmark-and-baselines)  
    标签：评分：6.0/10、query:tp
-   evidence：通过基于语言的协商为多智能体框架优化感知路线
-10. [TAG: Target-Agnostic Guidance for Stable Object-Centric Inference in Vision-Language-Action Models](/202604/01/2603.24584v1-tag-target-agnostic-guidance-for-stable-object-centric-inference-in-vision-language-action-models)  
+   evidence：文本到运动生成及跨语言语义对齐
+10. [Can Vision Foundation Models Navigate? Zero-Shot Real-World Evaluation and Lessons Learned](/202604/02/2603.25937v1-can-vision-foundation-models-navigate-zero-shot-real-world-evaluation-and-lessons-learned)  
    标签：评分：6.0/10、query:tp
-   evidence：在VLA模型中生成以物体为中心的抓取轨迹
-11. [Connectivity-Aware Representations for Constrained Motion Planning via Multi-Scale Contrastive Learning](/202604/01/2603.25298v1-connectivity-aware-representations-for-constrained-motion-planning-via-multi-scale-contrastive-learning)  
+   evidence：机器人轨迹质量与导航评估
+11. [DiffusionAnything: End-to-End In-context Diffusion Learning for Unified Navigation and Pre-Grasp Motion](/202604/02/2603.26322v1-diffusionanything-end-to-end-in-context-diffusion-learning-for-unified-navigation-and-pre-grasp-motion)  
    标签：评分：6.0/10、query:tp
-   evidence：用于运动规划的连通性感知表示学习
+   evidence：直接从视觉预测运动规划
 
 
 <div class="dpr-home-promo-card">
