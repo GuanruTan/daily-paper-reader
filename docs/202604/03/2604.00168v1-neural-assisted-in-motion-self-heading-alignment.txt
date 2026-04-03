@@ -1,0 +1,679 @@
+Title: Neural-Assisted in-Motion Self-Heading Alignment
+
+URL Source: https://arxiv.org/pdf/2604.00168v1
+
+Published Time: Thu, 02 Apr 2026 00:08:47 GMT
+
+Number of Pages: 12
+
+Markdown Content:
+> 1
+
+# Neural-Assisted in-Motion Self-Heading Alignment 
+
+Zeev Yampolsky 1∗ , Felipe O. Silva 2 , Adriano Frutuoso 3 , and Itzik Klein 11The Hatter Department of Marine Technologies, Charney School of Marine Sciences, University of Haifa, Haifa, Israel 
+
+> 2
+
+Department of Automatics, School of Engineering Federal University of Lavras, Lavras, MG, 37200-900, Brazil 
+
+> 3
+
+Department of Higher Education Federal Institute of Amazonas, Manaus, AM, 69075-351, Brazil 
+
+Abstract —Autonomous platforms operating in the oceans require accurate navigation to successfully complete their mission. In this regard, the initial heading estimation accuracy and the time required to achieve it play a critical role. The initial heading is traditionally estimated by model-based approaches employing orientation decomposition. However, methods such as the dual vector decomposition and optimized attitude decom-position achieve satisfactory heading accuracy only after long alignment times. To allow rapid and accurate initial heading estimation, we propose an end-to-end, model-free, neural-assisted framework using the same inputs as the model-based approaches. Our proposed approach was trained and evaluated on real-world dataset captured by an autonomous surface vehicle. Our approach shows a significant accuracy improvement over the model-based approaches achieving an average absolute error improvement of 53%. Additionally, our proposed approach was able to reduce the alignment time by up to 67%. Thus, by employing our proposed approach, the reduction in alignment time and improved accuracy allow for a shorter deployment time of an autonomous platform and increased navigation accuracy during the mission. 
+
+I. I NTRODUCTION 
+
+Accurate initial attitude alignment is a fundamental prereq-uisite for the proper operation of strapdown inertial naviga-tion systems (SINS), directly affecting the performance of subsequent navigation, guidance, and control tasks [1, 2]. Among the attitude components, heading (yaw) alignment is widely recognized as the most challenging, particularly in scenarios where the vehicle experiences limited excitation, low dynamics, or operates in environments with poor (or none) external aiding [3]. This challenge is especially pronounced in marine and underwater applications, such as autonomous underwater vehicles (AUVs), where prolonged stationary or quasi-stationary conditions, slow drift, and low signal-to-noise ratios are common [4, 5]. Classical approaches to coarse self-alignment rely on ana-lytical or optimization-based formulations that exploit vector observations derived from inertial sensor measurements and known navigation-frame quantities, such as gravity and Earth rotation [6]. Seminal works on attitude determination and alignment, including Wahba’s problem formulation [7], early analytical alignment methods [8–10], and subsequent devel-opments in observability analysis [11–13], have established a 
+
+> ∗Corresponding author: Zeev Yampolsky, zyampols@campus.haifa.ac.il.
+
+solid theoretical foundation for SINS alignment. In practice, modern coarse alignment techniques, including variants of the attitude decomposition-based initial alignment (ADIA) and the optimization-based ADIA (OBA), construct observation vectors through temporal integration or averaging of inertial measurements, followed by closed-form or iterative attitude estimation [14–16]. Despite their strong theoretical grounding, the performance of these classical methods is tightly coupled to the quality and richness of the excitation experienced during the align-ment interval. Recent experimental studies have highlighted the practical limitations of such approaches under realistic operational conditions. In [17], a comprehensive performance evaluation of coarse alignment methods for AUVs operating under mooring conditions demonstrated that even carefully tuned analytical methods may suffer from significant accuracy degradation due to environmental disturbances, sensor noise, and limited observability. Extending this analysis, the results reported in [18] showed that under real drift conditions, where excitation is weak and highly non-stationary, the variability in alignment performance increases substantially, and the benefits of more sophisticated analytical formulations become marginal. More recently, the controlled in-motion alignment experiments presented in [19] further confirmed that, while deliberate maneuvers can improve observability, the relation-ship between motion patterns and achievable heading accuracy remains complex and difficult to exploit optimally using fixed analytical models. These findings suggest that, although classical self-alignment techniques are physically interpretable, their effectiveness in practice is constrained by assumptions on excitation, noise characteristics, and model fidelity that are often violated in real-world operations. This has motivated growing interest in data-driven approaches for inertial navigation, particularly those based on machine learning (ML) and neural networks (NN), which offer the potential to learn complex nonlinear relationships directly from sensor data. In recent years, the introduction of data-driven frameworks, such as neural networks (NN), has been increasing in the navigation literature [20, 21]. Neural networks in the naviga-tion literature are usually divided into end-to-end approaches, where the NN replaces the entire model and processing pipeline. These models are sometimes referred to as model-
+
+> arXiv:2604.00168v1 [cs.RO] 31 Mar 2026 2
+
+free frameworks. An additional category is hybrid models, where the NN is incorporated into the navigation pipeline. Research shows that relatively simple NN architectures, such as one-dimensional and two-dimensional convolutional neural networks (1DCNN and 2DCNN), or different types of recur-rent neural networks (RNN), demonstrate impressive results in tasks such as calibration, gyrocompassing, and more [22–28]. More advanced NN architectures have also been utilized to estimate the process noise of an extended Kalman filter [29] by employing a transformer architecture [30]. Motivated by these observations, this paper proposes an end-to-end neural-assisted in-motion self-heading alignment method that combines the physical structure of classical in-ertial alignment with the inference power of deep neural networks. Instead of explicitly constructing analytical observa-tion vectors or solving an attitude determination problem, the proposed neural network approach employs a 2D convolutional layer-based framework to estimate the heading angle of a ves-sel. The neural network architecture is deliberately designed to reflect the physical decomposition of the alignment problem by employing a multi-head structure. The proposed architecture leverages the noise reduction and regression capabilities of neural networks [31] to estimate the heading angle accurately and efficiently. The main contributions of this work are: 1) A neural-assisted model-free approach : We offer a neural end-to-end approach for self-heading alignment capable of improving the initial heading accuracy and reducing the required alignment duration. 2) Novel multi-head CNN-based NN : We propose a novel multi-head 2DCNN-based framework consisting of three 2DCNN heads followed by a fully connected (FC) regres-sion block for accurate and efficient heading estimation using inertial measurements only. The proposed method does not aim to discard established alignment theory; rather, it builds upon insights gained from previous analytical and experimental studies, including the observed sensitivity of classical methods to excitation and integration time [17–19]. By learning an implicit mapping from physically meaningful sensor inputs to the heading estimate, the network is expected to capture higher-order temporal correlations and residual observability patterns that are difficult to exploit using fixed analytical formulations. To train and validate the proposed approach, a real-world dataset was recorded using an autonomous surface vehicle (ASV) under mooring conditions. Five experiments were conducted on five different days, resulting in a diverse real-world dataset. The dataset was divided into training and validation sets, with 35 minutes used for training and four trajectories with a total duration of 8 minutes used for evaluation. The results show an average improvement of 53% over the model-based baseline approaches, while reducing the required alignment time by up to 67% .The rest of this paper is organized as follows: first, Section II provides the background for coarse alignment and describes the mathematical formulation for the baseline state-of-the-art approaches, the ADIA, DVA, and OBA approaches. Second, Section III provides the neural network mathematical formu-lations and describes the proposed NN architecture. Lastly, Section V describes the real-world data used to train and validate the proposed approach and discusses the results of the proposed NN in-motion self-alignment framework. II. P ROBLEM FORMULATION AND CLASSICAL IN-M OTION 
+
+ALIGNMENT METHODS 
+
+This section presents the mathematical formulation of the in-ertial coarse self-alignment problem and reviews the classical ADIA methods employed for in-motion heading estimation. The presentation closely follows the notation, assumptions, and structure adopted in [17–19], serving as a baseline for the data-driven approach proposed in this work. 
+
+A. Reference Frames and Attitude Decomposition 
+
+Let Fb, Fn, and Fi denote the body, navigation, and inertial reference frames, respectively. The vehicle attitude is repre-sented by the Direction Cosine Matrix (DCM) Cnb (t), which maps vectors expressed in Fb into Fn.Following classical inertial alignment theory [1, 32], the attitude matrix can be decomposed as 
+
+Cnb (t) = Cnn0 (t) Cn0 
+
+> b0
+
+Cb0 
+
+> b
+
+(t), (1) where Cn0 
+
+> b0
+
+is the constant initial attitude matrix to be es-timated, and Cnn0 (t) and Cb0 
+
+> b
+
+(t) describe the known attitude evolution of the navigation and body frames over the alignment interval [t0, t ].The matrices Cb0 
+
+> b
+
+(t) and Cn0 
+
+> n
+
+(t) are computed from the integration of angular rates as [19] 
+
+Cb0 
+
+> b
+
+(t) = I + sin ∥ϕ(t)∥∥ϕ(t)∥ [ϕ(t)×] + 1 − cos ∥ϕ(t)∥∥ϕ(t)∥2 [ϕ(t)×]2,
+
+(2) 
+
+Cn0 
+
+> n
+
+(t) = I + sin ∥θ(t)∥∥θ(t)∥ [θ(t)×] + 1 − cos ∥θ(t)∥∥θ(t)∥2 [θ(t)×]2,
+
+(3) with Cnn0 (t) = Cn0 
+
+> n
+
+(t)⊤.The rotation vectors ϕ(t) and θ(t) are computed as 
+
+ϕ(t) = 
+
+Z tt0
+
+ωbib (τ ) dτ + 12
+
+Z tt0
+
+Z τt0
+
+ωbib (s) ds × ωbib (τ )
+
+
+
+dτ, 
+
+(4) 
+
+θ(t) = 
+
+Z tt0
+
+ωnin (τ ) dτ, (5) where ωbib is the gyro-measured angular rate and ωnin is the navigation frame angular rate with respect to the inertial frame. 
+
+B. Attitude Decomposition-based Initial Alignment (ADIA) 
+
+Under low-dynamic conditions, typical of mooring, drift, or controlled in-motion alignment, the accelerometer measure-ment can be approximated as 
+
+f b(t) ≈ − Cbn(t)gn(t), (6) 3
+
+where gn(t) is the local gravity vector. Substituting (1) into (6) yields 
+
+Cb0 
+
+> b
+
+(t)f b(t) ≈ − Cb0 
+
+> n0
+
+Cn0 
+
+> n
+
+(t)gn(t), (7) which can be written in the generic vector observation form 
+
+ub0 (t) = Cb0 
+
+> n0
+
+un0 (t). (8) Equation (8) is the basis for ADIA. 
+
+C. Dual-Vector ADIA (DVA) 
+
+When only two non-collinear observation vectors u1 and u2
+
+are available, the constant attitude matrix Cn0 
+
+> b0
+
+can be obtained analytically as [1, 33] 
+
+Cn0 
+
+> b0
+
+=
+
+
+
+(un0 
+
+> 1
+
+)⊤
+
+(un0 
+
+> 2
+
+)⊤
+
+(un0 
+
+> 1
+
+× un0 
+
+> 2
+
+)⊤
+
+
+
+> −1
+
+
+
+ub0
+
+> 1
+
+⊤
+
+
+
+ub0
+
+> 2
+
+⊤
+
+
+
+ub0 
+
+> 1
+
+× ub0
+
+> 2
+
+⊤
+
+ . (9) The latter version of ADIA is frequently referred to as Dual-Vector ADIA (DVA) [17]. 
+
+D. Optimization-Based ADIA (OBA) 
+
+For OBA, in turn, the initial attitude is estimated by solving a Wahba-type optimization problem formulated in quaternion space [7]. The optimal quaternion q = [ s η⊤]⊤ is obtained from [16] 
+
+min  
+
+> q
+
+q⊤Kq, s.t. q⊤q = 1 , (10) where the matrix K is defined as 
+
+K =
+
+> N
+
+X
+
+> k=1
+
+ H+(un0 (tk)) − H−(ub0 (tk)) ⊤
+
+ H+(un0 (tk)) − H−(ub0 (tk))  , (11) with 
+
+H+(u) = 
+
+0 −u⊤
+
+u [u×]
+
+
+
+, (12) 
+
+H−(u) = 
+
+0 −u⊤
+
+u −[u×]
+
+
+
+. (13) The optimal quaternion corresponds to the eigenvector associ-ated with the smallest eigenvalue of K, and the initial attitude matrix is recovered as [15] 
+
+Cn0 
+
+> b0
+
+= C(q) = Cb0
+
+> n0
+> ⊤
+
+. (14) 
+
+E. Observation Vectors 
+
+For unaided, i.e., self-alignment, the observation vectors are computed as [19] 
+
+
+
+ub0 (t) = −
+
+Z tt0
+
+Cb0 
+
+> b
+
+(τ )f b(τ ) dτ, 
+
+un0 (t) = 
+
+Z tt0
+
+Cn0 
+
+> n
+
+(τ )gn(τ ) dτ, 
+
+(15) 
+
+Fig. 1: Block diagram showing our proposed data-driven approach for self-heading estimation. or, in instantaneous form, 
+
+( ub0 (t) = −Cb0 
+
+> b
+
+(t)f b(t),
+
+un0 (t) = Cn0 
+
+> n
+
+(t)gn(t). (16) When employing (15), DVA and OBA are respectively referred to as I-DVA and I-OBA [17]. When using (16) instead, they are called A-DVA and A-OBA, also respectively. III. P ROPOSED APPROACH 
+
+In this section, we present HeadingNet, our proposed, model-free, neural-assisted in-motion self-heading alignment. The proposed approach estimates the heading angle of the vessel at the end of the alignment time based on four types of inputs: 1) the measured angular velocity, ˜ωbib , 2) the measured specific force, ˜f b, 3) the transport rate, ωnin , and 4) the gravity vector, gn. The motivation for using these four inputs is twofold and follows the model-based approaches for self-heading alignment. First, all four inputs are used as in the model-based approaches. Second, the inputs are given in two different reference frames, enabling the theoretical foundation for solving the initial heading angle. Additionally, as in the model-based approaches, the same sensors are used. Besides the inertial sensors, the global navigation satellite system (GNSS) provides positioning, allowing for the calculation of the transport rate and gravity vector. Finally, as in any self-heading alignment at sea, we assume quasi-static conditions such that the specific force and angular velocity vectors approximately measure the gravity and the transport rate, respectively. HeadingNet is a neural network (NN) architecture, consisting of several two dimensional convolutional neural networks (2DCNN), followed by several fully connected (FC) lay-ers. HeadingNet receives the four inputs measured during a predefined alignment time, TAlign , and outputs the heading estimation at the end of that alignment time, ˆψTAlign , as illustrated in Figure 1. 
+
+A. HeadingNet Backbone Architecture 
+
+Figure 2 shows a detailed description of the backbone architec-ture of HeadingNet, showing the 2DCNN and FC blocks. The four inputs are split by the frame they are measured in, and processed by two separate 2DCNN heads, Head 1 and Head 2. Then, the output is concatenated and processed through 4
+
+Fig. 2: Detailed block diagram showing the proposed neural-assisted in-motion self-heading alignment architecture, that is HeadingNet, and the possible variation due to TAlign variations. an additional 2DCNN head, Head 3. Lastly, it is flattened and passed through a FC block consisting of four FC layers. The 2DCNN heads are utilized for feature and information extraction both in the spatial and temporal domains, with the first two 2DCNN heads used for lower-level feature extraction, and the later Head 3 is utilized for finer feature and information extraction. The FC block is utilized for the final regression and estimation of the heading angle at the end of the alignment time, ˆψTAlign .The architecture of Heads 1 and Head 2 is identical, and consists of three 2DCNN layers, where the first two layers are followed by a max pooling layer [34] and a leaky rectified linear unit (LeakyReLU) activation function [35, 36], while the third 2DCNN layer is followed only by a LeakyReLU activa-tion function. The first 2DCNN layer has an input of 1 channel and 16 output channels with a kernel sized (2 × TAlign ),the second 2DCNN layer has 16 input channels and outputs 32 channels, and has a kernel size (2 × 0.75 · TAlign ), the third 2DCNN layer has 32 input channels and 64 output channels with a kernel sized (2 × 0.5 · TAlign ). The two max pooling layers which are applied after the first and second 2DCNN layers have the same kernel size of (1 × 2) .The LeakyReLU activation function has a scaling factor for the negative values of αTalign , and has the same value for all LeakyReLU activation functions used in the HeadingNet architecture. The output of Head 1 and Head 2 are concatenated and processed by an additional 2DCNN head (Head 3), for further feature and information extraction. In Head 3, the concatenated input is processed by a fourth 2DCNN layer, with 64 input and 128 output channels, and a kernel size (3 × 3) . This layer is followed by a LeakyReLU activation function. The output of Head 3 is encoded in a latent representation and has several dimensions since it was previously processed by 2DCNN layers for feature, hidden dependencies, and cor-relations extraction. This output is flattened and passed to the FC block consisting of four FC layers. In the first three, each FC layer is followed by a hyperbolic tangent (TanH) nonlinear activation function applied to prevent the NN from acting as a large linear regressor model [36]. After the TanH, function a Dropout layer is applied for regularization [37], while the fourth and last FC layer directly outputs the estimated heading angle for the alignment time ˆψTAlign .The first FC layer input dimension is h1 
+
+> in
+
+and the output dimension is 512, the second FC layer has an input size of 512 and output size of 128, the third FC layer has an input size of 128 and an output size of 32, while the fourth and last FC layer has an input size of 32 and output size of one, that is the heading estimation ˆψTAlign . In all three dropout layers, the probability parameter of pTAlign is applied for all three. As presented in Figure 2, an average pooling layer is applied only on two out of the four inputs, namely the angular velocity, 
+
+˜ωbib , and the specific force, ˜f b, vectors. The average pooling layer [34] is applied to tackle the temporal size difference between the angular velocity and specific force, and the gravity and transport rate, thus equating their sizes before entering Head 1. The average pooling layer consists of six input chan-nels, each one with a kernel of (1 × k) and a stride of k, thus reducing the temporal dimension of the input by a constant factor of k. Figure 3 shows a general example of the average pooling layer receiving a measurement of duration T seconds. This measurement holds n specific force and angular velocity measurements, and m transport rate and gravity measurements, where n > m . By applying the average pool layer with a kernel of k, we reduce the n measurements by a factor of k,by averaging every k non-overlapping measurements, resulting in m specific force and angular velocity measurements. Note that the average pooling has no weights which are optimized during the training process, hence is not considered a learnable layer. 
+
+B. Neural network Formulation and Training Process 
+
+In this section the mathematical formulation and notation for all the neural network components and layers are described. 
+
+1) Fully Connected Neural Network: In a fully connected layer, each neuron in the current layer is connected to each neuron in the preceding layer and to each neuron in the following layer, where each neuron in the FC layer is defined by [38–40]: 
+
+z(l) 
+
+> i
+
+=
+
+> n(l−1)
+
+X
+
+> j=1
+
+ω(l) 
+
+> ij
+
+a(l−1)  
+
+> j
+
++ b(l) 
+
+> i
+
+(17) 5
+
+Fig. 3: Illustration of an average pooling operation with a kernel of size k, applied over a T second measurement window containing n IMU measurements and m transport-rate and gravity measurements, where n > m .where ω(l) 
+
+> ij
+
+is the weight and b(l) 
+
+> i
+
+is the bias of the ith neuron in the lth layer, al−1 
+
+> j
+
+is the output of the j neuron from the 
+
+(l − 1) th layer and is connected to the said ith neuron that is connected to the jth neuron in the (l − 1) th layer. 
+
+2) Two Dimensional Convolution Neural Network: Each CNN layer is comprised of several m1 × m2 matrices, where each entry in the matrix is a neuron and the matrix is called a kernel. A CNN kernel is defined as: [38, 40]: 
+
+C(l) 
+
+> ij
+
+=
+
+> m1
+
+X
+
+> α=0
+> m2
+
+X
+
+> β=0
+
+ω(r) 
+
+> αβ
+
+a(l−1) (i+α)( i+β) + b(r) (18) where ωrαβ is the weight at position (α, β ) of the kernel at the 
+
+rth layer, a is the output of the previous layer (l − 1) , and for each CNN kernel a single bias is added for the rth layer, denoted as b(r). The term C(l) 
+
+> ij
+
+is the CNN kernel output. 
+
+3) Nonlinear Activation Functions: In this section, we cover two nonlinear activation functions which are applied in our proposed HeadingNet architecture. Activation functions are applied in deep learning models to improve the NN perfor-mance and to prevent the NN model from acting as a large linear regressor [35, 36, 41]. Traditionally, activation function are applied as follows [36]: 
+
+a(l) 
+
+> i
+
+= h(z(l) 
+
+> i
+
+) (19) where z(l) 
+
+> i
+
+is the output we apply the activation functions h
+
+to, and a(l) 
+
+> i
+
+is the output. Notice that activation function is applied to the same neuron denoted by a subscript of i in the 
+
+lth layer. We employ two activation functions: 1) Leaky rectified linear unit (LeakyReLU) : an activation function which does not change the input for positive values while applying a scale, or a coefficient, to negative values, as follows [36]: 
+
+LeakyReLU (C(l) 
+
+> ij
+
+x) = 
+
+(
+
+C(l) 
+
+> ij
+
+, if C(l) 
+
+> ij
+
+≥ 0
+
+α · C(l) 
+
+> ij
+
+, otherwise (20) where C(l) 
+
+> ij
+
+is the LeakyReLU input, and α is the negative values coefficient. 2) Hyperbolic Tangent Function (Tanh) : A nonlinear ac-tivation function which applies the following to an input [35]: 
+
+T anh (z(l) 
+
+> i
+
+) = ez(l) 
+
+> i
+
+− e−z(l)
+
+> i
+
+ez(l) 
+
+> i
+
++ e−z(l)
+
+> i
+
+(21) where z(l) 
+
+> i
+
+is the input to the TanH activation function and e is the Euler constant. 
+
+4) Regularization: Overfitting is a term describing a phe-nomenon where a given NN is trained on a training set and achieves a low error om the training set by learning noise patterns unique to the set, however, failing to generalize to unseen data and performing poorly in evaluation [42]. In this work, to mitigate overfitting and improve the generalization of the NN, we utilize dropout regularization [37]. By applying dropout, a neuron is activated during training with probability 
+
+1 − p, as follows [37]: 
+
+rli ∼ Bermoulli (p)˜ali = rli · ali
+
+al+1  
+
+> j
+
+= ω(l+1)  
+
+> ji
+
+˜a(l) 
+
+> i
+
++ b(l+1) 
+
+> j
+
+(22) where rli is a random variable that is sampled from a
+
+Bernoulli distribution with a probability of p, ali is the input, which is the activation function output of the ith neuron of the previous lth layer (17), and · denotes the element-wise multiplication of rli with ali, which results in the dropout output 
+
+˜ali. Once dropout was applied, the output, ˜ali, is passed to the next layer connected neurons which are the weights , ω(l+1) 
+
+> ji
+
+and biases, b(l+1)  
+
+> j
+
+, of the next (l + a) layer. Notice that in our proposed approach the output of the activation function ali
+
+applied is the TanH activation function (21), since dropout is utilized in the FC blocks as described in Section III-A. 
+
+5) Training Process: During training, the goal is to determine the best weights and biases of all the neurons in the NN in order to achieve the lowest loss. The loss value is calculated by utilizing some loss function which compares the difference between the true value and the estimated value. In this work, the estimated value is an angle with a cyclic nature, unlike the unidirectional scale of traditional loss func-tions. Therefore, to effectively minimize the error between two angles, we adopt the cyclic loss mean square error (CMSE) as proposed in [43]. To this end, let: 
+
+∆ψi = ˆψi − ψi , ∀i ∈ 1, . . . , N (23) where ˆψi is the predicted heading angle, ψi is the true heading angle, and N is the number of samples in the batch. Then we calculate the error in a quadrant aware function, the atan2: 
+
+err i = atan2   sin(∆ ψi), cos(∆ ψi) , ∀i ∈ 1, . . . , N (24) Then, the CMSE is defined by: 
+
+LCMSE =   1
+
+N
+
+> N
+
+X
+
+> i=1
+
+err 2
+
+> i
+
+ · λ (25) 6
+
+where λ is a scaling factor which multiplies the CMSE loss. To estimate the optimal numeric values of weights and biases given the derivatives a gradient decent algorithm is applied: 
+
+θ = θ − η∇θ LCMSE (θ), θ = [ ω b]T (26) where ∇θ is the gradient with respect to the weights and biases, and η is the learning rate which is a hyperparameter that is set at the start of training. To estimate the correct gradient step, the adaptive moment estimation with weight decay (AdamW) is used [44]. AdamW offers to decouple the weight decay regularization from the optimization step performed by the optimizer with respect to the loss function. To further improve the accuracy of the heading estimation and improve convergence [44, 45] a learning rate scheduler was applied, the StepLR [46]. The main idea is that, to improve results during training, every few predefined steps, that is every predefined number of epochs, the learning rate decays by a predefined factor denoted as γLR .IV. H EADING NET ARCHITECTURE VARIATIONS 
+
+In real world scenarios the allowed alignment time, TAlign ,varies due to practical considerations. In Section III, we provided a general framework for our HeadingNet archi-tecture. Since the input size increases with alignment time, the backbone NN architecture is adapted to accommodate the larger input. In particular, the increased input temporal dimension results in larger intermediate latent representations produced by the 2DCNN layers and other NN components throughout the network. Therefore, several modifications are introduced to the backbone architecture. These include two main modifications: The first is the addition of a max pooling layer after the third 2DCNN layer in Head 1 and Head 2. The second is the addition of a fifth 2DCNN layer followed by a LeakyReLU activation in Head 3. In this work, we consider and evaluate five different alignment durations of 10 , 30 , 60 , 90 , and 120 seconds. While 10 , 30 , and 
+
+60 seconds represent rapid alignment durations, the model-based approaches require 120 seconds to reach sufficient performance. The following describes the modifications made as a function of the alignment time: 1) HeadingNet10 : This alignment time architecture is iden-tical to the backbone NN architecture presented in Section III-A. 2) HeadingNet30 : Compared to the baseline, all 2DCNN layers in Head 1 and Head 2, as well as the fourth 2DCNN layer in Head 3, have different kernel sizes. In addition, we add a fifth 2DCNN layer and a LeakyReLU activation in Head 3. 3) HeadingNet60 : Compared to the backbone, the 2DCNN layer kernels in Head 1, Head 2, and Head 3 have different sizes. Additionally, in Head 3, a fifth 2DCNN layer followed by a LeakyReLU activation is added. Finally, the input size of the first FC layer is modified. 4) HeadingNet90 : Compared to the backbone, the 2DCNN layer kernel sizes in Head 1, Head 2, and Head 3 are modified. In addition, a max pooling layer is inserted between the third 2DCNN layer and the subsequent LeakyReLU activation in Head 1 and Head 2. Finally, in Head 3, a fifth 2DCNN layer followed by a LeakyReLU activation is added. 5) HeadingNet120 : Compared to the baseline, five modifi-cations are made. First, the 2DCNN kernel sizes in Head 1, Head 2, and Head 3 differ. Second, a max pooling layer is inserted between the third 2DCNN layer and the subsequent LeakyReLU activation in Head 1 and Head 2. Third, a fifth 2DCNN layer followed by a LeakyReLU activation is added in Head 3. Fourth, the input size of the first FC layer, h1
+
+> in
+
+, is varied. Finally, the dropout probability in the FC block is modified. Table I summarizes the main differences for each HeadingNet variation.                                                                                                                                           
+
+> NN Variation/ parameter 2DCNN layer number Kernel size Max pool LeakyReLU lambda HeadingNet10 (backbone architecture)
+> 1st Layer (2x10) (1x2) 0.05
+> 2nd Layer (2 ×7) (1 ×2) 3rd Layer (2 ×5) None
+> 4th Layer (3 ×3) None
+> 5th Layer None HeadingNet30
+> 1st Layer (2 ×30) (1 ×2)
+> 0.05
+> 2nd Layer (2 ×22) (1 ×2) 3rd Layer (2 ×15) None
+> 4th Layer (2 ×3) None
+> 5th Layer (2 ×3)
+> HeadingNet60
+> 1st Layer (2 ×60) (1 ×2)
+> 0.05
+> 2nd Layer (2 ×45) (1 ×2) 3rd Layer (2 ×30) None
+> 4th Layer (2 ×6) None
+> 5th Layer (2 ×3)
+> HeadingNet90
+> 1st Layer (2 ×90) (1 ×2)
+> 0.1
+> 2nd Layer (2 ×67) (1 ×2) 3rd Layer (2 ×45) (1 ×2) 4th Layer (2 ×4) None
+> 5th Layer (2 ×3)
+> HeadingNet120
+> 1st Layer (2 ×120) (1 ×2)
+> 0.05
+> 2nd Layer (2 ×90) (1 ×2) 3rd Layer (2 ×60) (1 ×2) 4th Layer (2 ×5) None
+> 5th Layer (2 ×3)
+
+TABLE I: Main network parameters including the 2D kernel sizes, the max pool layers kernel sizes, and the LeakyReLU parameters for all five variations of HeadingNet. Table II summarizes the regularization and training hyperpa-rameters, as well as the modifications made to the FC block components for each HeadingNet variation. These regular-ization and training hyperparameters include the number of epochs, the loss amplification scalar, λ, and the scheduler and optimizer parameters. The batch size and the scheduler learning-rate decay parameter, γLR , remain fixed at 512 and 0.8, respectively, for all HeadingNet variations. The FC block hyperparameters include the input dimension of the first FC layer, h1
+
+> in
+
+, and the dropout probability, pTAlign .As shown in Table II, several hyperparameters differ between HeadingNet variations. These differences arise from two main factors. First, the network weights are initialized with different random values at the beginning of each training process. Second, as described in Section V-A, the dataset is processed and shuffled differently for each variation. Due to these sources 7
+
+of stochasticity in training, the optimization process may converge to different minima of the loss function, potentially resulting in sub optimal heading estimation. Therefore, the hyperparameters are tuned separately for each HeadingNet variation to achieve optimal heading estimation performance.                                         
+
+> HeadingNet variation h1
+> in pTAlign Epochs λLearning rate Weight decay Scheduler step HeadingNet10 512 0.2 1000 10 0.0009 0.08 120 HeadingNet30 512 0.2 1000 10 0.0008 0.08 120 HeadingNet60 1024 0.2 400 10 0.0008 0.08 80 HeadingNet90 512 0.2 500 100 0.0005 0.8 150 HeadingNet120 1024 0.3 300 10 0.0006 0.08 50
+
+TABLE II: The training hyperparameters and the FC block parameters used in the training of the HeadinNet variation. V. E XPERIMENTAL RESULTS 
+
+This section provides a description of the dataset used to evaluate the proposed approach, the data processing pipeline used to create the training and evaluation sets for HeadingNet, and lastly the results. 
+
+A. Data Collection and Processing 
+
+To train and validate HeadingNet, real-world data were recorded using an ASV tied to a pier [17]. Data were collected over five different days under varying sea conditions, resulting in five recordings of the ASV in mooring conditions, reflecting diverse real-world conditions. The ASV was equipped with an IMU and a dual GNSS receiver with real-time kinematics (GNSS-RTK) antennas, providing accurate heading estimation and precise positioning. The GNSS-RTK receiver provides a position accuracy of 0.8 cm and a heading accuracy of 0.09 
+
+degrees. Table III lists the specifications of the onboard IMU used in the experiments. Additionally, the IMU sampling rate was 100 Hz, while the GNSS-RTK sampling rate was 5 Hz. The latitude obtained from the position is used to compute 
+
+Bias in-run stability Angular/velocity random walk Gyroscope 0.02 [°/s ] 0.032 [°/√hr ]
+
+Accelerometer 1000 [μg] 0.012 [m/s/ √hr ]
+
+TABLE III: Gyroscope and accelerometer specifications mounted on the ASV used in the experiments. the transport rate, ωnin , and the gravity, gn, which constitute two of the four inputs to HeadingNet. The IMU provides the remaining two inputs: the specific force, ˜f b and angular velocity measurements, ˜ωbib . Note that the IMU and GNSS-RTK operate at different sampling rates, resulting in 20 times as many IMU measurements as GNSS-RTK measurements. To address this difference, average pooling is applied within HeadingNet, as described in Figure 2. In addition, since the GNSS-RTK provides highly accurate heading measurements, they are used as ground truth (GT) heading labels during training, denoted as ψGT . Once the four inputs are obtained from the IMU and GNSS-RTK, they are passed to HeadingNet and the baseline approaches. Figure 4 illustrates the data flow from the ASV sensors for HeadingNet. 
+
+Fig. 4: Data flow diagram of starting from the raw measure-ments from the ASV sensors, the IMU and GNSS-RTK, to our proposed approach HeadingNet. The five recordings are labeled R1 to R5, with a total duration of 131 minutes. Recordings R2 and R3 are significantly longer than the others, with durations of 48 .5 and 56 .6 minutes, respectively. The durations of recordings R1, R4, and R5 are 11 .4, 7.1, and 7.3 minutes, respectively. Figure 5 shows the ASV heading for recordings R1–R5 during the first 350 
+
+seconds of each recording. By examining the heading plots 
+
+Fig. 5: Heading angles plot of the first 350 seconds for the five recorded trajectories, R1 to R5. in Figure 5, it can be observed that the fifth recording, R5, exhibits larger heading variations compared to recordings R1–R4. Therefore, R5 was used only for training and not for validation. Additionally, since the recording durations of the five trajectories vary significantly, particularly for R2 and R3, the dataset was split into evaluation and training sets as follows: 1) Evaluation set : A 120 second section from each of the four recordings, R1–R4, was reserved for evaluation. Each section starts at 10 seconds and concludes at 130 seconds. The total duration of the evaluation set is 8 8
+
+minutes. Figure 6 shows the heading angle for the four evaluation recordings, referred to as EvalR1 to EvalR4. 2) Training set : This set consists of the remaining data from the five recordings, R1–R5, starting at 130 seconds onward. Since recordings R2 and R3 are significantly longer than the others, only data up to 600 seconds from the start of each recording were used. For recordings R1, R4, and R5, the data from 130 seconds until the end of the recording were used. This results in a total training duration of 35 .07 minutes. Table IV provides a detailed description of the training set used from each recording, referred to as TrainR1 to TrainR5.            
+
+> TrainR1 TrianR2 TrianR3 TrianR4 TrianR5 Total Time [min] 9.26 7.83 7.83 4.96 5.19 35.07
+
+TABLE IV: Duration of each trajectory in the training set. 
+
+Fig. 6: Heading angles plot of the four evaluation recordings, EvalR1 to EvalR4. For each evaluated alignment time, the temporal dimension of the four inputs to HeadingNet was varied, therefore, the training set was processed differently for each alignment time. In the training set, for each alignment time, the five training recordings, TrainR1 to TrainR5, were split into TAlign second sliding windows with a stride of one second, after which the windows were concatenated, shuffled, and then divided into batches of 512. As a result, each data point is now TAlign 
+
+seconds long and contains the four inputs to HeadingNet. Each data point is assigned the GT heading label ψGT , defined as the last heading measurement within the corresponding sliding time window. Overall, this process creates five unique training datasets, each corresponding to a different alignment time and its associated HeadingNet variation. Regarding the four recordings in the evaluation set, EvalR1 to EvalR4, the same data processing pipeline was applied with two main differences. First, the stride length was set equal to the window size in order to divide each evaluation recording into non-overlapping windows. Second, the resulting windows were not shuffled, allowing them to remain in their original temporal order. Consequently, for each of the four evaluation recordings, five different evaluation sub-recordings were created, corresponding to the five evaluated alignment times. For the model-based approaches, no training was required, and no splitting of the four evaluation recordings, EvalR1 to EvalR4, was necessary. Each baseline approach estimated the heading angle for the four evaluation recordings at each alignment window, since the baseline methods can estimate the heading at any desired time interval. Figure 7 illustrates the complete data processing and preparation pipeline for the training and evaluation sets used to train and evaluate HeadingNet and its variations. 
+
+B. Performance Metric 
+
+The metric employed to evaluate the heading accuracy is the absolute error (AE) of the heading angle: 
+
+AE =| ˆψN N − ψ | (27) where ˆψN N is the heading estimation by HeadingNet, and ψ
+
+is the GT heading angle. 
+
+C. Results 
+
+First, we analyze the AE of the heading angle estimation for the alignment times evaluated, for each of the four evaluation recordings. Figure 8 shows the AE of the heading angle for all four evaluation trajectories, EvalR1 to EvalR4. Note that not all baseline approaches are presented in Figure 8. This is because some baseline approaches achieved very poor AE results and remained out of scope even at the longest alignment time of 120 seconds. Therefore, they were omitted to improve the clarity of the results visualization. Examining the results in Figure 8, it is evident that HeadingNet achieves significantly better performance for shorter alignment times. For the short-est alignment time of 10 seconds, HeadingNet demonstrates a significant improvement over all baseline approaches. More-over, for evaluation recordings EvalR1, EvalR3, and EvalR4, the AE results of HeadingNet at the 10 second alignment time outperform the AE results of the baseline approaches at the longer 30 second alignment time. This provides an additional benefit beyond improved accuracy, namely faster convergence. To fully evaluate the accuracy and time efficiency of Head-ingNet against the baseline approaches, the AE results were averaged over the four evaluation recordings, EvalR1 to EvalR4, for each alignment time and for each method. Table V presents the averaged AE results for HeadingNet and the baseline approaches. From the table it can be observed that                                   
+
+> 10 Seconds [°]30 Seconds [°]60 Seconds [°]90 Seconds [°]120 Seconds [°]
+> I-DVA 152.24 10.75 2.92 0.98 0.94 A-DVA 154.13 88.19 10.28 7.16 6.11 I-OBA 191.21 7.58 2.28 1.26 0.93 A-OBA 150.49 114.6 79.23 77.83 38.31 HeadingNet 4.33 1.53 1.43 0.97 0.46
+
+TABLE V: Average AE results of the heading angle in degrees. The average is performed for each alignment time over the four evaluation recordings, EvalR1 to EvalR4. the AE of HeadingNet decreases with increasing alignment time, indicating convergence behavior as more data become available. In addition, HeadingNet outperforms all baseline methods for every evaluated alignment time, even for the longest alignment time of 120 seconds, where the model-based approaches are known to achieve their lowest AE values. To further evaluate the accuracy relationship of HeadingNet 9
+
+Fig. 7: Block diagram illustrating the data preparation pipeline to generate the training sets and datasets and evaluation set to train and evaluation all HeadingNet variations. 
+
+(a) AE results for EvalR1 (b) AE results for EvalR2 
+
+(c) AE results for EvalR3 (d) AE results for EvalR4 
+
+Fig. 8: AE Results of the heading estimation in degrees for the four evaluation recordings, EvalR1 to EvalR4, at the examined alignment time periods, for HeadingNet and the four baseline methods. compared to the baseline methods, Figure 9 shows the average AE for each method and for each alignment time, based on the averaged AE results presented in Table V. In the figure, two dashed lines are shown. The black dashed line indicates the HeadingNet AE at 10 seconds alignment time and is extended up to 30 seconds alignment time. The red dashed line shows the average HeadingNet AE at 30 seconds alignment time and is extended up to 60 seconds alignment time. These dashed lines illustrate that HeadingNet achieves lower AE at shorter alignment times than the baseline approaches achieve at longer alignment times, demonstrating faster convergence and indicating that the required alignment time can be reduced. For example, the AE of HeadingNet at 10 seconds alignment time is lower than that of all baseline approaches at 30 seconds alignment time, corresponding to a 66% reduction in alignment time. Similarly, the AE of HeadingNet at 30 seconds alignment time is lower than that of all model-based approaches at 60 seconds alignment time, resulting in a 50% reduction in alignment time. To further evaluate the AE accuracy and time efficiency of HeadingNet, Table VI presents the average AE results of HeadingNet com-pared with the best performing model-based baseline approach for each alignment time, thereby providing a fair comparison with the established model-based approaches.                         
+
+> 10 secnods 30 seconds 60 seconds 90 seconds 120 seconds Best baseline A-OBA I-OBA I-OBA I-DVA I-DVA Best baseline average AE 150.49 7.58 2.28 0.98 0.93 HeadingNet average AE 4.33 1.53 1.43 0.97 0.46 Improv.[%] 97.12 79.86 37.16 0.87 51.08
+
+TABLE VI: Comparison and improvement of our proposed approach, HeadingNet, with respect to the best performing baseline method. Two main conclusions can be drawn from Table VI. First, HeadingNet consistently improves over the best baseline ap-proach and therefore outperforms all baseline approaches. 10 
+
+Fig. 9: Average AE heading in degrees results of all baseline methods and HeadingNet variations. The black dashed line represents the heading AE of HeadingNet10, and the red dashed line represents the HeadingNet30 results, thus the proposed approach HeadingNet result at these two alignment times. 
+
+Fig. 10: AE improvement bar plot in percentage showing our proposed the improvement of our proposed HeadingNet over the best baseline method. Second, the most significant improvements occur at shorter alignment windows ,10 and 30 seconds, while for the longest alignment time the improvement is smaller but still signifi-cant, reaching 51% improvement in AE. To illustrate the AE improvement in percentage, Figure 10 visualizes the relative improvement. It is evident that HeadingNet achieves an average improve-ment of 53% over the five evaluated alignment times. However, this average improvement is not reached at the 90 second alignment time. Nevertheless, at the longest alignment time of 120 seconds, HeadingNet still outperforms the best baseline approach, improving its AE by 51% . Moreover, if a very short alignment time is required, HeadingNet achieves a sub 5 degrees AE at the shortest alignment time of 10 seconds, thereby improving over the best baseline approach by 97% .VI. C ONCLUSION 
+
+Accurately estimating the heading angle of any autonomous platform such as an ASV is critical to initializing a precise navigation solution during its missions, consequently assuring the mission’s success and validity. In this work, we ad-dress the prolonged alignment time required for model-based approaches, such as the vector and attitude decomposition methods, to achieve sufficient accurate alignment by proposing a neural-assisted framework, HeadingNet. HeadingNet is a data-driven multi-head neural network architecture designed for rapid and accurate heading estimation using only inertial measurements as input. HeadingNet’s novelty is driven by a multi-head architecture, utilizing several two-dimensional convolutional neural network heads that processes inertial measurement to solve the attitude and provide heading es-timation. Our proposed approach provides a simple end-to-end, model-free, in-motion self-heading alignment framework, that is able to significantly shorten the alignment time while increasing the accuracy. However, unlike the model-based approaches, which can provide alignment estimation at any selected time intervals, HeadingNet requires some modifica-tions to the backbone architecture when applying to different alignment times. HeadingNet was validated against state-of-the-art model-based approaches using real-world data recorded by an ASV in different mooring conditions. We show that HeadingNet is able to achieve an average improvement of 53% compared to the best model-based approach, and shorten the alignment time by up to 67% . In addition, HeadingNet can achieve a sub-five degrees alignment error in just a ten second alignment time. Overall, HeadingNet offers a model-free, end-to-end alignment framework which was validated using real-world data and showed significant improvement over the model-based ap-proaches, therefore demonstrating its robustness, applicability, and overall benefits in terms of time and accuracy. HeadingNet is suitable for applications requiring rapid and accurate initial alignment, such as search and rescue operations or extended missions where on-the-fly alignment is essential. ACKNOWLEDGMENT 
+
+Z.Y. is supported by the Maurice Hatter Foundation and University of Haifa presidential scholarship for outstanding students on a direct Ph.D. track. REFERENCES 
+
+[1] F. O. Silva, E. M. Hemerly, and W. C. L. Filho, “Error Analysis of Analytical Coarse Alignment Formulations for Stationary SINS,” IEEE Trans. Aerosp. Electron. Syst. , vol. 52, no. 4, pp. 1777–1796, 2016. [2] J. A. Farrell, F. O. Silva, F. Rahman, and J. Wendel, “Inertial Measurement Unit Error Modeling Tutorial: Inertial Navigation System State Estimation with Real-Time Sensor Calibration,” IEEE Control Systems Maga-zine , vol. 42, no. 6, pp. 40–66, 2022. [3] P. Groves, Principles of GNSS, Inertial, and Multisensor Integrated Navigation Systems, Second Edition . Artech House, Inc., 2013. [4] D. Gu, E.-S. N., T. Hassan, and Z. Syed, “Coarse align-ment for marine SINS using gravity in the inertial frame as a reference,” in Proc. IEEE/ION Position Location Navig. Symp. , Monterey, 2008, pp. 961–965. 11 
+
+[5] F. Sun and W. Sun, “Mooring alignment for marine SINS using the digital filter,” Measurement , vol. 43, no. 10, pp. 1489–1494, 2010. [6] K. R. Britting, Inertial Navigation Systems Analysis .Canada: John Wiley & Sons, 1971. [7] G. Wahba, “A Least Squares Estimate of Satellite Atti-tude,” SIAM Rev. , vol. 8, no. 3, pp. 384–386, 1966. [8] E. H. Thompson, J. L. Farrell, and J. W. Knight, “Alignment Methods for Strapdown Inertial Systems,” J. Spacecr. Rockets , vol. 3, no. 9, pp. 1432–1434, 1966. [9] V. Krishnan and K. Grobert, “Initial alignment of a gim-balless inertial navigation system,” IEEE Trans. Autom. Control , vol. 15, no. 6, pp. 667–671, 1970. [10] Y. F. Jiang, “Error Analysis of Analytic Coarse Align-ment Methods,” IEEE Trans. Aerosp. Electron. Syst. ,vol. 34, no. 1, pp. 334–337, 1998. [11] R. Hermann and A. J. Krener, “Nonlinear controllability and observability,” IEEE Trans. Autom. Control , vol. 22, no. 5, pp. 728–740, 1977. [12] Y. Wu, H. Zhang, M. Wu, X. Hu, and D. Hu, “Observ-ability of Strapdown Alignment: A Global Perspective,” 
+
+IEEE Trans. Aerosp. Electron. Syst. , vol. 48, no. 1, pp. 78–102, 2012. [13] Y. Rothman, I. Klein, and S. Filin, “Analytical ob-servability analysis of INS with vehicle constraints,” 
+
+Navigation , vol. 61, no. 3, pp. 227–236, 2014. [14] P. M. G. Silson, “Coarse alignment of a ship’s strapdown inertial attitude reference system using velocity loci,” 
+
+IEEE Trans. Instrum. Meas. , vol. 60, no. 6, pp. 1930– 1941, 2011. [15] M. Wu, Y. Wu, X. Hu, and D. Hu, “Optimization-Based Alignment for Inertial Navigation Systems: Theory and Algorithm,” Aerosp. Sci. Technol. , vol. 15, no. 1, pp. 1– 17, 2011. [16] Y. Wu and X. Pan, “Velocity/position integration formula part I: Application to in-flight coarse alignment,” IEEE Trans. Aerosp. Electron. Syst. , vol. 49, no. 2, pp. 1006– 1023, 2013. [17] A. Frutuoso, F. O. Silva, and E. A. de Barros, “Per-formance evaluation of coarse alignment methods for autonomous underwater vehicles in mooring conditions,” 
+
+Ocean Eng. , vol. 282, p. 114991, 2023. [18] ——, “Performance evaluation of INS coarse alignment methods in real drift conditions,” in OCEANS 2024 -Singapore . IEEE, 2024. [19] ——, “Performance Evaluation of Controlled In-Motion Coarse Alignment Methods Applied to AUV Naviga-tion,” in OCEANS 2025 - Brest , 2025. [20] N. Cohen and I. Klein, “Inertial Navigation Meets Deep Learning: A Survey of Current Trends and Future Directions,” Results in Engineering , vol. 24, p. 103565, 2024. [Online]. Available: https://www.sciencedirect. com/science/article/pii/S2590123024018085 [21] C. Chen and X. Pan, “Deep learning for inertial po-sitioning: A survey,” IEEE transactions on intelligent transportation systems , vol. 25, no. 9, pp. 10 506–10 523, 2024. [22] Z. Yampolsky and I. Klein, “DCNet: A data-driven framework for DVL calibration,” Applied Ocean Re-search , vol. 158, p. 104525, 2025. [23] F. Huang, Z. Wang, L. Xing, and C. Gao, “A MEMS IMU gyroscope calibration method based on deep learning,” 
+
+IEEE Transactions on Instrumentation and Measurement ,vol. 71, pp. 1–9, 2022. [24] Y. Stolero and I. Klein, “Rapid gyroscope calibration: A deep learning approach,” Engineering Applications of Artificial Intelligence , vol. 163, p. 112896, 2026. [25] G. Versano and I. Klein, “WMINet: A Wheel-Mounted Inertial Learning Approach for Mobile-Robot Position-ing,” IEEE Sensors Journal , 2026. [26] E. Vertzberger and I. Klein, “Attitude adaptive estimation with smartphone classification for pedestrian navigation,” 
+
+IEEE Sensors Journal , vol. 21, no. 7, pp. 9341–9348, 2021. [27] X. Mu, B. He, X. Zhang, Y. Song, Y. Shen, and C. Feng, “End-to-end navigation for autonomous underwater ve-hicle with hybrid recurrent neural networks,” Ocean Engineering , vol. 194, p. 106602, 2019. [28] X. Zhang, L. Sheng, B. He, and Y. Lu, “A data-driven based hybrid multi-branch framework for AUV naviga-tion,” Ocean Engineering , vol. 324, p. 120675, 2025. [29] N. Cohen and I. Klein, “Adaptive Kalman-informed transformer,” Engineering Applications of Artificial In-telligence , vol. 146, p. 110221, 2025. [30] A. Vaswani, N. Shazeer, N. Parmar, J. Uszkoreit, L. Jones, A. N. Gomez, Ł. Kaiser, and I. Polosukhin, “Attention is all you need,” Advances in neural informa-tion processing systems , vol. 30, 2017. [31] S. Cong and Y. Zhou, “A review of convolutional neural network architectures and their optimizations,” Artificial Intelligence Review , vol. 56, no. 3, pp. 1905–1969, 2023. [32] Y. Y. Qin, G. M. Yan, D. Q. Gu, and J. B. Zheng, “A Clever Way of SINS Coarse Alignment Despite Rocking Ship,” J. Northwestern Polytech. Univ. , vol. 23, no. 5, pp. 681–684, 2005. [33] H. D. Black, “A passive system for determining the attitude of a satellite,” J. Spacecr. Rockets , vol. 1, no. 2, pp. 135–143, 1964. [34] R. Nirthika, S. Manivannan, A. Ramanan, and R. Wang, “Pooling in convolutional neural networks for medical image analysis: a survey and an empirical study,” Neural Computing and Applications , vol. 34, no. 7, pp. 5321– 5347, 2022. [35] S. R. Dubey, S. K. Singh, and B. B. Chaudhuri, “Activa-tion functions in deep learning: A comprehensive survey and benchmark,” Neurocomputing , 2022. [36] S. Sharma, S. Sharma, and A. Athaiya, “Activation functions in neural networks,” Towards Data Sci , vol. 6, no. 12, pp. 310–316, 2017. [37] N. Srivastava, G. Hinton, A. Krizhevsky, I. Sutskever, and R. Salakhutdinov, “Dropout: a simple way to pre-vent neural networks from overfitting,” The Journal of Machine Learning Research , vol. 15, no. 1, pp. 1929– 1958, 2014. [38] S. J. Prince, Understanding deep learning . MIT press, 2023. 12 
+
+[39] K. Suzuki, Artificial neural networks: Architectures and applications . BoD–Books on Demand, 2013. [40] V. Sze, Y.-H. Chen, T.-J. Yang, and J. S. Emer, “Efficient Processing of Deep Neural Networks: A Tutorial and Survey,” Proceedings of the IEEE , vol. 105, no. 12, pp. 2295–2329, 2017. [41] A. Apicella, F. Donnarumma, F. Isgr` o, and R. Prevete, “A survey on modern trainable activation functions,” Neural Networks , vol. 138, pp. 14–32, 2021. [42] S. Salman and X. Liu, “Overfitting mechanism and avoidance in deep neural networks,” arXiv preprint arXiv:1901.06566 , 2019. [43] D. Engelsman and I. Klein, “Towards learning-based gyrocompassing,” Engineering Applications of Artificial Intelligence , vol. 163, p. 112842, 2026. [Online]. Available: https://www.sciencedirect.com/science/article/ pii/S0952197625028738 [44] I. Loshchilov and F. Hutter, “Decoupled weight decay regularization,” arXiv preprint arXiv:1711.05101 , 2017. [45] T. He, Z. Zhang, H. Zhang, Z. Zhang, J. Xie, and M. Li, “Bag of Tricks for Image Classification with Convolutional Neural Networks,” in Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , June 2019. [46] Pytorch, “StepLR Scheduler implemented by Pytorch,” [Online] Available at: https://docs.pytorch.org/docs/ stable/generated/torch.optim.lr scheduler.StepLR.html, 2026, Last Accessed Feb 26.
