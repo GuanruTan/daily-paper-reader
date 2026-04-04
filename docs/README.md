@@ -6,73 +6,64 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-04-03
-- 运行时间：2026-04-03 19:54:55 UTC
+- 最新运行日期：2026-04-04
+- 运行时间：2026-04-04 19:41:25 UTC
 - 运行状态：成功
-- 本次总论文数：17
-- 精读区：6
+- 本次总论文数：14
+- 精读区：3
 - 速读区：11
 
 ### 今日简报（AI）
-今日聚焦 17 篇自动驾驶与具身智能前沿，深度解析第一视角 6DoF 运动生成与高效等变 Transformer 建模。
-重点推荐 EgoFlow 的梯度引导流匹配技术，以及在自动驾驶智能体建模中实现效率飞跃的等变架构。
-建议优先研读两篇 9 分论文，掌握生成式模型与物理约束结合的最新技术路径。
-- 详情：[/202604/03/README](/202604/03/README)
+今日深度解析 14 篇 AI 论文，重点攻克自动驾驶全链路统一思维链与大模型轨迹生成的可靠性难题。
+$AutoDrive\text{-}P^3$ 凭借强化微调实现了感知-预测-决策的闭环统一，而自一致性验证显著增强了 LLM 生成运动轨迹的精准度。
+推荐关注端到端自动驾驶的强化学习优化及多视角空间推理，探索大模型在物理世界规划中的落地潜力。
+- 详情：[/202604/04/README](/202604/04/README)
 
 ### 精读区论文标签
-1. [EgoFlow: Gradient-Guided Flow Matching for Egocentric 6DoF Object Motion Generation](/202604/03/2604.01421v1-egoflow-gradient-guided-flow-matching-for-egocentric-6dof-object-motion-generation)  
+1. [$AutoDrive\text{-}P^3$: Unified Chain of Perception-Prediction-Planning Thought via Reinforcement Fine-Tuning](/202604/04/2603.28116v1-autodrivetext-p3-unified-chain-of-perception-prediction-planning-thought-via-reinforcement-fine-tuning)  
    标签：评分：9.0/10、query:tp
-   evidence：从第一视角视频预测物体运动与语义意图
-2. [Efficient Equivariant Transformer for Self-Driving Agent Modeling](/202604/03/2604.01466v1-efficient-equivariant-transformer-for-self-driving-agent-modeling)  
-   标签：评分：9.0/10、query:tp
-   evidence：自动驾驶场景中的智能体行为建模与对称性
-3. [LEO: Graph Attention Network based Hybrid Multi Sensor Extended Object Fusion and Tracking for Autonomous Driving Applications](/202604/03/2604.02206v1-leo-graph-attention-network-based-hybrid-multi-sensor-extended-object-fusion-and-tracking-for-autonomous-driving-applications)  
-   标签：评分：9.0/10、query:tp
-   evidence：自动驾驶中动态目标的轨迹估计
-4. [Critic-Free Deep Reinforcement Learning for Maritime Coverage Path Planning on Irregular Hexagonal Grids](/202604/03/2603.28385v1-critic-free-deep-reinforcement-learning-for-maritime-coverage-path-planning-on-irregular-hexagonal-grids)  
+   evidence：基于视觉语言模型的自动驾驶感知与预测
+2. [Self-Consistency for LLM-Based Motion Trajectory Generation and Verification](/202604/04/2603.29301v1-self-consistency-for-llm-based-motion-trajectory-generation-and-verification)  
    标签：评分：8.0/10、query:tp
-   evidence：使用深度强化学习和Transformer策略的海洋覆盖路径规划
-5. [Rendezvous Planning from Sparse Observations of Optimally Controlled Targets](/202604/03/2604.01428v1-rendezvous-planning-from-sparse-observations-of-optimally-controlled-targets)  
+   evidence：基于大语言模型的运动轨迹生成与表示
+3. [Causal Scene Narration with Runtime Safety Supervision for Vision-Language-Action Driving](/202604/04/2604.01723v1-causal-scene-narration-with-runtime-safety-supervision-for-vision-language-action-driving)  
    标签：评分：8.0/10、query:tp
-   evidence：目标轨迹估计与假设
-6. [Bridging Large-Model Reasoning and Real-Time Control via Agentic Fast-Slow Planning](/202604/03/2604.01681v1-bridging-large-model-reasoning-and-real-time-control-via-agentic-fast-slow-planning)  
-   标签：评分：8.0/10、query:tp
-   evidence：将语义意图映射到实时控制和轨迹生成
+   evidence：视觉-语言-动作驾驶模型的意图约束对齐
 
 ### 速读区论文标签
-1. [MMaDA-VLA: Large Diffusion Vision-Language-Action Model with Unified Multi-Modal Instruction and Generation](/202604/03/2603.25406v1-mmada-vla-large-diffusion-vision-language-action-model-with-unified-multi-modal-instruction-and-generation)  
+1. [Emergent Neural Automaton Policies: Learning Symbolic Structure from Visuomotor Trajectories](/202604/04/2603.25903v1-emergent-neural-automaton-policies-learning-symbolic-structure-from-visuomotor-trajectories)  
    标签：评分：7.0/10、query:tp
-   evidence：用于机器人控制和多模态理解的大型扩散VLA模型
-2. [MPC as a Copilot: A Predictive Filter Framework with Safety and Stability Guarantees](/202604/03/2603.27893v1-mpc-as-a-copilot-a-predictive-filter-framework-with-safety-and-stability-guarantees)  
+   evidence：从视觉运动轨迹中学习符号结构和潜在任务模式
+2. [Learning Multi-View Spatial Reasoning from Cross-View Relations](/202604/04/2603.27967v1-learning-multi-view-spatial-reasoning-from-cross-view-relations)  
    标签：评分：7.0/10、query:tp
-   evidence：生成安全认证的预测轨迹
-3. [RAD-LAD: Rule and Language Grounded Autonomous Driving in Real-Time](/202604/03/2603.28522v2-rad-lad-rule-and-language-grounded-autonomous-driving-in-real-time)  
+   evidence：利用VLM从机器人操作轨迹中学习空间推理
+3. [Large Neighborhood Search for Multi-Agent Task Assignment and Path Finding with Precedence Constraints](/202604/04/2603.28968v1-large-neighborhood-search-for-multi-agent-task-assignment-and-path-finding-with-precedence-constraints)  
    标签：评分：7.0/10、query:tp
-   evidence：实时运动规划与自动驾驶
-4. [Towards Viewpoint-Robust End-to-End Autonomous Driving with 3D Foundation Model Priors](/202604/03/2604.00597v1-towards-viewpoint-robust-end-to-end-autonomous-driving-with-3d-foundation-model-priors)  
+   evidence：多智能体路径规划与无碰撞方案
+4. [DIAL: Decoupling Intent and Action via Latent World Modeling for End-to-End VLA](/202604/04/2603.29844v1-dial-decoupling-intent-and-action-via-latent-world-modeling-for-end-to-end-vla)  
    标签：评分：7.0/10、query:tp
-   evidence：自动驾驶中的鲁棒轨迹规划
-5. [DVGT-2: Vision-Geometry-Action Model for Autonomous Driving at Scale](/202604/03/2604.00813v1-dvgt-2-vision-geometry-action-model-for-autonomous-driving-at-scale)  
+   evidence：通过潜世界建模解耦意图与动作
+5. [DLWM: Dual Latent World Models enable Holistic Gaussian-centric Pre-training in Autonomous Driving](/202604/04/2604.00969v1-dlwm-dual-latent-world-models-enable-holistic-gaussian-centric-pre-training-in-autonomous-driving)  
    标签：评分：7.0/10、query:tp
-   evidence：用于自动驾驶规划的视觉-几何-动作模型
-6. [Flow-based Policy With Distributional Reinforcement Learning in Trajectory Optimization](/202604/03/2604.00977v1-flow-based-policy-with-distributional-reinforcement-learning-in-trajectory-optimization)  
+   evidence：用于自动驾驶预测未来状态的世界模型
+6. [SECURE: Stable Early Collision Understanding via Robust Embeddings in Autonomous Driving](/202604/04/2604.01337v1-secure-stable-early-collision-understanding-via-robust-embeddings-in-autonomous-driving)  
    标签：评分：7.0/10、query:tp
-   evidence：用于控制任务中多模态轨迹优化的流策略
-7. [MMaDA-VLA: Large Diffusion Vision-Language-Action Model with Unified Multi-Modal Instruction and Generation](/202604/03/2603.25406v2-mmada-vla-large-diffusion-vision-language-action-model-with-unified-multi-modal-instruction-and-generation)  
+   evidence：用于事故预测的鲁棒嵌入和潜空间表示
+7. [Beyond Where to Look: Trajectory-Guided Reinforcement Learning for Multimodal RLVR](/202604/04/2603.26126v1-beyond-where-to-look-trajectory-guided-reinforcement-learning-for-multimodal-rlvr)  
    标签：评分：6.0/10、query:tp
-   evidence：用于机器人控制和环境动力学的视觉-语言-动作扩散模型
-8. [DiffAttn: Diffusion-Based Drivers' Visual Attention Prediction with LLM-Enhanced Semantic Reasoning](/202604/03/2603.28251v1-diffattn-diffusion-based-drivers-visual-attention-prediction-with-llm-enhanced-semantic-reasoning)  
+   evidence：多模态大语言模型的专家推理轨迹
+8. [GUIDE: Guided Updates for In-context Decision Evolution in LLM-Driven Spacecraft Operations](/202604/04/2603.27306v1-guide-guided-updates-for-in-context-decision-evolution-in-llm-driven-spacecraft-operations)  
    标签：评分：6.0/10、query:tp
-   evidence：用于危险预测和意图推理的驾驶员视觉注意力预测
-9. [CLaD: Planning with Grounded Foresight via Cross-Modal Latent Dynamics](/202604/03/2603.29409v1-clad-planning-with-grounded-foresight-via-cross-modal-latent-dynamics)  
+   evidence：航天器智能体的实时控制与先验轨迹离线反思
+9. [LatentPilot: Scene-Aware Vision-and-Language Navigation by Dreaming Ahead with Latent Visual Reasoning](/202604/04/2603.29165v1-latentpilot-scene-aware-vision-and-language-navigation-by-dreaming-ahead-with-latent-visual-reasoning)  
    标签：评分：6.0/10、query:tp
-   evidence：预测机器人动作的潜空间预见
-10. [Neural-Assisted in-Motion Self-Heading Alignment](/202604/03/2604.00168v1-neural-assisted-in-motion-self-heading-alignment)  
+   evidence：通过前瞻预测学习动作条件下的视觉动力学以进行导航
+10. [Kernel-SDF: An Open-Source Library for Real-Time Signed Distance Function Estimation using Kernel Regression](/202604/04/2603.29227v1-kernel-sdf-an-open-source-library-for-real-time-signed-distance-function-estimation-using-kernel-regression)  
    标签：评分：6.0/10、query:tp
-   evidence：海洋自主水面无人艇的导航和航向校准
-11. [Hierarchical Motion Planning and Control under Unknown Nonlinear Dynamics via Predicted Reachability](/202604/03/2604.00320v1-hierarchical-motion-planning-and-control-under-unknown-nonlinear-dynamics-via-predicted-reachability)  
+   evidence：通过环境表示实现轨迹优化
+11. [GraSP-STL: A Graph-Based Framework for Zero-Shot Signal Temporal Logic Planning via Offline Goal-Conditioned Reinforcement Learning](/202604/04/2603.29533v1-grasp-stl-a-graph-based-framework-for-zero-shot-signal-temporal-logic-planning-via-offline-goal-conditioned-reinforcement-learning)  
    标签：评分：6.0/10、query:tp
-   evidence：分层运动规划与预测可达性
+   evidence：为满足时序逻辑规范的轨迹合成控制策略
 
 
 <div class="dpr-home-promo-card">

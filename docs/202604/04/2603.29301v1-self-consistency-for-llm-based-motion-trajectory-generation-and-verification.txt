@@ -1,0 +1,508 @@
+Title: Self-Consistency for LLM-Based Motion Trajectory Generation and Verification
+
+URL Source: https://arxiv.org/pdf/2603.29301v1
+
+Published Time: Wed, 01 Apr 2026 00:39:27 GMT
+
+Number of Pages: 27
+
+Markdown Content:
+# Self-Consistency for LLM-Based Motion Trajectory Generation and Verification 
+
+# Jiaju Ma Stanford University R. Kenny Jones Stanford University Jiajun Wu Stanford University Maneesh Agrawala Stanford University 
+
+Figure 1. Complex motion graphics animations are often composed of trajectories in the form of geometric shapes (left). While LLMs can generate motion graphics animations from a prompt describing the shape of an object’s trajectory, the resulting animation does not always follow the prompt specification (right, motions move from blue to red). We present a self-consistency method that enables more accurate LLM-based trajectory generation without supervision and show that it can be used for trajectory verification. We ask the LLM to generate multiple trajectory samples, cluster the samples using a hierarchy of geometric transformation groups, and choose the largest cluster as the most self-consistent set. We choose the centroid of the largest cluster as the most self-consistent generation, and verify a new trajectory by checking whether it can be added to the largest cluster (i.e. its distance to this centroid falls within a threshold τ ). 
+
+# Abstract 
+
+Self-consistency has proven to be an effective technique for improving LLM performance on natural language rea-soning tasks in a lightweight, unsupervised manner. In this work, we study how to adapt self-consistency to vi-sual domains. Specifically, we consider the generation and verification of LLM-produced motion graphics trajectories. Given a prompt (e.g., “Move the circle in a spiral path”), we first sample diverse motion trajectories from an LLM, and then identify groups of consistent trajectories via clustering. Our key insight is to model the family of shapes associated with a prompt as a prototype trajectory paired with a group of geometric transformations (e.g., rigid, similarity, and affine). Two trajectories can then be considered consistent if one can be transformed into the other under the warps allowable by the transformation group. We propose an al-gorithm that automatically recovers a shape family, using hierarchical relationships between a set of candidate trans-formation groups. Our approach improves the accuracy of LLM-based trajectory generation by 4–6%. We further ex-tend our method to support verification, observing 11% pre-cision gains over VLM baselines. Our code and dataset are available at https://majiaju.io/trajectory-self-consistency .
+
+# 1. Introduction 
+
+Self-consistency has recently emerged as an effective method for improving the performance of LLMs on tasks with natural language outputs [33]. At a high-level, the ap-proach samples an LLM to produce diverse responses, and then groups responses to find the most consistent answer. Consider a math problem like ”A train travels 45 miles per hour. How far does it travel in 3 hours?” Self-consistency would use an LLM to sample diverse chain-of-thought rea-soning traces, identify the final numerical value produced by each response, and return the most common number as the answer. This paradigm makes two base assumptions: (i) that the LLM is likely to produce the correct response more often than any other incorrect response; (ii) that it is possible to identify when answers are consistent with one another. Self-consistency is a useful paradigm, because it offers an unsupervised, training-free method for producing better generations from generative AI systems. Beyond text domains, LLMs have also proven effec-tive as generative systems for visual outputs, often via pro-gram synthesis. These models take a text prompt as input and generate a program (often in a domain specific lan-guage) that is then executed to render a visual image [10], vector graphics [23, 34], 3D scenes [13, 36], or anima-tion [9, 20, 21, 31]. This leads to a question: how can we 1
+
+> arXiv:2603.29301v1 [cs.CV] 31 Mar 2026
+
+apply self-consistency approaches in the context of LLM-based visual generation? If we want to identify the most common answer from a set of LLM responses, we need a way of checking whether different visual outputs are con-sistent with one another. Here we consider motion graphics animations as a mo-tivating visual domain. In such animations, it is common to describe the trajectories of SVG elements as forming dif-ferent shapes such as parabolas, figure 8’s, or spirals (Fig-ure 1). Given a prompt that describes a desired motion tra-jectory (e.g., “Move the circle in a logarithmic spiral path”), we can ask an LLM to produce an SVG motion program that renders to a corresponding animation. By incorporat-ing prompting strategies that encourage diversity [35], we can use an LLM to produce representative samples of mo-tion trajectories corresponding to the prompt. To apply self-consistency to the resulting motion tra-jectories, we need to know which of the trajectories are consistent with one another – this is a clustering problem. For language-based reasoning tasks, self-consistency ap-proaches often assume that this clustering step is trivially done through direct comparisons (e.g., identity matching of numerical values in math domains). For visual domains like motion trajectories, it is unlikely that any two trajectories will identically match (e.g., at a pixel-level). This is partly due to underspecification in the natural language prompt. A prompt like “move the circle in a logarithmic spiral path” does not describe a single motion trajectory, but rather a family of shapes. One way to model the family of trajecto-ries induced by a natural language prompt is as a prototype trajectory together with a group of geometric transforma-tions (e.g., rigid, similarity, affine, etc.): warps produced from this group specify the allowable transformations that preserve the semantic identity of the desired shape. These transformation groups provide us with the machinery to perform the clustering required by self-consistency. Specifically, two trajectories are consistent if one can be transformed into the other under the warps allowable by the transformation group. This consistency property can be checked with a distance-based clustering al-gorithm, assuming we have access to a distance metric that is invariant under the transformation group for the shape family. Thus, to apply self-consistency over a set of LLM generated motion trajectory samples, if we know the correct transformation group, we can cluster the sampled trajecto-ries under the corresponding distance metric, and choose any response from the largest cluster. In our case, however, the correct family and transforma-tion group associated with the shape described in the in-put prompt are not known a priori. Our approach is to first consider a hierarchy of geometric shape families based on Lie transformation groups that expose different degrees of freedom in how the prototype is allowed to vary. Our hi-erarchy is based on shape families commonly used to de-scribe trajectories [25]. We cluster the LLM-produced mo-tion trajectory samples using each transformation group in the hierarchy and we propose two decision criteria that ana-lyze properties of these clusterings to identify the geometric shape family (with an associated prototype and transforma-tion group) that is most consistent with the LLM samples. Once we know the shape family, we can choose any LLM-generated sample from the largest cluster as a self-consistent generation. We also show how to extend this self-consistency approach to verify that any new query trajectory matches the prompt. More specifically, we check whether the query trajectory is a member of the shape family identi-fied using the self-consistency approach, by testing whether it can be added to the largest cluster for the family (e.g., its distance to the prototype is below a threshold). To evaluate our approach, we design a benchmark set of over 200 prompts describing shapes common to motion graphics animations. For generation, we find that our pro-posed extension of self-consistency over motion trajectories is able to improve the accuracy of LLM generations on this benchmark by 4-6% for the unsupervised setting when the transformation group needs to be heuristically estimated. Additionally, we adapt this benchmark to evaluate verifi-cation abilities by collecting over 2000 pairs of (trajectory, prompt) with labels indicating whether these match or mis-match with one another. We find that our proposed unsu-pervised verification strategy, which uses self-consistency to automatically recover shape families, outperforms the al-ternative of performing verification with a VLM with preci-sion increases of 11.8% and F1 increases of 5.6%. 
+
+# 2. Related Work 
+
+Self-consistency. Self-consistency [33] was originally in-troduced as a strategy for improving LLM decoding. In the vanilla set-up, this is done by sampling diverse chains of thought, and then selecting a final answer through a ma-jority vote, where aggregation is performed through iden-tity matching over discrete outputs (numerical values or strings). Subsequent work has expanded this idea by gen-eralizing the unweighted majority vote to take into account consistencies across reasoning traces [14]. Semantic Self-Consistency [19] clusters embeddings of reasoning traces, filtering out outlier responses, and then performs a majority vote over the remaining answers. Latent Self-Consistency [27] similarly clusters embeddings of reasoning traces, does aggregation within this reasoning space, and then returns the answer from this reasoning chain. Collectively, these works demonstrate that self-consistency benefits from more comprehensive aggregation strategies, although their no-tions of clustering are still limited to bins defined by dis-crete identity matches. In order to extend self-consistency to complex visual domains, like families of shapes com-2monly observed in the trajectories of elements within mo-tion graphics, we propose an approach that determines sample-level consistency under a flexible distance metric. 
+
+Visual content verification. As generative AI systems have been used to create visual content across domains, re-cent work has developed various verification methods to en-sure generated outputs match input prompts in terms of sat-isfying desired properties [5, 12, 13, 28, 30]. For image generation, many works employ a VQA-based verification paradigm. TIFA converts image generation prompts into question-answer pairs that a VQA model can verify [12]. DSG ensures the validity of these questions by structur-ing them as dependency graphs [4]. DreamSync applies verification in an iterative optimization loop, using VLM feedback to refine generations until they align with the prompt [30]. Verification strategies have also been pro-posed for other visual modalities. Design2Code proposes automatic metrics for evaluating LLM-generated webpages against design specifications [28]. SceneCraft uses LLM-based question answering to verify 3D Blender scene gen-eration [13], while LLMR applies analogous techniques to VR scene synthesis [5]. VPGen demonstrates that synthe-sizing verification programs can provide more interpretable verification results than pure VLM evaluation [3]. The work most closely related to ours is MoVer [21], which introduces a first-order logic DSL for verifying mo-tion graphics animations. While this approach enables ver-ification of fine-grained spatio-temporal properties such as motion attributes and timing relationships, it requires ani-mations to be explicitly specified in terms of low-level mo-tion primitives and atomic predicates. More importantly, it cannot effectively express the geometric shape families that people commonly use to describe motion trajectories. In our work, we propose a set of self-consistency-based methods to enable the verification of motion trajectories. 
+
+# 3. Preliminaries 
+
+Motion trajectory. In motion graphics, a graphical ele-ment (e.g., a circle, rectangle, triangle, etc.) is animated by transformations as a function of time. We define the ele-ment’s trajectory as its center point position over time. As shown in Figure 1, motion trajectories commonly found in various motion graphics animations often fall into geomet-rically well-defined shape families. 
+
+Shape family. Informed by the Erlangen program [18] and Lie transformation groups [8, 17], we define a shape family F(o, W ) as the set of trajectories that can be gen-erated by transforming a prototype trajectory o using any warp w in a transformation group W (Figure 2). That is, 
+
+F(o, W ) = {w(o) | w ∈ W } (1)                            
+
+> Figure 2. We define a shape family F(o, W )with a prototype trajectory oand a Lie transformation group W. The shape family is then the set of all trajectories that can be warped into one another
+> w(o)by all warps w∈W(left). In this example, any of the figure 8’s in the family can serve as the prototype since they can all be warped into one another. We can check whether a trajectory tiis a member of the family by checking if there is a warp w∈Wthat can transform tiinto o(right).
+> Figure 3. Hierarchy of Lie transformation groups and shape fami-lies they induce. Each node represents a transformation group and depicts a prototype square-shaped trajectory oas well as other tra-jectories w(o)within the corresponding shape family.
+
+where the warp w applies transformations such as transla-tion, rotation, scaling, and shear to the prototype o. For example, a text prompt such as “Move in a figure 8-shaped path” corresponds to a shape family where o is a figure 8 shape (lemniscate of Bernoulli) at any scale, position, orien-tation, or reflection. Thus W is the Lie group of similarity transformations with reflections or Sim(2) [8, 17]. A warp 
+
+w in this group can apply any combination of translation, rotation, uniform scale, and reflection to o to generate the trajectories of the shape family (Figure 2). In this work we develop shape families using a set of Lie transformation groups that people commonly consider when describing a family of shapes [25]. 
+
+Rigid [Wrgd := SE(2)] : The special Euclidean group that includes all combinations of translations and rotations. This group preserves all distances, angles, and orientation. Note 3that while this group is commonly denoted SE(2) it is some-times also denoted E+(2) .
+
+Rigid + reflections [Wrgd-ref := E(2)] : The full Euclidean group is the set of all rigid transformations in SE(2) plus reflections. This group allows orientation flips while pre-serving distances and angles. 
+
+Similarity [Wsim := Sim +(2)] : The similarity group in-cludes all combinations of translations, rotations, and uni-form scale. This group preserves angles and orientation, but allows uniform changes of size. 
+
+Similarity + reflections [Wsim-ref := Sim(2)] : The similar-ity plus reflections group includes all similarity transforma-tions Sim +(2) plus reflections. This group allows orienta-tion flips while preserving angles. 
+
+Affine [Waff := Aff(2)] : The full affine group including all combinations of translation, rotation, non-uniform scaling, and shear. This group preserves parallel lines and ratios along parallel lines. 
+
+Anisotropic similarity [Wsim-ani ]: The group of all combi-nations of translation, rotation and non-uniform scale [29]. This group is equivalent to the affine group but without shear. Note that trajectories are specified in the screen space coordinate frame. But many shapes (e.g. rectangles, right triangles, etc.) have canonical coordinate frames aligned with higher-level perceptual features such as right angles, symmetry axes, etc. The anisotropic similarity group al-lows non-uniform scale before or after rotation. However, since we do not have access to the canonical orientation of a prototype trajectory, such non-uniform scales can appear as a shear (Supplemental Figure S3). 
+
+Hierarchy of geometric warps. The Lie transformation groups form a partially ordered hierarchy (Figure 3). where the parent group of warps Wi contains its child group of warps Wj , such that Wj ⊆ Wi. Thus, each child group is more restrictive than its parent group. Additional Lie groups can be added to this hierarchy based on their sub-group relationships. For example, equi-affine transforma-tions (area preserving warps SA(2) ⊆ Aff(2) ) or projective transformations (collinearity preserving warps, PGL(2) ⊇
+
+Aff(2) ) could be added to the hierarchy. 
+
+Warp-invariant distance metrics. For each transforma-tion group W , we define a corresponding distance met-ric dW that measures the distance between two trajecto-ries while remaining invariant to warps in W . Specifically, given two trajectories t1 and t2, the W -invariant distance is: 
+
+dW (t1, t 2) = min 
+
+> w∈W
+
+1
+
+n
+
+> n
+
+X
+
+> i=1
+
+∥w(t1,i ) − t2,i ∥2 (2) where t1,i and t2,i denote the i-th points on trajectory t1
+
+and t2 respectively. We optimize over all warps w ∈ W to find the best alignment between the transformed t1 and t2.This distance equals zero if and only if t2 ∈ F (t1, W ). We implement our distance metrics using a generalized variant of the iterative closest point (ICP) algorithm [1, 2, 7]. We represent trajectories in a 400 px × 400 px SVG and com-pute dW by resampling each trajectory to n = 100 by arc length. Computing dW for one pair takes on average 67 milliseconds on a standard desktop CPU. In practice, due to discretization and alignment inaccuracies, we consider 
+
+t2 ∈ F (t1, W ) when dW (t1, t 2) is less than a consistency threshold τ . See Supplemental Section E for details. 
+
+# 4. Method 
+
+With the definitions from the previous section, we have the machinery to apply self-consistency to the domain of mo-tion trajectories. Our procedure takes an input prompt that specifies a desired motion trajectory described as shapes. In this work we assume that we can model the desired trajec-tory as a shape family (Equation 1) using a transformation group from our hierarchy (Figure 3). We extend ideas from self-consistency to automatically recover this shape family in an unsupervised fashion. Access to this shape family al-lows us to produce better LLM responses (by selecting a member from the most consistently generated shape family) and verify whether other trajectories match the specification of the prompt (by checking membership in the family). In the rest of this section, we present the components of our approach. We first describe how we use an LLM to sam-ple a collection of motion trajectories (Section 4.1). Next, we show that if we are given an oracle that can provide the 
+
+correct transformation group for the desired shape family, we can use self-consistency to identify a prototype trajec-tory from the collection of LLM-generated samples (Sec-tion 4.2). Then we consider the case when the correct trans-formation group for the desired shape family is unknown, and show how we can estimate the transformation group using two different decision criteria (Section 4.3). Finally, in Section 4.4, we describe how to verify whether a query trajectory is a member of a given shape family. 
+
+4.1. Sampling Motion Trajectories with an LLM 
+
+Our first step uses an LLM to generate N samples of mo-tion trajectories conditioned on the input prompt (Figure 1 right). We frame this step as a program synthesis problem: requesting the LLM to generate a motion graphics anima-tion program, which uses functions from an API of high-level animation operations [6]. Given a static SVG scene (e.g. a single element, centered on the canvas), we can then execute this program to produce a motion trajectory. To encourage this collection of trajectory samples to ex-hibit representative modes of variations for the specified tra-4jectory, we employ a prompting strategy that encourages diversity [35]. Instead of repeatedly asking the LLM to produce independent animation programs, we ask the LLM to produce k < N programs in each response, and addi-tionally specify that these responses should well-cover the “tails” of the correct distribution. We repeat this sampling process in batches of size k until the LLM has produced 
+
+N trajectories. See Supplemental Section E.3 for the full wording of the diversity sampling prompt. As discussed in Section 3, for shape families defined with Wsim-ani (anisotropic similarity) the orientation of the prototype trajectories is important. More specifically, if the prototype trajectory is oriented so that its canonical orien-tation is not aligned with the screen space x- and y-axes, the transformation group Wsim-ani may appear to shear the trajectory even though shears are not included in the trans-formation group. Therefore, for these families, we make an additional assumption that the LLM would generate at least some samples with their canonical orientations aligned with our screen-space coordinate frame. 
+
+4.2. Self-Consistent Trajectory Clustering 
+
+If we have access to the correct geometric transformation group for the desired shape family (i.e. W is provided by some oracle), we describe how to use the collection of LLM sampled motion trajectories to choose a prototype. Using the distance metric dW (associated with the trans-formation group W ), we form a distance matrix D by com-puting pairwise distances under dW between each pair of trajectories. We send this distance matrix to the DBSCAN algorithm [26] to produce clusters of consistent trajectories under W , setting the distance threshold as τ . The cluster that has the most members corresponds to the set of trajec-tories that are most self-consistent with one another under 
+
+W ; producing a self-consistent generation is then equiva-lent to returning any member from this cluster. To create a shape family that best aligns with the trajectories in this cluster under W , we choose the centroid sample trajectory (minimum average distance to all other cluster members un-der dW ) as the prototype trajectory o.
+
+4.3. Decision Criteria for Selecting W
+
+Without any supervision or external knowledge, we do not have access to the correct warp function W for a given prompt. Under different assumptions about the distri-bution of motion trajectories produced by the LLM, we can design decision criteria that will use our hierarchy of geometric transformation groups to determine an ap-propriate W . We consider two such decision criteria: Majority-Consensus and Hierarchical-Consistency. 
+
+4.3.1. Majority-Consensus 
+
+This procedure identifies the most restrictive transformation group for which a majority cluster first appears. We order the transformation groups from most to least restrictive (as-cending the hierarchy). Iteratively, for each group W , we cluster the LLM-sampled trajectories and record the size of the largest cluster. When we observe this clustering pro-duces a dominant cluster that contains a strict majority of all samples (exceeding 50%), we select the corresponding transformation group. This criterion finds the correct trans-formation group when: (i) the LLM produces correct trajec-tories more frequently than incorrect ones; (ii) the collection of sampled trajectories diversely covers the modes of varia-tion possible within the transformation group. Under these assumptions, a majority cluster can arise only once the warp aligns with the true geometric structure of the shape family. 
+
+4.3.2. Hierarchical-Consistency 
+
+In practice, assumption (ii) might not hold. So we offer an alternative criterion that better accounts for cases where the LLM samples do not cover the modes of variation within the true transformation group well. We order the warp func-tions from least to most restrictive (descending the hierar-chy). Starting from the most permissive warp, we cluster the sampled trajectories, identify the largest cluster, and treat its members as example trajectories from the true shape fam-ily. Then, progressively considering more restrictive warps, we check whether clustering would remove any members from the previously observed largest cluster. We select the most restrictive warp for which the largest cluster remains intact. This procedure introduces a new assumption: incor-rect LLM generated trajectories will not cluster with cor-rect ones under any warp in our hierarchy. When this holds, the largest cluster begins to lose members precisely when the warp becomes overly restrictive for the true geometric structure of the underlying shape family. 
+
+4.4. Shape Family Membership Verification 
+
+We can use the machinery described in the previous sec-tions to solve verification problems. For verification, we are given an input prompt that specifies a desired trajectory and shape family and a query motion trajectory t. The goal of verification is to determine if t matches the prompt. We start by applying our self-consistency approach as described above, to recover a shape family F from the input prompt, identifying both a transformation group W and a prototype trajectory o from a collection of LLM-generated samples. Then, given a query trajectory t, we solve the verification task by checking whether t is a member of the shape fam-ily. Formally, we say that t is a valid response with respect to the input prompt if and only if t ∈ F (o, W ). Check-ing membership is done using the associated distance met-ric dW : we compare the distance between o and t, and say that t is consistent with F if this distance is less than τ .5Figure 4. We present clustering results on LLM-generated samples from three example prompts in our dataset. Each trajectory has a ground truth label on the upper right. Clusters colored green are the chosen largest clusters, and we note that their sizes vary, sometimes less than half of the total number of trajectories (middle). In the pentagon case, failed samples (Cluster 2–4) appear visually distinct from the true ones, while some of the failed deltoids (Cluster 4–8) look closer to the correct one with their triangular forms. The rightmost parabola is a skewed one that would have been grouped into the largest cluster under the affine warp. 
+
+# 5. Results 
+
+To evaluate our extension of self-consistency for the domain of motion graphics, we develop a benchmark of prompts as-sociated with ground-truth shape families (Section 5.1). We use this benchmark to validate that our approach provides performance boosts over baseline alternatives for both gen-eration (Section 5.2) and verification (Section 5.3) settings. 
+
+5.1. Constructing a Motion Trajectory Benchmark 
+
+Comparing the performance of methods that generate or verify motion graphics trajectories requires a dataset that contains text prompts describing motion trajectories and their corresponding ground truth shape families. As no such dataset is available, we synthetically design one us-ing a template-based approach similar to MoVer [21] and CLEVR [15]. We provide the full details of our template-based construction process and visualize all 224 pairings in the supplemental material (Section A). 
+
+5.1.1. Prompts with ground truth shape families 
+
+Our benchmark contains 224 prompts paired with ground-truth shape families. To construct this benchmark, we first identified a set of 35 geometric base shapes that people commonly use to describe the trajectories found in motion graphics animations, as documented by supporting litera-ture [25]. We then manually paired natural language de-scriptions of these geometric base shapes with a ground truth shape family (Eq. 1) formed by a prototype trajec-tory and a corresponding transformation group from our hierarchy. We were then able to procedurally create vari-ations of these base shapes by appending the natural lan-guage descriptions with additional specifications that in-duce a change to the corresponding shape family through the transformation group. As an example, a prompt “An-imate the blue circle to move along a path shaped like a circle” corresponds with a shape family that uses ground truth warps from Wsim-ref (similarity + reflections). Modify-ing this prompt with additional specifications, “Animate the blue circle to move along a path shaped like a circle with a radius of 50 px” , constrains the shape family so that it in-stead can only use warps from Wrgd-ref (rigid + reflections). 
+
+5.1.2. Test set of trajectories for verification 
+
+To evaluate performance on the task of verifying motion trajectories, for each prompt we require query trajectories and associated labels for whether they match or mismatch the prompt. To this end, we curated a test set of 2240 tra-jectories (10 per prompt). For a given (prompt, query tra-jectory) pair, we used the ground-truth shape family cor-responding with the prompt to provide an automatic label through membership checks (Section 4.4). To produce this set of query trajectories, we iteratively sampled an LLM (GPT-4.1 & GPT-5) to produce motion trajectories condi-tioned on the input prompt (Section 4.1). We employed a rejection sampling-based approach until we found five true trajectories and five false trajectories for each prompt. 
+
+5.2. Motion Trajectory Generation 
+
+We use our benchmark to measure the performance on the task of our self-consistency-based motion trajectory gener-ation methods. We consider a baseline generation method that uses an LLM to sample a single motion trajectory for each prompt in our evaluation set (LLM direct). We com-6Table 1. Motion trajectory generation experiment (see Sec. 5.2). We evaluate the accuracy of LLM-generated motion trajectories (GPT-4.1 and GPT-5) under different decoding strategies. Under different decision criteria for selecting a transformation group W ,our self-consistency approach improves upon the baseline alterna-tive of directly generating a single sample (LLM-Direct).                
+
+> Method Decision Criteria GPT-4.1 GPT-5 LLM-Direct —62.1 79.1 Ours Majority-Consensus 68.0 83.3
+> Ours Hierarchical-Consistency 66.7 82.6 Ours Oracle 68.5 83.5
+
+pare this baseline against our approach that samples an LLM multiple times (Section 4.1) to identify the most self-consistent trajectories (Section 4.2), setting the number of samples to N = 19 . We evaluate the performance of these methods with an accuracy metric, by checking whether the generated trajectory matches the prompt or mismatches the prompt using a membership check against the correspond-ing ground-truth shape family. We report the results of this experiment in Table 1, where we split the analysis by the LLM used for sam-pling (GPT-4.1 vs GPT-5). Trajectories generated di-rectly by an LLM without self-consistency (top-row) pro-duce accuracy rates of 62.1% (GPT-4.1) and 79.1% (GPT-5). Our self-consistency methods improve the genera-tion accuracy for a given sampling LLM. In the ora-cle setting, where self-consistency is computed under the ground-truth transformation group W , we observe im-provements of 6.4 and 4.4 percentage points for GPT-4.1 and GPT-5 respectively. In the unsupervised set-ting, when we use the different decision criteria to es-timate W (Section 4.3) we observe these criteria still provide substantial boosts. Majority-Consensus closely matches the oracle setting, achieving 5.9 and 4.2 percentage point improvements for GPT-4.1 and GPT-5 respectively. Hierarchical-Consistency performs slightly worse, but still significant, with 4.6 and 3.5 percentage point improvements for GPT-4.1 and GPT-5 respectively. Figure 4 shows qualitative results under the oracle ge-ometric warps. In the pentagon case, as the false tra-jectories are distinct in a way that no geometric warps can map them to the correct ones and the largest clus-ter forms an absolute majority, both Majority-Consensus and Hierarchical-Consistency would correctly choose the ground truth warp of rigid with reflections. For the del-toids, although the samples in the bottom row have a tri-angular form, no geometric warps can further merge any clusters together. As a result, both Majority-Consensus and Hierarchical-Consistency would select the right warp, even when the largest cluster is less than half of the to-tal number of trajectories. The parabola case is where                         
+
+> Table 2. Motion trajectory verification experiment (see Sec. 5.3). We compare our self-consistency-based approach for verifying whether a trajectory matches an input prompt against the alter-native of using a VLM (GPT-4.1 or GPT-5).
+> Method Decision Criteria Precision Recall F1 Score GPT-4.1 —62.0 96.9 75.6 GPT-5 —74.0 84.7 79.0 Ours Majority-Consensus 85.8 66.1 74.6 Ours Hierarchical-Consistency 80.5 89.0 84.6
+> Ours Oracle 87.9 83.3 85.6
+
+Majority-Consensus would succeed, as the anisotropic sim-ilarity warp is the most restrictive one to produce a largest cluster containing at least half of the trajectories. How-ever, the bottom left trajectory is a skewed parabola and can be merged into the largest group under affine, causing Hierarchical-Consistency to fail. 
+
+5.3. Motion Trajectory Verification 
+
+We can also use our benchmark to measure the performance on the task of motion trajectory verification. In this setting, a method is presented with a prompt and a query motion trajectory, and is tasked with determining whether the tra-jectory matches the prompt. We consider two VLMs (GPT-4.1 and GPT-5) as baseline verification methods. We can feed a VLM with a prompt and a static rendering of a mo-tion trajectory generated from that prompt, and request that the VLM should indicate whether these two items match or not (see Supplemental Section E.4 for details). We compare these baselines against our self-consistency-based method for verification, as described in Section 4.4. We use GPT-5 as the LLM sampling model, and once again set N = 19 .We compute precision, recall, and F1 scores by compar-ing labels predicted by each method against the ground truth labels in our benchmark, and report the results of this ex-periment in Table 2. We observe that using GPT-4.1 as a verifier is poorly calibrated: the model’s predicted preva-lence (the rate at which it predicts True) is 90%, far above the true base rate of the data at 50%. This results in a high recall (96.9), at the expense of a low precision (62.0). GPT-5 produces more balanced precision (74.0) and recall (84.7), achieving an F1 score of 79. With oracle access to the ground-truth W , our self-consistency approach for ver-ification is able to achieve better performance (F1 of 85.6). 
+
+5.4. Discussion 
+
+We discuss how to choose a decision criterion and set the hyperparameters for our approach. See the supplemental material (Sections D.1 and E.2) for more details. 
+
+Choosing decision criteria. Our extension of self-consistency works in an unsupervised setting, where the correct transformation group W is not known a priori. We 70 5 10 15 20 25 30     
+
+> Number of Sampled Trajectories (N)
+> 0.6
+> 0.8
+> F1 Score
+> Oracle
+> Hierarchical-Consistency
+> Majority-Consensus Figure 5. F1 scores across different numbers of sampled trajecto-ries N. Decision criteria performances stabilize after N= 10 .
+
+allow users to flexibly choose between the two decision criteria for W estimation introduced in Section 4.3 that would best support their downstream application needs. One should use Majority-Consensus to prioritize precision, and use Hierarchical-Consistency to balance improved re-call while maintaining reasonable precision. The design of Majority-Consensus leads it to have a bias for selecting overly restrictive transformation groups, as it traverses our hierarchy of warps in an ascending order. For verification (Table 2), we find that this form of conservatism leads to the best precision (85.8) at the expense of recall (66.1). Con-versely, Hierarchical-Consistency traverses our hierarchy of warps in a descending order, which finds a nice trade-off between precision and recall, allowing it to achieve the best F1 score for the unsupervised verification task (84.6). These trends are further supported by an analysis of failure modes of these decision criteria: when they choose an incorrect 
+
+W , Majority-Consensus selects an overly restrictive group 95.6% of the time while Hierarchical-Consistency selects an overly permissive one 80.6% of the time. 
+
+Choosing hyperparameters. Our approach has two main hyperparameters, the number of sampled trajectories N and the clustering threshold τ . For N , our algorithm works well with as few as N = 10 trajectories. We repeat the ver-ification experiment of Section 5.3 while varying N from 1 to 30, using GPT-5 as the sampling LLM. As shown in Figure 5, at low N , F1 increases sharply as additional samples give the clustering more signal; performance then stabilizes around N = 10 , with only marginal gains be-yond. This trend holds across all ways of choosing a warp, showing that a modest sample budget of 10 is typically sufficient. While we perform DBSCAN clustering with a small distance threshold τ to account for discretization er-rors, our approach is not sensitive to the choice of its value. To show this, we repeat the verification experiment with Hierarchical-Consistency while sweeping τ from 0.25 to 8.0, a 32 × range. We observe that F1 drops by only 7.2 percentage points across the full sweep. 
+
+# 6. Conclusion 
+
+We introduced an approach that extends self-consistency to the visual domain of motion graphics animations. The core challenge is determining when motion trajectories should be considered consistent with one another. We propose a shape-specific notion of consistency by identifying a hierar-chy of Lie transformation groups that can be used to define common geometric shape families. Each group is paired with a distance metric that is invariant under its warps, al-lowing us to cluster LLM-produced motion trajectories in a self-consistent fashion. We further proposed multiple deci-sion criteria that automatically select an appropriate trans-formation group for a given prompt by analyzing the be-havior of these clusters. We empirically observed that our training-free, unsupervised extension of self-consistency improves performance on both motion trajectory generation and verification tasks over LLM and VLM baselines. 
+
+Limitations. Like prior work on self-consistency [33], our approach cannot recover from all mistakes made by the sampling LLM. As discussed in Section 4.3, our procedure may fail when certain assumptions on the distribution of LLM-generated trajectories are not met. We analyze these failure modes in the supplemental material (Section D). Our approach handles prompts describing shape families characterized by a single prototype and warp, such as “move in a circular orbit” (circle under similarity warp) and “trace an Archimedean spiral” (Archimedean spiral under similar-ity warp with reflections). Ambiguous descriptions (e.g., “move in a curved path”) or prompts with multiple disjoint families are outside our scope. For example, the prompt “move in a heptagram,” “heptagram” maps to both hepta-gram {7/2 } and heptagram {7/3 } and no geometric warps can bring one to the other. When multiple prototypes ex-ist, each prototype’s cluster is smaller. This makes it harder for our decision criteria to distinguish within-family clusters from outlier ones. We experimented with a simple modi-fication to Hierarchical-Consistency that returns all largest clusters whose sizes are within 20% of one another, improv-ing F1 from 71.0 to 88.9 on multi-prototype prompts. See the full analysis in Supplemental Section C.1.1. 
+
+Future work. Looking ahead, we view this work as a template for extending self-consistency beyond natu-ral–language reasoning tasks, where consistency is typi-cally defined narrowly through identity matching. General-izing this paradigm requires identifying a domain-relevant notion of consistency, which likely needs to be flexible with respect to prompt-level semantics. Our proposed solution for the domain of motion graphics leverages a hierarchy of common geometric transformation groups, which may be directly extendable for related spatial and shape-based do-mains. Exploring how this general framework might adapt over a broader set of application areas is a promising di-rection. Such efforts may prove especially impactful, as beyond better generation, the ability to extend consistency over distributions of related samples opens a path toward automatic, training-free verification. 8Acknowledgments 
+
+Jiaju Ma was supported by the Stanford Graduate Fellow-ship. This work was partially supported by the Brown In-stitute for Media Innovation at Stanford University, NSF Awards #2219864 and #2211258, ONR YIP N00014-24-1-2117, AFOSR YIP FA9550-23-1-0127, the Stanford HAI Hoffman-Yee Research Grant (Integrating Intelligence), and the HAI-HPI Program on Artificial Intelligence (AI) and Human-Computer Interaction (HCI). 
+
+# References 
+
+[1] Paul J Besl and Neil D McKay. Method for registration of 3-d shapes. In Sensor fusion IV: control paradigms and data structures , pages 586–606. Spie, 1992. 4, 18 [2] Yang Chen and G´ erard Medioni. Object modelling by regis-tration of multiple range images. Image and vision comput-ing , 10(3):145–155, 1992. 4, 18 [3] Jaemin Cho, Abhay Zala, and Mohit Bansal. Visual pro-gramming for text-to-image generation and evaluation. In 
+
+NeurIPS , 2023. 3 [4] Jaemin Cho, Yushi Hu, Jason Baldridge, Roopal Garg, Peter Anderson, Ranjay Krishna, Mohit Bansal, Jordi Pont-Tuset, and Su Wang. Davidsonian scene graph: Improving reliabil-ity in fine-grained evaluation for text-to-image generation. In 
+
+ICLR , 2024. 3 [5] Fernanda De La Torre, Cathy Mengying Fang, Han Huang, Andrzej Banburski-Fahey, Judith Amores Fernandez, and Jaron Lanier. Llmr: Real-time prompting of interactive worlds using large language models. In Proceedings of the 2024 CHI Conference on Human Factors in Computing Sys-tems , New York, NY, USA, 2024. Association for Comput-ing Machinery. 3 [6] Jack Doyle. Greensock animation platform v3, 2025. 4, 19 [7] Shaoyi Du, Nanning Zheng, Shihui Ying, and Jianyi Liu. Affine iterative closest point algorithm for point set regis-tration. Pattern Recognition Letters , 31(9):791–799, 2010. 4, 18 [8] Ethan Eade. Lie groups for computer vision. Cambridge Univ., Cam-bridge, UK, Tech. Rep , 2:1, 2014. 3 [9] Rinon Gal, Yael Vinker, Yuval Alaluf, Amit Bermano, Daniel Cohen-Or, Ariel Shamir, and Gal Chechik. Breath-ing life into sketches using text-to-video priors. In Proceed-ings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , pages 4325–4336, 2024. 1 [10] Tanmay Gupta and Aniruddha Kembhavi. Visual program-ming: Compositional visual reasoning without training. In 
+
+Proceedings of the IEEE/CVF Conference on Computer Vi-sion and Pattern Recognition (CVPR) , pages 14953–14962, 2023. 1 [11] Douglas Hofstadter and Gary McGraw. Letter spirit: An emergent model of the perception and creation of alphabetic style. In Technical Report 68, Center for Research on Con-cepts and Cognition . 1993. 13 [12] Yushi Hu, Benlin Liu, Jungo Kasai, Yizhong Wang, Mari Ostendorf, Ranjay Krishna, and Noah A. Smith. Tifa: Ac-curate and interpretable text-to-image faithfulness evaluation with question answering. In Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV) , pages 20406–20417, 2023. 3 [13] Ziniu Hu, Ahmet Iscen, Aashi Jain, Thomas Kipf, Yisong Yue, David A Ross, Cordelia Schmid, and Alireza Fathi. Scenecraft: an llm agent for synthesizing 3d scenes as blender code. In Proceedings of the 41st International Con-ference on Machine Learning . JMLR.org, 2025. 1, 3 [14] Junqi Jiang, Tom Bewley, Salim I. Amoukou, Francesco Le-ofante, Antonio Rago, Saumitra Mishra, and Francesca Toni. Representation consistency for accurate and coherent llm an-swer aggregation, 2025. 2 [15] Justin Johnson, Bharath Hariharan, Laurens Van Der Maaten, Li Fei-Fei, C Lawrence Zitnick, and Ross Girshick. Clevr: A diagnostic dataset for compositional language and elementary visual reasoning. In Proceedings of the IEEE conference on computer vision and pattern recognition , pages 2901–2910, 2017. 6, 11 [16] Wolfgang Kabsch. A solution for the best rotation to re-late two sets of vectors. Acta Crystallographica Section A: Crystal Physics, Diffraction, Theoretical and General Crys-tallography , 32(5):922–923, 1976. 19 [17] Shizuo Kaji and Hiroyuki Ochiai. A concise parametrization of affine transformation. SIAM Journal on Imaging Sciences ,9(3):1355–1373, 2016. 3 [18] Vladimir V Kisil. Erlangen program at large: an overview. 
+
+Advances in applied analysis , pages 1–94, 2012. 3 [19] Tim Knappe, Ryan Li, Ayush Chauhan, Kaylee Chhua, Kevin Zhu, and Sean O’Brien. Semantic self-consistency: Enhancing language model reasoning via semantic weight-ing, 2025. 2 [20] Vivian Liu, Rubaiat Habib Kazi, Li-Yi Wei, Matthew Fisher, Timothy Langlois, Seth Walker, and Lydia Chilton. Logomo-tion: Visually grounded code generation for content-aware animation, 2024. 1 [21] Jiaju Ma and Maneesh Agrawala. Mover: Motion verifica-tion for motion graphics animations. ACM Trans. Graph. , 44 (4), 2025. 1, 3, 6, 11, 19 [22] Nicolas Mellado, Dror Aiger, and Niloy J Mitra. Super 4pcs fast global pointcloud registration via smart indexing. In 
+
+Computer graphics forum , pages 205–215. Wiley Online Li-brary, 2014. 19 [23] Sagi Polaczek, Yuval Alaluf, Elad Richardson, Yael Vinker, and Daniel Cohen-Or. Neuralsvg: An implicit representation for text-to-vector generation, 2025. 1 [24] Szymon Rusinkiewicz and Marc Levoy. Efficient variants of the icp algorithm. In Proceedings third international confer-ence on 3-D digital imaging and modeling , pages 145–152. IEEE, 2001. 19 [25] Mathias Sabl´ e-Meyer, Kevin Ellis, Josh Tenenbaum, and Stanislas Dehaene. A language of thought for the mental representation of geometric shapes. Cognitive Psychology ,139:101527, 2022. 2, 3, 6, 12 [26] Erich Schubert, J¨ org Sander, Martin Ester, Hans Peter Kriegel, and Xiaowei Xu. Dbscan revisited, revisited: why and how you should (still) use dbscan. ACM Transactions on Database Systems (TODS) , 42(3):1–21, 2017. 5 
+
+9[27] Jeong seok Oh and Jay yoon Lee. Latent self-consistency for reliable majority-set selection in short- and long-answer reasoning, 2025. 2 [28] Chenglei Si, Yanzhe Zhang, Ryan Li, Zhengyuan Yang, Ruibo Liu, and Diyi Yang. Design2code: Benchmarking multimodal code generation for automated front-end engi-neering. In Proceedings of the 2025 Conference of the Na-tions of the Americas Chapter of the Association for Com-putational Linguistics: Human Language Technologies (Vol-ume 1: Long Papers) , pages 3956–3974, 2025. 3 [29] Carsten Steger. Least-squares estimation of anisotropic simi-larity transformations from corresponding 2d point sets. Pat-tern Recognition Letters , 33(3):349–355, 2012. 4, 14 [30] Jiao Sun, Yushi Hu, Deqing Fu, Royi Rassin, Sjoerd van Steenkiste, Dana Alon, Su Wang, Charles Herrmann, Ran-jay Krishna, Da-Cheng Juan, and Cyrus Rashtchian. Dream-sync: Aligning text-to-image generation with image under-standing models. In Synthetic Data for Computer Vision Workshop @ CVPR 2024 , 2024. 3 [31] Tiffany Tseng, Ruijia Cheng, Andrew M McNutt, and Jef-frey Nichols. Keyframer: A design probe for exploring llm assistance in 2d animation design. In 2025 IEEE Sympo-sium on Visual Languages and Human-Centric Computing (VL/HCC) , pages 33–45. IEEE, 2025. 1 [32] Shinji Umeyama. Least-squares estimation of transforma-tion parameters between two point patterns. IEEE Transac-tions on Pattern Analysis & Machine Intelligence , 13(04): 376–380, 1991. 19 [33] Xuezhi Wang, Jason Wei, Dale Schuurmans, Quoc Le, Ed Chi, Sharan Narang, Aakanksha Chowdhery, and Denny Zhou. Self-consistency improves chain of thought reason-ing in language models. arXiv preprint arXiv:2203.11171 ,2022. 1, 2, 8, 17 [34] Ximing Xing, Juncheng Hu, Guotao Liang, Jing Zhang, Dong Xu, and Qian Yu. Empowering llms to understand and generate complex vector graphics. In Proceedings of the Computer Vision and Pattern Recognition Conference , pages 19487–19497, 2025. 1 [35] Jiayi Zhang, Simon Yu, Derek Chong, Anthony Sicilia, Michael R. Tomz, Christopher D. Manning, and Weiyan Shi. Verbalized sampling: How to mitigate mode collapse and unlock llm diversity, 2025. 2, 5, 19 [36] Yunzhi Zhang, Zizhang Li, Matt Zhou, Shangzhe Wu, and Jiajun Wu. The scene language: Representing scenes with programs, words, and embeddings. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , pages 24625–24634, 2025. 1 
+
+10 Self-Consistency for LLM-Based Motion Trajectory Generation and Verification 
+
+# Supplementary Material 
+
+> Figure S1. Our benchmark includes 224 prompts of motion trajectories derived from 35 different geometric base shapes. Variations are created by adding specifications to each shape to exercise different warps in our hierarchy of transformations.
+
+# Contents 
+
+A. Motion Trajectory Benchmark Details 11 B. Decision Criteria Alternatives 12 C. Shape Family Limitations 12 
+
+C.1. Shape Families Requiring Multiple Prototypes 12 C.1.1. Extension to Multi-Prototype Shape Families . . . . . . . . . . . . . . . 13 C.2. Shape Families with Anisotropic Similarity . 14 
+
+D. Failure Modes 14 
+
+D.1. Decision Criteria Failure Modes . . . . . . . 14 D.2. LLM Failure Modes . . . . . . . . . . . . . 17 
+
+E. Method Implementation Details 18 
+
+E.1. Computing Warp-Invariant Distance . . . . . 18 E.2. Sensitivity to DBSCAN Distance Threshold . 19 E.3. Generating Motion Trajectories with an LLM 19 E.4. Verifying Motion Trajectories with a VLM . 20 
+
+# A. Motion Trajectory Benchmark Details 
+
+Our benchmark consists of 224 motion trajectory prompts describing 35 different basic shapes, as shown in Figure S1. Each prompt is paired with a ground truth shape family fol-lowing the definition of Equation 1 in the main paper – one prototype trajectory and a transformation group. Table S1 reports the number of prompts associated with each trans-formation group. The distribution is determined by the ge-ometric properties of the base shapes (e.g., a circle cannot have anisotropic similarity or affine warps). We discuss and show examples of applying our approach to shape fam-ilies that do not follow this definition in Section C.1. We illustrate all 224 prompts with their ground truth shape fam-ilies in our benchmark in Figure S8–S14. We use a template-based approach to generate the prompts, following MoVer [21] and CLEVR [15]. Each prompt starts with the main sentence Animate the <SVG element> to move along a path shaped like <shape name>. We manually pair a prompt to its ground truth shape family consisting of a Lie group of transformations and a prototype trajectory based on the shape properties. For example, we pair “circle” with a circular trajectory and the warp Wsim-ref 
+
+(similarity with reflections), “ellipse” with an elliptical path and Wsim-ani (anisotropic similarity), and “parallelogram” to a parallelogram path with Waff (affine). We note that, for shapes that are periodic (sine and cosine waves) or self-repeating (Archimedean and logarithmic spirals), the prompts need to specify the number of periods or turns, as changes in these values effectively create different shape families (e.g., a spiral with 2 turns cannot be geometrically warped into a spiral with 3 turns). We add a new sen-tence after the main sentence for this value: Complete <periods/turns> of <shape name>. 
+
+To introduce prompt variations that exercise all geomet-11 Table S1. Number of prompts per warp in our benchmark.             
+
+> Wrgd-ref Wrgd Wsim Wsim-ref Wsim-ani Waff Total 105 44 38 23 12 2224
+
+ric warps in our hierarchy, we add modifiers to a prompt in the form of additional specifications on a shape. The first type of specifications is shape orientation , where we require a shape to be traversed in either a clockwise or counterclockwise manner. Adding this specification re-moves reflections from the warps. We use the follow-ing template sentence: Traverse the path in a <orientation> manner. 
+
+The second type of specifications is shape size . For some shapes, their sizes can be fully specified by one parameter (e.g., radius for circles and side length for polygons). Oth-ers require two parameters, such as width and height for rectangles and triangles, and horizontal extent and ampli-tude for sine and cosine waves. Fully specifying a shape’s size reduces the transformation group to either Wrgd (rigid) or Wrgd-ref (rigid with reflections). Alternatively, we can specify a shape’s size in terms of ratios (e.g., a rectangle with a 4:3 aspect ratio), and doing so changes the trans-formation group to either Wsim or Wsim-ref . We append a prepositional phrase to the main sentence when adding size specifications: a <shape name> with <size param name> of <size param value> (e.g., “a rectangle with a width of 50 px and a height of 80 px.” ). 
+
+# B. Decision Criteria Alternatives 
+
+In Section 4 of the main paper we describe how our method is able to recover a shape family from an input prompt. A critical component of this procedure is how to estimate which transformation group W , from our hi-erarchy of Lie transformation groups (Figure 3, main pa-per), is most appropriate. We introduce two decision cri-teria for selecting W , based on underlying assumptions made in the sampled motion trajectory distributions pro-duced by an LLM: Majority-Consensus (Section 4.3.1) and Hierarchical-Consistency (Section 4.3.2). How do we know whether the decision criteria we propose select use-ful transformation groups? One way to justify our design of these procedures is by comparing their performance against very simple decision criteria alternatives. To this end, we consider two additional ‘baseline’ decision criteria, which we expect will recover worse shape families compared with Majority-Consensus and Hierarchical-Consistency. 
+
+Most-Restrictive is a criterion that always selects the most restrictive transformation group in our hierarchy (rigid). 
+
+Least-Restrictive is a criterion that always selects the least restrictive transformation group in our hierarchy (affine). 
+
+Motion trajectory generation With the same experimen-tal set-up as described in Section 5.2 of the main paper, we compare how the different decision criteria aid in the task of motion trajectory synthesis. We report results of this ex-periment in Table S2. As a reminder, the metric we track is the “accuracy” of the generations, i.e., whether the produc-tion is a member of the ground-truth shape family from our benchmark dataset. For better numerical stability, we com-pute this accuracy as the ratio of true to false trajectories in the chosen cluster, averaged across tasks in the dataset. Note that for LLM-Direct, we say that the “chosen cluster” includes all trajectories produced from the same prompt. We find that the two baseline decision criteria do strictly worse compared with the more sophisticated alternatives. Even these simple ways of choosing W do provide some benefit within the self-consistency paradigm in terms of im-proving the accuracy of the LLM’s generations. For in-stance, Most-Restrictive is able to increase the accuracy over LLM-Direct by between 3 and 4 absolute percent-age points. These results show that even with sub-optimal choices of W , self-consistency can benefit from the greater flexibility afforded in terms of checking whether genera-tions match beyond identity comparisons. 
+
+Motion trajectory verification Following the experi-mental set-up as described in Section 5.3 of the main paper, we compare how these alternative decision cri-teria perform on the task of motion trajectory verifica-tion. We report results of this experiment in Table S3. Hierarchical-Consistency continues to achieve the best F1 score, finding a nice balance between precision and re-call. One way to view Least-Restrictive is as a par-tial implementation of Hierarchical-Consistency; this sim-plification to never descend the hierarchy results in a steep decrease in precision (15 points) with only moder-ate increases to recall (3 points). In a similar fashion, Most-Restrictive can also be considered a partial implemen-tation of Majority-Consensus. Always choosing the most restrictive transformation group provides a marginal benefit for precision (.3 points), but it dramatically drops the asso-ciated recall (24 points). 
+
+# C. Shape Family Limitations 
+
+C.1. Shape Families Requiring Multiple Prototypes 
+
+In our work, we define a shape family F(o, W ) in Equation 1 of the main paper with one prototype and one geometric warp, and have demonstrated that a wide variety of com-mon shape families (Figure S1) that people use to describe motion trajectories falls under this definition [25]. However, there are shape families that cannot be repre-sented this way. One type of such families requires multiple but finitely many prototypes under one particular warp. For 12 Figure S2. We demonstrate a limitation of our self-consistency approach in terms of the definition of a shape family. In text prompt 1, “heptagram” has two distinct prototypes: heptagram {7/2 } and heptagram {7/3 }. Under the warp Wsim-ref , cluster 1 contains correct {7/3 }
+
+trajectories, while cluster 2 has {7/2 }. While, for generation, our approach would produce a correct interpretation of heptagram, we would mark all heptagram {7/2 } as false for verification. Similarly, for the letter Ms in text prompt 2, our approach would generate a correct form of the letter, but verify all other letter Ms that are not an affine warp of the shapes in cluster 1 as false. Table S2. Motion trajectory generation experiment with two ad-ditional baseline decision criteria of always selecting the most or least restrictive warps. We observe that they perform strictly worse than the two methods proposed in the main paper. 
+
+Method Decision Criteria GPT-4.1 GPT-5 LLM-Direct — 62.1 79.1 Ours Majority-Consensus 68.0 83.3 
+
+Ours Most-Restrictive 66.5 82.5 Ours Hierarchical-Consistency 66.7 82.6 Ours Least-Restrictive 64.6 82.1 Ours Oracle 68.5 83.5 
+
+example, as described in the main paper, the shape family “heptagram” needs two distinct prototypes: heptagram 7/2 and heptagram 7/3 under the similarity warp (Figure S2). Another type of families either needs an infinite amount of prototypes under one warp, or one prototype with some so-phisticated, non-geometric warp. An example of this is the family of any letter of the English alphabet, like the capital letter M (Figure S2). As demonstrated by Hofstadter and McGraw [11], since there are countless ways to produce a trajectory that a human would perceive as an ’M-shape’, we either need an infinite number of prototypes or a warp be-yond the geometric transformations we consider. In Figure S2, we prompted for the heptagram and capital 
+
+Table S3. Motion trajectory verification experiment (Table 2 of the main paper) with additional decision criteria of always selecting the most or least restrictive warps.                                 
+
+> Method Decision Criteria Precision Recall F1 Score GPT-4.1 —62.0 96.9 75.6 GPT-5 —74.0 84.7 79.0 Ours Majority-Consensus 85.8 66.1 74.6 Ours Most-Restrictive 86.1 42.1 56.5 Ours Hierarchical-Consistency 80.5 89.0 84.6 Ours Least-Restrictive 65.0 91.8 76.1 Ours Oracle 87.9 83.3 85.6
+
+M shapes. In both cases, while the largest clusters do con-tain correct trajectories for generation, applying them for verification would result in limited recall, as correct shapes that cannot be mapped to by the single prototype and the warp would be labeled as false. 
+
+C.1.1. Extension to Multi-Prototype Shape Families 
+
+For shape families requiring a finite number of prototypes under one warp, we experimented with a simple modifi-cation to Hierarchical-Consistency that returns all largest clusters whose sizes are within 20% of one another, in-stead of only the single largest cluster. We tested this mod-ification on four multi-prototype prompts under Wsim-ref :heptagram (2 prototypes: {7/2 }, {7/3 }; Figure S2), hep-tagram outline (2 prototypes: {7/2 }, {7/3 }), octagram out-13 Figure S3. When a shape is aligned with the screen space’s coor-dinate frame, applying an anisotropic scale of 2 along the x-axis does not introduce skews to the shapes (top). However, once a shape is rotated out of alignment, non-uniform scales effectively skew the shapes out of their respective shape families (bottom). 
+
+line (2 prototypes: {8/2 }, {8/3 }), and hendecagram (4 pro-totypes: {11/2 }, {11/3 }, {11/4 }, {11/5 }). With regular Hierarchical-Consistency, the verification F1 score on these multi-prototype prompts is 71.0. After applying the 20% tolerance modification, F1 improves to 88.9. Meanwhile, the modification has a negligible effect on single-prototype prompts, with F1 decreasing only slightly from 84.6 to 84.5, as the tolerance occasionally causes an additional outlier cluster to be selected. This small experiment suggests that we can potentially extend our approach to handle multi-prototype shape families by returning the largest clusters that satisfy certain statistical relationships with one another. Future work should more comprehensively evaluate this on a larger set of multi-prototype prompts and explore other decision criteria for selecting multiple clusters. 
+
+C.2. Shape Families with Anisotropic Similarity 
+
+For shape families with the anisotropic similarity warp, when a shape is not aligned with the screen coordinate frame (bottom row of Figure S3), a skew can be introduced to distort it out of its family if a non-uniform scaling is ap-plied to it [29]. For symmetric shapes like the ones shown in Figure S3, their lines of symmetry need to align with the screen coordinate axes. For asymmetric shapes with right angles (e.g., right triangles), the lines along the right angles need to be in alignment so that they are preserved under scaling. This means that, in order to properly warp to all other members of the family, we need a prototype that is in alignment with the screen space’s coordinate frame for non-uniform scaling to be applied without skew. We manually ensure this when we are constructing ground truth shape families for our dataset, and assume that the LLM will gen-erate some trajectories in such canonical orientations.           
+
+> Table S4. Our decision criteria has different failure modes when not selecting the ground truth warp. Majority-Consensus se-lects more restrictive distance metrics for 108 prompts (95.6% of the time when it is not matching with the ground truth), while Hierarchical-Consistency is more conservative for 50 prompts (80.6% of the time). Note that both decision criteria choose dis-tance metrics that are on the same level of the hierarchy but differ-ent from the ground truth for 1 and 3 prompts respectively.
+> Decision Criteria More Restrictive Match Less Restrictive Majority-Consensus 48.2% 49.6% 1.8% Hierarchical-Consistency 4.0% 72.3% 22.3%
+
+# D. Failure Modes 
+
+D.1. Decision Criteria Failure Modes 
+
+Our method can recover a shape family from an input prompt by using some decision criteria to estimate an ap-propriate transformation group W . In Section 4.3 of the main paper, we introduce two such decision criteria that an-alyze the distribution of motion trajectories generated by an LLM. When different sets of assumptions are met, in terms of how the LLM generates motion trajectories, these deci-sion criteria will predict the correct transformation group. For Majority-Consensus the assumptions it makes are (i) the LLM produces correct trajectories more frequently than incorrect ones; (ii) the collection of sampled trajectories diversely covers the modes of variation possible within the transformation group. Hierarchical-Consistency relaxes this second assumption, but introduces a new assumption in that incorrect trajectories produced by the LLM will not cluster with the correct trajectories produced by the LLM under any transformation group in our hierarchy. In cases where these assumptions are broken, it is possible for these decision criteria to fail (i.e. recover a different transforma-tion group compared with the ground-truth annotation). To demonstrate such cases, we include qualitative exam-ples in Figure S4 and Figure S5. In each figure, we show LLM sampled motion trajectories from a text prompt (top of figure), and how these motion trajectories are clustered un-der different transformation groups from our hierarchy. The top transformation group we show is affine, the least restric-tive, and transformation groups get progressively more re-strictive, ending with rigid. For each transformation group, we highlight the largest cluster in green. Each trajectory is labeled with a T/F value in the top-right corner, indicating whether it is a member of our ground-truth shape family. In Figure S4, we demonstrate a case where Hierarchical-Consistency identifies the correct W ,while Majority-Consensus fails. For this prompt, all of the LLM generated motion trajectories were correct. For Hierarchical-Consistency, for the affine transformation group it identifies the largest cluster, and observes that 14 Figure S4. We demonstrate a case where Hierarchical-Consistency chooses the correct warp but Majority-Consensus fails by selecting a more restrictive warp. The prompt (top) asks for a rhombus-shaped path. We show clustering results of all warps in our hierarchy, with largest clusters under each warp highlighted in green. Each trajectory has a ground truth correctness label on the upper right. 
+
+this cluster does not lose any members when the transfor-mation group is made more restrictive with anisotropic similarity, which is the correct transformation group for this shape family. Trying to make W more restrictive (similarity with reflections) would break this cluster, so Hierarchical-Consistency succeeds by stopping at the previous step. In contrast, Majority-Consensus identifies that under the clustering produced by similarity with reflections, over half of the generations would be included in the largest cluster, so it incorrectly would choose an overly restrictive transformation group. This sampling breaks an assumption made by Majority-Consensus, as the LLM produced trajectories do not provide a balanced enough coverage over the modes of variation under the ground-truth transformation group (anisotropic similarity). In Figure S5, we demonstrate a case where Majority-Consensus identifies the correct W , while Hierarchical-Consistency fails. In this case, 10 LLM generations were correct and 9 LLM generations were incorrect, as they produced paths that did not traverse in a 15 Figure S5. An example case where Majority-Consensus correctly chooses the ground truth warp but Hierarchical-Consistency fails by selecting a less restrictive warp. The prompt (top) asks for a path shaped like an equilateral triangle traversed in a counterclockwise manner. We show clustering results of all warps in our hierarchy. 
+
+clockwise manner (note time is indicated as a progression from blue to red in the renders). The correct transforma-tion group in this case is similarity, as more permissive transformation groups would cause matches that violate the traversal orientation specification. Majority-Consensus starts with the clustering produced by the most restrictive transformation group (rigid), which has a largest cluster of size 3, and progressively considers less restrictive transformation groups until it finds a cluster with at least 10 members, correctly identifying similarity should be used as 
+
+W . In contrast, Hierarchical-Consistency starts with affine, and once again identifies that all of the LLM productions are grouped into a single cluster. This cluster only loses members on the transition from anisotropic similarity to similarity with reflections, so Hierarchical-Consistency will incorrectly choose an overly permissive transformation group. In this case, some of the incorrect LLM sam-ples would cluster with correct samples under the affine transformation group, breaking an assumption made by Hierarchical-Consistency. So, depending on the distribution of the LLM pro-duced motion trajectories, these decision criteria can fail in 16 their task of recovering the correct transformation group. We quantitatively analyze the prevalence of these fail-ure modes in Table S4. For our two proposed crite-ria, Hierarchical-Consistency and Majority-Consensus, we record for all 224 prompts how the chosen transformation group compares with the ground-truth transformation group in the benchmark dataset. Match indicates the criteria chose the correct transformation group, while more restrictive in-dicates the criteria chose a transformation group too low in the hierarchy, and less restrictive indicates the criteria chose a transformation group too high in the hierarchy. In general, we find that Hierarchical-Consistency more reliably identifies the correct W compared with Majority-Consensus (72% vs 49%). This likely indicates that the assumptions made by Hierarchical-Consistency are more often met compared with the assumptions made by Majority-Consensus. From the qualitative examples, we can see the LLM struggles to produce sufficiently di-verse samples that cover all of the possible modes of variation, so this is likely a major source of error for Majority-Consensus. Beyond checking whether or not these decision criteria recover the exact ground-truth W , we can additionally analyze how these methods tend to fail. Majority-Consensus starts at the bottom of the hierarchy, stopping when a majority clustering is found. As such, Majority-Consensus is overly prone to producing more re-strictive transformation groups when it makes mistakes (25 times more likely to have a more restrictive error compared with a less restrictive error). Hierarchical-Consistency starts at the top of the hierarchy, with a stopping criterion when the majority cluster begins to break apart. As such, Hierarchical-Consistency is overly prone to produc-ing transformation groups that are too loose when it makes mistakes (5 times more likely to have a less restrictive error compared with a more restrictive error). These quantitative trends match the qualitative examples. 
+
+D.2. LLM Failure Modes 
+
+The general self-consistency approach makes an assump-tion that the LLM is likely to produce the correct response more often than any other incorrect response [33]. We examine cases where this assumption does not hold and present quantitative results in Figure S6. Applying our self-consistency approach with the oracle warps to the trajecto-ries generated by GPT-5 from the 224 prompts in our dataset (same experimental set-up as Section 5.2 of the main paper), we see 16.1% of the prompts with largest clusters that do not contain any correct trajectories. For GPT-4.1 generated trajectories, we have 31.3% (70) such clusters. We show examples of these failure cases in the bottom half of Figure S6. Text prompt 3 asks for a trajectory in the shape of an outline of a pentagram, and the oracle similar-ity warp puts the generated trajectories into three clusters. 
+
+Algorithm 1 ICP-based Trajectory Distance Metric  
+
+> 1:
+
+Input : Source trajectory R, target trajectory T , and ge-ometric warp type W 
+
+> 2:
+
+Output : Minimum distance dmin between R and T
+
+with corresponding transformation matrix Amin  
+
+> 3: 4:
+
+T ← ResampleByArcLength (T, n ) 
+
+> 5:
+
+dmin ← ∞ , Amin ← I 
+
+> 6:
+
+for i = 1 to Mouter do  
+
+> 7:
+
+Rtrans ← ResampleByArcLength (R, n ) 
+
+> 8:
+
+dprev ← ∞  
+
+> 9:
+
+I ← Randomly sample 3 point indices  
+
+> 10:
+
+for j = 1 to Minner do  
+
+> 11:
+
+A ← EstimateTransform (Rtrans [I], T [I], W) 
+
+> 12:
+
+Rtrans ← A · R ▷ Apply transformation  
+
+> 13:
+
+Rtrans ← ResampleByArcLength (Rtrans , n ) 
+
+> 14:
+
+davg ← 1
+
+> n
+
+Pnk=1 ∥Rtrans [k] − T [k]∥2 
+
+> 15:
+
+if |davg − dprev | < ϵ then  
+
+> 16:
+
+break  ▷ Inner loop converged  
+
+> 17:
+
+end if  
+
+> 18:
+
+dprev ← davg  
+
+> 19:
+
+Rtrans ← A−1 · Rtrans  ▷ Undo transformation  
+
+> 20:
+
+end for  
+
+> 21:
+
+if davg < d min then  
+
+> 22:
+
+Amin ← A, dmin ← davg  ▷ Update alignment  
+
+> 23:
+
+end if  
+
+> 24:
+
+if davg < τ then  
+
+> 25:
+
+break  ▷ Outer loop converged  
+
+> 26:
+
+end if  
+
+> 27:
+
+end for  
+
+> 28:
+
+return dmin , Amin 
+
+While the LLM (GPT-5) was able to produce the correct tra-jectory 5 times (Cluster 2), it generates more instances of a regular pentagram shape with the internal path crossovers in both clockwise and counterclockwise fashion. Text prompt 4 asks for counterclockwise reuleaux triangle-shaped trajec-tories. Under the ground truth rigid transformation warp, the generated trajectories are grouped into three clusters. The LLM (GPT-4.1) similarly generates the correct trajec-tory 5 times (Cluster 3), but falsely traces the construction lines of a reuleaux triangle for the other 14 times. In both of these cases, the incorrect trajectories formed largest clus-ters in the form of relative majority with 9 trajectories. As the LLM produces more trajectories outside of the ground truth shape families than inside, the general assumption of self-consistency does not hold and the largest clusters do not contain any correct trajectories. 17 Figure S6. More results of applying our self-consistency approach with the oracle warps. The top half shows two success cases where the largest clusters do correspond to the correct shape families (figure 8 and 4-petal rose). The bottom half shows two failure cases where the LLM did not produce more members of the ground truth shape families than non-members (pentagram outline and reuleaux triangle). 
+
+# E. Method Implementation Details 
+
+E.1. Computing Warp-Invariant Distance 
+
+Algorithm 1 presents our ICP-based approach [1, 2, 7] for computing the warp-invariant distance between a source tra-jectory R and target trajectory T under a geometric warp 
+
+W . We begin by resampling both trajectories to have n
+
+equally-spaced points along their arc length. This resam-pling establishes initial point correspondences, where we assume that points at the same index in R and T correspond to one another. The outer loop then randomly selects 3 non-repeated, non-collinear point indices I from these trajec-tories. These three points provide sufficient constraints to estimate most geometric transformations in our hierarchy. Given the sampled point indices, the inner loop itera-tively refines the transformation A. At each iteration, we: (1) estimate a transformation A that aligns the sampled points from Rtrans to the corresponding points in T , (2) ap-ply this transformation to the source trajectory R, (3) resam-ple the transformed trajectory for a new set of correspond-ing points, and (4) compute the average point-to-point dis-tance. If the change in distance falls below a convergence threshold ϵ, the inner loop terminates. Otherwise, we map the newly sampled points back to the original R space by undoing the transformation and repeat. This iterative pro-cess effectively “nudges” points along trajectory R to better align with T under the transformation A.After convergence, we check if the current alignment achieves a lower distance than previous iterations and up-date the best transformation Amin accordingly. The algo-rithm terminates when the distance falls below a threshold 
+
+τ or after a maximum number of outer iterations. Our ICP-18 Table S5. F1 scores of verification by Hierarchical-Consistency and the average number of DBSCAN clusters across the distance threshold τ .                       
+
+> τ= 0 .25 τ= 0 .5τ= 1 .0τ= 2 .0τ= 4 .0τ= 8 .0
+> F1 score 84.0 84.6 83.8 83.1 80.3 76.8 Clusters (avg ±std) 4.0 ±4.9 3.7 ±4.8 3.5 ±4.5 3.1 ±4.0 2.6 ±3.1 2.1 ±2.1
+
+based implementation is a proof of concept to show the via-bility of our self-consistency approach for motion trajecto-ries. It would likely be possible to improve its runtime with efficient variants in the future [22, 24]. 
+
+Transformation estimation. EstimateTransform 
+
+in line 11 of Algorithm 1 computes A based on the geomet-ric warp type W. For rigid and similarity transformations (with or without reflections), we use the Kabsch-Umeyama algorithm [16, 32], which computes optimal rotation, translation, and optionally uniform scaling and reflection via SVD. For affine warps, we directly solve the linear system relating source to target points. For anisotropic similarity, we test both A = Mtrs · Mrot · Mscl and 
+
+A = Mtrs · Mscl · Mrot decomposition orders and select the transformation yielding the smaller distance. 
+
+Handling closed trajectories Our assumption that points with the same indices after arc-length resampling corre-spond to one another holds for open trajectories with dis-tinct starting and end points. However, closed trajectories (e.g., circles, squares) may have arbitrary starting points. This means that, if T and R are the same closed trajectories but with distinct starting points, our algorithm will not be able to find an A that produces zero distance between them. To address this, we extend our algorithm with a coarse-to-fine search over different starting points along R. We com-pute the distance metric with each point in R taken as the starting point and report the minimum distance across all starting points. 
+
+E.2. Sensitivity to DBSCAN Distance Threshold 
+
+Equation 2 of the main paper defines that two trajectories in the same shape family should have a distance of 0. We per-form DBSCAN clustering with a small threshold τ (Section 4.2 of the main paper) only to account for discretization er-rors during resampling in our distance metric computation. Our approach is not sensitive to the value of τ . As shown in Table S5, increasing τ by a factor of 32 (from 0.25 to 8.0) results in only a 7.2 percentage point drop in F1 score. 
+
+E.3. Generating Motion Trajectories with an LLM 
+
+To use an LLM for motion trajectory animation genera-tion, we follow the approach proposed by MoVer [21]; we prompt an LLM with a system message containing overall instructions and the complete documentation of an anima-tion API (GSAP [6]), followed by a user prompt that con-tains the static SVG code to be animated, the description of a motion trajectory, and additional instructions. We modify the MoVer approach in two places. First, we updated the animation API with an additional function 
+
+setProperty() that allows changing an element’s prop-erties like positions without adding animation tweens.                                                                                                                      
+
+> 1/**
+> 2* This function immediately sets properties on an SVG element without animation. Use this function to initialize or instantly update element properties such as position, scale, rotation, opacity, etc. This is useful for setting up initial states before animating.
+> 3* @param {object} element -The SVG element whose properties should be set.
+> 4* @param {object} properties -An object containing property-value pairs to set on the element. Common properties include x, y, scaleX, scaleY, rotation, opacity, transformOrigin, and svgOrigin.
+> 5* @returns {void} -This function does not return anything.
+> 6* @example
+> 7* // Set the translate transform value of the element to [100, 200].
+> 8* // Here, x, yvalues set the translation of the element (displacement from its original position at the start of the animation).
+> 9* setProperty(circle, {x: 100, y: 200 });
+> 10 */
+> 11 function setProperty(element, properties)
+
+For the user prompt, we append additional instructions shown below after the motion trajectory prompt. At the end, we instruct the LLM to produce five diverse animations fol-lowing the diversity prompting strategy [35].                                                                                                                              
+
+> 1SVG Code:
+> 2{{ svg code }}
+> 34Prompt:
+> 5{{ motion trajectory prompt }}
+> 67## Additional Instructions
+> 8-Note that the negative y-axis is the upward direction in the SVG scene.
+> 9-To start apath animation, use setProperty() to position the element at the beginning of the path. Be mindful of the SVG viewbox and not move the element and the path out of view.
+> 10 -For curved paths, use multiple consecutive very short linear translations to achieve smooth motions.
+> 11 -The entire animation should last between 1and 5seconds unless otherwise specified.
+> 12 13 Generate 5animations to the prompt, each within aseparate ‘‘‘javascript ‘‘‘ tag.
+> 14 Each animation must include anumeric probability value as acomment within its code block.
+> 15 Please sample at random from the tails of the distribution, such that the probability of
+
+19 Figure S7. We prompt a VLM with a scatter plot representation of a motion trajectory. Each dot is the center position of the animated element and the color indicates time (transition from blue to red).      
+
+> each response is less than 0.10.
+
+E.4. Verifying Motion Trajectories with a VLM 
+
+Our experiments use two VLMs (GPT-4.1 and GPT-5) as baseline verification methods, and we provide details here on our prompting approach. We represent the motion trajec-tory center point time series data of animation as a scatter plot where the color of each dot transitions from blue to red to indicate the passage of time (Figure S7). We prompt a VLM with a system message asking it to output a true/false label indicating whether a trajectory ani-mation follows a trajectory prompt or not, with instructions on how to read the scatter plot. We then add a user message containing the motion trajectory prompt and the plot.                                                                                  
+
+> 1You are an expert in evaluating how well motion trajectories follow given prompts. Given aplot of amotion trajectory, your task is to assess whether the trajectory follows the prompt (True or False). Blue indicates the beginning of the trajectory and red indicates the end of the trajectory. The color transitions from blue to red as the trajectory progresses across time.
+> 23Please output your response as aJSON object with the following format:
+> 4‘‘‘json
+> 5{
+> 6"<trajectory_id (the index of the trajectory file)>": 0 or 1, #0means False, 1means True
+> 7}
+> 8‘‘‘
+
+20 Figure S8. Motion trajectory benchmark: prompt 1–36 with ground truth shape families. 
+
+21 Figure S9. Motion trajectory benchmark: prompt 37–72 with ground truth shape families. 
+
+22 Figure S10. Motion trajectory benchmark: prompt 73–108 with ground truth shape families. 
+
+23 Figure S11. Motion trajectory benchmark: prompt 109–144 with ground truth shape families. 
+
+24 Figure S12. Motion trajectory benchmark: prompt 145–180 with ground truth shape families. 
+
+25 Figure S13. Motion trajectory benchmark: prompt 181–216 with ground truth shape families. 
+
+26 Figure S14. Motion trajectory benchmark: prompt 217–224 with ground truth shape families. 
+
+27

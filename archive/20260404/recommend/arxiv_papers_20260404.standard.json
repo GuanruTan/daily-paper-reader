@@ -1,0 +1,573 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-04-04T19:40:00.434381+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 3,
+    "deep_cap": 6,
+    "deep_selected": 3,
+    "quick_candidates": 19,
+    "quick_skim_target": 11,
+    "quick_selected": 11
+  },
+  "deep_dive": [
+    {
+      "id": "2603.28116v1",
+      "title": "$AutoDrive\\text{-}P^3$: Unified Chain of Perception-Prediction-Planning Thought via Reinforcement Fine-Tuning",
+      "abstract": "Vision-language models (VLMs) are increasingly being adopted for end-to-end autonomous driving systems due to their exceptional performance in handling long-tail scenarios. However, current VLM-based approaches suffer from two major limitations: 1) Some VLMs directly output planning results without chain-of-thought (CoT) reasoning, bypassing crucial perception and prediction stages which creates a significant domain gap and compromises decision-making capability; 2) Other VLMs can generate outputs for perception, prediction, and planning tasks but employ a fragmented decision-making approach where these modules operate separately, leading to a significant lack of synergy that undermines true planning performance. To address these limitations, we propose ${AutoDrive\\text{-}P^3}$, a novel framework that seamlessly integrates $\\textbf{P}$erception, $\\textbf{P}$rediction, and $\\textbf{P}$lanning through structured reasoning. We introduce the ${P^3\\text{-}CoT}$ dataset to facilitate coherent reasoning and propose ${P^3\\text{-}GRPO}$, a hierarchical reinforcement learning algorithm that provides progressive supervision across all three tasks. Specifically, ${AutoDrive\\text{-}P^3}$ progressively generates CoT reasoning and answers for perception, prediction, and planning, where perception provides essential information for subsequent prediction and planning, while both perception and prediction collectively contribute to the final planning decisions, enabling safer and more interpretable autonomous driving. Additionally, to balance inference efficiency with performance, we introduce dual thinking modes: detailed thinking and fast thinking. Extensive experiments on both open-loop (nuScenes) and closed-loop (NAVSIMv1/v2) benchmarks demonstrate that our approach achieves state-of-the-art performance in planning tasks. Code is available at https://github.com/haha-yuki-haha/AutoDrive-P3.",
+      "authors": [
+        "Yuqi Ye",
+        "Zijian Zhang",
+        "Junhong Lin",
+        "Shangkun Sun",
+        "Changhao Peng",
+        "Wei Gao"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.CV"
+      ],
+      "published": "2026-03-30T07:28:41+00:00",
+      "link": "https://arxiv.org/pdf/2603.28116v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "VLM-based perception and prediction for autonomous driving",
+      "llm_evidence_cn": "基于视觉语言模型的自动驾驶感知与预测",
+      "llm_evidence": "基于视觉语言模型的自动驾驶感知与预测",
+      "canonical_evidence": "基于视觉语言模型的自动驾驶感知与预测",
+      "llm_tldr_en": "Proposes a unified VLM framework to bridge perception, prediction, and planning for autonomous driving.",
+      "llm_tldr_cn": "提出统一的视觉语言模型框架，旨在弥合自动驾驶中的感知、预测与规划环节。",
+      "llm_tldr": "提出统一的视觉语言模型框架，旨在弥合自动驾驶中的感知、预测与规划环节。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.29301v1",
+      "title": "Self-Consistency for LLM-Based Motion Trajectory Generation and Verification",
+      "abstract": "Self-consistency has proven to be an effective technique for improving LLM performance on natural language reasoning tasks in a lightweight, unsupervised manner. In this work, we study how to adapt self-consistency to visual domains. Specifically, we consider the generation and verification of LLM-produced motion graphics trajectories. Given a prompt (e.g., \"Move the circle in a spiral path\"), we first sample diverse motion trajectories from an LLM, and then identify groups of consistent trajectories via clustering. Our key insight is to model the family of shapes associated with a prompt as a prototype trajectory paired with a group of geometric transformations (e.g., rigid, similarity, and affine). Two trajectories can then be considered consistent if one can be transformed into the other under the warps allowable by the transformation group. We propose an algorithm that automatically recovers a shape family, using hierarchical relationships between a set of candidate transformation groups. Our approach improves the accuracy of LLM-based trajectory generation by 4-6%. We further extend our method to support verification, observing 11% precision gains over VLM baselines. Our code and dataset are available at https://majiaju.io/trajectory-self-consistency .",
+      "authors": [
+        "Jiaju Ma",
+        "R. Kenny Jones",
+        "Jiajun Wu",
+        "Maneesh Agrawala"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-03-31T06:08:13+00:00",
+      "link": "https://arxiv.org/pdf/2603.29301v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "LLM-based motion trajectory generation and representation",
+      "llm_evidence_cn": "基于大语言模型的运动轨迹生成与表示",
+      "llm_evidence": "基于大语言模型的运动轨迹生成与表示",
+      "canonical_evidence": "基于大语言模型的运动轨迹生成与表示",
+      "llm_tldr_en": "Adapts self-consistency to improve LLM-based generation and verification of motion trajectories.",
+      "llm_tldr_cn": "利用自一致性改进基于大语言模型的运动轨迹生成与验证。",
+      "llm_tldr": "利用自一致性改进基于大语言模型的运动轨迹生成与验证。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning based on multimodal large language model",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2604.01723v1",
+      "title": "Causal Scene Narration with Runtime Safety Supervision for Vision-Language-Action Driving",
+      "abstract": "Vision-Language-Action (VLA) models for autonomous driving must integrate diverse textual inputs, including navigation commands, hazard warnings, and traffic state descriptions, yet current systems often present these as disconnected fragments, forcing the model to discover on its own which environmental constraints are relevant to the current maneuver. We introduce Causal Scene Narration (CSN), which restructures VLA text inputs through intent-constraint alignment, quantitative grounding, and structured separation, at inference time with zero GPU cost. We complement CSN with Simplex-based runtime safety supervision and training-time alignment via Plackett-Luce DPO with negative log-likelihood (NLL) regularization. A multi-town closed-loop CARLA evaluation shows that CSN improves Driving Score by +31.1% on original LMDrive and +24.5% on the preference-aligned variant. A controlled ablation reveals that causal structure accounts for 39.1% of this gain, with the remainder attributable to information content alone. A perception noise ablation confirms that CSN's benefit is robust to realistic sensing errors. Semantic safety supervision improves Infraction Score, while reactive Time-To-Collision monitoring degrades performance, demonstrating that intent-aware monitoring is needed for VLA systems.",
+      "authors": [
+        "Yun Li",
+        "Yidu Zhang",
+        "Simon Thompson",
+        "Ehsan Javanmardi",
+        "Manabu Tsukada"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-04-02T07:43:05+00:00",
+      "link": "https://arxiv.org/pdf/2604.01723v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Intent-constraint alignment for vision-language-action driving models",
+      "llm_evidence_cn": "视觉-语言-动作驾驶模型的意图约束对齐",
+      "llm_evidence": "视觉-语言-动作驾驶模型的意图约束对齐",
+      "canonical_evidence": "视觉-语言-动作驾驶模型的意图约束对齐",
+      "llm_tldr_en": "Integrates causal scene narration and intent alignment to improve safety in VLA-based autonomous driving.",
+      "llm_tldr_cn": "结合因果场景叙述和意图对齐，提高基于VLA的自动驾驶安全性。",
+      "llm_tldr": "结合因果场景叙述和意图对齐，提高基于VLA的自动驾驶安全性。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "deep learning techniques for intent aware trajectory forecasting",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2603.25903v1",
+      "title": "Emergent Neural Automaton Policies: Learning Symbolic Structure from Visuomotor Trajectories",
+      "abstract": "Scaling robot learning to long-horizon tasks remains a formidable challenge. While end-to-end policies often lack the structural priors needed for effective long-term reasoning, traditional neuro-symbolic methods rely heavily on hand-crafted symbolic priors. To address the issue, we introduce ENAP (Emergent Neural Automaton Policy), a framework that allows a bi-level neuro-symbolic policy adaptively emerge from visuomotor demonstrations. Specifically, we first employ adaptive clustering and an extension of the L* algorithm to infer a Mealy state machine from visuomotor data, which serves as an interpretable high-level planner capturing latent task modes. Then, this discrete structure guides a low-level reactive residual network to learn precise continuous control via behavior cloning (BC). By explicitly modeling the task structure with discrete transitions and continuous residuals, ENAP achieves high sample efficiency and interpretability without requiring task-specific labels. Extensive experiments on complex manipulation and long-horizon tasks demonstrate that ENAP outperforms state-of-the-art (SoTA) end-to-end VLA policies by up to 27% in low-data regimes, while offering a structured representation of robotic intent (Fig. 1).",
+      "authors": [
+        "Yiyuan Pan",
+        "Xusheng Luo",
+        "Hanjiang Hu",
+        "Peiqi Yu",
+        "Changliu Liu"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-26T20:50:36+00:00",
+      "link": "https://arxiv.org/pdf/2603.25903v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "learning symbolic structure and latent task modes from visuomotor trajectories",
+      "llm_evidence_cn": "从视觉运动轨迹中学习符号结构和潜在任务模式",
+      "llm_evidence": "从视觉运动轨迹中学习符号结构和潜在任务模式",
+      "canonical_evidence": "从视觉运动轨迹中学习符号结构和潜在任务模式",
+      "llm_tldr_en": "ENAP infers state machines from demonstrations to guide low-level reactive networks for long-horizon tasks.",
+      "llm_tldr_cn": "ENAP从演示中推断状态机，以指导低层反应网络完成长程任务。",
+      "llm_tldr": "ENAP从演示中推断状态机，以指导低层反应网络完成长程任务。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning and feature extraction",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.26126v1",
+      "title": "Beyond Where to Look: Trajectory-Guided Reinforcement Learning for Multimodal RLVR",
+      "abstract": "Recent advances in Reinforcement Learning with Verifiable Rewards (RLVR) for multimodal large language models (MLLMs) have mainly focused on improving final answer correctness and strengthening visual grounding. However, a critical bottleneck remains: although models can attend to relevant visual regions, they often fail to effectively incorporate visual evidence into subsequent reasoning, leading to reasoning chains that are weakly grounded in visual facts. To address this issue, we propose Trajectory-Guided Reinforcement Learning (TGRL), which guides the policy model to integrate visual evidence into fine-grained reasoning processes using expert reasoning trajectories from stronger models. We further introduce token-level reweighting and trajectory filtering to ensure stable and effective policy optimization. Extensive experiments on multiple multimodal reasoning benchmarks demonstrate that TGRL consistently improves reasoning performance and effectively bridges the gap between visual perception and logical reasoning.",
+      "authors": [
+        "Jinda Lu",
+        "Junkang Wu",
+        "Jinghan Li",
+        "Kexin Huang",
+        "Shuo Yang",
+        "Mingzhu Chen",
+        "Jiancan Wu",
+        "Kuien Liu",
+        "Xiang Wang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-03-27T07:18:18+00:00",
+      "link": "https://arxiv.org/pdf/2603.26126v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "expert reasoning trajectories for multimodal large language models",
+      "llm_evidence_cn": "多模态大语言模型的专家推理轨迹",
+      "llm_evidence": "多模态大语言模型的专家推理轨迹",
+      "canonical_evidence": "多模态大语言模型的专家推理轨迹",
+      "llm_tldr_en": "Uses expert reasoning trajectories to guide multimodal LLMs in grounding visual evidence.",
+      "llm_tldr_cn": "利用专家推理轨迹引导多模态大模型进行视觉证据落地。",
+      "llm_tldr": "利用专家推理轨迹引导多模态大模型进行视觉证据落地。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning based on multimodal large language model",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2603.27967v1",
+      "title": "Learning Multi-View Spatial Reasoning from Cross-View Relations",
+      "abstract": "Vision-language models (VLMs) have achieved impressive results on single-view vision tasks, but lack the multi-view spatial reasoning capabilities essential for embodied AI systems to understand 3D environments and manipulate objects across different viewpoints. In this work, we introduce Cross-View Relations (XVR), a large-scale dataset designed to teach VLMs spatial reasoning across multiple views. XVR comprises 100K vision-question-answer samples derived from 18K diverse 3D scenes and 70K robotic manipulation trajectories, spanning three fundamental spatial reasoning tasks: Correspondence (matching objects across views), Verification (validating spatial relationships), and Localization (identifying object positions). VLMs fine-tuned on XVR achieve substantial improvements on established multi-view and robotic spatial reasoning benchmarks (MindCube and RoboSpatial). When integrated as backbones in Vision-Language-Action models, XVR-trained representations improve success rates on RoboCasa. Our results demonstrate that explicit training on cross-view spatial relations significantly enhances multi-view reasoning and transfers effectively to real-world robotic manipulation.",
+      "authors": [
+        "Suchae Jeong",
+        "Jaehwi Song",
+        "Haeone Lee",
+        "Hanna Kim",
+        "Jian Kim",
+        "Dongjun Lee",
+        "Dong Kyu Shin",
+        "Changyeon Kim",
+        "Dongyoon Hahm",
+        "Woogyeol Jin",
+        "Juheon Choi",
+        "Kimin Lee"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-03-30T02:42:25+00:00",
+      "link": "https://arxiv.org/pdf/2603.27967v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Learning spatial reasoning from robotic manipulation trajectories using VLMs",
+      "llm_evidence_cn": "利用VLM从机器人操作轨迹中学习空间推理",
+      "llm_evidence": "利用VLM从机器人操作轨迹中学习空间推理",
+      "canonical_evidence": "利用VLM从机器人操作轨迹中学习空间推理",
+      "llm_tldr_en": "Introduces a large-scale dataset to teach vision-language models spatial reasoning across multiple views.",
+      "llm_tldr_cn": "引入大规模数据集，教导视觉语言模型跨多视角的空间推理能力。",
+      "llm_tldr": "引入大规模数据集，教导视觉语言模型跨多视角的空间推理能力。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning based on multimodal large language model",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.27306v1",
+      "title": "GUIDE: Guided Updates for In-context Decision Evolution in LLM-Driven Spacecraft Operations",
+      "abstract": "Large language models (LLMs) have been proposed as supervisory agents for spacecraft operations, but existing approaches rely on static prompting and do not improve across repeated executions. We introduce \\textsc{GUIDE}, a non-parametric policy improvement framework that enables cross-episode adaptation without weight updates by evolving a structured, state-conditioned playbook of natural-language decision rules. A lightweight acting model performs real-time control, while offline reflection updates the playbook from prior trajectories. Evaluated on an adversarial orbital interception task in the Kerbal Space Program Differential Games environment, GUIDE's evolution consistently outperforms static baselines. Results indicate that context evolution in LLM agents functions as policy search over structured decision rules in real-time closed-loop spacecraft interaction.",
+      "authors": [
+        "Alejandro Carrasco",
+        "Mariko Storey-Matsutani",
+        "Victor Rodriguez-Fernandez",
+        "Richard Linares"
+      ],
+      "primary_category": "cs.MA",
+      "categories": [
+        "cs.MA",
+        "cs.AI",
+        "eess.SY"
+      ],
+      "published": "2026-03-28T15:22:11+00:00",
+      "link": "https://arxiv.org/pdf/2603.27306v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "real-time control and offline reflection from prior trajectories for spacecraft agents",
+      "llm_evidence_cn": "航天器智能体的实时控制与先验轨迹离线反思",
+      "llm_evidence": "航天器智能体的实时控制与先验轨迹离线反思",
+      "canonical_evidence": "航天器智能体的实时控制与先验轨迹离线反思",
+      "llm_tldr_en": "A framework for spacecraft operations that improves decision-making by evolving rules from prior trajectories.",
+      "llm_tldr_cn": "一种航天器操作框架，通过从先验轨迹中演化规则来改进决策。",
+      "llm_tldr": "一种航天器操作框架，通过从先验轨迹中演化规则来改进决策。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2603.28968v1",
+      "title": "Large Neighborhood Search for Multi-Agent Task Assignment and Path Finding with Precedence Constraints",
+      "abstract": "Many multi-robot applications require tasks to be completed efficiently and in the correct order, so that downstream operations can proceed at the right time. Multi-agent path finding with precedence constraints (MAPF-PC) is a well-studied framework for computing collision-free plans that satisfy ordering relations when task sequences are fixed in advance. In many applications, however, solution quality depends not only on how agents move, but also on which agent performs which task. This motivates the lifted problem of task assignment and path finding with precedence constraints (TAPF-PC), which extends MAPF-PC by jointly optimizing assignment, precedence satisfaction, and routing cost. To address the resulting coupled TAPF-PC search space, we develop a large neighborhood search approach that starts from a feasible MAPF-PC seed and iteratively improves it through reassignment-based neighborhood repair, restoring feasibility within each selected neighborhood. Experiments across multiple benchmark families and scaling regimes show that the best-performing configuration improves 89.1% of instances over fixed-assignment seed solutions, demonstrating that large neighborhood search effectively captures the gains from flexible reassignment under precedence constraints.",
+      "authors": [
+        "Viraj Parimi",
+        "Brian C. Williams"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.MA"
+      ],
+      "published": "2026-03-30T20:12:26+00:00",
+      "link": "https://arxiv.org/pdf/2603.28968v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "multi-agent path finding and collision-free plans",
+      "llm_evidence_cn": "多智能体路径规划与无碰撞方案",
+      "llm_evidence": "多智能体路径规划与无碰撞方案",
+      "canonical_evidence": "多智能体路径规划与无碰撞方案",
+      "llm_tldr_en": "Optimizes multi-agent task assignment and path finding with precedence constraints for efficient routing.",
+      "llm_tldr_cn": "优化具有优先级约束的多智能体任务分配和路径规划，以实现高效路由。",
+      "llm_tldr": "优化具有优先级约束的多智能体任务分配和路径规划，以实现高效路由。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "multi-agent trajectory forecasting and interaction modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.29165v1",
+      "title": "LatentPilot: Scene-Aware Vision-and-Language Navigation by Dreaming Ahead with Latent Visual Reasoning",
+      "abstract": "Existing vision-and-language navigation (VLN) models primarily reason over past and current visual observations, while largely ignoring the future visual dynamics induced by actions. As a result, they often lack an effective understanding of the causal relationship between actions and how the visual world changes, limiting robust decision-making. Humans, in contrast, can imagine the near future by leveraging action-dynamics causality, which improves both environmental understanding and navigation choices. Inspired by this capability, we propose LatentPilot, a new paradigm that exploits future observations during training as a valuable data source to learn action-conditioned visual dynamics, while requiring no access to future frames at inference. Concretely, we propose a flywheel-style training mechanism that iteratively collects on-policy trajectories and retrains the model to better match the agent's behavior distribution, with an expert takeover triggered when the agent deviates excessively. LatentPilot further learns visual latent tokens without explicit supervision; these latent tokens attend globally in a continuous latent space and are carried across steps, serving as both the current output and the next input, thereby enabling the agent to dream ahead and reason about how actions will affect subsequent observations. Experiments on R2R-CE, RxR-CE, and R2R-PE benchmarks achieve new SOTA results, and real-robot tests across diverse environments demonstrate LatentPilot's superior understanding of environment-action dynamics in scene. Project page:https://abdd.top/latentpilot/",
+      "authors": [
+        "Haihong Hao",
+        "Lei Chen",
+        "Mingfei Han",
+        "Changlin Li",
+        "Dong An",
+        "Yuqiang Yang",
+        "Zhihui Li",
+        "Xiaojun Chang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.RO"
+      ],
+      "published": "2026-03-31T02:21:59+00:00",
+      "link": "https://arxiv.org/pdf/2603.29165v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "dreaming ahead to learn action-conditioned visual dynamics for navigation",
+      "llm_evidence_cn": "通过前瞻预测学习动作条件下的视觉动力学以进行导航",
+      "llm_evidence": "通过前瞻预测学习动作条件下的视觉动力学以进行导航",
+      "canonical_evidence": "通过前瞻预测学习动作条件下的视觉动力学以进行导航",
+      "llm_tldr_en": "Predicts future visual dynamics to improve decision-making in vision-and-language navigation.",
+      "llm_tldr_cn": "通过预测未来视觉动力学来改进视觉语言导航中的决策制定。",
+      "llm_tldr": "通过预测未来视觉动力学来改进视觉语言导航中的决策制定。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "target intent and goal estimation for trajectory prediction",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2603.29844v1",
+      "title": "DIAL: Decoupling Intent and Action via Latent World Modeling for End-to-End VLA",
+      "abstract": "The development of Vision-Language-Action (VLA) models has been significantly accelerated by pre-trained Vision-Language Models (VLMs). However, most existing end-to-end VLAs treat the VLM primarily as a multimodal encoder, directly mapping vision-language features to low-level actions. This paradigm underutilizes the VLM's potential in high-level decision making and introduces training instability, frequently degrading its rich semantic representations. To address these limitations, we introduce DIAL, a framework bridging high-level decision making and low-level motor execution through a differentiable latent intent bottleneck. Specifically, a VLM-based System-2 performs latent world modeling by synthesizing latent visual foresight within the VLM's native feature space; this foresight explicitly encodes intent and serves as the structural bottleneck. A lightweight System-1 policy then decodes this predicted intent together with the current observation into precise robot actions via latent inverse dynamics. To ensure optimization stability, we employ a two-stage training paradigm: a decoupled warmup phase where System-2 learns to predict latent futures while System-1 learns motor control under ground-truth future guidance within a unified feature space, followed by seamless end-to-end joint optimization. This enables action-aware gradients to refine the VLM backbone in a controlled manner, preserving pre-trained knowledge. Extensive experiments on the RoboCasa GR1 Tabletop benchmark show that DIAL establishes a new state-of-the-art, achieving superior performance with 10x fewer demonstrations than prior methods. Furthermore, by leveraging heterogeneous human demonstrations, DIAL learns physically grounded manipulation priors and exhibits robust zero-shot generalization to unseen objects and novel configurations during real-world deployment on a humanoid robot.",
+      "authors": [
+        "Yi Chen",
+        "Yuying Ge",
+        "Hui Zhou",
+        "Mingyu Ding",
+        "Yixiao Ge",
+        "Xihui Liu"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "cs.CV",
+        "cs.LG"
+      ],
+      "published": "2026-03-31T15:02:27+00:00",
+      "link": "https://arxiv.org/pdf/2603.29844v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "decoupling intent and action via latent world modeling for VLA",
+      "llm_evidence_cn": "通过潜世界建模解耦意图与动作",
+      "llm_evidence": "通过潜世界建模解耦意图与动作",
+      "canonical_evidence": "通过潜世界建模解耦意图与动作",
+      "llm_tldr_en": "Introduces DIAL to bridge high-level intent and low-level execution in vision-language-action models.",
+      "llm_tldr_cn": "引入DIAL框架，在视觉-语言-动作模型中连接高层意图与底层执行。",
+      "llm_tldr": "引入DIAL框架，在视觉-语言-动作模型中连接高层意图与底层执行。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "target intent and goal estimation for trajectory prediction",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.29227v1",
+      "title": "Kernel-SDF: An Open-Source Library for Real-Time Signed Distance Function Estimation using Kernel Regression",
+      "abstract": "Accurate and efficient environment representation is crucial for robotic applications such as motion planning, manipulation, and navigation. Signed distance functions (SDFs) have emerged as a powerful representation for encoding distance to obstacle boundaries, enabling efficient collision-checking and trajectory optimization techniques. However, existing SDF reconstruction methods have limitations when it comes to large-scale uncertainty-aware SDF estimation from streaming sensor data. Voxel-based approaches are limited by fixed resolution and lack uncertainty quantification, neural network methods require significant training time, while Gaussian process (GP) methods struggle with scalability, sign estimation, and uncertainty calibration. In this letter, we develop an open-source library, Kernel-SDF, which uses kernel regression to learn SDF with calibrated uncertainty quantification in real-time. Our approach consists of a front-end that learns a continuous occupancy field via kernel regression, and a back-end that estimates accurate SDF via GP regression using samples from the front-end surface boundaries. Kernel-SDF provides accurate SDF, SDF gradient, SDF uncertainty, and mesh construction in real-time. Evaluation results show that Kernel-SDF achieves superior accuracy compared to existing methods, while maintaining real-time performance, making it suitable for various robotics applications requiring reliable uncertainty-aware geometric information.",
+      "authors": [
+        "Zhirui Dai",
+        "Tianxing Fan",
+        "Mani Amani",
+        "Jaemin Seo",
+        "Ki Myung Brian Lee",
+        "Hyondong Oh",
+        "Nikolay Atanasov"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-31T03:49:51+00:00",
+      "link": "https://arxiv.org/pdf/2603.29227v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "enabling trajectory optimization through environment representation",
+      "llm_evidence_cn": "通过环境表示实现轨迹优化",
+      "llm_evidence": "通过环境表示实现轨迹优化",
+      "canonical_evidence": "通过环境表示实现轨迹优化",
+      "llm_tldr_en": "An open-source library for real-time SDF estimation to support robotic trajectory optimization.",
+      "llm_tldr_cn": "一个用于实时SDF估计的开源库，支持机器人轨迹优化和避障。",
+      "llm_tldr": "一个用于实时SDF估计的开源库，支持机器人轨迹优化和避障。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.00969v1",
+      "title": "DLWM: Dual Latent World Models enable Holistic Gaussian-centric Pre-training in Autonomous Driving",
+      "abstract": "Vision-based autonomous driving has gained much attention due to its low costs and excellent performance. Compared with dense BEV (Bird's Eye View) or sparse query models, Gaussian-centric method is a comprehensive yet sparse representation by describing scene with 3D semantic Gaussians. In this paper, we introduce DLWM, a novel paradigm with Dual Latent World Models specifically designed to enable holistic gaussian-centric pre-training in autonomous driving using two stages. In the first stage, DLWM predicts 3D Gaussians from queries by self-supervised reconstructing multi-view semantic and depth images. Equipped with fine-grained contextual features, in the second stage, two latent world models are trained separately for temporal feature learning, including Gaussian-flow-guided latent prediction for downstream occupancy perception and forecasting tasks, and ego-planning-guided latent prediction for motion planning. Extensive experiments in SurroundOcc and nuScenes benchmarks demonstrate that DLWM shows significant performance gains across Gaussian-centric 3D occupancy perception, 4D occupancy forecasting and motion planning tasks.",
+      "authors": [
+        "Yiyao Zhu",
+        "Ying Xue",
+        "Haiming Zhang",
+        "Guangfeng Jiang",
+        "Wending Zhou",
+        "Xu Yan",
+        "Jiantao Gao",
+        "Yingjie Cai",
+        "Bingbing Liu",
+        "Zhen Li",
+        "Shaojie Shen"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-04-01T14:41:21+00:00",
+      "link": "https://arxiv.org/pdf/2604.00969v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "world models for autonomous driving predicting future states",
+      "llm_evidence_cn": "用于自动驾驶预测未来状态的世界模型",
+      "llm_evidence": "用于自动驾驶预测未来状态的世界模型",
+      "canonical_evidence": "用于自动驾驶预测未来状态的世界模型",
+      "llm_tldr_en": "A dual latent world model for autonomous driving that predicts 3D Gaussian scene dynamics.",
+      "llm_tldr_cn": "一种用于自动驾驶的双潜世界模型，可预测3D高斯场景动力学。",
+      "llm_tldr": "一种用于自动驾驶的双潜世界模型，可预测3D高斯场景动力学。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.29533v1",
+      "title": "GraSP-STL: A Graph-Based Framework for Zero-Shot Signal Temporal Logic Planning via Offline Goal-Conditioned Reinforcement Learning",
+      "abstract": "This paper studies offline, zero-shot planning under Signal Temporal Logic (STL) specifications. We assume access only to an offline dataset of state-action-state transitions collected by a task-agnostic behavior policy, with no analytical dynamics model, no further environment interaction, and no task-specific retraining. The objective is to synthesize a control strategy whose resulting trajectory satisfies an arbitrary unseen STL specification. To this end, we propose GraSP-STL, a graph-search-based framework for zero-shot STL planning from offline trajectories. The method learns a goal-conditioned value function from offline data and uses it to induce a finite-horizon reachability metric over the state space. Based on this metric, it constructs a directed graph abstraction whose nodes represent representative states and whose edges encode feasible short-horizon transitions. Planning is then formulated as a graph search over waypoint sequences, evaluated using arithmetic-geometric mean robustness and its interval semantics, and executed by a learned goal-conditioned policy. The proposed framework separates reusable reachability learning from task-conditioned planning, enabling zero-shot generalization to unseen STL tasks and long-horizon planning through the composition of short-horizon behaviors from offline data. Experimental results demonstrate its effectiveness on a range of offline STL planning tasks.",
+      "authors": [
+        "Ancheng Hou",
+        "Ruijia Liu",
+        "Xiang Yin"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-31T10:15:42+00:00",
+      "link": "https://arxiv.org/pdf/2603.29533v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Synthesizing control strategies for trajectories satisfying temporal logic specifications",
+      "llm_evidence_cn": "为满足时序逻辑规范的轨迹合成控制策略",
+      "llm_evidence": "为满足时序逻辑规范的轨迹合成控制策略",
+      "canonical_evidence": "为满足时序逻辑规范的轨迹合成控制策略",
+      "llm_tldr_en": "A framework for zero-shot planning that synthesizes trajectories satisfying complex logic specifications.",
+      "llm_tldr_cn": "一种零样本规划框架，用于合成满足复杂逻辑规范的轨迹。",
+      "llm_tldr": "一种零样本规划框架，用于合成满足复杂逻辑规范的轨迹。",
+      "llm_tags": [
+        "query:tp:composite"
+      ],
+      "matched_query_tag": "query:tp:composite",
+      "matched_query_text": "Papers central to 轨迹预测（车辆、行人、船舶、飞机等）相关的论文，考虑密集场景、目标意图、多智能体、轨迹表示学习等概念, especially work that connects or combines: trajectory prediction for autonomous agents; pedestrian trajectory prediction in crowded scenes; maritime vessel trajectory and path prediction algorithms; multi-agent trajectory forecasting and interaction modeling; target intent and goal estimation for trajectory prediction; trajectory representation learning and feature extraction; study of pedestrian and vehicle trajectory prediction models; trajectory prediction in complex maritime environments; deep learning techniques for intent aware trajectory forecasting; trajectory representation learning based on multimodal large language model.",
+      "matched_requirement_id": "req-composite-tp",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.01337v1",
+      "title": "SECURE: Stable Early Collision Understanding via Robust Embeddings in Autonomous Driving",
+      "abstract": "While deep learning has significantly advanced accident anticipation, the robustness of these safety-critical systems against real-world perturbations remains a major challenge. We reveal that state-of-the-art models like CRASH, despite their high performance, exhibit significant instability in predictions and latent representations when faced with minor input perturbations, posing serious reliability risks. To address this, we introduce SECURE - Stable Early Collision Understanding Robust Embeddings, a framework that formally defines and enforces model robustness. SECURE is founded on four key attributes: consistency and stability in both prediction space and latent feature space. We propose a principled training methodology that fine-tunes a baseline model using a multi-objective loss, which minimizes divergence from a reference model and penalizes sensitivity to adversarial perturbations. Experiments on DAD and CCD datasets demonstrate that our approach not only significantly enhances robustness against various perturbations but also improves performance on clean data, achieving new state-of-the-art results.",
+      "authors": [
+        "Wenjing Wang",
+        "Wenxuan Wang",
+        "Songning Lai"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.CV"
+      ],
+      "published": "2026-04-01T19:42:32+00:00",
+      "link": "https://arxiv.org/pdf/2604.01337v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "robust embeddings and latent representations for accident anticipation",
+      "llm_evidence_cn": "用于事故预测的鲁棒嵌入和潜空间表示",
+      "llm_evidence": "用于事故预测的鲁棒嵌入和潜空间表示",
+      "canonical_evidence": "用于事故预测的鲁棒嵌入和潜空间表示",
+      "llm_tldr_en": "Introduces SECURE to improve the stability of latent representations and predictions for autonomous driving safety.",
+      "llm_tldr_cn": "引入SECURE框架，通过增强潜空间表示和预测的稳定性来提升自动驾驶的安全性。",
+      "llm_tldr": "引入SECURE框架，通过增强潜空间表示和预测的稳定性来提升自动驾驶的安全性。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning and feature extraction",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
