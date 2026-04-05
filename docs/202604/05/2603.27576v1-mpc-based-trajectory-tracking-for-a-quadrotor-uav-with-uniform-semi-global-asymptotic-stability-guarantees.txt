@@ -1,0 +1,1739 @@
+Title: MPC-Based Trajectory Tracking for a Quadrotor UAV with Uniform Semi-Global Asymptotic Stability Guarantees
+
+URL Source: https://arxiv.org/pdf/2603.27576v1
+
+Published Time: Tue, 31 Mar 2026 01:04:10 GMT
+
+Number of Pages: 11
+
+Markdown Content:
+# MPC-Based Trajectory Tracking for a Quadrotor UAV with Uniform Semi-Global Asymptotic Stability Guarantees 
+
+Qian Yang, Miaomiao Wang, Abdelhamid Tayebi 
+
+Abstract — This paper proposes a model predictive trajectory tracking approach for quadrotors subject to input constraints. Our proposed approach relies on a hierarchical control strategy with an outer-loop feedback generating the required thrust and desired attitude and an inner-loop feedback regulating the actual attitude to the desired one. For the outer-loop translational dynamics, the generation of the virtual control input is formulated as a constrained model predictive control problem with time-varying input constraints and a control strategy, endowed with uniform global asymptotic stability guarantees, is proposed. For the inner-loop rotational dynamics, a hybrid geometric controller is adopted achieving semi-global exponential tracking of the desired attitude. Finally, we prove that the overall cascaded system is semi-globally asymptotically stable. Simulation results illustrate the effectiveness of the proposed approach. 
+
+I. I NTRODUCTION 
+
+Quadrotors are versatile unmanned aerial vehicles (UAVs) used in many industrial and hobby applications, due to their high maneuverability and vertical takeoff and landing capability. Due to the underactuated nature of these systems, the hierarchical inner-outer loop control paradigm is a com-monly adopted solution for the trajectory tracking problem for quadrotor UAVs. The outer-loop feedback deals with the translational dynamics where a virtual control input is designed to regulate the quadrotor’s position to the desired one. The thrust input and the desired orientation are then extracted from this virtual input and the inner loop takes care of regulating the actual orientation to the desired one (see, for instance, [1]–[3]). Various attitude control tech-niques have been developed in the literature using different attitude representations such as the unit-quaternion [4], [5] and the special orthogonal group SO(3) [6]. Due to the topological obstruction on SO(3) , continuous time-invariant feedback cannot achieve global asymptotic stability (GAS) on SO(3) [7]. To overcome this limitation, hybrid feedback control techniques, endowed with global asymptotic stability guarantees, have been proposed in the literature [8]–[10]. In practical applications, the trajectory tracking of quadro-tor UAVs must take into consideration practical requirements such as actuator saturations. Existing methods usually guar-antee these requirements by restricting the outer-loop control                                               
+
+> This work was supported in part by the National Natural Science Foundation of China under Grant 62403205, and in part by the Na-tional Sciences and Engineering Research Council of Canada under Grant NSERC-DG RGPIN-2020-06270. Q. Yang and M. Wang are with the School of Artificial Intelligence and Automation, Huazhong University of Science and Technology, Wuhan 430074, China (e-mail:
+
+mmwang@hust.edu.cn ). A. Tayebi is with the Department of Electri-cal Engineering, Lakehead University, Thunder Bay, ON P7B 5E1, Canada (e-mail: atayebi@lakeheadu.ca ). 
+
+parameters. Model predictive control (MPC) is an attractive approach when it comes to handling input constraints. In [11], MPC was employed for the outer-loop feedback design for a quadrotor UAV. The translational dynamics was dy-namically extended to generate a twice-differentiable desired attitude to be used by the inner-loop controller. To ensure that the actual virtual input satisfies the prescribed time-varying constraint, a uniform conservative constraint was imposed on the augmented virtual input in the MPC formulation. To relax the conservative constraints conditions in [11], the authors in [12] suggested to update the time-varying constraint at each sampling instant. Both approaches in [11], [12] achieve uniform almost global asymptotic stability (UAGAS) of the overall closed-loop system. However, neither approach allows the original time-varying constraint to be imposed directly on the augmented virtual input. In this paper, we propose a hierarchical control framework for quadrotor trajectory tracking. In the outer-loop, an MPC strategy is designed to achieve UGAS in the continuous-time sense. In particular, based on [11], a scale factor is introduced so that the original time-varying constraints can be applied directly to the augmented virtual input in the MPC formulation. For the inner-loop, a hybrid attitude con-troller is adopted to ensure semi-global exponential stability (SGES). Uniform semi-global asymptotic stability (USGAS) of the overall cascaded closed-loop system is rigorously established. II. P RELIMINARIES 
+
+A. Notation and Definitions 
+
+Denote the sets of all real numbers and non-negative integers by R and N, respectively. We denote by Rn the 
+
+n-dimensional Euclidean space, and denote by In and 0m×n
+
+the n-by-n identity matrix and the m-by-n matrix with all zero elements, respectively. Let e1, e 2, e 3 ∈ R3 denote the standard basis vectors. Define the 2-norm of vector a ∈ Rn
+
+as ‖a‖, and the induced 2-norm of matrix A ∈ Rm×n as 
+
+‖A‖2. For some symmetric matrix P = P ⊤ ≻ 0, we define 
+
+‖x‖2 
+
+> P
+
+= x⊤P x for a vector x ∈ Rn. Moreover, let |x|A
+
+denote the distance of a point x ∈ M to a closed set 
+
+A ⊂ M . We write λmax (P ) (λmin (P )) for the maximum (minimum) eigenvalue of P . For any vector p ∈ Rn, we denote by pi the ith component of p. For any vector x =[x1, x 2, x 3]⊤ ∈ R3, we define (·)× as a skew-symmetric operator given by x× = [0 , −x3, x 2; x3, 0, −x1; −x2, x 1, 0] ,such that for any x, y ∈ R3, the identity x×y = x × y
+
+holds, where × denotes the vector cross product operator, and vec( ·) as the inverse operator of the map (·)×, such 
+
+> arXiv:2603.27576v1 [eess.SY] 29 Mar 2026
+
+that vec( x×) = x. In addition, vec( ·) : Rm×n → Rmn 
+
+denotes the column-stacking operator, which maps a matrix to a vector by concatenating its columns in order. Let SO(3) 
+
+denote the special orthogonal group of order three, i.e. ,
+
+SO (3) = {R ∈ R3×3 | RR ⊤ = R⊤R = I3, det( R) = 1 }.We define the saturation function σ∆ : R → R, for a given 
+
+∆ > 0, such that 1) |σ∆(x)| ≤ ∆ ∀x ∈ R;2) xσ ∆(x) > 0 ∀x 6 = 0 , σ ∆(0) = 0 ;3) σ∆ is differentiable, and 0 < dσ ∆(x) 
+
+> dx
+
+≤ 1;4) The derivative σ′
+
+> ∆
+
+(x) = dσ ∆ (x) 
+
+> dx
+
+is nonincreasing on 
+
+(0 , +∞) and nondecreasing on (−∞ , 0) .Denote Ψ∆(x) = ∫ x 
+
+> 0
+
+σ∆(s)ds . The following lemma on the saturation function will be used throughout this paper. 
+
+Lemma 1: For all a > 0, b ∈ [0 , 1] , and x ∈ R, the following inequality holds: 1) σ∆(ax )f (x) ≤ axf (x), where f : R → R satisfies 
+
+xf (x) > 0, ∀x 6 = 0 and f (0) = 0 ;2) bxσ ∆(x) ≤ xσ ∆(bx );3) Ψ∆(x) ≤ xσ ∆(x).
+
+Proof: See Appendix A
+
+III. P ROBLEM FORMULATION 
+
+Let R ∈ SO(3) denote the attitude of the body-fixed frame with respect to the inertial frame, and ω ∈ R3 denote the body-fixed frame angular velocity. Let p, v ∈ R3 denote the position and linear velocity expressed in the inertial frame, respectively. The dynamics model of a UAV is given by 
+
+˙p = v (1a) 
+
+˙v = ge 3 − T Re 3 − Dv (1b) 
+
+˙R = Rω × (1c) 
+
+J ˙ω = −ω × Jω + τ (1d) where g is the acceleration of gravity, T denotes the thrust normalized by mass, D = diag( d1, d 2, d 3), d 1, d 2, d 3 > 0,are the mass-normalized rotor drag coefficients, J = J⊤ ∈
+
+R3×3 is the constant inertia matrix, and τ ∈ R3 is the control torque input. The thrust is considered to be nonnegative and limited according to 0 ≤ T (t) ≤ Tmax for all t ≥ 0, where 
+
+Tmax > g is the maximal thrust. This model is adapted from [11]. Compared with the model in [11], ( 1d ) is written in a more standard form. This difference does not materially affect the subsequent controller design, since the additional terms in the referenced models can be absorbed into the feedforward term. Consider a continuous time-varying reference trajectory 
+
+r(t) ∈ R3. Given the model in ( 1), the objective is to design 
+
+T and τ so that the system tracks a given continuous refer-ence r(t). To achieve the objective, we make the following mild assumption. 
+
+Assumption 1: Suppose r(t) is four times differentiable, and its first four derivatives ˙r(t), ¨r(t), r (3) (t), and r(4) are uniformly bounded with known bounds. In addition, there exist positive constants δr and δrz satisfying ‖D ˙r + ¨ r‖ ≤ 
+
+δr < T max − g and e⊤ 
+
+> 3
+
+(D ˙r + ¨ r) < δ rz < g .Defining the error state as ˜p = p − r, ˜v = v − ˙r, the error dynamics are given by 
+
+˙˜p = ˜ v (2a) 
+
+˙˜v = ge 3 − T Re 3 − Dv − ¨r
+
+= ge 3 − T Re 3 − ¨r − D ˙r − D˜v := μ − D˜v (2b) with 
+
+μ = ge 3 − T Re 3 − ¨r − D ˙r. 
+
+The variable μ is viewed as a virtual control input for the translational error dynamics. By appropriately designing μ,both ˜p and ˜v can be regulated to zero. Define μd as the desired virtual input given by 
+
+μd = ge 3 − T R de3 − ¨r − D ˙r (3) where Rd denotes the desired attitude to be tracked by tracked by the actual attitude R via the control torque τ .Equation ( 3) determines only the third column of Rd, so the extraction of Rd from μd is intrinsically nonunique. Furthermore, the extraction map is singular on a nonempty set. Hence, besides the physical constraints induced by 
+
+Tmax , ˙r, and ¨r, the desired virtual input μd must satisfy an additional admissibility condition to guarantee a well-defined extraction of Rd. The corresponding bound is denoted by 
+
+B( ˙ r, ¨r), whose explicit form will be given in a later section of the paper. Moreover, the implementation of a geometric controller such as that in [13] to drive R toward Rd requires informa-tion about the desired angular velocity ωd and the desired angular acceleration ˙ωd. This implies that the desired virtual input μd must be twice differentiable. Hence, the control design is decomposed into the follow-ing outer-loop and inner-loop problems. 
+
+Problem 1 (Outer-loop problem): Design a twice differ-entiable desired virtual input μd satisfying the constraint 
+
+B( ˙ r, ¨r) such that the origin of system ( 2) is UGAS. 
+
+Problem 2 (Inner-loop problem): Based on the desired at-titude Rd extracted from μd, design a control torque τ
+
+such that R tracks Rd and the overall closed-loop system converges to the desired set. IV. C ONTROL SYSTEM DESIGN 
+
+In this section, the inner-outer loop control scheme for the quadrotor UAV is developed. First, the desired attitude extraction procedure is presented, from which the admissible constraints on the virtual input are derived. Second, an MPC formulation is developed that guarantees UGAS of the outer-loop subsystem under these constraints. Finally, a hybrid controller is introduced to guarantee the SGES of the inner-loop subsystem. 
+
+A. Thrust, Desired Attitude and Input Constraints 
+
+For convenience, we represent the desired attitude Rd ∈
+
+SO(3) in terms of its column vectors as Rd = [ xd, yd, zd],where xd, yd, zd ∈ R3 constitute a right-handed orthonormal frame. From ( 3), the total thrust magnitude is given by 
+
+T = ‖ge 3 − D ˙r − ¨r − μd‖ (4) and the z−axis of desired attitude is determined by the normalized thrust direction 
+
+zd = Rde3 = 1
+
+T (ge 3 − D ˙r − ¨r − μd). (5) To specify the vehicle heading, we introduce a twice differ-entiable desired yaw angle ψd(t), which can be chosen to satisfy task-dependent orientation requirements. 
+
+xb =
+
+cos ψd
+
+sin ψd
+
+0
+
+ . (6) Then, the first column of Rd is given by 
+
+xd = πz xb
+
+‖πz xb‖ (7) with πz = I3 − zdz⊤ 
+
+> d
+
+, denoting the orthogonal projection on the plane orthogonal to zd. To avoid the singularity that 
+
+πz xb = 0 , i.e. , xb is parallel to zd, the following constraint is applied to μd,
+
+e⊤ 
+
+> 3
+
+μd < g − e⊤ 
+
+> 3
+
+D ˙r − e⊤ 
+
+> 3
+
+¨r
+
+which can be ensured by requiring 
+
+‖μd‖ ≤ g − e⊤ 
+
+> 3
+
+D ˙r − e⊤ 
+
+> 3
+
+¨r − ǫ := B1( ˙ r, ¨r) (8) with 0 < ǫ < g − δrz . Therefore, the desired attitude can be given by 
+
+Rd = [ xd, zd × xd, zd]. (9) 
+
+Lemma 2: Under Assumption 1 and constraint ( 8), the total thrust ( 4) is guaranteed to be strictly positive. 
+
+Proof: Under Assumption 1, the reference trajectory 
+
+r(t) satisfies g − e⊤ 
+
+> 3
+
+(D ˙r + ¨ r) > 0. Then, in view of ( 4) and (8), one can obtain 
+
+T ≥ | g − e⊤ 
+
+> 3
+
+D ˙r − e⊤ 
+
+> 3
+
+¨r − e⊤ 
+
+> 3
+
+μd|≥ | g − e⊤ 
+
+> 3
+
+D ˙r − e⊤ 
+
+> 3
+
+¨r| − e⊤ 
+
+> 3
+
+μd
+
+≥ g − e⊤ 
+
+> 3
+
+D ˙r − e⊤ 
+
+> 3
+
+¨r − ‖ μd‖≥ ǫ > 0.
+
+Consequently, the thrust T remains strictly positive. 
+
+Due to actuator saturations, the thrust ( 4) has to satisfy 
+
+T = ‖ge 3 − ¨r − D ˙r − μd‖ ≤ Tmax . A sufficient conservative condition is 
+
+‖μd‖ ≤ Tmax − ‖ ge 3 − ¨r − D ˙r‖ := B2( ˙ r, ¨r). (10) Combining with ( 8) and ( 10 ), the time-varying bound on the magnitude of μd is given by 
+
+‖μd‖ ≤ B ( ˙ r, ¨r) := min {B 1( ˙ r, ¨r), B2( ˙ r, ¨r)} (11) Moreover, the explicit expressions for the desired angular velocity ωd and angular acceleration ˙ωd required for attitude tracking are provided in Appendix B.
+
+B. Model Predictive Control 
+
+To ensure that the virtual input ( 3) satisfies the time-varying constraints ( 11 ), [1]–[3], [14] impose additional restrictions on the parameters of the outer-loop PD controller, which in turn degrade the control performance. To avoid such additional restrictions, MPC is employed because of its capability for explicit constraint handling. In order to provide twice differentiable desired accelerations for the inner loop, inspired by the work [11], we extend the system ( 2) as follows, 
+
+˙˜p = ˜ v (12a) 
+
+˙˜v = −D˜v + μd (12b) 
+
+˙μd = − 1
+
+γ (μd − αη ) (12c) 
+
+˙η = − 1
+
+γ (η − αu ) (12d) where γ > 0, ˜p, ˜v, μ d, η ∈ R3, u ∈ R3 is the augmented virtual input and α is a scale factor. Compared with [11], the scale factor α is introduced to allow the time-varying constraint of μd to be applied directly to the augmented virtual input, rather than on its lower bound. The selection of γ and α will be discussed in Lemma 4.Inspired by [11], [15], the vector system ( 12 ) is decom-posed into three independent scalar subsystems to facilitate the controller design: 
+
+˙˜pi = ˜ vi (13a) 
+
+˙˜vi = −di˜vi + μdi (13b) 
+
+˙μid = − 1
+
+γ (μdi − αη i) (13c) 
+
+˙ηi = − 1
+
+γ (ηi − αu i) (13d) with i ∈ { 1, 2, 3}. To enforce ( 11 ), a more conservative constraint is imposed on each component of μd as 
+
+|μdi| ≤ B ( ˙ r, ¨r) := 1
+
+√3 B( ˙ r, ¨r). (14) Applying exact discretization under a zero-order hold (ZOH) on the input, i.e. ,
+
+ui(t) = ui(tk ), t ∈ [tk, t k+1 )
+
+where tk = kh, k ∈ N, and h is the sampling period, results in the discrete-time subsystem 
+
+xik+1 = Aixik + Biuik (15) where xik = xi(tk), x i = [˜ pi, ˜vi, μ di, η i]⊤ ∈ R4, k ∈ N, and the system matrices Ai and Bi are given by 
+
+Ai = exp ( Ai
+
+> 0
+
+h), B i =
+
+∫ h
+
+> 0
+
+exp( Ai
+
+> 0
+
+τ )Bi
+
+> 0
+
+dτ (16) with 
+
+Ai 
+
+> 0
+
+=
+
+
+
+0 1 0 00 −di 1 00 0 − 1
+
+> γα
+> γ
+
+0 0 0 − 1
+
+> γ
+
+ , B i 
+
+> 0
+
+=
+
+
+
+000
+
+> α
+> γ
+
+ . (17) Since the three scalar subsystems have the same struc-ture, the index i will be omitted from here. Denote ∆ = inf t≥0 B( ˙ r, ¨r) = 1√3 min {Tmax − g − δr, g − δrz − ǫ}.The time-varying bound B(¨ r) on μd in each period can be bounded by a positive constant as 
+
+0 < ∆k = inf  
+
+> kh ≤t< (k+1) h
+
+B( ˙ r, ¨r). (18) Then, by applying the discretized constraints ( 18 ) directly to the control input uk within each sampling period, it can be ensured that, when |μd(0) | ≤ ∆0 and |η(0) | ≤ ∆0, the virtual input μd satisfies the time-varying constraint ( 14 ). This is guaranteed by the following two lemmas. 
+
+Lemma 3: Under Assumption 1, define L1 := sup t≥0 ‖¨r(t)‖ and L2 := sup t≥0 ‖r(3) (t)‖. Then, the input constraint ( 14 ) is Lipschitz continuous with respect to time, i.e. 
+
+|B ( ˙ r(t1), ¨r(t1)) − B ( ˙ r(t2), ¨r(t2)) | ≤ ¯L|t1 − t2|, ∀t1, t 2 > 0,
+
+where ¯L = ( ¯dL 1 + L2)/√3, and ¯d = max {d1, d 2, d 3}.
+
+Proof: See Appendix C.
+
+Lemma 4: Consider system ( 13 ), and let the parameter γ
+
+and the scale factor α satisfy the following inequalities: 
+
+
+
+0 < γ < ∆
+
+¯L
+
+0 < α ≤ β − e−h/γ 
+
+1 − e−h/γ 
+
+(19) with β = ∆ /(∆ + ¯Lh ). If |μd(tk)| ≤ ∆k, |η(tk)| ≤ ∆k and 
+
+|uk| ≤ ∆k, then 1) |μd(t)| ≤ ∆k and |η(t)| ≤ ∆k for all t ∈ [tk, t k+1 );2) |μd(tk+1 )| ≤ ∆k+1 and |η(tk+1 )| ≤ ∆k+1 .
+
+Proof: See Appendix D.
+
+Based on Lemma 4 and the definition of B( ˙ r, ¨r) (14 ), by selecting the parameter γ and the scale factor α according to ( 19 ), it follows that when the initial conditions satisfy 
+
+|μd(0) | ≤ ∆0 and |η(0) | ≤ ∆0, the constraint |uk| ≤ ∆k
+
+ensures |μd(t)| ≤ B ( ˙ r, ¨r) for all t ≥ 0, which guarantees that that the desired attitude extraction is feasible and actuators saturations are satisfied. 
+
+Remark 1: Compared with [12], the introduction of the scale factor allows the constraint on the virtual input μd
+
+to be directly applied to the augmented virtual input u,thereby avoiding the additional constraint calculations re-quired within each sampling period. It should be noted, however, that in order to guarantee μd(tk) ≤ ∆k and η(tk) ≤
+
+∆k at the beginning of every sampling instant tk, the scale factor α satisfies α < 1. Consequently, the virtual input μd
+
+cannot fully saturate its admissible constraint |μd| ≤ B ( ˙ r, ¨r).A similar effect also appears in [12] due to the additional constraint computations introduced there. When the sampling period is sufficiently small, the scaling factor α approaches 
+
+1, and the resulting loss of the admissible constraint becomes small. Therefore, in practical applications, the reduction of the feasible input set is typically minor. Since UGAS under MPC is generally difficult to establish for open-loop non-asymptotically stable systems, we next transform the outer-loop subsystem ( 13 ) into a form that explicitly reveals its stability structure. In particular, the system is decomposed into a marginally stable subsystem and an asymptotically stable subsystem. This decomposition allows the subsequent MPC design and stability analysis to focus primarily on the marginally stable subsystem. To this end, preliminary computations are carried out. Transforming matrix A0 to its Jordan canonical form, one can obtain: 
+
+P −1A0P =
+
+
+
+−d 0 0 00 − 1 
+
+> γ
+
+1 00 0 − 1 
+
+> γ
+
+00 0 0 0
+
+ := J0
+
+with 
+
+P =
+
+
+
+1 −γ2 −γ3 + γ3 
+
+> γd −1
+
+1
+
+−d γ γ2 
+
+> 1−γd
+
+00 γd − 1 0 00 0 γ(γd −1)  
+
+> α
+
+0
+
+
+
+P −1 =
+
+
+
+0 − 1 
+
+> dγ
+> d(γd −1)
+
+− αγ 
+
+> d(dγ −1) 2
+
+0 0 1 
+
+> γd −1
+
+00 0 0 α
+
+> γ(γd −1)
+
+1 1
+
+> dγ
+> dαγ
+> d
+
+
+
+In view of ( 16 ), the system matrices A and B can be written as 
+
+A = P exp( J0h)P −1
+
+= P
+
+
+
+e−dh 0 0 00 e− h 
+
+> γ
+
+he − h 
+
+> γ
+
+00 0 e− h 
+
+> γ
+
+00 0 0 1
+
+︸ ︷︷ ︸
+
+> := ˆA
+
+P −1
+
+B = P
+
+∫ h
+
+> 0
+
+exp( J0(h − τ )) P −1B0dτ 
+
+︸ ︷︷ ︸
+
+> := ˆB
+
+.
+
+We introduce the following coordinate transformation: 
+
+ˆxk = P −1xk (20) which changes the dynamics in ( 15 ) to 
+
+ˆxk+1 = ˆAˆxk + ˆBu k.
+
+Then, the system can be decoupled into two subsystems 
+
+ˆx1,k +1 = ˆA1 ˆx1,k + ˆB1uk ˆx2,k +1 = ˆ x2,k + ˆbu k,
+
+where 
+
+ˆx1 = [ I3, 03×1]P −1x := P1x (21a) 
+
+ˆx2 = [0 1×3, 1] P −1x := P2x (21b) 
+
+ˆA1 = [ I3, 03×1] ˆA[I3, 03×1]⊤ (21c) 
+
+ˆb = [0 1×3, 1] ˆB. (21d) Since all eigenvalues of ˆA1 lie within the unit circle, there exist positive definite symmetric matrices W, Q ∈ R3×3,such that 
+
+ˆA⊤ 
+
+> 1
+
+W ˆA1 − W = −Q. (22) Consider system ( 15 ), the MPC strategy is formulated as follows: 
+
+min 
+
+> uk
+
+J(xk, uk) =  
+
+> N−1
+
+∑
+
+> i=0
+
+l(xi|k, u i|k) + Vf (xN |k) (23a) 
+
+s.t. x0|k = xk, (23b) 
+
+xi+1 |k = Axi|k + Bui|k, i ∈ { 0, · · · , N − 1} (23c) 
+
+|ui|k| ≤ ∆k+i, i ∈ { 0, · · · , N − 1}. (23d) where uk = [ u0|k, u 1|k, · · · , u N −1|k]⊤ is the predicted future control inputs, l : R4 × R → R≥0 and Vf : R4 → R≥0 are the stage cost and terminal cost, respectively, as follows: 
+
+l(x, u ) = ‖x‖2   
+
+> P⊤
+> 1P1
+
++ Ψ ∆(P2x) + u2 (24a) 
+
+Vf (x) = Θ ‖x‖2 
+
+> M
+
+(24b) with Ψ∆(z) = ∫ z 
+
+> 0
+
+σ∆(s)ds , and 
+
+M = ( P −1)⊤
+
+[ W 03×1
+
+01×3 1
+
+]
+
+P −1 (25a) 
+
+Θ ≥ 1
+
+min { 1 
+
+> 2
+
+λmin (Q), |ˆb|, ˆb2/Γ} (25b) 
+
+Γ = ˆb2 + ‖ ˆB1‖2 
+
+> W
+
++ 1
+
+ε ‖ ˆB1‖2 + |ˆb| (25c) 
+
+ε = λmin (Q)
+
+2λmax ( ˆA⊤ 
+
+> 1
+
+W W ⊤ ˆA1) . (25d) The solution to the optimization problem ( 23 ) is denoted by 
+
+u∗
+
+> k
+
+. The first control input from the optimal sequence u∗ 
+
+> k
+
+is applied to the system ( 15 ), i.e. 
+
+uk = u∗
+
+> 0|k
+
+. (26) Then, the following result is established: 
+
+Theorem 1: Consider the discrete-time subsystem (15 )with MPC feedback ( 26 ). Then, the origin xk = 0 of the resulting closed-loop system is UGAS. 
+
+Proof: See Appendix E.
+
+Remark 2: Since Ψ∆(·) in the stage cost is defined as the integral of the saturation function σ∆(·), satisfying σ′
+
+> ∆
+
+(·) >
+
+0, it follows that Ψ( ·) is convex. Hence, the stage cost remains convex, and the corresponding MPC formulation (23 ) is still convex. 
+
+C. Stability for Continuous-Time System 
+
+Although the above section has demonstrated the UGAS for the proposed MPC strategy ( 23 ), it is essential to analyze the behavior between sampling times to conclude UGAS for the closed-loop continuous-time system. The closed-loop continuous-time linear subsystem ( 13 ) and ( 26 ) can be rewritten as 
+
+˙x = ˜fout (t, x ) := A0x(t) + B0u(t) (27) where A0 and B0 are given by ( 17 ), and the control input 
+
+u(t) = uMPC (x(kh )) , t ∈ [kh, kh + h) is generated by the MPC strategy ( 23 ). Then, for t ∈ [kh, kh + h]
+
+x(t) = eA0(t−kh )x(kh ) + 
+
+∫ t−kh 
+
+> 0
+
+eA0τ dτ B 0u(kh ).
+
+Then, there exists c1 > 0 and c2 > 0, such that 
+
+‖x(t)‖ = ‖eA0(t−kh )x(kh ) + 
+
+∫ t−kh 
+
+> 0
+
+eA0τ dτ B 0u(kh )‖≤ ‖ eA0(t−kh )‖‖ x(kh )‖ + ‖
+
+∫ t−kh 
+
+> 0
+
+eA0τ dτ B 0‖| u(kh )|≤ c1‖x(kh )‖ + c2|u(kh )|. (28) To conclude UGAS for the closed-loop continuous-time subsystem ( 27 ), we need the following Proposition: 
+
+Proposition 1: Consider the MPC feedback ( 26 ) gener-ated by the MPC strategy ( 23 ), there exists c3 > 0, such that 
+
+|uk| ≤ c3‖xk‖ for any k ∈ N.
+
+Proof: See Appendix F
+
+With Proposition 1 established, the following result can be obtained. 
+
+Theorem 2: The origin x = 0 is UGAS for the closed-loop continuous-time subsystem ( 27 ). 
+
+Proof: Based on Proposition 1, inequality ( 28 ) can be further rewritten as 
+
+‖x(t)‖ ≤ (c1 + c2c3)‖x(kh )‖, ∀t ∈ [kh, kh + h].
+
+Based on Theorem 1, the origin of the discrete-time closed-loop subsystem ( 15 ), ( 26 ) is UGAS, which implies there exists β0 ∈ KL , such that ‖xk‖ ≤ β0(‖x0‖, k ) for any 
+
+x0 ∈ R4 and k ∈ N. Therefore, for any x(0) ∈ R4 and 
+
+t ≥ 0, one has 
+
+‖x(t)‖ ≤ (c1 + c2c3) ‖x (⌊t/h ⌋ h)‖≤ (c1 + c2c3)β0(‖x(0) ‖, ⌊t/h ⌋):= β(‖x(0) ‖, t ) (29) where ⌊·⌋ is the floor function as follows: 
+
+⌊x⌋ = max {n ∈ N | n ≤ x}, ∀x ∈ R.
+
+Since β0 ∈ KL , one has β ∈ KL . By applying [16, Lemma 4.5], the origin x = 0 is UGAS for the closed-loop continuous-time subsystem ( 27 ). 
+
+Remark 3: Compared with [12], the proposed MPC for-mulation ( 23 ) employs stage costs whose input terms have the same order as the state terms in the terminal cost. This structural property constitutes a sufficient condition for the validity of Proposition 1 and plays a key role in the proof of Theorem 2.In view of ( 12 ) and ( 26 ), the closed-loop system of the entire outer-loop system can be written as 
+
+˙xout = ˜Fout (t, x out ) := Ax out (t) + Bu (t) (30) where xout = (˜ p, ˜v, μ d, η ) ∈ R12 = vec ([x1, x 2, x 3]⊤), the system matrices are given by 
+
+A =
+
+
+
+03×3 I3 03×3 03×3
+
+03×3 −D I3 03×3
+
+03×3 03×3 − α 
+
+> γ
+
+I3 03×3
+
+03×3 03×3 03×3 − α 
+
+> γ
+
+I3
+
+ , B =
+
+
+
+03×3
+
+03×3
+
+03×3
+
+− α 
+
+> γ
+
+I3
+
+ ,
+
+and the control input 
+
+u(t) = uMPC (xout (kh )) := 
+
+uxMPC (x1(kh )) 
+
+uyMPC (x2(kh )) 
+
+uzMPC (x3(kh )) 
+
+ , ∀t ∈ [kh, kh + h) (31) is generated by three distinct MPC controllers, which are formulated in ( 23 ). Based on Theorem 2, the following result is established. 
+
+Theorem 3: The origin xout = 0 is UGAS for the closed-loop continuous-time system ( 30 ). Theorem 3 is a direct consequence of Theorem 2 together with the definition of xout . At this point, Problem 1 is solved. 
+
+D. Inner-Loop Tracking 
+
+From Lemma 4, it follows that under constraint uk ≤ ∆k
+
+and initial constraint μd(0) ≤ ∆0 and η(0) ≤ ∆0, the virtual input μd(t) and the virtual jerk η(t) are bounded. Moreover, Assumption 1 ensures that the derivatives of r(t)
+
+up to the order 4 are bounded. According to Appendix B,the expressions for ωd and ˙ωd are given in terms of the first to fourth derivatives of r(t), μd(t), η (t), and u(t), which implies ωd(t) and ˙ωd(t) are bounded. Consequently, the dynamics of the desired attitude can be written as 
+
+˙Rd = Rdω×
+
+> d
+
+˙ωd ∈ mB
+
+}
+
+(Rd, ω d) ∈ W d (32) where m > 0 and Wd ⊂ SO(3) × R3 is a compact subset. The attitude error and angular velocity error are defined as 
+
+˜R = R⊤ 
+
+> d
+
+R
+
+˜ω = ω − ˜R⊤ωd.
+
+From ( 1c ), ( 1d ) and ( 32 ), one obtains the following error dynamics: 
+
+˙˜R = ˜R˜ω× (33a) 
+
+J ˙˜ω = Σ( ˜R, ˜ω, ω d)˜ ω − Υ( ˜R, ω d, ˙ωd) + τ (33b) where the functions Υ : SO(3) × R3 × R3 → R3 and Σ : SO(3) × R3 × R3 → so (3) are given by 
+
+Υ( ˜R, ω d, ˙ωd) = J ˜R⊤ ˙ωd + ( ˜R⊤ωd)×J ˜R⊤ωd
+
+Σ( ˜R, ˜ω, ω d) = ( J ˜ω)× + ( J ˜R⊤ωd)×
+
+− (( ˜R⊤ωd)×J + J( ˜R⊤ωd)×).
+
+Then, a hybrid controller similar to the one proposed in [10] is employed to ensure that the attitude R converges semi-globally exponentially to Rd. Let Θh ⊂ R be a nonempty and finite real set and consider any potential function U (R, θ )
+
+satisfying [10, Assumption 1-3], where θ ∈ R is a hybrid variable with hybrid dynamics given by 
+
+Hθ :
+
+{ ˙θ = fθ(R, θ ), (R, θ ) ∈ F θ
+
+θ+ ∈ gθ (R, θ ), (R, θ ) ∈ J θ
+
+(34) The flow and jump sets are defined as 
+
+Fθ := {(R, θ ) ∈ SO(3) × R : μU (R, θ ) ≤ δ} (35a) 
+
+Jθ := {(R, θ ) ∈ SO(3) × R : μU (R, θ ) ≥ δ} (35b) with μU := U (R, θ ) − min θ′∈Θh U (R, θ ′), δ > 0, and the flow map f : SO(3) × R → R and jump map g : SO(3) ×
+
+R ⇒ Θh are defined as 
+
+fθ(R, θ ) := −kθ ∇θU (R, θ )
+
+gθ(R, θ ) = {θ ∈ Θh : θ = arg min θ′∈Θh U (R, θ ′)}
+
+with constant scalar kθ > 0. A hybrid controller is proposed as follows: 
+
+τ = Υ( ˜R, ω d, ˙ωd) − φ( ˜R, θ, ˜ω)˙θ = fθ( ˜R, θ )
+
+︸ ︷︷ ︸
+
+> ( ˜R,θ )∈F θ
+
+θ+ ∈ gθ( ˜R, θ )
+
+︸ ︷︷ ︸
+
+> ( ˜R,θ )∈J θ
+
+(36) where the function φ is given by 
+
+φ( ˜R, θ, ˜ω) := 2 kRψ( ˜R⊤∇ ˜RU ( ˜R, θ )) + kω ˜ω
+
+with constant scalars kR, k ω > 0. Define the new state space 
+
+Xin := SO(3) × R × R3 × W d and the new state xin := ( ˜R, θ, ˜ω, R d, ω d) ∈ X in . In view of ( 33 )-( 36 ), one has the following hybrid closed-loop system: 
+
+{ ˙xin ∈ Fin (xin ), xin ∈ F in := {xin ∈ X in : ( ˜R, θ ) ∈ F θ}
+
+x+ 
+
+> in
+
+∈ Gin (xin ), xin ∈ Jin := {xin ∈ X in : ( ˜R, θ ) ∈ J θ }
+
+(37) where the flow and jump maps are given by 
+
+Fin (xin ) := 
+
+
+
+˜R˜ω×
+
+fθ( ˜R, θ )
+
+J−1(Σ( ˜R, ˜ω, ω d)˜ ω − φ( ˜R, θ, ˜ω)) 
+
+Rdω×
+
+> d
+
+mB
+
+
+
+Gin (xin ) := 
+
+( ˜R, g θ( ˜R, θ ), ˜ω, R d, ω d
+
+)
+
+.
+
+Then, one can establish the stability of the closed-loop system ( 37 ) as per the following result from [10, Proposition 1] : 
+
+Theorem 4 ( [10]): Let kR, k ω , k θ > 0 and define the following set Ain = {xin ∈ X in : ˜R = I3, θ = 0 , ˜ω = 0 }.Then, the set Ain is SGES for the hybrid closed-loop system (37 ) relative to Xin . More precisely, for every compact set Ωc ⊂ SO(3) × R × R3 and every initial condition 
+
+xin (0 , 0) ∈ Ωc × W d, the number of jumps is finite, and there exist k, λ > 0 such that, each maximal solution xin to the hybrid system ( 37 ) satisfies 
+
+|xin (t, j )|2 
+
+> Ain
+
+≤ k exp( −λ(t + j)) |x(0 , 0) |2 
+
+> Ain
+
+(38) for all (t, j ) ∈ dom x.Since the number of jumps is finite, the hybrid exponential stability can be viewed as the exponential stability in the classical sense (exponential convergence over time), i.e. , for every compact set Ωc ⊂ SO(3) × R × R3 and every initial condition xin (0) ∈ Ωc × W d, there exist k′, λ ′ > 0, such that 
+
+|xin (t)|Ain ≤ k′ exp( −λ′t)|xin (0) |Ain ∀t ≥ 0. (39) V. S TABILITY OF CASCADED SYSTEM 
+
+In view of ( 1), ( 4), ( 12 ), ( 31 ), and ( 36 ), the overall closed-loop system can be represented as the following cascaded system: 
+
+˙xout = Fout (t, x out , x in ) (40a) 
+
+˙xin = Fin (xin )
+
+︸ ︷︷ ︸
+
+> xin ∈F in
+
+x+ 
+
+> in
+
+= Gin (xin )
+
+︸ ︷︷ ︸
+
+> xin ∈J in
+
+(40b) where Fin and Gin are given in ( 37 ), and the function Fout 
+
+is given by 
+
+Fout (t, x out , x in ) = ˜Fout (t, x out ) + T ΛR (I3 − Φ( xin )) e3
+
+with Λ = [0 3×3, I 3, 0⊤
+
+> 10 ×3
+
+]⊤, ˜Fout given in ( 30 ), and Φ( ·) : 
+
+Xin → SO(3) denoting the projection 
+
+Φ( xin ) = ˜R, ∀xin = ( ˜R, θ, ˜ω, R d, ω d) ∈ X in .
+
+Theorem 5: Consider the cascaded closed-loop system (40 ). Let 
+
+A := {(xout , x in ) ∈ R12 × X in : xout = 0 , x in ∈ A in },
+
+where Ain is defined in Theorem 4. Then, the set A is USGAS for the system ( 40 ). 
+
+Proof: The proof proceeds by first establishing the boundedness of the solutions to ( 40 ). Note that the outer-loop subsystem ( 40a ) remains decoupled along the x-,y-, and z-axes. For each axis, one has: 
+
+˙x = ˜fout (t, x ) + Λ 0Π ( T R (I3 − Φ( xin )) e3) (41) where Λ0 = [0 , 1, 0, 0] ⊤, ˜fout (t, x ) is given by ( 27 ), and 
+
+Π : R3 → R denotes the canonical projection onto the i−th component (with i omitted). By the definition of Π( ·), one has |Π( y)| ≤ ‖ y‖, for any y ∈ R3. In view of ( 39 ), for every compact set Ωc ⊂ SO(3) ×R×R3 and every initial condition 
+
+xin (0) ∈ Ωc × W d, there exist k′, λ ′ > 0, such that 
+
+|Π ( T R (I3 − Φ( xin )) e3) | ≤ ‖ T R (I3 − Φ( xin )) e3‖≤2√2Tmax | ˜R|I3 ≤ 2√2Tmax |xin |Ain 
+
+≤2√2k′Tmax exp( −λ′t)|xin (0) |Ain 
+
+:= φ(t)|xin (0) |Ain 
+
+where | ˜R|I3 is the normalized Euclidean distance on SO(3) 
+
+with respect ot the identity I3, which is given by | ˜R|I3 =
+
+> 1
+> 2
+
+√
+
+tr( I3 − ˜R). Denote ˇx(t) the solution of ˙ˇx = fout (t, ˇx).Then, for the solution of ( 41 ), we have 
+
+‖x(t)‖ ≤ ‖ ˇx(t)‖
+
++ |xin (0) |Ain 
+
+∫ t
+
+> 0
+
+‖ exp( A0(t − τ ))Λ 0‖φ(τ )dτ. 
+
+(42) To handle the second term in ( 42 ), we estimate the corre-sponding expression as follows: 
+
+∫ t
+
+> 0
+
+‖ exp( A0(t − τ ))Λ 0‖φ(τ )dτ 
+
+=‖P ‖
+
+∫ t
+
+> 0
+
+‖ exp( J0(t − τ )) P −1Λ0‖φ(τ )dτ 
+
+≤ 2√2‖P ‖k′Tmax 
+
+d︸ ︷︷ ︸
+
+> := c4
+
+∫ t
+
+> 0
+
+(exp( −d(t − τ )) + 1) exp( −λ′τ )dτ 
+
+=
+
+
+
+c4
+
+d − λ′
+
+(
+
+e−λ′ t − e−dt )
+
++ c4
+
+λ′
+
+(
+
+1 − e−λ′ t)
+
+, d 6 = λ′
+
+c4te −dt + c4
+
+λ′
+
+(
+
+1 − e−λ′t)
+
+, d = λ′
+
+≤
+
+
+
+c4
+
+d − λ′
+
+(
+
+e−λ′ ln d−ln λ′ 
+
+> d−λ′
+
+− e−d ln d−ln λ′
+
+> d−λ′
+
+)
+
++ c4
+
+λ′ , d 6 = λ′
+
+c4e−1
+
+d + c4
+
+λ′ , d = λ′
+
+:= c5 (43) where the first inequality follows from 
+
+exp( J0(t − τ )) P −1 Λ0 = 1
+
+d [−e−d(t−τ ), 0, 0, 1] ⊤,
+
+and the last inequality is obtained by upper bounding the first and second terms in the preceding expression separately. Combining ( 29 ), ( 42 ), and ( 43 ), one has that the solution of (41 ) satisfies 
+
+‖x(t)‖ ≤ β(‖x(0) ‖, t ) + c5|xin (0) |Ain .
+
+Hence, for every initial condition xout ∈ R12 , x in ∈ Ωc ×Wd, the solution of the outer-loop system ( 40a ) is bounded. Together with the boundedness of the solution of the inner-loop subsystem ( 40b ) established in Theorem 4, the solution of the overall cascaded system ( 40 ) is bounded. Moreover, by Theorem 3, the equilibrium xout = 0 of the outer-loop subsystem ( 30 ) is UGAS, and by Theorem 4, the set Ain is SGES for the inner-loop subsystem ( 40b ). By applying [11, Theorem 4], the set A is USGAS for the cascaded system (40 ). 
+
+Remark 4: The jumps of the hybrid variable θ in the inner-loop subsystem ( 40b ) do not induce jumps in the outer-loop state xout . This is because the outer-loop dynamics evolve continuously and are affected by the inner-loop only through the attitude tracking error during flows. Moreover, by Theorem 4, the set A is SGES for the inner-loop subsystem (40b ). In particular, along every maximal solution, there exists a Lyapunov function for the inner-loop subsystem that decreases exponentially during flows and undergoes a decrease of at least a fixed positive amount at each jump. Hence, there exists a finite time t⋆ ≥ 0 such that no further jumps occur for t ≥ t⋆. Therefore, from time t⋆,the overall cascaded system ( 40 ) evolves as a continuous-time cascaded system. By taking (xout (t⋆), x in (t⋆)) as a new initial condition, one can apply [11, Theorem 4] to conclude convergence to A.
+
+Remark 5: The semi-global property of the overall closed-loop system stems from the fact that, in our proof, the initial angular velocity ω(0) is required to belong to an arbitrary compact subset of R3, with no restrictions on the initial attitude, i.e., R(0) ∈ SO(3) .
+
+Remark 6: The stability of the overall closed-loop system (40 ) is independent of the initial conditions of μd and η.The constraints |μd(0) | ≤ ∆0, |η(0) | ≤ ∆0 are imposed only to avoid the singularity associated with the extraction of the desired attitude. Since μd and η are auxiliary states introduced through dynamic extension rather than physical states of the UAV, these constraints do not impose any additional requirement on the actual initial state of the system. VI. S IMULATION RESULTS 
+
+In this section, simulation results are presented to illus-trate the performance of the proposed control framework composed of the MPC-based outer-loop controller and the hybrid geometric inner-loop controller. The MPC formu-lation is solved online in MATLAB using CasADi [17]. For the implementation of the hybrid controller ( 36 ), a potential function on SO(3) needs to be specified. In the simulations, we choose the potential function U (R, θ ) = tr( A(I−T (R, θ )))+ γθ 
+
+> 2
+
+θ2, where the detailed construction of 
+
+T (R, θ ) and the choice of γθ are omitted here for brevity; see [10] for details. The proposed MPC strategy ( 23 ) and hybrid controller ( 36 ) in Section IV are referred to as “MPC+Hybrid”. For comparison, we also consider the same MPC strategy ( 23 ) combined with the following classical non-hybrid controller, referred to as ”MPC+Non-Hybrid”: 
+
+τ = Υ( ˜R, ω d, ˙ωd) − 2kRψ(A ˜R) − kω ˜ω
+
+which is modified from the hybrid controller ( 36 ) by taking 
+
+θ ≡ 0. The initial conditions are chosen as p(0) = 0 , v (0) = 0, μ d(0) = 0, η (0) = 0, θ (0 , 0) = 0, ω (0) = 0 and 
+
+R(0) = Rd(0) R(π, e 1) with e1 = [1 , 0, 0] ⊤, R(π, e 1) = 
+
+I3 + sin( π)e× 
+
+> 1
+
++ (1 − cos( π))( e× 
+
+> 1
+
+)2.The parameters used in the simulations are selected as follows. The inertia matrix is taken as J =diag(0 .0159 , 0.0150 , 0.0297) , and the gravitational accelera-tion is g = 9 .81 . The maximum thrust-to-mass ratio is chosen as Tmax = 25 . The reference trajectory is given by: 
+
+r(t) = [3 sin(2 t) 3 cos(2 t) 8 + 4 cos( t)]⊤ , ψ d(t) = 0 .5t. 
+
+For the outer-loop controller, the sampling period of the MPC is selected as h = 0 .05 , and the prediction horizon is chosen as N = 25 . The parameter γ and the scale factor α in ( 12 )are chosen as follows: γ is chosen as 0.9 times its upper bound, and α is chosen at its upper bound. The function 
+
+Ψ∆(·) in stage cost ( 24a ) is chosen as Ψ∆(x) = ln cosh( x),which is the integral of the saturation function σ∆(x) = tanh( x). The positive definite matrix Q in ( 22 ) is chosen as 
+
+Q = I3. The parameter Θ in ( 24b ) is chosen as 1.1 times the corresponding lower bound required in ( 25b ). For the                   
+
+> 0
+> 2
+> 4
+> 2
+> 6
+> 8
+> 10
+> 0
+> 12
+> -2 -4 -2 -6 -8 0-10 -12 2-14
+> Fig. 1. 3D plot of the reference and actual trajectories, where the black dot indicates the starting point of the actual trajectory.
+> 0246810
+> 0510 15
+> 0246810
+> 0510 15
+> Fig. 2. Tracking errors.
+
+inner-loop controller, the control gains are selected as kR =1.5, kω = 0 .2, and kθ = 10 . The matrix A in the potential function is chosen as A = diag(2 , 4, 6) , and the remaining parameters in the hybrid mechanism are selected as Θh =
+
+{0.9π}, γ θ = 7 
+
+> π2
+
+, δ = 0 .324 .The reference and resulting position trajectories are shown in Fig. 1, which shows that MPC+Hybrid exhibits better tracking performance than MPC+Non-Hybrid. A similar result can also be observed in Fig. 2. Fig. 3 illustrates the virtual input μd and the MPC input uMPC along the 
+
+x-, y-, and z-axes under two different control strategies, which shows that the desired acceleration μd always satisfies the constraints. Meanwhile, due to the scaling factor α,the virtual input μd maintains a certain margin from the constraint boundary. VII. C ONCLUSIONS AND FUTURE WORK 
+
+This paper addresses the trajectory tracking problem of quadrotor UAVs and develops an MPC-based hierarchical control framework. The designed outer-loop MPC guarantees UGAS of the outer-loop system in continuous-time sense. 0 1 2 3 4 5 6 7 8 9 10                         
+
+> -5 05
+> 012345678910
+> -5 05
+> 012345678910
+> -5 05
+> Fig. 3. Desired accelerations μdand MPC input uMPC .
+
+Furthermore, we prove that the cascade of the outer-loop controller with the hybrid inner-loop controller is USGAS. Moreover, the introduction of the scale factor allows the constraints on the virtual input to be directly applied to the augmented virtual input. Simulation results show that the proposed framework achieves satisfactory trajectory tracking performance without imposing restrictions on the initial atti-tude, and yields better transient responses than its counterpart with a non-hybrid inner-loop controller. Future work will focus on modeling the outer-loop sub-system as a hybrid system and developing a corresponding hybrid MPC formulation. This is expected to provide a unified framework integrating the outer-loop MPC and the hybrid geometric inner-loop controller, and to facilitate a deeper analysis of the overall closed-loop stability properties. APPENDIX 
+
+A. Proof of Lemma 1 
+
+Proof of item 1. Since 0 < σ ′
+
+> ∆
+
+(x) ≤ 1 for all x ∈ R, it fol-lows that ax −σ∆(ax ) ≥ 0 when x ≥ 0 and ax −σ∆(ax ) ≤ 0
+
+when x ≤ 0. Consequently, (ax − σ∆(ax )) f (x) ≥ 0 for all 
+
+x ∈ R, which yields σ∆(ax )f (x) ≤ axf (x).Proof of item 2. Define ρ∆(x) = σ∆(bx ) − bσ ∆(x).Then, the derivative ρ′
+
+> ∆
+
+(x) = b (σ′
+
+> ∆
+
+(bx ) − σ′
+
+> ∆
+
+(x)) and 
+
+ρ∆(0) = 0 . Given b ∈ [0 , 1] and the monotinicity of σ′
+
+> ∆
+
+(nonincreasing over (0 , +∞), nondecreasing over (−∞ , 0) ), we have ρ′
+
+> ∆
+
+(x) ≥ 0 for all x ∈ R. Hence, σ∆(bx ) ≥ bσ ∆(x)
+
+for x ≥ 0 and σ∆(bx ) ≤ bσ ∆(x) for x ≤ 0, implying 
+
+xσ ∆(bx ) ≥ bxσ ∆(x) for all x ∈ R.Proof of item 3. By the Mean Value Theorem for integrals, 
+
+Ψ∆(x) = ∫ x 
+
+> 0
+
+σ∆(s)ds = xσ ∆(θx ) for some θ ∈ (0 , 1) .Applying inequality 1) with a = θ, we have Ψ∆(x) ≤
+
+θxσ ∆(x) ≤ xσ ∆(x) for all x ∈ R.
+
+B. The expressions of ωd and ˙ωd
+
+From the expression of the desired attitude ( 9), the desired angular velocity ωd and angular acceleration ˙ωd are derived by first computing ˙Rd and ¨Rd, which are given by 
+
+˙Rd = [ ˙ xd, ˙zd × xd + zd × ˙xd, ˙zd] (44a) 
+
+¨Rd = [¨ xd, ¨zd × xd + 2 ˙ zd × ˙xd + zd × ¨xd, ¨zd]. (44b) The expressions of ˙xd, ˙zd, ¨xd, and ¨zd are derived as follows. In view of ( 5), let νz = ge 3 − D ˙r − ¨r − μd, so that 
+
+zd = νz /‖νz‖. Its first- and second-order time derivatives are given by 
+
+˙zd = ‖νz ‖2 ˙νz − νz ν⊤ 
+
+> z
+
+˙νz
+
+‖νz ‖3 = (I3 − zdz⊤ 
+
+> d
+
+) ˙ νz
+
+‖νz ‖ = πz ˙νz
+
+‖νz ‖ (45a) 
+
+¨zd = 1
+
+‖νz ‖
+
+( ˙πz ˙νz + πz ¨νz − z⊤ 
+
+> d
+
+˙νz ˙zd
+
+) (45b) where 
+
+˙πz = − ˙zdz⊤ 
+
+> d
+
+− zd ˙z⊤ 
+
+> d
+
+(46a) 
+
+˙νz = −D¨r − r(3) + 1
+
+γ μd − α
+
+γ η (46b) 
+
+¨νz = −Dr (3) − r(4) − 1
+
+γ2 μd + 2α
+
+γ2 η − α2
+
+γ2 u. (46c) From ( 7), let νx = πz xb, so that xd = νx/‖νx‖. Similarly to zd, its first- and second-order time derivatives are given by 
+
+˙xd = πx ˙νx
+
+‖νx‖ , (47a) 
+
+¨xd = 1
+
+‖νx‖
+
+( ˙πx ˙νx + πx ¨νx − x⊤ 
+
+> d
+
+˙νx ˙xd
+
+) (47b) where 
+
+πx = I3 − xdx⊤ 
+
+> d
+
+(48a) 
+
+˙πx = − ˙xdx⊤ 
+
+> d
+
+− xd ˙x⊤ 
+
+> d
+
+(48b) 
+
+˙νx = ˙ πz xb + πz ˙xb (48c) 
+
+¨νx = ¨ πz xb + 2 ˙ πz ˙xb + πz ¨xb (48d) 
+
+¨πz = −¨zdz⊤ 
+
+> d
+
+− 2 ˙ zd ˙z⊤ 
+
+> d
+
+− zd¨z⊤ 
+
+> d
+
+. (48e) In view of ( 6), the first- and second-order time derivatives are given by 
+
+˙xb = ˙ψd
+
+− sin ψd
+
+cos ψd
+
+0
+
+ (49a) 
+
+¨xb = ¨ψd
+
+− sin ψd
+
+cos ψd
+
+0
+
+ + ( ˙ψd)2
+
+− cos ψd
+
+− sin ψd
+
+0
+
+ . (49b) Finally, from the kinematics of Rd, i.e. , ˙Rd = Rdω× 
+
+> d
+
+, the desired angular velocity ωd and angular acceleration ˙ωd are given by 
+
+ωd = vec 
+
+(
+
+R⊤ 
+
+> d
+
+˙Rd
+
+)
+
+(50a) 
+
+˙ωd = vec 
+
+( ˙R⊤ 
+
+> d
+
+˙Rd + R⊤ 
+
+> d
+
+¨Rd
+
+)
+
+(50b) where Rd is given by ( 9), ˙Rd and ¨Rd are given by ( 4)-( 7)and ( 44 )-( 49 ). C. Proof of Lemma 3 
+
+According to Assumption 1, the first and second deriva-tives ˙r(t) and ¨r(t) are Lipschitz continuous, that is, there exists known constants L1 = sup t≥0 ‖¨r(t)‖ and L2 =sup t≥0 ‖r(3) (t)‖, such that 
+
+‖ ˙r(t1) − ˙r(t)‖ ≤ L1|t1 − t2|‖¨r(t1) − ¨r(t2)‖ ≤ L2|t1 − t2|
+
+for every t1, t 2 > 0. Consider B1( ˙ r, ¨r), one has 
+
+|B 1( ˙ r(t1), ¨r(t1)) − B 1( ˙ r(t2), ¨r(t2)) |
+
+= ∣∣e⊤ 
+
+> 3
+
+(−D ˙r(t1) − ¨r(t1) + D ˙r(t2) + ¨ r(t2)) ∣∣
+
+≤‖ ¨r(t1) − ¨r(t2)‖ + ‖D‖2 · ‖ ˙r(t1) − ˙r(t2)‖≤√3 ¯L|t1 − t2|
+
+with ¯L = ( ¯dL 1 + L2
+
+) /√3, ¯d = max {d1, d 2, d 3}, which implies the constraint B1( ˙ r, ¨r) is Lipschitz continuous for time t. Consider B2( ˙ r, ¨r), one has 
+
+|B 2( ˙ r(t1), ¨r(t1)) − B 2( ˙ r(t2), ¨r(t2)) |
+
+= |‖ ge 3 − ¨r(t1) − D ˙r(t1)‖ − ‖ ge 3 − ¨r(t2) − D ˙r(t2)‖| ≤‖ − ¨r(t1) + ¨ r2(t2) − D( ˙ r(t1) − ˙r(t2)) ‖≤‖ ¨r(t1) − ¨r(t2)‖ + ‖D‖2 · ‖ ˙r(t1) − ˙r(t2)‖≤√3 ¯L|t1 − t2|
+
+Since the minimum operator is non-expansive under the infinity norm, we have 
+
+|B ( ˙ r(t1), ¨r(t1)) − B ( ˙ r(t2), ¨r(t2)) |
+
+=| min {B 1(¨ r(t1)) , B2(¨ r(t1)) } − min {B 1(¨ r(t2)) , B2(¨ r(t2)) }| ≤ max {|B 1(¨ r(t1)) − B 1(¨ r(t2)) |, |B 2(¨ r(t1)) − B 2(¨ r(t2)) |} ≤√3 ¯L|t1 − t2|
+
+In view of ( 14 ), one has 
+
+|B ( ˙ r(t1), ¨r(t1)) − B ( ˙ r(t2), ¨r(t2)) | ≤ ¯L|t1 − t2|.
+
+This completes the proof. 
+
+D. Proof of Lemma 4 
+
+From 0 < γ < ∆/ ¯L, we have 
+
+e−h/γ < e − ¯Lh/ ∆ < e − ln(1+ ¯Lh/ ∆) = β
+
+Therefore, β−e−h/γ  
+
+> 1−e−h/γ
+
+> 0, which implies that the scale factor 
+
+α is feasible. In view of ( 13d ), the evolution of the jerk of the system ( 13 ) during one sampling period can be given by 
+
+η(t) = e−(t−tk )/γ η(tk) + 
+
+(
+
+1 − e−(t−tk )/γ )
+
+αu k
+
+for t ∈ [tk, t k+1 ]. On one hand, by the fact that 0 <e−(t−tk )/γ ≤ 1 and α < 1, we have 
+
+|η(t)| ≤ e−(t−tk)/γ |η(tk)| +
+
+(
+
+1 − e−(t−tk )/γ )
+
+|uk|≤ e−(t−tk)/γ ∆k +
+
+(
+
+1 − e−(t−tk )/γ )
+
+∆k
+
+= ∆ k.
+
+On the other hand, we have 
+
+∆k+1 
+
+∆k
+
+≥ ∆k+1 
+
+∆k+1 + ¯Lh ≥ ∆
+
+∆ + ¯Lh = β. 
+
+Therefore, 
+
+|η(tk+1 )| =
+
+∣∣∣e−h/γ η(tk) + 
+
+(
+
+1 − e−h/γ )
+
+αu k
+
+∣∣∣
+
+≤ e−h/γ |η(tk )| +
+
+(
+
+β − e−h/γ )
+
+|uk|≤ β∆k ≤ ∆k+1 .
+
+In view of ( 13c ), the evolution of the acceleration of the system ( 13 ) during one sampling period can be given by 
+
+μd = e−(t−tk )/γ μd(tk) + e−(t−tk )/γ 
+
+∫ ttk
+
+e−(τ −tk)/γ αη (τ )dτ. 
+
+Applying the absolute value to both sides yields that 
+
+|μd| ≤ e−(t−tk )/γ |μd(tk)|
+
++ e−(t−tk )/γ 
+
+∫ ttk
+
+e−(τ −tk )/γ |αη (τ )|dτ 
+
+≤ e−(t−tk )/γ |μd(tk)| + α
+
+(
+
+1 − e−(t−tk )/γ )
+
+|¯ηk|
+
+where |¯ηk| = sup t∈[tk ,t k+1 ) |η(t)| ≤ ∆k. Following a similar approach to the proof for jerk η(t), an analogous conclusion can be drawn for acceleration that |μd(t)| ≤ ∆k for all t ∈
+
+[tk, t k+1 ) and |μd(tk+1 )| ≤ ∆k+1 .This completes the proof. 
+
+E. Proof of Theorem 1 
+
+From [18], to establish the stability, it suffices to prove that for any xk, there exists a feasible local control law κ(xk )
+
+such that: 
+
+|κ(xk)| ≤ ∆k (51a) 
+
+Vf (Ax k + Bκ (xk )) − Vf (xk ) ≤ − l(xk, κ (xk)) . (51b) In view of ( 20 ), ( 21 ), ( 24a ), and ( 24b ) we have 
+
+Vf (xk) = Θ( ‖ˆx1,k ‖2 
+
+> W
+
++ ˆ x22,k )
+
+l(xk, κ (xk)) = ‖ˆx1,k ‖2 + Ψ ∆(ˆ x2,k ) + κ(xk )2
+
+and 
+
+1
+
+Θ (Vf (Ax k + Bκ (xk)) − Vf (xk)) =‖ ˆA1 ˆx1,k + ˆB1κ(xk )‖2 
+
+> W
+
+− ‖ ˆx1,k ‖2
+
+> W
+
++ (ˆ x2,k + ˆbκ (xk )) 2 − ˆx22,k 
+
+=‖ˆx1,k ‖2ˆA⊤    
+
+> 1WˆA1−W
+
++ 2ˆ x⊤ 
+
+> 1,k
+
+ˆA⊤ 
+
+> 1
+
+W ˆB1κ(xk )+ 2 ˆbˆx2,k κ(xk) + ( ˆb2 + ‖ ˆB1‖2 
+
+> W
+
+)κ(xk)2
+
+≤ − ‖ ˆx1,k ‖2    
+
+> Q−εˆA⊤
+> 1W W ⊤ˆA1
+
++ 2 ˆbˆx2,k κ(xk)+ ( ˆb2 + ‖ ˆB1‖2 
+
+> W
+
++ 1
+
+ε ‖ ˆB1‖2)κ(xk)2
+
+= − ‖ ˆx1,k ‖2    
+
+> Q−εˆA⊤
+> 1W W ⊤ˆA1
+
++
+
+(
+
+2ˆbˆx2,k + Γ κ(xk)
+
+)
+
+κ(xk)
+
+− | ˆb|κ(xk )2 (52) where the fourth line follows Young’s inequality with ε
+
+chosen as ( 25 ). Choosing local control law κ(xk) as follows 
+
+κ(xk) = −σ∆
+
+(ˆbˆx2,k 
+
+Γ
+
+)
+
+(53) and applying the first inequality of Lemma 1, the ( 52 ) can be further developed 
+
+1
+
+Θ (Vf (Ax k + Bκ (xk )) − Vf (xk)) 
+
+≤ − 1
+
+2 λmin (Q)‖ˆx1,k ‖2 − | ˆb|κ(ˆ xk )2 − ˆbˆx2,k σ∆
+
+(ˆbˆx2,k 
+
+Γ
+
+)
+
+= − 1
+
+2 λmin (Q)‖ˆx1,k ‖2 − | ˆb|κ(xk )2 − | ˆb|ˆx2,k σ∆
+
+(
+
+|ˆb|ˆx2,k 
+
+Γ
+
+)
+
+≤ − 1
+
+2 λmin (Q)‖ˆx1,k ‖2 − | ˆb|κ(xk )2 − ˆb2
+
+Γ ˆx2,k σ∆(ˆ x2,k )
+
+≤ − 1
+
+2 λmin (Q)‖ˆx1,k ‖2 − | ˆb|κ(xk )2 − ˆb2
+
+Γ Ψ∆(ˆ x2,k )
+
+≤ − 1
+
+Θ
+
+(‖ˆx1,k ‖2 + Ψ ∆(ˆ x2,k ) + κ(xk)2)
+
+= − 1
+
+Θ l(xk, κ (xk)) 
+
+where the second inequality follows from the second inequal-ity in Lemma 1, and the third inequality follows from the second inequality in Lemma 1. Since the local control ( 53 )is feasible for all k ∈ N by construction, the stable condition (51 ) holds uniformly with respect to the sampling index. Therefore, the origin xk = 0 of the discrete-time closed-loop system ( 15 ),( 26 ) is UGAS. This completes the proof. 
+
+F. Proof Proposition 1 
+
+The MPC strategy yields the optimal control sequence 
+
+u∗(xk) = {u∗
+
+> 0|k
+
+, u ∗
+
+> 1|k
+
+, · · · , u ∗ 
+
+> N−1|k
+
+}
+
+and the optimal cost 
+
+J∗ 
+
+> N
+
+(xk) = J(xk , u∗(x)) .
+
+Consider another control sequence 
+
+˜u(xk ) = {κ(x0|k), κ (˜ x1|k ), · · · , κ (˜ xN −1|k)}
+
+and the corresponding state prediction sequence 
+
+˜x = {˜x0|k, ˜x1|k, · · · , ˜xN |k}
+
+generated by applying ˜u to the system dynamics. Choosing the control law κ(·) as ( 53 ), then ( 51 ) is satisfied, which implies 
+
+J∗ 
+
+> N
+
+(xk ) ≤ J(xk, ˜u(xk )) = 
+
+> N−1
+
+∑
+
+> i=0
+
+l(˜ xi|k, κ (˜ xi|k )) + Vf (˜ xN |k)= 
+
+> N−2
+
+∑
+
+> i=0
+
+l(˜ xi|k, κ (˜ xi|k )) + l(˜ xN −1|k, κ (˜ xN −1|k)) + Vf (˜ xN |k)
+
+≤ 
+
+> N−2
+
+∑
+
+> i=0
+
+l(˜ xi|k, κ (˜ xi|k )) + Vf (˜ xN −1|k)
+
+≤ Vf (xk ) ≤ Θλmax (M )‖xk‖2. (54) On the other hand, we have 
+
+J∗ 
+
+> N
+
+(xk ) ≥ l(xk, u ∗
+
+> 0|k
+
+) ≥ (u∗
+
+> 0|k
+
+)2 = u2
+
+> k
+
+. (55) In view of ( 54 ) and ( 55 ), one has 
+
+u2 
+
+> k
+
+≤ Θλmax (M )‖xk‖2.
+
+Therefore, there exists c3 = √Θλmax (M ) > 0, such that 
+
+|uk| ≤ c3‖xk‖. This completes the proof. REFERENCES [1] A. Abdessameud and A. Tayebi, “Global trajectory tracking control of VTOL-UAVs without linear velocity measurements,” Automatica ,vol. 46, no. 6, pp. 1053–1059, 2010. [2] A. Roberts and A. Tayebi, “Adaptive position tracking of vtol uavs,” 
+
+IEEE Transactions on Robotics , vol. 27, no. 1, pp. 129–142, 2011. [3] ——, “A new position regulation strategy for VTOL UAVs using IMU and GPS measurements,” Automatica , vol. 49, no. 2, pp. 434–440, 2013. [4] A. Tayebi and S. McGilvray, “Attitude stabilization of a VTOL quadrotor aircraft,” IEEE Transactions on control systems technology ,vol. 14, no. 3, pp. 562–571, 2006. [5] A. Tayebi, “Unit quaternion-based output feedback for the attitude tracking problem,” IEEE Transactions on Automatic Control , vol. 53, no. 6, pp. 1516–1520, 2008. [6] T. Lee, “Geometric tracking control of the attitude dynamics of a rigid body on SO(3),” in Proceedings of the 2011 American control conference . IEEE, 2011, pp. 1200–1205. [7] S. P. Bhat and D. S. Bernstein, “A topological obstruction to con-tinuous global stabilization of rotational motion and the unwinding phenomenon,” Systems & control letters , vol. 39, no. 1, pp. 63–70, 2000. [8] C. G. Mayhew and A. R. Teel, “Synergistic hybrid feedback for global rigid-body attitude tracking on SO(3),” IEEE Transactions on Automatic Control , vol. 58, no. 11, pp. 2730–2742, 2013. [9] S. Berkane, A. Abdessameud, and A. Tayebi, “Hybrid output feedback for attitude tracking on SO (3) ,” IEEE Transactions on Automatic Control , vol. 63, no. 11, pp. 3956–3963, 2018. [10] M. Wang and A. Tayebi, “Hybrid feedback for global tracking on matrix lie groups so (3) and se (3) ,” IEEE Transactions on Automatic Control , vol. 67, no. 6, pp. 2930–2945, 2022. [11] A. Andri¨ en, E. Lefeber, D. Antunes, and W. Heemels, “Model pre-dictive control for quadcopters with almost global trajectory tracking guarantees,” IEEE Transactions on Automatic Control , vol. 69, no. 8, pp. 5216–5230, 2024. [12] M. Izadi, A. Cobbenhagen, R. Sommer, A. Andri¨ en, E. Lefeber, and W. Heemels, “High-performance model predictive control for quadcopters with formal stability guarantees,” arXiv preprint arXiv:2412.20277 , 2024. [13] T. Lee, M. Leok, and N. H. McClamroch, “Geometric tracking control of a quadrotor UAV on SE(3),” in 49th IEEE conference on decision and control (CDC) . IEEE, 2010, pp. 5420–5425. [14] Q. Yang and M. Wang, “Quaternion-based hybrid feedback for global trajectory tracking control of a quadrotor UAV with smooth control input,” in 2025 40th Youth Academic Annual Conference of Chinese Association of Automation (YAC) . IEEE, 2025, pp. 1232–1237. [15] M. W. Mueller and R. D’Andrea, “A model predictive controller for quadrocopter state interception,” in 2013 European Control Confer-ence (ECC) . IEEE, 2013, pp. 1383–1389. [16] H. K. Khalil and J. W. Grizzle, Nonlinear systems . Prentice hall Upper Saddle River, NJ, 2002, vol. 3. [17] J. Andersson, J. Gillis, G. Horn, J. Rawlings, and M. Diehl, “CasADi—a software framework for nonlinear optimization and opti-mal control,” Mathematical Programming Computation , vol. 11, no. 1, pp. 1–36, 2018. [18] J. B. Rawlings, D. Q. Mayne, M. Diehl et al. , Model predictive control: theory, computation, and design . Nob Hill Publishing Madison, WI, 2020, vol. 2.

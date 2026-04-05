@@ -1,0 +1,525 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-04-05T19:58:51.841907+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 2,
+    "deep_cap": 6,
+    "deep_selected": 2,
+    "quick_candidates": 13,
+    "quick_skim_target": 11,
+    "quick_selected": 11
+  },
+  "deep_dive": [
+    {
+      "id": "2604.00061v1",
+      "title": "Advancing Multi-Robot Networks via MLLM-Driven Sensing, Communication, and Computation: A Comprehensive Survey",
+      "abstract": "Imagine advanced humanoid robots, powered by multimodal large language models (MLLMs), coordinating missions across industries like warehouse logistics, manufacturing, and safety rescue. While individual robots show local autonomy, realistic tasks demand coordination among multiple agents sharing vast streams of sensor data. Communication is indispensable, yet transmitting comprehensive data can overwhelm networks, especially when a system-level orchestrator or cloud-based MLLM fuses multimodal inputs for route planning or anomaly detection.   These tasks are often initiated by high-level natural language instructions. This intent serves as a filter for resource optimization: by understanding the goal via MLLMs, the system can selectively activate relevant sensing modalities, dynamically allocate bandwidth, and determine computation placement. Thus, R2X is fundamentally an intent-to-resource orchestration problem where sensing, communication, and computation are jointly optimized to maximize task-level success under resource constraints.   This survey examines how integrated design paves the way for multi-robot coordination under MLLM guidance. We review state-of-the-art sensing modalities, communication strategies, and computing approaches, highlighting how reasoning is split between on-device models and powerful edge/cloud servers. We present four end-to-end demonstrations (sense -> communicate -> compute -> act): (i) digital-twin warehouse navigation with predictive link context, (ii) mobility-driven proactive MCS control, (iii) a FollowMe robot with a semantic-sensing switch, and (iv) real-hardware open-vocabulary trash sorting via edge-assisted MLLM grounding. We emphasize system-level metrics -- payload, latency, and success -- to show why R2X orchestration outperforms purely on-device baselines.",
+      "authors": [
+        "Hyun Jong Yang",
+        "Howon Lee",
+        "Kyuhong Shim",
+        "Jeongho Kwak",
+        "Hyunsoo Kim",
+        "Donghoon Kim",
+        "Khoa Anh Ngo",
+        "Sehyun Ryu",
+        "Jaehyun Choi",
+        "Youbin Kim",
+        "Chanjun Moon",
+        "Michael Ryoo",
+        "Byonghyo Shim"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "eess.SP",
+        "eess.SY"
+      ],
+      "published": "2026-03-31T06:26:53+00:00",
+      "link": "https://arxiv.org/pdf/2604.00061v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "MLLM-driven coordination and intent understanding for multi-robot route planning",
+      "llm_evidence_cn": "基于多模态大模型的机器人路径规划与意图理解",
+      "llm_evidence": "基于多模态大模型的机器人路径规划与意图理解",
+      "canonical_evidence": "基于多模态大模型的机器人路径规划与意图理解",
+      "llm_tldr_en": "A survey on using MLLMs for multi-robot coordination, sensing, and intent-driven mission planning.",
+      "llm_tldr_cn": "综述了利用多模态大模型进行多机器人协同、感知和意图驱动的任务规划。",
+      "llm_tldr": "综述了利用多模态大模型进行多机器人协同、感知和意图驱动的任务规划。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning based on multimodal large language model",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2604.01056v1",
+      "title": "A Functional Learning Approach for Team-Optimal Traffic Coordination",
+      "abstract": "In this paper, we develop a kernel-based policy iteration functional learning framework for computing team-optimal strategies in traffic coordination problems. We consider a multi-agent discrete-time linear system with a cost function that combines quadratic regulation terms and nonlinear safety penalties. Building on the Hilbert space formulation of offline receding-horizon policy iteration, we seek approximate solutions within a reproducing kernel Hilbert space, where the policy improvement step is implemented via a discrete Fréchet derivative. We further study the model-free receding-horizon scenario, where the system dynamics are estimated using recursive least squares, followed by updating the policy using rolling online data. The proposed method is tested in signal-free intersection scenarios via both model-based and model-free simulations and validated in SUMO.",
+      "authors": [
+        "Weihao Sun",
+        "Gehui Xu",
+        "Alessio Moreschini",
+        "Thomas Parisini",
+        "Andreas A. Malikopoulos"
+      ],
+      "primary_category": "eess.SY",
+      "categories": [
+        "eess.SY"
+      ],
+      "published": "2026-04-01T15:59:15+00:00",
+      "link": "https://arxiv.org/pdf/2604.01056v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "multi-agent traffic coordination and policy iteration",
+      "llm_evidence_cn": "多智能体交通协调与策略迭代",
+      "llm_evidence": "多智能体交通协调与策略迭代",
+      "canonical_evidence": "多智能体交通协调与策略迭代",
+      "llm_tldr_en": "Develops a functional learning framework for team-optimal multi-agent traffic coordination and safety.",
+      "llm_tldr_cn": "开发了一个功能学习框架，用于实现团队最优的多智能体交通协调与安全。",
+      "llm_tldr": "开发了一个功能学习框架，用于实现团队最优的多智能体交通协调与安全。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "multi-agent trajectory forecasting and interaction modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2604.01346v1",
+      "title": "Safety, Security, and Cognitive Risks in World Models",
+      "abstract": "World models -- learned internal simulators of environment dynamics -- are rapidly becoming foundational to autonomous decision-making in robotics, autonomous vehicles, and agentic AI. Yet this predictive power introduces a distinctive set of safety, security, and cognitive risks. Adversaries can corrupt training data, poison latent representations, and exploit compounding rollout errors to cause catastrophic failures in safety-critical deployments. World model-equipped agents are more capable of goal misgeneralisation, deceptive alignment, and reward hacking precisely because they can simulate the consequences of their own actions. Authoritative world model predictions further foster automation bias and miscalibrated human trust that operators lack the tools to audit.   This paper surveys the world model landscape; introduces formal definitions of trajectory persistence and representational risk; presents a five-profile attacker capability taxonomy; and develops a unified threat model extending MITRE ATLAS and the OWASP LLM Top 10 to the world model stack. We provide an empirical proof-of-concept on trajectory-persistent adversarial attacks (GRU-RSSM: A_1 = 2.26x amplification, -59.5% reduction under adversarial fine-tuning; stochastic RSSM proxy: A_1 = 0.65x; DreamerV3 checkpoint: non-zero action drift confirmed). We illustrate risks through four deployment scenarios and propose interdisciplinary mitigations spanning adversarial hardening, alignment engineering, NIST AI RMF and EU AI Act governance, and human-factors design. We argue that world models must be treated as safety-critical infrastructure requiring the same rigour as flight-control software or medical devices.",
+      "authors": [
+        "Manoj Parmar"
+      ],
+      "primary_category": "cs.CR",
+      "categories": [
+        "cs.CR",
+        "cs.AI",
+        "cs.LG",
+        "cs.RO"
+      ],
+      "published": "2026-04-01T19:57:33+00:00",
+      "link": "https://arxiv.org/pdf/2604.01346v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "world models for predicting environment dynamics in autonomous vehicles",
+      "llm_evidence_cn": "用于自动驾驶环境动力学预测的世界模型",
+      "llm_evidence": "用于自动驾驶环境动力学预测的世界模型",
+      "canonical_evidence": "用于自动驾驶环境动力学预测的世界模型",
+      "llm_tldr_en": "Analyzes safety and cognitive risks in world models used for predictive decision-making in autonomous agents.",
+      "llm_tldr_cn": "分析了用于自动智能体预测性决策的世界模型在安全与认知方面的风险。",
+      "llm_tldr": "分析了用于自动智能体预测性决策的世界模型在安全与认知方面的风险。",
+      "llm_tags": [
+        "query:tp:composite"
+      ],
+      "matched_query_tag": "query:tp:composite",
+      "matched_query_text": "Papers central to 轨迹预测（车辆、行人、船舶、飞机等）相关的论文，考虑密集场景、目标意图、多智能体、轨迹表示学习等概念, especially work that connects or combines: trajectory prediction for autonomous agents; pedestrian trajectory prediction in crowded scenes; maritime vessel trajectory and path prediction algorithms; multi-agent trajectory forecasting and interaction modeling; target intent and goal estimation for trajectory prediction; trajectory representation learning and feature extraction; study of pedestrian and vehicle trajectory prediction models; trajectory prediction in complex maritime environments; deep learning techniques for intent aware trajectory forecasting; trajectory representation learning based on multimodal large language model.",
+      "matched_requirement_id": "req-composite-tp",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.27181v1",
+      "title": "An End-to-end Flight Control Network for High-speed UAV Obstacle Avoidance based on Event-Depth Fusion",
+      "abstract": "Achieving safe, high-speed autonomous flight in complex environments with static, dynamic, or mixed obstacles remains challenging, as a single perception modality is incomplete. Depth cameras are effective for static objects but suffer from motion blur at high speeds. Conversely, event cameras excel at capturing rapid motion but struggle to perceive static scenes. To exploit the complementary strengths of both sensors, we propose an end-to-end flight control network that achieves feature-level fusion of depth images and event data through a bidirectional crossattention module. The end-to-end network is trained via imitation learning, which relies on high-quality supervision. Building on this insight, we design an efficient expert planner using Spherical Principal Search (SPS). This planner reduces computational complexity from $O(n^2)$ to $O(n)$ while generating smoother trajectories, achieving over 80% success rate at 17m/s--nearly 20% higher than traditional planners. Simulation experiments show that our method attains a 70-80% success rate at 17 m/s across varied scenes, surpassing single-modality and unidirectional fusion models by 10-20%. These results demonstrate that bidirectional fusion effectively integrates event and depth information, enabling more reliable obstacle avoidance in complex environments with both static and dynamic objects.",
+      "authors": [
+        "Dikai Shang",
+        "Jingyue Zhao",
+        "Shi Xu",
+        "Nanyang Ye",
+        "Lei Wang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-03-28T07:57:15+00:00",
+      "link": "https://arxiv.org/pdf/2603.27181v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "autonomous flight and obstacle avoidance for UAVs",
+      "llm_evidence_cn": "无人机自主飞行与避障",
+      "llm_evidence": "无人机自主飞行与避障",
+      "canonical_evidence": "无人机自主飞行与避障",
+      "llm_tldr_en": "An end-to-end network for high-speed UAV obstacle avoidance using event-depth sensor fusion.",
+      "llm_tldr_cn": "一种基于事件-深度融合的端到端网络，用于实现无人机的高速自主避障飞行。",
+      "llm_tldr": "一种基于事件-深度融合的端到端网络，用于实现无人机的高速自主避障飞行。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.01539v1",
+      "title": "Toward Single-Step MPPI via Differentiable Predictive Control",
+      "abstract": "Model predictive path integral (MPPI) is a sampling-based method for solving complex model predictive control (MPC) problems, but its real-time implementation faces two key challenges: the computational cost and sample requirements grow with the prediction horizon, and manually tuning the sampling covariance requires balancing exploration and noise. To address these issues, we propose Step-MPPI, a framework that learns a sampling distribution for efficient single-step lookahead MPPI implementation. Specifically, we use a neural network to parameterize the MPPI proposal distribution at each time step, and train it in a self-supervised manner over a long horizon using the MPC cost, constraint penalties, and a maximum-entropy regularization term. By embedding long-horizon objectives into training the neural distribution policy, Step-MPPI achieves the foresight of a multi-step optimizer with the millisecond-level latency of single-step lookahead. We demonstrate the efficiency of Step-MPPI across multiple challenging tasks in which MPPI suffers from high dimensionality and/or long control horizons.",
+      "authors": [
+        "Viet-Anh Le",
+        "Renukanandan Tumu",
+        "Rahul Mangharam"
+      ],
+      "primary_category": "eess.SY",
+      "categories": [
+        "eess.SY"
+      ],
+      "published": "2026-04-02T02:22:30+00:00",
+      "link": "https://arxiv.org/pdf/2604.01539v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Learning sampling distributions for model predictive path integral control",
+      "llm_evidence_cn": "学习模型预测路径积分控制的采样分布",
+      "llm_evidence": "学习模型预测路径积分控制的采样分布",
+      "canonical_evidence": "学习模型预测路径积分控制的采样分布",
+      "llm_tldr_en": "Step-MPPI learns a proposal distribution to improve the efficiency of sampling-based path planning.",
+      "llm_tldr_cn": "Step-MPPI通过学习建议分布，提高了基于采样的路径规划效率。",
+      "llm_tldr": "Step-MPPI通过学习建议分布，提高了基于采样的路径规划效率。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.27534v1",
+      "title": "S3KF: Spherical State-Space Kalman Filtering for Panoramic 3D Multi-Object Tracking",
+      "abstract": "Panoramic multi-object tracking is important for industrial safety monitoring, wide-area robotic perception, and infrastructure-light deployment in large workspaces. In these settings, the sensing system must provide full-surround coverage, metric geometric cues, and stable target association under wide field-of-view distortion and occlusion. Existing image-plane trackers are tightly coupled to the camera projection and become unreliable in panoramic imagery, while conventional Euclidean 3D formulations introduce redundant directional parameters and do not naturally unify angular, scale, and depth estimation. In this paper, we present $\\mathbf{S^3KF}$, a panoramic 3D multi-object tracking framework built on a motorized rotating LiDAR and a quad-fisheye camera rig. The key idea is a geometry-consistent state representation on the unit sphere $\\mathbb{S}^2$, where object bearing is modeled by a two-degree-of-freedom tangent-plane parameterization and jointly estimated with box scale and depth dynamics. Based on this state, we derive an extended spherical Kalman filtering pipeline that fuses panoramic camera detections with LiDAR depth observations for multimodal tracking. We further establish a map-based ground-truth generation pipeline using wearable localization devices registered to a shared global LiDAR map, enabling quantitative evaluation without motion-capture infrastructure. Experiments on self-collected real-world sequences show decimeter-level planar tracking accuracy, improved identity continuity over a 2D panoramic baseline in dynamic scenes, and real-time onboard operation on a Jetson AGX Orin platform. These results indicate that the proposed framework is a practical solution for panoramic perception and industrial-scale multi-object tracking.The project page can be found at https://kafeiyin00.github.io/S3KF/.",
+      "authors": [
+        "Zhongyuan Liu",
+        "Shaonan Yu",
+        "Jianping Li",
+        "Pengfei Wan",
+        "Xinhang Xu",
+        "Pengfei Wang",
+        "Maggie Y. Gao",
+        "Lihua Xie"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-29T06:01:29+00:00",
+      "link": "https://arxiv.org/pdf/2603.27534v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "multi-object tracking and target association for robotic perception",
+      "llm_evidence_cn": "机器人感知的多目标跟踪与目标关联",
+      "llm_evidence": "机器人感知的多目标跟踪与目标关联",
+      "canonical_evidence": "机器人感知的多目标跟踪与目标关联",
+      "llm_tldr_en": "Presents a spherical Kalman filtering framework for robust panoramic 3D multi-object tracking.",
+      "llm_tldr_cn": "提出了一种用于鲁棒全景3D多目标跟踪的球面卡尔曼滤波框架。",
+      "llm_tldr": "提出了一种用于鲁棒全景3D多目标跟踪的球面卡尔曼滤波框架。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "multi-agent trajectory forecasting and interaction modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.02032v1",
+      "title": "IndoorCrowd: A Multi-Scene Dataset for Human Detection, Segmentation, and Tracking with an Automated Annotation Pipeline",
+      "abstract": "Understanding human behaviour in crowded indoor environments is central to surveillance, smart buildings, and human-robot interaction, yet existing datasets rarely capture real-world indoor complexity at scale. We introduce IndoorCrowd, a multi-scene dataset for indoor human detection, instance segmentation, and multi-object tracking, collected across four campus locations (ACS-EC, ACS-EG, IE-Central, R-Central). It comprises $31$ videos ($9{,}913$ frames at $5$fps) with human-verified, per-instance segmentation masks. A $620$-frame control subset benchmarks three foundation-model auto-annotators: SAM3, GroundingSAM, and EfficientGroundingSAM, against human labels using Cohen's $κ$, AP, precision, recall, and mask IoU. A further $2{,}552$-frame subset supports multi-object tracking with continuous identity tracks in MOTChallenge format. We establish detection, segmentation, and tracking baselines using YOLOv8n, YOLOv26n, and RT-DETR-L paired with ByteTrack, BoT-SORT, and OC-SORT. Per-scene analysis reveals substantial difficulty variation driven by crowd density, scale, and occlusion: ACS-EC, with $79.3\\%$ dense frames and a mean instance scale of $60.8$px, is the most challenging scene. The project page is available at https://sheepseb.github.io/IndoorCrowd/.",
+      "authors": [
+        "Sebastian-Ion Nae",
+        "Radu Moldoveanu",
+        "Alexandra Stefania Ghita",
+        "Adina Magda Florea"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.LG"
+      ],
+      "published": "2026-04-02T13:38:31+00:00",
+      "link": "https://arxiv.org/pdf/2604.02032v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "multi-scene dataset for human tracking in crowded indoor environments",
+      "llm_evidence_cn": "室内密集环境下人体追踪的多场景数据集",
+      "llm_evidence": "室内密集环境下人体追踪的多场景数据集",
+      "canonical_evidence": "室内密集环境下人体追踪的多场景数据集",
+      "llm_tldr_en": "Introduces IndoorCrowd, a dataset for human detection and tracking in complex indoor crowded scenes.",
+      "llm_tldr_cn": "介绍了IndoorCrowd，这是一个用于复杂室内拥挤场景中人体检测和追踪的数据集。",
+      "llm_tldr": "介绍了IndoorCrowd，这是一个用于复杂室内拥挤场景中人体检测和追踪的数据集。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "pedestrian trajectory prediction in crowded scenes",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.27576v1",
+      "title": "MPC-Based Trajectory Tracking for a Quadrotor UAV with Uniform Semi-Global Asymptotic Stability Guarantees",
+      "abstract": "This paper proposes a model predictive trajectory tracking approach for quadrotors subject to input constraints. Our proposed approach relies on a hierarchical control strategy with an outer-loop feedback generating the required thrust and desired attitude and an inner-loop feedback regulating the actual attitude to the desired one. For the outer-loop translational dynamics, the generation of the virtual control input is formulated as a constrained model predictive control problem with time-varying input constraints and a control strategy, endowed with uniform global asymptotic stability guarantees, is proposed. For the inner-loop rotational dynamics, a hybrid geometric controller is adopted, achieving semi-global exponential tracking of the desired attitude. Finally, we prove that the overall cascaded system is semi-globally asymptotically stable. Simulation results illustrate the effectiveness of the proposed approach.",
+      "authors": [
+        "Qian Yang",
+        "Miaomiao Wang",
+        "Abdelhamid Tayebi"
+      ],
+      "primary_category": "eess.SY",
+      "categories": [
+        "eess.SY"
+      ],
+      "published": "2026-03-29T08:32:03+00:00",
+      "link": "https://arxiv.org/pdf/2603.27576v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Model predictive trajectory tracking for UAVs",
+      "llm_evidence_cn": "无人机模型预测轨迹跟踪",
+      "llm_evidence": "无人机模型预测轨迹跟踪",
+      "canonical_evidence": "无人机模型预测轨迹跟踪",
+      "llm_tldr_en": "Proposes a hierarchical MPC strategy for stable trajectory tracking in quadrotor UAVs.",
+      "llm_tldr_cn": "提出了一种用于四旋翼无人机稳定轨迹跟踪的分层模型预测控制策略。",
+      "llm_tldr": "提出了一种用于四旋翼无人机稳定轨迹跟踪的分层模型预测控制策略。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.02241v1",
+      "title": "UAV-Track VLA: Embodied Aerial Tracking via Vision-Language-Action Models",
+      "abstract": "Embodied visual tracking is crucial for Unmanned Aerial Vehicles (UAVs) executing complex real-world tasks. In dynamic urban scenarios with complex semantic requirements, Vision-Language-Action (VLA) models show great promise due to their cross-modal fusion and continuous action generation capabilities. To benchmark multimodal tracking in such environments, we construct a dedicated evaluation benchmark and a large-scale dataset encompassing over 890K frames, 176 tasks, and 85 diverse objects. Furthermore, to address temporal feature redundancy and the lack of spatial geometric priors in existing VLA models, we propose an improved VLA tracking model, UAV-Track VLA. Built upon the $π_{0.5}$ architecture, our model introduces a temporal compression net to efficiently capture inter-frame dynamics. Additionally, a parallel dual-branch decoder comprising a spatial-aware auxiliary grounding head and a flow matching action expert is designed to decouple cross-modal features and generate fine-grained continuous actions. Systematic experiments in the CARLA simulator validate the superior end-to-end performance of our method. Notably, in challenging long-distance pedestrian tracking tasks, UAV-Track VLA achieves a 61.76\\% success rate and 269.65 average tracking frames, significantly outperforming existing baselines. Furthermore, it demonstrates robust zero-shot generalization in unseen environments and reduces single-step inference latency by 33.4\\% (to 0.0571s) compared to the original $π_{0.5}$, enabling highly efficient, real-time UAV control. Data samples and demonstration videos are available at: https://github.com/Hub-Tian/UAV-Track\\_VLA.",
+      "authors": [
+        "Qiyao Zhang",
+        "Shuhua Zheng",
+        "Jianli Sun",
+        "Chengxiang Li",
+        "Xianke Wu",
+        "Zihan Song",
+        "Zhiyong Cui",
+        "Yisheng Lv",
+        "Yonglin Tian"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "published": "2026-04-02T16:33:38+00:00",
+      "link": "https://arxiv.org/pdf/2604.02241v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "embodied aerial tracking and action generation for UAVs in urban scenarios",
+      "llm_evidence_cn": "城市场景下无人机的具身航空跟踪与动作生成",
+      "llm_evidence": "城市场景下无人机的具身航空跟踪与动作生成",
+      "canonical_evidence": "城市场景下无人机的具身航空跟踪与动作生成",
+      "llm_tldr_en": "Develops a Vision-Language-Action model for improved embodied tracking and action generation in UAVs.",
+      "llm_tldr_cn": "开发了一种视觉-语言-动作模型，用于改进无人机的具身跟踪和动作生成。",
+      "llm_tldr": "开发了一种视觉-语言-动作模型，用于改进无人机的具身跟踪和动作生成。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.29796v1",
+      "title": "JEPA-MSAC: A Joint-Embedding Predictive Architecture for Multimodal Sensing-Assisted Communications",
+      "abstract": "Future wireless systems increasingly require predictive and transferable representations that can support multiple physical-layer (PHY) tasks under dynamic environments. However, most existing supervised learning-based methods are designed for a single task, which leads to high adaptation cost. To address this issue, we propose a joint-embedding predictive architecture for multimodal sensing-assisted communications (JEPA-MSAC), a self-supervised multimodal predictive representation learning framework for wireless environments. The proposed framework first maps multimodal sensing and communication measurements into a unified token space, and then pretrains a shared backbone using temporal block-masked JEPA to learn a predictive latent space that captures environment dynamics and cross-modal dependencies. After pretraining, the backbone is frozen and reused as a general future-feature generator, on top of which lightweight task heads are trained for localization, beam prediction, and received signal strength indicator (RSSI) prediction. Extensive experiments show the latent state supports accurate multi-task prediction with low adaptation cost. Additionally, ablation studies reveal its scaling behavior and the impact of key pretraining setups.",
+      "authors": [
+        "Can Zheng",
+        "Jiguang He",
+        "Guofa Cai",
+        "Nannan Li",
+        "Mehdi Bennis",
+        "Henk Wymeersch",
+        "Merouane Debbah"
+      ],
+      "primary_category": "eess.SP",
+      "categories": [
+        "eess.SP"
+      ],
+      "published": "2026-03-31T14:29:42+00:00",
+      "link": "https://arxiv.org/pdf/2603.29796v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "multimodal predictive representation learning for dynamic environments",
+      "llm_evidence_cn": "针对动态环境的多模态预测表征学习",
+      "llm_evidence": "针对动态环境的多模态预测表征学习",
+      "canonical_evidence": "针对动态环境的多模态预测表征学习",
+      "llm_tldr_en": "Proposes a self-supervised framework for learning predictive representations in multimodal sensing environments.",
+      "llm_tldr_cn": "提出一种自监督框架，用于在多模态感知环境中学习预测性表征。",
+      "llm_tldr": "提出一种自监督框架，用于在多模态感知环境中学习预测性表征。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning and feature extraction",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.00356v1",
+      "title": "Signals: Trajectory Sampling and Triage for Agentic Interactions",
+      "abstract": "Agentic applications based on large language models increasingly rely on multi-step interaction loops involving planning, action execution, and environment feedback. While such systems are now deployed at scale, improving them post-deployment remains challenging. Agent trajectories are voluminous and non-deterministic, and reviewing each one, whether through human review or auxiliary LLMs, is slow and cost-prohibitive. We propose a lightweight, signal-based framework for triaging agentic interaction trajectories. Our approach computes cheap, broadly applicable signals from live interactions and attaches them as structured attributes for trajectory triage, identifying interactions likely to be informative without affecting online agent behavior. We organize signals into a coarse-grained taxonomy spanning interaction (misalignment, stagnation, disengagement, satisfaction), execution (failure, loop), and environment (exhaustion), designed for computation without model calls. In a controlled annotation study on $τ$-bench, a widely used benchmark for tool-augmented agent evaluation, we show that signal-based sampling achieves an 82\\% informativeness rate compared to 74\\% for heuristic filtering and 54\\% for random sampling, with a 1.52x efficiency gain per informative trajectory. The advantage is robust across reward strata and task domains, confirming that signals provide genuine per-trajectory informativeness gains rather than merely oversampling obvious failures. These results show that lightweight signals can serve as practical sampling infrastructure for agentic systems, and suggest a path toward preference data construction and post-deployment optimization.",
+      "authors": [
+        "Shuguang Chen",
+        "Adil Hafeez",
+        "Salman Paracha"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CL"
+      ],
+      "published": "2026-04-01T01:08:07+00:00",
+      "link": "https://arxiv.org/pdf/2604.00356v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "framework for triaging agentic interaction trajectories",
+      "llm_evidence_cn": "智能体交互轨迹的分流框架",
+      "llm_evidence": "智能体交互轨迹的分流框架",
+      "canonical_evidence": "智能体交互轨迹的分流框架",
+      "llm_tldr_en": "Proposes a signal-based framework for analyzing and triaging trajectories of LLM-based agents.",
+      "llm_tldr_cn": "提出了一种基于信号的框架，用于分析和分流基于大语言模型的智能体轨迹。",
+      "llm_tldr": "提出了一种基于信号的框架，用于分析和分流基于大语言模型的智能体轨迹。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning and feature extraction",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.00429v1",
+      "title": "Distributed Safety-Critical Control of Multi-Agent Systems with Time-Varying Communication Topologies",
+      "abstract": "Coordinating multiple autonomous agents to reach a target region while avoiding collisions and maintaining communication connectivity is a core problem in multi-agent systems. In practice, agents have a limited communication range. Thus, network links appear and disappear as agents move, making the topology state-dependent and time-varying. Existing distributed solutions to multi-agent reach-avoid problems typically assume a fixed communication topology, and thus are not applicable when encountering discontinuities raised by time-varying topologies. This paper presents a distributed optimization-based control framework that addresses these challenges through two complementary mechanisms. First, we introduce a truncation function that converts the time-varying communication graph into a smoothly state-dependent one, ensuring that constraints remain continuous as communication links are created or removed. Second, we employ auxiliary mismatch variables with two-time-scale dynamics to decouple globally coupled state-dependent constraints, yielding a singular perturbation system that each agent can solve using only local information and neighbor communication. Through singular perturbation analysis, we prove that the distributed controller guarantees collision avoidance, connectivity preservation, and convergence to the target region. We validate the proposed framework through numerical simulations involving multi-agent navigation with obstacles and time-varying communication topologies.",
+      "authors": [
+        "Shiyu Cheng",
+        "Luyao Niu",
+        "Bhaskar Ramasubramanian",
+        "Andrew Clark",
+        "Radha Poovendran"
+      ],
+      "primary_category": "eess.SY",
+      "categories": [
+        "eess.SY"
+      ],
+      "published": "2026-04-01T03:15:49+00:00",
+      "link": "https://arxiv.org/pdf/2604.00429v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "multi-agent coordination and collision avoidance",
+      "llm_evidence_cn": "多智能体协同与避障",
+      "llm_evidence": "多智能体协同与避障",
+      "canonical_evidence": "多智能体协同与避障",
+      "llm_tldr_en": "Addresses distributed safety-critical control for multi-agent systems with time-varying topologies.",
+      "llm_tldr_cn": "解决了具有时变拓扑的多智能体系统的分布式安全关键控制问题。",
+      "llm_tldr": "解决了具有时变拓扑的多智能体系统的分布式安全关键控制问题。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "multi-agent trajectory forecasting and interaction modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.01659v1",
+      "title": "AURA: Multimodal Shared Autonomy for Real-World Urban Navigation",
+      "abstract": "Long-horizon navigation in complex urban environments relies heavily on continuous human operation, which leads to fatigue, reduced efficiency, and safety concerns. Shared autonomy, where a Vision-Language AI agent and a human operator collaborate on maneuvering the mobile machine, presents a promising solution to address these issues. However, existing shared autonomy methods often require humans and AI to operate within the same action space, leading to high cognitive overhead. We present Assistive Urban Robot Autonomy (AURA), a new multi-modal framework that decomposes urban navigation into high-level human instruction and low-level AI control. AURA incorporates a Spatial-Aware Instruction Encoder to align various human instructions with visual and spatial context. To facilitate training, we construct MM-CoS, a large-scale dataset comprising teleoperation and vision-language descriptions. Experiments in simulation and the real world demonstrate that AURA effectively follows human instructions, reduces manual operation effort, and improves navigation stability, while enabling online adaptation. Moreover, under similar takeover conditions, our shared autonomy framework reduces the frequency of takeovers by more than 44%. Demo video and more detail are provided in the project page.",
+      "authors": [
+        "Yukai Ma",
+        "Honglin He",
+        "Selina Song",
+        "Wayne Wu",
+        "Bolei Zhou"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-04-02T05:59:31+00:00",
+      "link": "https://arxiv.org/pdf/2604.01659v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Shared autonomy for urban navigation with low-level AI control",
+      "llm_evidence_cn": "城市导航中的共享自主与底层AI控制",
+      "llm_evidence": "城市导航中的共享自主与底层AI控制",
+      "canonical_evidence": "城市导航中的共享自主与底层AI控制",
+      "llm_tldr_en": "AURA framework decomposes urban navigation into human instructions and AI-driven low-level control.",
+      "llm_tldr_cn": "AURA框架将城市导航分解为高层人类指令和底层AI控制，实现共享自主。",
+      "llm_tldr": "AURA框架将城市导航分解为高层人类指令和底层AI控制，实现共享自主。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}

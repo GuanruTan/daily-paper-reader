@@ -6,64 +6,61 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-04-04
-- 运行时间：2026-04-04 19:41:25 UTC
+- 最新运行日期：2026-04-05
+- 运行时间：2026-04-05 20:00:20 UTC
 - 运行状态：成功
-- 本次总论文数：14
-- 精读区：3
+- 本次总论文数：13
+- 精读区：2
 - 速读区：11
 
 ### 今日简报（AI）
-今日深度解析 14 篇 AI 论文，重点攻克自动驾驶全链路统一思维链与大模型轨迹生成的可靠性难题。
-$AutoDrive\text{-}P^3$ 凭借强化微调实现了感知-预测-决策的闭环统一，而自一致性验证显著增强了 LLM 生成运动轨迹的精准度。
-推荐关注端到端自动驾驶的强化学习优化及多视角空间推理，探索大模型在物理世界规划中的落地潜力。
-- 详情：[/202604/04/README](/202604/04/README)
+今日聚焦13篇AI前沿进展，深度剖析多机器人协同网络与智能交通协调的最新范式。
+重点推荐MLLM驱动的机器人感知通信一体化综述，以及利用函数式学习实现团队最优交通调度的创新方法。
+建议开发者关注大模型与物理系统的深度融合，并同步审视世界模型在安全与认知方面的潜在风险。
+- 详情：[/202604/05/README](/202604/05/README)
 
 ### 精读区论文标签
-1. [$AutoDrive\text{-}P^3$: Unified Chain of Perception-Prediction-Planning Thought via Reinforcement Fine-Tuning](/202604/04/2603.28116v1-autodrivetext-p3-unified-chain-of-perception-prediction-planning-thought-via-reinforcement-fine-tuning)  
-   标签：评分：9.0/10、query:tp
-   evidence：基于视觉语言模型的自动驾驶感知与预测
-2. [Self-Consistency for LLM-Based Motion Trajectory Generation and Verification](/202604/04/2603.29301v1-self-consistency-for-llm-based-motion-trajectory-generation-and-verification)  
+1. [Advancing Multi-Robot Networks via MLLM-Driven Sensing, Communication, and Computation: A Comprehensive Survey](/202604/05/2604.00061v1-advancing-multi-robot-networks-via-mllm-driven-sensing-communication-and-computation-a-comprehensive-survey)  
    标签：评分：8.0/10、query:tp
-   evidence：基于大语言模型的运动轨迹生成与表示
-3. [Causal Scene Narration with Runtime Safety Supervision for Vision-Language-Action Driving](/202604/04/2604.01723v1-causal-scene-narration-with-runtime-safety-supervision-for-vision-language-action-driving)  
+   evidence：基于多模态大模型的机器人路径规划与意图理解
+2. [A Functional Learning Approach for Team-Optimal Traffic Coordination](/202604/05/2604.01056v1-a-functional-learning-approach-for-team-optimal-traffic-coordination)  
    标签：评分：8.0/10、query:tp
-   evidence：视觉-语言-动作驾驶模型的意图约束对齐
+   evidence：多智能体交通协调与策略迭代
 
 ### 速读区论文标签
-1. [Emergent Neural Automaton Policies: Learning Symbolic Structure from Visuomotor Trajectories](/202604/04/2603.25903v1-emergent-neural-automaton-policies-learning-symbolic-structure-from-visuomotor-trajectories)  
+1. [Safety, Security, and Cognitive Risks in World Models](/202604/05/2604.01346v1-safety-security-and-cognitive-risks-in-world-models)  
    标签：评分：7.0/10、query:tp
-   evidence：从视觉运动轨迹中学习符号结构和潜在任务模式
-2. [Learning Multi-View Spatial Reasoning from Cross-View Relations](/202604/04/2603.27967v1-learning-multi-view-spatial-reasoning-from-cross-view-relations)  
+   evidence：用于自动驾驶环境动力学预测的世界模型
+2. [Toward Single-Step MPPI via Differentiable Predictive Control](/202604/05/2604.01539v1-toward-single-step-mppi-via-differentiable-predictive-control)  
    标签：评分：7.0/10、query:tp
-   evidence：利用VLM从机器人操作轨迹中学习空间推理
-3. [Large Neighborhood Search for Multi-Agent Task Assignment and Path Finding with Precedence Constraints](/202604/04/2603.28968v1-large-neighborhood-search-for-multi-agent-task-assignment-and-path-finding-with-precedence-constraints)  
+   evidence：学习模型预测路径积分控制的采样分布
+3. [IndoorCrowd: A Multi-Scene Dataset for Human Detection, Segmentation, and Tracking with an Automated Annotation Pipeline](/202604/05/2604.02032v1-indoorcrowd-a-multi-scene-dataset-for-human-detection-segmentation-and-tracking-with-an-automated-annotation-pipeline)  
    标签：评分：7.0/10、query:tp
-   evidence：多智能体路径规划与无碰撞方案
-4. [DIAL: Decoupling Intent and Action via Latent World Modeling for End-to-End VLA](/202604/04/2603.29844v1-dial-decoupling-intent-and-action-via-latent-world-modeling-for-end-to-end-vla)  
+   evidence：室内密集环境下人体追踪的多场景数据集
+4. [UAV-Track VLA: Embodied Aerial Tracking via Vision-Language-Action Models](/202604/05/2604.02241v1-uav-track-vla-embodied-aerial-tracking-via-vision-language-action-models)  
    标签：评分：7.0/10、query:tp
-   evidence：通过潜世界建模解耦意图与动作
-5. [DLWM: Dual Latent World Models enable Holistic Gaussian-centric Pre-training in Autonomous Driving](/202604/04/2604.00969v1-dlwm-dual-latent-world-models-enable-holistic-gaussian-centric-pre-training-in-autonomous-driving)  
-   标签：评分：7.0/10、query:tp
-   evidence：用于自动驾驶预测未来状态的世界模型
-6. [SECURE: Stable Early Collision Understanding via Robust Embeddings in Autonomous Driving](/202604/04/2604.01337v1-secure-stable-early-collision-understanding-via-robust-embeddings-in-autonomous-driving)  
-   标签：评分：7.0/10、query:tp
-   evidence：用于事故预测的鲁棒嵌入和潜空间表示
-7. [Beyond Where to Look: Trajectory-Guided Reinforcement Learning for Multimodal RLVR](/202604/04/2603.26126v1-beyond-where-to-look-trajectory-guided-reinforcement-learning-for-multimodal-rlvr)  
+   evidence：城市场景下无人机的具身航空跟踪与动作生成
+5. [An End-to-end Flight Control Network for High-speed UAV Obstacle Avoidance based on Event-Depth Fusion](/202604/05/2603.27181v1-an-end-to-end-flight-control-network-for-high-speed-uav-obstacle-avoidance-based-on-event-depth-fusion)  
    标签：评分：6.0/10、query:tp
-   evidence：多模态大语言模型的专家推理轨迹
-8. [GUIDE: Guided Updates for In-context Decision Evolution in LLM-Driven Spacecraft Operations](/202604/04/2603.27306v1-guide-guided-updates-for-in-context-decision-evolution-in-llm-driven-spacecraft-operations)  
+   evidence：无人机自主飞行与避障
+6. [S3KF: Spherical State-Space Kalman Filtering for Panoramic 3D Multi-Object Tracking](/202604/05/2603.27534v1-s3kf-spherical-state-space-kalman-filtering-for-panoramic-3d-multi-object-tracking)  
    标签：评分：6.0/10、query:tp
-   evidence：航天器智能体的实时控制与先验轨迹离线反思
-9. [LatentPilot: Scene-Aware Vision-and-Language Navigation by Dreaming Ahead with Latent Visual Reasoning](/202604/04/2603.29165v1-latentpilot-scene-aware-vision-and-language-navigation-by-dreaming-ahead-with-latent-visual-reasoning)  
+   evidence：机器人感知的多目标跟踪与目标关联
+7. [MPC-Based Trajectory Tracking for a Quadrotor UAV with Uniform Semi-Global Asymptotic Stability Guarantees](/202604/05/2603.27576v1-mpc-based-trajectory-tracking-for-a-quadrotor-uav-with-uniform-semi-global-asymptotic-stability-guarantees)  
    标签：评分：6.0/10、query:tp
-   evidence：通过前瞻预测学习动作条件下的视觉动力学以进行导航
-10. [Kernel-SDF: An Open-Source Library for Real-Time Signed Distance Function Estimation using Kernel Regression](/202604/04/2603.29227v1-kernel-sdf-an-open-source-library-for-real-time-signed-distance-function-estimation-using-kernel-regression)  
+   evidence：无人机模型预测轨迹跟踪
+8. [JEPA-MSAC: A Joint-Embedding Predictive Architecture for Multimodal Sensing-Assisted Communications](/202604/05/2603.29796v1-jepa-msac-a-joint-embedding-predictive-architecture-for-multimodal-sensing-assisted-communications)  
    标签：评分：6.0/10、query:tp
-   evidence：通过环境表示实现轨迹优化
-11. [GraSP-STL: A Graph-Based Framework for Zero-Shot Signal Temporal Logic Planning via Offline Goal-Conditioned Reinforcement Learning](/202604/04/2603.29533v1-grasp-stl-a-graph-based-framework-for-zero-shot-signal-temporal-logic-planning-via-offline-goal-conditioned-reinforcement-learning)  
+   evidence：针对动态环境的多模态预测表征学习
+9. [Signals: Trajectory Sampling and Triage for Agentic Interactions](/202604/05/2604.00356v1-signals-trajectory-sampling-and-triage-for-agentic-interactions)  
    标签：评分：6.0/10、query:tp
-   evidence：为满足时序逻辑规范的轨迹合成控制策略
+   evidence：智能体交互轨迹的分流框架
+10. [Distributed Safety-Critical Control of Multi-Agent Systems with Time-Varying Communication Topologies](/202604/05/2604.00429v1-distributed-safety-critical-control-of-multi-agent-systems-with-time-varying-communication-topologies)  
+   标签：评分：6.0/10、query:tp
+   evidence：多智能体协同与避障
+11. [AURA: Multimodal Shared Autonomy for Real-World Urban Navigation](/202604/05/2604.01659v1-aura-multimodal-shared-autonomy-for-real-world-urban-navigation)  
+   标签：评分：6.0/10、query:tp
+   evidence：城市导航中的共享自主与底层AI控制
 
 
 <div class="dpr-home-promo-card">
