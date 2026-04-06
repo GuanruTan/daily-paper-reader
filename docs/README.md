@@ -6,61 +6,73 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-04-05
-- 运行时间：2026-04-05 20:00:20 UTC
+- 最新运行日期：2026-04-06
+- 运行时间：2026-04-06 20:20:00 UTC
 - 运行状态：成功
-- 本次总论文数：13
-- 精读区：2
+- 本次总论文数：17
+- 精读区：6
 - 速读区：11
 
 ### 今日简报（AI）
-今日聚焦13篇AI前沿进展，深度剖析多机器人协同网络与智能交通协调的最新范式。
-重点推荐MLLM驱动的机器人感知通信一体化综述，以及利用函数式学习实现团队最优交通调度的创新方法。
-建议开发者关注大模型与物理系统的深度融合，并同步审视世界模型在安全与认知方面的潜在风险。
-- 详情：[/202604/05/README](/202604/05/README)
+今日深度研读 17 篇论文，聚焦物理引导的人群模拟与自动驾驶 BEV 实例预测两大满分突破。
+重点关注 STDDN 如何融合物理规律提升仿真真实感，以及 BEVPredFormer 利用时空注意力优化自动驾驶感知。
+建议开发者深入探索物理约束与时空建模在动态复杂场景下的落地潜力。
+- 详情：[/202604/06/README](/202604/06/README)
 
 ### 精读区论文标签
-1. [Advancing Multi-Robot Networks via MLLM-Driven Sensing, Communication, and Computation: A Comprehensive Survey](/202604/05/2604.00061v1-advancing-multi-robot-networks-via-mllm-driven-sensing-communication-and-computation-a-comprehensive-survey)  
+1. [STDDN: A Physics-Guided Deep Learning Framework for Crowd Simulation](/202604/06/2604.02756v1-stddn-a-physics-guided-deep-learning-framework-for-crowd-simulation)  
+   标签：评分：10.0/10、query:tp
+   evidence：引导人群模拟中的微观轨迹预测
+2. [BEVPredFormer: Spatio-temporal Attention for BEV Instance Prediction in Autonomous Driving](/202604/06/2604.02930v1-bevpredformer-spatio-temporal-attention-for-bev-instance-prediction-in-autonomous-driving)  
+   标签：评分：10.0/10、query:tp
+   evidence：自动驾驶中的BEV实例预测与运动估计
+3. [Communication Outage-Resistant UUV State Estimation: A Variational History Distillation Approach](/202604/06/2603.29512v2-communication-outage-resistant-uuv-state-estimation-a-variational-history-distillation-approach)  
+   标签：评分：9.0/10、query:tp
+   evidence：无人水下航行器状态估计的轨迹预测
+4. [PlayGen-MoG: Framework for Diverse Multi-Agent Play Generation via Mixture-of-Gaussians Trajectory Prediction](/202604/06/2604.02447v1-playgen-mog-framework-for-diverse-multi-agent-play-generation-via-mixture-of-gaussians-trajectory-prediction)  
+   标签：评分：9.0/10、query:tp
+   evidence：多智能体轨迹生成与空间协调
+5. [Joint Prediction of Human Motions and Actions in Human-Robot Collaboration](/202604/06/2604.03065v1-joint-prediction-of-human-motions-and-actions-in-human-robot-collaboration)  
+   标签：评分：9.0/10、query:tp
+   evidence：人类运动与动作的联合估计与预测
+6. [ExploreVLA: Dense World Modeling and Exploration for End-to-End Autonomous Driving](/202604/06/2604.02714v1-explorevla-dense-world-modeling-and-exploration-for-end-to-end-autonomous-driving)  
    标签：评分：8.0/10、query:tp
-   evidence：基于多模态大模型的机器人路径规划与意图理解
-2. [A Functional Learning Approach for Team-Optimal Traffic Coordination](/202604/05/2604.01056v1-a-functional-learning-approach-for-team-optimal-traffic-coordination)  
-   标签：评分：8.0/10、query:tp
-   evidence：多智能体交通协调与策略迭代
+   evidence：端到端自动驾驶的世界建模
 
 ### 速读区论文标签
-1. [Safety, Security, and Cognitive Risks in World Models](/202604/05/2604.01346v1-safety-security-and-cognitive-risks-in-world-models)  
+1. [A Graph Neural Network Approach for Solving the Ranked Assignment Problem in Multi-Object Tracking](/202604/06/2604.01696v1-a-graph-neural-network-approach-for-solving-the-ranked-assignment-problem-in-multi-object-tracking)  
    标签：评分：7.0/10、query:tp
-   evidence：用于自动驾驶环境动力学预测的世界模型
-2. [Toward Single-Step MPPI via Differentiable Predictive Control](/202604/05/2604.01539v1-toward-single-step-mppi-via-differentiable-predictive-control)  
+   evidence：自动驾驶中的多目标跟踪与数据关联
+2. [F2F-AP: Flow-to-Future Asynchronous Policy for Real-time Dynamic Manipulation](/202604/06/2604.02408v1-f2f-ap-flow-to-future-asynchronous-policy-for-real-time-dynamic-manipulation)  
    标签：评分：7.0/10、query:tp
-   evidence：学习模型预测路径积分控制的采样分布
-3. [IndoorCrowd: A Multi-Scene Dataset for Human Detection, Segmentation, and Tracking with an Automated Annotation Pipeline](/202604/05/2604.02032v1-indoorcrowd-a-multi-scene-dataset-for-human-detection-segmentation-and-tracking-with-an-automated-annotation-pipeline)  
+   evidence：利用预测的目标流进行未来观测合成
+3. [Adaptive Learned State Estimation based on KalmanNet](/202604/06/2604.02441v1-adaptive-learned-state-estimation-based-on-kalmannet)  
    标签：评分：7.0/10、query:tp
-   evidence：室内密集环境下人体追踪的多场景数据集
-4. [UAV-Track VLA: Embodied Aerial Tracking via Vision-Language-Action Models](/202604/05/2604.02241v1-uav-track-vla-embodied-aerial-tracking-via-vision-language-action-models)  
+   evidence：自动驾驶状态估计与目标类型自适应
+4. [Goal-Conditioned Neural ODEs with Guaranteed Safety and Stability for Learning-Based All-Pairs Motion Planning](/202604/06/2604.02821v1-goal-conditioned-neural-odes-with-guaranteed-safety-and-stability-for-learning-based-all-pairs-motion-planning)  
    标签：评分：7.0/10、query:tp
-   evidence：城市场景下无人机的具身航空跟踪与动作生成
-5. [An End-to-end Flight Control Network for High-speed UAV Obstacle Avoidance based on Event-Depth Fusion](/202604/05/2603.27181v1-an-end-to-end-flight-control-network-for-high-speed-uav-obstacle-avoidance-based-on-event-depth-fusion)  
+   evidence：用于运动规划和跟踪误差界的轨迹目标条件神经ODE
+5. [STRNet: Visual Navigation with Spatio-Temporal Representation through Dynamic Graph Aggregation](/202604/06/2604.02829v1-strnet-visual-navigation-with-spatio-temporal-representation-through-dynamic-graph-aggregation)  
+   标签：评分：7.0/10、query:tp
+   evidence：用于动作预测的时空表示学习
+6. [Real Time Local Wind Inference for Robust Autonomous Navigation](/202604/06/2604.00343v1-real-time-local-wind-inference-for-robust-autonomous-navigation)  
    标签：评分：6.0/10、query:tp
-   evidence：无人机自主飞行与避障
-6. [S3KF: Spherical State-Space Kalman Filtering for Panoramic 3D Multi-Object Tracking](/202604/05/2603.27534v1-s3kf-spherical-state-space-kalman-filtering-for-panoramic-3d-multi-object-tracking)  
+   evidence：自主导航中的风场预测
+7. [A Dual-Stream Transformer Architecture for Illumination-Invariant TIR-LiDAR Person Tracking](/202604/06/2604.00363v1-a-dual-stream-transformer-architecture-for-illumination-invariant-tir-lidar-person-tracking)  
    标签：评分：6.0/10、query:tp
-   evidence：机器人感知的多目标跟踪与目标关联
-7. [MPC-Based Trajectory Tracking for a Quadrotor UAV with Uniform Semi-Global Asymptotic Stability Guarantees](/202604/05/2603.27576v1-mpc-based-trajectory-tracking-for-a-quadrotor-uav-with-uniform-semi-global-asymptotic-stability-guarantees)  
+   evidence：自主移动机器人的行人追踪
+8. [Chameleons do not Forget: Prompt-Based Online Continual Learning for Next Activity Prediction](/202604/06/2604.00653v1-chameleons-do-not-forget-prompt-based-online-continual-learning-for-next-activity-prediction)  
    标签：评分：6.0/10、query:tp
-   evidence：无人机模型预测轨迹跟踪
-8. [JEPA-MSAC: A Joint-Embedding Predictive Architecture for Multimodal Sensing-Assisted Communications](/202604/05/2603.29796v1-jepa-msac-a-joint-embedding-predictive-architecture-for-multimodal-sensing-assisted-communications)  
+   evidence：预测未来过程轨迹与下一活动
+9. [ATBench: A Diverse and Realistic Trajectory Benchmark for Long-Horizon Agent Safety](/202604/06/2604.02022v1-atbench-a-diverse-and-realistic-trajectory-benchmark-for-long-horizon-agent-safety)  
    标签：评分：6.0/10、query:tp
-   evidence：针对动态环境的多模态预测表征学习
-9. [Signals: Trajectory Sampling and Triage for Agentic Interactions](/202604/05/2604.00356v1-signals-trajectory-sampling-and-triage-for-agentic-interactions)  
+   evidence：智能体安全和多步交互的轨迹级基准
+10. [Spatial-Aware Conditioned Fusion for Audio-Visual Navigation](/202604/06/2604.02390v1-spatial-aware-conditioned-fusion-for-audio-visual-navigation)  
    标签：评分：6.0/10、query:tp
-   evidence：智能体交互轨迹的分流框架
-10. [Distributed Safety-Critical Control of Multi-Agent Systems with Time-Varying Communication Topologies](/202604/05/2604.00429v1-distributed-safety-critical-control-of-multi-agent-systems-with-time-varying-communication-topologies)  
+   evidence：利用空间描述符引导智能体向目标导航
+11. [MMPhysVideo: Scaling Physical Plausibility in Video Generation via Joint Multimodal Modeling](/202604/06/2604.02817v1-mmphysvideo-scaling-physical-plausibility-in-video-generation-via-joint-multimodal-modeling)  
    标签：评分：6.0/10、query:tp
-   evidence：多智能体协同与避障
-11. [AURA: Multimodal Shared Autonomy for Real-World Urban Navigation](/202604/05/2604.01659v1-aura-multimodal-shared-autonomy-for-real-world-urban-navigation)  
-   标签：评分：6.0/10、query:tp
-   evidence：城市导航中的共享自主与底层AI控制
+   evidence：伪RGB格式的时空轨迹表示
 
 
 <div class="dpr-home-promo-card">
