@@ -1,0 +1,841 @@
+Title: PCT-Based Trajectory Tracking for Underactuated Marine Vessels
+
+URL Source: https://arxiv.org/pdf/2604.04537v1
+
+Published Time: Tue, 07 Apr 2026 01:35:37 GMT
+
+Number of Pages: 8
+
+Markdown Content:
+# PCT-Based Trajectory Tracking for Underactuated Marine Vessels 
+
+Ji-Hong Li 
+
+Abstract —This paper investigates the trajectory tracking prob-lem of underactuated marine vessels within a polar coordinate framework. By introducing two polar coordinate transforma-tions (PCTs), the original two-input-three-output second-order tracking model expressed in the Cartesian frame is reduced to a two-input-two-output feedback system. However, the resulting model does not necessarily satisfy the strict-feedback condition required by conventional backstepping approaches. To circum-vent potential singularities arising in the controller design, a novel concept termed exponential modification of orientation (EMO) is proposed. While the PCTs yield substantial structural simpli-fication, they also introduce inherent limitations, most notably singularities associated with angular coordinates. Addressing these singularities constitutes another key focus of this paper. Numerical simulation results are presented to demonstrate the effectiveness of the proposed control strategy. 
+
+I. I NTRODUCTION 
+
+Marine vessels are inherently underactuated systems: only two control inputs are available to regulate motion in three de-grees of freedom (3-DOF), which poses substantial challenges in controller design. This limitation has motivated extensive research over several decades. Existing studies–primarily dis-tinguished by how reference trajectories are formulated–can be broadly classified into trajectory tracking [1]–[13] and path following [14]–[16]. Unlike trajectory tracking, which relies on time-parameterized references, path following replaces time with a path parameter that is often treated as an auxiliary control input. Proper design of this variable enables Lyapunov-based stabilization and affords additional flexibility in con-troller design [14]–[17]. The trajectory tracking literature [1]–[13] can be further divided into two categories. The first aims to track all states of a predefined 3-DOF reference trajectory [1]–[7]. The second considers reduced tracking objectives motivated by the lim-itation of having only two control inputs. For example, [8], [9], [12] guide the vessel to follow a moving point along the reference trajectory while ignoring the reference yaw angle. Related formulations using suitable variable transformations appear in [11], [13]. In [10], the reference yaw angle is redefined as the azimuth angle from the vessel to the moving target point, making it state-dependent rather than predefined. More recent studies [18], [19] continue to develop methods in this direction. For clarity, the first category is referred to in this paper as traditional trajectory tracking.  
+
+> *This work was partially supported by the Korea Institute of Marine Science & Technology Promotion (KIMST) funded by the Ministry of Ocean and Fisheries (RS-2024-00432366), also in part by the same organization with the grant No. RS-2023-00256122, all in the Republic of Korea. J. H. Li is with the Autonomous Systems R&D Division, Korea Institute of Robotics and Technology Convergence, Jigok-Ro 39, Nam-Gu, Pohang 37666, Republic of Korea.
+
+jhli5@kiro.re.kr 
+
+This paper focuses on traditional trajectory tracking. When the vessel dynamics are minimum phase [8], certain position-coordinate transformations [1]–[3] or yaw-angle error trans-formations [4] reduce the system to a triangular-like structure, allowing the use of integrator backstepping [1]. In the non-minimum phase case, the coordinate shift proposed in [9] selects a point in the body-fixed frame such that the rudder action induces pure rotation without sway, thereby restoring the minimum-phase property. These approaches [1]–[4] rely on simplified vessel dynamics and Lyapunov direct method design. To guarantee stability, several restrictions on the ref-erence trajectory were introduced, including persistency-of-excitation conditions on the yaw rate [1]–[3], which were later relaxed in [4]. However, none of these works provides a unified controller applicable to both zero and nonzero yaw-rate cases. In addition, some gain-selection conditions remain difficult to satisfy in practice [1], [2]. Although [7] considers a more general vessel model with a nonlinear sliding-mode approach, it also does not unify these cases. To address these limitations, [6] proposed a new control framework for underactuated marine vessels with general dynamics and bounded uncertainties. Unlike earlier methods, it imposed no restrictions on the reference trajectory. By applying two polar coordinate transformations (PCTs), the tracking model is reduced to a second-order two-input-two-output system, enabling the use of a general backstepping method [20]. However, the use of polar coordinates intro-duces additional challenges. First, the reduced system does not necessarily satisfy the strict-feedback condition, which may lead to singularities in recursive controller design. To address this issue, [6] introduced the asymptotic modification of orientation (AMO) technique, later adopted in subsequent studies for both 2D [21], [22] and 3D extensions [23], [24]. Second, polar coordinates inherently introduce a singularity due to the undefined polar angle at the origin. To avoid this difficulty, all related works [6], [21]–[24] assume that the vessel’s surge speed remains strictly positive along the entire trajectory. Meanwhile, control barrier functions (CBFs) [25]– [27] have recently been widely applied not only for system safety enforcement but also for singularity avoidance in robotics and control. With appropriately designed CBFs, various practical singularities can be effectively prevented. Motivated by these observations, this paper proposes a new trajectory tracking scheme for underactuated marine vessels with the following main contributions:  
+
+> •
+
+The AMO framework developed in [6], [21], [22] is extended to an exponential modification of orientation (EMO) formulation, which guarantees exponential–rather 
+
+> arXiv:2604.04537v1 [eess.SY] 6 Apr 2026
+
+than merely asymptotic–stability of the closed-loop track-ing system in the absence of uncertainties.  
+
+> •
+
+The restrictive assumption of strictly positive surge speed imposed in [6], [21]–[24] is revisited from two per-spectives. First, it is relaxed by requiring instead that the vessel’s sway speed be bounded by a known con-stant, a condition typically satisfied in practical marine vessels. Second, the assumption is completely removed by incorporating a CBF-based constraint. While both approaches significantly relax the original condition, the latter eliminates it entirely at the expense of introducing additional constraints to accommodate uncertainties in the vessel dynamics. The remainder of the paper is organized as follows. Section II presents the vessel kinematic and dynamic models, refor-mulated into a two-input-two-output second-order feedback form via two PCTs, and discusses the associated singularity issues. Section III develops the EMO-based trajectory track-ing scheme under a strictly positive surge-speed assumption, which is relaxed in Section IV. Simulation results are presented in Section V, followed by concluding remarks in Section VI. II. P ROBLEM STATEMENT 
+
+A. Vessel Model 
+
+This paper considers the vessel’s kinematics and dynamics as following [6], [28] 
+
+˙η = Cnb ν, (1) 
+
+˙ν = f + Bτ + d, (2) where η = [x, y, ψ ]T with (x, y ) denoting the horizon-tal position and ψ the yaw angle in the navigation frame; 
+
+ν = [ u, v, r ]T , where u and v represent the surge and sway velocities, and r is the yaw rate in the body-fixed frame; 
+
+f = [ fu, f v , f r ]T , where fu, fv , and fr correspond to the modeled nonlinear dynamics of the vessel, incorporating hy-drodynamic damping, inertia (including added mass), Coriolis and centripetal, and gravitational effects in the surge, sway, and yaw directions, each assumed to be of class C2; τ = [ τu, τ r ]T ,where the surge force τu and the yaw moment τr are the only available control inputs; d = [ du, d v , d r ]T denotes the uncertainty terms, which include model errors, measurement noises, exogenous disturbances, all of which are unmatched [29]; and the coordinate transformation matrix Cnb from the body-fixed frame to the navigation frame and the control gain matrix B are defined as follows: 
+
+Cnb =
+
+
+
+cos ψ − sin ψ 0sin ψ cos ψ 00 0 1
+
+ , B =
+
+
+
+bu 00 ϵr
+
+0 br
+
+ ,
+
+where bu, b r > 0 are constant control gains, and ϵr represents the lift effect induced by the yaw moment [8]. 
+
+Remark 1 . In (2), the system is minimum phase when ϵr =0, and non-minimum phase otherwise [8]. This paper considers both cases. Notably, the computability of the proposed tracking method is unaffected by whether the system is minimum phase or not. 
+
+> Fig. 1. Illustration of two polar coordinate systems and related variables.
+
+Regarding the uncertainty term d = [ du, d v , d r ]T , this paper considers only the unmatched components, which are assumed to satisfy the following conditions. 
+
+Assumption 1 . The uncertainties are bounded in magnitude by |du| ≤ duM , |dv | ≤ dvM , and |dr | ≤ drM with duM , dvM ,
+
+drM > 0 known positive constants. 
+
+B. Two PCTs 
+
+A closer look at the vessel’s dynamics in (2) reveals that the primary control challenge lies in the inability to effectively handle the sway dynamics. With this in mind, this paper first introduces the following PCT in the vessel’s body-fixed frame (see Fig. 1):  ul
+
+ψa
+
+
+
+= Fa(u, v ) := 
+
+ √u2 + v2
+
+arctan( v/u )
+
+
+
+, (3) where ψa is commonly known as the sideslip angle [28]. Using (3), the vessel’s two-input-three-output dynamics (2) can be reformulated as following 
+
+ ˙ul
+
+˙rl
+
+
+
+=
+
+ful
+
+frl
+
+
+
++
+
+bul ϵra 
+
+0 br
+
+  τu
+
+τr
+
+
+
++
+
+dul
+
+dr
+
+
+
+, (4) where rl = r + ˙ψa, ful = cos ψafu + sin ψafv , frl = fr +¨ψa, bul = cos ψabu, ϵra = sin ψaϵr , and dul = cos ψadu +sin ψadv . According to Assumption 1, it is straightforward to derive that |dul | ≤ dulM = pd2 
+
+> uM
+
++ d2 
+
+> vM
+
+.
+
+Remark 2 . As defined in (3), the sideslip angle ψa becomes either undefined or equal to ±π/ 2 when u = 0 . Consequently, under this condition, the control gain bul in (4) also becomes either undefined or zero. To avoid such singularities, it is often necessary to ensure that u(t) > 0 holds for all t ≥ 0.From a practical standpoint, most marine vessels control yaw motion via a rudder, with the corresponding control input τr
+
+typically being proportional to the square of the vessel’s surge speed [30]. As a result, treating τu and τr as approximately independent control inputs requires the vessel to maintain a sufficiently high forward velocity. Based on these consider-ations, the condition u(t) > 0, for all t ≥ 0 was imposed as an assumption in all of the related previous works [6], [10], [21]–[24]. In this paper, however, we aim to eliminate this assumption by rigorously analyzing the conditions under which u(t) > 0 can be guaranteed. In the context of implementing the vessel’s trajectory η(t),one straightforward approach is to realize it through the vessel’s kinematics given in (1) by specifying u, v, and r. However, in this case, u, v, and r cannot be arbitrarily assigned, as they must satisfy a nonlinear constraint stemming from the vessel’s sway dynamics. An alternative approach is to generates η(t) using ul and ψl, where ul is defined in (3), and ψl = ψ + ψa, where ˙ψl = rl with rl defined in (4), represents the yaw angle of ul in the navigation frame. The corresponding kinematics is given by 
+
+˙x = ul cos ψl, ˙y = ul sin ψl. (5) Under this formulation, ul and ψl can be freely chosen, making trajectory generation significantly more flexible and convenient. In this study, we adopt this latter approach to represent the vessel’s trajectory. Consider a reference trajectory ηld (t) = [xd(t), y d(t),
+
+ψld (t)] T , where ˙xd = uld cos ψld and ˙yd = uld sin ψld . The position error is defined as pe(t) = || pd(t) − p(t)|| 2 with 
+
+p(t) = [ x(t), y (t)] T . Now we introduce the following second polar coordinate (pe, ψ b) in the navigation frame (see Fig. 1), 
+
+pe
+
+ψb
+
+
+
+= Fb(xe, y e) := 
+
+ p x2 
+
+> e
+
++ y2
+
+> e
+
+atan2 (ye, x e)
+
+
+
+, (6) where xe = xd − x, ye = yd − y, and ψb is defined as the azimuth angle from the vehicle to the target point moving on the reference trajectory ηld (t).According to (6), the time derivative of pe(t) becomes 
+
+˙pe = uld cos (ψld − ψb) − ulcos (ψl − ψb). (7) If we define ψle = ψld − ψl, then, in conjunction with (4), the trajectory tracking error model can be expressed in the following two-input-two-output second-order feedback form: 
+
+ ˙pe
+
+˙ψle 
+
+
+
+=
+
+uld cos( ψld −ψb)˙ψld 
+
+
+
+−
+
+cos( ψl −ψb) 00 1
+
+ ul
+
+rl
+
+
+
+, (8) 
+
+ ˙ul
+
+˙rl
+
+
+
+=
+
+ful
+
+frl
+
+
+
++
+
+bul ϵra 
+
+0 br
+
+  τu
+
+τr
+
+
+
++
+
+dul
+
+dr
+
+
+
+. (9) In line with the considerations in Remark 2, we impose the following restriction on the reference trajectory. 
+
+Assumption 2. The reference trajectory ηld (t) satisfies 
+
+uld (t) ≥ um > 0, for all t ≥ 0 with um a design parameter. 
+
+C. System Singularities 1) cos( ψl − ψb) = 0 and bul = 0 : Recalling the reduced tracking model in (8) and (9), singularities may arise in the recursive controller design when cos( ψl − ψb) = 0 or bul = 0 ,rendering the virtual input ul and the actual input τu ineffec-tive. The singularity associated with cos( ψl −ψb) = 0 has been addressed via the AMO concept [6], which has been adopted in subsequent works [21], [22]. Moreover, sin bul = bu cos ψa
+
+with bu̸ = 0 , the condition bul = 0 corresponds to u = 0 with 
+
+v̸ = 0 , which will be discussed later. 
+
+2) Polar Angle Singularity: Although polar coordinates provide structural simplification, they inherently introduce singularities, as the polar angle is undefined at the origin. In (8) and (9), both ψa and ψb are undefined at ul = 0 and 
+
+pe = 0 . Previous studies [6], [21], [22] showed that, when 
+
+pe = 0 , all terms involving ψb vanish, allowing its singularity to be safely disregarded. In contrast, the singularity of ψa is critical to the control methods proposed in [6], [21], [22]. To avoid this issue, as well as the singularity at ψa = ±π/ 2, the condition u(t) > 01 for all t ≥ 0 is imposed. However, this assumption inevitably compromises the theoretical rigor of the control design. 
+
+D. Problem Formulation 
+
+In this paper, the tracking problem for (8) and (9) is addressed using a general backstepping framework [20]. The potential singularity arising from cos( ψl − ψb) = 0 is avoided through the introduction of the EMO concept. With respect to the singularities arising from bul = 0 and from the fact that ψa is undefined at ul = 0, this paper revisits the assumption adopted in [6], [21]–[24] and relaxes it in two different ways. One approach replaces the original assumption with a less restrictive condition, while the other eliminates it altogether by incorporating a CBF-based technique. The respective advantages and limitations of these two approaches are also systematically compared and analyzed. III. EMO-B ASED TRACKING CONTROLLER 
+
+This section presents the proposed tracking controller under the assumption that u(t) > 0, for all t ≥ 0; the enforcement of this condition is discussed in detail in the next section. 
+
+A. Exponential Modification of Orientation (EMO) 
+
+As mentioned before, to avoid the potential singularity arising from cos( ψl − ψb) = 0 , this paper introduces the following concept. 
+
+Definition 1 . Consider the position error kinematics in (7). Let the reference trajectory be given by ηld = [ xd(t), y d(t),
+
+ψld (t)] T ∈ℜ3 with ˙xd =uld cos ψld , ˙yd =uld sin ψld . If there exists a modified orientation (umld (t), ψmld (t)) such that ap-plying (ul, ψ l) = ( umld , ψ mld ) ensures exponential convergence 
+
+pe(t) → 0, and this further guarantees (umld (t), ψ mld (t)) →
+
+(uld (t), ψ ld (t)) , then (umld (t), ψ mld (t)) is called an exponential modification of orientation (EMO) of (uld (t), ψ ld (t)) .The following Lemma shows an example of this EMO. 
+
+Lemma 1 . Given the position error kinematics in (7), sup-pose the modified orientation (umld , ψ mld ) is chosen as 
+
+umld = uld + cupe cos (ψld − ψb)e−cψ pe  , (10) 
+
+ψmld = ψb + ( ψld − ψb)e−cψ pe , (11) where cu, c ψ > 0 are design parameters selected such that 
+
+cψ um − 2cuκ > 0, where the constant κ will be defined later. Then, the pair (umld , ψ mld ) constitutes an EMO of (uld , ψ ld ).
+
+Proof . Substituting (10) and (11) with (ul, ψ l) = ( umld , ψ mld )
+
+into (7) yields 
+
+˙pe =uld cos( ψld −ψb)−uld +cupe cos (ψld −ψb)e−cψ pe 
+
+cos (ψld − ψb)e−cψ pe  . (12)    
+
+> 1The case u < 0is neglected, as it is incompatible with most practical applications.
+
+With (12), further we can get the following expansion, 
+
+∂ ˙pe
+
+∂p e
+
+= −cu cos 2 φ − cψ uld φ sin φ − 2cucψ peφ sin φ cos φ
+
+= −cu cos 2 φ − cψ φ sin φ (uld + 2 cupe cos φ)
+
+≤ − cu cos 2 φ − cψ φ sin φ
+
+
+
+uld − 2cu
+
+κcψ
+
+
+
+≤ − cu cos 2 φ − (cψ um − 2cuκ) φ sin φ
+
+≤ − cu cos 2 φ − (cψ um − 2cuκ) sin 2 φ
+
+= −cu + [ cu − (cψ um − 2cuκ)] sin 2 φ
+
+≤ − c, (13) where φ = ( ψld − ψb)e−cψ pe ∈ [−π, π ], and c = min {cu,
+
+cψ um − 2cuκ}.From (13) with ˙pe = 0 at pe = 0, it is obvious that 
+
+˙pe ≤ − cp e. Now consider the following Lyapunov function candidate 
+
+V = 0 .5p2
+
+> e
+
+. (14) Differentiating (14) and using ˙pe ≤ − cp e yields 
+
+˙V ≤ − cp 2 
+
+> e
+
+= −2cV, (15) and this guarantees the exponential convergence pe → 0,which, together with (10) and (11), ensures (umld , ψ mld ) →
+
+(uld , ψ ld ). □
+
+In the Lemma 1, the constant κ is defined in the following proposition. 
+
+Proposition 1 . For the function f (ζ, ϕ ) = ζ cos  ϕe −cψ ζ ,defined over ζ ≥ 0 and ϕ ∈ [−π, π ], it follows that 
+
+min  
+
+> ζ≥0
+
+f (ζ, ϕ ) = − κcψ
+
+≈ − 0.2099 
+
+cψ
+
+. (16) 
+
+Proof . First, for ϕ ∈ [−π, π ], it is easy to verify that 
+
+f (ζ, ϕ ) ≥ f (ζ, ϕ )|ϕ=±π = ζ cos  πe −cψ ζ  ≡ f (ζ). Moreover, since f (0) = f (ln 2 /c ψ ) = 0 , f (ζ) attains a minimum (or minima) within the interval ζ ∈ (0 , ln 2 /c ψ ).Let z = πe −cψ ζ so that z ∈ (0 , π ]. Then, f (z) =
+
+−[ln( z/π )/c ψ ] cos z. Differentiating with respect to z, the condition f ′(z) = 0 leads to the transcendental equation 
+
+cos z = z ln( z/π ) sin z, which has a unique solution z∗ ∈
+
+(π/ 2, π ); numerically z∗ ≈ 2.2253 . Consequently, ζ∗ =
+
+− ln( z∗/π )/c ψ ≈ 0.3448 /c ψ and 
+
+f (ζ)min = f (ζ∗) = ζ∗ cos 
+
+
+
+πe −cψ ζ∗ 
+
+≈ − 0.2099 
+
+cψ
+
+. (17) This completes the proof. □
+
+Remark 3 . For a given reference (uld , ψ ld ), by introducing its EMO (umld , ψ mld ) and enforcing vessel tracking of this EMO, the potential singularity caused by cos( ψld − ψb) = 0 can be avoided. In this context, umld serves as the stabilizing function for the virtual input ul.
+
+B. Controller Design 1) Kinematic Tracking: As noted earlier, given the refer-ence trajectory ηld with (uld , ψ ld ), the strategy adopted in this paper to avoid potential singularity is to steer the vessel to track the EMO (umld , ψ mld ) rather than the original (uld , ψ ld ).Accordingly, the following Lyapunov function candidate is introduced at this step: 
+
+V1 = 0 .5  p2 
+
+> e
+
++ γψ ψ2
+
+> le
+
+ , (18) where ψle = ψmld − ψl and γψ > 0 is a weighting factor. Suppose umld and ψmld are chosen as (10) and (11). Differ-entiating (18) and substituting (8) yields 
+
+˙V1 = pe [uld cos( ψld − ψb) − umld cos( ψmld − ψb)] + pe [umld cos( ψmld − ψb) − ul cos( ψl − ψb)] + γψ ψle 
+
+ ˙ψmld − rl
+
+
+
+≤ − cp 2 
+
+> e
+
++ pe
+
+
+
+ule cos( ψmld − ψb) − 2ul sin Aψ sin ψle 
+
+2
+
+
+
++ γψ ψle 
+
+ ˙ψmld − αrl + erl
+
+
+
+, (19) where c > 0 is defined in (13), ule = umld − ul, Aψ = ( ψmld +
+
+ψl)/2 − ψb, and αrl is a stabilizing function for virtual input 
+
+rl and erl = αrl − rl.In addition to that the stabilizing function for virtual input 
+
+ul is taken as umld , according to (19), the remained control law for αr is chosen as 
+
+αrl = ˙ψmld + γ−1
+
+> ψ
+
+
+
+kψ ψle − peul sin Aψ
+
+sin ( ψle /2) 
+
+ψle /2
+
+
+
+, (20) where kψ > 0 is a design parameter. By substituting (20) into (19), we obtain 
+
+˙V1 ≤ − cp 2 
+
+> e
+
+−kψ ψ2 
+
+> le
+
++ peule cos( ψmld − ψb) + γψ ψle erl . (21) 
+
+2) Dynamic Tracking: The tracking dynamics (9) can be rewritten in the following error form: 
+
+ ˙ule 
+
+˙erl
+
+
+
+=
+
+ ˙umld − ful
+
+˙αrl − frl
+
+
+
+−
+
+Bl
+
+z }| {bul ϵra 
+
+0 br
+
+  τu
+
+τr
+
+
+
+−
+
+dul
+
+dr
+
+
+
+. (22) Consider the Lyapunov function candidate as follows: 
+
+V2 = V1 + 12 eT Ge , (23) where e = [ ule , e rl ]T , and G = diag (γu, γ r ) with γu, γ r > 0
+
+weighting factors. Differentiating (23) and substituting (22) and (23) into the result, we obtain the following expansion 
+
+˙V2 ≤ − cp 2 
+
+> e
+
+− kψ ψ2 
+
+> le
+
++ peule cos (ψmld − ψb) + γψ ψle erl
+
++ eT G
+
+ ˙umld − ful
+
+˙αrl − frl
+
+
+
+− Bl
+
+τu
+
+τr
+
+
+
+−
+
+dul
+
+dr
+
+ 
+
+. (24) According to (24), the final control law is chosen as 
+
+τu
+
+τr
+
+
+
+=B−1
+
+> l
+
+ ˙umld −ful
+
+˙αrl −frl
+
+
+
++G−1
+
+
+
+Ke +
+
+pe cos( ψmld −ψb)
+
+γψ ψle 
+
+ 
+
++
+
+dulM φ(γuule dulM)
+
+drM φ(γr erl drM )
+
+
+
+, (25) where K = diag (ku, k r ) with ku, k r > 0 design parameters. And φ(·) satisfies the following Lemma. 
+
+Lemma 2 (Lemma 1 in [10]). For any ϵ > 0, there exist a smooth function φ(·) such that φ(0) = 0 , and the following inequality holds: 
+
+|ζ| ≤ ζφ (ζ) + ϵ, ∀ζ ∈ ℜ . (26) 
+
+Remark 4 . Simple examples of functions that satisfy Lemma 2 include φ(ζ) = [1 /(4 ϵ)] ζ, as suggested in [3], and φ(ζ) = 
+
+tanh (σζ/ϵ ), where σ = e−(σ+1) , as in [31]. On the other hand, choosing φ(ζ) = sgn (ζ) also satisfies inequality (32) even for ϵ = 0 . However, due to the discontinuity of the sign function, this choice may lead to chattering issue in practical applications. Substituting (25) into (24) yields 
+
+˙V2 ≤ − cp 2 
+
+> e
+
+− kψ ψ2 
+
+> le
+
+− kuu2 
+
+> le
+
+− kr e2 
+
+> rl
+
++ [ |ule |, |erl |]
+
+G
+
+dulM
+
+drM 
+
+
+
+− eT G
+
+dulM φ(γuule dulM )
+
+drM φ(γr erl drM )
+
+
+
+≤ − cp 2 
+
+> e
+
+− kψ ψ2 
+
+> le
+
+− kuu2 
+
+> le
+
+− kr e2 
+
+> rl
+
++ ϵul + ϵrl
+
+≤ − λV 2 + ε, (27) where λ := min {2c, 2kψ γ−1 
+
+> ψ
+
+, 2kuγ−1 
+
+> u
+
+, 2kr γ−1 
+
+> r
+
+}, and ε =
+
+ϵul + ϵrl with ϵul , ϵ rl > 0 design parameters as defined in (26). Finally we obtain 
+
+0 ≤ V2(t) ≤ ε/λ + [ V2(0) − ε/λ ] e−λt . (28) 
+
+Theorem 1 . Consider the trajectory tracking problem de-scribed by (8) and (9) under Assumption 1 and 2. If the control law is designed as in (25), then the closed-loop tracking system is exponentially converge to a predefined compact set. 
+
+Remark 5 . Since ϵul and ϵrl can be chosen arbitrarily small, the proposed tracking method guarantees exponential convergence of pe, ψ le , u le , e r to zero. In practice, however, excessively small values of ϵul and ϵrl may result in high-gain control behavior, which can amplify noise and unmodeled dynamics. Therefore, these parameters should be chosen with appropriate caution during implementation. 
+
+Remark 6 . When pe = 0 , we have (umld , ψ mld ) = ( uld , ψ ld ),and (25) reduces to 
+
+τu
+
+τr
+
+
+
+=B−1
+
+> l
+
+ ˙uld − ful
+
+˙αrl − frl
+
+
+
++ G−1
+
+
+
+Ke +
+
+ 0
+
+γψ ψle 
+
+ 
+
++
+
+dulM φ(γuule dulM )
+
+drM φ(γr erl drM )
+
+ 
+
+, (29) with αrl = ˙ψld + γ−1 
+
+> ψ
+
+kψ ψle . This shows that the singularity of ψb at pe = 0 does not compromise the implementability of the proposed tracking controller τ as in (25). IV. S URGE SPEED POSITIVITY ENFORCEMENT 
+
+In this section, the assumption u(t) > 0 for all t ≥ 0
+
+imposed in [6], [21]–[24] will be relaxed in two different ways. 
+
+A. Replacement by Relaxed Condition 
+
+For most of practical marine vessels, limited propeller thrust and the constrained rudder size inherently restrict both the maximum forward speed and yaw rate. These performance limits can be determined through appropriate preliminary test-ing (e.t., VMT: vehicle maneuvering test) and regarded as part of the vessel’s specifications [28]. Given these bounds on the forward speed and yaw rate, along with the vessel’s passive-boundedness property [10], it follows that the sway speed is also inherently bounded, and its maximum value can be determined in advance. Consequently, the following assumptin can be seen as highly reasonable in practical applications. 
+
+Assumption 3 . The vessel’s sway velocity is bounded as 
+
+|v(t)| ≤ vM , for all t ≥ 0 with vM > 0 a known constant. 
+
+Lemma 3: If the design parameter um in Assumption 2 is chosen as following 
+
+um > v M + cuap
+
+pε/c + au
+
+pε/k u, (30) where ap, a u > 1 are design parameters, then there exists a time tc such that u(t) > 0, for all t ≥ tc.
+
+Proof: From (27), it follows that there exists a time tc >
+
+0 such that for all t ≥ tc, we have pe(t) ≤ ap
+
+pϵ/k p and 
+
+|ule | ≤ au
+
+pϵ/k u. Moreover, since 
+
+uld − umld ≤ cupe ≤ cuap
+
+pε/c, (31) 
+
+umld − ul ≤ au
+
+pε/k u, (32) we have 
+
+uld − ul ≤ cuap
+
+pε/c + au
+
+pε/k u. (33) Consequently, we get 
+
+ul ≥ uld − cuap
+
+pε/c − au
+
+pε/k u. (34) Therefore, if the condition in (30) holds, it follows from (34) that: pu2 + v2 
+
+> M
+
+≥ ul > v M , which implies that u(t) > 0, for all t ≥ tc. This completes the proof. □
+
+Remark 7 . It can be shown that, by selecting sufficiently large values of the design parameters ap and au, the time constant tc can be made arbitrarily small. Moreover, since the parameter ε can be chosen arbitrarily small, at least theoretically, (30) allows the constraint on the design of uld (t)
+
+to be minimized. 
+
+Remark 8 . In implementation, for t ∈ [0 , t c), if u(t) = 0 , it may be replaced by u(t) = δu, where δu > 0 is a random value satisfying δu ≤ ∆u. Here, ∆u > 0 denotes the upper bound on the measurement noise in the surge velocity, which can be determined based on the sensor specifications in practical applications. It is worth to mention that this replacement does not compromise the stability of the proposed closed-loop control system, since the effect of measurement noise has already been incorporated into the uncertainty term dul in (9). On the other hand, when u(t) > 0, the sideslip angle ψa(t) is well defined in the domain (−π/ 2, π/ 2) . Consequently, both 
+
+bul = cos ψabu and br are nonzero, ensuring that Bl in (21) remains invertible regardless of whether ϵra is zero or nonzero. i.e., whether the system is minimum-phase or not. B. Removal via a CBF-Based Technique 
+
+Initially, CBFs were primarily studied in the context of system safety [25]–[27]; more recently, they have been widely employed for singularity avoidance [32], [33]. With appro-priately designed CBFs, various practical singularities can be effectively prevented. Nevertheless, as in controller design, un-certainty in the system dynamics complicates the construction of CBFs, which constitutes a common limitation of CBF-based approaches. In most cases, handling such uncertainty requires imposing additional constraints [34], [35], and recent studies have further explored data-driven techniques for uncertainty estimation [36]. Since the primary contribution of this paper lies in the design of an EMO-based tracking controller, the problem is therefore addressed, for clarity and ease of discus-sion, under a generalized assumption – namely, Assumption 1 – in which the uncertainties are bounded by known constants. The assumption u(t) > 0 for all t ≥ 0 can be represented by the following CBF 
+
+h(νl) = u − δ, (35) where δ > 0 indicates a constant design parameter specifying the safety margin from singularities. For this barrier function in (35) has relative degree 1, corresponding CBF is chosen as following [25]–[27] 
+
+˙h(νl, ˙νl) ≥ − α(h(νl)) , (36) where α(·) denotes any class-K function. 
+
+Proposition 2 . Barrier function condition for u(t) > 0 for all t ≥ 0 can be presented as follows: 
+
+τu ≥ [duM − fu − α(u − δ)] /b u. (37) 
+
+Proof . For a given α(u − δ), one can always design τu to satisfy (37), which guarantees 
+
+˙h = ˙ u = fu + buτu + du ≥ duM + du − α(h(νl)) 
+
+≥ − α(h(νl)) . (38) Satisfaction of (38) further ensures that the barrier function 
+
+h(νl) defined in (35) qualifies as a CBF. This completes the proof. □
+
+Constraint (37) can be expressed in the standard affine inequality form: 
+
+A · (τ − τ ∗) ≤ b, (39) where A = [ −1 0] , τ ∗ denotes the reference control input, and b = [ fu + α(u − δ) − duM ]/b u + τ ∗ 
+
+> u
+
+.As a result, the trajectory tracking problem considered in this paper can be formulated as the following convex quadratic program (QP): min  
+
+> ˙νl,τ
+
+|| τ − τ ∗|| 2 (40) s.t. Constraint (39) ,
+
+where ˙νl = [ ul, r l]T , and the reference control input τ ∗ is computed according to (25). 
+
+Assumption 4 . The control law τ generated by QP (40) is locally Lipschitz. This standard assumption guarantees the existence and uniqueness of solutions to the closed-loop system, which is a fundamental prerequisite for establishing forward invariance of the safe set [26], [27]. Consequently, by employing a CBF-based technique, the restrictive assumption u(t) > 0, for all t ≥ 0 can be removed. Nonetheless, this approach remains subject to several limitations, including conservative behavior, feasibility issues, and high computational burden. In particular, when the system dynamics involve unknown uncertainties, the method lacks systematic design procedures. V. N UMERICAL STUDIES 
+
+This section demonstrates the proposed tracking scheme using MATLAB simulations, considering the dynamics of an underactuated marine vessel [14] together with (2): 
+
+fu = m22 vr − χu1u − χu2|u|u − χu3u3 /m 11 ,fv = − m11 ur + χv1v − χv2|v|v − χv3v3 /m 22 ,fr = (m11 − m22 )ur − χr1r − χr2|r|r − χr3r3 /m 33 ,bu = 1 /m 11 , b r = 1 /m 33 , (41) where m11 = 1 .2e + 5 , m22 = 1 .779 e + 5 , m33 = 6 .36 e + 7 ,
+
+χu1 = 2 .15 e + 4 , χv1 = 1 .47 e + 5 , χr1 = 8 .02 e + 6 , χu2 =0.2χu1, χu3 = 0 .1χu1, χv2 = 0 .2χv1, χv3 = 0 .1χv1, χr2 =0.2χr1, χr3 = 0 .1χr1. The uncertainty terms are assumed to be du = 22(1 − 2rand )/11 , dv = 52(1 − 2rand )/17 .79 ,
+
+dr = 190(1 − 2rand )/63 .6, where rand ∈ [0 , 1] denotes uniformly distributed random noise. The lift effect is neglected by setting ϵr = 0 . Accordingly, the uncertainty bounds are chosen as duM = 22 /11 , dvM = 52 /17 .79 , drM = 190 /63 .6,and dulM = pd2 
+
+> uM
+
++ d2 
+
+> vM
+
+= 3 .542 .The smooth reference trajectory is defined as follows: for 
+
+t ∈ [0 , 60 s], uld (t) = 10 m/s and ψld (t) = 90 deg , with 
+
+ηd(0) = [100 m, 30 m, 90 deg ]T ; for t ∈ (60 s, 75 s], uld (t) = 10 m/s and ˙ψld (t) = −0.05 exp[( t − 75) /(t − 60)] rad/s ; for 
+
+t > 75 s, uld (t) = 10 m/s and ˙ψld (t) = −0.05 rad/s . The ves-sel’s initial conditions are set as η(0) = [50 m, 5m, 30 deg ]T
+
+and ν(0) = [1 m/s, 0m/s, 0rad/s ]T , the controller design parameters are chosen as kψ = 40 , ku = 800 , kr = 100 ,
+
+γψ = 120 , γu = 60 , γr = 1 , cu = 0 .2, cψ = 0 .2. The smooth function φ(·) in (26) is selected as φ(ζ) = tanh (σζ/ϵ )
+
+with σ = ϵ = ϵul = ϵrl = 1 . Furthermore, the CBF related parameters are set to δ = 0 .6, and the class-K function α(·)
+
+is chosen as α(x) = x2.As noted earlier, this paper proposes an EMO-based trajec-tory tracking scheme for underactuated marine vessels within a polar coordinate framework and investigates two relaxation methods for the restrictive assumption u(t) > 0 commonly adopted in the literature. For convenience, the approach based on the relaxed condition introduced in Section IV is referred to as Method-1, whereas the CBF-based technique is denoted as Method-2. Fig. 2. Reference trajectory and its tracking by two methods with          
+
+> uld = 10 m/s ,∀t≥0.
+> Fig. 3. Tracking performance comparison with uld = 10 m/s ,∀t≥0.
+
+Fig. 2 illustrates the reference trajectory and the corre-sponding tracking performance of the two methods, which are identical in this case, indicating that the vessel motion induced by τ ∗, computed according to (25), satisfies constraint (38). Fig. 3 shows the tracking error convergence, and the corresponding control inputs are depicted in Fig. 4. The discrepancies observed in Fig. 3 and 4 arise from the use of different realizations of random noise. Compared with Method-2, Method-1 directly computes the control input as τ = τ ∗, provided that constraint (30) is satisfied. Assuming the maximum forward speed of the vessel to be 15 m/s and the maximum yaw rate to be 0.05 rad/s 
+
+as specified above, it can be verified that the vessel’s sway velocity remains within 0.8m/s . Given this value of vM and the associated parameters from the preceding settings, it isn straightforward to verify that the inequality (30) holds for 
+
+um > 1.4902 m/s . However, as illustrated in Fig. 5, Method-1 still achieves satisfactory tracking performance even when 
+
+um = 1 .3m/s , which clearly violates constraint (30). This observation indicates that condition (30) is sufficient but not necessary. An interesting observation is that, when uld (t) is set to a          
+
+> Fig. 4. Corresponding control efforts comparison with uld = 10 m/s ,
+> ∀t≥0.
+> Fig. 5. Trajectory tracking results in both methods with uld =1.3m/s ,∀t≥0.
+
+small value, Method-1 is able to track the prescribed trajectory effectively, whereas Method-2 fails to do so, as illustrated in Fig. 5. This behavior persists until um ≥ 1.8m/s . Fig. 6 presents the tracking performance and corresponding control efforts of both methods for uld (t) = 1 .8m/s , from which it can be observed that Method-2 requires a higher control effort than Method-1. In conclusion, the application of the proposed method indi-cates that the vessel’s reference trajectory is subject to certain constraints. Specifically, system stability is guaranteed only when the vessel’s reference forward speed exceeds a threshold value um, which is determined by the vessel specifications and operating conditions. VI. C ONCLUSION 
+
+This paper presented a novel trajectory tracking scheme for underactuated marine vessels within a polar-coordinate frame-work. Two PCTs were employed to reformulate the original two-input–three-output tracking model into a two-input–two-output feedback form. To circumvent potential singularities arising in the recursive controller design, the EMO concept was incorporated. Furthermore, two alternative methods were proposed to relax the assumption of a strictly positive vessel surge speed, which had been originally imposed to address the singularity associated with the polar angle. The effectiveness Fig. 6. Trajectory tracking results and corresponding control efforts in both cases with uld = 1 .8m/s , ∀t ≥ 0.
+
+of the proposed approach was demonstrated through numerical simulations. It follows from the definition that the vessel’s azimuth angle is highly sensitive to noise when the position error is small. Accordingly, the design of an EMO scheme capable of attenuating this noise effect constitutes an important issue for future work. REFERENCES [1] K. Y. Pettersen and H. Nijmeijer, “Tracking control of an underactuated surface vessel,” in Proc. of the 37th IEEE Conference on Decision & Control , Tampa, Florida USA, 1998, pp. 4561–4566. [2] K. Y. Pettersen and H. Nijmeijer, “Underactuated ship tracking control: theory and experiments,” Int. J. of Control , vol. 74, pp. 1435-1446, 2001. [3] Z. P. Jiang, “Global tracking control of underactuated ships by Lya-punov’s direct method,” Automatica , vol. 38, pp. 301–309, 2002. [4] K. D. Do, Z. P. Jiang, J. Pan, “Underactuated ship global tracking under relaxed conditions,” IEEE Transactions on Automatic Control , vol. 47, pp. 1529–1536, 2002. [5] T. C. Lee and Z. P. Jiang, “New cascade approach for global κ-exponential tracking of underactuated ships,” IEEE Transactions on Automatic Control , vol. 49, pp. 2297–2303, 2004. [6] J. H. Li, “Path tracking of underactuated ships with general form of dynamics,” Int. J. of Control , vol. 89, pp. 506–517, 2016. [7] H. Ashrafiuon, S. Nersesov, G. Clayton, “Trajectory tracking control of planar underactuated vehicles,” IEEE Transactions on Automatic Control , vol. 62, pp. 1959–1965, 2017. [8] J. M. Godhavn, “Nonlinear tracking of underactuated surface vessels,” in Proc. of the 35th IEEE Conference on Decision & Control , Kobe, Japan, 1996, pp. 975–980. [9] E. Fredriksen and K. Y. Pettersen, “Global κ-exponential way-point maneuvering of ships: Theory and experiments,” Automatica , vol. 42, pp. 677–687, 2006. [10] J. H. Li, P. M. Lee, B. H. Jun, Y. K. Lim, “Point-to-point navigation of underactuated ships,” Automatica , vol. 44, pp. 3201-3205, 2008. [11] L. Consolini and M. Tosques, “A minimum phase ouput in the exact tracking problem for the nonminimum phase underactuated surface ship,” IEEE Transactions on Automatic Control , vol. 57, pp. 3174–3180, 2012. [12] A. P. Aguiar and J. P. Hespanha, “Trajectory-tracking and path-following of underactuated autonomous vehicles with parametric modeling uncer-tainty,” IEEE Transactions on Automatic Control , vol. 52, pp. 1362-1379, 2007. [13] C. Paliotta, E. Lefeber, K. Y. Pettersen, J. Pinto, M. Costa, J. Sousa, “Trajectory tracking and path following for underactuated marine vehi-cles,” IEEE Transactions on Control Systems Technology , vol. 27, pp. 1423–1437, 2019. [14] K. D. Do, Z. P. Jiang, J. Pan, “Robust adaptive path following of underactuated ships,” Automatica , vol. 40, pp. 929–944, 2004. [15] K. D. Do and J. Pan, “Global robust adaptive path following of underactuated ships,” Automatica , vol. 42, pp. 1713–1722, 2006. [16] T. I. Fossen and K. Y. Pettersen, “On uniform semiglobal exponential stability (USGES) of proportional line-of-sight guidance laws,” Auto-matica , vol. 50, pp. 2912–2917, 2014. [17] C. Samson, “Path following and time-varying feedback stabilization of a wheeled mobile robot,” in Proc. of ICARCV’92 , Singapore, 1992. [18] N. Hung, F. Rego, J. Quintas, J. Cruz, M. Jacinto, D. Souto, A. Potes, L. Sebastiao, A. Pascoal, “A review of path following control strategies for autonomous robotic vehicles: Theory, simulations, and experiments,” 
+
+Journal of Field Robotics , vol. 40, pp. 747–779, 2023. [19] C. Dong, B. Zheng, L. Chen, “Trajectory tracking control for uncertain underactuated surface vessels with guaranteed prescribed performance under stochastic disturbances,” Nonlinear Dynamics , vol. 112, pp. 13215–13231, 2024. [20] M. Krstic, I. Kanellakopoulos, P. Kokotovic. Nonlinear and Adaptive Control Design . John Wiley & Sons, Inc., New York, 1995. [21] J. H. Li, H. Kang, M. G. Kim, M. J. Lee, G. R. Cho, “Asymptotic tra-jectory tracking of underactuated non-minimum phase marine vessels,” 
+
+IFAC PapersOnLine , vol. 55, pp. 281–286, 2022. [22] J. H. Li, H. Kang, M. G. Kim, H. S. Jin, M. J. Lee, G. R. Cho, “Tra-jectory tracking performance transition analysis from ploar to Cartesian coordinates,” IFAC PapersOnLine , vol. 56, pp. 11615–11620, 2023. [23] J. H. Li, “3D trajectory tracking of underactuated non-minimum phase underwater vehicles,” Automatica , vol. 155, 111149, 2023. [24] J. H. Li, H. Kang, M. G. Kim, M. J. Lee, H. S. Jin, G. R. Cho, ”Twoing type of 3D trajectory tracking for a class of underactuated autonomous underwater vehicles,” in Proc. of American Control Conference , Denvor, CO, pp. 3770–3775, 2025. [25] M. Z. Romdlony and B. Jayawardhana, “Uniting control Lyapunov and control barrier functions,” in Proc. of 53rd IEEE CDC , Los Angeles, CA, 2014, pp. 2293–2298. [26] A. D. Ames, X. Xu, J. W. Grizzle, P. Tabuada, “Control Barrier Function Based Quadratic Programs for Safety Critical Systems,” IEEE Trans. on Automatic Control , vol. 62, no. 8, pp. 3861–3876, 2017. [27] A. D. Ames, S. Coogan, M. Egerstedt, G. Notomista, K. Sreenath, P. Tabuada, “Control Barrier Functions: Theory and Applications,” in Proc. of 18th European Control Conference (ECC) , Napoli, Italy, 2019, pp. 3420–3431. [28] T. I. Fossen. Handbook of Marine Craft Hydrodynamics and Motion Control . John Wiley & Sons. Ltd, 2011. [29] J-J. E. Slotine and W. Li. Applied Nonlinear Control . Prentice-Hall Inc., New Jersey, 1991. [30] J. N. Newman. Marine Hydrodynamics . The MIT Press, Cambridge, MA, 1977. [31] M. M. Polycarpou, Stable adaptive neural control scheme for nonlinear systems, IEEE Transactions on Automatic Control , vol. 41, pp. 447–451, 1996. [32] V. Kurtz, P. M. Wensing, H. Lin, “Control Barrier Functions for Singularity Avoidance in Passivity-Based Manipulator Control,” in Proc. of 60th IEEE Conference on Decision and Control (CDC) , Austin, Texas, 2021, pp. 6125–6130. [33] M. Wu, A. Rupenyan, B. Corves, “Singularity-Avoidance Control of Robotic Systems with Model Mismatch and Actuator Constraints,” in Proc. of 23rd European Control Conference (ECC) , Thessaloniki, Greece, 2025, pp. 2545–2550. [34] P. Zhao, Y. Mao, C. Tao, N. Hovakimyan, X. Wang, “Adaptive Robust Quadratic Programs using Control Lyapunov and Barrier Functions,” in 
+
+Proc. of 59th IEEE Conference on Decision and Control (CDC) , Jeju Island, Republic of Korea, 2020, pp. 3353–3358. [35] E. Das and J-W. Burdick, “Robust Control Barrier Functions Using Uncertainty Estimation With Application to Mobile Robots,” IEEE Transactions on Automatic Control , vol. 70, no. 7, pp. 4766–4773, 2025. [36] Y. Wang and X. Xu, “Adaptive safety-critical control for a class of nonlinear systems with parametric uncertainties: A control barrier function approach,” Systems&Control Letters , vol. 188, 105798, 2024.
