@@ -1,0 +1,558 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-04-08T20:04:37.519481+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 3,
+    "deep_cap": 6,
+    "deep_selected": 3,
+    "quick_candidates": 16,
+    "quick_skim_target": 11,
+    "quick_selected": 11
+  },
+  "deep_dive": [
+    {
+      "id": "2604.05449v1",
+      "title": "Not All Agents Matter: From Global Attention Dilution to Risk-Prioritized Game Planning",
+      "abstract": "End-to-end autonomous driving resides not in the integration of perception and planning, but rather in the dynamic multi-agent game within a unified representation space. Most existing end-to-end models treat all agents equally, hindering the decoupling of real collision threats from complex backgrounds. To address this issue, We introduce the concept of Risk-Prioritized Game Planning, and propose GameAD, a novel framework that models end-to-end autonomous driving as a risk-aware game problem. The GameAD integrates Risk-Aware Topology Anchoring, Strategic Payload Adapter, Minimax Risk-Aware Sparse Attention, and Risk Consistent Equilibrium Stabilization to enable game theoretic decision making with risk prioritized interactions. We also present the Planning Risk Exposure metric, which quantifies the cumulative risk intensity of planned trajectories over a long horizon for safe autonomous driving. Extensive experiments on the nuScenes and Bench2Drive datasets show that our approach significantly outperforms state-of-the-art methods, especially in terms of trajectory safety.",
+      "authors": [
+        "Kang Ding",
+        "Hongsong Wang",
+        "Jie Gui",
+        "Lei He"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-04-07T05:33:54+00:00",
+      "link": "https://arxiv.org/pdf/2604.05449v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "multi-agent game modeling and risk-prioritized interactions in autonomous driving",
+      "llm_evidence_cn": "自动驾驶中的多智能体博弈建模与风险优先交互",
+      "llm_evidence": "自动驾驶中的多智能体博弈建模与风险优先交互",
+      "canonical_evidence": "自动驾驶中的多智能体博弈建模与风险优先交互",
+      "llm_tldr_en": "Proposes GameAD, a framework modeling autonomous driving as a risk-aware game with prioritized agent interactions.",
+      "llm_tldr_cn": "提出GameAD框架，将自动驾驶建模为具有风险感知和优先级交互的博弈问题。",
+      "llm_tldr": "提出GameAD框架，将自动驾驶建模为具有风险感知和优先级交互的博弈问题。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "multi-agent trajectory forecasting and interaction modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2604.05525v1",
+      "title": "CrowdVLA: Embodied Vision-Language-Action Agents for Context-Aware Crowd Simulation",
+      "abstract": "Crowds do not merely move; they decide. Human navigation is inherently contextual: people interpret the meaning of space, social norms, and potential consequences before acting. Sidewalks invite walking, crosswalks invite crossing, and deviations are weighed against urgency and safety. Yet most crowd simulation methods reduce navigation to geometry and collision avoidance, producing motion that is plausible but rarely intentional. We introduce CrowdVLA, a new formulation of crowd simulation that models each pedestrian as a Vision-Language-Action (VLA) agent. Instead of replaying recorded trajectories, CrowdVLA enables agents to interpret scene semantics and social norms from visual observations and language instructions, and to select actions through consequence-aware reasoning. CrowdVLA addresses three key challenges-limited agent-centric supervision in crowd datasets, unstable per-frame control, and success-biased datasets-through: (i) agent-centric visual supervision via semantically reconstructed environments and Low-Rank Adaptation (LoRA) fine-tuning of a pretrained vision-language model, (ii) a motion skill action space that bridges symbolic decision making and continuous locomotion, and (iii) exploration-based question answering that exposes agents to counterfactual actions and their outcomes through simulation rollouts. Our results shift crowd simulation from motion-centric synthesis toward perception-driven, consequence-aware decision making, enabling crowds that move not just realistically, but meaningfully.",
+      "authors": [
+        "Juyeong Hwang",
+        "Seong-Eun Hong",
+        "Jinhyun Kim",
+        "JaeYoung Seon",
+        "Giljoo Nam",
+        "Hanyoung Jang",
+        "HyeongYeop Kang"
+      ],
+      "primary_category": "cs.GR",
+      "categories": [
+        "cs.GR"
+      ],
+      "published": "2026-04-07T07:24:21+00:00",
+      "link": "https://arxiv.org/pdf/2604.05525v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "VLA agents for context-aware crowd simulation and navigation",
+      "llm_evidence_cn": "用于上下文感知人群模拟和导航的 VLA 智能体",
+      "llm_evidence": "用于上下文感知人群模拟和导航的 VLA 智能体",
+      "canonical_evidence": "用于上下文感知人群模拟和导航的 VLA 智能体",
+      "llm_tldr_en": "Models pedestrians as Vision-Language-Action agents to simulate intentional crowd navigation and social norms.",
+      "llm_tldr_cn": "将行人建模为视觉-语言-动作智能体，以模拟有意识的人群导航和社交规范。",
+      "llm_tldr": "将行人建模为视觉-语言-动作智能体，以模拟有意识的人群导航和社交规范。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "pedestrian trajectory prediction in crowded scenes",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2604.05529v1",
+      "title": "ActivityEditor: Learning to Synthesize Physically Valid Human Mobility",
+      "abstract": "Human mobility modeling is indispensable for diverse urban applications. However, existing data-driven methods often suffer from data scarcity, limiting their applicability in regions where historical trajectories are unavailable or restricted. To bridge this gap, we propose \\textbf{ActivityEditor}, a novel dual-LLM-agent framework designed for zero-shot cross-regional trajectory generation. Our framework decomposes the complex synthesis task into two collaborative stages. Specifically, an intention-based agent, which leverages demographic-driven priors to generate structured human intentions and coarse activity chains to ensure high-level socio-semantic coherence. These outputs are then refined by editor agent to obtain mobility trajectories through iteratively revisions that enforces human mobility law. This capability is acquired through reinforcement learning with multiple rewards grounded in real-world physical constraints, allowing the agent to internalize mobility regularities and ensure high-fidelity trajectory generation. Extensive experiments demonstrate that \\textbf{ActivityEditor} achieves superior zero-shot performance when transferred across diverse urban contexts. It maintains high statistical fidelity and physical validity, providing a robust and highly generalizable solution for mobility simulation in data-scarce scenarios. Our code is available at: https://anonymous.4open.science/r/ActivityEditor-066B.",
+      "authors": [
+        "Chenjie Yang",
+        "Yutian Jiang",
+        "Anqi Liang",
+        "Wei Qi",
+        "Chenyu Wu",
+        "Junbo Zhang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-04-07T07:28:20+00:00",
+      "link": "https://arxiv.org/pdf/2604.05529v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Intention-based agent for generating mobility trajectories",
+      "llm_evidence_cn": "基于意图的智能体生成移动轨迹",
+      "llm_evidence": "基于意图的智能体生成移动轨迹",
+      "canonical_evidence": "基于意图的智能体生成移动轨迹",
+      "llm_tldr_en": "Uses a dual-LLM framework to synthesize human mobility trajectories based on structured intentions.",
+      "llm_tldr_cn": "利用双大语言模型框架，基于结构化意图合成人类移动轨迹。",
+      "llm_tldr": "利用双大语言模型框架，基于结构化意图合成人类移动轨迹。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "target intent and goal estimation for trajectory prediction",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2604.00333v2",
+      "title": "MVNN: A Measure-Valued Neural Network for Learning McKean-Vlasov Dynamics from Particle Data",
+      "abstract": "Collective behaviors that emerge from interactions are fundamental to numerous biological systems. To learn such interacting forces from observations, we introduce a measure-valued neural network that infers measure-dependent interaction (drift) terms directly from particle-trajectory observations. The proposed architecture generalizes standard neural networks to operate on probability measures by learning cylindrical features, using an embedding network that produces scalable distribution-to-vector representations. On the theory side, we establish well-posedness of the resulting dynamics and prove propagation-of-chaos for the associated interacting-particle system. We further show universal approximation and quantitative approximation rates under a low-dimensional measure-dependence assumption. Numerical experiments on first and second order systems, including deterministic and stochastic Motsch-Tadmor dynamics, two-dimensional attraction-repulsion aggregation, Cucker-Smale dynamics, and a hierarchical multi-group system, demonstrate accurate prediction and strong out-of-distribution generalization.",
+      "authors": [
+        "Liyao Lyu",
+        "Xinyue Yu",
+        "Hayden Schaeffer"
+      ],
+      "primary_category": "math.NA",
+      "categories": [
+        "math.NA",
+        "cs.LG",
+        "physics.comp-ph"
+      ],
+      "published": "2026-04-01T00:11:47+00:00",
+      "link": "https://arxiv.org/pdf/2604.00333v2",
+      "tags": [
+        "keyword:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "learning interacting forces from particle-trajectory observations",
+      "llm_evidence_cn": "从粒子轨迹观测中学习相互作用力",
+      "llm_evidence": "从粒子轨迹观测中学习相互作用力",
+      "canonical_evidence": "从粒子轨迹观测中学习相互作用力",
+      "llm_tldr_en": "Introduces a measure-valued neural network to infer interaction dynamics from multi-agent trajectory data.",
+      "llm_tldr_cn": "引入一种测度值神经网络，从多智能体轨迹数据中推断相互作用动力学。",
+      "llm_tldr": "引入一种测度值神经网络，从多智能体轨迹数据中推断相互作用动力学。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "multi-agent trajectory forecasting and interaction modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.01044v1",
+      "title": "A global dataset of continuous urban dashcam driving",
+      "abstract": "We introduce CROWD (City Road Observations With Dashcams), a manually curated dataset of ordinary, minute scale, temporally contiguous, unedited, front facing urban dashcam segments screened and segmented from publicly available YouTube videos. CROWD is designed to support cross-domain robustness and interaction analysis by prioritising routine driving and explicitly excluding crashes, crash aftermath, and other edited or incident-focused content. The release contains 51,753 segment records spanning 20,275.56 hours (42,032 videos), covering 7,103 named inhabited places in 238 countries and territories across all six inhabited continents (Africa, Asia, Europe, North America, South America and Oceania), with segment level manual labels for time of day (day or night) and vehicle type. To lower the barrier for benchmarking, we provide per-segment CSV files of machine-generated detections for all 80 MS-COCO classes produced with YOLOv11x, together with segment-local multi-object tracks (BoT-SORT); e.g. person, bicycle, motorcycle, car, bus, truck, traffic light, stop sign, etc. CROWD is distributed as video identifiers with segment boundaries and derived annotations, enabling reproducible research without redistributing the underlying videos.",
+      "authors": [
+        "Md Shadab Alam",
+        "Olena Bazilinska",
+        "Pavlo Bazilinskyy"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-04-01T15:52:17+00:00",
+      "link": "https://arxiv.org/pdf/2604.01044v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Large-scale urban driving dataset for interaction analysis and trajectory modeling",
+      "llm_evidence_cn": "用于交互分析和轨迹建模的大规模城市驾驶数据集",
+      "llm_evidence": "用于交互分析和轨迹建模的大规模城市驾驶数据集",
+      "canonical_evidence": "用于交互分析和轨迹建模的大规模城市驾驶数据集",
+      "llm_tldr_en": "Provides a massive global dashcam dataset to support research in urban driving interactions and robustness.",
+      "llm_tldr_cn": "提供大规模全球行车记录仪数据集，支持城市驾驶交互和鲁棒性研究。",
+      "llm_tldr": "提供大规模全球行车记录仪数据集，支持城市驾驶交互和鲁棒性研究。",
+      "llm_tags": [
+        "query:tp:composite"
+      ],
+      "matched_query_tag": "query:tp:composite",
+      "matched_query_text": "Papers central to 轨迹预测（车辆、行人、船舶、飞机等）相关的论文，考虑密集场景、目标意图、多智能体、轨迹表示学习等概念, especially work that connects or combines: trajectory prediction for autonomous agents; pedestrian trajectory prediction in crowded scenes; maritime vessel trajectory and path prediction algorithms; multi-agent trajectory forecasting and interaction modeling; target intent and goal estimation for trajectory prediction; trajectory representation learning and feature extraction; study of pedestrian and vehicle trajectory prediction models; trajectory prediction in complex maritime environments; deep learning techniques for intent aware trajectory forecasting; trajectory representation learning based on multimodal large language model.",
+      "matched_requirement_id": "req-composite-tp",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.00813v2",
+      "title": "DVGT-2: Vision-Geometry-Action Model for Autonomous Driving at Scale",
+      "abstract": "End-to-end autonomous driving has evolved from the conventional paradigm based on sparse perception into vision-language-action (VLA) models, which focus on learning language descriptions as an auxiliary task to facilitate planning. In this paper, we propose an alternative Vision-Geometry-Action (VGA) paradigm that advocates dense 3D geometry as the critical cue for autonomous driving. As vehicles operate in a 3D world, we think dense 3D geometry provides the most comprehensive information for decision-making. However, most existing geometry reconstruction methods (e.g., DVGT) rely on computationally expensive batch processing of multi-frame inputs and cannot be applied to online planning. To address this, we introduce a streaming Driving Visual Geometry Transformer (DVGT-2), which processes inputs in an online manner and jointly outputs dense geometry and trajectory planning for the current frame. We employ temporal causal attention and cache historical features to support on-the-fly inference. To further enhance efficiency, we propose a sliding-window streaming strategy and use historical caches within a certain interval to avoid repetitive computations. Despite the faster speed, DVGT-2 achieves superior geometry reconstruction performance on various datasets. The same trained DVGT-2 can be directly applied to planning across diverse camera configurations without fine-tuning, including closed-loop NAVSIM and open-loop nuScenes benchmarks.",
+      "authors": [
+        "Sicheng Zuo",
+        "Zixun Xie",
+        "Wenzhao Zheng",
+        "Shaoqing Xu",
+        "Fang Li",
+        "Hanbing Li",
+        "Long Chen",
+        "Zhi-Xin Yang",
+        "Jiwen Lu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.RO"
+      ],
+      "published": "2026-04-01T12:21:26+00:00",
+      "link": "https://arxiv.org/pdf/2604.00813v2",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "vision-geometry-action for autonomous driving",
+      "llm_evidence_cn": "自动驾驶的视觉-几何-动作模型",
+      "llm_evidence": "自动驾驶的视觉-几何-动作模型",
+      "canonical_evidence": "自动驾驶的视觉-几何-动作模型",
+      "llm_tldr_en": "Proposes a 3D geometry-based paradigm for autonomous driving planning and decision-making.",
+      "llm_tldr_cn": "提出了一种基于3D几何的自动驾驶规划与决策范式。",
+      "llm_tldr": "提出了一种基于3D几何的自动驾驶规划与决策范式。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.01044v2",
+      "title": "A global dataset of continuous urban dashcam driving",
+      "abstract": "We introduce CROWD (City Road Observations With Dashcams), a manually curated dataset of ordinary, minute scale, temporally contiguous, unedited, front facing urban dashcam segments screened and segmented from publicly available YouTube videos. CROWD is designed to support cross-domain robustness and interaction analysis by prioritising routine driving and explicitly excluding crashes, crash aftermath, and other edited or incident-focused content. The release contains 51,753 segment records spanning 20,275.56 hours (42,032 videos), covering 7,103 named inhabited places in 238 countries and territories across all six inhabited continents (Africa, Asia, Europe, North America, South America and Oceania), with segment level manual labels for time of day (day or night) and vehicle type. To lower the barrier for benchmarking, we provide per-segment CSV files of machine-generated detections for all 80 MS-COCO classes produced with YOLOv11x, together with segment-local multi-object tracks (BoT-SORT); e.g. person, bicycle, motorcycle, car, bus, truck, traffic light, stop sign, etc. CROWD is distributed as video identifiers with segment boundaries and derived annotations, enabling reproducible research without redistributing the underlying videos.",
+      "authors": [
+        "Md Shadab Alam",
+        "Olena Bazilinska",
+        "Pavlo Bazilinskyy"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-04-01T15:52:17+00:00",
+      "link": "https://arxiv.org/pdf/2604.01044v2",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "urban dashcam dataset for interaction analysis",
+      "llm_evidence_cn": "用于交互分析的城市行车记录仪数据集",
+      "llm_evidence": "用于交互分析的城市行车记录仪数据集",
+      "canonical_evidence": "用于交互分析的城市行车记录仪数据集",
+      "llm_tldr_en": "Provides a large-scale global dashcam dataset to support driving interaction analysis and robustness.",
+      "llm_tldr_cn": "提供大规模全球行车记录仪数据集，支持驾驶交互分析和鲁棒性研究。",
+      "llm_tldr": "提供大规模全球行车记录仪数据集，支持驾驶交互分析和鲁棒性研究。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "study of pedestrian and vehicle trajectory prediction models",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.02878v1",
+      "title": "An Asynchronous Two-Speed Kalman Filter for Real-Time UUV Cooperative Navigation Under Acoustic Delays",
+      "abstract": "In GNSS-denied underwater environments, individual unmanned underwater vehicles (UUVs) suffer from unbounded dead-reckoning drift, making collaborative navigation crucial for accurate state estimation. However, the severe communication delay inherent in underwater acoustic channels poses serious challenges to real-time state estimation. Traditional filters, such as Extended Kalman Filters (EKF) or Unscented Kalman Filters (UKF), usually block the main control loop while waiting for delayed data, or completely discard Out-of-Sequence Measurements (OOSM), resulting in serious drift. To address this, we propose an Asynchronous Two-Speed Kalman Filter (TSKF) enhanced by a novel projection mechanism, which we term Variational History Distillation (VHD). The proposed architecture decouples the estimation process into two parallel threads: a fast-rate thread that utilizes Gaussian Process (GP) compensated dead reckoning to guarantee high-frequency real-time control, and a slow-rate thread dedicated to processing asynchronously delayed collaborative information. By introducing a finite-length State Buffer, the algorithm applies delayed measurements (t-T) to their corresponding historical states, and utilizes a VHD-based projection to fast-forward the correction to the current time without computationally heavy recalculations. Simulation results demonstrate that the proposed TSKF maintains trajectory Root Mean Square Error (RMSE) comparable to computationally intensive batch-optimization methods under severe delays (up to 30 s). Executing in sub-millisecond time, it significantly outperforms standard EKF/UKF. The results demonstrate an effective control, communication, and computing (3C) co-design that significantly enhances the resilience of autonomous marine automation systems.",
+      "authors": [
+        "Shuyue Li",
+        "Miguel López-Benítez",
+        "Eng Gee Lim",
+        "Fei Ma",
+        "Qian Dong",
+        "Mengze Cao",
+        "Limin Yu",
+        "Xiaohui Qin"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "eess.SY"
+      ],
+      "published": "2026-04-03T08:43:25+00:00",
+      "link": "https://arxiv.org/pdf/2604.02878v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "UUV cooperative navigation and state estimation under delays",
+      "llm_evidence_cn": "延迟下的无人水下航行器协作导航与状态估计",
+      "llm_evidence": "延迟下的无人水下航行器协作导航与状态估计",
+      "canonical_evidence": "延迟下的无人水下航行器协作导航与状态估计",
+      "llm_tldr_en": "Proposes an asynchronous Kalman filter for real-time cooperative navigation of underwater vehicles.",
+      "llm_tldr_cn": "提出一种异步卡尔曼滤波器，用于水下航行器的实时协作导航。",
+      "llm_tldr": "提出一种异步卡尔曼滤波器，用于水下航行器的实时协作导航。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "maritime vessel trajectory and path prediction algorithms",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.01346v2",
+      "title": "Safety, Security, and Cognitive Risks in World Models",
+      "abstract": "World models - learned internal simulators of environment dynamics - are rapidly becoming foundational to autonomous decision-making in robotics, autonomous vehicles, and agentic AI. By predicting future states in compressed latent spaces, they enable sample-efficient planning and long-horizon imagination without direct environment interaction. Yet this predictive power introduces a distinctive set of safety, security, and cognitive risks. Adversaries can corrupt training data, poison latent representations, and exploit compounding rollout errors to cause significant degradation in safety-critical deployments. At the alignment layer, world model-equipped agents are more capable of goal misgeneralisation, deceptive alignment, and reward hacking. At the human layer, authoritative world model predictions foster automation bias, miscalibrated trust, and planning hallucination.   This paper surveys the world model landscape; introduces formal definitions of trajectory persistence and representational risk; presents a five-profile attacker taxonomy; and develops a unified threat model drawing on MITRE ATLAS and the OWASP LLM Top 10. We provide an empirical proof-of-concept demonstrating trajectory-persistent adversarial attacks on a GRU-based RSSM ($\\mathcal{A}_1 = 2.26\\times$ amplification, $-59.5\\%$ reward reduction under adversarial fine-tuning), validate architecture-dependence via a stochastic RSSM proxy ($\\mathcal{A}_1 = 0.65\\times$), and probe a real DreamerV3 checkpoint (non-zero action drift confirmed). We propose interdisciplinary mitigations spanning adversarial hardening, alignment engineering, NIST AI RMF and EU AI Act governance, and human-factors design, arguing that world models require the same rigour as flight-control software or medical devices.",
+      "authors": [
+        "Manoj Parmar"
+      ],
+      "primary_category": "cs.CR",
+      "categories": [
+        "cs.CR",
+        "cs.AI",
+        "cs.LG",
+        "cs.RO"
+      ],
+      "published": "2026-04-01T19:57:33+00:00",
+      "link": "https://arxiv.org/pdf/2604.01346v2",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "predicting future states in world models for autonomous vehicles",
+      "llm_evidence_cn": "自动驾驶世界模型中的未来状态预测",
+      "llm_evidence": "自动驾驶世界模型中的未来状态预测",
+      "canonical_evidence": "自动驾驶世界模型中的未来状态预测",
+      "llm_tldr_en": "Analyzes safety and security risks in world models used for autonomous decision-making.",
+      "llm_tldr_cn": "分析了用于自主决策的世界模型中的安全和保障风险。",
+      "llm_tldr": "分析了用于自主决策的世界模型中的安全和保障风险。",
+      "llm_tags": [
+        "query:tp:composite"
+      ],
+      "matched_query_tag": "query:tp:composite",
+      "matched_query_text": "Papers central to 轨迹预测（车辆、行人、船舶、飞机等）相关的论文，考虑密集场景、目标意图、多智能体、轨迹表示学习等概念, especially work that connects or combines: trajectory prediction for autonomous agents; pedestrian trajectory prediction in crowded scenes; maritime vessel trajectory and path prediction algorithms; multi-agent trajectory forecasting and interaction modeling; target intent and goal estimation for trajectory prediction; trajectory representation learning and feature extraction; study of pedestrian and vehicle trajectory prediction models; trajectory prediction in complex maritime environments; deep learning techniques for intent aware trajectory forecasting; trajectory representation learning based on multimodal large language model.",
+      "matched_requirement_id": "req-composite-tp",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.03208v1",
+      "title": "Hierarchical Planning with Latent World Models",
+      "abstract": "Model predictive control (MPC) with learned world models has emerged as a promising paradigm for embodied control, particularly for its ability to generalize zero-shot when deployed in new environments. However, learned world models often struggle with long-horizon control due to the accumulation of prediction errors and the exponentially growing search space. In this work, we address these challenges by learning latent world models at multiple temporal scales and performing hierarchical planning across these scales, enabling long-horizon reasoning while substantially reducing inference-time planning complexity. Our approach serves as a modular planning abstraction that applies across diverse latent world-model architectures and domains. We demonstrate that this hierarchical approach enables zero-shot control on real-world non-greedy robotic tasks, achieving a 70% success rate on pick-&-place using only a final goal specification, compared to 0% for a single-level world model. In addition, across physics-based simulated environments including push manipulation and maze navigation, hierarchical planning achieves higher success while requiring up to 4x less planning-time compute.",
+      "authors": [
+        "Wancong Zhang",
+        "Basile Terver",
+        "Artem Zholus",
+        "Soham Chitnis",
+        "Harsh Sutaria",
+        "Mido Assran",
+        "Randall Balestriero",
+        "Amir Bar",
+        "Adrien Bardes",
+        "Yann LeCun",
+        "Nicolas Ballas"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-04-03T17:32:36+00:00",
+      "link": "https://arxiv.org/pdf/2604.03208v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "latent world models for long-horizon prediction and control",
+      "llm_evidence_cn": "用于长时程预测和控制的潜空间世界模型",
+      "llm_evidence": "用于长时程预测和控制的潜空间世界模型",
+      "canonical_evidence": "用于长时程预测和控制的潜空间世界模型",
+      "llm_tldr_en": "Proposes hierarchical latent world models to improve long-horizon prediction and planning for embodied agents.",
+      "llm_tldr_cn": "提出分层潜空间世界模型，以改进具身智能体的长时程预测与规划。",
+      "llm_tldr": "提出分层潜空间世界模型，以改进具身智能体的长时程预测与规划。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.03139v1",
+      "title": "FSUNav: A Cerebrum-Cerebellum Architecture for Fast, Safe, and Universal Zero-Shot Goal-Oriented Navigation",
+      "abstract": "Current vision-language navigation methods face substantial bottlenecks regarding heterogeneous robot compatibility, real-time performance, and navigation safety. Furthermore, they struggle to support open-vocabulary semantic generalization and multimodal task inputs. To address these challenges, this paper proposes FSUNav: a Cerebrum-Cerebellum architecture for fast, safe, and universal zero-shot goal-oriented navigation, which innovatively integrates vision-language models (VLMs) with the proposed architecture. The cerebellum module, a high-frequency end-to-end module, develops a universal local planner based on deep reinforcement learning, enabling unified navigation across heterogeneous platforms (e.g., humanoid, quadruped, wheeled robots) to improve navigation efficiency while significantly reducing collision risk. The cerebrum module constructs a three-layer reasoning model and leverages VLMs to build an end-to-end detection and verification mechanism, enabling zero-shot open-vocabulary goal navigation without predefined IDs and improving task success rates in both simulation and real-world environments. Additionally, the framework supports multimodal inputs (e.g., text, target descriptions, and images), further enhancing generalization, real-time performance, safety, and robustness. Experimental results on MP3D, HM3D, and OVON benchmarks demonstrate that FSUNav achieves state-of-the-art performance on object, instance image, and task navigation, significantly outperforming existing methods. Real-world deployments on diverse robotic platforms further validate its robustness and practical applicability.",
+      "authors": [
+        "Mingao Tan",
+        "Yiyang Li",
+        "Shanze Wang",
+        "Xinming Zhang",
+        "Wei Zhang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-04-03T16:01:58+00:00",
+      "link": "https://arxiv.org/pdf/2604.03139v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "goal-oriented navigation and local planner",
+      "llm_evidence_cn": "目标导向导航和局部规划器",
+      "llm_evidence": "目标导向导航和局部规划器",
+      "canonical_evidence": "目标导向导航和局部规划器",
+      "llm_tldr_en": "A zero-shot navigation architecture using VLMs for universal robot local planning.",
+      "llm_tldr_cn": "一种利用VLM进行通用机器人局部规划的零样本导航架构。",
+      "llm_tldr": "一种利用VLM进行通用机器人局部规划的零样本导航架构。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.04039v1",
+      "title": "Adapting Neural Robot Dynamics on the Fly for Predictive Control",
+      "abstract": "Accurate dynamics models are critical for the design of predictive controller for autonomous mobile robots. Physics-based models are often too simple to capture relevant real-world effects, while data-driven models are data-intensive and slow to train. We introduce an approach for fast adaptation of neural robot dynamic models that combines offline training with efficient online updates. Our approach learns an incremental neural dynamics model offline and performs low-rank second-order parameter adaptation online, enabling rapid updates without full retraining. We demonstrate the approach on a real quadrotor robot, achieving robust predictive tracking control in novel operational conditions.",
+      "authors": [
+        "Abdullah Altawaitan",
+        "Nikolay Atanasov"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-04-05T09:45:26+00:00",
+      "link": "https://arxiv.org/pdf/2604.04039v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "neural robot dynamics for predictive control of autonomous robots",
+      "llm_evidence_cn": "用于自主机器人预测控制的神经机器人动力学",
+      "llm_evidence": "用于自主机器人预测控制的神经机器人动力学",
+      "canonical_evidence": "用于自主机器人预测控制的神经机器人动力学",
+      "llm_tldr_en": "Adapts neural dynamics models online to improve predictive control for autonomous mobile robots like quadrotors.",
+      "llm_tldr_cn": "在线调整神经动力学模型，以改进四旋翼等自主移动机器人的预测控制。",
+      "llm_tldr": "在线调整神经动力学模型，以改进四旋翼等自主移动机器人的预测控制。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.03405v1",
+      "title": "Steering with Contingencies: Combinatorial Stabilization and Reach-Avoid Filters",
+      "abstract": "In applications such as autonomous landing and navigation, it is often desirable to steer toward a target while retaining the ability to divert to at least $r$ (out of $p$) alternative sites if conditions change. In this work, we formalize this combinatorial contingency requirement and develop tractable control filters for enforcement. Combinatorial stabilization requires asymptotic stability of a selected equilibrium while ensuring the trajectory remains within the safe region of attraction of at least $r$-out-of-$p$ candidates. To enforce this requirement, we use control Lyapunov functions (CLFs) to construct regions of attraction, which are combined combinatorially within an optimization-based filter. Combinatorial targeting extends this framework to finite-horizon problems using Hamilton-Jacobi backward reach-avoid sets, accommodating shrinking reachable regions due to finite horizons or resource depletion. In both formulations, the resulting combinatorial stability filter and combinatorial reach-avoid filter require only $p+1$ constraints, preventing combinatorial blow-up and enabling safe real-time switching between targets. The framework is demonstrated on two examples where the filters ensure steering with contingency and enable safe diversion.",
+      "authors": [
+        "Yana Lishkova",
+        "Pio Ong",
+        "Sander Tonkens",
+        "Sylvia Herbert",
+        "Aaron D. Ames"
+      ],
+      "primary_category": "eess.SY",
+      "categories": [
+        "eess.SY"
+      ],
+      "published": "2026-04-03T19:07:30+00:00",
+      "link": "https://arxiv.org/pdf/2604.03405v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "steering trajectories toward targets with contingency constraints",
+      "llm_evidence_cn": "带有应急约束的向目标转向轨迹",
+      "llm_evidence": "带有应急约束的向目标转向轨迹",
+      "canonical_evidence": "带有应急约束的向目标转向轨迹",
+      "llm_tldr_en": "Develops control filters to ensure trajectories remain safe while steering toward target equilibria.",
+      "llm_tldr_cn": "开发控制过滤器，确保在转向目标平衡点时轨迹保持安全。",
+      "llm_tldr": "开发控制过滤器，确保在转向目标平衡点时轨迹保持安全。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.04564v1",
+      "title": "Visual Prompt Based Reasoning for Offroad Mapping using Multimodal LLMs",
+      "abstract": "Traditional approaches to off-road autonomy rely on separate models for terrain classification, height estimation, and quantifying slip or slope conditions. Utilizing several models requires training each component separately, having task specific datasets, and fine-tuning. In this work, we present a zero-shot approach leveraging SAM2 for environment segmentation and a vision-language model (VLM) to reason about drivable areas. Our approach involves passing to the VLM both the original image and the segmented image annotated with numeric labels for each mask. The VLM is then prompted to identify which regions, represented by these numeric labels, are drivable. Combined with planning and control modules, this unified framework eliminates the need for explicit terrain-specific models and relies instead on the inherent reasoning capabilities of the VLM. Our approach surpasses state-of-the-art trainable models on high resolution segmentation datasets and enables full stack navigation in our Isaac Sim offroad environment.",
+      "authors": [
+        "Abdelmoamen Nasser",
+        "Yousef Baba'a",
+        "Murad Mebrahtu",
+        "Nadya Abdel Madjid",
+        "Jorge Dias",
+        "Majid Khonji"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.CV"
+      ],
+      "published": "2026-04-06T09:53:31+00:00",
+      "link": "https://arxiv.org/pdf/2604.04564v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "multimodal LLM for reasoning about drivable areas in navigation",
+      "llm_evidence_cn": "多模态大模型用于导航中可行驶区域的推理",
+      "llm_evidence": "多模态大模型用于导航中可行驶区域的推理",
+      "canonical_evidence": "多模态大模型用于导航中可行驶区域的推理",
+      "llm_tldr_en": "Uses multimodal LLMs and visual prompts for zero-shot off-road mapping and navigation reasoning.",
+      "llm_tldr_cn": "利用多模态大模型和视觉提示进行零样本越野地图绘制和导航推理。",
+      "llm_tldr": "利用多模态大模型和视觉提示进行零样本越野地图绘制和导航推理。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning based on multimodal large language model",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
