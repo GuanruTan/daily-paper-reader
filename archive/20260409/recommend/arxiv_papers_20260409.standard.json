@@ -1,0 +1,478 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-04-09T20:40:42.158435+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 3,
+    "deep_cap": 6,
+    "deep_selected": 3,
+    "quick_candidates": 9,
+    "quick_skim_target": 11,
+    "quick_selected": 9
+  },
+  "deep_dive": [
+    {
+      "id": "2604.07126v1",
+      "title": "Self-Discovered Intention-aware Transformer for Multi-modal Vehicle Trajectory Prediction",
+      "abstract": "Predicting vehicle trajectories plays an important role in autonomous driving and ITS applications. Although multiple deep learning algorithms are devised to predict vehicle trajectories, their reliant on specific graph structure (e.g., Graph Neural Network) or explicit intention labeling limit their flexibilities. In this study, we propose a pure Transformer-based network with multiple modals considering their neighboring vehicles. Two separate tracks are employed. One track focuses on predicting the trajectories while the other focuses on predicting the likelihood of each intention considering neighboring vehicles. Study finds that the two track design can increase the performance by separating spatial module from the trajectory generating module. Also, we find the the model can learn an ordered group of trajectories by predicting residual offsets among K trajectories.",
+      "authors": [
+        "Diyi Liu",
+        "Zihan Niu",
+        "Tu Xu",
+        "Lishan Sun"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-04-08T14:20:09+00:00",
+      "link": "https://arxiv.org/pdf/2604.07126v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "intention-aware Transformer for multi-modal vehicle trajectory prediction",
+      "llm_evidence_cn": "用于多模态车辆轨迹预测的意图感知Transformer",
+      "llm_evidence": "用于多模态车辆轨迹预测的意图感知Transformer",
+      "canonical_evidence": "用于多模态车辆轨迹预测的意图感知Transformer",
+      "llm_tldr_en": "Develops a Transformer-based network for vehicle trajectory prediction with self-discovered intention modeling.",
+      "llm_tldr_cn": "开发了一种基于Transformer的网络，通过自发现意图建模进行车辆轨迹预测。",
+      "llm_tldr": "开发了一种基于Transformer的网络，通过自发现意图建模进行车辆轨迹预测。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "deep learning techniques for intent aware trajectory forecasting",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2604.06883v1",
+      "title": "SCT-MOT: Enhancing Air-to-Air Multiple UAVs Tracking with Swarm-Coupled Motion and Trajectory Guidance",
+      "abstract": "Air-to-air tracking of swarm UAVs presents significant challenges due to the complex nonlinear group motion and weak visual cues for small objects, which often cause detection failures, trajectory fragmentation, and identity switches. Although existing methods have attempted to improve performance by incorporating trajectory prediction, they model each object independently, neglecting the swarm-level motion dependencies. Their limited integration between motion prediction and appearance representation also weakens the spatio-temporal consistency required for tracking in visually ambiguous and cluttered environments, making it difficult to maintain coherent trajectories and reliable associations. To address these challenges, we propose SCT-MOT, a tracking framework that integrates Swarm-Coupled motion modeling and Trajectory-guided feature fusion. First, we develop a Swarm Motion-Aware Trajectory Prediction (SMTP) module jointly models historical trajectories and posture-aware appearance features from a swarm-level perspective, enabling more accurate forecasting of the nonlinear, coupled group trajectories. Second, we design a Trajectory-Guided Spatio-Temporal Feature Fusion (TG-STFF) module aligns predicted positions with historical visual cues and deeply integrates them with current frame features, enhancing temporal consistency and spatial discriminability for weak objects. Extensive experiments on three public air-to-air swarm UAV tracking datasets, including AIRMOT, MOT-FLY, and UAVSwarm, demonstrate that SMTP achieves more accurate trajectory forecasts and yields a 1.21\\% IDF1 improvement over the state-of-the-art trajectory prediction module EqMotion when integrated into the same MOT framework. Overall, our SCT-MOT consistently achieves superior accuracy and robustness compared to state-of-the-art trackers across multiple metrics under complex swarm scenarios.",
+      "authors": [
+        "Zhaochen Chu",
+        "Tao Song",
+        "Ren Jin",
+        "Shaoming He",
+        "Defu Lin",
+        "Siqing Cheng"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-04-08T09:42:28+00:00",
+      "link": "https://arxiv.org/pdf/2604.06883v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "multi-UAV trajectory prediction and swarm motion dependencies",
+      "llm_evidence_cn": "多无人机轨迹预测与集群运动依赖",
+      "llm_evidence": "多无人机轨迹预测与集群运动依赖",
+      "canonical_evidence": "多无人机轨迹预测与集群运动依赖",
+      "llm_tldr_en": "Enhances swarm UAV tracking by modeling group motion dependencies and trajectory guidance.",
+      "llm_tldr_cn": "通过建模集群运动依赖和轨迹引导，增强了空对空多无人机跟踪性能。",
+      "llm_tldr": "通过建模集群运动依赖和轨迹引导，增强了空对空多无人机跟踪性能。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "multi-agent trajectory forecasting and interaction modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2604.06972v1",
+      "title": "Differentiable Environment-Trajectory Co-Optimization for Safe Multi-Agent Navigation",
+      "abstract": "The environment plays a critical role in multi-agent navigation by imposing spatial constraints, rules, and limitations that agents must navigate around. Traditional approaches treat the environment as fixed, without exploring its impact on agents' performance. This work considers environment configurations as decision variables, alongside agent actions, to jointly achieve safe navigation. We formulate a bi-level problem, where the lower-level sub-problem optimizes agent trajectories that minimize navigation cost and the upper-level sub-problem optimizes environment configurations that maximize navigation safety. We develop a differentiable optimization method that iteratively solves the lower-level sub-problem with interior point methods and the upper-level sub-problem with gradient ascent. A key challenge lies in analytically coupling these two levels. We address this by leveraging KKT conditions and the Implicit Function Theorem to compute gradients of agent trajectories w.r.t. environment parameters, enabling differentiation throughout the bi-level structure. Moreover, we propose a novel metric that quantifies navigation safety as a criterion for the upper-level environment optimization, and prove its validity through measure theory. Our experiments validate the effectiveness of the proposed framework in a variety of safety-critical navigation scenarios, inspired from warehouse logistics to urban transportation. The results demonstrate that optimized environments provide navigation guidance, improving both agents' safety and efficiency.",
+      "authors": [
+        "Zhan Gao",
+        "Gabriele Fadini",
+        "Stelian Coros",
+        "Amanda Prorok"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.MA"
+      ],
+      "published": "2026-04-08T11:43:38+00:00",
+      "link": "https://arxiv.org/pdf/2604.06972v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "optimizes multi-agent trajectories and navigation safety",
+      "llm_evidence_cn": "优化多智能体轨迹与导航安全",
+      "llm_evidence": "优化多智能体轨迹与导航安全",
+      "canonical_evidence": "优化多智能体轨迹与导航安全",
+      "llm_tldr_en": "Proposes a differentiable method to co-optimize environment configurations and multi-agent trajectories.",
+      "llm_tldr_cn": "提出一种微分优化方法，用于共同优化环境配置和多智能体导航轨迹。",
+      "llm_tldr": "提出一种微分优化方法，用于共同优化环境配置和多智能体导航轨迹。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "multi-agent trajectory forecasting and interaction modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2604.00380v1",
+      "title": "Data-Attributed Adaptive Control Barrier Functions: Safety-Certified Training Data Curation via Influence Analysis",
+      "abstract": "Learning-based adaptation of Control Barrier Function (CBF) parameters offers a promising path toward safe autonomous navigation that balances conservatism with performance. Yet the accuracy of the underlying safety predictor is ultimately constrained by training data quality, and no prior work has formally characterized how prediction errors propagate through the adaptive pipeline to degrade closed-loop safety guarantees. We introduce Data-Attributed Adaptive CBF (DA-CBF), a framework that integrates TracIn-based data attribution into adaptive CBF learning. Our theoretical contributions are fourfold: (i) corrected two-sided bounds relating the safety-loss surrogate to the CBF constraint margin; (ii) a safety margin preservation theorem showing that prediction error induces quantifiable margin degradation and, via a smooth parameter selector, yields a genuine closed-loop forward invariance guarantee not conditioned on a fixed trajectory; (iii) a CBF-QP constraint perturbation bound that links prediction accuracy directly to recursive feasibility; and (iv) a principled leave-one-out justification for influence-based data curation under explicit smoothness assumptions. On a DynamicUnicycle2D benchmark, DA-CBF reduces prediction RMSE by 35.6\\%, expands the certified safe operating set by 39\\%, and achieves collision-free navigation in a 16-obstacle environment where the uncurated baseline incurs 3 collisions.",
+      "authors": [
+        "Jiachen Li",
+        "Shihao Li",
+        "Dongmei Chen"
+      ],
+      "primary_category": "eess.SY",
+      "categories": [
+        "eess.SY"
+      ],
+      "published": "2026-04-01T02:05:13+00:00",
+      "link": "https://arxiv.org/pdf/2604.00380v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "safe autonomous navigation and safety-certified training",
+      "llm_evidence_cn": "安全自主导航与安全认证训练",
+      "llm_evidence": "安全自主导航与安全认证训练",
+      "canonical_evidence": "安全自主导航与安全认证训练",
+      "llm_tldr_en": "Integrates data attribution into adaptive control barrier functions for safe autonomous navigation.",
+      "llm_tldr_cn": "将数据归因集成到自适应控制屏障函数中，以实现安全的自主导航。",
+      "llm_tldr": "将数据归因集成到自适应控制屏障函数中，以实现安全的自主导航。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.00439v1",
+      "title": "Reachability-Aware Time Scaling for Path Tracking",
+      "abstract": "This paper studies tracking of collision-free waypoint paths produced by an offline planner for a planar double-integrator system with bounded speed and acceleration. Because sampling-based planners must route around obstacles, the resulting waypoint paths can contain sharp turns and high-curvature regions, so one-step reachability under acceleration limits becomes critical even when the path geometry is collision-free. We build on a pure-pursuit-style, reachability-guided quadratic-program (QP) tracker with a one-step acceleration margin. Offline, we evaluate this margin along a spline fitted to the waypoint path and update a scalar speed-scaling profile so that the required one-step acceleration remains below the available bound. Online, the same look-ahead tracking structure is used to track the scaled reference.",
+      "authors": [
+        "Hossein Gholampour",
+        "Logan E. Beaver"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "eess.SY"
+      ],
+      "published": "2026-04-01T03:34:06+00:00",
+      "link": "https://arxiv.org/pdf/2604.00439v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "path tracking for collision-free waypoint paths",
+      "llm_evidence_cn": "无碰撞航点路径的路径跟踪",
+      "llm_evidence": "无碰撞航点路径的路径跟踪",
+      "canonical_evidence": "无碰撞航点路径的路径跟踪",
+      "llm_tldr_en": "Develops a reachability-aware time scaling method for tracking planned paths under acceleration limits.",
+      "llm_tldr_cn": "开发了一种可达性感知的时间缩放方法，用于在加速度限制下跟踪规划路径。",
+      "llm_tldr": "开发了一种可达性感知的时间缩放方法，用于在加速度限制下跟踪规划路径。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.05003v1",
+      "title": "A Survey on Sensor-based Planning and Control for Unmanned Underwater Vehicles",
+      "abstract": "This survey examines recent sensor-based planning and control methods for Unmanned Underwater Vehicles (UUVs). In complex, uncertain underwater environments, UUVs require advanced planning and control strategies for effective navigation. These vehicles face significant challenges including drifting and noisy sensor measurements, absence of Global Navigation Satellite System (GNSS) signals, and low-bandwidth, high-latency underwater acoustic communications. The focus is on reactive local planning layers that adapt to real-time sensor inputs such as SONAR and Inertial Measurement Units (IMU) to improve localization accuracy and autonomy in dynamic ocean conditions, enabling dynamic obstacle avoidance and on-the-fly re-planning. The survey categorizes the existing literature into decoupled and coupled architectures for sensor-based planning and control. The decoupled architecture sequentially addresses planning and control stages, whereas coupled architectures offer tighter feedback loops for more immediate responsiveness. A comparative analysis of coupled planning and control methods reveals that while PID controllers are simple, they lack predictive capability for complex maneuvers. Model Predictive Control (MPC) offers superior path optimization but can be computationally intensive, and invariant-set controllers provide strong safety guarantees at the potential cost of agility in confined environments. Key contributions include a taxonomy of architectures combining planning and control, a focus on adaptive local planning, and an analysis of controller roles in integrated planning frameworks for autonomous navigation of UUVs.",
+      "authors": [
+        "Shivam Vishwakarma",
+        "Tejal Bedmutha",
+        "Dharmendra Kumar Patel",
+        "Vijay Bhaskar Semwal",
+        "Leena Vachhani"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-04-06T00:40:37+00:00",
+      "link": "https://arxiv.org/pdf/2604.05003v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "planning and control for underwater vehicles in complex environments",
+      "llm_evidence_cn": "复杂环境下水下航行器的规划与控制",
+      "llm_evidence": "复杂环境下水下航行器的规划与控制",
+      "canonical_evidence": "复杂环境下水下航行器的规划与控制",
+      "llm_tldr_en": "Surveys sensor-based planning and control for UUVs, relevant to maritime trajectory and navigation.",
+      "llm_tldr_cn": "综述了水下航行器的传感器规划与控制，涉及海洋轨迹与导航。",
+      "llm_tldr": "综述了水下航行器的传感器规划与控制，涉及海洋轨迹与导航。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction in complex maritime environments",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.05310v1",
+      "title": "Instantaneous Planning, Control and Safety for Navigation in Unknown Underwater Spaces",
+      "abstract": "Navigating autonomous underwater vehicles (AUVs) in unknown environments is significantly challenging due to poor visibility, weak signal transmission, and dynamic water currents. These factors pose challenges in accurate global localization, reliable communication, and obstacle avoidance. Local sensing provides critical real time environmental data to enable online decision making. However, the inherent noise in underwater sensor measurements introduces uncertainty, complicating planning and control. To address these challenges, we propose an integrated planning and control framework that leverages real time sensor data to dynamically induce closed loop AUV trajectories, ensuring robust obstacle avoidance and enhanced maneuverability in tight spaces.   By planning motion based on pre designed feedback controllers, the approach reduces the computational complexity needed for carrying out online optimizations and enhances operational safety in complex underwater spaces. The proposed method is validated through ROS Gazebo simulations on the RexRov AUV, demonstrating its efficacy. Its performance is evaluated by comparison against PID based tracking methods, and quantifying localization errors in dead reckoning as the AUV transitions into the target communication range.",
+      "authors": [
+        "Veejay Karthik",
+        "Udit Ekansh",
+        "Tejal Bedmutha",
+        "Shivam Vishwakarma",
+        "Rohan Deshpande",
+        "Leena Vachhani"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-04-07T01:32:29+00:00",
+      "link": "https://arxiv.org/pdf/2604.05310v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "dynamically induce closed loop AUV trajectories",
+      "llm_evidence_cn": "动态诱导闭环自主水下航行器轨迹",
+      "llm_evidence": "动态诱导闭环自主水下航行器轨迹",
+      "canonical_evidence": "动态诱导闭环自主水下航行器轨迹",
+      "llm_tldr_en": "Integrated planning and control framework for AUV trajectory generation in unknown underwater spaces.",
+      "llm_tldr_cn": "提出一种集成规划与控制框架，用于未知水下环境中自主水下航行器的动态轨迹生成。",
+      "llm_tldr": "提出一种集成规划与控制框架，用于未知水下环境中自主水下航行器的动态轨迹生成。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.05673v1",
+      "title": "Rectified Schrödinger Bridge Matching for Few-Step Visual Navigation",
+      "abstract": "Visual navigation is a core challenge in Embodied AI, requiring autonomous agents to translate high-dimensional sensory observations into continuous, long-horizon action trajectories. While generative policies based on diffusion models and Schrödinger Bridges (SB) effectively capture multimodal action distributions, they require dozens of integration steps due to high-variance stochastic transport, posing a critical barrier for real-time robotic control. We propose Rectified Schrödinger Bridge Matching (RSBM), a framework that exploits a shared velocity-field structure between standard Schrödinger Bridges ($\\varepsilon=1$, maximum-entropy transport) and deterministic Optimal Transport ($\\varepsilon\\to 0$, as in Conditional Flow Matching), controlled by a single entropic regularization parameter $\\varepsilon$. We prove two key results: (1) the conditional velocity field's functional form is invariant across the entire $\\varepsilon$-spectrum (Velocity Structure Invariance), enabling a single network to serve all regularization strengths; and (2) reducing $\\varepsilon$ linearly decreases the conditional velocity variance, enabling more stable coarse-step ODE integration. Anchored to a learned conditional prior that shortens transport distance, RSBM operates at an intermediate $\\varepsilon$ that balances multimodal coverage and path straightness. Empirically, while standard bridges require $\\geq 10$ steps to converge, RSBM achieves over 94% cosine similarity and 92% success rate in merely 3 integration steps -- without distillation or multi-stage training -- substantially narrowing the gap between high-fidelity generative policies and the low-latency demands of Embodied AI.",
+      "authors": [
+        "Wuyang Luan",
+        "Junhui Li",
+        "Weiguang Zhao",
+        "Wenjian Zhang",
+        "Tieru Wu",
+        "Rui Ma"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-04-07T10:22:27+00:00",
+      "link": "https://arxiv.org/pdf/2604.05673v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "continuous action trajectories for autonomous agents",
+      "llm_evidence_cn": "自主智能体的连续动作轨迹",
+      "llm_evidence": "自主智能体的连续动作轨迹",
+      "canonical_evidence": "自主智能体的连续动作轨迹",
+      "llm_tldr_en": "Proposes a fast generative policy for real-time autonomous navigation trajectory generation.",
+      "llm_tldr_cn": "提出了一种快速生成策略，用于实时自主导航轨迹的生成。",
+      "llm_tldr": "提出了一种快速生成策略，用于实时自主导航轨迹的生成。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.05416v1",
+      "title": "Multi-Agent Pathfinding with Non-Unit Integer Edge Costs via Enhanced Conflict-Based Search and Graph Discretization",
+      "abstract": "Multi-Agent Pathfinding (MAPF) plays a critical role in various domains. Traditional MAPF methods typically assume unit edge costs and single-timestep actions, which limit their applicability to real-world scenarios. MAPFR extends MAPF to handle non-unit costs with real-valued edge costs and continuous-time actions, but its geometric collision model leads to an unbounded state space that compromises solver efficiency. In this paper, we propose MAPFZ, a novel MAPF variant on graphs with non-unit integer costs that preserves a finite state space while offering improved realism over classical MAPF. To solve MAPFZ efficiently, we develop CBS-NIC, an enhanced Conflict-Based Search framework incorporating time-interval-based conflict detection and an improved Safe Interval Path Planning (SIPP) algorithm. Additionally, we propose Bayesian Optimization for Graph Design (BOGD), a discretization method for non-unit edge costs that balances efficiency and accuracy with a sub-linear regret bound. Extensive experiments demonstrate that our approach outperforms state-of-the-art methods in runtime and success rate across diverse benchmark scenarios.",
+      "authors": [
+        "Hongkai Fan",
+        "Qinjing Xie",
+        "Bo Ouyang",
+        "Yaonan Wang",
+        "Zhi Yan",
+        "Jiawen He",
+        "Zheng Fang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-04-07T04:24:50+00:00",
+      "link": "https://arxiv.org/pdf/2604.05416v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "multi-agent pathfinding and collision modeling",
+      "llm_evidence_cn": "多智能体路径规划与碰撞建模",
+      "llm_evidence": "多智能体路径规划与碰撞建模",
+      "canonical_evidence": "多智能体路径规划与碰撞建模",
+      "llm_tldr_en": "Proposes MAPFZ for multi-agent pathfinding with non-unit integer costs to improve realism and efficiency.",
+      "llm_tldr_cn": "提出MAPFZ算法，解决非单位整数成本下的多智能体路径规划问题，提升现实场景适用性。",
+      "llm_tldr": "提出MAPFZ算法，解决非单位整数成本下的多智能体路径规划问题，提升现实场景适用性。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "multi-agent trajectory forecasting and interaction modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.06067v1",
+      "title": "HiPolicy: Hierarchical Multi-Frequency Action Chunking for Policy Learning",
+      "abstract": "Robotic imitation learning faces a fundamental trade-off between modeling long-horizon dependencies and enabling fine-grained closed-loop control. Existing fixed-frequency action chunking approaches struggle to achieve both. Building on this insight, we propose HiPolicy, a hierarchical multi-frequency action chunking framework that jointly predicts action sequences at different frequencies to capture both coarse high-level plans and precise reactive motions. We extract and fuse hierarchical features from history observations aligned to each frequency for multi-frequency chunk generation, and introduce an entropy-guided execution mechanism that adaptively balances long-horizon planning with fine-grained control based on action uncertainty. Experiments on diverse simulated benchmarks and real-world manipulation tasks show that HiPolicy can be seamlessly integrated into existing 2D and 3D generative policies, delivering consistent improvements in performance while significantly enhancing execution efficiency.",
+      "authors": [
+        "Jiyao Zhang",
+        "Zimu Han",
+        "Junhan Wang",
+        "Xionghao Wu",
+        "Shihong Lin",
+        "Jinzhou Li",
+        "Hongwei Fan",
+        "Ruihai Wu",
+        "Dongjiang Li",
+        "Hao Dong"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-04-07T16:47:38+00:00",
+      "link": "https://arxiv.org/pdf/2604.06067v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "jointly predicts action sequences at different frequencies for robotic control",
+      "llm_evidence_cn": "联合预测机器人控制中不同频率的动作序列",
+      "llm_evidence": "联合预测机器人控制中不同频率的动作序列",
+      "canonical_evidence": "联合预测机器人控制中不同频率的动作序列",
+      "llm_tldr_en": "A hierarchical framework that predicts multi-frequency action chunks to balance planning and reactive control.",
+      "llm_tldr_cn": "一种分层框架，通过预测多频率动作块来平衡规划与反应式控制。",
+      "llm_tldr": "一种分层框架，通过预测多频率动作块来平衡规划与反应式控制。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.06914v1",
+      "title": "Equivariant Multi-agent Reinforcement Learning for Multimodal Vehicle-to-Infrastructure Systems",
+      "abstract": "In this paper, we study a vehicle-to-infrastructure (V2I) system where distributed base stations (BSs) acting as road-side units (RSUs) collect multimodal (wireless and visual) data from moving vehicles. We consider a decentralized rate maximization problem, where each RSU relies on its local observations to optimize its resources, while all RSUs must collaborate to guarantee favorable network performance. We recast this problem as a distributed multi-agent reinforcement learning (MARL) problem, by incorporating rotation symmetries in terms of vehicles' locations. To exploit these symmetries, we propose a novel self-supervised learning framework where each BS agent aligns the latent features of its multimodal observation to extract the positions of the vehicles in its local region. Equipped with this sensing data at each RSU, we train an equivariant policy network using a graph neural network (GNN) with message passing layers, such that each agent computes its policy locally, while all agents coordinate their policies via a signaling scheme that overcomes partial observability and guarantees the equivariance of the global policy. We present numerical results carried out in a simulation environment, where ray-tracing and computer graphics are used to collect wireless and visual data. Results show the generalizability of our self-supervised and multimodal sensing approach, achieving more than two-fold accuracy gains over baselines, and the efficiency of our equivariant MARL training, attaining more than 50% performance gains over standard approaches.",
+      "authors": [
+        "Charbel Bou Chaaya",
+        "Mehdi Bennis"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-04-08T10:13:29+00:00",
+      "link": "https://arxiv.org/pdf/2604.06914v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "multi-agent reinforcement learning for vehicle systems",
+      "llm_evidence_cn": "车辆系统的多智能体强化学习",
+      "llm_evidence": "车辆系统的多智能体强化学习",
+      "canonical_evidence": "车辆系统的多智能体强化学习",
+      "llm_tldr_en": "Uses equivariant MARL and self-supervised learning to optimize multimodal vehicle-to-infrastructure systems.",
+      "llm_tldr_cn": "采用等变多智能体强化学习和自监督学习优化多模态车路协同系统。",
+      "llm_tldr": "采用等变多智能体强化学习和自监督学习优化多模态车路协同系统。",
+      "llm_tags": [
+        "query:tp:composite"
+      ],
+      "matched_query_tag": "query:tp:composite",
+      "matched_query_text": "Papers central to 轨迹预测（车辆、行人、船舶、飞机等）相关的论文，考虑密集场景、目标意图、多智能体、轨迹表示学习等概念, especially work that connects or combines: trajectory prediction for autonomous agents; pedestrian trajectory prediction in crowded scenes; maritime vessel trajectory and path prediction algorithms; multi-agent trajectory forecasting and interaction modeling; target intent and goal estimation for trajectory prediction; trajectory representation learning and feature extraction; study of pedestrian and vehicle trajectory prediction models; trajectory prediction in complex maritime environments; deep learning techniques for intent aware trajectory forecasting; trajectory representation learning based on multimodal large language model.",
+      "matched_requirement_id": "req-composite-tp",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.06932v1",
+      "title": "Towards Multi-Object Nonprehensile Transportation via Shared Teleoperation: A Framework Based on Virtual Object Model Predictive Control",
+      "abstract": "Multi-object nonprehensile transportation in teleoperation demands simultaneous trajectory tracking and tray orientation control. Existing methods often struggle with model dependency, uncertain parameters, and multi-object adaptability. We propose a shared teleoperation framework where humans and robots share positioning control, while the robot autonomously manages orientation to satisfy dynamic constraints. Key contributions include: 1) A theoretical dynamic constraint analysis utilizing a novel virtual object (VO)-based method to simplify constraints for trajectory planning. 2) An MPC-based trajectory smoothing algorithm that enforces real-time constraints and coordinates user tracking with orientation control. 3) Validations demonstrating stable manipulation of nine objects at accelerations up to 2.4 m/s2. Compared to the baseline, our approach reduces sliding distance by 72.45% and eliminates tip-overs (0% vs. 13.9%), proving robust adaptability in complex scenarios.",
+      "authors": [
+        "Xinyang Fan",
+        "Zhaoyang Chen",
+        "Shu Xin",
+        "Yi Ren",
+        "Zainan Jiang",
+        "Fenglei Ni",
+        "Hong Liu"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-04-08T10:43:34+00:00",
+      "link": "https://arxiv.org/pdf/2604.06932v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "trajectory planning and smoothing for autonomous robots",
+      "llm_evidence_cn": "自主机器人的轨迹规划与平滑",
+      "llm_evidence": "自主机器人的轨迹规划与平滑",
+      "canonical_evidence": "自主机器人的轨迹规划与平滑",
+      "llm_tldr_en": "A shared teleoperation framework using MPC for trajectory planning and smoothing in object transportation.",
+      "llm_tldr_cn": "一种基于MPC的共享遥操作框架，用于物体运输中的轨迹规划与平滑。",
+      "llm_tldr": "一种基于MPC的共享遥操作框架，用于物体运输中的轨迹规划与平滑。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
