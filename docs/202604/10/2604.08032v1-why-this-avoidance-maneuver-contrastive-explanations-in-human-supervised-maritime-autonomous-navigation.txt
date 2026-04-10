@@ -1,0 +1,218 @@
+Title: "Why This Avoidance Maneuver?" Contrastive Explanations in Human-Supervised Maritime Autonomous Navigation
+
+URL Source: https://arxiv.org/pdf/2604.08032v1
+
+Published Time: Fri, 10 Apr 2026 01:04:15 GMT
+
+Number of Pages: 8
+
+Markdown Content:
+# “Why This Avoidance Maneuver?” Contrastive Explanations in Human-Supervised Maritime Autonomous Navigation 
+
+Joel Jose 1, Andreas Madsen 2, Andreas Brandsæter 3, Tor A. Johansen 4, and Erlend M. Coates 1
+
+Abstract — Automated maritime collision avoidance will rely on human supervision for the foreseeable future. This necessi-tates transparency into how the system perceives a scenario and plans a maneuver. However, the causal logic behind avoidance maneuvers is often complex and difficult to convey to anavigator. This paper explores how to explain these factors in a selective, understandable manner for supervisors with a nautical background. We propose a method for generating contrastive explanations, which provide human-centric insights by comparing a system’s proposed solution against relevant alternatives. To evaluate this, we developed a framework that uses visual and textual cues to highlight key objectives from a state-of-the-art collision avoidance system. An exploratory user study with four experienced marine officers suggests that contrastive explanations support the understanding of the system’s objectives. However, our findings also reveal that while these explanations are highly valuable in complex multi-vessel encounters, they can increase cognitive workload, suggesting that future maritime interfaces may benefit most from demand-driven or scenario-specific explanation strategies. 
+
+Keywords– Marine Autonomy, Collision Avoidance, Human Factors and Human-in-the-loop. 
+
+I. I NTRODUCTION 
+
+Employing maritime autonomous surface ships (MASS) in the ocean space can potentially reduce operating costs, increase efficiency, and lower casualties arising from human errors, while also compensating for increasing global demand for certified officers [1]. However, the complexity in per-ception and dynamics of the maritime environment, coupled with maritime rules and regulations such as the Convention on the International Regulations for Preventing Collision at Sea (COLREGs), makes automated collision avoidance at sea a challenging planning and decision-making problem [2]. These challenges prevent MASS from operating fully unsupervised in the near future, especially when at risk of collision or grounding, and therefore, warrant supervision through trained personnel who can ensure that maneuvers from a collision avoidance system (CAS) follow safety and regulatory requirements [3]. A human operator’s primary role when supervising a CAS is to monitor performance and intervene if the system creates              
+
+> 1Department of ICT and Natural Sciences, Norwegian University of Science and Technology (NTNU), ˚Alesund, Norway.
+
+{joel.j.chirapanath, erlend.coates }@ntnu.no         
+
+> 2Department of Ocean Operations and Civil Engineering, Norwe-gian University of Science and Technology (NTNU), ˚Alesund, Norway.
+
+andreas.madsen@ntnu.no  
+
+> 3Department of Science and Mathematics, Volda University College (HVO), Volda, Norway.
+
+andreas.brandsaeter@hivolda.no            
+
+> 4Department of Engineering Cybernetics, Norwegian University of Science and Technology (NTNU), Trondheim, Norway.
+
+tor.arne.johansen@ntnu.no 
+
+Fig. 1: Concept illustration. Contrastive explanations for a collision avoidance maneuver visualized in an Electronic Chart Display and Information System (ECDIS) (Explana-tions visualized on top of a figure from [9]). Here, a proposed maneuver (red) is compared with the original route (black), and an alternative route (blue) based on an objective of keeping a safe closest point of approach (CPA). high-risk conditions [4]. To do this effectively, the supervisor requires high situational awareness (SA) of the scenario and the system itself. Endsley [5] highlights two key methods for achieving this: transparency and explainability . Trans-parency involves sharing information about the system’s per-ception and current actions, while explainability clarifies the underlying objectives and decision-making involved behind those actions. While recent maritime research has shown promise in utilizing transparency to develop human-machine-interfaces [4], [6] based on established SA models ( [7], [8]), we aim to extend this work by incorporating explainability to support the supervision of a CAS. Specifically, we seek to explain the behaviour and objectives behind automated maneuvers in a meaningful, focused, and understandable manner for supervisors with a nautical background. Explainability is widely studied in various robotic appli-cations such as autonomous driving [10], robot manipulators [11], and the maritime domain [12]–[14] as a means of revealing the complex decision-making of intelligent systems in a manner understandable to humans. Research in the social sciences indicates that humans typically ask questions of a contrastive nature when seeking an explanation for a complex event [15], [16]. By answering a query such as “ Why does the CAS perform maneuver A instead of a maneuver B ”, we focus on a potential key factor behind a solution, instead 
+
+> arXiv:2604.08032v1 [cs.AI] 9 Apr 2026
+
+of identifying all causal reasons that led to it. This can be achieved by highlighting how maneuver A better satisfies one or more objectives compared to maneuver B, as in a CAS that solves a multi-objective optimization problem [2]. Such explanations follow an option-centric rationale [17], [18], providing a means of interacting with the system and promoting trust and acceptance of the system’s actions. Contrastive explanations, therefore, show promise as a way of generating human-centric insights for autonomous driving, scheduling, and motion planning for mobile robots [19]–[22]. In this study, we examine the usefulness of contrastive explanations for understanding the underlying objectives of a maritime Collision Avoidance System (CAS) and, in turn, their impact on enabling effective and satisfactory human supervision of such a system. Specifically, this paper makes the following contributions:  
+
+> •
+
+Explanation Generation: We propose a method for producing contrastive explanations that highlight causal features in the CAS’s cost function and allow supervi-sors to compare alternative trajectories.  
+
+> •
+
+Visualization Interface: We develop a framework for generating contrastive explanations from a widely used collision avoidance planner and design a visualization interface that presents transparency information and contrastive explanations for possible maneuvers.  
+
+> •
+
+Exploratory User Study: We conduct an exploratory study investigating how experienced seafarers perceive the utility and satisfaction of receiving contrastive ex-planations when supervising a CAS. Through this, we investigate the following research questions: 1) Do experienced seafarers supervising a CAS find contrastive explanations helpful for understanding the system’s underlying objectives? 2) Do they find the availability of alternative trajectories—paired with contrastive explana-tions—useful? 3) Are they better able to determine whether to accept or reject a proposed maneuver when such contrastive explanations are provided? The remainder of this paper is structured as follows: We formalize the problem in Section II, along with the specifications of the CAS we have used. We then introduce a framework for generating contrastive explanations for maritime collision avoidance in Section III. Subsequently, Section IV outlines the exploratory user study conducted to obtain qualitative insights and feedback, after which Section V presents the findings from the user study, and Section VI concludes with directions for future work. II. P ROBLEM DEFINITION 
+
+In this section, we formalize the problem of collision avoidance and the supervision of a CAS, and conclude with specifications of the type of CAS used in this study. 
+
+A. Collision Avoidance 
+
+We consider collision avoidance as a multi-objective op-timization problem [2], where a CAS is employed on a ship (referred to as the ownship) for a situation S involving the risk of collision or grounding. The CAS searches for collision-free trajectories that are predictable, compliant with COLREGs, and close to a ship’s nominal trajectory (often retrieved from a global/mission planner). For each trajectory 
+
+τ ∈ T , where T is the set of trajectories representing the search space of the CAS, objectives such as risk reduction, operational requirements, and efficiency are evaluated using a cost function ϕ(S, τ ). Each trajectory τ ∈ T is generated by approximating the dynamics of the ownship. In addition, the motion of obstacles is predicted using heuristic, scenario-based, or collaborative methods [23]. Thus, the role of the CAS is to identify a solution trajectory τ ∗ for the ownship as follows: 
+
+τ ∗ = argmin  
+
+> τ∈T
+
+ϕ(S, τ ) (1) In this study, we consider the cost function ϕ(S, τ ) to be linearly additive, such that ϕ(S, τ ) = P  
+
+> f∈F
+
+f (S, τ ).Here, each component f ∈ F represents a distinct, human-interpretable objective (e.g., collision risk, efficiency). This decomposition allows us to identify causal factors—or “fea-tures”—that drive the system’s evaluation of trajectories. 
+
+B. Supervision of a CAS 
+
+We consider the scenario in which a human supervisor is alerted when the CAS detects that a situation S has begun. The CAS proposes a solution trajectory τ ∗ to the operator for execution. The supervisor’s role is to assess the information provided by the CAS, and either (1) approve the solution trajectory for execution, or (2) take over control of the vessel. Van de Merwe et al. [24] proposed an adapted version of the Parasuraman, Sheridan, and Wickens (PSW) model [8] to categorize the task of collision avoidance of a CAS into unique information processing stages. Furthermore, the adapted model is utilized to propose transparency layers that can reveal insight into each of the stages [6], thereby support-ing the supervisor’s understanding of the CAS’s functions. Following the adapted PSW model [24], the CAS’s action-planning stage involves selecting the solution trajectory 
+
+τ ∗ from available alternatives. Therefore, we deduce that contrastive explanations—which clarify why τ ∗ was chosen over a specific alternative—directly enhance a supervisor’s understanding of this critical stage (Fig. 2). 
+
+Fig. 2: The adapted PSW model from [24]. We believe that comparing alternative routes with contrastive explanations fits best in supporting supervision of the action planning stage (highlighted in red). C. Contrastive Explanations for Collision Avoidance 
+
+Following established terminology [16], [22], generating a contrastive explanation for a situation S requires comparing the system’s proposed solution trajectory τ ∗ (the fact) against a supervisor-specified alternative τ ′ (the foil). We assume that τ ′ ∈ T , which implies that ϕ(S, τ ∗) ≤ ϕ(S, τ ′). We define a contrastive explanation as follows: 
+
+Definition 1. Given a fact τ ∗, a foil τ ′̸ = τ ∗, and a cost function ϕ(S, τ ) composed of a set of additive components 
+
+F , a contrastive explanation ES utilizes the subset of com-ponents Fexp ∈ F in order to reason why τ ∗ is chosen over 
+
+τ ′, where Fexp is given by: 
+
+Fexp = {f ∈ F | f (S, τ ∗) < f (S, τ ′)} (2) 
+
+D. Collision Avoidance System 
+
+For our study, we implement the framework for the Simulation-based MPC (SB-MPC) planner by Johansen et al. [25], chosen for its prominence in maritime applications, and clear attribution of individual costs in its cost function. The SB-MPC planner generates each candidate trajectory 
+
+τ ∈ T by applying a constant speed (U τ ) and course (χτ )
+
+offset from the references of an autopilot. In a receding horizon fashion, the ownship tracks a 5-second segment of the solution trajectory τ ∗, before the algorithm reruns. To improve predictive realism, we include the return-to-path implementation from [26]. Although these trajectories represent immediate decision steps rather than complex long-term maneuvers, they offer the best transparency into the system’s current causal logic. The cost function ϕ for the SB-MPC is composed of seven distinct costs, summarized in Table I. TABLE I: SB-MPC Cost Function Components.         
+
+> Cost Description
+> fDO Collision risk with dynamic obstacles
+> fCLRG , f Trans COLREG compliance and transition costs
+> fUref , f χref Deviation from autopilot speed/course references
+> f∆U, f ∆χVariation from previous speed/course states
+
+III. P ROPOSED FRAMEWORK 
+
+We introduce a general framework for contrastive explana-tions for CAS, as shown in Fig. 3. Our framework is a post-hoc tool [27], meaning that the explanations are generated after the collision avoidance planner has found a solution. 
+
+A. Foil Selection 
+
+The utility of a contrastive explanation heavily depends on the choice of the foil, as the goal is to present an alternative that aligns with the operator’s expectations. In this paper, we utilize the candidate trajectories generated by the SB-MPC as our source for maneuvers to be compared. We formulate explanations by comparing the fact τ ∗
+
+with two foils: the nominal τ nominal (which follows the autopilot references), and the alternative τ alt . We choose the alternative τ alt by filtering the search space T for a 
+
+Fig. 3: Contrastive Explanations Framework. The costs are extracted from the cost function for the solution and foil tra-jectories and compared to generate a contrastive explanation, which is visualized on an interface to the supervisor. specific maneuver ’characteristic’ (e.g., Port Turn, Reduced Speed) by imposing a corresponding constraint C defined in Table II. This design choice aligns with how navigators communicate maneuvers [28] and was informed by recurring discussions with a certified marine officer. From the filtered set of trajectories T alt , we choose the trajectory with the minimum total cost as the alternative τ alt :
+
+τ alt = argmin   
+
+> τ∈T alt
+
+[ϕ(S, τ )] (3) While selecting the characteristic is often left to the supervisor to allow for personalization [19], [21], [22], for simplicity, we handpick characteristics that are intuitive and likely to be chosen by a seafarer for a specific scenario.                       
+
+> Characteristic Constraint ( C)
+> Reduced speed Uτalt
+> < U τ∗
+> Port Turn χτalt
+> <0
+> Starboard Turn χτalt
+> >0
+> Closer to original route |χτalt
+> |<|χτ∗
+> |
+> Farther from original route |χτalt
+> |>|χτ∗
+> |
+
+TABLE II: Choices of the characteristic and associated constraint for the alternative. 
+
+B. Constructing the Explanation 
+
+Based on Section II-C, we construct two pairs of con-trastive explanations; one comparing the fact to the nominal, and another comparing the fact to the alternative correspond-ing to a characteristic. For each case, the explanations are constructed by following two objectives: 
+
+1) Prioritized Information: To avoid overloading the user with information, we compare the fact with a foil using the objective for which the fact shows the greatest improvement over that foil. First, the subset of components Fexp is identified for a fact-foil pair according to Section II-C. We then select the contrastive cost fexp ∈ Fexp for which the Fig. 4: The Visualization Interface used in this study. The design draws inspiration from the transparency layers in [6] and the explanations depicted in Fig. 1. (Left) Map View illustrates the proposed fact (white), alternative (orange), with speed-proportional spacing of dots, and the nominal path (faint red). Obstacle predictions are shown as dots of the corresponding ship color. (Top right) Action table for all three trajectories. (Center right) Contrastive explanations comparing the fact against the foils. (Bottom right) Target vessel information fact shows the greatest cost reduction relative to the foil: 
+
+fexp = argmin  
+
+> f∈Fexp
+
+[f (S, τ ∗) − f (S, τ ′)] , (4) where τ ′ ∈ { τ nominal , τ alt }.
+
+2) Semantic Cost Measures: While our choice of the contrastive cost fexp is based on its value attribution in ϕ,the values themselves may not present sufficient meaning to a human supervisor monitoring the system [14]. Therefore, we associate each cost with a corresponding ’cost measure’ as shown in Table III that delegates meaning to the cost, while also being directly correlated to how the cost measure is calculated. We record these cost measures during the cost computation step of the SBMPC for each sampled trajectory. TABLE III: Mapping of Costs to Cost Measures. (CPA refers to the closest point of approach between the ownship and the obstacle along their corresponding trajectories)       
+
+> Cost Associated Cost Measure
+> fDO CPA distance to Dynamic Obstacle (DO)
+> fCLRG COLREG rule number
+> fT rans Transition behavior
+> fUref Speed offset
+> fχref Course offset
+
+Once the contrastive cost fexp is identified, we map it to its corresponding measure in Table III. This measure is then used to populate a predefined text template, generating a concise contrastive explanation ES that compares the fact and the foil as shown in Fig. 4. 
+
+C. Temporal Context and Triggers 
+
+In this study, we evaluate the utility of contrastive expla-nations at some time before the decision point when a CAS initiates an avoidance maneuver, based on expert opinion and the simplicity of implementation. Since a supervisor needs time to process an explanation before responding to a situation, explanations are more effective when they target future events. To support this, we introduce two features in our explanation framework: 
+
+1) Ahead-of-time Simulation: We target explanations not towards actions that are currently executed, but future events that are predicted based on the ownship and obstacle vessel models. This is done by forward simulating the ownship (using the control behavior for τ ∗) and the obstacle states for 5 seconds, and rerunning the SB-MPC. This process is repeated until a time limit is reached, when the predicted states are less reliable or when an event triggers the gener-ation of explanations, as described in the following section. 
+
+2) Event Trigger: For each scenario, we generate an alternative trajectory and the contrastive explanations at the first instance where the SBMPC planner adds an offset to the autopilot references. Coupled with the ahead-of-time forward simulation described in Section III-C.1, we provide explanations for a decision point occurring ahead of time. 
+
+D. Visualization Interface 
+
+We designed a visualization interface inspired by the trans-parency layers in [6], and integrated relevant information from the CAS onto the interface in real-time. As shown in Figure 3, we overlaid transparency information and expla-nations on the right side of the simulator’s map view. The top-right table visualizes course and speed references for the fact, nominal, and alternative trajectories at a future decision point. Explanations are displayed in tinted boxes directly beneath their corresponding actions, allowing the supervisor to easily map the system’s reasoning to the specific fact-foil pair. The target vessels table on the bottom right shows relevant information about what the ownship has perceived and understood about target vessels in the vicinity. Fig. 5: Snapshots of traffic scenarios utilized in the user study, with the alternative maneuvers and associated explanations. Top right: Single-vessel, Head-on Encounter; Top left: Single-vessel, Crossing Encounter; Bottom left: Multi-vessel, two head-on encounters; Bottom Right: Multi-vessel, one crossing Give-Way, one crossing Stand-on. IV. U SER STUDY 
+
+We conducted an exploratory user study aimed at collect-ing feedback on the utility and preference towards contrastive explanations when monitoring a CAS. Since this paper implements a proof-of-concept of contrastive explanations, we aim for a sample size appropriate to obtain early-stage feedback, and consistent with related works (see e.g. [29], [30]). Accordingly, we invited four experienced mariners holding (or having previously held) STCW-compliant deck officer certificates at the management level to participate in the user study. Here, we outline the simulation framework before describ-ing the methodology used in the user study. Afterwards, we cover the scenarios used for the user study and the questionnaire used to gather feedback. 
+
+A. Simulation Framework 
+
+In this study, we use the collision avoidance simulation framework by Tengesdal et al. [31] for simulating the traf-fic scenarios. For the sake of simplicity, we focus only on traffic scenarios involving vessel-on-vessel encounters without grounding hazards, and assume that the CAS has perfect knowledge about the target vessel positions. The own-ship and target vessel models utilized here are based on the Telemetron vessel [32], an 8-meter long, 3-meter wide, highly maneuverable Rigid Buoyancy Boat (RBB) developed by Maritime Robotics, with maximum speed of upto 34 knots (17 m/s). Similar to related works with the SB-MPC algorithm [32], a kinematic representation of the model was used to generate candidate trajectories for evaluation. The autopilot used for obtaining references for the SB-MPC is a line-of-sight (LOS) guidance system [33]. 
+
+B. Procedure 
+
+After being briefed on the purpose and scope of the experiment, the participants are introduced to the notion of explainability and an overview of contrastive explanations. The participants are asked to imagine themselves in the role of a supervisor monitoring a CAS. They are informed about the own-ship and target vessel particulars and the region of operation for the trials. Then they are briefed about the experimental setup with each trial and asked to study the information provided and make a decision to accept or decline the proposed maneuver from the CAS. Afterwards, a picture of the visualization interface is shown to familiarize the participants with all the information present. They are introduced to the relevant information indicated on the map, the CAS’s actions with the associated contrastive explanations, and the perceived target vessels. From thereon, the experiment commences, with the par-ticipant being presented with each trial, and their responses recorded. Once all the trials are complete, they are asked to fill out a questionnaire, after which the user study is finished. C. Traffic Scenarios and Experimental Trials 
+
+Each user study lasts about 30-45 minutes, containing 4 trials each. For each trial, we prepared single or multi-vessel encounters occurring in calm conditions on a ferry route. We chose two single-vessel encounters and two multi-vessel encounters to gauge the participants’ response to scenarios with varying complexity, as shown in Fig. 5. For each scenario, we program the target vessels to move in a straight line and not perform avoidance maneuvers of their own. In each trial, the participant is shown a video of a traffic scenario on the visualization interface. The video starts at some time ahead of the decision point where the CAS executes an avoidance maneuver. The task does not evaluate the participants’ performance or their ability to react quickly during supervision. Therefore, they are allowed to pause, play, and rewind the video as they wish. However, they are reminded of the time-critical nature of the situation. Once the participant is ready to make their decision, they are asked to record their answers on a sheet of paper. The procedure is then repeated for the subsequent trials. 
+
+D. Questionnaire and User feedback 
+
+In order to study the navigators’ opinion regarding the utility, efficiency, and satisfaction in having contrastive ex-planations for collision avoidance, we provided the partic-ipants with a questionnaire consisting of six rating-based questions on a linear scale (from 0 to 10), where 0 indicates a bad rating, 10 indicates a good rating, and 5 indicates an uncertain or neutral response: Q1) How useful are contrastive explanations in the super-vision of a CAS? Q2) How useful are contrastive explanations in understand-ing the system’s reasoning? Q3) How useful is it to have an alternative maneuver (in addition to the original route) to compare with the proposed maneuver from the CAS? Q4) How sufficient is the information provided in the explanations in making the participants’ decision? Q5) How do contrastive explanations affect the partici-pants’ ability to react quickly to a scenario? Q6) What is the participants’ overall preference towards contrastive explanations? Additionally, questions of a more qualitative nature, with free-text answers, were given to perform a semi-structured interview. We also added subjective questions to gain feed-back and suggestions regarding the participants’ preferences on the choice of alternatives, and when contrastive explana-tions should be provided. Some feedback was also obtained via conversation during the user study. V. U SER STUDY RESULTS 
+
+We present the key observations from the user study to reveal the participants’ feedback and response towards contrastive explanations and to support our claims. 
+
+A. Qualitative Results from the User Study 
+
+We tabulate the responses of participants for the trials in Table IV, and the rating scores from the questionnaire in Section IV-D in Fig. 6. Responses to Q1 and Q6 in the questionnaire indicate that participants generally perceived the contrastive expla-nations as an effective and satisfactory tool for supervising a CAS. Answers to Q2 further support this view, suggest-ing that comparing maneuvers with accompanying explana-tions helped participants understand the system’s reasoning, thereby supporting our first claim. Furthermore, feedback on Q3 shows that participants found the availability of an alternative maneuver for comparison beneficial, thereby supporting our second claim. One participant emphasized the value of the contrastive alternatives, particularly in Trial 3, where it facilitated the decision to accept the proposed ma-neuver. The participants also provided comments regarding the choice of characteristics for the alternative, which we discuss in the next section. However, responses to Q4 reveal some uncertainty regard-ing the sufficiency of the information provided in performing their task of accepting or rejecting a proposed maneuver, suggesting the need for further work to answer the third claim. One reason for this could be the design of the visualization interface itself, which lacks details that a navi-gator can normally expect, such as those from plotting tools like electronic chart display information system (ECDIS) or automatic radar plotting aid (ARPA), or live camera feed. However, the responses may also point to the potential value of a more advanced explanation framework, such as the use of conversational AI [28], which allows the supervisor to inquire about possible maneuvers in-depth. Responses for Q5 reveal more workload during super-vision, likely due to processing more information when explanations are provided [6]. This effect can vary with scenario complexity. For example, one participant mentioned for the first scenario, ’I didn’t pay much attention to the explanations since I could look at the trajectory to under-stand’ . This indicates that for simpler scenarios, transparency information without explanations (such as in [4], [6]) is often enough to understand the vessel’s reasoning behind avoidance maneuvers. Conversely, another participant said, 
+
+’contrastive explanations can be useful in complex scenarios involving multiple ships and can help reduce reaction times’ .This reflects the selective nature of contrastive explanations, revealing only those features that differentiate the proposed maneuver from the original route or an alternative. The comments from the participants, therefore, indicate that explanations need not be shown for all scenarios, and can be provided on demand, when they can be most utilized. We acknowledge that our results may be influenced by the novelty effect, where positive responses arise from the newness of an innovation rather than its actual effectiveness [34]. As this effect typically diminishes over time, the favorable perceptions of the explanations by the participants should be interpreted with caution, as they may partly reflect Fig. 6: Responses from participants with management level deck-officer certificate to the questions in Section IV-D. Participants had positive reviews of contrastive explanations when supervising a collision avoidance system, especially when comparing the proposed maneuver with alternative maneuvers. initial enthusiasm rather than genuine utility.                     
+
+> Trial P1 P2 P3 P4
+> Trial 1 Accept Accept Accept Accept Trial 2 Accept Accept Accept Accept Trial 3 Decline Decline Decline Accept Trial 4 Accept Decline Accept Accept
+
+TABLE IV: Participant responses across trials. A majority of participants declined the proposed maneuver in Trial 3 due to a need to communicate with other vessels. 
+
+B. Additional Comments and Limitations 
+
+For complex scenarios—such as Trial 3, three of four participants preferred to intervene because they wanted to communicate with the target vessels and choose an alter-native maneuver that violates a COLREG rule (as shown in Fig. 5, bottom left). This suggests the need for further studies on the effectiveness of explanations and human-AI interaction in CASs that communicate and collaborate with neighboring vessels (see e.g. [23]). One participant noted that the type of vessel affects the efficacy of contrastive explanations. Larger, high-inertia vessels have slower dynamics, making action choices more consequential. In such cases, comparing different trajectories helps reveal the system’s understanding, suggesting that contrastive explanations may be particularly valuable for high-inertia vessels. The participants had mixed reviews as to when explana-tions should be displayed. This, combined with the varied effects of explanations across simple and complex scenarios, can indicate the benefits of a demand-driven approach [35], in which explanations are provided to the supervisor only when requested. We leave this as future work. Regarding the choice of alternatives, participants sug-gested adding alternatives with different CPA distances and Time-to-CPA (TCPA). One participant noted, ’Alternatives with speed reduction are not necessary, since it is rare to reduce speed during avoidance maneuvers, unless absolutely necessary’ . Three of four participants preferred to select the alternative themselves, with one suggesting that an intelligent system could provide a first option, allowing the supervisor to choose a different one if desired. Providing a list of scenario-based alternatives may improve interactivity and user satisfaction, but the effect on the supervisor’s ability to react should be monitored. As one participant said, ’the choice of alternative is very dependent on the scenario’ ,consistent with claims in the literature [16]. Thus, further studies towards scenario-based alternatives are warranted, potentially using data-driven methods. VI. C ONCLUSION & F UTURE WORK 
+
+In this study, we explored the use of contrastive explana-tions to support CAS supervision and proposed a framework for generating them in optimization-based collision avoid-ance planners. We implemented the framework using the SB-MPC planner and designed a visualization interface to convey the planner’s reasoning. An exploratory study with experienced mariners demonstrated that contrastive expla-nations are an effective and satisfactory method for sup-porting CAS supervision, aiding operators in understanding the system’s rationale—particularly when highly relevant alternatives are used for comparison. Crucially, our findings revealed a practical trade-off: while contrastive explanations are highly valuable in complex, multi-vessel scenarios, they can increase cognitive workload in simpler encounters where baseline trajectory transparency is often sufficient. Future work should expand upon these findings in several key directions to optimize human-AI teaming. First, to mitigate information overload, subsequent research should explore demand-driven explanation strategies, where opera-tors can request explanations or a curated list of contextually relevant alternatives (e.g., varying CPA or TCPA) only when needed. Second, addressing the participants’ need for more comprehensive situational data, future interfaces should in-tegrate standard navigational overlays (such as ECDIS and ARPA) or explore conversational AI to allow supervisors to query the CAS’s maneuver planning in greater depth. Third, the framework could be integrated into advanced CASs that actively communicate and negotiate intents with target ves-sels. Finally, to rigorously validate these findings, contrastive explanations must be evaluated against other explanation modalities through comprehensive, scenario-based user trials in high-fidelity nautical simulators or Remote Operations Centers (ROCs). REFERENCES [1] Ismail Kurt and Murat Aymelek. Operational and economic advantages of autonomous ships and their perceived impacts on port operations.      
+
+> Maritime Economics & Logistics , 24, 2022. [2] Anete Vagale, Robin Bye, Rachid Oucheikh, Ottar Osen, and Thor Fossen. Path planning and collision avoidance for autonomous surface vehicles ii: a comparative study of algorithms. Journal of Marine Science and Technology , 2021. [3] Ørnulf Jan Rødseth, Lars Andreas Lien Wennersberg, and H˚ avard Nordahl. Towards approval of autonomous ship systems by their operational envelope. Journal of Marine Science and Technology ,27(1):67–76, 2022.
+
+[4] Andreas Nygard Madsen, Andreas Brandsæter, Koen van de Merwe, and Jooyoung Park. Improving decision transparency in autonomous maritime collision avoidance. Journal of Marine Science and Tech-nology , 2025. [5] Mica R. Endsley. Supporting Human-AI Teams:Transparency, ex-plainability, and situation awareness. Computers in Human Behavior ,140:107574, 2023. [6] Koen Van De Merwe, Steven Mallam, Salman Nazir, and Øystein Engelhardtsen. The Influence of Agent Transparency and Complexity on Situation Awareness, Mental Workload, and Task Performance. 
+
+Journal of Cognitive Engineering and Decision Making , 18(2):156– 184, 2024. [7] Mica Endsley. Toward a Theory of Situation Awareness in Dynamic Systems. Human Factors: The Journal of the Human Factors and Ergonomics Society , 37:32–64, 1995. [8] Raja Parasuraman, Thomas Sheridan, and Christopher Wickens. Amodel for types and levels of human interaction with automation. ieee trans. syst. man cybern. part a syst. hum. 30(3), 286-297. IEEE transactions on systems, man, and cybernetics. Part A, Systems and humans : a publication of the IEEE Systems, Man, and Cybernetics Society , 30:286–97, 06 2000. [9] Andreas Brandsæter and Andreas Madsen. A simulator-based ap-proach for testing and assessing human supervised autonomous ship navigation. Journal of Marine Science and Technology , 29(2):432– 445, 2024. [10] Daniel Omeiza, Helena Webb, Marina Jirotka, and Lars Kunze. Explanations in Autonomous Driving: A Survey. IEEE Transactions on Intelligent Transportation Systems , 23(8):10142–10162, 2022. [11] Vilde B. Gjærum, Inga Str¨ umke, Anastasios M. Lekkas, and Timothy Miller. Real-Time Counterfactual Explanations For Robotic Systems With Multiple Continuous Outputs. IFAC-PapersOnLine , 56(2):7–12, 2023. Publisher: Elsevier BV. [12] Vilde B Gjaerum, Inga Str¨ umke, Ole Andreas Alsos, and Anastasios M Lekkas. Explaining a Deep Reinforcement Learning Docking Agent Using Linear Model Trees with User Adapted Visualization. Marine Science and Engineering , 2021. [13] Vijander Singh, Ottar L. Osen, and Robin T. Bye. Explainable artificial intelligence for autonomous surface vessels by fuzzy-based collision avoidance system. In Tomonobu Senjyu, Chakchai So-In, and Amit Joshi, editors, Smart Trends in Computing and Communications ,Singapore, 2023. Springer Nature Singapore. [14] Erik Veitch and Ole Andreas Alsos. Human-centered explainable artificial intelligence for marine autonomous surface vehicles. Journal of Marine Science and Engineering , 9(11), 2021. [15] Peter Lipton. Contrastive explanation. Royal Institute of Philosophy Supplement , 27:247–266, 1990. [16] Tim Miller. Explanation in artificial intelligence: Insights from the social sciences. Artificial Intelligence , 267:1–38, 2019. [17] Ruikun Luo, Na Du, Kevin Y. Huang, and X. Jessie Yang. Enhanc-ing transparency in human-autonomy teaming via the option-centric rationale display. Proceedings of the Human Factors and Ergonomics Society Annual Meeting , 63(1):166–167, 2019. [18] Andr´ e Groß, Amit Singh, Ngoc Chi Banh, Birte Richter, Ingrid Scharlau, Katharina J. Rohlfing, and Britta Wrede. Scaffolding the human partner by contrastive guidance in an explanatory human-robot dialogue. Frontiers in Robotics and AI , 10, 2023. Publisher: Frontiers. [19] Benjamin Krarup, Senka Krivic, Daniele Magazzeni, Derek Long, Michael Cashmore, and David E. Smith. Contrastive Explanations of Plans through Model Restrictions. Journal of Artificial Intelligence Research , 72:533–612, 2021. [20] Daniel Omeiza, Helena Web, Marina Jirotka, and Lars Kunze. Towards Accountability: Providing Intelligible Explanations in Autonomous Driving. In 2021 IEEE Intelligent Vehicles Symposium (IV) , 2021. [21] Martim Brand˜ ao, Gerard Canal, Senka Krivi´ c, and Daniele Magazzeni. Towards providing explanations for robot motion planning. In 2021 IEEE International Conference on Robotics and Automation (ICRA) ,2021. ISSN: 2577-087X. [22] Ethan Schneider, Daniel Wu, Devleena Das, and Sonia Cher-nova. CE-MRS: Contrastive Explanations for Multi-Robot Systems. 
+
+IEEE Robotics and Automation Letters , 9(11):10121–10128, 2024. arXiv:2410.08408 [cs]. [23] Melih Akda˘ g, Petter Solnør, and Tor Arne Johansen. Collaborative collision avoidance for maritime autonomous surface ships: A review. 
+
+Ocean Engineering , 2022. [24] Koen van de Merwe, Steven Mallam, Øystein Engelhardtsen, and Salman Nazir. Towards an approach to define transparency require-ments for maritime collision avoidance. Proceedings of the Human Factors and Ergonomics Society Annual Meeting , 67(1):483–488, September 2023. [25] Tor Arne Johansen, Tristan Perez, and Andrea Cristofaro. Ship Collision Avoidance and COLREGS Compliance Using Simulation-Based Control Behavior Selection With Predictive Hazard Assess-ment. IEEE Transactions on Intelligent Transportation Systems ,17(12):3407–3422, 2016. [26] I.B. Hagen, D.K.M. Kufoalor, T.A. Johansen, and E.F. Brekke. Scenario-Based Model Predictive Control with Several Steps for COLREGS Compliant Ship Collision Avoidance. IFAC-PapersOnLine ,55(31):307–312, 2022. [27] Alexandre Heuillet, Fabien Couthouis, and Natalia D´ ıaz-Rodr´ ıguez. Explainability in deep reinforcement learning. Knowledge-Based Systems , 214, 2021. [28] Philip Hodne, Oskar K. Sk˚ aden, Ole Andreas Alsos, Andreas Madsen, and Thomas Porathe. Conversational user interfaces for maritime autonomous surface ships. Ocean Engineering , 310:118641, 2024. [29] Erik Veitch, Kim Christensen, Markus Log, Erik Valestrand, Sigurd Hilmo Lundheim, Martin Nesse, Ole Alsos, and Martin Steinert. From captain to button-presser: operators’ perspectives on navigating highly automated ferries. Journal of Physics: Conference Series ,2311:012028, 07 2022. [30] Henrik Viken Lied, Taufik Akbar Sitompul, and Ole Andreas Alsos. Redesigning ui for teleoperating rov using apple vision pro: A study on usability and workload. In Proceedings of the 20th International Conference on Virtual Reality Continuum and Its Applications in Industry . ACM, December 2025. [31] Trym Tengesdal and Tor A. Johansen. Simulation Framework and Software Environment for Evaluating Automatic Ship Collision Avoid-ance Algorithms. In 2023 IEEE Conference on Control Technology and Applications (CCTA) , Bridgetown, Barbados, 2023. IEEE. [32] I. B. Hagen, D. K. M. Kufoalor, E. F. Brekke, and T. A. Johansen. Mpc-based collision avoidance strategy for existing marine vessel guidance systems. In 2018 IEEE International Conference on Robotics and Automation (ICRA) , 2018. [33] Morten Breivik and Thor I. Fossen. Guidance laws for planar motion control. In 2008 47th IEEE Conference on Decision and Control ,pages 570–577, 2008. [34] Dirk M. Elston. The novelty effect. Journal of the American Academy of Dermatology , 85:565–566, 2021. [35] Mina Saghafian, Dorthea Mathilde Kristin Vatn, Stine Thordarson Moltubakk, Lene Elisabeth Bertheussen, Felix Marcel Petermann, Stig Ole Johnsen, and Ole Andreas Alsos. Understanding automation transparency and its adaptive design implications in safety–critical systems. Safety Science , 184:106730, 2025.

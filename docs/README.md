@@ -6,58 +6,67 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-04-09
-- 运行时间：2026-04-09 20:42:02 UTC
+- 最新运行日期：2026-04-10
+- 运行时间：2026-04-10 20:07:12 UTC
 - 运行状态：成功
-- 本次总论文数：12
-- 精读区：3
-- 速读区：9
+- 本次总论文数：15
+- 精读区：4
+- 速读区：11
 
 ### 今日简报（AI）
-今日深度解析 12 篇前沿成果，重点攻克多模态车辆轨迹预测与多无人机协同追踪难题。
-推荐关注 Transformer 自发现意图机制及集群耦合运动引导，两者在复杂动态环境下的感知与预测精度表现卓越。
-建议进一步探索视觉导航中的薛定谔桥匹配技术，为实现低功耗、高效率的路径规划寻找新思路。
-- 详情：[/202604/09/README](/202604/09/README)
+今日深度解析 15 篇前沿成果，聚焦大语言模型与生成式世界模型在自动驾驶及导航领域的突破性应用。
+核心结论指出，在线策略蒸馏能显著优化自动驾驶规划，而生成式世界模型则为视觉语言导航提供了更精准的轨迹预测。
+建议读者重点研读大模型如何从“理解语义”跨越到“物理世界决策”，探索具身智能的落地路径。
+- 详情：[/202604/10/README](/202604/10/README)
 
 ### 精读区论文标签
-1. [Self-Discovered Intention-aware Transformer for Multi-modal Vehicle Trajectory Prediction](/202604/09/2604.07126v1-self-discovered-intention-aware-transformer-for-multi-modal-vehicle-trajectory-prediction)  
-   标签：评分：10.0/10、query:tp
-   evidence：用于多模态车辆轨迹预测的意图感知Transformer
-2. [SCT-MOT: Enhancing Air-to-Air Multiple UAVs Tracking with Swarm-Coupled Motion and Trajectory Guidance](/202604/09/2604.06883v1-sct-mot-enhancing-air-to-air-multiple-uavs-tracking-with-swarm-coupled-motion-and-trajectory-guidance)  
+1. [On-Policy Distillation of Language Models for Autonomous Vehicle Motion Planning](/202604/10/2604.07944v1-on-policy-distillation-of-language-models-for-autonomous-vehicle-motion-planning)  
    标签：评分：9.0/10、query:tp
-   evidence：多无人机轨迹预测与集群运动依赖
-3. [Differentiable Environment-Trajectory Co-Optimization for Safe Multi-Agent Navigation](/202604/09/2604.06972v1-differentiable-environment-trajectory-co-optimization-for-safe-multi-agent-navigation)  
+   evidence：将轨迹预测重新表述为语言生成问题
+2. [WorldMAP: Bootstrapping Vision-Language Navigation Trajectory Prediction with Generative World Models](/202604/10/2604.07957v1-worldmap-bootstrapping-vision-language-navigation-trajectory-prediction-with-generative-world-models)  
    标签：评分：9.0/10、query:tp
-   evidence：优化多智能体轨迹与导航安全
+   evidence：基于视觉语言模型的具身导航轨迹预测
+3. [Spatio-Temporal Grounding of Large Language Models from Perception Streams](/202604/10/2604.07592v1-spatio-temporal-grounding-of-large-language-models-from-perception-streams)  
+   标签：评分：8.0/10、query:tp
+   evidence：大语言模型中关于物体运动的时空定位与推理
+4. [PASK: Toward Intent-Aware Proactive Agents with Long-Term Memory](/202604/10/2604.08000v1-pask-toward-intent-aware-proactive-agents-with-long-term-memory)  
+   标签：评分：8.0/10、query:tp
+   evidence：具有流式意图流模型的意图感知主动智能体
 
 ### 速读区论文标签
-1. [Data-Attributed Adaptive Control Barrier Functions: Safety-Certified Training Data Curation via Influence Analysis](/202604/09/2604.00380v1-data-attributed-adaptive-control-barrier-functions-safety-certified-training-data-curation-via-influence-analysis)  
+1. [Enabling Intrinsic Reasoning over Dense Geospatial Embeddings with DFR-Gemma](/202604/10/2604.07490v1-enabling-intrinsic-reasoning-over-dense-geospatial-embeddings-with-dfr-gemma)  
    标签：评分：7.0/10、query:tp
-   evidence：安全自主导航与安全认证训练
-2. [A Survey on Sensor-based Planning and Control for Unmanned Underwater Vehicles](/202604/09/2604.05003v1-a-survey-on-sensor-based-planning-and-control-for-unmanned-underwater-vehicles)  
+   evidence：地理空间和移动动态的表示学习
+2. [Robust Multi-Agent Target Tracking in Intermittent Communication Environments via Analytical Belief Merging](/202604/10/2604.07575v1-robust-multi-agent-target-tracking-in-intermittent-communication-environments-via-analytical-belief-merging)  
    标签：评分：7.0/10、query:tp
-   evidence：复杂环境下水下航行器的规划与控制
-3. [Rectified Schrödinger Bridge Matching for Few-Step Visual Navigation](/202604/09/2604.05673v1-rectified-schrdinger-bridge-matching-for-few-step-visual-navigation)  
+   evidence：受限环境下的多智能体目标跟踪与轨迹历史交换
+3. [Joint Task Offloading, Inference Optimization and UAV Trajectory Planning for Generative AI Empowered Intelligent Transportation Digital Twin](/202604/10/2604.07687v1-joint-task-offloading-inference-optimization-and-uav-trajectory-planning-for-generative-ai-empowered-intelligent-transportation-digital-twin)  
    标签：评分：7.0/10、query:tp
-   evidence：自主智能体的连续动作轨迹
-4. [HiPolicy: Hierarchical Multi-Frequency Action Chunking for Policy Learning](/202604/09/2604.06067v1-hipolicy-hierarchical-multi-frequency-action-chunking-for-policy-learning)  
+   evidence：智能交通数字孪生中的无人机轨迹规划
+4. [Incremental Residual Reinforcement Learning Toward Real-World Learning for Social Navigation](/202604/10/2604.07945v1-incremental-residual-reinforcement-learning-toward-real-world-learning-for-social-navigation)  
    标签：评分：7.0/10、query:tp
-   evidence：联合预测机器人控制中不同频率的动作序列
-5. [Reachability-Aware Time Scaling for Path Tracking](/202604/09/2604.00439v1-reachability-aware-time-scaling-for-path-tracking)  
+   evidence：移动机器人的社交导航与行人动力学
+5. [Open-Ended Instruction Realization with LLM-Enabled Multi-Planner Scheduling in Autonomous Vehicles](/202604/10/2604.08031v1-open-ended-instruction-realization-with-llm-enabled-multi-planner-scheduling-in-autonomous-vehicles)  
+   标签：评分：7.0/10、query:tp
+   evidence：将规划的轨迹转换为自动驾驶车辆的控制信号
+6. ["Why This Avoidance Maneuver?" Contrastive Explanations in Human-Supervised Maritime Autonomous Navigation](/202604/10/2604.08032v1-why-this-avoidance-maneuver-contrastive-explanations-in-human-supervised-maritime-autonomous-navigation)  
+   标签：评分：7.0/10、query:tp
+   evidence：海上自主导航与避碰机动
+7. [Diffusion Policy with Bayesian Expert Selection for Active Multi-Target Tracking](/202604/10/2604.03404v1-diffusion-policy-with-bayesian-expert-selection-for-active-multi-target-tracking)  
    标签：评分：6.0/10、query:tp
-   evidence：无碰撞航点路径的路径跟踪
-6. [Instantaneous Planning, Control and Safety for Navigation in Unknown Underwater Spaces](/202604/09/2604.05310v1-instantaneous-planning-control-and-safety-for-navigation-in-unknown-underwater-spaces)  
+   evidence：主动多目标跟踪与动作序列
+8. [Towards Edge Intelligence via Autonomous Navigation: A Robot-Assisted Data Collection Approach](/202604/10/2604.03623v1-towards-edge-intelligence-via-autonomous-navigation-a-robot-assisted-data-collection-approach)  
    标签：评分：6.0/10、query:tp
-   evidence：动态诱导闭环自主水下航行器轨迹
-7. [Multi-Agent Pathfinding with Non-Unit Integer Edge Costs via Enhanced Conflict-Based Search and Graph Discretization](/202604/09/2604.05416v1-multi-agent-pathfinding-with-non-unit-integer-edge-costs-via-enhanced-conflict-based-search-and-graph-discretization)  
+   evidence：复杂环境下的自主导航与机器人表示
+9. [Robust Learning of Heterogeneous Dynamic Systems](/202604/10/2604.05285v1-robust-learning-of-heterogeneous-dynamic-systems)  
    标签：评分：6.0/10、query:tp
-   evidence：多智能体路径规划与碰撞建模
-8. [Equivariant Multi-agent Reinforcement Learning for Multimodal Vehicle-to-Infrastructure Systems](/202604/09/2604.06914v1-equivariant-multi-agent-reinforcement-learning-for-multimodal-vehicle-to-infrastructure-systems)  
+   evidence：从动态系统的轨迹导数中学习共享模式
+10. [Amortized Filtering and Smoothing with Conditional Normalizing Flows](/202604/10/2604.07169v1-amortized-filtering-and-smoothing-with-conditional-normalizing-flows)  
    标签：评分：6.0/10、query:tp
-   evidence：车辆系统的多智能体强化学习
-9. [Towards Multi-Object Nonprehensile Transportation via Shared Teleoperation: A Framework Based on Virtual Object Model Predictive Control](/202604/09/2604.06932v1-towards-multi-object-nonprehensile-transportation-via-shared-teleoperation-a-framework-based-on-virtual-object-model-predictive-control)  
+   evidence：将观测历史编码为固定维度的摘要统计量，用于滤波和平滑
+11. [Active Reward Machine Inference From Raw State Trajectories](/202604/10/2604.07480v1-active-reward-machine-inference-from-raw-state-trajectories)  
    标签：评分：6.0/10、query:tp
-   evidence：自主机器人的轨迹规划与平滑
+   evidence：直接从原始状态轨迹中学习奖励机
 
 
 <div class="dpr-home-promo-card">

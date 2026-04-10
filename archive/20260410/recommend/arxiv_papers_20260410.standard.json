@@ -1,0 +1,614 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-04-10T20:05:37.230574+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 4,
+    "deep_cap": 6,
+    "deep_selected": 4,
+    "quick_candidates": 17,
+    "quick_skim_target": 11,
+    "quick_selected": 11
+  },
+  "deep_dive": [
+    {
+      "id": "2604.07944v1",
+      "title": "On-Policy Distillation of Language Models for Autonomous Vehicle Motion Planning",
+      "abstract": "Large language models (LLMs) have recently demonstrated strong potential for autonomous vehicle motion planning by reformulating trajectory prediction as a language generation problem. However, deploying capable LLMs in resource-constrained onboard systems remains a fundamental challenge. In this paper, we study how to effectively transfer motion planning knowledge from a large teacher LLM to a smaller, more deployable student model. We build on the GPT-Driver framework, which represents driving scenes as language prompts and generates waypoint trajectories with chain-of-thought reasoning, and investigate two student training paradigms: (i) on-policy generalized knowledge distillation (GKD), which trains the student on its own self-generated outputs using dense token-level feedback from the teacher, and (ii) a dense-feedback reinforcement learning (RL) baseline that uses the teacher's log-probabilities as per-token reward signals in a policy gradient framework. Experiments on the nuScenes benchmark show that GKD substantially outperforms the RL baseline and closely approaches teacher-level performance despite a 5$\\times$ reduction in model size. These results highlight the practical value of on-policy distillation as a principled and effective approach to deploying LLM-based planners in autonomous driving systems.",
+      "authors": [
+        "Amirhossein Afsharrad",
+        "Amirhesam Abedsoltan",
+        "Ahmadreza Moradipari",
+        "Sanjay Lall"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "eess.SY"
+      ],
+      "published": "2026-04-09T08:06:19+00:00",
+      "link": "https://arxiv.org/pdf/2604.07944v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "reformulating trajectory prediction as a language generation problem",
+      "llm_evidence_cn": "将轨迹预测重新表述为语言生成问题",
+      "llm_evidence": "将轨迹预测重新表述为语言生成问题",
+      "canonical_evidence": "将轨迹预测重新表述为语言生成问题",
+      "llm_tldr_en": "Investigates distilling motion planning and trajectory prediction knowledge from large teacher LLMs to student models.",
+      "llm_tldr_cn": "研究如何将大语言模型的运动规划和轨迹预测知识蒸馏到更小、易于部署的学生模型中。",
+      "llm_tldr": "研究如何将大语言模型的运动规划和轨迹预测知识蒸馏到更小、易于部署的学生模型中。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning based on multimodal large language model",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2604.07957v1",
+      "title": "WorldMAP: Bootstrapping Vision-Language Navigation Trajectory Prediction with Generative World Models",
+      "abstract": "Vision-language models (VLMs) and generative world models are opening new opportunities for embodied navigation. VLMs are increasingly used as direct planners or trajectory predictors, while world models support look-ahead reasoning by imagining future views. Yet predicting a reliable trajectory from a single egocentric observation remains challenging. Current VLMs often generate unstable trajectories, and world models, though able to synthesize plausible futures, do not directly provide the grounded signals needed for navigation learning. This raises a central question: how can generated futures be turned into supervision for grounded trajectory prediction? We present WorldMAP, a teacher--student framework that converts world-model-generated futures into persistent semantic-spatial structure and planning-derived supervision. Its world-model-driven teacher builds semantic-spatial memory from generated videos, grounds task-relevant targets and obstacles, and produces trajectory pseudo-labels through explicit planning. A lightweight student with a multi-hypothesis trajectory head is then trained to predict navigation trajectories directly from vision-language inputs. On Target-Bench, WorldMAP achieves the best ADE and FDE among compared methods, reducing ADE by 18.0% and FDE by 42.1% relative to the best competing baseline, while lifting a small open-source VLM to DTW performance competitive with proprietary models. More broadly, the results suggest that, in embodied navigation, the value of world models may lie less in supplying action-ready imagined evidence than in synthesizing structured supervision for navigation learning.",
+      "authors": [
+        "Hongjin Chen",
+        "Shangyun Jiang",
+        "Tonghua Su",
+        "Chen Gao",
+        "Xinlei Chen",
+        "Yong Li",
+        "Zhibo Chen"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CV",
+        "cs.RO"
+      ],
+      "published": "2026-04-09T08:21:58+00:00",
+      "link": "https://arxiv.org/pdf/2604.07957v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "VLM-based trajectory prediction for embodied navigation",
+      "llm_evidence_cn": "基于视觉语言模型的具身导航轨迹预测",
+      "llm_evidence": "基于视觉语言模型的具身导航轨迹预测",
+      "canonical_evidence": "基于视觉语言模型的具身导航轨迹预测",
+      "llm_tldr_en": "Uses generative world models to bootstrap VLM-based trajectory prediction for reliable embodied navigation.",
+      "llm_tldr_cn": "利用生成式世界模型引导视觉语言模型进行可靠的具身导航轨迹预测。",
+      "llm_tldr": "利用生成式世界模型引导视觉语言模型进行可靠的具身导航轨迹预测。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning based on multimodal large language model",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2604.07592v1",
+      "title": "Spatio-Temporal Grounding of Large Language Models from Perception Streams",
+      "abstract": "Embodied-AI agents must reason about how objects move and interact in 3-D space over time, yet existing smaller frontier Large Language Models (LLMs) still mis-handle fine-grained spatial relations, metric distances, and temporal orderings. We introduce the general framework Formally Explainable Spatio-Temporal Scenes (FESTS) that injects verifiable spatio-temporal supervision into an LLM by compiling natural-language queries into Spatial Regular Expression (SpRE) -- a language combining regular expression syntax with S4u spatial logic and extended here with universal and existential quantification. The pipeline matches each SpRE against any structured video log and exports aligned (query, frames, match, explanation) tuples, enabling unlimited training data without manual labels. Training a 3-billion-parameter model on 27k such tuples boosts frame-level F1 from 48.5% to 87.5%, matching GPT-4.1 on complex spatio-temporal reasoning while remaining two orders of magnitude smaller, and, hence, enabling spatio-temporal intelligence for Video LLM.",
+      "authors": [
+        "Jacob Anderson",
+        "Bardh Hoxha",
+        "Georgios Fainekos",
+        "Hideki Okamoto",
+        "Danil Prokhorov"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-04-08T20:49:50+00:00",
+      "link": "https://arxiv.org/pdf/2604.07592v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "spatio-temporal grounding and reasoning about object movement in LLMs",
+      "llm_evidence_cn": "大语言模型中关于物体运动的时空定位与推理",
+      "llm_evidence": "大语言模型中关于物体运动的时空定位与推理",
+      "canonical_evidence": "大语言模型中关于物体运动的时空定位与推理",
+      "llm_tldr_en": "Introduces FESTS to inject spatio-temporal supervision into LLMs for reasoning about object interactions over time.",
+      "llm_tldr_cn": "引入FESTS框架，为大语言模型注入时空监督，以推理物体随时间变化的交互。",
+      "llm_tldr": "引入FESTS框架，为大语言模型注入时空监督，以推理物体随时间变化的交互。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning based on multimodal large language model",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2604.08000v1",
+      "title": "PASK: Toward Intent-Aware Proactive Agents with Long-Term Memory",
+      "abstract": "Proactivity is a core expectation for AGI. Prior work remains largely confined to laboratory settings, leaving a clear gap in real-world proactive agent: depth, complexity, ambiguity, precision and real-time constraints. We study this setting, where useful intervention requires inferring latent needs from ongoing context and grounding actions in evolving user memory under latency and long-horizon constraints. We first propose DD-MM-PAS (Demand Detection, Memory Modeling, Proactive Agent System) as a general paradigm for streaming proactive AI agent. We instantiate this paradigm in Pask, with streaming IntentFlow model for DD, a hybrid memory (workspace, user, global) for long-term MM, PAS infra framework and introduce how these components form a closed loop. We also introduce LatentNeeds-Bench, a real-world benchmark built from user-consented data and refined through thousands of rounds of human editing. Experiments show that IntentFlow matches leading Gemini3-Flash models under latency constraints, while identifying deeper user intent.",
+      "authors": [
+        "Zhifei Xie",
+        "Zongzheng Hu",
+        "Fangda Ye",
+        "Xin Zhang",
+        "Haobo Chai",
+        "Zihang Liu",
+        "Pengcheng Wu",
+        "Guibin Zhang",
+        "Yue Liao",
+        "Xiaobin Hu",
+        "Deheng Ye",
+        "Chunyan Miao",
+        "Shuicheng Yan"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CL",
+        "cs.CV",
+        "cs.HC",
+        "cs.MA"
+      ],
+      "published": "2026-04-09T09:06:13+00:00",
+      "link": "https://arxiv.org/pdf/2604.08000v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "intent-aware proactive agents with streaming IntentFlow model",
+      "llm_evidence_cn": "具有流式意图流模型的意图感知主动智能体",
+      "llm_evidence": "具有流式意图流模型的意图感知主动智能体",
+      "canonical_evidence": "具有流式意图流模型的意图感知主动智能体",
+      "llm_tldr_en": "A paradigm for proactive AI agents that infers latent needs and intents from ongoing context.",
+      "llm_tldr_cn": "一种主动式 AI 智能体范式，可从持续上下文中推断潜在需求和意图。",
+      "llm_tldr": "一种主动式 AI 智能体范式，可从持续上下文中推断潜在需求和意图。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "deep learning techniques for intent aware trajectory forecasting",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2604.07490v1",
+      "title": "Enabling Intrinsic Reasoning over Dense Geospatial Embeddings with DFR-Gemma",
+      "abstract": "Representation learning for geospatial and spatio-temporal data plays a critical role in enabling general-purpose geospatial intelligence. Recent geospatial foundation models, such as the Population Dynamics Foundation Model (PDFM), encode complex population and mobility dynamics into compact embeddings. However, their integration with Large Language Models (LLMs) remains limited. Existing approaches to LLM integration treat these embeddings as retrieval indices or convert them into textual descriptions for reasoning, introducing redundancy, token inefficiency, and numerical inaccuracies. We propose Direct Feature Reasoning-Gemma (DFR-Gemma), a novel framework that enables LLMs to reason directly over dense geospatial embeddings. DFR aligns high-dimensional embeddings with the latent space of an LLM via a lightweight projector, allowing embeddings to be injected as semantic tokens alongside natural language instructions. This design eliminates the need for intermediate textual representations and enables intrinsic reasoning over spatial features. To evaluate this paradigm, we introduce a multi-task geospatial benchmark that pairs embeddings with diverse question-answer tasks, including feature querying, comparison, and semantic description. Experimental results show that DFR allows LLMs to decode latent spatial patterns and perform accurate zero-shot reasoning across tasks, while significantly improving efficiency compared to text-based baselines. Our results demonstrate that treating embeddings as primary data inputs, provides a more direct, efficient, and scalable approach to multimodal geospatial intelligence.",
+      "authors": [
+        "Xuechen Zhang",
+        "Aviv Slobodkin",
+        "Joydeep Paul",
+        "Mandar Sharma",
+        "Samet Oymak",
+        "Shravya Shetty",
+        "Gautam Prasad"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "published": "2026-04-08T18:31:38+00:00",
+      "link": "https://arxiv.org/pdf/2604.07490v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Representation learning for geospatial and mobility dynamics",
+      "llm_evidence_cn": "地理空间和移动动态的表示学习",
+      "llm_evidence": "地理空间和移动动态的表示学习",
+      "canonical_evidence": "地理空间和移动动态的表示学习",
+      "llm_tldr_en": "Enables LLMs to reason directly over dense geospatial embeddings for mobility and population dynamics.",
+      "llm_tldr_cn": "使大语言模型能够直接对用于移动和人口动态的稠密地理空间嵌入进行推理。",
+      "llm_tldr": "使大语言模型能够直接对用于移动和人口动态的稠密地理空间嵌入进行推理。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning and feature extraction",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.03404v1",
+      "title": "Diffusion Policy with Bayesian Expert Selection for Active Multi-Target Tracking",
+      "abstract": "Active multi-target tracking requires a mobile robot to balance exploration for undetected targets with exploitation of uncertain tracked ones. Diffusion policies have emerged as a powerful approach for capturing diverse behavioral strategies by learning action sequences from expert demonstrations. However, existing methods implicitly select among strategies through the denoising process, without uncertainty quantification over which strategy to execute. We formulate expert selection for diffusion policies as an offline contextual bandit problem and propose a Bayesian framework for pessimistic, uncertainty-aware strategy selection. A multi-head Variational Bayesian Last Layer (VBLL) model predicts the expected tracking performance of each expert strategy given the current belief state, providing both a point estimate and predictive uncertainty. Following the pessimism principle for offline decision-making, a Lower Confidence Bound (LCB) criterion then selects the expert whose worst-case predicted performance is best, avoiding overcommitment to experts with unreliable predictions. The selected expert conditions a diffusion policy to generate corresponding action sequences. Experiments on simulated indoor tracking scenarios demonstrate that our approach outperforms both the base diffusion policy and standard gating methods, including Mixture-of-Experts selection and deterministic regression baselines.",
+      "authors": [
+        "Haotian Xiang",
+        "Qin Lu",
+        "Yaakov Bar-Shalom"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.LG"
+      ],
+      "published": "2026-04-03T19:05:22+00:00",
+      "link": "https://arxiv.org/pdf/2604.03404v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "active multi-target tracking and action sequences",
+      "llm_evidence_cn": "主动多目标跟踪与动作序列",
+      "llm_evidence": "主动多目标跟踪与动作序列",
+      "canonical_evidence": "主动多目标跟踪与动作序列",
+      "llm_tldr_en": "A Bayesian diffusion policy framework for uncertainty-aware active multi-target tracking.",
+      "llm_tldr_cn": "一种用于不确定性感知主动多目标跟踪的贝叶斯扩散策略框架。",
+      "llm_tldr": "一种用于不确定性感知主动多目标跟踪的贝叶斯扩散策略框架。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "multi-agent trajectory forecasting and interaction modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.07575v1",
+      "title": "Robust Multi-Agent Target Tracking in Intermittent Communication Environments via Analytical Belief Merging",
+      "abstract": "Autonomous multi-agent target tracking in GPS-denied and communication-restricted environments (e.g., underwater exploration, subterranean search and rescue, and adversarial domains) forces agents to operate independently and only exchange information during brief reconnection windows. Because transmitting complete observation and trajectory histories is bandwidth-exhaustive, exchanging probabilistic belief maps serves as a highly efficient proxy that preserves the topology of agent knowledge. While minimizing divergence metrics to merge these decentralized beliefs is conceptually sound, traditional approaches often rely on numerical solvers that introduce critical quantization errors and artificial noise floors. In this paper, we formulate the decentralized belief merging problem as Forward and Reverse Kullback-Leibler (KL) divergence optimizations and derive their exact closed-form analytical solutions. By deploying these derivations, we mathematically eliminate optimization artifacts, achieving perfect mathematical fidelity while reducing the computational complexity of the belief merge to $\\mathcal{O}(N|S|)$ scalar operations. Furthermore, we propose a novel spatially-aware visit-weighted KL merging strategy that dynamically weighs agent beliefs based on their physical visitation history. Validated across tens of thousands of distributed simulations, extensive sensitivity analysis demonstrates that our proposed method significantly suppresses sensor noise and outperforms standard analytical means in environments characterized by highly degraded sensors and prolonged communication intervals.",
+      "authors": [
+        "Mohamed Abdelnaby",
+        "Samuel Honor",
+        "Kevin Leahy"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-04-08T20:27:48+00:00",
+      "link": "https://arxiv.org/pdf/2604.07575v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "multi-agent target tracking and trajectory history exchange in restricted environments",
+      "llm_evidence_cn": "受限环境下的多智能体目标跟踪与轨迹历史交换",
+      "llm_evidence": "受限环境下的多智能体目标跟踪与轨迹历史交换",
+      "canonical_evidence": "受限环境下的多智能体目标跟踪与轨迹历史交换",
+      "llm_tldr_en": "Proposes an analytical belief merging method for robust multi-agent target tracking with intermittent communication.",
+      "llm_tldr_cn": "提出了一种解析信念合并方法，用于间歇性通信环境下的鲁棒多智能体目标跟踪。",
+      "llm_tldr": "提出了一种解析信念合并方法，用于间歇性通信环境下的鲁棒多智能体目标跟踪。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "multi-agent trajectory forecasting and interaction modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.03623v1",
+      "title": "Towards Edge Intelligence via Autonomous Navigation: A Robot-Assisted Data Collection Approach",
+      "abstract": "With the growing demand for large-scale and high-quality data in edge intelligence systems, mobile robots are increasingly deployed to collect data proactively, particularly in complex environments. However, existing robot-assisted data collection methods face significant challenges in achieving reliable and efficient performance, especially in non-line-of-sight (NLoS) environments. This paper proposes a communication-and-learning dual-driven (CLD) autonomous navigation scheme that incorporates region-aware propagation characteristics and a non-point-mass robot representation. This scheme enables simultaneous optimization of navigation, communication, and learning performance. An efficient algorithm based on majorization-minimization (MM) is proposed to solve the non-convex and non-smooth CLD problem. Simulation results demonstrate that the proposed scheme achieves superior performance in collision-avoidance navigation, data collection, and model training compared to benchmark methods. It is also shown that CLD can adapt to different scenarios by flexibly adjusting the weight factor among navigation, communication and learning objectives.",
+      "authors": [
+        "Tingting Huang",
+        "Yingyang Chen",
+        "Sixian Qin",
+        "Zhijian Lin",
+        "Jun Li",
+        "Li Wang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "eess.SP"
+      ],
+      "published": "2026-04-04T07:40:26+00:00",
+      "link": "https://arxiv.org/pdf/2604.03623v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Autonomous navigation and robot representation in complex environments",
+      "llm_evidence_cn": "复杂环境下的自主导航与机器人表示",
+      "llm_evidence": "复杂环境下的自主导航与机器人表示",
+      "canonical_evidence": "复杂环境下的自主导航与机器人表示",
+      "llm_tldr_en": "Proposes a dual-driven autonomous navigation scheme for efficient robot-assisted data collection.",
+      "llm_tldr_cn": "提出一种双驱动自主导航方案，用于高效的机器人辅助数据采集。",
+      "llm_tldr": "提出一种双驱动自主导航方案，用于高效的机器人辅助数据采集。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.07687v1",
+      "title": "Joint Task Offloading, Inference Optimization and UAV Trajectory Planning for Generative AI Empowered Intelligent Transportation Digital Twin",
+      "abstract": "To implement the intelligent transportation digital twin (ITDT), unmanned aerial vehicles (UAVs) are scheduled to process the sensing data from the roadside sensors. At this time, generative artificial intelligence (GAI) technologies such as diffusion models are deployed on the UAVs to transform the raw sensing data into the high-quality and valuable. Therefore, we propose the GAI-empowered ITDT. The dynamic processing of a set of diffusion model inference (DMI) tasks on the UAVs with dynamic mobility simultaneously influences the DT updating fidelity and delay. In this paper, we investigate a joint optimization problem of DMI task offloading, inference optimization and UAV trajectory planning as the system utility maximization (SUM) problem to address the fidelity-delay tradeoff for the GAI-empowered ITDT. To seek a solution to the problem under the network dynamics, we model the SUM problem as the heterogeneous-agent Markov decision process, and propose the sequential update-based heterogeneous-agent twin delayed deep deterministic policy gradient (SU-HATD3) algorithm, which can quickly learn a near-optimal solution. Numerical results demonstrate that compared with several baseline algorithms, the proposed algorithm has great advantages in improving the system utility and convergence rate.",
+      "authors": [
+        "Xiaohuan Li",
+        "Junchuan Fan",
+        "Bingqi Zhang",
+        "Rong Yu",
+        "Xumin Huang",
+        "Qian Chen"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-04-09T01:19:10+00:00",
+      "link": "https://arxiv.org/pdf/2604.07687v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "UAV trajectory planning for intelligent transportation digital twin",
+      "llm_evidence_cn": "智能交通数字孪生中的无人机轨迹规划",
+      "llm_evidence": "智能交通数字孪生中的无人机轨迹规划",
+      "canonical_evidence": "智能交通数字孪生中的无人机轨迹规划",
+      "llm_tldr_en": "Optimizes UAV trajectory planning and task offloading for generative AI-empowered digital twins.",
+      "llm_tldr_cn": "针对生成式AI赋能的数字孪生，优化了无人机轨迹规划与任务卸载的联合问题。",
+      "llm_tldr": "针对生成式AI赋能的数字孪生，优化了无人机轨迹规划与任务卸载的联合问题。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.05285v1",
+      "title": "Robust Learning of Heterogeneous Dynamic Systems",
+      "abstract": "Ordinary differential equations (ODEs) provide a powerful framework for modeling dynamic systems arising in a wide range of scientific domains. However, most existing ODE methods focus on a single system, and do not adequately address the problem of learning shared patterns from multiple heterogeneous dynamic systems. In this article, we propose a novel distributionally robust learning approach for modeling heterogeneous ODE systems. Specifically, we construct a robust dynamic system by maximizing a worst-case reward over an uncertainty class formed by convex combinations of the derivatives of trajectories. We show the resulting estimator admits an explicit weighted average representation, where the weights are obtained from a quadratic optimization that balances information across multiple data sources. We further develop a bi-level stabilization procedure to address potential instability in estimation. We establish rigorous theoretical guarantees for the proposed method, including consistency of the stabilized weights, error bound for robust trajectory estimation, and asymptotical validity of pointwise confidence interval. We demonstrate that the proposed method considerably improves the generalization performance compared to the alternative solutions through both extensive simulations and the analysis of an intracranial electroencephalogram data.",
+      "authors": [
+        "Shuoxun Xu",
+        "Zijian Guo",
+        "Brooke R. Staveland",
+        "Robert T. Knight",
+        "Lexin Li"
+      ],
+      "primary_category": "stat.ME",
+      "categories": [
+        "stat.ME",
+        "cs.LG"
+      ],
+      "published": "2026-04-07T00:40:55+00:00",
+      "link": "https://arxiv.org/pdf/2604.05285v1",
+      "tags": [
+        "keyword:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "learning shared patterns from derivatives of trajectories in dynamic systems",
+      "llm_evidence_cn": "从动态系统的轨迹导数中学习共享模式",
+      "llm_evidence": "从动态系统的轨迹导数中学习共享模式",
+      "canonical_evidence": "从动态系统的轨迹导数中学习共享模式",
+      "llm_tldr_en": "A robust learning approach for heterogeneous dynamic systems using trajectory derivatives to model shared patterns.",
+      "llm_tldr_cn": "一种针对异构动态系统的鲁棒学习方法，利用轨迹导数建模共享模式。",
+      "llm_tldr": "一种针对异构动态系统的鲁棒学习方法，利用轨迹导数建模共享模式。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning and feature extraction",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.07945v1",
+      "title": "Incremental Residual Reinforcement Learning Toward Real-World Learning for Social Navigation",
+      "abstract": "As the demand for mobile robots continues to increase, social navigation has emerged as a critical task, driving active research into deep reinforcement learning (RL) approaches. However, because pedestrian dynamics and social conventions vary widely across different regions, simulations cannot easily encompass all possible real-world scenarios. Real-world RL, in which agents learn while operating directly in physical environments, presents a promising solution to this issue. Nevertheless, this approach faces significant challenges, particularly regarding constrained computational resources on edge devices and learning efficiency. In this study, we propose incremental residual RL (IRRL). This method integrates incremental learning, which is a lightweight process that operates without a replay buffer or batch updates, with residual RL, which enhances learning efficiency by training only on the residuals relative to a base policy. Through the simulation experiments, we demonstrated that, despite lacking a replay buffer, IRRL achieved performance comparable to those of conventional replay buffer-based methods and outperformed existing incremental learning approaches. Furthermore, the real-world experiments confirmed that IRRL can enable robots to effectively adapt to previously unseen environments through the real-world learning.",
+      "authors": [
+        "Haruto Nagahisa",
+        "Kohei Matsumoto",
+        "Yuki Tomita",
+        "Yuki Hyodo",
+        "Ryo Kurazume"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-04-09T08:08:37+00:00",
+      "link": "https://arxiv.org/pdf/2604.07945v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "social navigation and pedestrian dynamics for mobile robots",
+      "llm_evidence_cn": "移动机器人的社交导航与行人动力学",
+      "llm_evidence": "移动机器人的社交导航与行人动力学",
+      "canonical_evidence": "移动机器人的社交导航与行人动力学",
+      "llm_tldr_en": "Proposes incremental residual RL to improve social navigation and adaptation to pedestrian dynamics in real-world.",
+      "llm_tldr_cn": "提出增量残差强化学习，以提高社交导航在现实世界中对行人动力学的适应性。",
+      "llm_tldr": "提出增量残差强化学习，以提高社交导航在现实世界中对行人动力学的适应性。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.07169v1",
+      "title": "Amortized Filtering and Smoothing with Conditional Normalizing Flows",
+      "abstract": "Bayesian filtering and smoothing for high-dimensional nonlinear dynamical systems are fundamental yet challenging problems in many areas of science and engineering. In this work, we propose AFSF, a unified amortized framework for filtering and smoothing with conditional normalizing flows. The core idea is to encode each observation history into a fixed-dimensional summary statistic and use this shared representation to learn both a forward flow for the filtering distribution and a backward flow for the backward transition kernel. Specifically, a recurrent encoder maps each observation history to a fixed-dimensional summary statistic whose dimension does not depend on the length of the time series. Conditioned on this shared summary statistic, the forward flow approximates the filtering distribution, while the backward flow approximates the backward transition kernel. The smoothing distribution over an entire trajectory is then recovered by combining the terminal filtering distribution with the learned backward flow through the standard backward recursion. By learning the underlying temporal evolution structure, AFSF also supports extrapolation beyond the training horizon. Moreover, by coupling the two flows through shared summary statistics, AFSF induces an implicit regularization across latent state trajectories and improves trajectory-level smoothing. In addition, we develop a flow-based particle filtering variant that provides an alternative filtering procedure and enables ESS-based diagnostics when explicit model factors are available. Numerical experiments demonstrate that AFSF provides accurate approximations of both filtering distributions and smoothing paths.",
+      "authors": [
+        "Tiangang Cui",
+        "Xiaodong Feng",
+        "Chenlong Pei",
+        "Xiaoliang Wan",
+        "Tao Zhou"
+      ],
+      "primary_category": "stat.ML",
+      "categories": [
+        "stat.ML",
+        "cs.LG",
+        "math.NA"
+      ],
+      "published": "2026-04-08T14:59:43+00:00",
+      "link": "https://arxiv.org/pdf/2604.07169v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "encoding observation history into fixed-dimensional summary statistics for filtering and smoothing",
+      "llm_evidence_cn": "将观测历史编码为固定维度的摘要统计量，用于滤波和平滑",
+      "llm_evidence": "将观测历史编码为固定维度的摘要统计量，用于滤波和平滑",
+      "canonical_evidence": "将观测历史编码为固定维度的摘要统计量，用于滤波和平滑",
+      "llm_tldr_en": "Proposes a framework for Bayesian filtering and smoothing using conditional normalizing flows for dynamical systems.",
+      "llm_tldr_cn": "提出了一种利用条件归一化流进行动力系统贝叶斯滤波和平滑的统一框架。",
+      "llm_tldr": "提出了一种利用条件归一化流进行动力系统贝叶斯滤波和平滑的统一框架。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning and feature extraction",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.08031v1",
+      "title": "Open-Ended Instruction Realization with LLM-Enabled Multi-Planner Scheduling in Autonomous Vehicles",
+      "abstract": "Most Human-Machine Interaction (HMI) research overlooks the maneuvering needs of passengers in autonomous driving (AD). Natural language offers an intuitive interface, yet translating passenger open-ended instructions into control signals, without sacrificing interpretability and traceability, remains a challenge. This study proposes an instruction-realization framework that leverages a large language model (LLM) to interpret instructions, generates executable scripts that schedule multiple model predictive control (MPC)-based motion planners based on real-time feedback, and converts planned trajectories into control signals. This scheduling-centric design decouples semantic reasoning from vehicle control at different timescales, establishing a transparent, traceable decision-making chain from high-level instructions to low-level actions. Due to the absence of high-fidelity evaluation tools, this study introduces a benchmark for open-ended instruction realization in a closed-loop setting. Comprehensive experiments reveal that the framework significantly improves task-completion rates over instruction-realization baselines, reduces LLM query costs, achieves safety and compliance on par with specialized AD approaches, and exhibits considerable tolerance to LLM inference latency. For more qualitative illustrations and a clearer understanding.",
+      "authors": [
+        "Jiawei Liu",
+        "Xun Gong",
+        "Fen Fang",
+        "Muli Yang",
+        "Bohao Qu",
+        "Yunfeng Hu",
+        "Hong Chen",
+        "Xulei Yang",
+        "Qing Guo"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.CV"
+      ],
+      "published": "2026-04-09T09:32:21+00:00",
+      "link": "https://arxiv.org/pdf/2604.08031v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "converts planned trajectories into control signals for autonomous vehicles",
+      "llm_evidence_cn": "将规划的轨迹转换为自动驾驶车辆的控制信号",
+      "llm_evidence": "将规划的轨迹转换为自动驾驶车辆的控制信号",
+      "canonical_evidence": "将规划的轨迹转换为自动驾驶车辆的控制信号",
+      "llm_tldr_en": "Uses LLMs to interpret passenger instructions and schedule MPC-based planners for autonomous vehicle trajectories.",
+      "llm_tldr_cn": "利用大语言模型解析乘客指令，并调度基于MPC的规划器生成自动驾驶轨迹。",
+      "llm_tldr": "利用大语言模型解析乘客指令，并调度基于MPC的规划器生成自动驾驶轨迹。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.07480v1",
+      "title": "Active Reward Machine Inference From Raw State Trajectories",
+      "abstract": "Reward machines are automaton-like structures that capture the memory required to accomplish a multi-stage task. When combined with reinforcement learning or optimal control methods, they can be used to synthesize robot policies to achieve such tasks. However, specifying a reward machine by hand, including a labeling function capturing high-level features that the decisions are based on, can be a daunting task. This paper deals with the problem of learning reward machines directly from raw state and policy information. As opposed to existing works, we assume no access to observations of rewards, labels, or machine nodes, and show what trajectory data is sufficient for learning the reward machine in this information-scarce regime. We then extend the result to an active learning setting where we incrementally query trajectory extensions to improve data (and indirectly computational) efficiency. Results are demonstrated with several grid world examples.",
+      "authors": [
+        "Mohamad Louai Shehab",
+        "Antoine Aspeel",
+        "Necmiye Ozay"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "cs.FL"
+      ],
+      "published": "2026-04-08T18:19:55+00:00",
+      "link": "https://arxiv.org/pdf/2604.07480v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "learning reward machines directly from raw state trajectories",
+      "llm_evidence_cn": "直接从原始状态轨迹中学习奖励机",
+      "llm_evidence": "直接从原始状态轨迹中学习奖励机",
+      "canonical_evidence": "直接从原始状态轨迹中学习奖励机",
+      "llm_tldr_en": "Develops a method to infer reward machines from raw trajectory data to synthesize robot policies.",
+      "llm_tldr_cn": "开发了一种从原始轨迹数据推断奖励机的方法，用于合成机器人策略。",
+      "llm_tldr": "开发了一种从原始轨迹数据推断奖励机的方法，用于合成机器人策略。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning and feature extraction",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.08032v1",
+      "title": "\"Why This Avoidance Maneuver?\" Contrastive Explanations in Human-Supervised Maritime Autonomous Navigation",
+      "abstract": "Automated maritime collision avoidance will rely on human supervision for the foreseeable future. This necessitates transparency into how the system perceives a scenario and plans a maneuver. However, the causal logic behind avoidance maneuvers is often complex and difficult to convey to a navigator. This paper explores how to explain these factors in a selective, understandable manner for supervisors with a nautical background. We propose a method for generating contrastive explanations, which provide human-centric insights by comparing a system's proposed solution against relevant alternatives. To evaluate this, we developed a framework that uses visual and textual cues to highlight key objectives from a state-of-the-art collision avoidance system. An exploratory user study with four experienced marine officers suggests that contrastive explanations support the understanding of the system's objectives. However, our findings also reveal that while these explanations are highly valuable in complex multi-vessel encounters, they can increase cognitive workload, suggesting that future maritime interfaces may benefit most from demand-driven or scenario-specific explanation strategies.",
+      "authors": [
+        "Joel Jose",
+        "Andreas Madsen",
+        "Andreas Brandsæter",
+        "Tor A. Johansen",
+        "Erlend M. Coates"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.RO"
+      ],
+      "published": "2026-04-09T09:37:43+00:00",
+      "link": "https://arxiv.org/pdf/2604.08032v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "maritime autonomous navigation and collision avoidance maneuvers",
+      "llm_evidence_cn": "海上自主导航与避碰机动",
+      "llm_evidence": "海上自主导航与避碰机动",
+      "canonical_evidence": "海上自主导航与避碰机动",
+      "llm_tldr_en": "Explains maritime autonomous navigation maneuvers using contrastive explanations for human supervisors.",
+      "llm_tldr_cn": "通过对比解释方法为人类监管者提供海上自主导航避碰机动的透明度。",
+      "llm_tldr": "通过对比解释方法为人类监管者提供海上自主导航避碰机动的透明度。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction in complex maritime environments",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
