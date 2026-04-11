@@ -1,0 +1,232 @@
+Title: BATON: A Multimodal Benchmark for Bidirectional Automation Transition Observation in Naturalistic Driving
+
+URL Source: https://arxiv.org/pdf/2604.07263v1
+
+Published Time: Thu, 09 Apr 2026 01:25:09 GMT
+
+Number of Pages: 8
+
+Markdown Content:
+# BATON : A Multimodal Benchmark for Bidirectional Automation Transition Observation in Naturalistic Driving 
+
+# Yuhang Wang 
+
+yuhangw@usf.edu University of South Florida Tampa, Florida, USA 
+
+# Yiyao Xu 
+
+yiyaoxu@usf.edu University of South Florida Tampa, Florida, USA 
+
+# Chaoyun Yang 
+
+yangchaoyun@tingji.edu.cn Tongji University Shanghai, China 
+
+# Lingyao Li 
+
+lingyaol@usf.edu University of South Florida Tampa, Florida, USA 
+
+# Jingran Sun 
+
+jingransun@usf.edu University of South Florida Tampa, Florida, USA 
+
+# Hao Zhou 
+
+haozhou1@usf.edu University of South Florida Tampa, Florida, USA 
+
+Figure 1: Overview of BATON , a multimodal benchmark for bidirectional automation transition observed in naturalistic driving. (a) In-vehicle data collection setup with synchronized front-view and driver camera. (b) Synchronized multimodal data streams, including road video, in-cabin video, decoded vehicle CAN signals, route-level context, and lead vehicle detections. (c) Dataset scale and diversity, covering 380 routes, 127 drivers, and 136.6 driving hours. (d) Benchmark tasks for driver action understanding, driver handover and takeover predictions, enabling unified analysis of bidirectional control transitions. 
+
+## Abstract 
+
+Existing driving automation (DA) systems on production vehicles rely on human drivers to decide when to engage automation while requiring them to remain continuously attentive and ready to in-tervene. This design demands substantial situational judgment and imposes significant cognitive load, leading to steep learning curves, suboptimal user experience, and safety risks from both over-reliance and delayed takeover. Predicting when drivers hand over control to automation and when they take it back is therefore critical for de-signing proactive, context-aware HMI, yet existing datasets rarely capture the multimodal context, including road scene, driver state, vehicle dynamics, and route environment. To fill this gap, we intro-duce BATON , a large-scale naturalistic dataset capturing real-world DA usage across 380 routes, 127 drivers, and 136.6 hours of driving. The dataset synchronizes front-view video, in-cabin video, decoded CAN bus signals, radar-based lead-vehicle interaction, and GPS-derived route context, forming a closed-loop multimodal record around each control transition. We define three benchmark tasks: driving action understanding, handover prediction, and takeover prediction, and evaluate baselines spanning sequence models, classi-cal classifiers, and zero-shot vision–language models. Results show that visual input alone is insufficient for reliable transition predic-tion: front-view video captures road context but not driver state, while in-cabin video reflects driver readiness but not the exter-nal scene. Incorporating structured vehicle and route-context sig-nals substantially improves performance over video-only settings, indicating strong complementarity across modalities. We further find that takeover events develop more gradually and benefit from longer prediction horizons, whereas handover events depend more on immediate contextual cues, revealing an asymmetry with direct implications for HMI design in assisted driving systems. 
+
+## Keywords 
+
+driving automation, driver–automation control transition, driver handover prediction, driver takeover prediction, multimodal driving benchmark 
+
+## 1 Introduction 
+
+Driving Automation (DA) systems are increasingly embedded in consumer vehicles, but today’s advanced DA systems are not au-tonomous chauffeurs. NHTSA states that Level 2 systems can pro-vide continuous assistance with both steering and acceleration/braking while the driver remains fully engaged, attentive, and responsible for the vehicle; its human-factors guidance further emphasizes that the driver must continuously monitor the roadway and be ready to intervene. Recent FIA Region I findings likewise suggest that 
+
+> 1
+> arXiv:2604.07263v1 [cs.HC] 8 Apr 2026 Wang and Zhou
+
+Table 1: Comparison with representative datasets and recent studies. BATON combines real-world collection, synchronized multimodal sensing, and driver–automation bidirectional control-transition coverage in a single benchmark.                                                   
+
+> Dataset Setting Modalities Scale Focus Gap Drive&Act [15] Controlled Cabin RGB/IR/depth 12 h Cabin actions No road view; no control transition DAD [12] Simulator Cabin IR/depth 31 subjects Driver anomaly Simulator only; cabin only AIDE [28] Real-world Road + cabin video 2,898 clips Holistic Perception No control loop; not transition-centered manD [5] Simulator Cabin + physiol. + vehicle 50 participants Driver Status Simulator only; not real-world driving TD2D [9] Simulator Cabin + takeover signals 500 cases; 50 drivers Takeover only Simulator only; one-sided transition Lee et al. [13] Real-world CAN + smartphone IMU 4 drivers Activation only Small scale; no cabin/road video OpenLKA [24] Real-world Road video + CAN 400 h; 62 models LKA evaluation No cabin view; not interaction-centered ADAS-TO [26] Real-world Front-view + CAN 15,659 clips Takeover dataset No activation; no cabin view
+> BATON aReal Daily Driving Road + cabin + radar + GPS + IMU + CAN 136.6 h; 127 drivers; 380 routes Bidirectional transitions Real-world multimodal control-transition benchmark
+> aBATON adopts a similar collection methodology to OpenLKA and ADAS-TO, but contains no overlapping or reused data from either dataset.
+
+the safety benefits of DA depend not only on technical capability, but also on user engagement, satisfaction, acceptance, and trust. These facts make driver–automation control transitions a central problem in real-world assisted driving, i.e., drivers decide when to hand control to DA systems, and when to take it back [ 1, 7, 17 , 21 ]. Studying this problem requires data that capture both sides of the transition together with the context surrounding it: the road scene outside the vehicle, the driver’s state inside the cabin, the high-frequency vehicle control loop, interactions with leading vehicles, and route-level spatial context. However, existing data resources do not fully support this setting. Road-scene datasets mainly focus on external perception, driver-monitoring datasets often come from simulators or controlled laboratory studies, and takeover datasets are frequently one-sided or collected in controlled experimental settings. Representative examples include manD 1.0 for multimodal driver monitoring in a static simulator, TD2D for distracted takeover in an L2 simulator, ViE-Take for takeover under emotion-elicitation settings, and AIDE for assistive-driving perception with rich in-cabin and road-view signals but without bidirectional control tran-sitions benchmarking as the primary task [5, 9, 13, 25, 28]. To address this gap, we present BATON , a real-world multimodal benchmark for studying both when drivers hand control to the DA system and when they take it back. Our contributions are threefold: i) Naturalistic multimodal dataset. We introduce BATON , a real-world driving dataset spanning 380 routes, 127 drivers, and 136.6 hours of driving, with 2,892 control-transition events. The dataset synchronizes front-view video, in-cabin video, CAN-decoded vehi-cle dynamics, radar-based lead interaction, and GPS-derived route context from diverse drivers, vehicles, and regions. ii) Bidirectional control-transition benchmark. We define three tasks, driving action understanding, driver handover prediction, and takeover prediction, with cross-driver evaluation splits, multiple prediction horizons (1/3/5 s), and metrics designed for class-imbalanced event prediction. iii) Baselines and analysis. We evaluate sequence models, classical classifiers, and zero-shot vision–language models across single-modality and fusion settings. The results show that visual input alone is limited for transition prediction, that temporal context improves performance, and that handover and takeover ex-hibit different temporal patterns, with implications for HMI design. The benchmark package is publicly released on GitHub, and the full raw dataset is available under managed access at Hugging Face. 
+
+## 2 Related Work 2.1 Multimodal Driving and Behavior Datasets 
+
+Existing datasets have advanced scene perception, driver monitor-ing, and in-cabin understanding, but offer limited support for study-ing real-world control transitions. Scene- and behavior-oriented datasets such as HDD, Drive&Act, AIDE, and OpenLKA [ 15 , 20 , 24 ,28 ] lack bidirectional handover coverage. Driver-focused datasets such as DAD [12] and manD [5] are simulator-based, while MDM [10 ] provides a naturalistic multimodal corpus for driver attention rather than control-transition benchmarking. Real-world efforts such as AVDM [ 22 ] and ADABase [ 18 ] do not jointly capture outside scene, driver state and vehicle control loop for transition analysis. 
+
+## 2.2 Human–Automation Control Transitions 
+
+Prior human-factors research has shown that control transitions are delayed, unstable, and shaped by traffic conditions, non-driving tasks, and driver state [ 6 , 8, 14 , 16 , 29 ], making handover and takeover central problems in transportation safety and HCI. Related multimodal modeling work has also examined takeover-side predic-tion, including DeepTake [ 19 ] and situational-awareness prediction during takeover transitions [ 11 ]. However, most existing datasets address only part of this problem: INAGT [ 27 ] studies agent in-teraction timing rather than control transfer; TD2D and ViE-Take [ 9, 25 ] focus on takeover in simulators; Lee et al . [13] study real-world activation using only CAN and IMU from four drivers; and ADAS-TO [ 26 ] provides large-scale real-world takeover data but lacks activation events and in-cabin video. In contrast, BATON 
+
+supports real-world multimodal study of bidirectional control tran-sitions (Table 1), synchronizing front-view video, in-cabin video, vehicle-control signals, radar interaction, and route context. 
+
+> 2BATON
+
+Figure 2: Data-collection setup. A comma [ 3 ] device mounted at the center of the front windshield records synchronized front-view and in-cabin video streams. CAN signals are de-coded into vehicle-state measurements using public DBC decoders. GPS data provide route-level spatial context. 
+
+## 3 The BATON Dataset 3.1 Dataset Collection Methods 
+
+BATON is collected with comma devices mounted near the center of the front windshield, as illustrated in Fig. 2. This setup provides syn-chronized front-view and in-cabin video streams during everyday driving. In addition, we access vehicle CAN signals through the on-board interface and decode them using Comma’s public OpenDBC resources together with the cross-vehicle decoding pipeline released by OpenLKA [ 24 ]. This allows us to recover fine-grained vehicle dynamics, control signals, and system states from a diverse set of production vehicles. Our initial data collection is conducted in Tampa with five core drivers. We then expand the dataset geographically through direct collaboration, contributor outreach, and permission-based access to shared recordings. This process substantially broadened the diversity of drivers, vehicles, and routes, enabling BATON to move beyond a small local collection and better reflect real-world human– automation driving across a wider range of environments. 
+
+## 3.2 Data Processing 
+
+After collection, raw route logs are converted into synchronized route-level signals, including vehicle dynamics, planning, radar, driver-state, IMU, GPS, and localization streams. GPS is then trans-formed into route-context features, including road type, speed limit, lane count, and proximity to intersections or ramps, while raw coor-dinates are excluded from benchmark inputs. The processed signals are used to define driving modes, detect handover and takeover events, generate driving-action labels, and construct benchmark samples and evaluation splits. 
+
+## 3.3 Dataset Overview 
+
+BATON is a real-world multimodal driving dataset built for study-ing bidirectional driver–automation control transitions. The cur-rent release contains 380 routes, 8,044 segments, and 136.6 hours of driving from 127 drivers across 84 car models, covering both human-driven and DA-assisted driving. Using our unified event def-inition, we identify 2,892 control-transition events, including 1,460 DA handovers and 1,432 takeovers. This scale and diversity make 
+
+BATON suitable for a benchmark study of driver–DA interaction rather than a narrow case study. At the route level, BATON exhibits substantial variation in du-ration, driving mode composition, and sensing completeness. Un-der the strict active-state definition described later, 166 routes are DA-dominant, 94 are mixed, and 120 are primarily human-driven. These properties allow the dataset to support not only bidirectional handover prediction, but also broader multimodal study of driving-action context and control-transition behavior. 
+
+Figure 3: Overview of BATON . The top shows the global distri-bution of collected routes. Bottom-left shows the distribution of total driving time across drivers. Bottom-right figure high-lights dataset composition statistics. 
+
+## 3.4 Modalities, Synchronization, and Coverage 
+
+BATON provides synchronized multimodal observations of driver– ADAS interaction, including front-view video, in-cabin video, vehi-cle and control signals, radar-based lead interaction, driver-monitoring and planning signals, and GPS/localization context (Table 2). All modalities are aligned by their original logged timestamps at the route level. Coverage is high across the released dataset, with only a small number of routes missing GPS or front-view video; we re-tain these routes as part of a realistic real-world benchmark and document modality availability for filtering and task construction. 
+
+## 3.5 Driving Modes and Control Transitions 
+
+For benchmark construction, we define the driving mode accord-ing to who currently controls the vehicle. A segment is treated as DA-active when the assisted-driving in CAN is active, and as human-driven otherwise. A handover event denotes a transition from human-driven to DA-active driving, while a takeover denotes the reverse transition. To suppress spurious toggles, we apply tem-poral filtering to remove short unstable episodes, retain only stable driving-state segments, and merge adjacent segments with the same stabilized state before extracting transitions. Under the finalized benchmark protocol, 378 valid routes are retained, yielding 1,460 handover events and 1,432 takeovers. 
+
+> 3Wang and Zhou
+
+Figure 4: Representative multimodal context around bidirectional driver–automation control transitions in BATON . (a): aligned in-cabin views, forward-facing views, and route-level map context for takeover and handover events. (b) synchronized radar-based signals from lead interaction, driver monitoring, vehicle dynamics, steering, road geometry, and driver inputs. Table 2: Modalities in BATON and their roles in bidirectional control-transition analysis.                                                       
+
+> Modality Source Rate Coverage Key parameters Role Data origin Front-view video Road camera 20 fps 378/380 lanes, curves, traffic, lead vehicle outside-scene context raw video In-cabin video Cabin camera 20 fps 380/380 head pose, gaze, motion driver readiness raw video Vehicle dynamics CAN & control 100 Hz 380/380 speed, steering, pedals, DA mode control-loop state CAN logs IMU motion Device IMU 100 Hz 380/380 acceleration, rotation motion dynamics inertial signals Radar interaction Forward radar 20 Hz 380/380 relative distance, relative speed lead interaction radar tracks Driver monitoring DMS outputs 20 Hz 380/380 awareness, distraction, eye state driver state openpilot [2] Planning state Planner outputs 20 Hz 380/380 target accel., warnings stock DA system output vehicle-native GPS context GNSS / phone GPS 10–20 Hz 374/380 route, ramps, turns spatial context GNSS signals
+
+## 3.6 Release and Access 
+
+We release BATON in three parts. First, we publicly release the com-plete benchmark package and related code at GitHub, including benchmark-ready image data, route metadata, action labels, offi-cial Task 1/2/3 sample-definition CSVs for all horizons, split files, evaluation scripts, and baseline code. This public release supports reproduction of the reported benchmark results. Second, we pro-vide a public sample subset at HuggingFace for quick inspection of the dataset structure and contents. Third, the full raw multimodal dataset is publicly available under managed access at HuggingFace. Access requests require applicant identity, institutional affiliation, advisor or PI information, and a brief description of the intended research use; approved users must agree not to redistribute the data. 
+
+## 4 Benchmark Task Definition 
+
+Based on the driving modes and control-transition events defined above, BATON defines three benchmark tasks: (i) driving action understanding, (ii) handover prediction, and (iii) takeover predic-tion. All tasks operate on synchronized multimodal observation windows under a unified protocol (Table 3). 
+
+## 4.1 Task 1: Driving Action Understanding 
+
+This task provides short-term behavioral context for the two transition-prediction tasks. We formulate it as a coarse action understanding 
+
+Figure 5: Task distribution in the BATON benchmark. (a) Distribution of the seven coarse driving actions in Task 1. (b), (c) Positive and negative sample distribution for automation handover prediction in Task 2 and Task 3. 
+
+problem with seven classes: Cruising , Accelerating , Braking , Turn-ing , Lane Change , Stopped , and Car Following (Fig. 5(a)). Labels are assigned automatically from synchronized vehicle-state, plan-ning, and lead-interaction signals using a rule-based protocol, and each 5 s sample is labeled by aggregating the per-second action labels within the window. We treat prediction from visual, CAN and route-context inputs as the primary Task 1 setting (for each task, the corresponding information within the CAN is withheld as input). The benchmark contains 979,809 Task 1 samples. The class distribution reflects everyday driving: cruising, stopped, and car-following dominate, while lane changes are rare. We report Accuracy and Macro-F1. 
+
+> 4BATON
+
+## 4.2 Task 2: Handover Prediction 
+
+Task 2 predicts Human →DA transitions. Given a 5 s multimodal observation ending at time 𝑡 during manual driving, the model pre-dicts whether the driver will activate DA within a future horizon 
+
+[𝑡, 𝑡 + ℎ] (Fig. 5(b)). Samples are extracted at a 0.5 s stride. Posi-tive samples are constructed from pre-handover intervals, while negative samples are drawn from manual-driving intervals that remain transition-free around the prediction horizon. The bench-mark provides 1 s, 3 s (main), and 5 s horizon variants, containing 32,865, 56,564, and 66,318 samples, respectively. We report AUROC, AUPRC (primary), and F1. 
+
+## 4.3 Task 3: Takeover Prediction 
+
+Task 3 predicts DA →Human transitions. The setup mirrors Task 2 for direct comparison: given a 5 s multimodal observation ending at time 𝑡 during DA-active driving, the model predicts whether the driver will take back control within [𝑡, 𝑡 + ℎ] (Fig. 5(c)). Positive samples are constructed from pre-takeover intervals, while negative samples are drawn from DA-active intervals that remain transition-free around the prediction horizon. The 1 s, 3 s, and 5 s variants contain 38,250, 71,079, and 85,217 samples, respectively. Metrics follow Task 2. Both prediction tasks rely on complementary modalities: front-view video captures road complexity, in-cabin video captures driver readiness, route-level context provides spatial cues, and vehicle signals reflect the immediate control state. This structure allows the benchmark to test whether control transitions can be predicted from a single modality or require joint multimodal modeling. 
+
+Table 3: BATON benchmark protocol.         
+
+> Item Setting Scope Bidirectional driver–automation transitions Tasks Action understanding; handover pred.; takeover pred. Input / Horizon 5 s window; 1 / 3 / 5 s horizon (main: 3 s) Stride 0.5 s Splits Cross-driver (main), cross-vehicle, random T1 metrics Accuracy, Macro-F1 T2/3 metrics AUROC, AUPRC, F1
+
+## 4.4 Benchmark Splits and Evaluation Protocols 
+
+We adopt cross-driver as the primary evaluation setting, since gen-eralization to unseen drivers is a key challenge in real-world driver– automation interaction. The finalized cross-driver split contains 280 routes for training, 56 for validation, and 42 for testing; cross-vehicle and random splits are also provided. The complete public benchmark package is released at GitHub, including the official split files, the code used to generate the benchmark and dataset splits, evaluation scripts, and baseline code. This release is sufficient to reproduce the benchmark protocol and the reported main results. 
+
+## 5 Experiments 
+
+We evaluate BATON with trained sequence models (GRU, TCN), classical baselines (XGBoost, LR), and zero-shot VLMs (Gemini 2.0 Flash, GPT-4o). Unless otherwise stated, trained models use the cross-driver split with ℎ=3 s and report 3-seed averages. Structured signals are resampled to 50 Hz, while video is encoded with a frozen EfficientNet-B0 [ 23 ] and PCA-reduced to 128-d features at 2 fps. The GRU uses separate modality branches with gated residual fusion. VLM baselines receive 3 sampled frames from each 5 s window, with an optional structured text summary of vehicle and road context. 
+
+## 5.1 Multimodal Context Drives Prediction 
+
+Table 4 reports results across four input configurations. On Task 1, front video alone reaches 0.442 Macro-F1, whereas cabin video achieves only 0.164, indicating that cabin frames provide limited information for external driving maneuvers. Adding structured signals raises performance to 0.910 Macro-F1, including 0.925 on the long-tail lane-change class. On Tasks 2 and 3, cabin video remains close to chance level (AUPRC 0.156 and 0.113), and front video alone is also limited (0.234 and 0.268). Within this input comparison, the full-modality GRU reaches 0.463 AUPRC on Task 2 and 0.468 on Task 3, substan-tially outperforming the video-only settings. These results suggest transition prediction benefits from combining road context, driver and vehicle-state signals rather than relying on visual input alone. Zero-shot VLMs show the same overall trend (Table 5) but remain below trained baselines on Tasks 2/3, suggesting that sparse frame inputs are insufficient to capture the short-term temporal dynamics of control transitions. 
+
+## 5.2 Temporal Context Improves Prediction 
+
+Table 6 compares 5 s sequence inputs with single-step inputs using only the last time step. Temporal context substantially improves Task 1 and Task 2 performance for both XGBoost and GRU. For example, XGBoost drops from 0.920 to 0.700 Macro-F1 on Task 1 and from 0.631 to 0.449 AUPRC on Task 2 when the temporal history is removed. Task 3 shows a smaller gap (0.653 vs. 0.608 AUPRC for XGBoost), suggesting that the instantaneous vehicle state already carries useful takeover cues, although the preceding 5 s history still provides measurable gains. 
+
+## 5.3 Model Comparison and Prediction Horizon 
+
+Table 7 compares four model families on structured non-visual input, including driver-monitoring outputs. Among the evaluated baselines, XGBoost performs best across all three tasks, reaching 0.920 Macro-F1 on Task 1 and 0.653 AUPRC on Task 3. Under the current benchmark scale and feature setting, tree-based models outperform the tested neural sequence models, leaving room for stronger temporal architectures and fusion strategies. Varying the prediction horizon reveals an asymmetry between the two transition directions. For Task 2, AUROC decreases as the horizon becomes longer (0.840 →0.781), while AUPRC increases with the higher positive rate. In contrast, Task 3 shows gains in both AUROC and AUPRC (0.788/0.286 at 1 s to 0.854/0.535 at 5 s), suggesting that takeover events develop more gradually. This asym-metry has direct HMI implications: takeover support may benefit from longer anticipation windows, whereas handover assistance appears to depend more on near-term cues. 
+
+> 5Wang and Zhou
+
+Table 4: Modality ablation on BATON (GRU with gated residual fusion, cross-driver, ℎ=3 s, 3-seed mean). Video features: PCA-reduced EfficientNet-B0 (128-d). 𝐹 1LC : lane-change F1. 𝑃 @𝑅 .8: precision at 0.8 recall.                                                            
+
+> Task 1: Action Task 2: Handover Task 3: Takeover Input Acc 𝐹 1𝑀 𝐹 1LC AUROC AUPRC F1 𝑃 @𝑅 .8AUROC AUPRC F1 𝑃 @𝑅 .8
+> Cabin video .214 .164 .020 .493 .156 .230 .170 .552 .113 .119 .117 Front video .533 .442 .081 .607 .234 .307 .197 .749 .268 .316 .178 Front + Cabin .502 .415 .059 .578 .231 .275 .179 .757 .270 .334 .183 All modalities .926 .910 .925 .736 .463 .396 .249 .853 .468 .488 .281
+
+Table 5: Zero-shot VLM baselines (cross-driver, ℎ=3 s).                                                  
+
+> Model Input T1 𝐹 1𝑀 T2 AUPRC T3 AUPRC Model Input T1 𝐹 1𝑀 T2 AUPRC T3 AUPRC Gemini-2.0-flash Front .350 .254 .196 GPT-4o Front .291 .247 .214 Gemini-2.0-flash Cabin .036 .177 .107 GPT-4o Cabin .036 .236 .107 Gemini-2.0-flash Front+Cabin .351 .262 .199 GPT-4o Front+Cabin .297 .300 .227
+> Gemini-2.0-flash All modalities .623 .222 .152 GPT-4o All modalities .548 .196 .207
+
+Table 6: Temporal ablation: 5 s sequence vs. last-frame (Non-visual, cross-driver).                                  
+
+> Task 1 Task 2 Task 3 Input Acc 𝐹 1𝑀 AUROC AUPRC AUROC AUPRC XGB (5 s) .936 .920 .828 .631 .877 .653 XGB (last) .790 .700 .782 .449 .870 .608 GRU (5 s) .926 .910 .815 .590 .843 .429 GRU (last) .729 .661 .723 .306 .828 .397
+
+Table 7: Model comparison (structured non-visual input, in-cluding driver-monitoring outputs).                                  
+
+> Task 1 Task 2 Task 3 Model Acc 𝐹 1𝑀 AUROC AUPRC AUROC AUPRC LR .865 .838 .812 .609 .783 .350 XGBoost .936 .920 .828 .631 .877 .653
+> GRU .926 .910 .815 .590 .843 .429 TCN .925 .911 .770 .554 .838 .472
+
+## 5.4 Comparison of Video Encoders 
+
+Table 8 compares EfficientNet-B0+PCA with frozen CLIP ViT-B/32 [ ?
+
+] as video encoders. CLIP achieves its largest improvement in the full-modality setting, yielding gains of +0.085 AUROC and +0.138 
+
+AUPRC on Task 2. However, it does not consistently improve video-only AUPRC on Tasks 2 and 3, suggesting that structured data remains the dominant signal for transition prediction. 
+
+## 6 Discussion 
+
+BATON provides a unified benchmark for bidirectional driver– automation control transitions in naturalistic driving. The baseline results show that multimodal modeling is consistently more effec-tive than single visual modality input, confirming that road context, driver state, and vehicle dynamics provide complementary cues. 
+
+Table 8: Video encoder comparison (GRU, cross-driver, ℎ=3 s, 3-seed mean). EffNet: EfficientNet-B0+PCA-128 [ 23 ]. CLIP: frozen ViT-B/32 [? ].    
+
+> Enc. Input T1
+
+𝐹 1𝑀 T2 AUROC T2 AUPRC T3 AUROC T3 AUPRC EffNet C .164 .493 .156 .552 .113 F .442 .607 .234 .749 .268 F+C .415 .578 .231 .757 .270 All .910 .736 .463 .853 .468 CLIP C .197 .579 .194 .591 .139 F .474 .629 .205 .765 .251 F+C .457 .627 .206 .784 .314 All .914 .821 .601 .836 .476 
+
+The gap between current results and practical performance also indicates substantial room for stronger multimodal architectures. In addition, the horizon analysis suggests an asymmetry between the two transition directions: takeover prediction benefits more from longer anticipation windows, whereas handover prediction depends more on immediate context. 
+
+Limitations. BATON has 3 main limitations. First, it currently provides front-view observations only and does not include BEV-style surrounding-vehicle context. Second, driving-duration distri-bution across drivers is uneven, with some drivers contributing only short recordings. Third, the released baselines rely on relatively simple multimodal fusion and leave room for improvement. 
+
+Future work. Future work will expand driver, route, and vehi-cle diversity, incorporate richer surrounding-context representa-tions, and develop stronger multimodal and personalized models for control-transition prediction. In summary, BATON provides synchronized multimodal data and benchmark tasks for studying driver–automation control tran-sitions in real-world driving. 
+
+## 7 Ethical Considerations and Privacy 
+
+All data in BATON were collected and processed in accordance with applicable privacy requirements, participant-consent procedures, 
+
+> 6
+
+BATON 
+
+and platform terms where applicable. For recordings contributed from the comma/openpilot ecosystem, collection context follows comma’s publicly posted Terms and Privacy Policy [ 4] and contribu-tor permission. To reduce privacy risks, raw GPS coordinates are re-moved from the benchmark and replaced with semantically derived route-context features, directly identifying information is removed from vehicle logs, and sensitive visual content is anonymized or retained only under controlled access; in particular, all occupants in-side the vehicle cabin other than the driver have their faces blurred. 
+
+## Acknowledgments 
+
+We sincerely thank all drivers and driving-automation enthusiasts who voluntarily contributed data to this project. Their participation and support were essential to the collection and release of this dataset and benchmark. 
+
+## References 
+
+[1] John L. Campbell, James L. Brown, Justin S. Graving, Christian M. Richard, Monica G. Lichty, L. Paige Bacon, Justin F. Morgan, Hong Li, Diane N. Williams, and Thomas Sanquist. 2018. Human Factors Design Guidance for Level 2 and Level 3 Automated Driving Concepts . Technical Report DOT HS 812 555. National Highway Traffic Safety Administration. https://www.nhtsa.gov/sites/nhtsa.gov/ files/documents/13494_812555_l2l3automationhfguidance.pdf [2] comma.ai. 2018. Safety and Driver Attention. https://blog.comma.ai/safety-and-driver-attention/. Accessed: 2026-04-02. [3] comma.ai. 2023. Introducing the comma 3X. https://blog.comma.ai/comma3X/. Accessed: 2026-02-25. [4] comma.ai. 2025. Terms & Privacy. https://comma.ai/terms. Accessed: 2026-04-02. [5] Khazar Dargahi Nobari and Torsten Bertram. 2024. A Multimodal Driver Moni-toring Benchmark Dataset for Driver Modeling in Assisted Driving Automation. 
+
+Scientific Data 11 (2024), 327. doi:10.1038/s41597-024-03137-y [6] Alexander Eriksson and Neville A. Stanton. 2017. Take-over Time in Highly Automated Vehicles: Noncritical Transitions to and from Manual Control. Human Factors 59, 4 (2017), 689–705. doi:10.1177/0018720816685832 [7] FIA European Bureau. 2025. Assessment of Advanced Driver Assistance and Dynamic Control Assistance Systems (ADAS/DCAS) . Final Report. FIA Euro-pean Bureau. https://www.fiaregion1.com/wp-content/uploads/2026/01/Final_ Report_ADAS_DCAS_FIA_2025.pdf [8] Christian Gold, Moritz Körber, David Lechner, and Klaus Bengler. 2016. Taking Over Control From Highly Automated Vehicles in Complex Traffic Situations: The Role of Traffic Density. Human Factors 58, 4 (2016), 642–652. doi:10.1177/ 0018720816634226 [9] Jiwoo Hwang, Woohyeok Choi, Jungmin Lee, Woojoo Kim, Jungwook Rhim, and Auk Kim. 2025. A Dataset on Takeover During Distracted L2 Automated Driving. 
+
+Scientific Data 12 (2025), 539. doi:10.1038/s41597-025-04781-8 [10] Sumit Jha, Mohamed F. Marzban, Tiancheng Hu, Mohamed H. Mahmoud, Naofal Al-Dhahir, and Carlos Busso. 2021. The Multimodal Driver Monitoring Database: A Naturalistic Corpus to Study Driver Attention. arXiv preprint arXiv:2101.04639 
+
+(2021). doi:10.48550/arXiv.2101.04639 [11] Lesong Jia and Na Du. 2024. Driver Situational Awareness Prediction During Takeover Transitions: A Multimodal Machine Learning Approach. In Proceedings of the Human Factors and Ergonomics Society Annual Meeting , Vol. 68. 885–887. doi:10.1177/10711813241275904 [12] Okan Kopuklu, Jiapeng Zheng, Hang Xu, and Gerhard Rigoll. 2021. Driver Anom-aly Detection: A Dataset and Contrastive Learning Approach. In Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV) .91–100. [13] Gihun Lee, Kahyun Lee, and Jong-Uk Hou. 2025. Classifying Advanced Driver Assistance System (ADAS) Activation from Multimodal Driving Data: A Real-World Study. Sensors 25, 19 (2025), 6139. doi:10.3390/s25196139 [14] Zhenji Lu, Riender Happee, Christopher D. D. Cabrall, Miltos Kyriakidis, and Joost C. F. de Winter. 2016. Human Factors of Transitions in Automated Driving: A General Framework and Literature Survey. Transportation Research Part F: Traffic Psychology and Behaviour 43 (2016), 183–198. doi:10.1016/j.trf.2016.10.007 [15] Manuel Martin, Alina Roitberg, Monica Haurilet, Matthias Horne, Simon Reiss, Michael Voit, and Rainer Stiefelhagen. 2019. Drive&Act: A Multi-Modal Dataset for Fine-Grained Driver Behavior Recognition in Autonomous Vehicles. In Pro-ceedings of the IEEE/CVF International Conference on Computer Vision (ICCV) .2801–2810. [16] Natasha Merat, A. Hamish Jamson, Frank C. H. Lai, Michael Daly, and Oliver M. J. Carsten. 2014. Transition to Manual: Driver Behaviour When Resuming Control from a Highly Automated Vehicle. Transportation Research Part F: Traffic Psychology and Behaviour 27 (2014), 274–282. doi:10.1016/j.trf.2014.09.005 [17] National Highway Traffic Safety Administration. [n. d.]. Driver Assistance Tech-nologies. https://www.nhtsa.gov/vehicle-safety/driver-assistance-technologies. Accessed: 2026-03-27. [18] Maximilian P. Oppelt, Andreas Foltyn, Jessica Deuschel, Nadine R. Lang, Nina Holzer, Bjoern M. Eskofier, and Seung Hee Yang. 2023. ADABase: A Multimodal Dataset for Cognitive Load Estimation. Sensors 23, 1 (2023), 340. doi:10.3390/ s23010340 [19] Erfan Pakdamanian, Shili Sheng, Sonia Baee, Seongkook Heo, Sarit Kraus, and Lu Feng. 2021. DeepTake: Prediction of Driver Takeover Behavior Using Multimodal Data. In CHI Conference on Human Factors in Computing Systems (CHI ’21) .Association for Computing Machinery, New York, NY, USA, Article 378, 14 pages. doi:10.1145/3411764.3445563 [20] Vasili Ramanishka, Yi-Ting Chen, Teruhisa Misu, and Kate Saenko. 2018. Toward Driving Scene Understanding: A Dataset for Learning Driver Behavior and Causal Reasoning. In Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR) .[21] Sheldon M. Russell, Jon Atwood, and Shane B. McLaughlin. 2021. Driver Ex-pectations for System Control Errors, Driver Engagement, and Crash Avoidance in Level 2 Driving Automation Systems . Technical Report DOT HS 812 982. National Highway Traffic Safety Administration. doi:10.21949/1530205 7Wang and Zhou 
+
+[22] Mohamed Sabry, Walter Morales-Alvarez, and Cristina Olaverri-Monreal. 2024. Automated Vehicle Driver Monitoring Dataset from Real-World Scenarios. In 
+
+2024 IEEE 27th International Conference on Intelligent Transportation Systems (ITSC) . 1545–1550. doi:10.1109/ITSC58415.2024.10920048 [23] Mingxing Tan and Quoc Le. 2019. EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks. In Proceedings of the 36th International Confer-ence on Machine Learning (Proceedings of Machine Learning Research, Vol. 97) ,Kamalika Chaudhuri and Ruslan Salakhutdinov (Eds.). PMLR, 6105–6114. [24] Yuhang Wang, Abdulaziz Alhuraish, Shengming Yuan, and Hao Zhou. 2025. OpenLKA: An Open Dataset of Lane Keeping Assist from Production Vehicles Under Real-World Driving Conditions. In 2025 IEEE 28th International Conference on Intelligent Transportation Systems (ITSC) . IEEE, 4669–4676. [25] Yantong Wang, Yu Gu, Tong Quan, Jiaoyun Yang, Mianxiong Dong, Ning An, and Fuji Ren. 2025. ViE-Take: A Vision-Driven Multi-Modal Dataset for Exploring the Emotional Landscape in Takeover Safety of Autonomous Driving. Research 
+
+8 (2025), 0603. doi:10.34133/research.0603 [26] Yuhang Wang, Yiyao Xu, Jingran Sun, and Hao Zhou. 2026. ADAS-TO: A Large-Scale Multimodal Naturalistic Dataset and Empirical Characterization of Human Takeovers during ADAS Engagement. arXiv:2603.06986 doi:10.48550/arXiv.2603. 06986 [27] Tong Wu, Nikolas Martelaro, Simon Stent, Jorge Ortiz, and Wendy Ju. 2021. Learning When Agents Can Talk to Drivers Using the INAGT Dataset and Multisensor Fusion. Proceedings of the ACM on Interactive, Mobile, Wearable and Ubiquitous Technologies 5, 3, Article 133 (Sept. 2021), 28 pages. doi:10.1145/ 3478125 [28] Dingkang Yang, Shuai Huang, Zhi Xu, Zhenpeng Li, Shunli Wang, Mingcheng Li, Yuzheng Wang, Yang Liu, Kun Yang, Zhaoyu Chen, Yan Wang, Jing Liu, Peixuan Zhang, Peng Zhai, and Lihua Zhang. 2023. AIDE: A Vision-Driven Multi-View, Multi-Modal, Multi-Tasking Dataset for Assistive Driving Perception. In 
+
+Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV) .20402–20413. [29] Bo Zhang, Joost C. F. de Winter, Silvia F. Varotto, Riender Happee, and Marieke Martens. 2019. Determinants of Take-over Time from Automated Driving: A Meta-analysis of 129 Studies. Transportation Research Part F: Traffic Psychology and Behaviour 64 (2019), 285–307. doi:10.1016/j.trf.2019.04.020 8

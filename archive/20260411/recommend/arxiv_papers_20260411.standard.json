@@ -1,0 +1,458 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-04-11T20:07:59.559350+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 0,
+    "deep_cap": 6,
+    "deep_selected": 0,
+    "quick_candidates": 15,
+    "quick_skim_target": 11,
+    "quick_selected": 11
+  },
+  "deep_dive": [],
+  "quick_skim": [
+    {
+      "id": "2604.03340v1",
+      "title": "Learning Additively Compositional Latent Actions for Embodied AI",
+      "abstract": "Latent action learning infers pseudo-action labels from visual transitions, providing an approach to leverage internet-scale video for embodied AI. However, most methods learn latent actions without structural priors that encode the additive, compositional structure of physical motion. As a result, latents often entangle irrelevant scene details or information about future observations with true state changes and miscalibrate motion magnitude. We introduce Additively Compositional Latent Action Model (AC-LAM), which enforces scene-wise additive composition structure over short horizons on the latent action space. These AC constraints encourage simple algebraic structure in the latent action space~(identity, inverse, cycle consistency) and suppress information that does not compose additively. Empirically, AC-LAM learns more structured, motion-specific, and displacement-calibrated latent actions and provides stronger supervision for downstream policy learning, outperforming state-of-the-art LAMs across simulated and real-world tabletop tasks.",
+      "authors": [
+        "Hangxing Wei",
+        "Xiaoyu Chen",
+        "Chuheng Zhang",
+        "Tim Pearce",
+        "Jianyu Chen",
+        "Alex Lamb",
+        "Li Zhao",
+        "Jiang Bian"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-04-03T08:53:29+00:00",
+      "link": "https://arxiv.org/pdf/2604.03340v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "latent action learning and representation of physical motion",
+      "llm_evidence_cn": "潜动作学习与物理运动表示",
+      "llm_evidence": "潜动作学习与物理运动表示",
+      "canonical_evidence": "潜动作学习与物理运动表示",
+      "llm_tldr_en": "Introduces AC-LAM to learn structured latent actions for physical motion in embodied AI.",
+      "llm_tldr_cn": "引入AC-LAM，为具身智能中的物理运动学习结构化潜动作表示。",
+      "llm_tldr": "引入AC-LAM，为具身智能中的物理运动学习结构化潜动作表示。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning and feature extraction",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.02973v1",
+      "title": "Exploring Motion-Language Alignment for Text-driven Motion Generation",
+      "abstract": "Text-driven human motion generation aims to synthesize realistic motion sequences that follow textual descriptions. Despite recent advances, accurately aligning motion dynamics with textual semantics remains a fundamental challenge. In this paper, we revisit text-to-motion generation from the perspective of motion-language alignment and propose MLA-Gen, a framework that integrates global motion priors with fine-grained local conditioning. This design enables the model to capture common motion patterns, while establishing detailed alignment between texts and motions. Furthermore, we identify a previously overlooked attention sink phenomenon in human motion generation, where attention disproportionately concentrates on the start text token, limiting the utilization of informative textual cues and leading to degraded semantic grounding. To analyze this issue, we introduce SinkRatio, a metric for measuring attention concentration, and develop alignment-aware masking and control strategies to regulate attention during generation. Extensive experiments demonstrate that our approach consistently improves both motion quality and motion-language alignment over strong baselines. Code will be released upon acceptance.",
+      "authors": [
+        "Ruxi Gu",
+        "Zilei Wang",
+        "Wei Wang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-04-03T11:24:34+00:00",
+      "link": "https://arxiv.org/pdf/2604.02973v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "motion-language alignment and motion pattern representation",
+      "llm_evidence_cn": "运动-语言对齐和运动模式表示",
+      "llm_evidence": "运动-语言对齐和运动模式表示",
+      "canonical_evidence": "运动-语言对齐和运动模式表示",
+      "llm_tldr_en": "Explores motion-language alignment to generate realistic human motion sequences from text.",
+      "llm_tldr_cn": "探索运动与语言的对齐，以根据文本描述生成逼真的人体运动序列。",
+      "llm_tldr": "探索运动与语言的对齐，以根据文本描述生成逼真的人体运动序列。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning and feature extraction",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.07263v1",
+      "title": "BATON: A Multimodal Benchmark for Bidirectional Automation Transition Observation in Naturalistic Driving",
+      "abstract": "Existing driving automation (DA) systems on production vehicles rely on human drivers to decide when to engage DA while requiring them to remain continuously attentive and ready to intervene. This design demands substantial situational judgment and imposes significant cognitive load, leading to steep learning curves, suboptimal user experience, and safety risks from both over-reliance and delayed takeover. Predicting when drivers hand over control to DA and when they take it back is therefore critical for designing proactive, context-aware HMI, yet existing datasets rarely capture the multimodal context, including road scene, driver state, vehicle dynamics, and route environment. To fill this gap, we introduce BATON, a large-scale naturalistic dataset capturing real-world DA usage across 127 drivers, and 136.6 hours of driving. The dataset synchronizes front-view video, in-cabin video, decoded CAN bus signals, radar-based lead-vehicle interaction, and GPS-derived route context, forming a closed-loop multimodal record around each control transition. We define three benchmark tasks: driving action understanding, handover prediction, and takeover prediction, and evaluate baselines spanning sequence models, classical classifiers, and zero-shot VLMs. Results show that visual input alone is insufficient for reliable transition prediction: front-view video captures road context but not driver state, while in-cabin video reflects driver readiness but not the external scene. Incorporating CAN and route-context signals substantially improves performance over video-only settings, indicating strong complementarity across modalities. We further find takeover events develop more gradually and benefit from longer prediction horizons, whereas handover events depend more on immediate contextual cues, revealing an asymmetry with direct implications for HMI design in assisted driving systems.",
+      "authors": [
+        "Yuhang Wang",
+        "Yiyao Xu",
+        "Chaoyun Yang",
+        "Lingyao Li",
+        "Jingran Sun",
+        "Hao Zhou"
+      ],
+      "primary_category": "cs.HC",
+      "categories": [
+        "cs.HC",
+        "cs.CV",
+        "cs.MM"
+      ],
+      "published": "2026-04-08T16:29:24+00:00",
+      "link": "https://arxiv.org/pdf/2604.07263v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Predicting driver takeover and automation transition in naturalistic driving",
+      "llm_evidence_cn": "预测自然驾驶中的驾驶员接管和自动化切换",
+      "llm_evidence": "预测自然驾驶中的驾驶员接管和自动化切换",
+      "canonical_evidence": "预测自然驾驶中的驾驶员接管和自动化切换",
+      "llm_tldr_en": "Introduces BATON, a multimodal benchmark for predicting bidirectional automation transitions in driving.",
+      "llm_tldr_cn": "引入BATON，一个用于预测驾驶自动化双向切换的多模态基准。",
+      "llm_tldr": "引入BATON，一个用于预测驾驶自动化双向切换的多模态基准。",
+      "llm_tags": [
+        "query:tp:composite"
+      ],
+      "matched_query_tag": "query:tp:composite",
+      "matched_query_text": "Papers central to 轨迹预测（车辆、行人、船舶、飞机等）相关的论文，考虑密集场景、目标意图、多智能体、轨迹表示学习等概念, especially work that connects or combines: trajectory prediction for autonomous agents; pedestrian trajectory prediction in crowded scenes; maritime vessel trajectory and path prediction algorithms; multi-agent trajectory forecasting and interaction modeling; target intent and goal estimation for trajectory prediction; trajectory representation learning and feature extraction; study of pedestrian and vehicle trajectory prediction models; trajectory prediction in complex maritime environments; deep learning techniques for intent aware trajectory forecasting; trajectory representation learning based on multimodal large language model.",
+      "matched_requirement_id": "req-composite-tp",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.05614v1",
+      "title": "Grounding Hierarchical Vision-Language-Action Models Through Explicit Language-Action Alignment",
+      "abstract": "Achieving robot transparency is a critical step toward effective human-robot collaboration. To be transparent, a robot's natural language communication must be consistent with its actions and explicitly grounded in the task and environment. Existing hierarchical Vision-Language-Action (VLA) models can generate language (e.g., through chain-of-thought) and low-level actions. However, current work does not consider explicit alignment between these modalities during training. To address this crucial gap, we propose a novel training framework that explicitly grounds hierarchical VLA sub-task descriptions with respect to the visual observation and action space. Our framework uses a contrastive model to assess the alignment between generated language and corresponding action trajectories. This contrastive model enables direct ranking of different language-trajectory pairs based on their alignment, allowing us to refine the grounding of our hierarchical VLA through offline preference learning. We apply our framework to the LanguageTable dataset, a benchmark dataset of human language-annotated trajectories, and provide critical insights into multimodal grounding representations, all while establishing a strong baseline that achieves performance comparable to fully supervised fine-tuning and minimizing the need for costly data annotations.",
+      "authors": [
+        "Theodor Wulff",
+        "Federico Tavella",
+        "Rahul Singh Maharjan",
+        "Manith Adikari",
+        "Angelo Cangelosi"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-04-07T09:03:12+00:00",
+      "link": "https://arxiv.org/pdf/2604.05614v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "alignment between language and action in hierarchical VLA models",
+      "llm_evidence_cn": "分层VLA模型中语言与动作的对齐",
+      "llm_evidence": "分层VLA模型中语言与动作的对齐",
+      "canonical_evidence": "分层VLA模型中语言与动作的对齐",
+      "llm_tldr_en": "Aligns sub-task descriptions with visual observations and action spaces in Vision-Language-Action models.",
+      "llm_tldr_cn": "在视觉-语言-动作模型中将子任务描述与视觉观测及动作空间对齐。",
+      "llm_tldr": "在视觉-语言-动作模型中将子任务描述与视觉观测及动作空间对齐。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning based on multimodal large language model",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.07705v1",
+      "title": "Vision-Language Navigation for Aerial Robots: Towards the Era of Large Language Models",
+      "abstract": "Aerial vision-and-language navigation (Aerial VLN) aims to enable unmanned aerial vehicles (UAVs) to interpret natural language instructions and autonomously navigate complex three-dimensional environments by grounding language in visual perception. This survey provides a critical and analytical review of the Aerial VLN field, with particular attention to the recent integration of large language models (LLMs) and vision-language models (VLMs). We first formally introduce the Aerial VLN problem and define two interaction paradigms: single-instruction and dialog-based, as foundational axes. We then organize the body of Aerial VLN methods into a taxonomy of five architectural categories: sequence-to-sequence and attention-based methods, end-to-end LLM/VLM methods, hierarchical methods, multi-agent methods, and dialog-based navigation methods. For each category, we systematically analyze design rationales, technical trade-offs, and reported performance. We critically assess the evaluation infrastructure for Aerial VLN, including datasets, simulation platforms, and metrics, and identify their gaps in scale, environmental diversity, real-world grounding, and metric coverage. We consolidate cross-method comparisons on shared benchmarks and analyze key architectural trade-offs, including discrete versus continuous actions, end-to-end versus hierarchical designs, and the simulation-to-reality gap. Finally, we synthesize seven concrete open problems: long-horizon instruction grounding, viewpoint robustness, scalable spatial representation, continuous 6-DoF action execution, onboard deployment, benchmark standardization, and multi-UAV swarm navigation, with specific research directions grounded in the evidence presented throughout the survey.",
+      "authors": [
+        "Xingyu Xia",
+        "Lekai Zhou",
+        "Yujie Tang",
+        "Xiaozhou Zhu",
+        "Hai Zhu",
+        "Wen Yao"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-04-09T01:47:24+00:00",
+      "link": "https://arxiv.org/pdf/2604.07705v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "autonomous navigation for aerial robots grounding language in perception",
+      "llm_evidence_cn": "空中机器人将语言落地于感知的自主导航",
+      "llm_evidence": "空中机器人将语言落地于感知的自主导航",
+      "canonical_evidence": "空中机器人将语言落地于感知的自主导航",
+      "llm_tldr_en": "Surveys vision-language navigation for UAVs, focusing on the integration of LLMs and VLMs.",
+      "llm_tldr_cn": "综述了无人机的视觉语言导航，重点关注大模型与视觉语言模型的集成。",
+      "llm_tldr": "综述了无人机的视觉语言导航，重点关注大模型与视觉语言模型的集成。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.06672v1",
+      "title": "Rhythm-consistent semi-Markov simulation of tourist mobility rhythms with probabilistic event-to-POI assignment: Hakone, Japan",
+      "abstract": "Understanding the timing and sequencing of activity participation in tourist mobility is central to travel behavior research, yet GPS trajectories are noisy, irregularly sampled, and only weakly linked to activity locations, which limits interpretation and scenario analysis. We address this by mapping each stay event to candidate points of interest (POIs) probabilistically, using explicit prior-likelihood weighting that yields a normalized compatibility distribution rather than hard matching. Using one month of high-density tourist trajectories in Hakone, Japan (November 2021), we construct semantic stay-event sequences based on observed place-category labels (MID10) and describe mobility rhythms through hour-by-category profiles, category transitions, and expected dwell patterns. Building on these rhythm signatures, we develop a rhythm-consistent semi-Markov simulator that generates synthetic stay-event sequences with time-conditioned transitions and category-dependent dwell behavior. In the observed data, hour-by-category summaries are computed by probability-weighted aggregation over soft labels; in simulation, each event is generated with a discrete category and a sampled dwell duration, enabling like-for-like comparison after aggregation. We further conduct counterfactual POI-inventory scenarios to quantify how hypothetical POI configuration changes shift stay intensity across time, categories, and space, particularly around hubs and main corridors. Observed-simulated comparisons show close agreement in temporal profiles and category distributions, indicating that probabilistic labeling and rhythm-consistent simulation preserve key mobility structure while providing an interpretable basis for transport-geography scenario evaluation.",
+      "authors": [
+        "Jianhao Shi",
+        "Tomio Miwa",
+        "Wanglin Yan"
+      ],
+      "primary_category": "cs.CY",
+      "categories": [
+        "cs.CY"
+      ],
+      "published": "2026-04-08T04:45:28+00:00",
+      "link": "https://arxiv.org/pdf/2604.06672v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Semantic stay-event sequences from GPS trajectories",
+      "llm_evidence_cn": "基于GPS轨迹的语义停留事件序列",
+      "llm_evidence": "基于GPS轨迹的语义停留事件序列",
+      "canonical_evidence": "基于GPS轨迹的语义停留事件序列",
+      "llm_tldr_en": "Simulates tourist mobility rhythms by mapping GPS trajectories to semantic activity locations.",
+      "llm_tldr_cn": "通过将GPS轨迹映射到语义活动地点，模拟游客的移动节奏和行为序列。",
+      "llm_tldr": "通过将GPS轨迹映射到语义活动地点，模拟游客的移动节奏和行为序列。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning and feature extraction",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.07993v1",
+      "title": "HEX: Humanoid-Aligned Experts for Cross-Embodiment Whole-Body Manipulation",
+      "abstract": "Humans achieve complex manipulation through coordinated whole-body control, whereas most Vision-Language-Action (VLA) models treat robot body parts largely independently, making high-DoF humanoid control challenging and often unstable. We present HEX, a state-centric framework for coordinated manipulation on full-sized bipedal humanoid robots. HEX introduces a humanoid-aligned universal state representation for scalable learning across heterogeneous embodiments, and incorporates a Mixture-of-Experts Unified Proprioceptive Predictor to model whole-body coordination and temporal motion dynamics from large-scale multi-embodiment trajectory data. To efficiently capture temporal visual context, HEX uses lightweight history tokens to summarize past observations, avoiding repeated encoding of historical images during inference. It further employs a residual-gated fusion mechanism with a flow-matching action head to adaptively integrate visual-language cues with proprioceptive dynamics for action generation. Experiments on real-world humanoid manipulation tasks show that HEX achieves state-of-the-art performance in task success rate and generalization, particularly in fast-reaction and long-horizon scenarios.",
+      "authors": [
+        "Shuanghao Bai",
+        "Meng Li",
+        "Xinyuan Lv",
+        "Jiawei Wang",
+        "Xinhua Wang",
+        "Fei Liao",
+        "Chengkai Hou",
+        "Langzhe Gu",
+        "Wanqi Zhou",
+        "Kun Wu",
+        "Ziluo Ding",
+        "Zhiyuan Xu",
+        "Lei Sun",
+        "Shanghang Zhang",
+        "Zhengping Che",
+        "Jian Tang",
+        "Badong Chen"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-04-09T09:01:43+00:00",
+      "link": "https://arxiv.org/pdf/2604.07993v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Temporal motion dynamics from multi-embodiment trajectory data",
+      "llm_evidence_cn": "多具身轨迹数据中的时序运动动力学",
+      "llm_evidence": "多具身轨迹数据中的时序运动动力学",
+      "canonical_evidence": "多具身轨迹数据中的时序运动动力学",
+      "llm_tldr_en": "Uses a Mixture-of-Experts predictor to model temporal motion dynamics from large-scale trajectory data.",
+      "llm_tldr_cn": "使用混合专家预测器从大规模多具身轨迹数据中建模全身协调和时序运动动力学。",
+      "llm_tldr": "使用混合专家预测器从大规模多具身轨迹数据中建模全身协调和时序运动动力学。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning and feature extraction",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.07918v1",
+      "title": "Second Order Physics-Informed Learning of Road Density using Probe Vehicles",
+      "abstract": "We propose a Physics Informed Learning framework for reconstructing traffic density from sparse trajectory data. The approach combines a second-order Aw-Rascle and Zhang model with a first-order training stage to estimate the equilibrium velocity. The method is evaluated in both equilibrium and transient traffic regimes using SUMO simulations. Results show that while learning the equilibrium velocity improves reconstruction under steady state conditions, it becomes unstable in transient regimes due to the breakdown of the equilibrium assumption. In contrast, the second-order model consistently provides more accurate and robust reconstructions than first-order approaches, particularly in nonequilibrium conditions.",
+      "authors": [
+        "S. Betancur Giraldo",
+        "J. Mårtensson",
+        "M. Barreau"
+      ],
+      "primary_category": "eess.SY",
+      "categories": [
+        "eess.SY"
+      ],
+      "published": "2026-04-09T07:38:38+00:00",
+      "link": "https://arxiv.org/pdf/2604.07918v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "reconstructing traffic density from sparse trajectory data using physics-informed learning",
+      "llm_evidence_cn": "利用物理信息学习从稀疏轨迹数据重建交通密度",
+      "llm_evidence": "利用物理信息学习从稀疏轨迹数据重建交通密度",
+      "canonical_evidence": "利用物理信息学习从稀疏轨迹数据重建交通密度",
+      "llm_tldr_en": "Uses physics-informed learning and trajectory data to reconstruct road traffic density.",
+      "llm_tldr_cn": "利用物理信息学习和轨迹数据来重建道路交通密度。",
+      "llm_tldr": "利用物理信息学习和轨迹数据来重建道路交通密度。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "study of pedestrian and vehicle trajectory prediction models",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.08033v1",
+      "title": "IoT-Brain: Grounding LLMs for Semantic-Spatial Sensor Scheduling",
+      "abstract": "Intelligent systems powered by large-scale sensor networks are shifting from predefined monitoring to intent-driven operation, revealing a critical Semantic-to-Physical Mapping Gap. While large language models (LLMs) excel at semantic understanding, existing perception-centric pipelines operate retrospectively, overlooking the fundamental decision of what to sense and when. We formalize this proactive decision as Semantic-Spatial Sensor Scheduling (S3) and demonstrate that direct LLM planning is unreliable due to inherent gaps in representation, reasoning, and optimization. To bridge these gaps, we introduce the Spatial Trajectory Graph (STG), a neuro-symbolic paradigm governed by a verify-before-commit discipline that transforms open-ended planning into a verifiable graph optimization problem. Based on STG, we implement IoT-Brain, a concrete system embodiment, and construct TopoSense-Bench, a campus-scale benchmark with 5,250 natural-language queries across 2,510 cameras. Evaluations show that IoT-Brain boosts task success rate by 37.6% over the strongest search-intensive methods while running nearly 2 times faster and using 6.6 times fewer prompt tokens. In real-world deployment, it approaches the reliability upper bound while reducing 4.1 times network bandwidth, providing a foundational framework for LLMs to interact with the physical world with unprecedented reliability and efficiency.",
+      "authors": [
+        "Zhaomeng Zhou",
+        "Lan Zhang",
+        "Junyang Wang",
+        "Mu Yuan",
+        "Junda Lin",
+        "Jinke Song"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.MA",
+        "cs.NI"
+      ],
+      "published": "2026-04-09T09:38:15+00:00",
+      "link": "https://arxiv.org/pdf/2604.08033v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Spatial Trajectory Graph for grounding LLMs in planning",
+      "llm_evidence_cn": "用于大语言模型规划落地的空间轨迹图",
+      "llm_evidence": "用于大语言模型规划落地的空间轨迹图",
+      "canonical_evidence": "用于大语言模型规划落地的空间轨迹图",
+      "llm_tldr_en": "Introduces Spatial Trajectory Graph to bridge the gap between LLM reasoning and physical sensor scheduling.",
+      "llm_tldr_cn": "引入空间轨迹图（STG）来弥合大语言模型推理与物理传感器调度之间的差距。",
+      "llm_tldr": "引入空间轨迹图（STG）来弥合大语言模型推理与物理传感器调度之间的差距。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning based on multimodal large language model",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.07973v1",
+      "title": "How Far Are Large Multimodal Models from Human-Level Spatial Action? A Benchmark for Goal-Oriented Embodied Navigation in Urban Airspace",
+      "abstract": "Large multimodal models (LMMs) show strong visual-linguistic reasoning but their capacity for spatial decision-making and action remains unclear. In this work, we investigate whether LMMs can achieve embodied spatial action like human through a challenging scenario: goal-oriented navigation in urban 3D spaces. We first spend over 500 hours constructing a dataset comprising 5,037 high-quality goal-oriented navigation samples, with an emphasis on 3D vertical actions and rich urban semantic information. Then, we comprehensively assess 17 representative models, including non-reasoning LMMs, reasoning LMMs, agent-based methods, and vision-language-action models. Experiments show that current LMMs exhibit emerging action capabilities, yet remain far from human-level performance. Furthermore, we reveal an intriguing phenomenon: navigation errors do not accumulate linearly but instead diverge rapidly from the destination after a critical decision bifurcation. The limitations of LMMs are investigated by analyzing their behavior at these critical decision bifurcations. Finally, we experimentally explore four promising directions for improvement: geometric perception, cross-view understanding, spatial imagination, and long-term memory. The project is available at: https://github.com/serenditipy-AC/Embodied-Navigation-Bench.",
+      "authors": [
+        "Baining Zhao",
+        "Ziyou Wang",
+        "Jianjie Fang",
+        "Zile Zhou",
+        "Yanggang Xu",
+        "Yatai Ji",
+        "Jiacheng Xu",
+        "Qian Zhang",
+        "Weichen Zhang",
+        "Chen Gao",
+        "Xinlei Chen"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-04-09T08:37:20+00:00",
+      "link": "https://arxiv.org/pdf/2604.07973v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Goal-oriented navigation and spatial decision-making benchmark",
+      "llm_evidence_cn": "目标导向导航与空间决策基准",
+      "llm_evidence": "目标导向导航与空间决策基准",
+      "canonical_evidence": "目标导向导航与空间决策基准",
+      "llm_tldr_en": "Benchmarks large multimodal models on goal-oriented navigation in complex 3D urban airspaces.",
+      "llm_tldr_cn": "在复杂的3D城市领空目标导向导航任务中，对大型多模态模型进行基准测试。",
+      "llm_tldr": "在复杂的3D城市领空目标导向导航任务中，对大型多模态模型进行基准测试。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "target intent and goal estimation for trajectory prediction",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.08232v1",
+      "title": "HiRO-Nav: Hybrid ReasOning Enables Efficient Embodied Navigation",
+      "abstract": "Embodied navigation agents built upon large reasoning models (LRMs) can handle complex, multimodal environmental input and perform grounded reasoning per step to improve sequential decision-making for long-horizon tasks. However, a critical question remains: \\textit{how can the reasoning capabilities of LRMs be harnessed intelligently and efficiently for long-horizon navigation tasks?} In simple scenes, agents are expected to act reflexively, while in complex ones they should engage in deliberate reasoning before acting.To achieve this, we introduce \\textbf{H}ybr\\textbf{i}d \\textbf{R}eas\\textbf{O}ning \\textbf{Nav}igation (\\textbf{HiRO-Nav}) agent, the first kind of agent capable of adaptively determining whether to perform thinking at every step based on its own action entropy. Specifically, by examining how the agent's action entropy evolves over the navigation trajectories, we observed that only a small fraction of actions exhibit high entropy, and these actions often steer the agent toward novel scenes or critical objects. Furthermore, studying the relationship between action entropy and task completion (i.e., Q-value) reveals that improving high-entropy actions contributes more positively to task success.Hence, we propose a tailored training pipeline comprising hybrid supervised fine-tuning as a cold start, followed by online reinforcement learning with the proposed hybrid reasoning strategy to explicitly activate reasoning only for high-entropy actions, significantly reducing computational overhead while improving decision quality. Extensive experiments on the \\textsc{CHORES}-$\\mathbb{S}$ ObjectNav benchmark showcases that HiRO-Nav achieves a better trade-off between success rates and token efficiency than both dense-thinking and no-thinking baselines.",
+      "authors": [
+        "He Zhao",
+        "Yijun Yang",
+        "Zichuan Lin",
+        "Deheng Ye",
+        "Chunyan Miao"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-04-09T13:22:24+00:00",
+      "link": "https://arxiv.org/pdf/2604.08232v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "embodied navigation agents for autonomous movement in complex scenes",
+      "llm_evidence_cn": "用于复杂场景自主移动的具身导航智能体",
+      "llm_evidence": "用于复杂场景自主移动的具身导航智能体",
+      "canonical_evidence": "用于复杂场景自主移动的具身导航智能体",
+      "llm_tldr_en": "Proposes a hybrid reasoning navigation agent for efficient decision-making in embodied tasks.",
+      "llm_tldr_cn": "提出一种混合推理导航智能体，用于具身任务中的高效决策。",
+      "llm_tldr": "提出一种混合推理导航智能体，用于具身任务中的高效决策。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
