@@ -1,0 +1,301 @@
+Title: Fail2Drive: Benchmarking Closed-Loop Driving Generalization
+
+URL Source: https://arxiv.org/pdf/2604.08535v1
+
+Published Time: Fri, 10 Apr 2026 01:33:00 GMT
+
+Number of Pages: 15
+
+Markdown Content:
+# Fail2Drive: Benchmarking Closed-Loop Driving Generalization 
+
+# Simon Gerstenecker Andreas Geiger Katrin Renz University of Tübingen Tübingen AI Center Generalization Gap Fail2Drive Generalization Benchmark 
+
+Figure 1. Overview: Fail2Drive introduces the first paired-route benchmark for closed-loop generalization on truly unseen long-tail scenarios in CARLA. It turns qualitative failures into measurable generalization gaps. Evaluating seven recent driving models exposes strong shortcut learning and missing fallback behavior, revealing where current approaches break and where progress is most needed. 
+
+# Abstract 
+
+Generalization under distribution shift remains a central bottleneck for closed-loop autonomous driving. Although simulators like CARLA enable safe and scalable testing, ex-isting benchmarks rarely measure true generalization: they typically reuse training scenarios at test time. Success can therefore reflect memorization rather than robust driving behavior. We introduce Fail2Drive, the first paired-route benchmark for closed-loop generalization in CARLA, with 200 routes and 17 new scenario classes spanning appear-ance, layout, behavioral, and robustness shifts. Each shifted route is matched with an in-distribution counterpart, iso-lating the effect of the shift and turning qualitative failures into quantitative diagnostics. Evaluating multiple state-of-the-art models reveals consistent degradation, with an av-erage success-rate drop of 22.8%. Our analysis uncovers unexpected failure modes, such as ignoring objects clearly visible in the LiDAR and failing to learn the fundamental concepts of free and occupied space. To accelerate follow-up work, Fail2Drive includes an open-source toolbox for creating new scenarios and validating solvability via a priv-ileged expert policy. Together, these components establish a reproducible foundation for benchmarking and improv-ing closed-loop driving generalization. We open-source all code, data, and tools at https://github.com/ autonomousvision/fail2drive .
+
+# 1. Introduction 
+
+Autonomous driving has seen remarkable progress over the last years, transitioning from modular pipelines [10, 34, 37] to end-to-end [6, 9, 24] and vision-language-action (VLA) models [15, 30, 40] that promise to learn driving behavior directly from data at scale, showing promising performance gains. Yet, a central question remains open: do these models actually generalize to rare unseen situations ?Simulators are a compelling option to find an answer. In theory, they make it possible to instantiate rare, safety-critical, or legally problematic situations without endanger-ing anyone, and they provide standardized interfaces so that different algorithms can be compared on equal grounds. CARLA [13], in particular, has emerged as the de facto standard simulator for closed-loop driving in driving re-search and has enabled a long line of driving work. How-ever, the scenarios shipped with CARLA and used in the prominent CARLA-based benchmarks [4, 23] are still lim-ited in variability: they reuse a small set of assets, and are typically evaluated under protocols where models are trained on the same scenarios on which they are later tested. As a consequence, it is currently hard to test closed-loop out-of-distribution generalization. At the same time, current Large-Language-Model (LLM)-and Reinforcement-Learning (RL)-based driving mod-els [11, 15, 22, 30] make increasingly strong claims about robustness and generalization. To verify these claims, we 1
+
+> arXiv:2604.08535v1 [cs.RO] 9 Apr 2026
+
+need benchmarks that probe such out-of-distribution situa-tions and can faithfully measure the generalization gap. We introduce Fail2Drive , a benchmark and toolbox for evaluating the generalization capability of autonomous driving models in CARLA. Fail2Drive instantiates a large set of new situations not included in the standard CARLA releases, e.g., obstacles with unseen assets, wild animals crossing the street, parked vehicles in unexpected positions, or visually adversarial scenarios. Our key idea is to mea-sure the generalization drop , rather than relying solely on absolute performance scores. To this end, we introduce paired in-distribution and generalization routes in which location and traffic conditions are held constant, and only the targeted shift is varied. This paired design isolates the causal factor of failure and enables controlled evaluation across a spectrum of capabilities, ranging from perceptual robustness to downstream behavioral adaptation. Because the route context is fixed, performance differences directly quantify sensitivity to the induced shift. This enables anal-ysis of counterfactual scenarios : e.g., would a policy still yield if a pedestrian were replaced by an animal, or still avoid a blockage if the obstacle asset were swapped while preserving the surrounding traffic and road geometry? Im-portantly, unlike prior perception-focused failure tests that evaluate intermediate detection or classification outputs, our framework derives scores directly from planning perfor-mance. As a result, measured failures reflect end-to-end decision-making degradation rather than isolated perception errors. In addition, Fail2Drive includes a toolbox layer on top of CARLA to make designing such scenarios less time-consuming and more user-friendly. Finally, we conduct an in-depth analysis of seven recent models on Fail2Drive, exposing significant and consistent failure modes. Examples include TF++ disregarding Li-DAR information, colliding with obstacles blocking the ego path, a lack of fallback behavior in uncertain situations, e.g., when pedestrians walk on the road, and all models failing to learn a generalizable internal representation of obstacles. 
+
+Contributions. Our work makes the following contri-butions: (i) we propose Fail2Drive , a closed-loop gen-eralization benchmark, covering a wide range of new scenario classes across four categories. Fail2Drive uses paired in-distribution/generalization routes to directly quan-tify closed-loop generalization gaps. (ii) We provide a cross-paradigm evaluation of seven recent driving mod-els, showing that current methods still rely on dataset- and simulator-specific regularities and that Fail2Drive exposes these brittle behaviors in a reproducible way; and (iii) we release a toolbox to construct and validate new scenario classes, extend the benchmark, and generate more diverse datasets with lower engineering overhead. 
+
+# 2. Related Work 
+
+General Autonomous Driving Benchmarks. Large-scale datasets have been central to the progress in autonomous driving. nuScenes [2] provides standardized perception benchmarks, but its open-loop nature offers limited insight into planning quality [8, 21]. nuPlan [3] introduces closed-loop planner evaluation using realistic traffic data, yet lacks diverse long-tail events. interPlan [17] adds safety-critical interactions but evaluates only planner outputs without sen-sor input. NAVSIM [12] bridges this gap by enabling effi-cient sensor-based evaluation. In addition, CARLA [14] has become the dominant simu-lator for closed-loop research, supporting multimodal sen-sors, reactive traffic, and diverse environments. Many benchmarks have been proposed [5, 7, 9, 23, 24]. These efforts have significantly advanced end-to-end driving [30, 33, 41], yet they reuse the same set of assets, actors, and scenario configurations as seen during training. As a result, they are unable to isolate whether models learn robust con-cepts or only memorize CARLA-specific patterns, making true out-of-distribution generalization difficult to assess. 
+
+Out-of-Distribution Evaluation in Driving. Another line of work studies robustness under distribution shift. Perception-focused analyses explore shifts in appearance, occlusion, or adversarial perturbations [27, 28, 32]. Other works generate safety-critical or adversarial scenarios [36, 38]; however, they produce mostly simplistic situations that are overly focused on the behavior of other actors and are partially already included in the basic CARLA scenarios. CARLA Real Traffic Scenarios [29] replays real-world traf-fic logs, and [18] proposes off-road scenes. PlanT 2.0 [16] reveals generalization failures in open-loop privileged plan-ning, but the transferability to closed-loop sensor-based driving remains unclear. Another promising direction are NerF- or Gaussian-Splatting-based methods to obtain con-trollable simulators [25, 26, 39]. However, existing works do not provide a high variety of visually and behaviorally out-of-distribution scenarios that can be tested closed-loop and lack causal attribution of the failure case. 
+
+# 3. Fail2Drive - Generalization Benchmark 
+
+Fail2Drive enables controlled measurement of the gener-alization gap of closed-loop driving models. It extends CARLA 0.9.15 with new scenarios while preserving full compatibility with existing driving stacks, requiring no ar-chitectural changes or custom integration. Fail2Drive is built around three principles: (i) Distribution shift. Routes include visual, geometric, and behavioral vari-ations that differ from standard CARLA assets and layouts. (ii) Paired evaluation. Each generalization route has a cor-responding in-distribution route representing an equivalent 2Figure 2. Route diversity . Fail2Drive routes (blue) are diversely spread across Town13, covering a wide range of environments, and have little overlap with the official CARLA validation routes (red). 
+
+traffic situation at the same location without the shift. The paired route isolates robustness under shift. (iii) Full exten-sibility. All scenarios, assets, and behaviors can be authored and modified without editing CARLA core code, enabling reproducibility and community extension. Unlike prior work, Fail2Drive does not only report a single driving score. Its design explicitly reveals which kinds of distribution shifts cause performance degradation. 
+
+3.1. Benchmark Design 
+
+Fail2Drive contains 200 evaluation routes sampled across CARLAs validation Town 13, a large 100 km 2 map that includes residential neighborhoods, industrial districts, and rural segments (Figure 2). It covers a wide range of road widths, curvature, and speed limits. The routes were se-lected to have minimal overlap with the official CARLA validation routes, ensuring independence from prior bench-marks. All routes are short (average of 219 meters), fol-lowing the widely used Bench2Drive benchmark, enabling clear failure attribution to a single scenario. 
+
+Generalization Scenarios. We introduce 17 novel sce-nario classes, each instantiated in multiple configurations. All scenarios introduce a distribution shift not present in standard CARLA evaluations. These shifts target differ-ent aspects of robustness, such as altered visual appear-ance, non-standard obstacle geometry, or high-level behav-ioral deviations. For structured analysis, we group them into four generalization categories, each probing a distinct fail-ure mode. A detailed description and qualitative examples are provided in the supplementary material. (1) Robustness scenarios. These scenarios introduce el-ements that should not influence the driving decision, for example, when a construction cone is placed in an adjacent lane or when pedestrians are positioned safely on the side-walk. The correct behavior is to continue driving normally. These cases test whether models rely on shallow shortcut associations (e.g., “construction cone →lane change”) rather than context-aware reasoning. (2) Visual generalization for lateral control. Here the ego vehicle must perform a lateral avoidance maneuver in unseen situations. Altered parked-vehicle orientations, un-seen obstacle assets, and unusual object layouts test whether models trigger avoidance behavior only when confronted with familiar obstacle types. (3) Visual generalization for longitudinal control. These scenarios test longitudinal avoidance maneuvers with an un-seen causal object. Examples include replacing pedestrians with visually distinct animals, adding texture modifications to stop signs, or altering the appearance of leading vehicles. The goal is to test whether agents rely on genuine semantic cues rather than memorized visual templates. (4) Behavioral generalization scenarios. These require behaviors rarely demonstrated in standard CARLA data, such as coming to a full stop and waiting when both lanes are completely blocked or maintaining a safe following dis-tance to slow-moving pedestrians on the roadway. The ego vehicle must exhibit a high-level behavior that cannot be solved through memorized patterns alone. 
+
+Generalization pairs. To measure not just performance under shift but the actual generalization gap, we introduce 100 in-distribution/generalization pairs. The in-distribution routes use unmodified CARLA scenarios, while the gen-eralization route introduces only the targeted shift while preserving road geometry, spawn points, and traffic goals. This design isolates robustness from absolute driving per-formance and enables a direct computation of a generaliza-tion gap. 
+
+Metrics. We follow the Bench2Drive evaluation proto-col and report Driving Score (DS) and Success Rate (SR). Route Completion is omitted because Fail2Drive routes are intentionally short and nearly always finishable, making it a poor indicator of robustness. To quantify generalization, we compute the relative performance difference between each route pair and aggregate results across categories. Inspired by the F1-metric, we additionally report the harmonic mean of DS and SR. This harmonic mean (HM) provides a single, balanced metric for comparing models and jointly captures reductions in both Driving Score and Success Rate. 
+
+3.2. Fail2Drive Rules 
+
+To ensure fair comparison, the following rules apply: 1. No training on Fail2Drive scenarios. Models must not use the routes, scenario definitions, or assets introduced in Fail2Drive for training or fine-tuning. The benchmark serves strictly as a held-out test set. 2. External pretraining is allowed. Pretraining on large-3Method                                                                                                                                
+
+> RGB
+> LiDAR
+> Privileged
+> Learned  Bench2Drive Fail2Drive
+> In-Distribution Generalization DS ↑DS ↑SR(%) ↑HM ↑DS ↑SR(%) ↑HM ↑
+> TCP [35] !%%!59.9 24.7 39.1 30.3 24.5 (-0.8%) 31.4 (-19.7%) 27.5 (-9.1%)
+> UniAD [19] !%%!45.8 47.5 36.3 41.2 44.0 (-7.4%) 27.6 (-24.0%) 33.9 (-17.6%)
+> Orion [15] !%%!77.8 53.0 52.0 52.5 51.2 (-3.4%) 46.0 (-11.5%) 48.5 (-7.7%)
+> HiP-AD [33] !%%!86.8 74.1 70.7 72.4 67.1 (-9.4%) 56.7 (-19.8%) 61.5 (-15.1%)
+> SimLingo [30] !%%!85.1 82.6 79.3 80.9 71.7 (-13.2%) 55.0 (-30.6%) 62.2 (-23.1%)
+> TF++ [20] !!%!84.2 83.3 78.5 80.8 75.4 (-9.5%) 61.1 (-22.2%) 67.5 (-16.5%)
+> PlanT 2.0 [16] --!!92.4 87.8 85.0 86.4 73.3 (-16.5%) 58.0 (-31.8%) 64.8 (-25.0%)
+> PDMLite-F2D --!%97.0 95.6 97.0 96.3 94.0 (-1.7%) 95.3 (-1.8%) 94.6 (-1.7%)
+
+Table 1. Results on Fail2Drive. In-Distribution evaluates on known CARLA scenarios; Generalization measures robustness under distri-bution shift. We include reported scores on Bench2Drive for comparison. 
+
+scale real-world datasets, internet-scale multimodal cor-pora, foundation models, or VLM/LLM backbones is permitted. Such general visual or linguistic knowledge is considered part of the model prior and not a violation of the benchmark. 3. Leaderboard entry. We encourage users to submit final scores through the public evaluation repository via pull request. This enables consistent comparison and facili-tates transparent benchmarking. 
+
+On pretraining leakage. Large pretrained models may have seen visually similar objects or scene types in unre-lated datasets. We do not attempt to restrict such general knowledge, as it is impractical to trace and is an important research direction. We included long-tail scenarios that are unlikely to appear in real-world driving datasets. The pri-mary restriction is that the new benchmark scenarios them-selves must not be used during training. 
+
+3.3. Scope and Sim2Real Interpretation 
+
+While simulators like CARLA inherently introduce a sim-to-real gap, they remain an invaluable platform for funda-mental research and principled analysis. Conducting large-scale testing of safety-critical scenarios in the real world is often infeasible, prohibitively expensive, and dangerous. Furthermore, the community is actively addressing the fi-delity gap through recent advances in photorealism and domain adaptation, such as Cosmos-transfer[1]. Conse-quently, while we do not argue that results from Fail2Drive transfer directly to real-world deployment, evaluating un-seen scenarios in a controlled environment remains a critical missing piece in the current landscape. Systematic stress-testing in simulation is a necessary prerequisite to quan-tify and compare the increasing generalization efforts by the community. By pairing each generalization route with an in-distribution counterpart at the same location and with identical traffic configuration, we isolate the effect of a tar-geted structural change while keeping all other factors fixed. This design enables controlled analysis of whether policies rely on transferable driving concepts or on unreliable pat-terns. 
+
+# 4. Analysis of State-of-the-Art Models 
+
+In this section, we investigate two questions: (i) How strongly do representative SOTA models degrade under controlled distribution shift? (ii) Which type of shift drives failures? We evaluate seven representative closed-loop driving mod-els on Fail2Drive to measure their robustness under con-trolled distribution shifts. We show how models fail to adapt to even small modifications of CARLA scenarios. The se-lected models span classical camera-based policies, multi-modal fusion architectures, vision-language-action (VLA) systems, and privileged planners. • TCP [35] is a CNN-based baseline that drives using a single front camera, ego state, and route information. • UniAD [19] encodes six camera inputs into a BEV fea-ture space for planning-oriented driving. • TransFuser++ [20] fuses LiDAR and camera data using a transformer to jointly predict driving plans and auxiliary perception tasks. • HiP-AD [33] predicts coarse and fine waypoints in paral-lel from six cameras, improving interpretability and tra-jectory robustness. • SimLingo [30] is a vision-language model using only one front-facing camera and is able to output language de-scriptions. • Orion [15] integrates six camera views with atransformer-based fusion module, which is input to the LLM that generates multiple auxiliary tasks and an action through a generative planner. • PlanT 2.0 [16] uses privileged simulator information and a sparse object representation. • PDMLite-F2D is our extension to the privileged rule-based expert PDMLite [31] covering our new scenarios. 4Wall       
+
+> FullyBlocked
+> PedestriansOnRoad
+> ConstructionPedestrian
+> BadParking
+> ConstructionPermutations
+> CustomObstacles
+> ObscuredStop
+> HardBrake
+> RightOfWay
+> Animals
+> PedestrianOtherBlocker
+> RightConstruction
+> OppositeConstruction
+> ImageOnObject
+> PassableObstacles
+> PedestrianCrowd
+> 0
+> 10
+> 20
+> 30
+> 40
+> 50
+> 60
+> 70
+> 80
+> 90
+> 100
+> HM
+> Behavior Visual - Lateral Visual - Longitudinal Robustness
+> HiP-AD PlanT SimLingo TF++
+
+Figure 3. Category-wise generalization performance. Harmonic mean between Driving Score and Success Rate on the four scenario categories of Fail2Drive. The transparent part displays the drop in performance, and the darker ones indicate an increase in score. 
+
+See Section 5 for details. For TCP and UniAD, we use the reimplementations pro-vided by [23], which were trained on the Bench2Drive dataset. For all other models, we use the original check-points and evaluation code provided by the authors. We evaluate each model using three different evaluation seeds and report averages. 
+
+4.1. Generalization Gap 
+
+Table 1 reports Driving Score (DS), Success Rate (SR), and the Harmonic Mean (HM) on both in-distribution and gen-eralization routes. We include sensor-based models (top) and privileged models (bottom). Across all seven learning-based models, we observe a consistent performance drop under the proposed shifts, with an average HM drop of 16.3%, indicating that current CARLA-based driving stacks do not generalize reliably beyond their training distribu-tions. For the remainder of the analysis, we focus on the four mod-els that achieve reliable in-distribution performance with scores above 70: HiP-AD, SimLingo, TransFuser++, and PlanT 2.0. The privileged learned planner PlanT 2.0 achieves the strongest in-distribution performance (86.4 HM) but suffers a 25.0% HM drop, falling below the sensor-based model TransFuser++ on the generalization routes. Among the sensor-based methods, SimLingo achieves the highest performance on the in-distribution routes (80.9 HM) but shows a large generalization gap of -23.1% HM. Indi-cating that using VLM pre-training alone does not necessar-ily help for generalization. TransFuser++ and HiP-AD ob-tain a lower but still significant performance drop of 16.5% and 15.1%. TransFuser++, the only camera+LiDAR model, achieves the overall strongest performance on the general-ization routes (67.5 HM). 
+
+4.2. Failure investigation 
+
+To understand where the generalization failures originate, we analyze performance by scenario category (Fig. 3). Across categories, we observe a consistent underlying pat-tern: models rely on recurring CARLA-specific patterns 
+
+rather than forming general concepts of obstacles, road users, or drivable space. Once those patterns are altered, even minimally, planning performance often breaks down. 
+
+Behavior. Behavioral generalization scenarios require models to execute previously unseen high-level actions, such as following pedestrians walking on the road, stopping and waiting for completely blocked roads, or slowing for crossing pedestrians while navigating around a construction site. Across all four models, we observe the largest generaliza-tion gap of any category, with an average drop of -53.6% HM. Despite strong in-distribution performance, all models struggle to deviate from memorized lane-following behav-ior when confronted with novel situations. 
+
+FullyBlocked : failure to stop for a clearly obstructed road. In FullyBlocked , the road is entirely obstructed by trucks, vans, or hay bales. Surprisingly, even models with access to privileged information or rich sensor inputs fail: PlanT, despite receiving ground-truth object positions, drops by -69.5% HM, the largest degradation of all models, showing heavy overfitting to the exact object sizes and loca-tions. TransFuser++, the only LiDAR-based model, shows the smallest decline (-26.7% HM) yet still fails to stop reli-ably (Fig. 4). 
+
+Wall: adversarial appearance changes break all models. 
+
+The Wall scenario is an extreme version of the previous scenario, featuring a large wall blocking the road. In 4 out of 5 cases, it displays a full-size printed image of a road. All models collapse from around 100 HM to 0.0 HM. Multiple policies misinterpret the printed road in the image as con-5Figure 4. Blocked road. TransFuser++ correctly perceives a ve-hicle, but predicts full-speed driving, causing a collision.   
+
+> Figure 5. Wall collisions. SimLingo is reacting to a wall blocking the road. (Top) SimLingo tries to avoid the obstacle by changing lanes, causing a collision. (Bottom) SimLingo does not recognize the picture wall and instead adjusts its predictions for the road de-picted on the wall, even correctly identifying a vehicle in the im-age.
+
+tinuation of the real drivable space (Fig. 5). Most notably, TransFuser++, equipped with LiDAR, also fails to detect or react to the obstacle, again demonstrating the reliance on known cues. 
+
+PedestriansOnRoad: inability to stay behind slow agent. 
+
+In PedestriansOnRoad , a small group of pedestrians walks along the ego lane. Models are expected to slow down and follow at a safe distance, or overtake safely. However, models frequently approach too closely and collide when pedestrians pause. HiP-AD sometimes attempts to overtake the pedestrians with varying degree of success. SimLingo performs particularly poorly, dropping from 98.50 to 19.68 HM with collisions in 87% of cases. Its language-action module often hallucinates a nonexistent car or cyclist to follow (Fig. 6), showing overfitting to the language used during training. The consistent failure across models shows that vehicle-following cues do not generalize to non-vehicle agents. Across all behavioral scenarios, models display a com-mon pattern: When encountering unseen or ambiguous situations, models default to memorized driving pat-terns, typically lane-following , rather than adopting fall-back strategies such as stopping or waiting. This tight cou-pling between learned behaviors and CARLA-specific sce-nario templates highlights a fundamental limitation of cur-     
+
+> Figure 6. Pedestrian collision. SimLingo predicts a reduced ve-locity but fails to correctly identify the pedestrians on the road, eventually causing a collision.
+> (a) SimLingo (b) TransFuser++
+> Figure 7. Obstacle failures. SimLingo and TransFuser++ fail to detect and avoid clearly visible obstacles. TransFuser++’s LiDAR visualisation shows the apparent obstacle in the LiDAR data and no bounding box prediction being made.
+
+rent driving systems: even strong models do not yet possess a generalizable notion of high-level driving behavior. 
+
+Visual - Lateral. These scenarios evaluate whether mod-els can identify and navigate around obstacles whose ap-pearance, geometry, or spatial layout differs from CARLA defaults. These scenarios require an inherently complex behavior: in-distribution scores are already low across all models, and introducing even small appearance shifts leads to substantial additional degradation of on average -33.58% HM. 
+
+CustomObstacles: failure to avoid unseen obstacles. The 
+
+CustomObstacles scenario is the most challenging across all lateral tasks. Even when obstacles are large and unambiguously visible in both RGB and LiDAR (Fig. 7), all models fail to avoid them robustly. Performance drops to 11.44 HM (HiP-AD), 11.73 HM (PlanT), 11.90 HM (SimLingo), and 22.78 HM (TF++). This failure illustrates that avoidance behaviors are not triggered by the spatial presence of obstacles in the drivable lane. Instead, mod-els depend on familiar CARLA-specific obstacle templates (cones, traffic warnings, standard vehicle meshes). Impor-tantly, many of the new scenarios use assets from the same source as the original CARLA assets, suggesting that the gap is primarily structural rather than just a distribution shift in texture. 
+
+BadParking: orientation priors in perception. In 
+
+BadParking , the same vehicle assets are placed in un-usual orientations. While this requires only small deviations in the planned trajectory, performance still drops notice-ably. Models with explicit perception heads (HiP-AD and 6(a) TransFuser++ (b) HiP-AD   
+
+> Figure 8. Perception failures. TransFuser++ and HiP-AD fail to correctly perceive the parked vehicle’s orientation, defaulting to the orientation seen in CARLA demonstrations, but are thereby able to solve the scenario.
+
+TransFuser++) often predict the default CARLA parked-car orientation, regardless of the actual rotation (Fig. 8). Al-though TF++ sometimes still manages to avoid the obstacle despite the incorrect perception orientation, the systematic misalignment reveals a strong geometric prior extending be-yond planning into perception. These results show that per-ception is not just sensitive to appearance, but also to geo-metric diversity. 
+
+ConstructionPermutations: removal of cues breaks avoid-ance. The ConstructionPermutations scenarios expose an even deeper reliance on CARLA-specific sym-bolic cues. Small modifications to the construction layout, like removing the warning sign or some of the cones, or replacing assets with visually similar variants, cause dra-matic failures. TransFuser++ collapses from 33.15 HM to 0.00 HM when the main warning sign is removed. Since SimLingo only drops from 75.74 to 56.12 HM (-25.9%), the TF++ result indicates overfitting to the lidar signature of the CARLA construction scenario. PlanT instead relies on the traffic cones placed at the side of constructions. Re-moving the cones, leaving only the big construction warn-ing, causes scores to drop from 100.00 to 0.00 HM, despite having ground-truth object positions. These large drops indicate that models do not reason about drivable space directly . Instead, they rely on hard-coded pattern associations , such as “a construction warning sign means: do a lane change”. When these patterns break down, avoidance behavior simply does not trigger, even when the obstacle itself remains clearly visible. 
+
+Visual - Longitudinal. These scenarios evaluate whether models can slow down or stop when the causal object (pedestrian, leading vehicle, or traffic sign) undergoes ap-pearance or geometric changes that were not present during training. All four models maintain good performance, with a mod-erate average HM drop of 7.2%. This indicates that exist-ing policies can transfer several visual cues of “something ahead requires slowing down”, a promising sign of within-CARLA generalization beyond a narrow set of CARLA as-sets.   
+
+> Figure 9. Animal perception failure. HiP-AD is more likely to detect an animal as a pedestrian when it has clearly visible, human-like legs, positioning the bounding box at its legs.
+
+Animals: behavior gets brittle with visual and geometric deviation. When replacing pedestrians with animals, the object detections from TF++ and HipAD are more likely to trigger correct behavior for animals with human-like struc-ture (e.g., deer, zebras). Compact or non-upright shapes (e.g., pigs, crocodiles) are frequently misclassified or ig-nored (Fig. 9). 
+
+RightOfWay: implicit behavioral priors. In RightOfWay ,where emergency vehicles take the ego vehicles’ right of way, replacing the emergency vehicle with a regular car noticeably increases collisions for SimLingo and PlanT. Both appear to assume that only emergency vehicles violate right-of-way, exposing a behavioral shortcut rather than a robust interpretation of motion cues. 
+
+ObscuredStop: distribution shift in sign detection. In 
+
+ObscuredStop , textures are placed on stop signs to eval-uate stopping behavior under shift. Three out of four models are unaffected by these visual changes, with only SimLingo exhibiting an increase in stop infractions from 6% to 33% of scenarios. The scenarios where these failures occur include the snow and sticker textures (Fig. 1), which have the high-est amount of occlusion. The introduced variations do not cause SimLingo to fail to identify the stop signs entirely; instead, they cause it to stop further away from the stopping line, leading CARLA to issue a penalty. 
+
+Success cases and their implications While longitudinal scenarios show clear weaknesses, they also highlight where the models excel. HiP-AD and TransFuser++ remain stable when modifying visual appearance without altering geome-try (e.g., ObscuredStop ), suggesting robustness to small texture noise. Models also perform well when the causal object retains a similar scale and pose (e.g. some of the animals). 
+
+Robustness. Robustness scenarios test a model’s ability to ignore irrelevant environmental influences. Examples in-clude construction assets positioned off the drivable lane, static pedestrian crowds standing on sidewalks, or printed imagery placed in non-actionable locations. Since these ele-ments do not require behavioral adjustment, the ideal policy 7Figure 10. PlanT 2.0 robustness. PlanT performs an unnecessary avoidance maneuver for a construction (left) and a mailbox that both do not block its path, risking vehicle collisions. 
+
+is to continue driving normally, without unnecessary decel-eration, lane changes, or hesitation. Across all models, robustness scenarios exhibit the strongest generalization performance of any category. Avoiding overreaction appears substantially easier than generating new behaviors, with most models maintaining high HM scores and only minor degradation under environ-mental shifts. PlanT and SimLingo show the largest behavioral deviations in this category. While overall scores remain high, both models exhibit an average velocity drop of approximately 10% under generalization scenarios, whereas the other methods maintain stable speeds. This indicates heightened policy uncertainty and sensitivity to irrelevant objects. In the RightConstruction scenario, a construction site is located in an adjacent lane. Although the obstacle does not obstruct the ego trajectory, several models prepare for a lane change or reduce speed before resuming normal driving. SimLingo reacts strongly, slowing down to prepare to cross into the left-adjacent lane but eventually continues driving in most cases, whereas PlanT 2.0 executes a full evasive maneuver, as if the obstacle were directly in its path (Fig. 10). A similar pattern emerges in PassableObstacle sce-narios, where obstacles appear on or near the road without intersecting the ego trajectory. For instance, when a single mailbox is placed on the centerline (Fig. 10), PlanT 2.0 per-forms an extensive evasive maneuver, as the placement of this small object is similar to the traffic cones in a CARLA construction scenario. This sensitivity of PlanT 2.0 to con-struction cones has already been discovered in open-loop evaluations by the PlanT 2.0 authors. Our closed-loop ex-periments confirm this behavior. These results underscore that some models fail to gener-alize to distractions in the scenes , with PlanT 2.0 being particularly sensitive. 
+
+# 5. Fail2Drive Toolbox 
+
+Beyond evaluation, Fail2Drive provides a toolbox that en-ables controlled scenario extension, new benchmarks, and construction of a diverse large-scale dataset. 
+
+Custom simulator. Fail2Drive includes a modified build of CARLA 0.9.15 that adds a set of new assets intended to support controlled distribution shifts. The release in-cludes 17 animal assets with correct animations, which al-lows evaluation of whether policies generalize the concept of “yielding to vulnerable road users” beyond the specific pedestrian meshes commonly used in CARLA. We also include three families of visual obstacle assets. The first consists of four large-scale “image walls” that appear as physical obstacles blocking the road. Three walls dis-play high-resolution driving-scene photographs, while one displays a brick texture. The second family introduces five variants of stop signs with structural or texture faults (e.g., altered or partially missing graphics). The third set provides two images of a running child at different scales and one im-age of a red traffic light, which can be placed as flat surfaces in the scene to test whether a model treats printed imagery as actionable scene content. Finally, the STOP road mark-ing in Tile (3,2) of Town13 is removed, enabling evaluation of whether a policy relies on surface markings rather than sign geometry. 
+
+Customizable scenarios. Fail2Drive parameterizes sev-eral existing CARLA scenarios so that users can reconfig-ure them without editing the scenario code. This gives users broad creative freedom in scenario authoring and enables controlled counterfactual scenarios by varying one factor at a time while keeping route context fixed. 
+
+Expert policy (PDMLite-F2D). We extend the rule-based expert PDMLite [31] to solve Fail2Drive scenarios. Users can apply PDMLite-F2D as a solvability check to validate newly designed scenarios before benchmarking learning-based models. It also enables collection of high-quality privileged demonstrations and serves as a reference policy when debugging scenario logic. 
+
+# 6. Conclusion and Limitations 
+
+We introduced Fail2Drive, a benchmark for evaluating gen-eralization in CARLA. Our benchmark includes novel sce-narios, unseen assets, and customization tools designed to foster future research on robust autonomous driving. Through an extensive analysis of seven recent driving mod-els, we reveal widespread overfitting and shortcut learning, uncover unexpected failure modes, and highlight key di-rections for advancing generalization in end-to-end driving systems. In addition, our findings expose systematic gaps in current evaluation practices, which rarely probe robustness under distribution shifts. We hope that Fail2Drive raises aware-ness of these deficiencies and encourages the community to adopt more comprehensive OOD stress tests as part of the standard evaluation for autonomous driving models. 8Limitations. We acknowledge several limitations of our work. The CARLA simulator provides only pseudo-realistic simulations, leaving uncertainties about the trans-ferability of our results to the real world. Our claims are therefore limited to controlled closed-loop analysis in simu-lation: robustness in CARLA is not sufficient for real-world robustness, but we argue it is a necessary prerequisite. The paired in-distribution/generalization design also means that we primarily evaluate relative robustness under controlled structural shifts independent of absolute realism. While we provide rare, unseen scenarios, the problem of long-tail sce-narios can, by definition, never be fully resolved through testing. 
+
+Acknowledgements. This project was supported by the DFG EXC number 2064/1 - project number 390727645 and by the German Federal Ministry for Economic Affairs and Climate Action within the project "NXT GEN AI METH-ODS - Generative Methoden für Perzeption, Prädiktion und Planung". We thank the International Max Planck Research School for Intelligent Systems (IMPRS-IS) for supporting K. Renz. 
+
+# References 
+
+[1] Hassan Abu Alhaija, Jose Alvarez, Maciej Bala, Tiffany Cai, Tianshi Cao, Liz Cha, Joshua Chen, Mike Chen, Francesco Ferroni, Sanja Fidler, Dieter Fox, Yunhao Ge, Jinwei Gu, Ali Hassani, Michael Isaev, Pooya Jannaty, Shiyi Lan, Tobias Lasser, Huan Ling, Ming-Yu Liu, Xian Liu, Yifan Lu, Alice Luo, Qianli Ma, Hanzi Mao, Fabio Ramos, Xuanchi Ren, Tianchang Shen, Xinglong Sun, Shitao Tang, Ting-Chun Wang, Jay Wu, Jiashu Xu, Stella Xu, Kevin Xie, Yuchong Ye, Xiaodong Yang, Xiaohui Zeng, and Yu Zeng. Cosmos-transfer1: Conditional world generation with adaptive multi-modal control, 2025. 4 [2] Holger Caesar, Varun Bankiti, Alex H. Lang, Sourabh Vora, Venice Erin Liong, Qiang Xu, Anush Krishnan, Yuxin Pan, Giancarlo Baldan, and Oscar Beijbom. nuScenes: A multi-modal dataset for autonomous driving. In IEEE/CVF Confer-ence on Computer Vision and Pattern Recognition (CVPR) ,2020. 2 [3] Holger Caesar, Juraj Kabzan, Kok Seang Tan, Whye Kit Fong, Eric M. Wolff, Alex H. Lang, Luke Fletcher, Os-car Beijbom, and Sammy Omari. nuplan: A closed-loop ml-based planning benchmark for autonomous vehicles. In 
+
+IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshops (CVPRW) , 2021. 2 [4] CARLA Contributors. Carla autonomous driving leader-board 2.0. https://leaderboard.carla.org/ ,2023. 1 [5] Dian Chen and Philipp Krähenbühl. Learning from all ve-hicles. In IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , 2022. 2 [6] Li Chen, Penghao Wu, Kashyap Chitta, Bernhard Jaeger, An-dreas Geiger, and Hongyang Li. End-to-end autonomous driving: Challenges and frontiers. IEEE Trans. Pattern Anal. Mach. Intell. , 2024. 1 [7] Kashyap Chitta, Aditya Prakash, and Andreas Geiger. Neat: Neural attention fields for end-to-end autonomous driving. In IEEE/CVF International Conference on Computer Vision (ICCV) , 2021. 2 [8] Felipe Codevilla, Antonio M. Lopez, Vladlen Koltun, and Alexey Dosovitskiy. On offline evaluation of vision-based driving models. In European Conference on Computer Vi-sion (ECCV) , 2018. 2 [9] Felipe Codevilla, Eder Santana, Antonio M. López, and Adrien Gaidon. Exploring the limitations of behavior cloning for autonomous driving. In IEEE/CVF International Conference on Computer Vision (ICCV) , 2019. 1, 2 [10] Alexander Cui, Abbas Sadat, Sergio Casas, Renjie Liao, and Raquel Urtasun. Lookout: Diverse multi-future prediction and planning for self-driving. In IEEE/CVF International Conference on Computer Vision (ICCV) , 2021. 1 [11] Marco F. Cusumano-Towner, David Hafner, Alexander Hertzberg, Brody Huval, Aleksei Petrenko, Eugene Vinitsky, Erik Wijmans, Taylor Killian, Stuart Bowers, Ozan Sener, Philipp Krähenbühl, and Vladlen Koltun. Robust autonomy emerges from self-play. arXiv preprint , 2502.03349, 2025. 1 [12] Daniel Dauner, Marcel Hallgarten, Tianyu Li, Xinshuo Weng, Zhiyu Huang, Zetong Yang, Hongyang Li, Igor Gilitschenski, Boris Ivanovic, Marco Pavone, Andreas Geiger, and Kashyap Chitta. Navsim: Data-driven non-reactive autonomous vehicle simulation and benchmark-ing. In Advances in Neural Information Processing Systems (NeurIPS) , 2024. 2 [13] Alexey Dosovitskiy, German Ros, Felipe Codevilla, Antonio Lopez, and Vladlen Koltun. Carla: An open urban driving simulator, 2017. 1 [14] Alexey Dosovitskiy, German Ros, Felipe Codevilla, Antonio Lopez, and Vladlen Koltun. CARLA: An open urban driving simulator. In Conference on Robot Learning (CoRL) , 2017. 2[15] Haoyu Fu, Diankun Zhang, Zongchuang Zhao, Jianfeng Cui, Dingkang Liang, Chong Zhang, Dingyuan Zhang, Hongwei Xie, Bing Wang, and Xiang Bai. ORION: A holistic end-to-end autonomous driving framework by vision-language instructed action generation. arXiv preprint , 2503.19755, 2025. 1, 4, 5 [16] Simon Gerstenecker, Andreas Geiger, and Katrin Renz. Plant 2.0: Exposing biases and structural flaws in closed-loop driv-ing, 2025. 2, 4, 5 [17] Marcel Hallgarten, Julián Zapata, Martin Stoll, Katrin Renz, and Andreas Zell. Can vehicle motion planning generalize to realistic long-tail scenarios? In IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS) , 2024. 2[18] Isaac Han, Dong-Hyeok Park, and Kyung-Joong Kim. Anew open-source off-road environment for benchmark gen-eralization of autonomous driving. IEEE Access , 2021. 2 [19] Yihan Hu, Jiazhi Yang, Li Chen, Keyu Li, Chonghao Sima, Xizhou Zhu, Siqi Chai, Senyao Du, Tianwei Lin, et al. Planning-oriented autonomous driving. In IEEE/CVF 
+
+9Conference on Computer Vision and Pattern Recognition (CVPR) , 2023. 4, 5 [20] Bernhard Jaeger, Kashyap Chitta, and Andreas Geiger. Hid-den biases of end-to-end driving models. In IEEE/CVF In-ternational Conference on Computer Vision (ICCV) , 2023. 4, 5 [21] Bernhard Jaeger, Kashyap Chitta, Daniel Dauner, Katrin Renz, and Andreas Geiger. Common Mistakes in Bench-marking Autonomous Driving. https : / / github . com/autonomousvision/carla_garage/blob/ leaderboard _ 2 / docs / common _ mistakes _ in _ benchmarking_ad.md , 2024. 2 [22] Bernhard Jaeger, Daniel Dauner, Jens Beißwenger, Simon Gerstenecker, Kashyap Chitta, and Andreas Geiger. Carl: Learning scalable planning policies with simple rewards. 
+
+arXiv preprint , 2504.17838, 2025. 1 [23] Xiaosong Jia, Zhenjie Yang, Qifeng Li, Zhiyuan Zhang, and Junchi Yan. Bench2drive: Towards multi-ability bench-marking of closed-loop end-to-end autonomous driving. In 
+
+NeurIPS 2024 Datasets and Benchmarks Track , 2024. 1, 2, 5[24] Chitta Kashyap, Prakash Aditya, Jaeger Bernhard, Yu Ze-hao, Renz Katrin, and Geiger Andreas. Transfuser: Imitation with transformer-based sensor fusion for autonomous driv-ing. IEEE Transactions on Pattern Analysis and Machine Intelligence , 2023. 1, 2 [25] William Ljungbergh, Adam Tonderski, Joakim Johnan-der, Holger Caesar, Kalle Åström, Michael Felsberg, and Christoffer Petersson. Neuroncap: Photorealistic closed-loop safety testing for autonomous driving. European Con-ference on Computer Vision (ECCV) , 2024. 2 [26] Yichong Lu, Yichi Cai, Shangzhan Zhang, Hongyu Zhou, Haoji Hu, Huimin Yu, Andreas Geiger, and Yiyi Liao. Ur-bancad: Towards highly controllable and photorealistic 3d vehicles for urban scene simulation. In IEEE/CVF Confer-ence on Computer Vision and Pattern Recognition (CVPR) ,2025. 2 [27] Kira Maag, Robin Chan, Svenja Uhlemeyer, Kamil Kowol, and Hanno Gottschalk. Two video data sets for tracking and retrieval of out of distribution objects. In Asian Conference on Computer Vision (ACCV) , 2023. 2 [28] Federico Nesti, Giulio Rossolini, Saasha Nair, Alessandro Biondi, and Giorgio Buttazzo. Evaluating the robustness of semantic segmentation for autonomous driving against real-world adversarial patch attacks. In IEEE/CVF Winter Con-ference on Applications of Computer Vision (WACV) , 2022. 2[29] Bła˙ zej Osi´ nski, Piotr Miło´ s, Adam Jakubowski, Paweł Zi˛ ecina, Michał Martyniak, Christopher Galias, Antonia Breuer, Silviu Homoceanu, and Henryk Michalewski. Carla real traffic scenarios – novel training ground and benchmark for autonomous driving, 2021. 2 [30] Katrin Renz, Long Chen, Elahe Arani, and Oleg Sinavski. Simlingo: Vision-only closed-loop autonomous driving with language-action alignment. In IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , 2025. 1, 2, 4, 5 [31] Chonghao Sima, Katrin Renz, Kashyap Chitta, Li Chen, Hanxue Zhang, Chengen Xie, Jens Beißwenger, Ping Luo, Andreas Geiger, and Hongyang Li. Drivelm: Driving with graph visual question answering. In European Conference on Computer Vision (ECCV) , 2024. 4, 8 [32] Naufal Suryanto, Yongsu Kim, Hyoeun Kang, Ha-rashta Tatimma Larasati, Youngyeo Yun, Thi-Thu-Huong Le, Hunmin Yang, Se-Yoon Oh, and Howon Kim. Dta: Phys-ical camouflage attacks using differentiable transformation network. In IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , 2022. 2 [33] Yingqi Tang, Zhuoran Xu, Zhaotie Meng, and Erkang Cheng. Hip-ad: Hierarchical and multi-granularity planning with deformable attention for autonomous driving in a single decoder, 2025. 2, 4, 5 [34] Charles Thorpe, Martial H. Hebert, Takeo Kanade, and Steven A. Shafer. Vision and navigation for the carnegie-mellon navlab. IEEE Transactions on Pattern Analysis and Machine Intelligence , 1988. 1 [35] Peng Wu, Xiaosong Jia, Li Chen, Junchi Yan, Hongyang Li, and Yu Qiao. Trajectory-guided control prediction for end-to-end autonomous driving: A simple yet strong base-line. In Advances in Neural Information Processing Systems (NeurIPS) , 2022. 4, 5 [36] Chejian Xu, Wenhao Ding, Weijie Lyu, ZUXIN LIU, Shuai Wang, Yihan He, Hanjiang Hu, DING ZHAO, and Bo Li. Safebench: A benchmarking platform for safety evaluation of autonomous vehicles. In Advances in Neural Information Processing Systems , 2022. 2 [37] Wenda Xu, Jia Pan, Junqing Wei, and John M. Dolan. Motion planning under uncertainty for on-road autonomous driving. In IEEE International Conference on Robotics and Automation (ICRA) , 2014. 1 [38] Jiawei Zhang, Chejian Xu, and Bo Li. Chatscene: Knowledge-enabled safety-critical scenario generation for autonomous vehicles. In Proceedings of the IEEE/CVF Con-ference on Computer Vision and Pattern Recognition , 2024. 2[39] Hongyu Zhou, Longzhong Lin, Jiabao Wang, Yichong Lu, Dongfeng Bai, Bingbing Liu, Yue Wang, Andreas Geiger, and Yiyi Liao. Hugsim: A real-time, photo-realistic and closed-loop simulator for autonomous driving. arXiv preprint arXiv:2412.01718 , 2024. 2 [40] Zewei Zhou, Tianhui Cai, Seth Z. Zhao, Yun Zhang, Zhiyu Huang, Bolei Zhou, and Jiaqi Ma. Autovla: A vision-language-action model for end-to-end autonomous driving with adaptive reasoning and reinforcement fine-tuning. arXiv preprint , 2506.13757, 2025. 1 [41] Julian Zimmerlin, Jens Beißwenger, Bernhard Jaeger, An-dreas Geiger, and Kashyap Chitta. Hidden biases of end-to-end driving datasets. IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshops (CVPRW) , 2024. 2
+
+10 Fail2Drive: Benchmarking Closed-Loop Driving Generalization 
+
+# Supplementary Material 
+
+# A. Scenario description 
+
+We show one example of the in-distribution/ generalization pairs of each new scenario class, together with a detailed description. The top image is always the in-distribution example, and the bottom is a new generalization sample. 
+
+1. BadParking 
+
+A parked vehicle partially occludes the ego lane. Unlike the standard CARLA parked-vehicle scenario, which always places the vehicle in the same position, our variant can be defined with any orientation, location and asset. This is meant to challenge models’ spatial un-derstanding with known obstacles. The standard ParkedObstacle sce-nario serves as an in-distribution sample. 
+
+2. ConstructionPermutations 
+
+A modified version of the standard ConstructionObstacle , where con-struction assets can be replaced or removed, isolating dependencies on specific parts of construction sites. The in-distribution sample is defined by the default ConstructionObstacle .
+
+3. CustomObstacle 
+
+Fully customizable obstacles block the road. The obstacles can be defined by any number of CARLA assets at arbitrary locations and orientations, enabling testing of generalization to unseen objects and structures. Depending on the obstacle size, a ParkedObstacle or Con-structionObstacle is used as an in-distribution sample. 14. ObscuredStop 
+
+Occlusions are placed on stop signs when entering an intersection, challenging the visual traffic sign detection. 5 different occlusions are included with Fail2Drive and any CARLA asset can be used. The in-distribution sample is defined by including the scenario with no occlusion. 
+
+5. HardBrakeNoLights 
+
+The leading vehicle suddenly brakes with disabled brake lights, testing if models can judge distance and deceleration without relying on this cue. The classic HardBrake scenario with active brake lights is used as the in-distribution sample. 
+
+6. RightOfWay 
+
+A custom vehicle takes the ego vehicle’s priority while crossing a junction. Since CARLA includes this scenario only with emergency vehicles, our variations test whether models only yield to emergency vehicles or generalize to other traffic participants. The emergency ve-hicle scenarios serve as the in-distribution sample. 
+
+7. Animals 
+
+An animal crosses the road, forcing the ego vehicle to react, testing if models are able to generalize to actors with other appearances and shapes as pedestrians. Fail2Drive introduces 17 animal assets that can be used for all pedestrian scenarios. By default, CARLA includes only pedestrians, which are used for the in-distribution scenario. 28. PedestrianOtherBlocker 
+
+A pedestrian emerges from behind an unseen object to cross the road, evaluating whether models overfit to expect pedestrians only from cer-tain objects. The in-distribution scenario uses the default CARLA as-sets. 
+
+9. RightConstruction 
+
+A construction obstacle is placed outside the road to the right side, requiring no reaction of the ego vehicle. The scenario tests if models react to known cues even when they are placed outside the relevant regions. The in-distribution sample includes no scenario. 
+
+10. OppositeConstruction 
+
+A construction site is placed in the opposite lane, requiring no reaction from the ego vehicle, again testing overfitting to scenario structures. The in-distribution sample includes no scenario. 
+
+11. ImageOnObject 
+
+A deceptive image is placed on an advertisement or a bus stop, the ego vehicle should not react to this influence. Images include a walking child at two scales and a red light, testing if models can differentiate between these printed images and real objects. The in-distribution scenario does not include an image. 312. PassableObstacles 
+
+Objects are placed on or near the road, allowing the vehicle to pass by maintaining its lane. This tests models’ ability to disregard irrelevant objects that do not affect driving behavior. The in-distribution scenario includes no obstacles. 
+
+13. PedestrianCrowd 
+
+A large number of pedestrians is standing on the sidewalk while the ego vehicle passes or performs a scenario. Since in CARLA v2, pedes-trians are only present when relevant to a scenario, models may learn to react strongly to their presence. The in-distribution sample is de-fined by the same scenarios without any pedestrians. 
+
+14. ConstructionPedestrian 
+
+While passing a construction site, a pedestrian crosses the road. This scenario requires the model to generalize to stop during the overtaking maneuver, which is not shown during training. The default Construc-tionObstacle without a pedestrian serves as the in-distribution sample. 
+
+15. PedestriansOnRoad 
+
+Pedestrians are walking on the road in front of the ego vehicle, requir-ing deceleration or an evasive maneuver. This tests whether pedestri-ans are correctly identified and responded to in out-of-distribution sce-narios. The in-distribution sample tests solving the underlying route without a scenario. 416. FullyBlocked 
+
+An object blocks the entire road, forcing the ego vehicle to stop and wait 60 seconds, until the obstacle is removed and the vehicle can pass. While during training, only passable objects are shown, this scenario tests whether models generalize to stop and wait at obstacles. The in-distribution sample uses no scenario and evaluates a model’s ability to complete the underlying road following task. 
+
+17. Wall 
+
+A large-scale wall with a printed image is placed on the road, requir-ing the agent to wait for 60 seconds until the obstacle is removed. In addition to waiting at the object, this scenario introduces highly decep-tive visuals. Fail2Drive includes one brick wall and three walls with images of roads. The in-distribution route is again defined without scenarios. 
+
+# B. Full results 
+
+For completeness, we include numerical results for all models per generalization category in Table 2. 
+
+Method Visual-lon Visual-lat Behavior Robustness 
+
+TCP [35] 31.4 (-10.3%) 6.2 (-1.4%) 22.1 (-30.6%) 42.8 (3.6%) 
+
+UniAD [19] 26.3 (4.6%) 13.0 (84.2%) 17.9 (-67.9%) 66.3 (-4.7%) 
+
+Orion [15] 53.0 (-9.6%) 34.0 (47.9%) 35.4 (-34.0%) 66.0 (-8.4%) 
+
+HiP-AD [33] 70.9 (-5.6%) 40.8 (-27.1%) 42.6 (-46.6%) 82.3 (4.1%) 
+
+SimLingo [30] 71.1 (-9.0%) 45.9 (-32.2%) 31.2 (-64.2%) 86.8 (-5.9%) 
+
+TF++ [20] 77.0 (-7.8%) 40.4 (-30.6%) 47.2 (-43.9%) 93.7 (-2.2%) 
+
+PlanT 2.0 [16] 86.6 (-6.2%) 36.2 (-44.4%) 36.7 (-59.7%) 82.9 (-13.7%) Table 2. Categorized results on Fail2Drive. Harmonic scores across generalization categories for all models. 
+
+5

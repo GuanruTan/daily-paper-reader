@@ -6,56 +6,73 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-04-11
-- 运行时间：2026-04-11 20:08:40 UTC
+- 最新运行日期：2026-04-13
+- 运行时间：2026-04-13 20:16:50 UTC
 - 运行状态：成功
-- 本次总论文数：11
-- 精读区：0
+- 本次总论文数：17
+- 精读区：6
 - 速读区：11
 
 ### 今日简报（AI）
-- 今日共生成 11 篇推荐（精读 0 篇，速读 11 篇）
-- 速读：《Learning Additively Compositional Latent Actions for Embodied AI》（7.0/10）, 《BATON: A Multimodal Benchmark for Bidirectional Automation Transition Observation in Naturalistic Driving》（7.0/10）, 《Vision-Language Navigation for Aerial Robots: Towards the Era of Large Language Models》（7.0/10）
-- 这些结果覆盖了当下较热的方向，建议先看精读区论文的关键问题与方法。
-- 详情：[/202604/11/README](/202604/11/README)
+今日聚焦17篇前沿成果，深度解析端到端自动驾驶与通用航空智能体的跨代演进。
+重点关注LMGenDrive如何融合生成式世界模型，以及PilotBench为航空安全约束设立的新基准。
+建议优先研读生成式AI在复杂交通场景建模与高风险飞行决策中的闭环应用。
+- 详情：[/202604/13/README](/202604/13/README)
 
 ### 精读区论文标签
-- 本次无精读推荐。
+1. [LMGenDrive: Bridging Multimodal Understanding and Generative World Modeling for End-to-End Driving](/202604/13/2604.08719v1-lmgendrive-bridging-multimodal-understanding-and-generative-world-modeling-for-end-to-end-driving)  
+   标签：评分：9.0/10、query:tp
+   evidence：基于大模型的多模态理解用于驾驶世界建模
+2. [PilotBench: A Benchmark for General Aviation Agents with Safety Constraints](/202604/13/2604.08987v1-pilotbench-a-benchmark-for-general-aviation-agents-with-safety-constraints)  
+   标签：评分：9.0/10、query:tp
+   evidence：飞行轨迹与姿态预测基准
+3. [Online Intention Prediction via Control-Informed Learning](/202604/13/2604.09303v1-online-intention-prediction-via-control-informed-learning)  
+   标签：评分：9.0/10、query:tp
+   evidence：自主系统目标状态估计的在线意图预测
+4. [Envisioning the Future, One Step at a Time](/202604/13/2604.09527v1-envisioning-the-future-one-step-at-a-time)  
+   标签：评分：9.0/10、query:tp
+   evidence：将开放场景动态预测建模为稀疏点轨迹的分步推理
+5. [ActivityEditor: Learning to Synthesize Physically Valid Human Mobility](/202604/13/2604.05529v2-activityeditor-learning-to-synthesize-physically-valid-human-mobility)  
+   标签：评分：8.0/10、query:tp
+   evidence：基于意图的智能体用于移动轨迹生成
+6. [Learning Vision-Language-Action World Models for Autonomous Driving](/202604/13/2604.09059v1-learning-vision-language-action-world-models-for-autonomous-driving)  
+   标签：评分：8.0/10、query:tp
+   evidence：自动驾驶中利用可行轨迹的VLA世界模型
 
 ### 速读区论文标签
-1. [Learning Additively Compositional Latent Actions for Embodied AI](/202604/11/2604.03340v1-learning-additively-compositional-latent-actions-for-embodied-ai)  
+1. [Hierarchical Flow Decomposition for Turning Movement Prediction at Signalized Intersections](/202604/13/2604.09336v1-hierarchical-flow-decomposition-for-turning-movement-prediction-at-signalized-intersections)  
+   标签：评分：8.0/10、query:tp
+   evidence：预测信号灯路口的车辆转向运动和流量
+2. [Adaptor: Advancing Assistive Teleoperation with Few-Shot Learning and Cross-Operator Generalization](/202604/13/2604.09462v1-adaptor-advancing-assistive-teleoperation-with-few-shot-learning-and-cross-operator-generalization)  
+   标签：评分：8.0/10、query:tp
+   evidence：从异构轨迹分布中进行意图识别
+3. [Evaluation as Evolution: Transforming Adversarial Diffusion into Closed-Loop Curricula for Autonomous Vehicles](/202604/13/2604.07378v1-evaluation-as-evolution-transforming-adversarial-diffusion-into-closed-loop-curricula-for-autonomous-vehicles)  
    标签：评分：7.0/10、query:tp
-   evidence：潜动作学习与物理运动表示
-2. [BATON: A Multimodal Benchmark for Bidirectional Automation Transition Observation in Naturalistic Driving](/202604/11/2604.07263v1-baton-a-multimodal-benchmark-for-bidirectional-automation-transition-observation-in-naturalistic-driving)  
+   evidence：交互式交通环境下自动驾驶车辆的对抗场景合成
+4. [MotionScape: A Large-Scale Real-World Highly Dynamic UAV Video Dataset for World Models](/202604/13/2604.07991v1-motionscape-a-large-scale-real-world-highly-dynamic-uav-video-dataset-for-world-models)  
    标签：评分：7.0/10、query:tp
-   evidence：预测自然驾驶中的驾驶员接管和自动化切换
-3. [Vision-Language Navigation for Aerial Robots: Towards the Era of Large Language Models](/202604/11/2604.07705v1-vision-language-navigation-for-aerial-robots-towards-the-era-of-large-language-models)  
+   evidence：无人机智能体的复杂3D动力学预测
+5. [Coordinate-Based Dual-Constrained Autoregressive Motion Generation](/202604/13/2604.08088v1-coordinate-based-dual-constrained-autoregressive-motion-generation)  
    标签：评分：7.0/10、query:tp
-   evidence：空中机器人将语言落地于感知的自主导航
-4. [HEX: Humanoid-Aligned Experts for Cross-Embodiment Whole-Body Manipulation](/202604/11/2604.07993v1-hex-humanoid-aligned-experts-for-cross-embodiment-whole-body-manipulation)  
+   evidence：动作生成与基于坐标的轨迹
+6. [Orion-Lite: Distilling LLM Reasoning into Efficient Vision-Only Driving Models](/202604/13/2604.08266v1-orion-lite-distilling-llm-reasoning-into-efficient-vision-only-driving-models)  
    标签：评分：7.0/10、query:tp
-   evidence：多具身轨迹数据中的时序运动动力学
-5. [IoT-Brain: Grounding LLMs for Semantic-Spatial Sensor Scheduling](/202604/11/2604.08033v1-iot-brain-grounding-llms-for-semantic-spatial-sensor-scheduling)  
+   evidence：将大模型推理能力蒸馏至驾驶模型
+7. [Temporal Graph Neural Network for ISAC Target Detection and Tracking](/202604/13/2604.08306v1-temporal-graph-neural-network-for-isac-target-detection-and-tracking)  
    标签：评分：7.0/10、query:tp
-   evidence：用于大语言模型规划落地的空间轨迹图
-6. [HiRO-Nav: Hybrid ReasOning Enables Efficient Embodied Navigation](/202604/11/2604.08232v1-hiro-nav-hybrid-reasoning-enables-efficient-embodied-navigation)  
+   evidence：使用时空图神经网络进行多目标跟踪和轨迹建模
+8. [Fail2Drive: Benchmarking Closed-Loop Driving Generalization](/202604/13/2604.08535v1-fail2drive-benchmarking-closed-loop-driving-generalization)  
    标签：评分：7.0/10、query:tp
-   evidence：用于复杂场景自主移动的具身导航智能体
-7. [Exploring Motion-Language Alignment for Text-driven Motion Generation](/202604/11/2604.02973v1-exploring-motion-language-alignment-for-text-driven-motion-generation)  
+   evidence：模拟器中闭环驾驶泛化能力的基准测试
+9. [A Trajectory-based Approach to the Computation of Controlled Invariants with application to MPC](/202604/13/2604.07225v1-a-trajectory-based-approach-to-the-computation-of-controlled-invariants-with-application-to-mpc)  
    标签：评分：6.0/10、query:tp
-   evidence：运动-语言对齐和运动模式表示
-8. [Grounding Hierarchical Vision-Language-Action Models Through Explicit Language-Action Alignment](/202604/11/2604.05614v1-grounding-hierarchical-vision-language-action-models-through-explicit-language-action-alignment)  
+   evidence：基于轨迹的MPC控制不变集计算方法
+10. [Event-Centric World Modeling with Memory-Augmented Retrieval for Embodied Decision-Making](/202604/13/2604.07392v1-event-centric-world-modeling-with-memory-augmented-retrieval-for-embodied-decision-making)  
    标签：评分：6.0/10、query:tp
-   evidence：分层VLA模型中语言与动作的对齐
-9. [Rhythm-consistent semi-Markov simulation of tourist mobility rhythms with probabilistic event-to-POI assignment: Hakone, Japan](/202604/11/2604.06672v1-rhythm-consistent-semi-markov-simulation-of-tourist-mobility-rhythms-with-probabilistic-event-to-poi-assignment-hakone-japan)  
+   evidence：动态环境下具身决策的事件中心世界建模
+11. [PRIME: Training Free Proactive Reasoning via Iterative Memory Evolution for User-Centric Agent](/202604/13/2604.07645v1-prime-training-free-proactive-reasoning-via-iterative-memory-evolution-for-user-centric-agent)  
    标签：评分：6.0/10、query:tp
-   evidence：基于GPS轨迹的语义停留事件序列
-10. [Second Order Physics-Informed Learning of Road Density using Probe Vehicles](/202604/11/2604.07918v1-second-order-physics-informed-learning-of-road-density-using-probe-vehicles)  
-   标签：评分：6.0/10、query:tp
-   evidence：利用物理信息学习从稀疏轨迹数据重建交通密度
-11. [How Far Are Large Multimodal Models from Human-Level Spatial Action? A Benchmark for Goal-Oriented Embodied Navigation in Urban Airspace](/202604/11/2604.07973v1-how-far-are-large-multimodal-models-from-human-level-spatial-action-a-benchmark-for-goal-oriented-embodied-navigation-in-urban-airspace)  
-   标签：评分：6.0/10、query:tp
-   evidence：目标导向导航与空间决策基准
+   evidence：细化自主智能体对用户意图的理解
 
 
 <div class="dpr-home-promo-card">
