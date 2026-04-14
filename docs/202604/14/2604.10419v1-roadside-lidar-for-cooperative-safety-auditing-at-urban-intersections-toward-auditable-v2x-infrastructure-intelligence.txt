@@ -1,0 +1,440 @@
+Title: Roadside LiDAR for Cooperative Safety Auditing at Urban Intersections: Toward Auditable V2X Infrastructure Intelligence
+
+URL Source: https://arxiv.org/pdf/2604.10419v1
+
+Published Time: Tue, 14 Apr 2026 01:24:45 GMT
+
+Number of Pages: 9
+
+Markdown Content:
+# Roadside LiDAR for Cooperative Safety Auditing at Urban Intersections: Toward Auditable V2X Infrastructure Intelligence 
+
+## Bo Shang, Yiqiao Li The City College of New York  
+
+> {bshang, yli4 }@ccny.cuny.edu
+
+## Abstract 
+
+Urban intersections expose the limitations of single-vehicle perception under occlusion and partial observability. In this study, we present an auditable roadside LiDAR frame-work for infrastructure-assisted safety analysis at a sig-nalized urban intersection in New York City, developed and evaluated using real-world data. The proposed frame-work integrates trajectory construction, iterative human-in-the-loop quality assurance (QA), and interpretable near-miss analytics to produce defensible safety evidence from infrastructure sensing. Using a human-labeled heavy vehicle–bicycle interaction as an anchor case, we show that direction-agnostic time-to-collision (TTC) drops below 1 s, while longitudinal TTC remains above conservative braking thresholds, revealing a lateral-intrusion-dominated conflict mechanism. Beyond individual cases, continuous-window evaluation and multi-round QA analysis demonstrate that the framework systematically reduces failure modes such as track fragmentation, spurious TTC triggers, unstable geom-etry, and cross-lane false conflicts. These results position roadside LiDAR as a practical post-hoc auditing mecha-nism for cooperative perception systems, with broader sta-tistical validation discussed. This work provides a pathway toward scalable, data-driven safety auditing of urban inter-sections, enabling transportation agencies to identify and mitigate high-risk interactions beyond crash-based analy-ses. 
+
+## 1. Introduction 
+
+Autonomous driving has advanced rapidly in 3D detec-tion, tracking, and scene understanding, yet most deployed pipelines remain fundamentally single-vehicle-centric and therefore constrained by occlusion, limited viewpoints, and partial observability. These limitations are especially acute at urban intersections, where safety-critical interactions of-ten unfold across crosswalks, turning lanes, and transient blind zones. Vehicle-to-Everything (V2X) and infrastructure-assisted perception offer a complementary paradigm by extending observability beyond the ego vehicle. In this paper, we fo-cus on a key subproblem within full-stack cooperative au-tonomy: how can roadside sensing provide auditable and 
+
+interpretable safety evidence for reviewing safety-critical interactions at intersections? We study auditability and in-terpretability in the context of infrastructure-based evalua-tion, with a scope that focuses on evidentiary transparency and reviewability, rather than encompassing broader trust-worthiness dimensions such as communication robustness, cybersecurity or regulatory compliance. We investigate this question through a real-world pi-lot deployment of a roadside LiDAR–first safety-auditing pipeline at a site-specific urban intersection in New York City. The pipeline integrates 3D object detection, multi-object tracking, conservative trajectory refinement, a dynamics-aware post-tracking stabilization stage, and struc-tured human-in-the-loop Quality Assurance (QA) to con-struct auditable trajectories for downstream surrogate safety analysis. The primary contribution lies in system design and validation methodology: how standard perception compo-nents are constrained, stabilized, reviewed, and interpreted to produce defensible safety evidence. We use a human-labeled heavy vehicle–bicycle near-miss as an anchor case. Standard direction-agnostic Time-To-Collision (TTC) rapidly collapses below 1 s, while lon-gitudinal TTC relative to the heavy vehicle heading stays above conservative braking thresholds. This divergence suggests a lateral-intrusion-dominated interaction rather than insufficient longitudinal stopping capacity. Beyond this anchor case, we evaluate the tracking pipeline on continuous frame windows with stitched ground-truth tra-jectories and summarize repeated QA rounds that expose the dominant failure modes of infrastructure-side near-miss mining. The paper makes four major contributions. First, we present an end-to-end roadside LiDAR pipeline for au-ditable safety analysis at a real-world urban intersection. Second, we establish an 8,000-frame manually annotated 
+
+> arXiv:2604.10419v1 [cs.ET] 12 Apr 2026
+
+roadside LiDAR resource with frame-level cuboids plus later trajectory-level QA artifacts. Third, we demonstrate how structured review rounds transform raw detection and tracking outputs into a defensible and auditable near-miss analysis workflow. Fourth, we use longitudinal TTC, con-trasted against direction-agnostic TTC, as an explanatory diagnostic for distinguishing braking-limited and lateral-intrusion-dominated interactions in roadside trajectory au-diting. 
+
+## 2. Related Work 
+
+Cooperative perception and vehicle–infrastructure systems aim to reduce observability gaps through roadside sensing and shared scene context [3, 6, 12]. Public datasets such as DAIR-V2X, V2X-Seq, TUMTraf-V2X, and UrbanIng-V2X have accelerated work on feature fusion, communi-cation efficiency, and cooperative perception benchmarks [10, 14, 15, 17]. In contrast, our work is single-site and narrower in scale, but it contributes a different artifact: a reviewed roadside LiDAR record built for safety auditing rather than only benchmark training and fusion evaluation. Roadside LiDAR has also been used for intersection monitoring, traffic participant tracking, and occlusion-aware assistance [8, 9, 16]. Meanwhile, surrogate safety measures such as TTC and Post-Encroachment Time (PET) remain standard tools for conflict analysis when crashes are too rare for direct estimation [2, 4, 7]. TTC itself has long been used in essentially longitudinal car-following set-tings, and later work generalized TTC to unconstrained two-dimensional motion [5, 11]. Our contribution is the use of longitudinal TTC, contrasted against direction-agnostic TTC, as an interpretive diagnostic within an auditable road-side trajectory pipeline. Despite recent advances, there re-mains a lack of an auditable pipeline that unifies roadside trajectory construction, structured human review, and near-miss interpretation into a transparent and reviewable arti-fact. This work seeks to fill that gap. 
+
+## 3. Methodology 
+
+Figure 1 summarizes the methodology as a perception-to-audit workflow. The perception stack covers Stage 1 de-tections, Stage 2 identity-consistent tracks, and Stage 3 re-fined trajectories; human-in-the-loop review then acts as a supervisory validation layer before and during Stage 4 near-miss analytics, which produces the final auditable safety ev-idence. 
+
+3.1. Stage 1: 3D detection. 
+
+Each frame is processed using a fine-tuned CenterPoint de-tector [13] trained on our 8,000 manually annotated road-side LiDAR dataset. For each detected object, the model outputs a class label c, confidence score s, and 3D bounding box parameters (x, y, z ) (center coordinates), (dx, d y , d z )
+
+(box dimensions), and ψ (heading angle). 
+
+3.2. Stage 2: Multi-object tracking for Data Asso-ciation. 
+
+To establish temporal correspondence, detections are asso-ciated across frames using a SORT-style tracking frame-work [1] that integrates Kalman filtering with bird’s-eye-view (BEV) gating. This step produces stable and persistent track identities, forming the basis for reliable trajectory-level analysis. 
+
+3.3. Stage 3: Refinement and stabilization. 
+
+While multi-object tracking provides temporally consistent identities, the resulting trajectories often exhibit frame-level noise, orientation jitter, and occasional misalignment due to detection uncertainty and association errors. This noise can propagate into downstream safety metrics (e.g., TTC) and compromise interpretability. Therefore, a refinement stage is necessary to improve temporal stability while preserving auditability. 
+
+Branch-level refinement policy. To keep the audited comparisons controlled, we maintain three post-tracking re-finement branches under identical upstream detections and audited frame windows. B0 retains the raw tracked tra-jectories as a baseline. B1 introduces a selective correc-tion mechanism that targets potentially unreliable track seg-ments. Suspicious tracklets are identified based on three cri-teria: (i) yaw-step discontinuities , defined as abrupt frame-to-frame changes in the estimated heading angle ψt that ex-ceed a predefined threshold and are inconsistent with physi-cally plausible motion; (ii) registration disagreement , mea-sured as the mismatch between the predicted state from the tracker (e.g., Kalman filter extrapolation) and the ob-served detection, typically quantified by BEV spatial resid-uals or IoU-based inconsistencies; and (iii) a thresholded suspicion score , which aggregates normalized indicators (e.g., yaw variation, position error, and detection confidence drops) into a composite reliability score used to flag unsta-ble track segments. For tracklets flagged as suspicious, B1 
+
+applies capped frame-level corrections , where adjustments to position and orientation are bounded to prevent over-smoothing or distortion of genuine motion patterns. These corrections are only applied when registration quality is deemed sufficient , meaning that the detection-to-track align-ment satisfies minimum criteria (e.g., IoU above a thresh-old or residual below a tolerance), ensuring that corrections are anchored to reliable observations rather than propagat-ing tracking errors. B2 applies stronger frame-wise tempo-ral smoothing across the entire trajectory, enforcing higher temporal consistency but at the potential cost of attenuating sharp but valid motion changes. We use B1 as the practical default because it preserves Table 1. Positioning of this work relative to representative infrastructure-side datasets. 
+
+Resource Scale / coverage Sensing setup Annotation emphasis Primary tasks Audit/QA Distinguishing scope DAIR-V2X [14] large real-world V2X benchmark vehicle + infras-tructure multi-view sensing 3D object labels for co-operative perception cooperative 3D de-tection no broader V2X benchmark scale; not organized around reviewed safety events V2X-Seq [15] sequential real-world V2X scenes vehicle + infrastruc-ture sequential sens-ing sequence labels sup-porting perception and prediction cooperative percep-tion, forecasting no temporal V2X benchmark; audit-oriented near-miss in-terpretation is not primary TUMTraf-V2X [17] urban intersection traf-fic scenes multi-sensor vehicle– infrastructure setup scene-level labels for cooperative scene un-derstanding cooperative percep-tion at intersections no intersection-focused bench-mark with broader sensor stack, but not structured around safety auditing UrbanIng-V2X [10] broader multi-intersection benchmark multi-site vehicle– infrastructure sens-ing benchmark labels for cooperative perception multi-intersection cooperative percep-tion no larger geographic coverage and benchmark scope than this study This work single-site pilot road-side deployment fixed roadside LiDAR-first sensing 3D boxes, trajectories, reviewed near-miss cases, QA artifacts detection, tracking, audited near-miss analysis yes narrower scale but unique emphasis on auditable tra-jectories, reviewed conflict interpretation, and hotspot-oriented safety analysis 
+
+Figure 1. Conceptual overview of the roadside LiDAR safety-auditing architecture. Raw point clouds are converted into detections, trajectories, and stabilized motion estimates, then reviewed through a human-in-the-loop QA layer and interpreted with surrogate-safety analytics to produce auditable safety evidence such as reviewed near-miss cases, conflict mechanisms, and risk hotspots. 
+
+audited pair-level summaries while modestly reducing ori-entation jitter. Longitudinal TTC is then applied to the se-lected audited pairs as an interpretive diagnostic rather than a standalone binary event threshold. 
+
+Dynamics-aware stabilization extension. Beyond the B0/B1/B2 branch comparison, we also evaluate a separate dynamics-aware stabilization module. This extension is in-tended to suppress high-frequency noise while enforcing physically plausible motion, but because it can materially change the recovered anchor-case geometry, we report it separately rather than fold it into the default audited branch. Let pt = ( xt, y t)⊤ denote the observed box center (BEV center), ψt the heading, and dt = ( daligned  
+
+> x,t
+
+, d aligned  
+
+> y,t
+
+, d z,t )⊤
+
+the aligned dimensions. Let Wt denote a centered temporal window. 
+
+Position smoothing and stabilization. A local estimator is first constructed as a weighted average: 
+
+¯pt =
+
+P  
+
+> τ∈W t
+
+wt,τ pτ
+
+P  
+
+> τ∈W t
+
+wt,τ 
+
+, wt,τ ≥ 0, (1) where wt,τ denotes the temporal smoothing weight. In the current implementation, wt,τ = 1 for frames τ ∈ W t and 
+
+wt,τ = 0 otherwise, yielding a centered moving average with a default window size of 9 frames. The smoothed po-sition is then passed through a separate constant-velocity prior, so temporal averaging and motion regularization are applied in two successive steps. Let ˜pt denote the stabilized position and define the finite-difference velocity 
+
+vt−1 = ˜pt−1 − ˜pt−2
+
+∆t . (2) A constant-velocity prediction is given by 
+
+ˆpt = ˜ pt−1 + vt−1∆t. (3) The stabilized estimate is obtained via convex combination: 
+
+˜pt = (1 − α) ¯ pt + α ˆpt, α ∈ [0 , 1] . (4) 
+
+Heading stabilization. To account for angular periodic-ity, heading is smoothed using circular averaging: 
+
+¯ψt = atan2 X 
+
+> τ∈W t
+
+wt,τ sin ψτ , X 
+
+> τ∈W t
+
+wt,τ cos ψτ
+
+!
+
+. (5) Equation (5) computes a weighted circular mean of yaw an-gles over a temporal window by averaging their sine and cosine components and recovering the orientation via the 
+
+atan 2 function. This formulation avoids discontinuities due to angular wrap-around and yields a stable and phys-ically consistent estimate of heading. Let ψmotion  
+
+> t
+
+denote the motion-induced heading (e.g., path tangent). Define the wrapped angular difference 
+
+∆ψ(a, b ) := wrap( a − b) ∈ (−π, π ].
+
+A blended heading is first computed as 
+
+ψblend  
+
+> t
+
+= ¯ψt + β ∆ψ(ψmotion  
+
+> t
+
+, ¯ψt), β ∈ [0 , 1] . (6) In the current implementation, β is adaptive rather than fixed. Let st denote speed, smin the minimum speed at which motion heading becomes reliable, and let rt denote the resulting heading-reliability coefficient: 
+
+rt = min 
+
+ st − smin 
+
+smin + 0 .75 , 1
+
+
+
+,αt = αlow + ( αhigh − αlow ) rt.
+
+(7) Here αt denotes the implementation-side raw-yaw blend factor, while rt measures heading reliability from motion evidence. with defaults αlow = 0 .35 , αhigh = 0 .08 , and 
+
+smin = 0 .75 m /s. Because the implementation parameter-izes the blend from the motion-heading side, the equivalent coefficient in Eq. (6) is 
+
+βt =
+
+(
+
+1 − αt, if |∆ψ( ¯ψt, ψ motion  
+
+> t
+
+)| ≤ ϵψ ,
+
+1, otherwise, 
+
+ϵψ = 20 ◦.
+
+(8) Thus βt increases with motion reliability: at low speed the blend remains closer to the raw smoothed heading, while at higher speed it shifts toward the motion-induced heading. To enforce a bounded turn rate, the update is constrained by projection onto the admissible increment set: 
+
+˜ψt = ˜ψt−1 + Π [−ωmax ∆t, ω max ∆t]
+
+ ∆ψ(ψblend  
+
+> t
+
+, ˜ψt−1),
+
+(9) where ωmax is the maximum allowed angular velocity, so the proposed heading increment is clipped to the inter-val [−ωmax ∆t, ω max ∆t]: the lower bound −ωmax ∆t is the largest allowed clockwise step and the upper bound 
+
++ωmax ∆t is the largest allowed counterclockwise step. Here Π[a,b ](x) = min(max( x, a ), b ) denotes scalar clip-ping onto [a, b ]. In the current implementation this is realized as a per-frame angular-step limit, with default 
+
+ωmax ∆t = 2 .5◦ for consecutive frames and proportional scaling for larger frame gaps. Optionally, ˜ψt is back-propagated from the first reliable-motion frame to stabilize low-speed initialization. 
+
+Dimension stabilization. Object dimensions are stabi-lized componentwise via robust estimation: 
+
+˜di = arg min 
+
+> d
+
+X
+
+> t
+
+ρ(di,t − d), i ∈ { x, y, z }, (10) and ˜d = ( ˜dx, ˜dy , ˜dz )⊤, where ρ(·) is a convex robust loss (e.g., ℓ1). di,t is the observed size at time t. d is candidate ”true” dimension. 
+
+3.4. Cross-Cutting Audit Layer: Human QA. 
+
+Automated review queues are exported as short tracklet windows with aligned point-cloud context, box overlays, and candidate-event metadata so that reviewers inspect the same evidence used by downstream mining. Each queued item is checked for identity continuity, pose plausibility, split/merge failures, and whether the apparent event reflects a true conflict, a TTC misuse case, or a geometry / lane-assignment artifact. Reviewer outcomes are stored as struc-tured correction records rather than free-form notes, includ-ing keep / reject decisions, dominant failure tags, and any required track-level corrections. These records are then fed back into the pipeline in two ways: they correct the au-dited track outputs for reported examples, and they update the near-miss screening logic by exposing recurring false-positive modes such as fragmented tracks, invalid closing-motion assumptions, and unstable box geometry. 
+
+3.5. Stage 4: Near-Miss Analytics. 
+
+Candidate pairs are first screened by direction-agnostic TTC and minimum separation, then interpreted with lon-gitudinal TTC to distinguish longitudinal braking-limited risk from lateral-intrusion-dominated interactions. We use Figure 2. Study intersection and roadside sensing setup used for the pilot deployment. 
+
+TTC as a standard surrogate safety measure from the traffic-conflict literature [2, 4, 7], while minimum separation is treated here as a practical implementation-specific BEV clearance proxy rather than a canonical published metric. For a candidate pair indexed by i ∈ {1, 2}, let ∆p =
+
+p2 − p1, ∆v = v2 − v1, and ri = 12
+
+q
+
+d2 
+
+> x,i
+
++ d2 
+
+> y,i
+
++ β,where dx,i , d y,i are the BEV box dimensions of participant 
+
+i, β is a fixed radius buffer (0.3 m in the current implemen-tation), and t indexes frames within the interaction window. We use 
+
+st = ∥∆p(t)∥ −  r1(t) + r2(t), (11) 
+
+TTC( t) = 
+
+
+
+−∆p(t) · ∆v(t)
+
+∥∆v(t)∥2 , ∆p(t) · ∆v(t) < 0,
+
++∞, otherwise ,
+
+(12) and summarize each candidate pair by min t st and 
+
+min t TTC( t) over the interaction window. Negative minimum-separation values therefore indicate overlap of the size-adjusted BEV proxies, not literal physical penetra-tion. 
+
+## 4. Experimental Setup 
+
+Study site and sensing. Data were collected at the signal-ized intersection of Convent Ave & W 141st St near the City College of New York using a fixed roadside Ouster OS-1-128 LiDAR operating at 10 Hz. The deployment is a fixed elevated oblique-view setup covering the intersection center and crosswalk approaches. All object positions, trajecto-ries, and near-miss measurements are reported in one com-mon BEV coordinate system aligned to this intersection and held fixed throughout the study. 20 10 0 10 20 30 40 50 
+
+> x (m)
+> 20
+> 10
+> 0
+> 10
+> 20
+> 30
+> y (m)
+> ego
+> Truck trajectory
+> Bicycle trajectory
+> Truck box (human label)
+> Bicycle box (human label)
+> 2
+> 1
+> 0
+> 1
+> 2
+> 3
+> Point Height z (m), capped at 3 m
+
+Figure 3. Representative roadside LiDAR point cloud from the audited interaction window, shown in bird’s-eye view with human-labeled truck and bicycle cuboids. 
+
+Annotation resource. The 8,000 study set consists of frame-level 3D cuboid annotations for four coarse classes: car, truck, pedestrian, and bicycle. Source annotations were created in MATLAB LiDAR Labeler at the native 10 Hz frame rate, then converted into the formats used for detec-tor training and audit evaluation. Quality control has two stages: human-reviewed ground-truth frame-label review for detector evaluation and later trajectory-level re-review for audited windows. This differs from benchmark-only in-frastructure datasets by combining frame labels with later trajectory-QA artifacts and reviewed near-miss analysis. 
+
+Evaluation protocol. We report three forms of evidence: detector performance against human-reviewed ground truth, branch-level tracking and refinement comparisons on au-dited and continuous frame windows with stitched ground-truth trajectories, and human cross-checks for reviewed near-miss candidates. The present paper is a single-site pi-lot, so these results should be interpreted as feasibility and auditability evidence rather than a comprehensive general-ization study. This deployment choice is intentional: by fixing the sen-sor, calibration frame, and site geometry, the study estab-lishes a controlled audit reference rather than a general-purpose multi-site benchmark. The trade-off is that syn-chronization error, calibration maintenance across many in-tersections, and bandwidth-constrained V2X delivery are left to future systems work. 30 25 20 15 10 5                      
+
+> x (m)
+> 5
+> 0
+> 5
+> 10
+> 15
+> y (m)
+> (a) Truck Match
+> frame 7199
+> IoU3D=0.937, BEV=0.943
+> yaw err=1.1 , center err=0.09 m
+> 15 10 50510
+> x (m)
+> 0
+> 5
+> 10
+> 15
+> 20
+> 25
+> y (m)
+> (b) Car Match
+> frame 6821
+> IoU3D=0.971, BEV=0.978
+> yaw err=0.5 , center err=0.01 m
+> 25 20 15 10 50
+> x (m)
+> 0
+> 5
+> 10
+> 15
+> 20
+> 25
+> y (m)
+> (c) Car Offset
+> frame 7165
+> IoU3D=0.283, BEV=0.306
+> yaw err=75.1 , center err=0.52 m
+> 18.0 18.5 19.0 19.5 20.0 20.5
+> x (m)
+> 3.0
+> 2.5
+> 2.0
+> 1.5
+> 1.0
+> y (m)
+> (d) Pedestrian Offset
+> frame 6853
+> IoU3D=0.426, BEV=0.458
+> yaw err=0.3 , center err=0.16 m
+> Ground truth Prediction Other GT boxes Other predicted boxes
+
+Figure 4. Qualitative detection examples from the CenterPoint model trained on the 8,000-frame dataset, evaluated on the consec-utive validation split: (a) a high-overlap truck match, (b) a high-overlap car match, (c) a car case with noticeable localization offset, and (d) a single-pedestrian case with moderate localization offset. Car and truck detections are generally strong, while small-object localization remains more fragile. Table 2. Compact quantitative summary of the main pipeline and audit-layer components. 
+
+Component Result Detector (human-reviewed GT holdout) Vehicle AP@0.70 (R40) 76.38%; native AP: car 89.75%, truck 54.55%, pedestrian 60.10%; 38.31 fps B0 baseline refinement F1 0.9825; yaw p95 15.19 ◦
+
+B1 registration-guided refinement F1 0.9825; yaw p95 14.04 ◦
+
+B2 temporal smoothing F1 0.9780; yaw p95 3.92 ◦
+
+Dynamics-aware stabi-lization Heading-motion error 10.45 ◦ → 2.36 ◦;heading-step 0.0251 → 0.0040 rad 
+
+Table 3. Tracking evaluation on continuous frame win-dows against ground-truth trajectories stitched across consecutive frames. A predicted box is counted as a match when its BEV cen-ter lies within 1.5 m of the corresponding ground-truth box center. 
+
+Window Precision Recall F1 yaw p95 
+
+First 2000 frames 0.6947 0.9858 0.8150 3.88 ◦
+
+First 4000 frames 0.5734 0.8677 0.6905 6.50 ◦
+
+Sequential validation slice 0.6036 0.6726 0.6362 3.47 ◦
+
+Table 4. Human cross-check summary for near-miss validation. 
+
+Cross-check item Result Evidence Completed dashboard review deci-sions 26 rounds 000– 003 Confirmed true near-miss decisions 1 round 002 Provisional / borderline positives 1 round 001 Deferred decisions pending better ge-ometry 1 round 002 Anchor-case class-pair agreement yes truck–bicycle 
+
+Table 5. Iterative trajectory-QA validation rounds for refining the near-miss review pipeline. 
+
+Round Cases Issue Main change or finding 000 10 tracking breaks No true near-miss; track fragmen-tation filtered before metric tun-ing. 001 10 TTC misuse /weak distance Motion filtering and TTC gating reduced over-triggering in near-static or yielding cases. 002 3 TTC / clearance ambiguity Anti-repeat sampling removed re-play pairs; one near-miss re-mained but clearance was unreli-able. 003 3 box geometry / lane conflict Stationary-aware TTC and BEV clearance reduced false positives; geometry still unstable. 
+
+## 5. Results 
+
+5.1. Detection, Tracking, and QA 
+
+Table 2 shows that the paper’s strongest quantitative sup-port is not detector novelty but the combination of reviewed trajectory construction and controlled refinement. B1 pre-serves the audited F1 of the baseline while modestly re-ducing yaw jitter, whereas B2 achieves stronger smoothing at a small cost in F1. The dynamics-aware branch further improves geometric consistency, but because it materially changes the anchor near-miss geometry, we report it as a separate engineering extension rather than substitute it into the core audited comparison. Figure 4 is consistent with a local-domain deployment story rather than cross-site generalization: the detector lo-calizes cars and trucks well in the study geometry, but pedestrian-scale and weak-overlap cases remain more brit-tle. Table 3 broadens the evidence beyond the anchor in-teraction. Performance is strongest on the shorter first-2000 slice and declines on longer windows, mainly through ac-cumulated false positives and missed long-tail cases rather than catastrophic geometric instability. The iterative QA process in Table 5 is equally important: dominant failure modes evolved from track fragmentation to TTC misuse, then to geometry instability and different-lane false con-flicts. The public QA dashboard records 26 completed re-Table 6. Anchor near-miss comparison for the same truck–bicycle interaction. Minimum separation is a signed size-adjusted clear-ance; negative values in ∆ indicate that the model predicts a tighter or more overlapping interaction than the human reference.                   
+
+> Metric Human Model ∆
+> Min TTC (s) 0.62 0.55 -0.07 Min separation (m) 0.81 0.20 -0.61 Min center distance (m) 6.47 5.61 -0.86 Min TTC timing reference +2 frames +0.2 s Min sep. timing reference +2 frames +0.2 s
+
+Table 7. Multi-case audited near-miss summary from the same run under the final conservative trajectory pipeline. ‘Min sep.’ de-notes signed size-adjusted clearance, so negative values indicate estimated overlap under the box proxy.                   
+
+> Case Pair Min TTC (s) Min sep. (m) 01 truck-bicycle 0.552 0.201 02 truck-truck 0.131 -4.017 03 car-bicycle 0.455 5.870 04 car-car 2.563 12.563 05 truck-car 1.249 5.009
+
+view decisions across rounds 000–003. 1
+
+These results also clarify what is and is not being claimed. We do not present an apples-to-apples leaderboard comparison against recent cooperative fusion methods be-cause those works use different sensing stacks, synchro-nization assumptions, communication protocols, and target tasks. Instead, the present evaluation focuses on what is directly valid under this roadside audit setup: detector per-formance against human-reviewed ground truth, controlled branch-level refinement trade-offs, broader continuous-window tracking behavior with stitched ground-truth trajec-tories, and reviewed model-versus-human near-miss timing agreement. 
+
+5.2. Near-Miss Interpretation 
+
+For the anchor truck–bicycle interaction, the model recov-ers the same critical timing within two frames of the human reference (Table 6) but estimates a tighter minimum gap. This behavior is consistent with residual box-geometry un-certainty even when interaction timing is largely preserved. Table 7 shows that the audited analysis is not limited to one pair type. Within the same deployment, the re-viewed set also contains truck–truck, car–bicycle, car–car, and truck–car interactions. These cases are still too few for a full statistical study, but they help demonstrate that the audit pipeline is being exercised across multiple interaction types rather than only the anchor truck–bicycle example. To interpret the interaction dynamics beyond direction-agnostic safety screening, we compute the longitudinal     
+
+> 1trajectory-qa.aimobilitylab.xyz/ 510 15 20 25
+> x (m)
+> 5
+> 0
+> 5
+> 10
+> 15
+> y (m)
+> Model trajectories
+> Heavy vehicle (thick)
+> Bicycle (thin)
+> Event Markers
+> Circle: conflict onset
+> Square: brake onset
+> Star: minimum TTC
+> 1
+> 2
+> 3
+> 4
+> 5
+> 6
+> Speed (m/s)
+
+Figure 5. Spatiotemporal interaction window for the anchor heavy vehicle–bicycle encounter. Trajectories are colored by speed, and event markers indicate conflict onset, brake onset, and minimum TTC. 
+
+time-to-collision (TTC ∥) for the heavy vehicle. Let vh
+
+denote the heavy vehicle velocity and ˆe∥ = vh/∥vh∥ its unit heading direction. For bicycle position pb and heavy-vehicle position ph,
+
+d∥(t) = ( pb(t) − ph(t)) · ˆe∥,v∥(t) = ( vb(t) − vh(t)) · ˆe∥,
+
+TTC ∥(t) = 
+
+
+
+d∥(t)
+
+−v∥(t) , v∥(t) < 0,
+
++∞, otherwise .
+
+Figure 5 shows the interaction geometry in space and time, while Fig. 6 summarizes the corresponding surrogate-safety curves. Direction-agnostic TTC decreases sharply from above 2 s to a minimum near 0.62 s, while longitu-dinal TTC shows only a shallow minimum around 3.1 s. This discrepancy suggests that the near-miss is not primar-ily constrained by the heavy vehicle’s longitudinal braking authority. Instead, it is more consistent with rapid lateral intrusion by the bicycle, which compresses the available safety margin despite sufficient stopping capacity along the truck heading. We therefore use longitudinal TTC here as a mechanism-explanation tool, not as a replacement for the primary event-mining criterion. At larger scale within the same deployment, automati-cally mined movement summaries over the first 16,000 pre-dicted frames yielded 336 movement-valid tracks, 6,046 quality-filtered candidate pairs, and 604 near-miss events. We use this aggregate only as a recurrence indicator rather than a human-validated benchmark, but it supports the view that the anchor case is not an isolated artifact of one short window. 0        
+
+> 2
+> 4
+> 6
+> Speed (m/s)  Truck speed-time: mostly flat -> mild change -> braking hold
+> 1
+> 2
+> TTC (s)
+> TTC: drops from >2 s to <1 s
+> 0.0 2.5 5.0 7.5 10.0 12.5 15.0 17.5 20.0
+> Relative time (s)
+> 0
+> 2
+> 4
+> Longitudinal TTC (s)
+> shallow valley @ frame 6521
+> ~3.09 s
+> Interpretive threshold (not a near-miss threshold): 1 s
+
+Figure 6. Anchor heavy vehicle–bicycle interaction. The x-axis shows relative time in seconds from the start of the audited in-teraction window. Top: heavy-vehicle speed. Middle: direction-agnostic TTC rapidly drops below 1 s. Bottom: longitudinal TTC remains above conservative braking thresholds, suggesting a lateral-intrusion-dominated interaction. 
+
+Figure 7. Post–8,000-frame vehicle–VRU near-miss overlay mined from subsequent roadside LiDAR data outside the labeled set. The label n = 180 denotes the number of selected zero-margin cases plotted in this heatmap. Automatically detected events remain concentrated within the same central conflict zone. 
+
+Figure 7 provides the qualitative recurrence view behind that aggregate summary. Although these later events are not human-validated one by one, the hotspot concentra-tion persists in the same central intersection region rather than dispersing uniformly across the scene. That recurrence supports the broader claim that roadside sensing can ex-pose site-specific conflict structure over time, even when the present paper remains focused on post-hoc auditing rather than real-time intervention. 
+
+## 6. Discussion and Conclusion 
+
+This pilot shows how roadside LiDAR can be used as an external safety-audit reference at a complex urban intersec-tion. The main contribution is not a new perception back-bone, but a workflow that makes infrastructure-side trajec-tories more reviewable through conservative refinement, re-peated QA, and mechanism-aware near-miss interpretation. The evaluation remains intentionally limited. Although we include detector results against human-reviewed ground truth, audited branch comparisons, stitched-window track-ing evaluation, and human cross-checks, the paper does not yet provide a large-scale event-level benchmark across vehi-cle classes, traffic conditions, or multiple sites. The present claims should therefore be read as evidence of feasibility, auditability, and initial explanatory value rather than defini-tive reliability or full-stack trustworthiness guarantees. Future work should expand the current pipeline to larger multi-intersection studies with more extensive model-versus-human near-miss validation, stronger identity-consistent tracking metrics, and explicit treatment of syn-chronization, communication, and calibration constraints. A longer journal version is ongoing work and will elab-orate the broader dataset comparison, full QA dashboard evidence, post-8,000 hotspot recurrence analysis, and addi-tional engineering extensions such as learned residual sta-bilization. 
+
+## References 
+
+[1] Alex Bewley, Zongyuan Ge, Lionel Ott, Fabio Ramos, and Ben Upcroft. Simple online and realtime tracking. In 2016 IEEE International Conference on Image Processing (ICIP) ,pages 3464–3468, 2016. [2] D. Gettman and L. Head. Surrogate safety mea-sures from traffic simulation models. Technical Report FHWA-RD-03-050, Federal Highway Ad-ministration (FHWA), 2003. HTML landing page: https://www.fhwa.dot.gov/publications/research/safety/03050/07.cfm. [3] T. Huang et al. Vehicle-to-everything cooperative perception for autonomous driving: A survey. arXiv preprint, 2023. [4] Christer Hyd´ en. The swedish traffic conflicts technique. Technical report / calibration study, 1987. [5] Jonas Jansson. Collision Avoidance Theory: with Applica-tion to Automotive Collision Mitigation . Phd dissertation, Link¨ oping University, Link¨ oping, Sweden, 2005. [6] Y. Ji et al. Toward autonomous vehicles: A survey on coop-erative vehicle-infrastructure system. iScience , 2024. [7] C. Johnsson et al. A relative approach to the validation of surrogate measures of safety. Accident Analysis & Preven-tion , 2021. [8] C. Lin et al. Vehicle detection and tracking with roadside lidar using low-latency edge computing. Sensors , 2023. [9] Y. Mo et al. Enhanced perception for autonomous vehicles at intersections using roadside sensing and v2x communica-tion. Sensors , 2024. [10] Karthikeyan Chandra Sekaran, Markus Geisler, Do-minik R¨ oßle, Adithya Mohan, Daniel Cremers, Wolfgang Utschick, Michael Botsch, Werner Huber, and Torsten Sch¨ on. Urbaning-v2x: A large-scale multi-vehicle, multi-infrastructure dataset across multiple intersections for co-operative perception. arXiv preprint, 2025. Code/dataset: https://github.com/thi-ad/UrbanIng-V2X. [11] James R. Ward, Gabriel Agamennoni, Stewart Worrall, Asher Bender, and Eduardo Nebot. Extending time to col-lision for probabilistic reasoning in general traffic scenar-ios. Transportation Research Part C: Emerging Technolo-gies , 51:66–82, 2015. [12] M. Yazgan et al. Collaborative perception datasets in au-tonomous driving. arXiv preprint, 2024. [13] Tianwei Yin, Xingyi Zhou, and Philipp Kr¨ ahenb¨ uhl. Center-based 3d object detection and tracking. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , pages 11784–11793, 2021. [14] Haibao Yu et al. Dair-v2x: A large-scale dataset for vehicle-infrastructure cooperative 3d object detection. In Proceed-ings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , 2022. [15] Haibao Yu et al. V2x-seq: A large-scale sequential dataset for vehicle-infrastructure cooperative perception and fore-casting. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , 2023. [16] Jiaxing Zhang, Chengjun Ge, Wen Xiao, Miao Tang, Jon Mills, Benjamin Coifman, and Nengcheng Chen. Road-side lidar-based scene understanding toward intelligent traf-fic perception: A comprehensive review. ISPRS Journal of Photogrammetry and Remote Sensing , 2026. [17] Walter Zimmer et al. Tumtraf v2x cooperative perception dataset. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , 2024. Project page: https://tum-traffic-dataset.github.io/tumtraf-v2x/ ; arXiv: https://arxiv.org/abs/2403.01316.

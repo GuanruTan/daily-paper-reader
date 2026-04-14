@@ -1,0 +1,287 @@
+Title: VAGNet: Vision-based Accident Anticipation with Global Features
+
+URL Source: https://arxiv.org/pdf/2604.09305v2
+
+Published Time: Tue, 14 Apr 2026 01:57:02 GMT
+
+Number of Pages: 11
+
+Markdown Content:
+*correspondence: charithc@cse.mrt.ac.lk 
+
+# VAGN et : V ision -based accident anticipation with global features 
+
+Vipooshan Vipulananthan 1 and Charith D. Chitraranjan 1∗
+
+> 1
+
+Department of Computer Science and Engineering, University of Moratuwa, Katubedda 10400, Sri Lanka (e-mail: 
+
+vipooshan.18@cse.mrt.ac.lk, charithc@cse.mrt.ac.lk 
+
+This work has been submitted to the IEEE for possible publication. Copyright may be transferred without notice, after which this version may no longer be accessible. 
+
+## Abstract 
+
+Tra ffi c accidents are a leading cause of fatalities and injuries across the globe. Therefore, the ability to antici-pate hazardous situations in advance is essential. Automated accident anticipation enables timely intervention through driver alerts and collision avoidance maneuvers, forming a key component of advanced driver assis-tance systems. In autonomous driving, such predictive capabilities support proactive safety behaviors, such as initiating defensive driving and human takeover when required. Using dashcam video as input o ff ers a cost-eff ective solution, but it is challenging due to the complexity of real-world driving scenes. Accident anticipation systems need to operate in real-time. However, current methods involve extracting features from each detected object, which is computationally intensive. We propose VAGNet, a deep neural network that learns to predict accidents from dash-cam video using global features of tra ffi c scenes without requiring explicit object-level features. The network consists of transformer and graph modules, and we use the vision foundation model VideoMAE-V2 for global feature extraction. Experiments on four benchmark datasets (DAD, DoTA, DADA, and Nexar) show that our method anticipates accidents with higher average precision and mean time-to-accident while being computationally more e ffi cient compared to existing methods. 
+
+Keywords Advanced driver assistance systems, Computer vision, Transformers, Graph neural networks, Foundation models. 
+
+## 1 Introduction 
+
+Tra ffi c accidents cost more than one million lives annually [1, 2]. Early and accurate anticipation by automated systems can mitigate accidents by warning the driver and, if necessary, initiating collision avoidance maneuvers. Therefore, it plays a critical role in advanced driver assistance systems (ADAS). In autonomous vehicles (AVs), it can proactively trigger a de-fensive driving mode in preparation for collision avoidance [3, 4, 5, 6, 7] or, if applicable, for human takeover [8]. AVs are primarily trained using reinforcement or imitation learning, and they cannot be exposed to all types of hazardous events that can occur in the real-world [9]. This is commonly known as the "long-tail challenge" for AV safety [10, 11]. There-fore, as an additional layer of safety, it is important to have an accident anticipation system trained with a large number of diverse real-world accidents, such as those captured by dash-cams [12, 13, 14, 15]. Systems that use dash-cam video for accident anticipation are both cost-e ff ective and easy to deploy. They can even be retrofitted into existing vehicles, which improves their safety [16, 17]. However, relying on vision is challenging due to the complex nature of driving scenes [18]. Over the last few years, many vision-based approaches utilizing dash-cam input have been proposed [19, 20, 21, 22, 23, 24, 25]. However, these methods involve extracting features from each detected object (usually VGG16 [26] features from up to 19 objects), which is computationally demanding and can a ff ect real-time performance [27]. In this research, we avoid ex-plicit object-level feature extraction and rely only on the global features of video frames. Furthermore, we use VideoMAE-V2 [28] (base model), a pre-trained foundation model, to ex-tract spatiotemporal global features, which provides better per-formance than other feature extractors such as I3D [29] and SlowFast [30] used in previous work. Our hypothesis is that the ability of foundation models to implicitly learn object-related features [31] is su ffi cient to replace explicit object detection and feature extraction. Moreover, most existing methods are not evaluated on unbiased datasets with a su ffi cient number of ego-involved accidents. DAD [32] and CCD [33] are the two dash-cam datasets primar-ily used in most studies. However, the former has very few ego-involved accidents, which is a critical limitation. The latter has a video quality bias between its positive and negative videos, making their discrimination a trivial task [34, 22]. In our evaluations, we use three benchmark datasets containing ego-involved accidents: DADA [14], DoTA [13], and Nexar [12]. We focus on ego-involved accidents, as they are the type that the ego-vehicle can attempt to mitigate directly, unlike those not involving the ego-vehicle. Nevertheless, we evaluated our proposed method on DAD as well for comparison with other work. Our contributions can be summarized as follows. 
+
+• We propose an e ffi cient neural network architecture for accident anticipation that does not require explicit object detection or computationally expensive object-level feature extraction. 
+
+• We demonstrate the e ff ectiveness of our approach with thorough experiments conducted on four benchark datasets. 
+
+## 2 Literature Review 
+
+In recent years, there has been a growing research interest in vision-based accident anticipation, leading to the development of a wide range of new methods. Literature up to 2023 is re-viewed in [18, 35]. In this section, we review related work published from 2024 onward. 
+
+> arXiv:2604.09305v2 [cs.CV] 13 Apr 2026
+
+2Accident anticipation pipelines typically begin with object de-tection, followed by the extraction of object-level features from bounding boxes and global features from the full frame. Pre-trained models are commonly used for object detection (e.g., Faster R-CNN [36]) and feature extraction (e.g., VGG16 [26], I3D [29]). The resulting features are subsequently processed by neural networks with various architectural components to predict accident probabilities. In the nested graph structure proposed by Thakur et al. [21], the detected objects and their features are represented as nodes in a graph (object-level graph), where spatial relationships are modeled by edges between objects in the same frame, and tem-poral relationships are modeled by edges from objects in previ-ous frames. Then, this object-level graph is pooled to produce a frame-level graph, where the nodes represent video frames. Furthermore, another frame-level graph is built using the global features of the frames. Unlike previous methods, they use I3D [29] to generate these global features so that the spatiotem-poral dynamics of the video are captured. Finally, these two frame-level graphs are summarized with graph attention and fully connected layers to generate the probability of an acci-dent. This approach was further improved in [27] by using SlowFast networks [30] for global feature extraction and the ad-dition of long short-term memory units (LSTMs) for direct tem-poral modeling. Another architecture with GNNs is proposed in [20], where object and global features are combined using an attention-based fusion module. Subsequently, the combined features are used to construct a directed graph representing the temporal dependencies across frames. Several approaches have utilized transformers with multi-head attention. The AAT-DA [37] model employs a dual trans-former architecture—a spatial and a temporal transformer—to anticipate accidents. Furthermore, it integrates driver atten-tion [38] when computing attention weights for detected ob-jects, allowing the model to capture the influence of each ob-ject on surrounding objects. The methods proposed in [39, 40] fuse video data, textual descriptions, and driver attention maps using transformer-based architectures. However, they rely on human-annotated textual descriptions of accident videos dur-ing training. CCAF-Net [19] integrates 3D depth information estimated from RGB images with object-level and global vi-sual features. These multi-modal information streams are com-bined using collaborative attention, enabling the model to cap-ture complex spatial relationships. However, computing depth information incurs an additional computing cost. 
+
+## 3 Methodology 
+
+Extracting global contextual information together with object motion across video frames is essential for achieving a compre-hensive understanding of dynamic scenes. Most existing meth-ods [33, 34, 22] rely on pretrained image-based networks, such as VGG16 [26], to obtain global features. However, these ap-proaches are limited to spatial representations and fail to model temporal dependencies across frames. Thakur et al. [21] em-ploy the I3D network [29] to extract global frame-level features from short video clips, enabling joint spatial–temporal model-ing. Nevertheless, such features remain inadequate for e ff ec-tively capturing object interactions over time. To address these limitations, we adopt a pretrained VideoMAE-V2 network [28] to extract robust frame-level spatio-temporal representations. Figure 1 shows the overall architecture of our method. To ob-tain the global feature representation f t 
+
+> fr
+
+for a frame at time step 
+
+t, we input the current frame along with the preceding u frames, denoted as Xseq = (Xt−u, . . . , Xt), into the VideoMAE-V2 net-work. This produces a high-dimensional spatio-temporal fea-ture embedding, which is subsequently projected into a lower-dimensional space using a fully connected (FC) layer. To fur-ther strengthen the modeling of temporal dependencies, the re-duced features are passed through a Transformer Encoder: 
+
+ffr = VideoMAE( Xseq ),
+
+f fc fr = FC( ffr ),
+
+f ′ 
+
+> fr
+
+= TE( f fc fr ),
+
+(4) 
+
+Transformer Encoder (TE). The encoder follows the standard architecture of Vaswani et al. [41], using N = 2 stacked encoder layers and h = 4 attention heads. The encoding process is, 
+
+H0 = f fc fr , Hi = EncoderLayer( Hi−1), i = 1, 2, ..., N (5) where the final encoded representation is f ′ 
+
+> fr
+
+= HN .
+
+Encoder Layer. Each layer consists of multi-head self-attention (MHA) followed by a position-wise fully-connected layer (FC), both with residual connections and layer normal-ization: ˜Hi = LayerNorm( Hi−1 + MHA( Hi−1)) ,
+
+Hi = LayerNorm  ˜Hi + FC( ˜ Hi) . (6) 
+
+Multi-Head Self-Attention. Given an input representation 
+
+H ∈ Rn×dmodel , the multi-head self-attention (MHA) is defined as MHA( H) = Concat(head 1, . . . , head h) WO, (7) where h denotes the number of attention heads and 
+
+WO ∈ Rdmodel ×dmodel is a learnable output projection matrix. Note that in this case, the sequence length n = u + 1 (the number of input frames) and dmodel corresponds to the dimen-sionality of f fc fr .Each attention head is computed using scaled dot-product at-tention: head j = Softmax 
+
+
+
+Q j KTj
+
+√ds
+
+ V j, j = 1, . . . , h, (8) where ds = dmodel /h denotes the dimensionality of each atten-tion head (subspace dimension). The query, key, and value matrices for the j-th head are ob-tained via linear projections of H:
+
+Q j = HW Qj , K j = HW Kj , V j = HW Vj , (9) where WQj , WKj , WVj ∈ Rdmodel ×ds are learnable projection matri-ces. 3
+
+Fully-Connected Layer (FC). 
+
+FC( x) = σ(xW 1 + b1)W2 + b2, (10) where σ(·) denotes a non-linear activation function (ReLU). The resulting encoded representation is subsequently integrated into a Graph Transformer module, as described below. To explicitly model temporal relationships between frames, we construct a frame graph using the global frame-level features obtained in the previous stage. Each node in the graph corre-sponds to a video frame at time t, and directed edges connect each frame to its preceding v frames, ensuring a causal struc-ture that prevents information leakage from future frames. The adjacency matrix Afr is defined as: 
+
+Afr (i, j) =
+
+(1, if i − j ≤ v,
+
+0, otherwise , (11) where i denotes the index of the current frame node. A Graph Transformer layer [42] is then applied to process the global frame-level features f ′
+
+> fr
+
+:
+
+f ′′  
+
+> fr
+
+= GT( f ′
+
+> fr
+
+, Afr ),
+
+f ′′ = [ f ′
+
+> fr
+
+, f ′′  
+
+> fr
+
+], (12) where the attention mechanism enables the model to identify temporally significant frames that contribute more e ff ectively to accident prediction. The concatenated representation f ′′ is subsequently passed through fully connected layers to estimate frame-level accident probabilities ( p1, p2, . . . , pN ). The entire framework is trained end-to-end, except for the VideoMAE-V2 global feature extraction network, which re-mains frozen during training. Optimization is performed using the standard cross-entropy loss: 
+
+L(p, y) = −
+
+> M
+
+X
+
+> m=1
+
+ym log epm
+
+P j ep j
+
+!
+
+, (13) where M denotes the number of classes (two in our case), pm
+
+represents the predicted logits, and ym is the ground-truth label indicator. 
+
+## 4 Experimental Evaluation 
+
+4.1 Experimental Settings 4.1.1 Datasets 
+
+We evaluate our approach on four benchmark datasets: DAD [32], DADA [14], DoTA [13], and Nexar [12]. For DAD, we adopt the same training and testing splits as prior studies [33, 21, 34]. However, the majority of accidents in DAD do not involve the ego vehicle. Nevertheless, ego-involved accidents are the most critical for Advanced Driver Assistance Systems (ADAS) since these are the events that such systems can ac-tively prevent or mitigate. Therefore, we focus on ego-involved accidents in the DADA, DoTA, and Nexar datasets. All accident instances in the Nexar dataset [12] are ego-involved. Therefore, we utilize the entire dataset for our eval-uation with its original training /testing splits. To ensure con-sistency with our implementation and the other benchmarks, training videos are trimmed to 5-second clips so that, in pos-itive samples, the accident occurs at the end of the clip. In addition, all videos are down-sampled to 10 frames per second. For DADA and DoTA, we select videos annotated as ego-involved accidents and extract 5-second clips such that the acci-dent takes place within the final 2 seconds, with the exact onset randomly shifted. These clips constitute the positive samples. Unlike DAD and Nexar, DADA and DoTA contain only acci-dent videos. To construct unbiased negative samples, we iden-tify videos with su ffi cient normal driving footage prior to the accident and extract 5-second segments exclusively from these non-accident portions. This sampling strategy is similar to the protocol adopted by Mahmood et al. [34]. Dataset statistics are summarized in Table 1. While all available ego-involved accident videos from DADA (938 samples) are included, only 745 videos are selected from DoTA. This is because only 745 suitable negative clips could be extracted from DoTA given the available video durations and accident onsets. To maintain class balance, an equal number of positive samples is used, consistent with prior work [34]. Beyond simplifying optimization, main-taining a balanced dataset avoids artificially inflated average precision scores caused by class imbalance [43]. Since standard training and testing splits are not available for the DADA and DoTA datasets, we employed five-fold cross-validation for ef-fective utilization of the data. To prevent any information leak-age, video clips originating from the same source video were grouped within the same fold during cross-validation. Figure 2 shows the distribution of the crash-objects in DoTA and DADA accident videos we have used. For each accident dataset, normal driving videos are sourced from the same dataset rather than from external collections. This design choice prevents discrepancies in visual quality be-tween positive and negative samples that models could ex-ploit to achieve deceptively high performance without learning meaningful accident-related patterns [34, 22, 35]. For the same reason, we exclude the widely used CCD dataset [33]. In CCD, accident videos are predominantly low-quality clips collected from YouTube, whereas normal driving videos are high-quality samples from BDD100k [44]. As a result, many prior methods report average precision values exceeding 99%, likely due to this quality bias rather than genuine accident anticipation capa-bility, making CCD unsuitable for fair comparative evaluation. Table 1: Dataset Statistics. 
+
+Dataset Positive Negative FPS 
+
+DAD [32] 620 1130 20 DoTA [13] 745 745 10 DADA [14] 938 1361 10 Nexar [12] 1422 1422 10 
+
+4.1.2 Networks and Baselines 
+
+For global scene modeling, we employ the VideoMAE-V2[28] architecture, which produces a frame-level global feature repre-sentation of dimension h = 768. The network takes the current 4
+
+Figure 1: Architecture of the proposed VAGNet accident anticipation framework. frame along with the preceding u = 15 frames as input. For frame-level graph construction, the number of temporal neigh-bors is set to v = 20. VAGNet was implemented using PyTorch 2.0.0 and trained for 20 epochs using the Adam optimizer with a learning rate of 1 × 10 −4 and a batch size of 1. This same training configuration was applied across all four datasets. Furthermore, we executed the following comparison meth-ods on the DoTA, DADA, and Nexar datasets: UString [33], UString(Geometrics), Graph(Graph) [21], AAT-DA [37], and StagNet [27]. For UString [33] and Graph(Graph) [21], we used the origi-nal implementations made publicly available by their respec-tive authors. We implemented UString (Geometric) as an ap-proximation of GSTL [34] by substituting the VGG16-based object-level features used in UString [33] with geometric fea-tures computed from detected bounding boxes. As the source code for AAT-DA is not publicly available, we re-implemented the method following the model configuration reported in the original paper. Specifically, we adopted the fea-ture extraction pipeline commonly used in prior work [33, 22], considering the top 19 detected objects and extracting 4096-dimensional object-level and global features using VGG16. The hidden dimension and the number of attention heads were set to 1024 and 8, respectively, for all transformer modules. Dropout was applied to the spatial transformer, object self-attention layer, temporal transformer, and fully connected layer, with rates of 0.3, 0.3, 0.1, and 0.5, respectively. Note that for the DAD dataset, our implementation achieved very similar re-5
+
+Figure 2: Distribution of crash-object categories in the DoTA and DADA datasets. Crash-object category annotations are not available for the Nexar dataset. sults to those reported in the original work (63% vs. 64% AP), suggesting a reasonable re-implementation. 
+
+4.1.3 Evaluation Metrics 
+
+Our objective is to predict tra ffi c accidents as accurately and as early as possible. Earlier and more reliable predictions provide greater potential for accident prevention. At each video frame, the model outputs a risk score that reflects the probability of an accident occurring in the future. If this score exceeds a prede-fined decision threshold, the frame is classified as indicating an impending accident. To evaluate prediction accuracy, we adopt the Average Preci-sion (AP) metric, which is derived from precision and recall. Precision ( P) and recall ( R) are defined as: 
+
+P = T P T P + FP , (14) 
+
+R = T P T P + FN , (15) where T P , FP , and FN denote true positives, false positives, and false negatives, respectively. The Average Precision is computed as the integral of precision with respect to recall as the decision threshold is varied: 
+
+AP =
+
+Z
+
+PR dR , (16) where PR represents the precision corresponding to a given re-call value R.In addition to accuracy, we assess the earliness of accident prediction using the mean Time-to-Accident (mTTA) metric. When the predicted risk score is greater than or equal to the threshold, the model assumes that an accident will occur in the future. Time-to-Accident (TTA) is defined as the time interval between the earliest frame at which the predicted score exceeds the threshold and the actual accident onset: TTA = max {τ − t | at ≥ ˆa, 1 ≤ t ≤ τ}, (17) where τ denotes the time at which the accident begins, at is the predicted risk score at frame t, and ˆ a is the decision threshold. Since TTA varies with the decision threshold (ˆ a), multiple TTA measurements can be obtained by adjusting the threshold. The mean Time-to-Accident is therefore computed as: mTTA = E[TTA] . (18) Compared to TTA measured at a fixed threshold, mTTA pro-vides a more accurate assessment of early prediction perfor-mance. A larger mTTA value indicates that the model is ca-pable of predicting accidents earlier, reflecting better early-warning capability. 
+
+4.2 Results and Discussion 4.2.1 Comparison with State-of-the-art Methods 
+
+As shown in Table 2, the proposed VAGNet model achieves higher AP and mTTA than existing methods across all four datasets, except for the marginally higher mTTA attained by AAT-DA and Graph(Graph) on DoTA and DAD, respectively. All results corresponding to prior work on DAD were extracted from their respective publications. Results on the other three datasets were obtained by executing the models as described earlier. Unlike our method, all prior work that we have com-pared uses object detection and object-level features, while some even use additional information such as depth (CCAF-Net [19]) and driver attention (AAT-DA [37]), all of which con-tribute to the computational cost. Our results indicate that the eff ective incorporation of global features is su ffi cient to outper-form these methods while being more e ffi cient. A likely reason for this is the capability of vision foundation models to implic-itly learn object boundaries, as demonstrated by their state-of-the-art performance on tasks such as object detection and seg-mentation [31]. Figure 3 shows samples of how the models’ predicted accident probabilities vary over time. The true positive case gives an ex-ample of how the model identifies an accident early. The false positive /negative examples demonstrate the challenging nature of tra ffi c scenes, where an accident and a near-pass appear very similar from the dash-cam view. We also analyzed the frames preceding accidents using Grad-Cam to visualize which areas of the input frame contribute more to the models predictions. As demonstrated by the sample im-ages in Figure 4, the model tends to focus on the nearby objects, as expected. We conducted additional experiments to analyze the contribu-tions of individual components of VAGNet to its predictive performance, including the e ff ects of di ff erent global feature extraction backbones, the transformer encoder, and the GNN modules. 
+
+4.2.2 Impact of Global Features 
+
+Experimental results presented in Table 3 demonstrate the im-pact of di ff erent global feature extraction backbones, namely VGG16, I3D, SlowFast, and VideoMAE-V2, across the four benchmark datasets. The results show a consistent improve-ment in Average Precision (AP) as the global feature represen-tation evolves from the 2D CNN-based VGG16 to spatiotem-poral models such as I3D and SlowFast, highlighting the im-portance of spatiotemporal modeling for accident anticipation. 6
+
+> (a) Accident (true positive)
+> (b) Non-accident (true negative)
+> (c) Non-accident (false positive)
+> (d) Accident (false negative)
+
+Figure 3: Samples showing the variation of predicted accident probability across time /frames for (a) True positive, (b) True negative, (c) False positive, and (d) False negative cases. 7
+
+> (a) Daytime, clear weather
+> (b) Daytime, cloudy weather
+> (c) Nighttime, clear weather
+> (d) Nighttime, rainy weather
+
+Figure 4: Samples of visual explanations for accidents across di ff erent weather /lighting conditions. For each condition, the top row shows the original video frames in temporal order, and the bottom row shows the corresponding Grad-CAM [45] maps highlighting areas in the image that contribute to accident anticipation. Higher intensity indicates regions that have a stronger influence on the model’s anticipation of a potential accident. 8Table 2: Performance comparison of di ff erent methods.                                                                  
+
+> Dataset Method AP (%) mTTA (s)
+> DAD [32] DSA (2017) [32] 48.1 1.34 adaLEA (2018) [25] 52.3 3.43 UString (2020) [33] 53.7 3.53 DSTA (2022) [22] 56.1 3.66 EGSTL (2023) [34] 56.3 3.23 GSC (2024) [46] 60.4 3.53 DAA-GNN (2024) [47] 75.2 1.47 Graph(Graph) (2024) [21] 63.6 4.45
+> AAT-DA (2025) [37] 64.0 2.87 STAGNet (2025) [27] 64.36 4.32 CCAF-Net (2025) [19] 71.8 4.15 Zhong et. al (2025) [20] 72.7 3.98 VAGNet (Ours) 77.98 4.41 DoTA [13] UString (Geometrics) [34] 63.2 2.14 UString (2020) [33] 75.4 2.26 Graph(Graph) (2024) [21] 83.5 3.14 AAT-DA (2025) [37] 72.4 3.28
+> STAGNet (2025) [27] 92.73 3.23 VAGNet(Ours) 96.66 3.22 DADA [14] UString (Geometrics) [34] 56.8 1.25 UString (2020) [33] 63.9 1.03 Graph(Graph) (2024) [21] 84.0 2.92 AAT-DA (2025) [37] 69.4 1.36 STAGNet (2025) [27] 95.39 3.08 VAGNet (Ours) 97.82 3.09
+> Nexar [12] UString (Geometrics) [34] 71.0 3.33 UString (2020) [33] 73.3 2.66 Graph(Graph) (2024) [21] 60.4 4.61 AAT-DA (2025) [37] 75.1 2.50 STAGNet (2025) [27] 76.5 3.72 VAGNet (Ours) 81.25 4.69
+
+Among all evaluated backbones, VideoMAE-V2 attains the highest AP across all datasets, with substantial improvements on DAD and Nexar, highlighting its e ff ectiveness in modeling temporal and spatial dependencies in complex scene dynamics. VideoMAE-V2’s better performance can be largely attributed to its pretraining as a foundation model on diverse large-scale video datasets. Although SlowFast yields slightly higher mTTA values on DoTA and DADA, VideoMAE-V2 maintains com-petitive mTTA while considerably improving detection accu-racy. Note that a few models using spatial (VGG16-based) global features have reached an AP close to that of those using more advanced spatiotemporal (SlowFast-based) global fea-tures. Specifically, CCAF-Net and AAT-DA have achieved AP scores that are very similar to those of STAGNet on the DAD and Nexar datasets, respectively. However, CCAF-Net per-forms monocular depth estimation, while AAT-DA computes driver attention, both of which require additional modules at an extra computational cost. Overall, these results demonstrate that e ff ective video-level global representations play a critical role in enhancing both early and accurate accident anticipation. 
+
+4.2.3 Ablation Study 
+
+Table 4 presents an ablation study investigating the individual contributions of the Transformer Encoder (TE) and the Graph Transformer (GT) across the DAD, DoTA, DADA, and Nexar datasets. Removing both components so that the model consists only of VideoMAE-V2 feature extraction followed by fully connected layers significantly degrades performance, resulting in lower AP and mTTA values across all datasets. This high-lights the necessity of modeling temporal and relational infor-mation. Incorporating either the TE or the GT substantially im-proves AP compared to the baseline. The full model, incorpo-Table 3: Performance of VAGNet under di ff erent global feature extraction backbones.                                   
+
+> Dataset Global Features AP (%) mTTA (s)
+> DAD VGG16 54.83 4.15 I3D 59.27 4.13 SlowFast 62.90 3.74 VideoMAE-V2 77.98 4.41
+> DoTA VGG16 88.74 3.25 I3D 91.71 3.20 SlowFast 95.06 3.26
+> VideoMAE-V2 96.66 3.22 DADA VGG16 83.61 3.12 I3D 90.57 3.09 SlowFast 95.83 3.18
+> VideoMAE-V2 97.82 3.09 Nexar VGG16 62.89 4.48 I3D 65.3 4.43 SlowFast 73.89 4.67 VideoMAE-V2 81.25 4.69
+
+rating both TE and GT modules, further improves performance, but to a lesser extent. Nevertheless, it consistently achieves the highest AP and comparable mTTA on all datasets. This sug-gests that TE and GT modules mostly capture similar aspects of accident dynamics while also capturing some complemen-tary aspects. Table 4: Results of the ablation study. Each model variant removes one or more components (Transformer Encoder or Graph) to analyze their individual impact.                                                     
+
+> Data TE GT AP (%) mTTA (s)
+> DAD [32]
+> ✗✗64.15 2.54
+> ✓✗76.58 4.35
+> ✗✓71.37 4.12
+> ✓✓77.98 4.41
+> DoTA [13]
+> ✗✗87.50 2.45
+> ✓✗95.87 3.31
+> ✗✓95.00 3.12
+> ✓✓96.66 3.22 DADA [14]
+> ✗✗75.43 1.83
+> ✓✗97.07 3.16
+> ✗✓97.10 3.10
+> ✓✓97.82 3.09 Nexar [12]
+> ✗✗76.34 3.11
+> ✓✗78.02 4.73
+> ✗✓80.15 4.13
+> ✓✓81.25 4.69
+
+4.2.4 Analysis of Computational E ffi ciency 
+
+Since accident anticipation needs to operate in real-time, we analyzed the computational cost of inference. In Table 5, we report the number of floating point operations (FLOPs) needed to perform a forward pass per video frame during inference. Unlike most prior work, which reports only model inference costs, we also include the computational costs of the feature extraction backbones. As evident from our analysis, feature extraction from detected objects is the most computationally intensive phase, both in the worst case (19 objects /frame) and the average case (6.12 objects /frame, computed over the DoTA, DADA and Nexar datasets). The proposed VAGNet model avoids this cost as it does not involve explicit object detection or object-level feature extraction. However, global feature ex-traction with VideoMAE-V2 requires more FLOPs than other backbones. Despite this, the VAGNet model still requires fewer FLOPs per frame, even in the average case. Another advantage of our method is that its computational cost is independent of 9the number of objects in the scene, which would enable it to maintain e ffi ciency even in crowded urban environments. One can consider replacing VideoMAE-V2 with SlowFast fea-tures for faster inference, but at the expense of AP. As evident from Tables 3 and 2, even with SlowFast features, VAGNet achieves better AP than prior methods on the DoTA and DADA datasets while being within 3% of the high-performing prior models on the Nexar dataset. Its mTTA is almost the same as or better than that of other methods on these three datasets with ego-involved accidents. Moreover, the computational burden of methods that use object-level features can be reduced by replacing VGG16 with lightweight backbones such as MobileNet [48]. However, as demonstrated by our experiments, advanced spatiotemporal global feature extractors are still required to achieve high pre-cision across multiple datasets. Table 5: FLOP counts of di ff erent methods. Counts for dif-ferent stages are reported in GFLOPs /frame. The counts were obtained using the Python library THOP [49].                                       
+
+> Method GFLOPs Object Detection
+> &Feature Extraction Global Feature Extraction Model Inference Total
+> UString 322.46 (worst case: 19 objects /frame) 15.47 (VGG16) 10.49 348.42 Graph (Graph) 41.75 (I3D) 2.14 366.35 Zhong [20] 41.75 (I3D) 2.05 366.26 AAT-DA 15.47 (VGG16) 1.05 461.96* STAGNet 50.58 (SlowFast) 2.20 375.24 UString 123.25 (average case: 6.12 objects /frame) 15.47 (VGG16) 10.49 149.21 Graph (Graph) 41.75 (I3D) 2.14 167.14 Zhong [20] 41.75 (I3D) 2.05 167.05 AAT-DA 15.47 (VGG16) 1.05 262.67* STAGNet 50.58 (SlowFast) 2.20 176.03 VAGNet 0
+> 101.85 (VideoMAE-V2)
+> 0.033 101.88
+> 50.58 (SlowFast) 50.51
+> 41.75 (I3D) 41.78
+> 15.47 (VGG16) 15.50
+> *The total includes the 122.98 GFLOPs used for saliency /driver-attention computation.
+
+Table 6: The computational e ffi ciency of the proposed and baseline methods is evaluated in terms of execution time. Stage-level performance is reported in seconds per frame (s /f), whereas overall inference e ffi ciency is quantified using frames per second (FPS). For AAT-DA, the reported inference time ad-ditionally accounts for the generation of driver attention maps.                  
+
+> Method Object Detection
+> &Feature Extraction (s /f) Global Feature Extraction (s /f) Inference (s /f) Overall speed (FPS)
+> UString 0.0132 0.0014 (VGG16) 0.024 26 Graph(Graph) 0.0138 (I3D) 0.001 36 AAT-DA 0.0014 (VGG16) 0.009 +0.085* 9STAGNet 0.0191 (SlowFast) 0.001 30 VAGNet -0.0097 (VideoMAE-V2) 0.001 97
+> *Computation time required for generating saliency or driver-attention maps.
+
+## 5 Conclusions 
+
+In this work, we presented VAGNet, a deep learning model for anticipating accidents from dash-cam video based on global features. The model is computationally e ffi cient, as it does not require explicit object-level feature extraction. Moreover, it anticipates accidents more accurately and earlier than existing methods, as demonstrated by experiments on four benchmark datasets. Ablation studies reveal that the improved performance of the VAGNet model can be attributed to its transformer and graph-based architecture and the use of rich global features ex-tracted through the VideoMAE-V2 foundation model. Although our approach requires fewer overall computations per frame than existing methods, the VideoMAE-V2 backbone (base version) itself requires nearly 102 GFLOPs per frame. Future work can investigate knowledge distillation strategies for VideoMAE-V2 in the context of accident anticipation to further improve e ffi ciency while preserving competitive accu-racy. 
+
+## References 
+
+[1] Road tra ffi c injuries. https://www.who. int/news-room/fact-sheets/detail/ road-traffic-injuries , 2023. [Online; accessed 24-December-2025]. [2] Fred L Mannering, Venky Shankar, and Chandra R Bhat. Unobserved heterogeneity and the statistical analysis of highway accident data. Analytic methods in accident re-search , 11:1–16, 2016. [3] Muhammad Monjurul Karim, Yu Li, and Ruwen Qin. To-ward explainable artificial intelligence for early anticipa-tion of tra ffi c accidents. Transportation research record ,2676(6):743–755, 2022. [4] Ting Zhang, Zixuan Wang, Hong Wang, and Jun Li. Intel-ligent defensive driving for autonomous vehicles: Frame-work, strategy and verification. Accident Analysis & Pre-vention , 226:108355, 2026. [5] Konstantinos Mattas, Giovanni Albano, Riccardo Donà, Maria Christina Galassi, Ricardo Suarez-Bertoa, Sandor Vass, and Biagio Ciu ff o. Driver models for the definition of safety requirements of automated vehicles in interna-tional regulations. application to motorway driving condi-tions. Accident Analysis & Prevention , 174:106743, 2022. [6] Daofei Li, Yangye Jiang, Jiajie Zhang, and Bin Xiao. Smpc-based motion planning of automated vehicle when interacting with occluded pedestrians. IEEE Transactions on Intelligent Transportation Systems , 2024. [7] Jiaxin Liu, Xiangyu Yan, Liang Peng, Lei Yang, Lingjun Zhang, Yuechen Luo, Yueming Tao, Ashton Yu Xuan Tan, Mu Li, Lei Zhang, et al. Seeing before observable: Poten-tial risk reasoning in autonomous driving via vision lan-guage models. arXiv preprint arXiv:2511.22928 , 2025. [8] Sule Tekkesinoglu, Azra Habibovic, and Lars Kunze. Ad-vancing explainable autonomous vehicle systems: A com-prehensive review and research roadmap. ACM Transac-tions on Human-Robot Interaction , 14(3):1–46, 2025. [9] Pranav Singh Chib and Pravendra Singh. Recent advance-ments in end-to-end autonomous driving using deep learn-ing: A survey. IEEE Transactions on Intelligent Vehicles ,9(1):103–118, 2023. 10 [10] Henry X Liu and Shuo Feng. Curse of rarity for au-tonomous vehicles. nature communications , 15(1):4808, 2024. [11] Yifan Zhang, Bingyi Kang, Bryan Hooi, Shuicheng Yan, and Jiashi Feng. Deep long-tailed learning: A survey. 
+
+IEEE transactions on pattern analysis and machine in-telligence , 45(9):10795–10816, 2023. [12] Daniel Moura, Shizhan Zhu, and Orly Zvitia. Nexar dash-cam collision prediction dataset and challenge. In Pro-ceedings of the Computer Vision and Pattern Recognition Conference , pages 2583–2591, 2025. [13] Yu Yao, Xizi Wang, Mingze Xu, Zelin Pu, Yuchen Wang, Ella Atkins, and David Crandall. Dota: unsupervised de-tection of tra ffi c anomaly in driving videos. IEEE transac-tions on pattern analysis and machine intelligence , 2022. [14] Jianwu Fang, Dingxin Yan, Jiahuan Qiao, Jianru Xue, He Wang, and Sen Li. Dada-2000: Can driving accident be predicted by driver attentionƒ analyzed by a bench-mark. In 2019 IEEE Intelligent Transportation Systems Conference (ITSC) , pages 4303–4309. IEEE, 2019. [15] Shih-Yuan Yu, Arnav Vaibhav Malawade, Deepan Muthi-rayan, Pramod P Khargonekar, and Mohammad Abdul-lah Al Faruque. Scene-graph augmented data-driven risk assessment of autonomous vehicle decisions. IEEE Transactions on Intelligent Transportation Systems , 23 (7):7941–7951, 2021. [16] Retrofit Collision Warning System Gives Older Vehi-cles A Safety Boost. https://trid.trb.org/View/ 1574810 , 2018. [Online; accessed 27-October-2025]. [17] David B Yo ffi e. Mobileye: The future of driverless cars. 
+
+Harvard Business School Case , pages 715–421, 2014. [18] Jianwu Fang, Jiahuan Qiao, Jianru Xue, and Zhengguo Li. Vision-based tra ffi c accident detection and anticipation: A survey. IEEE Transactions on Circuits and Systems for Video Technology , 2023. [19] Wei Liu, Yafei Li, Tao Zhang, Yixiang Gao, Longsheng Wei, and Jun Chen. Ccaf-net: Cascade complementarity-aware fusion network for tra ffi c accident prediction in dashcam videos. Neurocomputing , 624:129285, 2025. [20] Yuanhong Zhong, Ge Yan, Ruyue Zhu, Ping Gan, and Xuerui Shen. Early tra ffi c accident anticipation via fea-ture consistency representation and soft label regression. 
+
+ACM Transactions on Multimedia Computing, Communi-cations and Applications , 2025. [21] Nupur Thakur, PrasanthSai Gouripeddi, and Baoxin Li. Graph (graph): A nested graph-based framework for early accident anticipation. In Proceedings of the IEEE /CVF Winter Conference on Applications of Computer Vision ,pages 7533–7541, 2024. [22] Muhammad Monjurul Karim, Yu Li, Ruwen Qin, and Zhaozheng Yin. A dynamic spatial-temporal attention network for early anticipation of tra ffi c accidents. IEEE Transactions on Intelligent Transportation Systems , 23 (7):9590–9600, 2022. [23] Arnav Vaibhav Malawade, Shih-Yuan Yu, Brandon Hsu, Deepan Muthirayan, Pramod P Khargonekar, and Mo-hammad Abdullah Al Faruque. Spatiotemporal scene-graph embedding for autonomous vehicle collision pre-diction. IEEE Internet of Things Journal , 9(12):9379– 9388, 2022. [24] Wentao Bao, Qi Yu, and Yu Kong. Drive: Deep rein-forced accident anticipation with visual explanation. In 
+
+Proceedings of the IEEE /CVF International Conference on Computer Vision , pages 7619–7628, 2021. [25] Tomoyuki Suzuki, Hirokatsu Kataoka, Yoshimitsu Aoki, and Yutaka Satoh. Anticipating tra ffi c accidents with adaptive loss and large-scale incident db. In Proceedings of the IEEE conference on computer vision and pattern recognition , pages 3521–3529, 2018. [26] Karen Simonyan and Andrew Zisserman. Very deep convolutional networks for large-scale image recognition. 
+
+arXiv preprint arXiv:1409.1556 , 2014. [27] Vipooshan Vipulananthan, Kumudu Mohottala, Kavindu Chinthana, Nimsara Paramulla, and Charith Chitraranjan. Stagnet: A spatio-temporal graph and lstm framework for accident anticipation. IEEE Access , 13:213769–213779, 2025. doi: 10.1109 /ACCESS.2025.3645127. [28] Limin Wang, Bingkun Huang, Zhiyu Zhao, Zhan Tong, Yinan He, Yi Wang, Yali Wang, and Yu Qiao. Videomae v2: Scaling video masked autoencoders with dual mask-ing. In Proceedings of the IEEE /CVF conference on com-puter vision and pattern recognition , pages 14549–14560, 2023. [29] Joao Carreira and Andrew Zisserman. Quo vadis, action recognition? a new model and the kinetics dataset. In 
+
+proceedings of the IEEE Conference on Computer Vision and Pattern Recognition , pages 6299–6308, 2017. [30] Christoph Feichtenhofer, Haoqi Fan, Jitendra Malik, and Kaiming He. Slowfast networks for video recognition. 
+
+2019 IEEE /CVF International Conference on Computer Vision (ICCV) , pages 6201–6210, 2018. URL https:// api.semanticscholar.org/CorpusID:54463801 .[31] Oriane Siméoni, Huy V Vo, Maximilian Seitzer, Federico Baldassarre, Maxime Oquab, Cijo Jose, Vasil Khalidov, Marc Szafraniec, Seungeun Yi, Michaël Ramamonjisoa, et al. Dinov3. arXiv preprint arXiv:2508.10104 , 2025. [32] Fu-Hsiang Chan, Yu-Ting Chen, Yu Xiang, and Min Sun. Anticipating accidents in dashcam videos. In Computer Vision–ACCV 2016: 13th Asian Conference on Computer Vision, Taipei, Taiwan, November 20-24, 2016, Revised Selected Papers, Part IV 13 , pages 136–153. Springer, 2017. [33] Wentao Bao, Qi Yu, and Yu Kong. Uncertainty-based traf-fic accident anticipation with spatio-temporal relational learning. In Proceedings of the 28th ACM International Conference on Multimedia , pages 2682–2690, 2020. [34] Farhan Mahmood, Daehyeon Jeong, and Jeha Ryu. Anew approach to tra ffi c accident anticipation with geomet-ric features for better generalizability. IEEE Access , 11: 29263–29274, 2023. [35] Charith Chitraranjan, Vipooshan Vipulananthan, and Thu-varakan Sritharan. Vision-based collision warning sys-tems with deep learning: A systematic review. Journal of Imaging , 11(2):64, 2025. 11 [36] Shaoqing Ren, Kaiming He, Ross Girshick, and Jian Sun. Faster r-cnn: Towards real-time object detection with re-gion proposal networks. Advances in neural information processing systems , 28, 2015. [37] Yuto Kumamoto, Kento Ohtani, Daiki Suzuki, Minori Ya-mataka, and Kazuya Takeda. Aat-da: Accident anticipa-tion transformer with driver attention. In Proceedings of the Winter Conference on Applications of Computer Vi-sion , pages 1142–1151, 2025. [38] Tianci Zhao, Xue Bai, Jianwu Fang, and Jianru Xue. Gated driver attention predictor. In 2023 IEEE 26th In-ternational Conference on Intelligent Transportation Sys-tems (ITSC) , pages 270–276. IEEE, 2023. [39] Lei-Lei Li, Jianwu Fang, and Jianru Xue. Cognitive traf-fic accident anticipation. IEEE Intelligent Transportation Systems Magazine , 16(5):17–32, 2024. [40] Jianwu Fang, Lei-Lei Li, Kuan Yang, Zhedong Zheng, Jianru Xue, and Tat-Seng Chua. Cognitive accident pre-diction in driving scenes: A multimodality benchmark. 
+
+arXiv preprint arXiv:2212.09381 , 2022. [41] Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N Gomez, Łukasz Kaiser, and Illia Polosukhin. Attention is all you need. Advances in neural information processing systems , 30, 2017. [42] Yunsheng Shi, Zhengjie Huang, Shikun Feng, Hui Zhong, Wenjin Wang, and Yu Sun. Masked label prediction: Uni-fied message passing model for semi-supervised classi-fication, 2021. URL https://arxiv.org/abs/2009. 03509 .[43] Takaya Saito and Marc Rehmsmeier. The precision-recall plot is more informative than the roc plot when evaluating binary classifiers on imbalanced datasets. PloS one , 10 (3):e0118432, 2015. [44] Fisher Yu, Haofeng Chen, Xin Wang, Wenqi Xian, Yingy-ing Chen, Fangchen Liu, Vashisht Madhavan, and Trevor Darrell. Bdd100k: A diverse driving dataset for heteroge-neous multitask learning. In Proceedings of the IEEE /CVF conference on computer vision and pattern recognition ,pages 2636–2645, 2020. [45] Ramprasaath R Selvaraju, Michael Cogswell, Abhishek Das, Ramakrishna Vedantam, Devi Parikh, and Dhruv Ba-tra. Grad-cam: Visual explanations from deep networks via gradient-based localization. In Proceedings of the IEEE international conference on computer vision , pages 618–626, 2017. [46] Tianhang Wang, Kai Chen, Guang Chen, Bin Li, Zhijun Li, Zhengfa Liu, and Changjun Jiang. Gsc: A graph and spatio-temporal continuity based framework for accident anticipation. IEEE Transactions on Intelligent Vehicles , 9 (1):2249–2261, 2023. [47] Wenfeng Song, Shuai Li, Tao Chang, Ke Xie, Aimin Hao, and Hong Qin. Dynamic attention augmented graph net-work for video accident anticipation. Pattern Recognition ,147:110071, 2024. [48] Mark Sandler, Andrew Howard, Menglong Zhu, Andrey Zhmoginov, and Liang-Chieh Chen. Mobilenetv2: In-verted residuals and linear bottlenecks, 2019. [49] THOP: A tool to count the FLOPs of PyTorch model. 
+
+https://pypi.org/project/thop/ , 2022. [Online; accessed 14-November-2025].

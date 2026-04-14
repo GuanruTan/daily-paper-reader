@@ -1,0 +1,765 @@
+Title: A Coordinate-Invariant Local Representation of Motion and Force Trajectories for Identification and Generalization Across Coordinate Systems
+
+URL Source: https://arxiv.org/pdf/2604.10241v1
+
+Published Time: Tue, 14 Apr 2026 00:44:34 GMT
+
+Number of Pages: 18
+
+Markdown Content:
+# A Coordinate-Invariant Local Representation of Motion and Force Trajectories for Identification and Generalization Across Coordinate Systems 
+
+Arno Verduyn 1,2,⋆ [0000 −0002 −5073 −3881] ,Erwin Aertbeliën 1,2[0000 −0002 −4514 −0934] , Maxim Vochten 3[0000 −0001 −5070 −846 X],and Joris De Schutter 2[0000 −0001 −9619 −5815]  
+
+> 1
+
+These authors contributed equally to this work.  
+
+> 2
+
+Department of Mechanical Engineering and Flanders Make at KU Leuven, 3001 Leuven, Belgium.  
+
+> 3
+
+Department of Mechanics, Royal Military Academy, 1000 Brussels, Belgium. 
+
+Abstract. Identifying the trajectories of rigid bodies and of interaction forces is essential for a wide range of tasks in robotics, biomechanics, and related domains. These tasks include trajectory segmentation, recogni-tion, and prediction. For these tasks, a key challenge lies in achieving consistent results when the trajectory is expressed in different coordinate systems. A way to address this challenge is to utilize trajectory models that can generalize across coordinate systems. The focus of this paper is on such trajectory models obtained by transforming the trajectory into a coordinate-invariant representation. However, coordinate-invariant rep-resentations often suffer from sensitivity to measurement noise and the manifestation of singularities in the representation, where the represen-tation is not uniquely defined. This paper aims to address this limitation by introducing the novel Dual-Upper-Triangular Invariant Representa-tion (DUTIR), with improved robustness to singularities, along with its computational algorithm. The proposed representation is formulated at a level of abstraction that makes it applicable to both rigid-body trajec-tories and interaction-force trajectories, hence making it a versatile tool for robotics, biomechanics, and related domains. 
+
+Keywords: Trajectory · Invariance · Screw Theory · Twist · Wrench. 
+
+# 1 Introduction 
+
+Identifying the trajectories of rigid bodies and of interaction forces is essential for a wide range of tasks in robotics [22], biomechanics [1], and related fields. These tasks include trajectory segmentation [18], recognition [5,7,9,20,24,25], and pre-diction [13]. Typically, these tasks are performed using algorithms that operate on trajectory coordinates expressed in a specific coordinate system, such as a body-fixed coordinate system attached to a mobile robot, or a coordinate system  
+
+> ⋆
+
+Corresponding author: arno.verduyn@kuleuven.be  
+
+> arXiv:2604.10241v1 [cs.RO] 11 Apr 2026 2A. Verduyn et al.
+
+attached to a sensor. A key challenge, however, is to achieve consistent results across different choices of coordinate system [21]. This challenge arises whenever the context of the trajectory changes, for instance, due to a new robot configu-ration or a different spatial location or orientation of the trajectory. A common way to avoid this challenge is to enforce consistent coordinate systems during data collection through coordinate system calibration procedures. However, these calibration procedures are often labour-intensive. Furthermore, an open problem remains: how to handle existing datasets in which the coordinate systems are misaligned and where the relationships between the different coordinate systems are unknown. A more rigorous way to address this challenge is to learn trajectory models that generalize across coordinate systems. In the literature, methods exist to learn such models from demonstration data [4,7–9,20,22,23,25]. A differentia-tor among these methods is the amount of data that is required. In this paper, we focus on methods that require only one demonstration. Specifically, we focus on methods based on linear algebra and differential geometry that transform the demonstrated trajectory into a representation that remains unchanged when the coordinate system changes, referred to as a coordinate-invariant representation .Several invariant representations have been introduced in the literature. Some works utilize singular value decompositions to embed trajectory segments into coordinate-invariant subspaces [7]. Other works [4, 7, 9, 20, 22] aim to eliminate the need for prior trajectory segmentation by proposing representations based on local differential-geometric trajectory features that are inherently coordinate-invariant. Such local features can be computed either analytically in closed form [4, 20] or iteratively via optimization-based methods [22]. Despite the advantages of pure locality and coordinate-invariance, local in-variant representations often show low robustness in practice due to sensitivity to measurement noise and the manifestation of singularities in the representa-tion, where the representation is not uniquely defined. Furthermore, the iterative optimization-based method proposed in [22] requires relatively long computation times compared to analytical approaches, which limits its suitability for real-time use. These limitations motivate the research question of the work in this paper: 
+
+How can rigid-body trajectories and interaction-force trajectories be represented in a coordinate-invariant manner while ensuring (1) pure locality of the representation, (2) low computational complexity, and (3) high robustness? 
+
+This paper introduces a novel local invariant trajectory representation with im-proved robustness to singularities, along with its analytical computational algo-rithm. An earlier version of this work appeared as a preprint [16]. Since then, the invariant representation has been successfully applied to motion recognition tasks and shown to outperform other invariant representations [17,19]. However, the theoretical foundations of the invariant representation have not yet been for-mally introduced in a peer-reviewed publication. The present paper aims to fill this gap. Furthermore, in this paper, the proposed representation is reformulated at a level of abstraction that makes it applicable to both rigid-body trajectories and interaction-force trajectories, hence making it a versatile tool for robotics, biomechanics, and related domains. Coordinate-Invariant Representation of Motion and Wrench Trajectories 3
+
+# 2 Preliminaries 
+
+This section explains the concepts of twist , wrench and the general screw , which are mathematical entities that can be used to represent rigid-body motions, interaction forces, and their trajectories .
+
+2.1 Rigid-Body Motion 
+
+A body can be interpreted as a collection of points. If the relative distances between these points remain constant over time, the body is considered non-deformable or rigid . To describe its motion, we commonly define a coordinate system and rigidly attach it to the body. The orientation of this coordinate system then represents the orientation of the body, while the position of its origin represents the position of a chosen point of the body, referred to as a body reference point . The motion of the rigid body can then be completely described by the kinematics of this coordinate system attached to the body. The first-order kinematics consist of the rotational velocity ω of the coordinate system and the translational velocity v of its origin. The two three-dimensional vectors, ω and v, are commonly combined into a single six-dimensional vector, t = ( ω⊤, v⊤)⊤, referred to as the twist . Nu-merically, the twist can be computed from the position and orientation of the body-fixed coordinate system at two successive time instances using the loga-rithmic map [10]. In this paper, we only consider twists where the coordinates of both ω and v are expressed in one and the same coordinate system, and v
+
+represents the velocity of the origin of that coordinate system. Such a twist is also referred to as a screw [11], as further explained in Section 2.3. We indicate the choice of coordinate system for the twist with a subscript. For example, at is read as “the twist expressed in coordinate system {a}.” Changing between coordinate systems, for example from {a} to {b} can be done using the 
+
+6 × 6 transformation matrix ab S :
+
+> b
+
+t = ab S at with ab S =
+
+ Rab 0    
+
+> [pab]×RabRab
+
+
+
+, (1) and where Rab represents the relative orientation of {a} with respect to {b},encoded as a 3 × 3 orthogonal rotation matrix, and where pab represents the position vector from the origin of {b} to the origin of {a}, with its coordinates expressed in coordinate system {b}. The operator [ · ]× in (1) transforms the three-dimensional vector pab into a 3 × 3 skew-symmetric matrix, which is com-monly used to represent cross-product operations in matrix form [11]. 
+
+2.2 Rigid-Body Wrench 
+
+A rigid body can be subjected to forces and torques. In that case, all the forces and torques acting on the body can be reduced to a single resultant force f
+
+and a single resultant torque τ about a specified reference point without loss of 4 A. Verduyn et al. 
+
+generality. The two three-dimensional vectors f and τ can be combined into a six-dimensional vector w = ( f ⊤, τ ⊤)⊤, referred to as the wrench . Similarly to twists, we again only consider wrenches with their components, f and τ , corre-sponding to a single coordinate system. Changing between coordinate systems can be done similarly as for twists using the same 6 × 6 transformation matrix in (1), thanks to the chosen ordering of the components f and τ in the wrench. 
+
+2.3 Abstraction to General Screws 
+
+Both the twist and the wrench belong to the category of screws . A screw is a six-dimensional vector that can be associated with a physically meaningful axis in space, referred to as the underlying screw axis . The interpretation of screw axes for twists and wrenches originates from classical mechanics, with Chasles [2] showing that a rigid-body motion can always be described as a rotation and translation along an axis in space, and with Poinsot [12] showing that force systems can always be reduced to a single force and torque along an axis. Formally, a screw, denoted as ξ, is a six-dimensional vector consisting of two vectors, α ∈ R3×1 and β ∈ R3×1:
+
+ξ = 
+
+> αβ
+> 
+> .(2)
+
+For twists α = ω and β = v, while for wrenches α = f and β = τ . The direction of the screw axis of ξ, denoted as e, can be found by: 
+
+e = α  
+
+> ∥α∥,(3)
+
+while the position of the point p⊥ on the screw axis closest to the origin of the coordinate system can be found by: 
+
+p⊥ = α × β  
+
+> ∥α∥2.(4)
+
+Note that all screws ξ transform between coordinate systems with the trans-formation matrix S as defined in (1). For this reason, the matrix S is also referred to as the screw-transformation matrix .In the remainder of this paper, we reason at the level of general screws. As a result, the introduced concepts and methods apply seamlessly to representations of rigid-body motion and of interaction forces. 
+
+2.4 Screw Trajectories 
+
+To analyse how a screw evolves during a certain time duration, we can evaluate the screw at consecutive time instances. We denote the time instance at which the screw ξ is evaluated explicitly by adding the argument [ti], yielding ξ[ti]. In this specific case, time is used to represent a certain progress variable along which the screw is evaluated. We refer to the sequence of screws: ξ[ti] for i ∈ [1 , N ] as a discrete-time screw trajectory , where N represents the total number of time Coordinate-Invariant Representation of Motion and Wrench Trajectories 5
+
+samples. The choice for a discrete trajectory is motivated by the fact that this is how trajectory data is commonly provided by sensors in practical applications. Apart from time, other choices for the progress variable exist. For exam-ple, when analysing motion trajectories of rigid bodies, common choices for the progress variable are the angle traversed by the body during rotation [14], and the arc length traced by a reference point attached to the body during trans-lation [25]. In the remainder of this paper, we make abstraction of the specific choice for the progress variable and reason at the level of a generic progress vari-able denoted by x, yielding ξ[xi]. This unified perspective allows the introduced concepts and methods to apply seamlessly to all choices for the progress variable. 
+
+# 3 Proposed Method 
+
+As explained in the previous section, the coordinates of screw trajectories depend on the choice of coordinate system in which they are expressed. The aim of this section is to introduce a novel coordinate-invariant representation of screw trajectories. The proposed representation is obtained by first capturing the local evolution of the trajectory (see Sec. 3.1) and then describing this local trajectory evolution in a coordinate-invariant manner (see Sec. 3.2). 
+
+3.1 Representation of Local Trajectory Evolution 
+
+Given that the second-order derivative of the screw ξ[xi] is numerically approx-imated by: 
+
+ξ′′ [xi] = ξ[xi+1 ] − 2ξ[xi] + ξ[xi−1](∆x )2 + O(∆x ), (5) 
+
+it follows that the sequence of the three consecutive screws: ξ[xi−1], ξ[xi], and 
+
+ξ[xi+1 ], captures both the magnitude and direction of ξ[xi], as well as its local second-order evolution at xi. We denote this sequence of screws by the 6 × 3
+
+matrix Ξ[xi]:
+
+Ξ[xi] = 
+
+> h
+
+ξ[xi−1] ξ[xi] ξ[xi+1 ]     
+
+> i
+> =
+> α[xi−1]α[xi]α[xi+1 ]
+> β[xi−1]β[xi]β[xi+1 ]
+> 
+> .(6)
+
+Further on, we omit the argument [xi] when clear from the context. 
+
+3.2 Coordinate-Invariant Representation of Ξ
+
+We will show that the matrix Ξ can be mathematically decomposed into the product of a screw-transformation matrix S and a coordinate-invariant represen-tation U . We refer to this novel decomposition as the SU-decomposition 4 and to the corresponding representation as the Dual-Upper-Triangular Invariant Rep-resentation (DUTIR). Theorem 1 introduces these concepts, while Property 1 details the coordinate invariance of the corresponding representation.      
+
+> 4The proposed decomposition is inspired by the QR-decomposition of a 3×3matrix.
+
+6 A. Verduyn et al. 
+
+Theorem 1 (Existence of an SU -Decomposition). For any Ξ[xi] in R6×3
+
+that satisfies the two regularity conditions: 
+
+∥α[xi−1]∦ = 0 , and α[xi−1] × α[xi]̸ = 0, (7) 
+
+there exists a unique 6 × 6 screw-transformation matrix S and 6 × 3 twice upper triangular matrix U , such that: 
+
+Ξ = S U , (8) 
+
+where U is obtained by stacking two 3 × 3 upper-triangular blocks U 1 and U 2:
+
+U =
+
+"U 1
+
+U 2
+
+#
+
+=
+
+
+
+u11 u12 u13 
+
+0 u22 u23 
+
+0 0 u33 
+
+u41 u42 u43 
+
+0 u52 u53 
+
+0 0 u63 
+
+
+
+, (9) 
+
+and where the convention u11 > 0 and u22 > 0 is imposed to ensure uniqueness. Proof. Decomposition (8) can be expanded by writing Ξ as a vertical stack of two 3 × 3 matrices, A and B, and by using the definition of S in (1): 
+
+Ξ =
+
+AB
+
+
+
+=
+
+ R 0
+
+[ p]×R R
+
+  U 1
+
+U 2
+
+
+
+. (10) 
+
+The first block row of (10) can be expressed as follows: 
+
+A = R U 1 = R
+
+
+
+u11 u12 u13 
+
+0 u22 u23 
+
+0 0 u33 
+
+ , (11) 
+
+where the first two columns of R and U 1 can be found using a standard QR-decomposition algorithm [6], which is well-defined if the first two diagonal ele-ments of U 1, u11 and u22 , both differ from zero. Afterwards, the sign convention, 
+
+u11 > 0 and u22 > 0, can be imposed by flipping the sign of the corresponding row of U 1 and of the corresponding column of R whenever necessary. The third column of R and the sign of the third diagonal element u33 is then determined by imposing that R is a right-handed orthogonal matrix. This procedure results in a unique solution for the rotation matrix R and upper-triangular matrix U 1.The conditions for non-zero diagonal elements, u11 ̸ = 0 and u22 ̸ = 0 , result in the regularity conditions shown in (7). This follows from the definition of the QR-decomposition. Specifically, the first two columns of R, i.e. r1 and r2, are related to α[xi−1] and α[xi] as follows: 
+
+r1 = α[xi−1]
+
+∥α[xi−1]∥ , and r2 = (α[xi−1] × α[xi]) × α[xi−1]
+
+∥ (α[xi−1] × α[xi]) × α[xi−1]∥ . (12) Using (12), (11), and (6), the scalars u11 , u12 and u22 can be written as: 
+
+u11 = α[xi−1] · r1 , u12 = α[xi] · r1 , and u22 = α[xi] · r2. (13) Coordinate-Invariant Representation of Motion and Wrench Trajectories 7
+
+Hence, u11 is well-defined and non-zero if ∥α[xi−1]∦ = 0 , while u22 is well-defined and non-zero if additionally α[xi−1] × α[xi]̸ = 0.Thus far, matrices R and U 1 are completely and uniquely determined. The position vector p in (10) can then be determined as follows. After pre-multiplication with R⊤, the lower block row of (10) can be written as: 
+
+R⊤B =  R⊤ [ p]× R U 1 + U 2. (14) Equation (14) can be rewritten using the orthogonal basis transformation prop-erty of a skew-symmetric matrix [11]: R⊤[ p]× R = [ R⊤ p]×. This results in: 
+
+R⊤B =  [R⊤ p ]×
+
+ U 1 + U 2. (15) Introducing p∗ := R⊤ p results in: 
+
+R⊤B = [ p∗]× U 1 + U 2. (16) From the lower-diagonal entries in (16), three scalar equations are obtained that do not rely on the unknown upper-triangular elements in U 2.
+
+(R⊤B)21 = u11 p∗ 
+
+> z
+
+, (17) 
+
+(R⊤B)31 = −u11 p∗ 
+
+> y
+
+, (18) 
+
+(R⊤B)32 = u22 p∗ 
+
+> x
+
+− u12 p∗ 
+
+> y
+
+, (19) where the notation (R⊤B)ij in the left-hand side of equations (17)-(19) denotes the element in the ith row and jth column of R⊤B.The coordinates p∗
+
+> x
+
+, p ∗ 
+
+> y
+
+, p ∗ 
+
+> z
+
+of p∗ can be uniquely determined from (17)-(19), again under the same conditions: u11 ̸ = 0 and u22 ̸ = 0 . Now that R, U 1, and 
+
+p∗ are completely determined, p can be found as p = R p ∗, while U 2 can be solved from (16): 
+
+U 2 = R⊤B − [ p∗]× U 1. (20) The upper-triangular matrices U 1 and U 2, together with the orientation R
+
+and position p are now completely and uniquely determined. The derivation of this SU -decomposition algorithm proves that a unique SU -decomposition exists under the derived regularity conditions. ■
+
+Property 1. The matrix U is invariant to changes in coordinate system. 
+
+Proof. Consider Ξ expressed in coordinate system {1}, denoted as 1Ξ. The coordinate system of 1Ξ can be changed to a different coordinate system {2} by left multiplication with the screw-transformation matrix 12S, such that: 
+
+> 2
+
+Ξ = 12S 1Ξ. (21) Substituting the SU -decomposition (8) of 1Ξ in (21) results in: 
+
+> 2
+
+Ξ = 12S  1S U . (22) 8 A. Verduyn et al. 
+
+Since the matrix multiplication of the two screw-transformation matrices, 12S
+
+and 1S, yields another screw-transformation matrix 2S, this results in: 
+
+> 2
+
+Ξ = 2S U . (23) This proves that 2S U is a valid SU -decomposition of 2Ξ. Moreover, since the 
+
+SU -decomposition is unique, the decomposition 2S U is the only possible SU -decomposition of 2Ξ. Hence, the SU -decomposition of 2Ξ necessarily results in the same U matrix as the one for 1Ξ. This proves that U is invariant to changes in the coordinate system of Ξ. ■
+
+Remark 1. The matrix Ξ is a 6 × 3 matrix and hence contains 18 degrees of freedom (DoFs). In the SU -decomposition (8), these 18 DoFs are redistributed between S and U . Matrix S contains 6 DoFs: three arising from the position vector p and three arising from the rotation matrix R. The remaining 12 DoFs are contained in U . The variability of the entries of Ξ can hence be separated into variability due to (1) a change of coordinate system, captured entirely by 
+
+S, and (2) a change in the intrinsic evolution of the screw ξ[xi], captured in an invariant manner up to second order by U . Furthermore, since both S and U
+
+are unique in the regular case, the SU -decomposition is a bijective map between 
+
+Ξ and the pair of matrices (S, U ).
+
+3.3 Geometric Interpretation of the SU -decomposition 
+
+The matrix R and vector p can be interpreted as the orientation and position coordinates of an orthogonal coordinate system, functionally defined by the screw axis and its motion (see Fig. 1). The first column r1 of R defines the x-axis of this functional coordinate system and is aligned with the screw axis of ξ[xi−1]. The third column r3 of R defines the z-axis of this functional coordinate system and is aligned with the common normal of the screw axes of ξ[xi−1] and ξ[xi]. The 
+
+y-axis follows from right-handed orthogonality. The origin p coincides with the intersection point of the screw axis of ξ[xi−1] and the common normal. Although this geometric interpretation can be intuitively inferred from the structure of 
+
+U , particularly its zero entries, proofs of this interpretation are provided in Appendix A for completeness. 
+
+Remark 2. This geometric interpretation highlights that the SU -decomposition not only allows to compute the DUTIR of Ξ, but it also enables an efficient, closed-form computation of key geometric entities. In particular, by computing 
+
+p and R, we compute the position and orientation of the screw axis of ξ[xi−1]
+
+as well as the common normal of the screw axes of ξ[xi−1] and ξ[xi].
+
+Remark 3. The position p and matrix R are geometric entities anchored to the screw trajectory. As a result, they transform consistently under changes of the coordinate system. Consequently, the computation of R and p from Ξ consti-tutes an equivariant map [3] with respect to coordinate system transformations. Coordinate-Invariant Representation of Motion and Wrench Trajectories 9                              
+
+> Fig. 1. Geometric interpretation of pand R=[r1r2r3],which are the components of the screw-transformation matrix Sin the SU -decomposition of
+> Ξ= [ ξ[xi−1]ξ[xi]ξ[xi+1 ]] . The screw axes of ξ[xi−1]and ξ[xi]are shown as solid black lines. The common normal of the two screw axes is shown as a dotted black line.
+
+3.4 Regularization of the SU -decomposition 
+
+When the regularity conditions (7) are not met, the QR-decomposition of A
+
+is ill-defined and the system of equations (17)-(19) becomes underdetermined. Consequently, an infinite number of possible solutions for R, p∗, and p exist. An intuitive example is the case of a pure translational motion (where α = ω = 0
+
+and β = v̸ = 0 ). In this case, the screw axes of ξ[xi−1] and ξ[xi] are ill-defined, since a pure translation can be represented by (1) a screw axis at a finite distance from the moving body and parallel to the translational velocity v, or by (2) a screw axis at an infinite distance from the body and perpendicular to the translational velocity v, since a pure translation can also be represented as a pure rotation (with infinitely small magnitude) along a screw axis at an infinite distance. In practice, the second solution is rarely meaningful. Inspired by the first, more intuitive case, we introduce a regularization procedure for the SU -decomposition in this subsection. 
+
+1) Regularization of p: To regularize p, we first predefine a maximum allowed distance between the point on the screw axis p and the origin of the coordinate system and denote it as L. This value for L can be interpreted as a 
+
+geometric scale , defining a spatial region in which the computed value of p is considered relevant. Then, after solving (17) - (19) to obtain p∗, we evaluate whether regularization is required, which is the case when ∥p∗∥ > L . In that case, we search for a regularized version of p∗, denoted as ˆp∗, that satisfies 
+
+∥ˆp∗∥ = L. After performing the regularization action (which is detailed later in this subsection), the regularized matrix ˆU 2 can be found by solving (20) using 
+
+ˆp∗. An important consequence of this regularization is that, when active, the regularized matrix ˆU 2 will no longer be strictly upper-triangular. Instead, the lower-diagonal elements of ˆU 2 will be non-zero and will depend on the location of the origin of the coordinate system. Ideally, these lower-diagonal elements remain small such that a high resemblance to the original U 2 is obtained. To this end, we design the regularization such that the sum of squares of the lower-diagonal terms in the first column 5 of ˆU 2 are minimized. Expressions for these     
+
+> 5Alternatively, the sum of squares of all the lower-diagonal terms in ˆU2can be min-imized, although this will result in a problem with a higher complexity.
+
+10 A. Verduyn et al. 
+
+terms, denoted as ϵ51 and ϵ61 , follow from (17) and (18): 
+
+ϵ51 = ( R⊤B)21 − u11 ˆp∗ 
+
+> z
+
+and ϵ61 = ( R⊤B)31 + u11 ˆp∗ 
+
+> y
+
+, (24) where ϵij denotes the lower-diagonal entry at the i-th row and j-th column of 
+
+U . Minimizing the sum of squares of ϵ51 and ϵ61 while enforcing ∥ˆp∗∥ = L can be done by minimizing the Lagrangian function L(ˆ p∗
+
+> x
+
+, ˆp∗ 
+
+> y
+
+, ˆp∗ 
+
+> z
+
+, λ ), defined as: 
+
+L(ˆ p∗
+
+> x
+
+, ˆp∗ 
+
+> y
+
+, ˆp∗ 
+
+> z
+
+, λ ) = ϵ251 + ϵ261 + λ L2 − (ˆ p∗
+
+> x
+
+)2 − (ˆ p∗ 
+
+> y
+
+)2 − (ˆ p∗ 
+
+> z
+
+)2 , (25) where λ denotes the Lagrange multiplier enforcing the constraint. Extrema of the Lagrangian function can be found by searching for points where its gradient is equal to the zero vector. Following this approach, two solutions for ˆp∗ can be found. The first solution has the following form: 
+
+ˆp∗ 
+
+> y
+
+= p∗ 
+
+> y
+
+, ˆp∗ 
+
+> z
+
+= p∗ 
+
+> z
+
+and ˆp∗ 
+
+> x
+
+= sign (p∗
+
+> x
+
+)
+
+q
+
+L2 − (p∗ 
+
+> y
+
+)2 − (p∗ 
+
+> z
+
+)2. (26) Hence, the first solution consists of retaining the original p∗ 
+
+> y
+
+and p∗ 
+
+> z
+
+, while pro-jecting p∗ 
+
+> x
+
+along the screw axis of ξ[xi−1] onto the spherical manifold defined by 
+
+L. This solution is a valid solution when (p∗ 
+
+> y
+
+)2 + ( p∗ 
+
+> z
+
+)2 < L 2.The second solution has the following form: 
+
+ˆp∗ 
+
+> x
+
+= 0 , ˆp∗ 
+
+> y
+
+= L p∗
+
+> y
+
+p(p∗ 
+
+> y
+
+)2 + ( p∗ 
+
+> z
+
+)2 and ˆp∗ 
+
+> z
+
+= L p∗
+
+> z
+
+p(p∗ 
+
+> y
+
+)2 + ( p∗ 
+
+> z
+
+)2 . (27) 
+
+Hence, the second solution consists of setting ˆp∗ 
+
+> x
+
+= 0 , while isotropically project-ing p∗ 
+
+> y
+
+and p∗ 
+
+> z
+
+onto the spherical manifold defined by L. The two solutions for 
+
+ˆp∗ are visualized in Figure 2. 
+
+Fig. 2. Two-dimensional illustration of the regularization of p∗, showing the coordinate system of Ξ (green), the spherical manifold defined by L (black circle), the screw axis of ξ[xi−1] (black line), and the functional coordinate system defined by p∗, r1, and r2
+
+(red). The solution for ˆp∗ is illustrated for (a) the case where the screw axis intersects the spherical manifold, i.e., when (p∗ 
+
+> y
+
+)2 + ( p∗ 
+
+> z
+
+)2 < L 2, and (b) the case where the screw axis does not intersect the spherical manifold, i.e., when (p∗ 
+
+> y
+
+)2 + ( p∗ 
+
+> z
+
+)2 > L 2.
+
+Based on these two solutions, the regularization of p is implemented as follows. We first compute p∗ and test whether regularization is required, which is the case when ∥p∗∥ > L . If so, we test whether (p∗ 
+
+> y
+
+)2 + ( p∗ 
+
+> z
+
+)2 < L 2. If this condition holds, it means that the screw axis intersects the spherical manifold (see Fig. 2a) Coordinate-Invariant Representation of Motion and Wrench Trajectories 11 
+
+and the first solution for ˆp∗ should be selected. If the condition does not hold, we use the second solution. Finally, ˆp is found as ˆp = R ˆp∗, and the matrix ˆU 2
+
+can be found by solving (20) using ˆp∗.
+
+2) Regularization of R: In (11), R is computed by triangularizing A
+
+into U 1. However, when the regularity conditions (7) are not met, U 1 does not provide sufficient information to determine a unique rotation matrix R. To address this issue, we propose to regularize R by using additional information about the trajectory encoded in ˆU 2. For instance, in the case of pure translational motion, determining R from A is ill-posed since A consists of rotational velocity vectors, which are zero vectors in this scenario. In this case, the columns of R
+
+should be inferred from the translational velocity vectors in ˆU 2.In particular, we regularize R as ˆR = RR ⊤ 
+
+> c
+
+, where Rc is a corrective rotation matrix. The rotation Rc is determined by jointly optimizing over the column spaces of U 1 and ˆU 2 such that both RcU 1 and Rc ˆU 2 are as close as possible to upper-triangular matrices. This is achieved via a Procrustes alignment [15]: 
+
+minimize 
+
+> Rc
+
+w2 U 1 − RcU 1
+
+> 2
+> F
+
++ ˆU 2,△ − Rc ˆU 2
+
+> 2
+> F
+
+, (28) where ∥·∥ F denotes the matrix Frobenius norm, ˆU 2,△ is the triangularization 6 of the approximately upper-triangular matrix ˆU 2, and w is a weighting parameter expressed in meters. Introducing the weight w is necessary because the entries of 
+
+U 1 and ˆU 2 have different physical units: for twists, U 1 contains angular compo-nents in rad/progress , while ˆU 2 contains translational components in m/progress .For wrenches, the corresponding units are N and Nm , respectively. Given the computed matrix Rc, the regularized matrix ˆU 1 is obtained as 
+
+ˆU 1 = RcU 1, while ˆU 2 is updated as Rc ˆU 2.
+
+Remark 4. The proposed regularization introduces two distinct solution cases for the regularized SU -decomposition. When the regularization is inactive, the solutions for ˆp and ˆR remain purely coordinate-invariant . When the regulariza-tion is active, the solutions for ˆp and ˆR become sensitive to the choice of the origin of the coordinate system. In this case, decreasing L results in an increase in sensitivity to this choice. In other words, decreasing L shifts the solution for the SU -decomposition from a purely coordinate invariant one to a coordinate-dependent one anchored to the origin of the coordinate system. We propose to set w = L such that the regularization is completely de-termined by a single parameter. Choosing w = L is allowed since w and L
+
+share the same physical unit (meters). Furthermore, this choice is conceptually well motivated: both L and w govern the extent to which the regularized SU -decomposition depends on the coordinate-system origin. Specifically, decreasing either L or w increases the sensitivity to this origin. Finally, in practical applications, we propose to treat L as a hyperparameter. For instance, in recognition tasks, an optimal value for L for a given dataset can be selected via standard hyperparameter validation procedures, such as maxi-mizing recognition performance on a held-out validation set.       
+
+> 6Following the same procedure used to triangularize Ainto U1.12 A. Verduyn et al.
+
+3.5 Numerical Example 
+
+In this subsection, we present a numerical example demonstrating the applica-tion of the SU -decomposition to rigid-body motion trajectory data. We use real trajectory data from [18], corresponding to a human-demonstrated pouring task performed with a kettle. The trajectory is parametrized with respect to time t,and consists of three distinct motion segments: sliding the kettle along the table (t ∈ [0 , 0.7] ), lifting the kettle ( t ∈ [0 .7, 1.6] ), and pouring ( t ∈ [1 .6, 2.8] ). To highlight coordinate invariance, the SU -decomposition is applied twice us-ing different choices of the coordinate system attached to the body (see Fig. 3a). From the successive positions and orientations of the coordinate system, twist coordinates are computed via numerical differentiation using the logarithmic map [10] (see Fig. 3b). As expected, the resulting twist coordinates differ under changes in coordinate system. Subsequently, U is evaluated along the trajectory at successive time instances. To assess the effect of regularization, we computed the SU -decomposition both without regularization (see Fig. 3c) and with regu-larization when choosing L = 0 .3m (see Fig. 3d). In the unregularized case (see Fig. 3c), the computed U is strictly twice upper-triangular. Furthermore, the results for the first coordinate system are identical to the ones for the second coordinate system, which confirms the coor-dinate invariance of U . However, the components u53 and u63 exhibit pronounced nervousness during the sliding segment ( t ∈ [0 , 0.7] ), reflecting the nervous mo-tion of the screw axis during this segment. This nervousness arises since the sliding motion corresponds to a near-pure translation, and pure translation cor-responds to a singularity in the SU -decomposition. In the regularized case (see Fig. 3d), the computed U is approximately twice upper-triangular. Figure 3d also shows that the nervousness of u53 and u63 is substantially reduced, and that more pronounced signals appear in the profiles of 
+
+u41 , u42 , and u43 during the sliding segment. This is a desirable effect since the magnitude of these signals corresponds to the magnitude of the translational velocity during sliding. These results hence showcase that the regularized ap-proach yields a less nervous and more interpretable representation of near-pure translational motion. Additional examples and the implementation of the SU -decomposition are provided at https://github.com/arnoverduyn/SU_decomposition. 
+
+# 4 Discussion and Conclusion 
+
+The goal of this paper was to present a novel coordinate-invariant representation of screw trajectories while ensuring (1) pure locality of the representation, (2) low computational complexity, and (3) high robustness. This paper successfully achieved this goal, which is substantiated by the following contributions. We introduced the SU -decomposition and the corresponding DUTIR of Ξ. The matrix Ξ captures the local second-order evolution of the screw trajectory, while the DUTIR, U , provides a coordinate-invariant representation of this evolution. Coordinate-Invariant Representation of Motion and Wrench Trajectories 13 
+
+Fig. 3. Numerical example of the SU -decomposition applied to rigid-body trajectory data. (a) Visualization of the trajectory for two different choices (red and blue) of the coordinate system attached to the body; (b) Twist coordinates extracted from the trajectory via numerical differentiation using the logarithmic map [10]; (c) Components of the invariant representation U obtained without regularization. In this case, the lower-diagonal entries εij of U are exactly zero; (d) Components of ˆU obtained with regularization. In this case, the lower-diagonal entries εij of U are approximately zero. 
+
+The proposed SU -decomposition is computationally efficient, since it involves the computation of analytical, closed-form solutions without iterative procedures. Furthermore, we introduced regularization to enhance the robustness of the SU -decomposition near irregularity. The proposed SU -decomposition and regularization have been experimen-tally validated for motion trajectory data in prior works. Specifically, inspired by this decomposition, the work in [17] derived a coordinate-invariant similarity measure between two rigid-body trajectories. The derived invariant similarity measure was then experimentally validated for rigid-body motion recognition 14 A. Verduyn et al. 
+
+using three distinct rigid-body motion datasets. Despite substantial coordinate system variations, the approach achieved a high average recognition rate of 96.5% across the different datasets, outperforming other similarity measures based on existing invariant trajectory representations [4, 7, 9, 20, 22, 25]. The recognition experiments in [17] also showed that the proposed regulariza-tion significantly improved the recognition robustness when dealing with singular motions, such as pure translations. Although the proposed regularization rein-troduces a sensitivity to the choice of the origin of the coordinate system, this sensitivity has shown to remain minor in [17]. This is because, by design, the regularization is only activated near singular cases and furthermore, the sensi-tivity of the invariant representation to variations in coordinate-system-origin is limited by minimizing the lower-diagonal terms in the first column of ˆU 2.In other prior work [19], a real-time recognition system was developed in-spired by the proposed SU -decomposition. This system robustly recognized ges-tures (i.e. motion signatures traced by the palm of the human hand) across varying coordinate systems in real time, achieving a solid F1-score of 92.3%. The discussed prior works focused on the motion trajectories of rigid bodies. Importantly, the SU -decomposition and DUTIR are also directly applicable to the trajectories of interaction forces (i.e. through the wrench). The application to wrenches is for example relevant for identifying object-manipulation tasks in contact with the environment. Incorporating wrench information is then bene-ficial if the aim is to discriminate motions that exhibit similar motion profiles but differ significantly in their contact wrench profiles. Experimental validation of the proposed methods for this type of task is part of future work. However, invariant representations have their limitations and hence should not be employed in every practical scenario. For example, in scenarios where coordinate system calibration is straightforward, reliable, and the trajectories are consistently performed relative to the calibrated coordinate system (e.g. performed at the same location, in the same direction, etc.), then traditional coordinate-dependent methods may outperform invariant methods. This is be-cause invariant representations, by design, discard information tied to the coor-dinate system. Nevertheless, invariant representations are particularly valuable for analysing trajectories when coordinate systems are misaligned with their exact relationships unknown, when the relation between motion direction and coordinate axes is non-deterministic, or when aiming to eliminate the need for coordinate system calibration when such calibration is labour-intensive. In conclusion, the proposed DUTIR and SU -decomposition offer a promising way for future algorithms in robotics that need to compare trajectories in an invariant manner without compromising robustness or computational efficiency.   
+
+> Acknowledgments. This work was supported by a project that has received funding from the European Research Council (ERC) under the European Union’s Horizon 2020 Research and Innovation Programme (Grant agreement No. 788298).
+> Disclosure of Interests. The authors have no competing interests to declare that are relevant to the content of this article.
+
+Coordinate-Invariant Representation of Motion and Wrench Trajectories 15 
+
+# A Interpretation of the SU -decomposition: Proofs 
+
+In Section 3.3, it is stated that: 1. The first column r1 of R is parallel to the screw axis of ξ[xi−1];2. The third column r3 of R is parallel to the common normal of the screw axes of ξ[xi−1] and ξ[xi];3. The vector p represents a point on the screw axis of ξ[xi−1];4. The vector p represents the intersection point between the screw axis of 
+
+ξ[xi−1] and the common normal of the screw axes of ξ[xi−1] and ξ[xi].In this appendix, we present proofs of these statements. Before presenting the proofs, we first summarize a set of relations involving α[xi−1], α[xi], r1, r2, u11 ,
+
+u12 , and u22 . The vectors r1 and r2 are obtained by orthonormalizing α[xi−1]
+
+and α[xi]. The scalars u11 , u12 , and u22 represent the components of α[xi−1]
+
+and α[xi] along r1 and r2 (see Fig. 4). 
+
+Fig. 4. Geometric relations between α[xi−1], α[xi], u11 , u12 , and u22 .
+
+By applying trigonometric identities, the following relations can be derived: 
+
+∥α[xi−1]∥ = u11 , (29) 
+
+α[xi−1] · α[xi] = ∥α[xi−1]∥∥ α[xi]∥ cos θ = u11 u12 , (30) 
+
+α[xi−1] × α[xi] = ∥α[xi−1]∥∥ α[xi]∥ sin θ r3 = u11 u22 r3, (31) and: 
+
+∥α[xi−1]∥2∥α[xi]∥2 − (α[xi−1] · α[xi]) 2 = u211 ∥α[xi]∥2  1 − cos 2 θ = u211 u222 . (32) 
+
+Next, we present the proofs of the four enumerated statements. 
+
+Proof of 1 : The proof follows from (3) and (12). Equation (3) shows that the direction of the screw axis of ξ[xi−1] is obtained by normalizing the vector 
+
+α[xi−1], while (12) confirms that r1 represents this normalized vector. ■
+
+Proof of 2 : The proof follows from (31), which shows that r3 lies parallel to the vector α[xi−1] × α[xi]. This vector is orthogonal to the screw axes of ξ[xi−1]
+
+and ξ[xi], and thus defines the direction of their common normal. ■
+
+Proof of 3 : The point p lies on the screw axis of ξ[xi−1] if and only if the following parametric line equation is satisfied: 
+
+p = p⊥[xi−1] + p∥e. (33) 16 A. Verduyn et al. 
+
+The first term in (33) represents the point on the screw axis of ξ[xi−1] closest to the origin of the coordinate system (see (4)). The second term in (33) represents a displacement along the screw axis of ξ[xi−1], with p∥ ∈ R a free parameter. By substituting (3) and (4) in (33), then left multiplying the result with R⊤,and finally using p∗ = R⊤p and (29), it can be shown that (33) reduces to: 
+
+p∗ = 1
+
+u11 
+
+
+
+0
+
+−(R⊤B)31 
+
+(R⊤B)21 
+
+ + p∥
+
+
+
+100
+
+ , (34) 
+
+which leads to the following three conditions: 
+
+p∗ 
+
+> x
+
+= p∥, u11 p∗ 
+
+> y
+
+= −(R⊤B)31 and u11 p∗ 
+
+> z
+
+= ( R⊤B)21 . (35) The first condition is satisfied, since p∥ is a free parameter. The other two con-ditions are also satisfied, since they correspond to the expressions for computing 
+
+p∗ 
+
+> z
+
+and p∗ 
+
+> y
+
+shown in (17) and (18), respectively. This proves that the line equation in (33) is satisfied, and hence that p lies on the screw axis of ξ[xi−1]. ■
+
+Proof of 4 : The common normal of two axes is the line that perpendicularly intersects both axes. The distance between the two intersection points is the shortest distance between the two axes. These two intersection points can hence be found by identifying the points on each axis with minimum mutual distance. Similarly to (33), we can define a line equation for the screw axis of the second screw ξ[xi]. We denote the entities corresponding to the first and second screw, ξ[xi−1] and ξ[xi], with the subscripts 1 and 2, respectively, resulting in: 
+
+p1 = p⊥1 + p∥1 e1 and p2 = p⊥2 + p∥2 e2. (36) The points on the two screw axes with minimal mutual distance can be found by minimizing the squared distance, d2 = ∥p1 − p2∥2. The minimum can be found by searching for the points where the gradient, ∇d2 = ( ∂d 2 
+
+> ∂p ∥1
+
+, ∂d 2 
+
+> ∂p ∥2
+
+), is equal to the zero vector. This results in a system of two equations in the variables p∥1
+
+and p∥2. Following this approach, the following expression for p∥1 can be found: 
+
+p∥1 = ∥α[xi−1]∥ [α[xi−1] · (α[xi] × β[xi])] + α[xi−1]·α[xi] 
+
+> ∥α[xi−1]∥
+
+[α[xi] · (α[xi−1] × β[xi−1])] 
+
+∥α[xi−1]∥2∥α[xi]∥2 − (α[xi−1] · α[xi]) 2 .
+
+(37) 
+
+Using (29), (30), and (32), expression (37) can be rewritten as: 
+
+p∥1 = u11 α[xi−1] · (α[xi] × β[xi]) + u12 α[xi] · (α[xi−1] × β[xi−1]) 
+
+u211 u222 
+
+. (38) 
+
+Using the property: a · (b × c) = c · (a × b), and relation (31), (38) reduces to: 
+
+p∥1 = u211 u22 β[xi] · r3 − u11 u12 u22 β[xi−1] · r3
+
+u211 u222 
+
+, (39) 
+
+which finally can be rewritten as: 
+
+p∥1 = 1
+
+u22 
+
+
+
+(R⊤B)32 − u11 
+
+u12 
+
+(R⊤B)31 
+
+
+
+. (40) 
+
+From (18) and (19), it follows that p∥1 = p∗
+
+> x
+
+, which proves the argument. ■Coordinate-Invariant Representation of Motion and Wrench Trajectories 17 
+
+# References 
+
+1. Ancillao, A., Vochten, M., Verduyn, A., De Schutter, J., Aertbeliën, E.: An optimal method for calculating an average screw axis for a joint, with improved sensitivity to noise and providing an analysis of the dispersion of the instantaneous axes. PLOS ONE 17 (10), e0275218 (2022). https://doi.org/10.1371/journal.pone.0275218 2. Chasles, M.: Note sur les propriétés génerales du système de deux corps semblables entr’eux et placés d’une manière quelconque dans l’espace; et sur le déplacement fini ou infiniment petit d’un corps solide libre. Bulletin des Sciences Mathématiques, Férussac 14 , 321–326 (1830) 3. Cohen, T., Welling, M.: Group equivariant convolutional networks. In: Proceedings of The 33rd International Conference on Machine Learning. vol. 48, pp. 2990–2999. PMLR, New York, New York, USA (20–22 Jun 2016), https://proceedings.mlr. press/v48/cohenc16.html 4. De Schutter, J.: Invariant description of rigid body motion trajectories. ASME Journal of Mechanisms and Robotics 2(1) (2010). https://doi.org/10.1115/1. 4000524 5. Delabie, T., Cigdem, O., Matthysen, R., De Laet, T., De Schutter, J.: Invariant representations to reduce the variability in recognition of rigid body motion tra-jectories. 2012 IEEE International Conference on Systems, Man, and Cybernetics (SMC) pp. 1658–1663 (2012). https://doi.org/10.1109/ICSMC.2012.6377975 6. Golub, G.H., Van Loan, C.F.: Matrix computations. The Johns Hopkins University Press, Baltimore, MD (2013) 7. Guo, Y., Li, Y., Shao, Z.: Rrv: A spatiotemporal descriptor for rigid body motion recognition. IEEE Transactions on Cybernetics 48 (5), 1513–1525 (2018). https: //doi.org/10.1109/TCYB.2017.2705227 8. Iosifidis, A., Tefas, A., Pitas, I.: View-invariant action recognition based on artificial neural networks. IEEE Transactions on Neural Networks and Learning Systems 
+
+23 (3), 412–424 (2012). https://doi.org/10.1109/TNNLS.2011.2181865 9. Lee, D., Soloperto, R., Saveriano, M.: Bidirectional invariant representation of rigid body motions and its application to gesture recognition and reproduction. Autonomous Robots 42 , 1–21 (2018). https://doi.org/10.1007/s10514-017-9645-x 10. Lynch, K.M., Park, F.C.: Modern robotics. Cambridge University Press, Cam-bridge (2017) 11. Murray, R.M., Sastry, S.S., Zexiang, L.: A Mathematical Introduction to Robotic Manipulation. CRC Press, Inc., Boca Raton, FL, USA, 1st edn. (1994) 12. Poinsot, L.: Sur la composition des moments et la composition des aires. Journal de l’Ecole Polytechnique 6(13), 182–205 (1806) 13. Pöppelbaum, J., Schwung, A.: Predicting rigid body dynamics using dual quater-nion recurrent neural networks with quaternion attention. IEEE Access 10 , 82923– 82943 (2022). https://doi.org/10.1109/ACCESS.2022.3196340 14. Roth, B.: Finding geometric invariants from time-based invariants for spherical and spatial motions. Journal of Mechanical Design 127 (2), 227–231 (2005). https: //doi.org/10.1115/1.1828462 15. Schönemann, P.H.: A generalized solution of the orthogonal procrustes problem. Psychometrika 31 (1), 1–10 (1966) 16. Verduyn, A., Aertbeliën, E., Maes, G., Schutter, J.D., Vochten, M.: Bilts: A bi-invariant similarity measure for robust object trajectory recognition under refer-ence frame variations (2025), https://arxiv.org/abs/2405.04392 18 A. Verduyn et al. 17. Verduyn, A., Bruyninckx, H., Vochten, M., De Schutter, J.: Invariant Motion Tra-jectory Similarity Measurement: Resolving Singularity Issues for Robust Invariant Rigid-Body Motion Recognition. Doctoral dissertation, Arenberg Doctoral School, KU Leuven, Leuven, Belgium (2025), https://lirias.kuleuven.be/4238129?&lang= en 18. Verduyn, A., Vochten, M., De Schutter, J.: Enhancing motion trajectory segmen-tation of rigid bodies using a novel screw-based trajectory-shape representation. 2024 IEEE International Conference on Robotics and Automation (ICRA) pp. 7179–7185 (2024). https://doi.org/10.1109/ICRA57147.2024.10610030 19. Verduyn, A., Vochten, M., Schutter, J.D.: Enhancing hand palm motion gesture recognition by eliminating reference frame bias via frame-invariant similarity mea-sures. 2025 IEEE 21st International Conference on Automation Science and En-gineering (CASE) pp. 866–873 (2025). https://doi.org/10.1109/CASE58245.2025. 11163910 20. Vochten, M., De Laet, T., De Schutter, J.: Comparison of rigid body motion tra-jectory descriptors for motion representation and recognition. 2015 IEEE Inter-national Conference on Robotics and Automation (ICRA) pp. 3010–3017 (2015). https://doi.org/10.1109/ICRA.2015.7139612 21. Vochten, M., De Laet, T., De Schutter, J.: Generalizing demonstrated motion tra-jectories using coordinate-free shape descriptors. Robotics and Autonomous Sys-tems 122 , 103291 (2019). https://doi.org/10.1016/j.robot.2019.103291 22. Vochten, M., Mohammadi, A.M., Verduyn, A., De Laet, T., Aertbeliën, E., De Schutter, J.: Invariant descriptors of motion and force trajectories for interpret-ing object manipulation tasks in contact. IEEE Transactions on Robotics 39 (6), 4892–4912 (2023). https://doi.org/10.1109/tro.2023.3309230 23. Wang, P., Li, W., Gao, Z., Zhang, J., Tang, C., Ogunbona, P.O.: Action recognition from depth maps using deep convolutional neural networks. IEEE Transactions on Human-Machine Systems 46 (4), 498–509 (2016). https://doi.org/10.1109/THMS. 2015.2504550 24. Wu, S., Li, Y.: On signature invariants for effective motion trajectory recognition. The International Journal of Robotics Research 27 (8), 895–917 (2008). https:// doi.org/10.1177/0278364908091678 25. Yao, G., Youfu, L., Zhanpeng, S.: Dsrf: A flexible trajectory descriptor for ar-ticulated human action recognition. Pattern Recognition 76 , 137–148 (2018). https://doi.org/https://doi.org/10.1016/j.patcog.2017.10.034

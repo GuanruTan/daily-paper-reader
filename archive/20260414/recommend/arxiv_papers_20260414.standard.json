@@ -1,0 +1,668 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-04-14T20:05:55.525850+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 9,
+    "deep_cap": 6,
+    "deep_selected": 6,
+    "quick_candidates": 15,
+    "quick_skim_target": 11,
+    "quick_selected": 11
+  },
+  "deep_dive": [
+    {
+      "id": "2604.10169v1",
+      "title": "MAVEN-T: Multi-Agent enVironment-aware Enhanced Neural Trajectory predictor with Reinforcement Learning",
+      "abstract": "Trajectory prediction remains a critical yet challenging component in autonomous driving systems, requiring sophisticated reasoning capabilities while meeting strict real-time deployment constraints. While knowledge distillation has demonstrated effectiveness in model compression, existing approaches often fail to preserve complex decision-making capabilities, particularly in dynamic multi-agent scenarios. This paper introduces MAVEN-T, a teacher-student framework that achieves state-of-the-art trajectory prediction through complementary architectural co-design and progressive distillation. The teacher employs hybrid attention mechanisms for maximum representational capacity, while the student uses efficient architectures optimized for deployment. Knowledge transfer is performed via multi-granular distillation with adaptive curriculum learning that dynamically adjusts complexity based on performance. Importantly, the framework incorporates reinforcement learning to overcome the imitation ceiling of traditional distillation, enabling the student to verify, refine, and optimize teacher knowledge through dynamic environmental interaction, potentially achieving more robust decision-making than the teacher itself. Extensive experiments on NGSIM and highD datasets demonstrate 6.2x parameter compression and 3.7x inference speedup while maintaining state-of-the-art accuracy, establishing a new paradigm for deploying sophisticated reasoning models under resource constraints.",
+      "authors": [
+        "Wenchang Duan"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-04-11T11:34:13+00:00",
+      "link": "https://arxiv.org/pdf/2604.10169v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "trajectory prediction in dynamic multi-agent scenarios using teacher-student framework",
+      "llm_evidence_cn": "动态多智能体场景下的轨迹预测，采用教师-学生框架",
+      "llm_evidence": "动态多智能体场景下的轨迹预测，采用教师-学生框架",
+      "canonical_evidence": "动态多智能体场景下的轨迹预测，采用教师-学生框架",
+      "llm_tldr_en": "Introduces MAVEN-T, a teacher-student framework for efficient multi-agent trajectory prediction.",
+      "llm_tldr_cn": "引入MAVEN-T教师-学生框架，在保持复杂决策能力的同时实现高效的多智能体轨迹预测。",
+      "llm_tldr": "引入MAVEN-T教师-学生框架，在保持复杂决策能力的同时实现高效的多智能体轨迹预测。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "multi-agent trajectory forecasting and interaction modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2604.11400v1",
+      "title": "EagleVision: A Multi-Task Benchmark for Cross-Domain Perception in High-Speed Autonomous Racing",
+      "abstract": "High-speed autonomous racing presents extreme perception challenges, including large relative velocities and substantial domain shifts from conventional urban-driving datasets. Existing benchmarks do not adequately capture these high-dynamic conditions. We introduce EagleVision, a unified LiDAR-based multi-task benchmark for 3D detection and trajectory prediction in high-speed racing, providing newly annotated 3D bounding boxes for the Indy Autonomous Challenge dataset (14,893 frames) and the A2RL Real competition dataset (1,163 frames), together with 12,000 simulator-generated annotated frames, all standardized under a common evaluation protocol. Using a dataset-centric transfer framework, we quantify cross-domain generalization across urban, simulator, and real racing domains. Urban pretraining improves detection over scratch training (NDS 0.72 vs. 0.69), while intermediate pretraining on real racing data achieves the best transfer to A2RL (NDS 0.726), outperforming simulator-only adaptation. For trajectory prediction, Indy-trained models surpass in-domain A2RL training on A2RL test sequences (FDE 0.947 vs. 1.250), highlighting the role of motion-distribution coverage in cross-domain forecasting. EagleVision enables systematic study of perception generalization under extreme high-speed dynamics. The dataset and benchmark are publicly available at https://avlab.io/EagleVision",
+      "authors": [
+        "Zakhar Yagudin",
+        "Murad Mebrahtu",
+        "Ren Jin",
+        "Jiaqi Huang",
+        "Yujia Yue",
+        "Dzmitry Tsetserukou",
+        "Jorge Dias",
+        "Majid Khonji"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.CV"
+      ],
+      "published": "2026-04-13T12:42:18+00:00",
+      "link": "https://arxiv.org/pdf/2604.11400v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "multi-task benchmark for 3D detection and trajectory prediction in high-speed racing",
+      "llm_evidence_cn": "高速赛车3D检测与轨迹预测的多任务基准",
+      "llm_evidence": "高速赛车3D检测与轨迹预测的多任务基准",
+      "canonical_evidence": "高速赛车3D检测与轨迹预测的多任务基准",
+      "llm_tldr_en": "Introduces EagleVision, a benchmark for perception and trajectory prediction in high-speed autonomous racing.",
+      "llm_tldr_cn": "引入EagleVision，一个针对高速自动驾驶赛车感知和轨迹预测的基准测试。",
+      "llm_tldr": "引入EagleVision，一个针对高速自动驾驶赛车感知和轨迹预测的基准测试。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2604.11734v1",
+      "title": "Multi-ORFT: Stable Online Reinforcement Fine-Tuning for Multi-Agent Diffusion Planning in Cooperative Driving",
+      "abstract": "Closed-loop cooperative driving requires planners that generate realistic multimodal multi-agent trajectories while improving safety and traffic efficiency. Existing diffusion planners can model multimodal behaviors from demonstrations, but they often exhibit weak scene consistency and remain poorly aligned with closed-loop objectives; meanwhile, stable online post-training in reactive multi-agent environments remains difficult. We present Multi-ORFT, which couples scene-conditioned diffusion pre-training with stable online reinforcement post-training. In pre-training, the planner uses inter-agent self-attention, cross-attention, and AdaLN-Zero-based scene conditioning to improve scene consistency and road adherence of joint trajectories. In post-training, we formulate a two-level MDP that exposes step-wise reverse-kernel likelihoods for online optimization, and combine dense trajectory-level rewards with variance-gated group-relative policy optimization (VG-GRPO) to stabilize training. On the WOMD closed-loop benchmark, Multi-ORFT reduces collision rate from 2.04% to 1.89% and off-road rate from 1.68% to 1.36%, while increasing average speed from 8.36 to 8.61 m/s relative to the pre-trained planner, and it outperforms strong open-source baselines including SMART-large, SMART-tiny-CLSFT, and VBD on the primary safety and efficiency metrics. These results show that coupling scene-consistent denoising with stable online diffusion-policy optimization improves the reliability of closed-loop cooperative driving.",
+      "authors": [
+        "Haojie Bai",
+        "Aimin Li",
+        "Ruoyu Yao",
+        "Xiongwei Zhao",
+        "Tingting Zhang",
+        "Xing Zhang",
+        "Lin Gao",
+        "and Jun Ma"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-04-13T17:13:46+00:00",
+      "link": "https://arxiv.org/pdf/2604.11734v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "multi-agent trajectory planning and scene consistency in cooperative driving",
+      "llm_evidence_cn": "协同驾驶中的多智能体轨迹规划与场景一致性",
+      "llm_evidence": "协同驾驶中的多智能体轨迹规划与场景一致性",
+      "canonical_evidence": "协同驾驶中的多智能体轨迹规划与场景一致性",
+      "llm_tldr_en": "A diffusion-based planner for cooperative driving that improves multi-agent trajectory realism and safety.",
+      "llm_tldr_cn": "一种用于协同驾驶的扩散模型规划器，提升了多智能体轨迹的真实性与安全性。",
+      "llm_tldr": "一种用于协同驾驶的扩散模型规划器，提升了多智能体轨迹的真实性与安全性。",
+      "llm_tags": [
+        "query:tp:composite"
+      ],
+      "matched_query_tag": "query:tp:composite",
+      "matched_query_text": "Papers central to 轨迹预测（车辆、行人、船舶、飞机等）相关的论文，考虑密集场景、目标意图、多智能体、轨迹表示学习等概念, especially work that connects or combines: trajectory prediction for autonomous agents; pedestrian trajectory prediction in crowded scenes; maritime vessel trajectory and path prediction algorithms; multi-agent trajectory forecasting and interaction modeling; target intent and goal estimation for trajectory prediction; trajectory representation learning and feature extraction; study of pedestrian and vehicle trajectory prediction models; trajectory prediction in complex maritime environments; deep learning techniques for intent aware trajectory forecasting; trajectory representation learning based on multimodal large language model.",
+      "matched_requirement_id": "req-composite-tp",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2604.11786v1",
+      "title": "GenTac: Generative Modeling and Forecasting of Soccer Tactics",
+      "abstract": "Modeling open-play soccer tactics is a formidable challenge due to the stochastic, multi-agent nature of the game. Existing computational approaches typically produce single, deterministic trajectory forecasts or focus on highly structured set-pieces, fundamentally failing to capture the inherent variance and branching possibilities of real-world match evolution. Here, we introduce GenTac, a diffusion-based generative framework that conceptualizes soccer tactics as a stochastic process over continuous multi-player trajectories and discrete semantic events. By learning the underlying distribution of player movements from historical tracking data, GenTac samples diverse, plausible, long-horizon future trajectories. The framework supports rich contextual conditioning, including opponent behavior, specific team or league playing styles, and strategic objectives, while grounding continuous spatial dynamics into a 15-class tactical event space. Extensive evaluations on our proposed benchmark, TacBench, demonstrate four key capabilities: (1) GenTac achieves high geometric accuracy while strictly preserving the collective structural consistency of the team; (2) it accurately simulates stylistic nuances, distinguishing between specific teams (e.g., Auckland FC) and leagues (e.g., A-League versus German leagues); (3) it enables controllable counterfactual simulations, demonstrably altering spatial control and expected threat metrics based on offensive or defensive guidance; and (4) it reliably anticipates future tactical outcomes directly from generated rollouts. Finally, we demonstrate that GenTac can be successfully trained to generalize to other dynamic team sports, including basketball, American football, and ice hockey.",
+      "authors": [
+        "Jiayuan Rao",
+        "Tianlin Gui",
+        "Haoning Wu",
+        "Yanfeng Wang",
+        "Weidi Xie"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.MA"
+      ],
+      "published": "2026-04-13T17:53:49+00:00",
+      "link": "https://arxiv.org/pdf/2604.11786v1",
+      "tags": [
+        "keyword:TP"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "forecasting multi-player trajectories and modeling multi-agent interactions in soccer",
+      "llm_evidence_cn": "预测足球比赛中的多球员轨迹并建模多智能体交互",
+      "llm_evidence": "预测足球比赛中的多球员轨迹并建模多智能体交互",
+      "canonical_evidence": "预测足球比赛中的多球员轨迹并建模多智能体交互",
+      "llm_tldr_en": "A diffusion-based framework for generating diverse and plausible multi-agent trajectories in soccer tactics.",
+      "llm_tldr_cn": "一种基于扩散模型的框架，用于生成足球战术中多样且合理的多智能体轨迹。",
+      "llm_tldr": "一种基于扩散模型的框架，用于生成足球战术中多样且合理的多智能体轨迹。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "multi-agent trajectory forecasting and interaction modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2604.10241v1",
+      "title": "A Coordinate-Invariant Local Representation of Motion and Force Trajectories for Identification and Generalization Across Coordinate Systems",
+      "abstract": "Identifying the trajectories of rigid bodies and of interaction forces is essential for a wide range of tasks in robotics, biomechanics, and related domains. These tasks include trajectory segmentation, recognition, and prediction. For these tasks, a key challenge lies in achieving consistent results when the trajectory is expressed in different coordinate systems. A way to address this challenge is to utilize trajectory models that can generalize across coordinate systems. The focus of this paper is on such trajectory models obtained by transforming the trajectory into a coordinate-invariant representation. However, coordinate-invariant representations often suffer from sensitivity to measurement noise and the manifestation of singularities in the representation, where the representation is not uniquely defined. This paper aims to address this limitation by introducing the novel Dual-Upper-Triangular Invariant Representation (DUTIR), with improved robustness to singularities, along with its computational algorithm. The proposed representation is formulated at a level of abstraction that makes it applicable to both rigid-body trajectories and interaction-force trajectories, hence making it a versatile tool for robotics, biomechanics, and related domains.",
+      "authors": [
+        "Arno Verduyn",
+        "Erwin Aertbeliën",
+        "Maxim Vochten",
+        "Joris De Schutter"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-04-11T14:47:07+00:00",
+      "link": "https://arxiv.org/pdf/2604.10241v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "coordinate-invariant local representation of motion trajectories for prediction",
+      "llm_evidence_cn": "用于预测的运动轨迹坐标不变局部表示",
+      "llm_evidence": "用于预测的运动轨迹坐标不变局部表示",
+      "canonical_evidence": "用于预测的运动轨迹坐标不变局部表示",
+      "llm_tldr_en": "Proposes a coordinate-invariant representation for motion trajectories to improve recognition and prediction.",
+      "llm_tldr_cn": "提出了一种运动轨迹的坐标不变表示方法，以提高识别和预测的泛化性。",
+      "llm_tldr": "提出了一种运动轨迹的坐标不变表示方法，以提高识别和预测的泛化性。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning and feature extraction",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2604.10419v1",
+      "title": "Roadside LiDAR for Cooperative Safety Auditing at Urban Intersections: Toward Auditable V2X Infrastructure Intelligence",
+      "abstract": "Urban intersections expose the limitations of single-vehicle perception under occlusion and partial observability. In this study, we present an auditable roadside LiDAR framework for infrastructure-assisted safety analysis at a signalized urban intersection in New York City, developed and evaluated using real-world data. The proposed framework integrates trajectory construction, iterative human-in-the-loop quality assurance (QA), and interpretable near-miss analytics to produce defensible safety evidence from infrastructure sensing. Using a human-labeled heavy vehicle--bicycle interaction as an anchor case, we show that direction-agnostic time-to-collision (TTC) drops below 1s, while longitudinal TTC remains above conservative braking thresholds, revealing a lateral-intrusion-dominated conflict mechanism. Beyond individual cases, continuous-window evaluation and multi-round QA analysis demonstrate that the framework systematically reduces failure modes such as track fragmentation, spurious TTC triggers, unstable geometry, and cross-lane false conflicts. These results position roadside LiDAR as a practical post-hoc auditing mechanism for cooperative perception systems, with broader statistical validation discussed. This work provides a pathway toward scalable, data-driven safety auditing of urban intersections, enabling transportation agencies to identify and mitigate high-risk interactions beyond crash-based analyses.",
+      "authors": [
+        "Bo Shang",
+        "Yiqiao Li"
+      ],
+      "primary_category": "cs.ET",
+      "categories": [
+        "cs.ET"
+      ],
+      "published": "2026-04-12T02:35:18+00:00",
+      "link": "https://arxiv.org/pdf/2604.10419v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "trajectory construction and safety analysis for vehicles and bicycles at urban intersections",
+      "llm_evidence_cn": "城市路口车辆与自行车的轨迹构建与安全分析",
+      "llm_evidence": "城市路口车辆与自行车的轨迹构建与安全分析",
+      "canonical_evidence": "城市路口车辆与自行车的轨迹构建与安全分析",
+      "llm_tldr_en": "Uses roadside LiDAR for trajectory construction and near-miss analytics to improve urban intersection safety.",
+      "llm_tldr_cn": "利用路侧激光雷达进行轨迹构建和近距离碰撞分析，提升城市路口的交通安全。",
+      "llm_tldr": "利用路侧激光雷达进行轨迹构建和近距离碰撞分析，提升城市路口的交通安全。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "study of pedestrian and vehicle trajectory prediction models",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2604.11135v1",
+      "title": "AIM: Intent-Aware Unified world action Modeling with Spatial Value Maps",
+      "abstract": "Pretrained video generation models provide strong priors for robot control, but existing unified world action models still struggle to decode reliable actions without substantial robot-specific training. We attribute this limitation to a structural mismatch: while video models capture how scenes evolve, action generation requires explicit reasoning about where to interact and the underlying manipulation intent. We introduce AIM, an intent-aware unified world action model that bridges this gap via an explicit spatial interface. Instead of decoding actions directly from future visual representations, AIM predicts an aligned spatial value map that encodes task-relevant interaction structure, enabling a control-oriented abstraction of future dynamics. Built on a pretrained video generation model, AIM jointly models future observations and value maps within a shared mixture-of-transformers architecture. It employs intent-causal attention to route future information to the action branch exclusively through the value representation. We further propose a self-distillation reinforcement learning stage that freezes the video and value branches and optimizes only the action head using dense rewards derived from projected value-map responses together with sparse task-level signals. To support training and evaluation, we construct a simulation dataset of 30K manipulation trajectories with synchronized multi-view observations, actions, and value-map annotations. Experiments on RoboTwin 2.0 benchmark show that AIM achieves a 94.0% average success rate, significantly outperforming prior unified world action baselines. Notably, the improvement is more pronounced in long-horizon and contact-sensitive manipulation tasks, demonstrating the effectiveness of explicit spatial-intent modeling as a bridge between visual world modeling and robot control.",
+      "authors": [
+        "Liaoyuan Fan",
+        "Zetian Xu",
+        "Chen Cao",
+        "Wenyao Zhang",
+        "Mingqi Yuan",
+        "Jiayu Chen"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.LG"
+      ],
+      "published": "2026-04-13T07:48:58+00:00",
+      "link": "https://arxiv.org/pdf/2604.11135v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "intent-aware modeling and spatial value maps for future dynamics",
+      "llm_evidence_cn": "意图感知建模与未来动态的空间价值图",
+      "llm_evidence": "意图感知建模与未来动态的空间价值图",
+      "canonical_evidence": "意图感知建模与未来动态的空间价值图",
+      "llm_tldr_en": "An intent-aware world model that predicts spatial value maps to decode manipulation actions and future dynamics.",
+      "llm_tldr_cn": "一种意图感知世界模型，通过预测空间价值图来解码操作动作和未来动态。",
+      "llm_tldr": "一种意图感知世界模型，通过预测空间价值图来解码操作动作和未来动态。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "deep learning techniques for intent aware trajectory forecasting",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2604.08883v1",
+      "title": "HTNav: A Hybrid Navigation Framework with Tiered Structure for Urban Aerial Vision-and-Language Navigation",
+      "abstract": "Inspired by the general Vision-and-Language Navigation (VLN) task, aerial VLN has attracted widespread attention, owing to its significant practical value in applications such as logistics delivery and urban inspection. However, existing methods face several challenges in complex urban environments, including insufficient generalization to unseen scenes, suboptimal performance in long-range path planning, and inadequate understanding of spatial continuity. To address these challenges, we propose HTNav, a new collaborative navigation framework that integrates Imitation Learning (IL) and Reinforcement Learning (RL) within a hybrid IL-RL framework. This framework adopts a staged training mechanism to ensure the stability of the basic navigation strategy while enhancing its environmental exploration capability. By integrating a tiered decision-making mechanism, it achieves collaborative interaction between macro-level path planning and fine-grained action control. Furthermore, a map representation learning module is introduced to deepen its understanding of spatial continuity in open domains. On the CityNav benchmark, our method achieves state-of-the-art performance across all scene levels and task difficulties. Experimental results demonstrate that this framework significantly improves navigation precision and robustness in complex urban environments.",
+      "authors": [
+        "Chengjie Fan",
+        "Cong Pan",
+        "Zijian Liu",
+        "Ningzhong Liu",
+        "Jie Qin"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-04-10T02:47:01+00:00",
+      "link": "https://arxiv.org/pdf/2604.08883v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "long-range path planning for urban aerial navigation",
+      "llm_evidence_cn": "城市空中导航的远程路径规划",
+      "llm_evidence": "城市空中导航的远程路径规划",
+      "canonical_evidence": "城市空中导航的远程路径规划",
+      "llm_tldr_en": "A hybrid navigation framework for urban aerial agents focusing on path planning and spatial continuity.",
+      "llm_tldr_cn": "一种针对城市空中智能体的混合导航框架，侧重于路径规划和空间连续性。",
+      "llm_tldr": "一种针对城市空中智能体的混合导航框架，侧重于路径规划和空间连续性。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.06406v1",
+      "title": "Augmented Graphs of Convex Sets and the Traveling Salesman Problem",
+      "abstract": "We present a trajectory optimization algorithm for the traveling salesman problem (TSP) in graphs of convex sets (GCS). Our framework uses an augmented graph of convex sets to encode the TSP specification and solve it exactly as a shortest path problem in GCS. We establish a precise relationship between the landmark Bellman-Held-Karp algorithm and the augmented graph of convex sets with a TSP specification. Additionally, we present a branch and bound heuristic that uses minimum 1-trees to obtain certifiably optimal or near optimal solutions and scales to problems far larger than the exact framework can handle. To assess and certify performance, we explore several alternative lower bounds.",
+      "authors": [
+        "Gael Luna",
+        "Tyler Summers"
+      ],
+      "primary_category": "eess.SY",
+      "categories": [
+        "eess.SY"
+      ],
+      "published": "2026-04-07T19:39:24+00:00",
+      "link": "https://arxiv.org/pdf/2604.06406v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "trajectory optimization algorithm for path problems",
+      "llm_evidence_cn": "路径问题的轨迹优化算法",
+      "llm_evidence": "路径问题的轨迹优化算法",
+      "canonical_evidence": "路径问题的轨迹优化算法",
+      "llm_tldr_en": "Presents a trajectory optimization algorithm for solving the traveling salesman problem in convex sets.",
+      "llm_tldr_cn": "提出了一种用于解决凸集旅行商问题的轨迹优化算法。",
+      "llm_tldr": "提出了一种用于解决凸集旅行商问题的轨迹优化算法。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.11198v1",
+      "title": "Towards Situation-aware State Modeling for Air Traffic Flow Prediction",
+      "abstract": "Accurate air traffic prediction in the terminal airspace (TA) is pivotal for proactive air traffic management (ATM). However, existing data-driven approaches predominantly rely on time series-based forecasting paradigms, which inherently overlook critical aircraft state information, such as real-time kinematics and proximity to airspace boundaries. To address this limitation, we propose \\textit{AeroSense}, a direct state-to-flow modeling framework for air traffic prediction. Unlike classical time series-based methods that first aggregate aircraft trajectories into macroscopic flow sequences before modeling, AeroSense explicitly represents the real-time airspace situation as \\textit{a dynamic set of aircraft states}, enabling the direct processing of a variable number of aircraft instead of time series as inputs. Specifically, we introduce a situation-aware state representation that enables AeroSense to sense the instantaneous terminal airspace situation directly from microscopic aircraft states. Furthermore, we design a model architecture that incorporates masked self-attention to capture inter-aircraft interactions, together with two decoupled prediction heads to model heterogeneous flow dynamics across two key functional areas of the TA. Extensive experiments on a large-scale real-world airport dataset demonstrate that AeroSense consistently achieves state-of-the-art performance, validating that direct modeling of microscopic aircraft states yields substantially higher predictive fidelity than time series-based baselines. Moreover, the proposed framework exhibits superior robustness during peak traffic periods, achieves Pareto-optimal performance under dayparting multi-object evaluation, and provides meaningful interpretability through attention-based visualizations.",
+      "authors": [
+        "Anqi Liu",
+        "Bin Wang",
+        "Jiangtao Zhao",
+        "Dechuan Ma",
+        "Guiyuan Jiang",
+        "Feng Hong",
+        "Yanwei Yu",
+        "Tianrui Li"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-04-13T08:54:19+00:00",
+      "link": "https://arxiv.org/pdf/2604.11198v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "air traffic prediction based on aircraft trajectories and states",
+      "llm_evidence_cn": "基于飞机轨迹和状态的航空交通预测",
+      "llm_evidence": "基于飞机轨迹和状态的航空交通预测",
+      "canonical_evidence": "基于飞机轨迹和状态的航空交通预测",
+      "llm_tldr_en": "Proposes AeroSense for air traffic flow prediction by explicitly modeling aircraft states and trajectories.",
+      "llm_tldr_cn": "提出AeroSense框架，通过显式建模飞机状态和轨迹来进行终端区流量预测。",
+      "llm_tldr": "提出AeroSense框架，通过显式建模飞机状态和轨迹来进行终端区流量预测。",
+      "llm_tags": [
+        "query:tp:composite"
+      ],
+      "matched_query_tag": "query:tp:composite",
+      "matched_query_text": "Papers central to 轨迹预测（车辆、行人、船舶、飞机等）相关的论文，考虑密集场景、目标意图、多智能体、轨迹表示学习等概念, especially work that connects or combines: trajectory prediction for autonomous agents; pedestrian trajectory prediction in crowded scenes; maritime vessel trajectory and path prediction algorithms; multi-agent trajectory forecasting and interaction modeling; target intent and goal estimation for trajectory prediction; trajectory representation learning and feature extraction; study of pedestrian and vehicle trajectory prediction models; trajectory prediction in complex maritime environments; deep learning techniques for intent aware trajectory forecasting; trajectory representation learning based on multimodal large language model.",
+      "matched_requirement_id": "req-composite-tp",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2604.09305v1",
+      "title": "VAGNet: Vision-based accident anticipation with global features",
+      "abstract": "Traffic accidents are a leading cause of fatalities and injuries across the globe. Therefore, the ability to anticipate hazardous situations in advance is essential. Automated accident anticipation enables timely intervention through driver alerts and collision avoidance maneuvers, forming a key component of advanced driver assistance systems. In autonomous driving, such predictive capabilities support proactive safety behaviors, such as initiating defensive driving and human takeover when required. Using dashcam video as input offers a cost-effective solution, but it is challenging due to the complexity of real-world driving scenes. Accident anticipation systems need to operate in real-time. However, current methods involve extracting features from each detected object, which is computationally intensive. We propose VAGNet, a deep neural network that learns to predict accidents from dash-cam video using global features of traffic scenes without requiring explicit object-level features. The network consists of transformer and graph modules, and we use the vision foundation model VideoMAE-V2 for global feature extraction. Experiments on four benchmark datasets (DAD, DoTA, DADA, and Nexar) show that our method anticipates accidents with higher average precision and mean time-to-accident while being computationally more efficient compared to existing methods.",
+      "authors": [
+        "Vipooshan Vipulananthan",
+        "Charith D. Chitraranjan"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-04-10T13:13:56+00:00",
+      "link": "https://arxiv.org/pdf/2604.09305v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "predictive capabilities for proactive safety in autonomous driving",
+      "llm_evidence_cn": "自动驾驶中的主动安全预测能力",
+      "llm_evidence": "自动驾驶中的主动安全预测能力",
+      "canonical_evidence": "自动驾驶中的主动安全预测能力",
+      "llm_tldr_en": "VAGNet uses global features from dashcam video to anticipate traffic accidents for autonomous driving safety.",
+      "llm_tldr_cn": "VAGNet利用行车记录仪视频的全局特征来预判交通事故，提升自动驾驶安全性。",
+      "llm_tldr": "VAGNet利用行车记录仪视频的全局特征来预判交通事故，提升自动驾驶安全性。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.08174v1",
+      "title": "Value-Guidance MeanFlow for Offline Multi-Agent Reinforcement Learning",
+      "abstract": "Offline multi-agent reinforcement learning (MARL) aims to learn the optimal joint policy from pre-collected datasets, requiring a trade-off between maximizing global returns and mitigating distribution shift from offline data. Recent studies use diffusion or flow generative models to capture complex joint policy behaviors among agents; however, they typically rely on multi-step iterative sampling, thereby reducing training and inference efficiency. Although further research improves sampling efficiency through methods like distillation, it remains sensitive to the behavior regularization coefficient. To address the above-mentioned issues, we propose Value Guidance Multi-agent MeanFlow Policy (VGM$^2$P), a simple yet effective flow-based policy learning framework that enables efficient action generation with coefficient-insensitive conditional behavior cloning. Specifically, VGM$^2$P uses global advantage values to guide agent collaboration, treating optimal policy learning as conditional behavior cloning. Additionally, to improve policy expressiveness and inference efficiency in multi-agent scenarios, it leverages classifier-free guidance MeanFlow for both policy training and execution. Experiments on tasks with both discrete and continuous action spaces demonstrate that, even when trained solely via conditional behavior cloning, VGM$^2$P efficiently achieves performance comparable to state-of-the-art methods.",
+      "authors": [
+        "Teng Pang",
+        "Zhiqiang Dong",
+        "Yan Zhang",
+        "Rongjian Xu",
+        "Guoqiang Wu",
+        "Yilong Yin"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-04-09T12:31:43+00:00",
+      "link": "https://arxiv.org/pdf/2604.08174v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "multi-agent policy learning and joint behavior modeling",
+      "llm_evidence_cn": "多智能体策略学习与联合行为建模",
+      "llm_evidence": "多智能体策略学习与联合行为建模",
+      "canonical_evidence": "多智能体策略学习与联合行为建模",
+      "llm_tldr_en": "A flow-based policy learning method for multi-agent reinforcement learning to capture complex joint behaviors.",
+      "llm_tldr_cn": "一种用于多智能体强化学习的流式策略学习方法，用于捕捉复杂的联合行为。",
+      "llm_tldr": "一种用于多智能体强化学习的流式策略学习方法，用于捕捉复杂的联合行为。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "multi-agent trajectory forecasting and interaction modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.11737v1",
+      "title": "Learning Long-term Motion Embeddings for Efficient Kinematics Generation",
+      "abstract": "Understanding and predicting motion is a fundamental component of visual intelligence. Although modern video models exhibit strong comprehension of scene dynamics, exploring multiple possible futures through full video synthesis remains prohibitively inefficient. We model scene dynamics orders of magnitude more efficiently by directly operating on a long-term motion embedding that is learned from large-scale trajectories obtained from tracker models. This enables efficient generation of long, realistic motions that fulfill goals specified via text prompts or spatial pokes. To achieve this, we first learn a highly compressed motion embedding with a temporal compression factor of 64x. In this space, we train a conditional flow-matching model to generate motion latents conditioned on task descriptions. The resulting motion distributions outperform those of both state-of-the-art video models and specialized task-specific approaches.",
+      "authors": [
+        "Nick Stracke",
+        "Kolja Bauer",
+        "Stefan Andreas Baumann",
+        "Miguel Angel Bautista",
+        "Josh Susskind",
+        "Björn Ommer"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-04-13T17:14:47+00:00",
+      "link": "https://arxiv.org/pdf/2604.11737v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "learning long-term motion embeddings from large-scale trajectories",
+      "llm_evidence_cn": "从大规模轨迹中学习长期运动嵌入",
+      "llm_evidence": "从大规模轨迹中学习长期运动嵌入",
+      "canonical_evidence": "从大规模轨迹中学习长期运动嵌入",
+      "llm_tldr_en": "Learns compressed motion embeddings from trajectories to efficiently generate realistic future motions.",
+      "llm_tldr_cn": "从轨迹中学习压缩的运动嵌入，以高效生成真实的未来运动。",
+      "llm_tldr": "从轨迹中学习压缩的运动嵌入，以高效生成真实的未来运动。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning and feature extraction",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2604.09305v2",
+      "title": "VAGNet: Vision-based Accident Anticipation with Global Features",
+      "abstract": "Traffic accidents are a leading cause of fatalities and injuries across the globe. Therefore, the ability to anticipate hazardous situations in advance is essential. Automated accident anticipation enables timely intervention through driver alerts and collision avoidance maneuvers, forming a key component of advanced driver assistance systems. In autonomous driving, such predictive capabilities support proactive safety behaviors, such as initiating defensive driving and human takeover when required. Using dashcam video as input offers a cost-effective solution, but it is challenging due to the complexity of real-world driving scenes. Accident anticipation systems need to operate in real-time. However, current methods involve extracting features from each detected object, which is computationally intensive. We propose VAGNet, a deep neural network that learns to predict accidents from dash-cam video using global features of traffic scenes without requiring explicit object-level features. The network consists of transformer and graph modules, and we use the vision foundation model VideoMAE-V2 for global feature extraction. Experiments on four benchmark datasets (DAD, DoTA, DADA, and Nexar) show that our method anticipates accidents with higher average precision and mean time-to-accident while being computationally more efficient compared to existing methods.",
+      "authors": [
+        "Vipooshan Vipulananthan",
+        "Charith D. Chitraranjan"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-04-10T13:13:56+00:00",
+      "link": "https://arxiv.org/pdf/2604.09305v2",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "accident anticipation in autonomous driving and traffic scenes",
+      "llm_evidence_cn": "自动驾驶和交通场景中的事故预判",
+      "llm_evidence": "自动驾驶和交通场景中的事故预判",
+      "canonical_evidence": "自动驾驶和交通场景中的事故预判",
+      "llm_tldr_en": "Anticipates traffic accidents from dashcam video to support proactive safety in autonomous driving.",
+      "llm_tldr_cn": "通过行车记录仪视频预判交通事故，支持自动驾驶中的主动安全行为。",
+      "llm_tldr": "通过行车记录仪视频预判交通事故，支持自动驾驶中的主动安全行为。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "study of pedestrian and vehicle trajectory prediction models",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.09429v1",
+      "title": "Rays as Pixels: Learning A Joint Distribution of Videos and Camera Trajectories",
+      "abstract": "Recovering camera parameters from images and rendering scenes from novel viewpoints have long been treated as separate tasks in computer vision and graphics. This separation breaks down when image coverage is sparse or poses are ambiguous, since each task needs what the other produces. We propose Rays as Pixels, a Video Diffusion Model (VDM) that learns a joint distribution over videos and camera trajectories. We represent each camera as dense ray pixels (raxels) and denoise them jointly with video frames through Decoupled Self-Cross Attention mechanism. A single trained model handles three tasks: predicting camera trajectories from video, jointly generating video and camera trajectory from input images, and generating video from input images along a target camera trajectory. Because the model can both predict trajectories from a video and generate views conditioned on its own predictions, we evaluate it through a closed-loop self-consistency test, demonstrating that its forward and inverse predictions agree. Notably, trajectory prediction requires far fewer denoising steps than video generation, even a few denoising steps suffice for self-consistency. We report results on pose estimation and camera-controlled video generation.",
+      "authors": [
+        "Wonbong Jang",
+        "Shikun Liu",
+        "Soubhik Sanyal",
+        "Juan Camilo Perez",
+        "Kam Woh Ng",
+        "Sanskar Agrawal",
+        "Juan-Manuel Perez-Rua",
+        "Yiannis Douratsos",
+        "Tao Xiang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-04-10T15:47:23+00:00",
+      "link": "https://arxiv.org/pdf/2604.09429v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "predicting camera trajectories and learning joint distributions of videos and paths",
+      "llm_evidence_cn": "预测相机轨迹并学习视频与路径的联合分布",
+      "llm_evidence": "预测相机轨迹并学习视频与路径的联合分布",
+      "canonical_evidence": "预测相机轨迹并学习视频与路径的联合分布",
+      "llm_tldr_en": "A video diffusion model that jointly learns and predicts camera trajectories and video frames.",
+      "llm_tldr_cn": "一种联合学习并预测相机轨迹与视频帧的视频扩散模型。",
+      "llm_tldr": "一种联合学习并预测相机轨迹与视频帧的视频扩散模型。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning and feature extraction",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.10358v1",
+      "title": "COSMIK-MPPI: Scaling Constrained Model Predictive Control to Collision Avoidance in Close-Proximity Dynamic Human Environments",
+      "abstract": "Ensuring safe physical interaction between torque-controlled manipulators and humans is essential for deploying robots in everyday environments. Model Predictive Control (MPC) has emerged as a suitable framework thanks to its capacity to handle hard constraints, provide strong guarantees and zero-shot adaptability through predictive reasoning. However, Gradient-Based MPC (GB-MPC) solvers have demonstrated limited performance for collision avoidance in complex environments. Sampling-based approaches such as Model Predictive Path Integral (MPPI) control offer an alternative via stochastic rollouts, but enforcing safety via additive penalties is inherently fragile, as it provides no formal constraint satisfaction guarantees. We propose a collision avoidance framework called COSMIK-MPPI combining MPPI with the toolbox for human motion estimation RT-COSMIK and the Constraints-as-Terminations transcription, which enforces safety by treating constraint violations as terminal events, without relying on large penalty terms or explicit human motion prediction. The proposed approach is evaluated against state-of-the-art GB-MPC and vanilla MPPI in simulation and on a real manipulator arm. Results show that COSMIK-MPPI achieves a 100% task success rate with a constant computation time (22 ms), largely outperforming GB-MPC. In simulated infeasible scenarios, COSMIK-MPPI consistently generates collision-free trajectories, contrary to vanilla MPPI. These properties enabled safe execution of complex real-world human-robot interaction tasks in shared workspaces using an affordable markerless human motion estimator, demonstrating a robust, compliant, and practical solution for predictive collision avoidance (cf. results showcased at https://exquisite-parfait-ffa925.netlify.app)",
+      "authors": [
+        "Ege Gursoy",
+        "Maxime Sabbah",
+        "Arthur Haffemayer",
+        "Joao Cavalcanti Santos",
+        "Pietro Noah Crestaz",
+        "Vladimir Petrik",
+        "Nicolas Mansard",
+        "Vincent Bonnet"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-04-11T22:04:22+00:00",
+      "link": "https://arxiv.org/pdf/2604.10358v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "predictive reasoning for collision avoidance in human environments",
+      "llm_evidence_cn": "人类环境避障的预测性推理",
+      "llm_evidence": "人类环境避障的预测性推理",
+      "canonical_evidence": "人类环境避障的预测性推理",
+      "llm_tldr_en": "Scales constrained MPC for robot collision avoidance in dynamic human environments using predictive reasoning.",
+      "llm_tldr_cn": "扩展约束模型预测控制，利用预测推理实现动态人类环境中的机器人避障。",
+      "llm_tldr": "扩展约束模型预测控制，利用预测推理实现动态人类环境中的机器人避障。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.11081v1",
+      "title": "MapATM: Enhancing HD Map Construction through Actor Trajectory Modeling",
+      "abstract": "High-definition (HD) mapping tasks, which perform lane detections and predictions, are extremely challenging due to non-ideal conditions such as view occlusions, distant lane visibility, and adverse weather conditions. Those conditions often result in compromised lane detection accuracy and reduced reliability within autonomous driving systems. To address these challenges, we introduce MapATM, a novel deep neural network that effectively leverages historical actor trajectory information to improve lane detection accuracy, where actors refer to moving vehicles. By utilizing actor trajectories as structural priors for road geometry, MapATM achieves substantial performance enhancements, notably increasing AP by 4.6 for lane dividers and mAP by 2.6 on the challenging NuScenes dataset, representing relative improvements of 10.1% and 6.1%, respectively, compared to strong baseline methods. Extensive qualitative evaluations further demonstrate MapATM's capability to consistently maintain stable and robust map reconstruction across diverse and complex driving scenarios, underscoring its practical value for autonomous driving applications.",
+      "authors": [
+        "Mingyang Li",
+        "Brian Lee",
+        "Rui Zuo",
+        "Brent Bacchus",
+        "Priyantha Mudalige",
+        "Qinru Qiu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-04-13T07:02:45+00:00",
+      "link": "https://arxiv.org/pdf/2604.11081v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "leveraging historical actor trajectory information for road geometry priors",
+      "llm_evidence_cn": "利用历史参与者轨迹信息作为道路几何先验",
+      "llm_evidence": "利用历史参与者轨迹信息作为道路几何先验",
+      "canonical_evidence": "利用历史参与者轨迹信息作为道路几何先验",
+      "llm_tldr_en": "Uses vehicle trajectories as structural priors to enhance HD map construction and lane detection.",
+      "llm_tldr_cn": "利用车辆轨迹作为结构先验，提升高精地图构建和车道线检测的准确性。",
+      "llm_tldr": "利用车辆轨迹作为结构先验，提升高精地图构建和车道线检测的准确性。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning and feature extraction",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
