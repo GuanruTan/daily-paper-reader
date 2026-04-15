@@ -1,0 +1,821 @@
+Title: VidTAG: Temporally Aligned Video to GPS Geolocalization with Denoising Sequence Prediction at a Global Scale
+
+URL Source: https://arxiv.org/pdf/2604.12159v1
+
+Published Time: Wed, 15 Apr 2026 00:25:15 GMT
+
+Number of Pages: 22
+
+Markdown Content:
+# VidTAG: Temporally Aligned Video to GPS Geolocalization with Denoising Sequence Prediction at a Global Scale 
+
+## Parth Parag Kulkarni 1, Rohit Gupta 1,3 , Prakash Chandra Chhipa 2, Mubarak Shah 11Institute of Artificial Intelligence, University of Central Florida, USA 
+
+> 2
+
+## Lule˚ a Tekniska Universitet, Sweden, 3Amazon Prime Video Science, USA 
+
+{parthparag.kulkarni, rohit.gupta }@ucf.edu, prakash.chandra.chhipa@ltu.se, shah@crcv.ucf.edu 
+
+## Abstract 
+
+The task of video geolocalization aims to determine the pre-cise GPS coordinates of a video’s origin and map its tra-jectory; with applications in forensics, social media, and exploration. Existing classification-based approaches op-erate at a coarse city-level granularity and fail to cap-ture fine-grained details, while image retrieval methods are impractical on a global scale due to the need for extensive image galleries which are infeasible to com-pile. Comparatively, constructing a gallery of GPS co-ordinates is straightforward and inexpensive. We propose VidTAG, a dual-encoder framework that performs frame-to-GPS retrieval using both self-supervised and language-aligned features. To address temporal inconsistencies in video predictions, we introduce the TempGeo module, which aligns frame embeddings, and the GeoRefiner module, an encoder-decoder architecture that refines GPS features us-ing the aligned frame embeddings. Evaluations on Mapil-lary (MSLS) and GAMa datasets demonstrate our model’s ability to generate temporally consistent trajectories and outperform baselines, achieving a 20% improvement at the 1 km threshold over GeoCLIP. We also beat current State-of-the-Art by 25% on global coarse grained video geolo-calization (CityGuessr68k). Our approach enables fine-grained video geolocalization and lays a strong foundation for future research. More details on the project webpage: parthpk.github.io/vidtag webpage. 
+
+## 1. Introduction 
+
+Geolocalization refers to the procedure of ascertaining the geographic position using visual input. Given an im-age/video, determining its location in the world can be a valuable asset. Geolocalization has a lot of downstream applications in forensics, like investigative analysis of pic-tures; social media, like location tagging; and exploration, like study of unknown and dangerous places/landscapes. Current methods fall into two regimes with complementary 5 64  
+
+> 231
+> Video Frames
+> Geolocalized Trajectory
+> 5
+> 1
+> 23
+> 4
+> 6
+
+Figure 1. Frame-wise Video to GPS Sequence Prediction. Our model geolocalizes every frame in a video on a global scale to give a temporally consistent trajectory 
+
+strengths. Fine-grained approaches (city- or region-level) predominantly use retrieval: a query image is matched to a geo-referenced image gallery, and the query inherits the lo-cation of its best match. This strategy yields high accuracy but requires heavy compute and large reference galleries, and it is sensitive to domain shift [6, 30, 61, 65, 66]. World-wide approaches typically use classification: the Earth is partitioned into regions, and the model predicts a region label. This formulation enables single-pass inference but provides only approximate locations; increasing granular-ity raises computational cost and class confusion [5, 13, 21, 32, 37, 54]. Bridging these extremes, GeoCLIP[54] embeds images and GPS coordinates in a shared space, enabling di-rect retrieval of GPS points without massive image galleries and making large GPS galleries practical. This inspires us to introduce a novel formulation of this problem of video geolocalization via a frame to GPS re-trieval approach. For videos, the central challenge is main-taining temporal consistency in predictions. An ideal model should predict the location of every frame in a way which results in a coherent trajectory. Fig. 1 shows a predicted trajectory which aligns with the ground truth trajectory 1
+
+> arXiv:2604.12159v1 [cs.CV] 14 Apr 2026
+
+and the model understands the temporal progression of the video frames. Applying image methods frame by frame of-ten produces jittery trajectories(Fig. 2), and in the worst cases the predicted path jumps across continents. The only global scale video effort to date CityGuessr[21], reasons at the whole-video level and therefore does not enforce frame-wise consistency. Consequently, it remains unclear how to obtain precise and temporally coherent trajectories at global scale. In this paper, we propose a frame-to-GPS retrieval ap-proach for video geolocalization at a large scale that outputs a temporally consistent trajectory. Our proposed method comprises of a dual-encoder that leverages the different capabilities of DINOv2[33] and CLIP[39], along with a TempGeo module for temporal alignment of features of frames of a video, as well as an encoder-decoder module named GeoRefiner, for refining GPS features in accordance with the aligned frame features. As this is the first attempt to solve framewise video geolocalization with a GPS retrieval approach to the best of our knowledge, it can serve as a baseline approach for future research. Our main contributions can be highlighted as follows: • We introduce a novel formulation of framewise video ge-olocalization on a global scale • We propose the first frame-to-GPS retrieval method to solve large-scale frame-wise video geolocalization • Our model comprises of 
+
+– dual CLIP and DINOv2 frame encoders combining se-mantic and visual features 
+
+– TempGeo and GeoRefiner modules which specifically address the issue of temporal inconsistency • We outperform all state-of-the-art models and base-lines on MSLS[58] by 20% @1km, as well as other video datasets such as GAMa[56] by 25% @1km and CityGuessr68k[21] by 25% at city-level. 
+
+## 2. Related Work 
+
+Video geolocalization has always been primarily retrieval-based and confined to fine-grained localization. Worldwide geolocalization being mostly classification-based, has been relatively unexplored for videos, especially for frame-based geolocalization and trajectory mapping. 
+
+2.1. Image Geolocalization 
+
+Global, primarily classification-based methods. Weyand et al. [59] introduced worldwide image geolocalization as a classification problem on Im2GPS [14]. Vo et al. [55] extended this formulation with multi-level geographic hi-erarchies, while CPlaNet [45] combined coarse partitions via a combinatorial scheme to predict finer cells. Sub-sequent work improved the visual encoders and training pipelines: ISNs [32] encoded scene types explicitly and proposed hierarchical evaluation; Translocator [37] adopted   
+
+> Figure 2. Temporal Inconsistency Issue. Geolocalizing each frame separately leads to incoherent trajectories. The problem be-comes worse as the scale increases. Yellow: GT, Red: Predicted.
+
+twin encoders for images and segmentations; GeoDecoder [5] introduced a query-based encoder–decoder; and PI-GEON [13] leveraged the CLIP [39] vision encoder with a clustering strategy. GeoCLIP [54] reframed geolocal-ization as contrastive multimodal learning between im-ages and raw GPS, yielding a strong global-scale retrieval 
+
+model. Following that, GT-Loc[46] improved upon this strategy by incorporating time prediction. Recently, multi-modal large language models (MLLMs) like Qwen2.5-VL[2] have shown promise in this domain. Some MLLMs like GeoReasoner[26] and GAEA[4] are specifically trained for this task. New works like G3[18] and GeoRanker[19] have incorporated RAG[25] to the MLLM architecture to-wards improved performance. These methods operate on individual images and do not address the temporal incon-sistency intrinsic to video (Sec. 1). Most of the above were trained on MP-16 [22], except CPlaNet [45]. 
+
+Fine-grained, retrieval-based methods. In parallel, re-gional geolocalization has been dominated by retrieval (ei-ther same-view or cross-view) between a query image and a geo-referenced gallery. Earlier approaches were CNN[23]-based [16, 27, 40, 41, 47, 50, 60], and the advent of Vision Transformers (ViT) [7] led to transformer-based cross-view models [6, 30, 61, 65, 66]. While highly precise at regional scales, scaling image-to-image retrieval to a worldwide set-ting is computationally prohibitive and requires unrealisti-cally dense gallery coverage. 
+
+2.2. Video Geolocalization 
+
+Early trajectory estimation. Vaca et al. [52] addressed trajectory prediction for a moving camera using Bayesian tracking, predating deep learning approaches. 
+
+Frame-based and cross-view deep methods. GTFL [42] introduced a VGG [48]-based hybrid with self-attention[53] to mitigate temporal inconsistency for same-view , frame-based geolocalization. Extending to cross-view , GAMa-Net [56] used a hybrid backbone (ResNet [15]/R3D [17]/ViT [7]) with multi-stage hierarchical retrieval. GAReT [36] proposed a fully transformer-based architecture with sim-ilar multi-stage retrieval and a TransRetriever module that further addresses temporal inconsistency. These methods 2III 
+
+> II
+> I
+
+...
+
+> concat
+
+(lat, lon) 
+
+> Location Encoder
+> GPS Embeddings
+> Frame Embeddings
+> DINOv2
+> CLIP
+> Equal Earth Projection
+> TempGeo
+> σ1
+> σ2
+> σN
+> Random Fourier Features
+> Random Fourier Features
+> Random Fourier Features
+
+.
+
+.
+
+.
+
+.(lat, lon)   
+
+> projected
+> (lat, lon)
+> Location Encoder
+> Video Frame Encoder +TempGeo Temporally Aligned Frame Embeddings
+> Encoder
+> Decoder
+> GeoRefiner
+> GT GPS Embeddings
+> Refined GPS Embeddings
+> x1
+> x2
+> Jitter Shift
+> Collapse
+> Noise Addition
+> (lat, lon)
+> w/ noise
+> Noisy GPS Embeddings
+> Denoiser
+> [Cross-Attention]
+
+PHASE I 
+
+PHASE II Figure 3. Schematic Illustration of the proposed Approach. The training of the model is divided in two phases. (a) Phase I train-ing. Each frame is simultaneously passed through DINOv2 and CLIP, and concatenated to generate an embedding. TempGeo module specifically instills positional order in frames of a video and aligns them with other frames, inculcating temporal consistency within frame embeddings. The Video Frame Encoder and TempGeo module are contrastively trained with the Location Encoder. (b) Phase II training. 
+
+The GeoRefiner module encodes the temporally aligned frame embeddings of a video. Noisy GPS embeddings are input into the decoder along with the encoded frame embeddings. GPS embeddings are cross-attended with the frame embeddings, which is trained to denoise. 
+
+remain confined to a few regions. 
+
+City-level prediction and temporal aggregation. 
+
+CityGuessr [21] moved toward global video geolocaliza-tion by predicting the city for whole videos and releasing CityGuessr68k. However, it treats each video holistically rather than localizing frames, leaving temporal inconsis-tency unaddressed. Complementary work studies temporal aggregation to fuse framewise features into coherent video-level representations [9, 11, 29]. We adopt a Frame-to-GPS retrieval paradigm as a fea-sible approach for global scale framewise video geolocal-ization. We aim to harness the complementary strengths of CLIP and DINOv2, and address the temporal inconsistency issue with our proposed TempGeo and GeoRefiner modules. 
+
+## 3. Method 
+
+Given a video, our goal is to predict the GPS location for each frame and thus map its trajectory. We frame this as a frame-to-GPS retrieval problem. Our approach con-sists of four components: Dual Frame Encoder (Section 3.1), TempGeo (Section 3.2), Location Encoder (Section 3.3), and GeoRefiner (Section 3.4). Combined frame em-beddings from CLIP and DINOv2 encoders are temporally aligned by TempGeo. GPS coordinates are encoded via Lo-cation Encoder [54], and contrastively trained with frame features GeoRefiner further refines GPS embeddings using an encoder-decoder architecture (Fig. 3). 
+
+3.1. Dual Frame Encoder 
+
+We use two complementary vision encoders to construct per-frame descriptors. CLIP provides language-aligned semantics learned from large-scale image-text pretraining [39], which helps disambiguate landmarks, signage, and scene context. DINOv2 supplies robust self-supervised fea-tures [33] that capture global appearance and are less sensi-tive to domain shifts. Combining them yields embeddings that are both semantically informative and visually descrip-tive, which benefits frame-to-GPS retrieval. For each frame, let Zclip and Zdino be the token sequences 3produced by the two ViTs. We obtain single-vector descrip-tors by using the class token: 
+
+fclip ∈ Rdclip , fdino ∈ Rddino .
+
+We fuse the modalities by concatenating the two vectors: 
+
+zt = fclip ∥ fdino 
+
+ ∈ Rdclip +ddino 
+
+The fused representation zt is the frame representation consumed by TempGeo (Sec. 3.2). 
+
+3.2. TempGeo 
+
+Existing frame-wise video geolocalization models suffer from temporal inconsistency, as independent frame predic-tions can drift or include outliers that distort the trajec-tory. To address this, we introduce TempGeo , a lightweight Transformer encoder that performs learned temporal align-ment through full self-attention across video frames. Unlike post-hoc smoothing or temporal pooling, TempGeo explic-itly models long-range frame dependencies , allowing un-certain or ambiguous frames to leverage contextual cues from both nearby and distant views. Given the fused, unit-normalised embeddings zt ∈ RD from Sec. 3.1, we add temporal positional embeddings to encode frame order, 
+
+ˆzt = zt + pt,
+
+and process the sequence ˆZ = [ˆ z1, . . . , ˆzT ] with a multi-head self-attention encoder to obtain attended embeddings 
+
+z⋆t ∈ RD . Allowing each frame to attend to every other frame lets ambiguous views borrow context from both nearby and distant frames, and pulls isolated outliers closer to the consensus in feature space. TempGeo pre-serves the hidden dimensionality D and uses standard pre-normalization and dropout, so it integrates cleanly with the rest of the pipeline. TempGeo is trained jointly in Phase I by replacing zt
+
+with z⋆t when computing the similarity matrix for the con-trastive loss (Sec. 3.5). This performs alignment before 
+
+retrieval so cross-frame context shapes the learning signal rather than relying on post-hoc smoothing. In Phase II, TempGeo is frozen and its outputs serve as the visual in-put to the GeoRefiner encoder (Sec. 3.4). This design intro-duces end-to-end temporal alignment within the contrastive learning framework, enabling the model to exploit non-local visual cues such as recurring landmarks or illumina-tion changes that may span many frames, without relying on GPS or external supervision. 
+
+3.3. Location Encoder 
+
+The Location Encoder builds upon GeoCLIP. GPS coordi-nates are standardized using Equal Earth Projection [44], then represented hierarchically via Random Fourier Fea-tures (RFF) [49]. Each RFF is passed through separate MLPs; outputs are summed elementwise to generate final GPS embeddings, which are finetuned contrastively. Collapse to Point Random Scatter   
+
+> Shift
+> Figure 4. Phase I failure modes Most commonly observed noise patterns in Phase I predictions. Phase II training refines GPS pre-dictions to address these issues. Yellow: GT, Red: Predicted.
+
+3.4. GeoRefiner 
+
+Even though TempGeo aligns frame features within a video, the association between visual embeddings and their corre-sponding GPS embeddings can remain noisy. We therefore introduce GeoRefiner , which refines the GPS sequence us-ing an encoder–decoder Transformer inspired by machine translation [24, 53, 57]. The decoder receives GPS embed-dings as queries while the encoder processes the temporally aligned frame embeddings, which are then passed to the de-coder as context. Cross-attention in the decoder aligns the GPS sequence to the visual tokens. Let zt ∈ RD be the fused, unit-normalised frame em-bedding (Sec. 3.1) and z⋆t the TempGeo output (Sec. 3.2). Let gt denote the GPS embedding from the Location En-coder (Sec. 3.3). GeoRefiner applies cross attention over the GPS sequence in the decoder together with the encoder output produced from {z⋆t }. We do not use a causal mask, allowing each GPS token to attend to the entire sequence and to all visual frames through cross-attention. The model width matches TempGeo so the module integrates cleanly with the rest of the pipeline. To train GeoRefiner as a denoiser, we do not feed it the raw Phase I predictions. Instead, we corrupt ground-truth GPS coordinates to simulate characteristic Phase I failure modes observed in Fig. 4, including sequence-wide shifts, collapses, and random jitter, and obtain their embeddings with the Location Encoder. These noisy GPS embeddings serve as decoder queries, while the corresponding z⋆t serve as encoder inputs. The decoder outputs refined GPS em-beddings g′
+
+> t
+
+, which are aligned with the ground-truth em-beddings gt using the weighted Hinge loss from Sec. 3.5. This training encourages the model to undo realistic noise patterns by leveraging visual context. At inference (Fig. 5), decoder queries are formed from Phase I GPS predictions (embedded by the Location En-coder), and the encoder receives the TempGeo features z⋆t .A single forward pass yields refined embeddings g′
+
+> t
+
+, which are then compared against the gallery in a same-domain GPS-to-GPS retrieval to obtain the final per-frame coordi-nates. Using a shallow encoder–decoder keeps the added latency low while delivering trajectory improvements. 4. . . . . .
+
+…
+
+…
+
+…
+
+…V 11 V 11 G 11 V 11 G 12 V 11 G 13 V 11 G k1 V 11 G k2 V 11 G k3                                                                                            
+
+> V12 G11
+> V11 G12 V11 G13 V12 Gk1 V12 Gk2 V12 Gk3
+> V13 G11
+> V11 G12 V11 G13 V13 Gk1 V13 Gk2 V13 Gk3
+> V12
+> V13
+> G11 G12 G13 Gk1 Gk2 Gk3
+> (lat, lon)
+> Location Encoder
+> Video Frame Encoder +TempGeo
+> Gallery GPS Embeddings
+> Frame Embeddings
+> GeoRefiner
+> Predicted GPS Embeddings
+> Frame Embeddings Similarity Matrix
+> Refined GPS Embeddings
+> (Queries)
+> …
+> …
+> …
+> …
+> V11
+> V11 G11
+> V11 G12
+> V11 G13
+> V11 Gk1
+> V11 Gk2
+> V11 Gk3
+> V12 G11
+> V11 G12
+> V11 G13
+> V12 Gk1
+> V12 Gk2
+> V12 Gk3
+> V13 G11
+> V11 G12
+> V11 G13
+> V13 Gk1
+> V13 Gk2
+> V13 Gk3
+> V12 V13
+> G11
+> G12
+> G13
+> Gk1
+> Gk2
+> Gk3
+
+. . .
+
+> Gallery GPS Embeddings
+> Similarity Matrix
+> Ground Truth GPS coords corresponding to input video
+> Other (Negative) GPS coords
+
+Figure 5. Inference Procedure. Frames are passed through the dual encoders followed by TempGeo to generate frame-wise embeddings, while GPS embeddings are obtained from a gallery of coordinates via the location encoder. The frame-wise embeddings are compared with GPS embeddings to make initial predictions. These predictions, along with corresponding frame embeddings, are refined by the GeoRefiner model, which outputs refined GPS embeddings. A second retrieval with refined embeddings produces final predictions. 
+
+3.5. Losses 
+
+We use two losses: Phase I employs contrastive learning, and Phase II optimizes alignment. In Phase I, the similar-ity matrix is formed by multiplying frame and GPS embed-dings; the contrastive loss is the cross-entropy between this matrix and the identity. Let V stack the attended frame em-beddings from TempGeo, i.e., V = z⋆t
+
+ over all frames in the batch (Sec. 3.2), and let G stack the corresponding GPS embeddings from the Location Encoder, i.e., G = gt
+
+.With these definitions: 
+
+Lcontr. (V, G ) = CE (V G T , I ) (1) where I is the identity. Because zt are unit-normalised in Sec. 3.1 and TempGeo preserves dimensionality, the inner products in V G ⊤ correspond to cosine similarity up to the GPS embedding scale. Phase II focuses on alignment using a weighted Hinge loss. Here, G′ denotes the refined GPS embeddings pro-duced by GeoRefiner ( G′ = g′t
+
+), and G are the ground-truth GPS embeddings from the Location Encoder. The frame-wise and video-wise components use loss matrices built from mean-squared error between similarity matrices (constructed as in Phase I) and identity. The final objective is the weighted sum of the means of negative pairs (upper-triangular and lower-triangular) and positive pairs (diagonal elements). α is the weight of the negative pairs and β of the positive pairs. We choose the weights empirically through ablations (Supplementary material Section B.1). Given G′ and G,
+
+Mf = M SE (G′GT , I ); Mv = M SE (G′
+
+seq GTseq , I ) (2) 
+
+Lf = α
+
+h
+
+tr U (Mf ) + tr L(Mf )
+
+i
+
++ β.dia (Mf ) (3) 
+
+Lv = α
+
+h
+
+tr U (Mv ) + tr L(Mv )
+
+i
+
++ β.dia (Mv ) (4) 
+
+Lwt Hinge (G, G ′) = Lf + Lv , (5) where Gseq and G′
+
+seq denote the same embeddings orga-nized at the video level, I is the identity, Mf and Mv are the frame- and video-wise loss matrices, tr U and tr L are the sets of upper- and lower-triangular elements, dia the diago-nal elements, and X the mean of elements in matrix X. This formulation ties directly to the definitions in Secs. 3.1–3.4 and promotes alignment at both frame & video granularity. 
+
+## 4. Experiments 
+
+We perform experiments with multiple datasets and set-tings. The data we use, and the training and validation setup in regards to the same is described below. Training Details are in Supplementary material Sec. A. 
+
+4.1. Training and Validation Data 
+
+We show the performance of our model and further anal-ysis primarily on the Mapillary(MSLS)[58] dataset as it is the largest image sequence dataset with frame-wise GPS annotations as well as a decent geographic cover-age. As the MSLS dataset was primarily introduced for same-view frame-to-frame/sequence-to-sequence retrieval, it comprises of predivided query and database sequences. As the same-view database is not relevant for our purpose, we include all the sequences from both sets, and split it into training and validation data following the procedure de-scribed in [21]. We train both phases of our network on the train split, and validate on the val split with a val gallery. We show additional results on the GAMa[56](videos from BDD100k[62], data split from GAMa) for demonstration of the efficacy of our model on data with dense geographic coverage. We also show our performance on an alternate task of city prediction on CityGuessr68k and compare with the current state-of-the-art as well as foundation models. 
+
+4.2. Uniform Grid Gallery 
+
+Framewise retrieval requires a reference gallery, which in our case comprises of GPS coordinates. To make sure that 5the retrieval is fair, the model should not have access to any information pertaining to the validation set. Thus we con-struct a uniform grid gallery using the training data, such that model has to perform a completely blind retrieval. The gallery construction procedure for all datasets is described in detail in the Supplementary material Sec. D. 
+
+4.3. Evaluation Metrics 
+
+We show our results on a variety of metrics. As stan-dard practice with worldwide geolocalization models, we show accuracy results on certain distance thresholds. As we observe that our model performs very well( ∼ 98% ) on and beyond city-level(25km), we do not show performance for over 25km. Instead for additional granularity, we add finer thresholds of 500m(Sub-street level) and 5km(Locality level) to the 2 standard ones of 1km and 25km resulting in a total of 4 thresholds. We also measure the model’s precision in terms of median distance error. As frame-wise performance does not accurately measure the quality of sequences generated from the frame-wise pre-dictions, we also show our performance on a diverse set of video metrics. First, we show results on accuracy with distance thresholds for videos (computation procedure de-scribed in detail in Supplementary material Sec. E.1). Then, for analyzing the quality of trajectories, we show performance on additional metrics of Discrete Frechet Distance(DFD)[8] and Mean Range Difference(MRD)[10], adapted for 2D sequences. We adapt MRD for 2D by com-puting MRD separately for latitude/longitude sequences (More details in Supplementary material Sec. E.2 and E.3). 
+
+## 5. Results and Discussion 
+
+We present the results of the experiments described in Sec-tion 4. We first describe the baselines and state-of-the-art methods used for comparison, show qualitative results, then report performance on MSLS, GAMa, and CityGuessr68k, followed by an analysis of the accuracy–throughput tradeoff and the effect of gallery resolution. 
+
+5.1. Baselines and SoTA Methods 
+
+As frame-to-GPS video geolocalization has not been stud-ied before, we compare to state-of-the-art image geolocal-ization models and additional baselines. Our main baseline is GeoCLIP[54], the image equivalent of our approach and a state-of-the-art method for worldwide image geolocaliza-tion. We report both zero-shot and fine-tuned variants for a fair comparison. We also evaluate classification-based mod-els PlaNet [59], ISNs [32], and GeoDecoder [5], which is a strong SoTA geolocation model. All models are trained on the same training data, and perform classification over S2 cells generated with the S2 geometry library 1. The training     
+
+> 1code.google.com/archive/p/s2-geometry-library Budapest, Hungary Moscow, Russia
+> Figure 6. Qualitative Results. Mapped near-perfect geolocalized trajectories predicted by VidTAG. Yellow: GT, Red: Predicted.
+
+and validation procedures for these baselines are described in Supplementary Sec. F. In addition, we fine-tune classi-fication models using CLIP and DINOv2 backbones under similar settings; these are used for comparison on MSLS and GAMa. For CityGuessr68k, we compare to the mod-els evaluated in the original paper, as well as CLIP-based geo-foundation models [1, 12, 54] and multi-modal large language model (MLLM) approaches [2, 26]. 
+
+5.2. Qualitative Results 
+
+The primary objective of video geolocalization is mapping the trajectory of a given video. Thus we show qualitative performance of our model by plotting a trajectories. Fig. 6 shows two trajectories traced by predictions of our model in different countries from MSLS. The yellow curves repre-sent the ground truth trajectories constructed from the given GPS annotations, while red curves depict the trajectories formed by the GPS coordinates predicted by the model. Ad-ditional Qualitative Analysis (using videos from GAMa) is provided in Supplementary material Sec. J. 
+
+5.3. Quantitative Results 
+
+MSLS: Table 1 shows results on the MSLS dataset. Our model outperforms the best baseline by a clear margin across all frame-wise and video metrics. In particular, VidTAG improves by roughly 20% over fine-tuned Geo-CLIP at the 1 km threshold. DINOv2 (Classification) and GeoCLIP-FineTuned perform well at coarser thresholds (5 km, 25 km), but struggle in the finer regime (0.5 km, 1 km) where our model excels. Trajectory quality is also substantially better, as indicated by lower DFD and MRD, highlighting the effectiveness of TempGeo and GeoRefiner. 
+
+GAMa: We next evaluate on the framewise annotated GAMa [56] dataset derived from BDD100k [62]. As shown in Table 2, VidTAG again shows a substantial improvement over fine-tuned GeoCLIP, with an increase of almost 25% at the 1 km threshold. The very low DFD and MRD scores demonstrate that our model produces high-quality trajecto-ries in fine-grained, densely sampled scenarios. 
+
+CityGuessr68k: CityGuessr68k [21] is a global video dataset covering 166 cities with hierarchical geographical 6Table 1. Comparison of our model with baseline methods on Mapillary (MSLS) dataset 
+
+Model Frame-wise Metrics Video Metrics Distance ( ar [%] @ km) ↑ Median Distance Error(km) ↓
+
+Distance ( ar [%] @ km) ↑ Median Distance Error(km) ↓
+
+DFD ↓ MRD ↓Sub-street Street Locality City Sub-street Street Locality City 0.5 km (500 m) 1 km 5 km 25 km 0.5 km (500 m) 1 km 5 km 25 km 
+
+GeoCLIP[54]-ZeroShot 0.9 2.7 22.9 84.6 11.54 1.3 3.8 27.6 89.9 9.85 24.94 2.83 PlaNet[59] 4.4 10.5 38.4 81.0 7.38 3.9 8.6 35.6 78.9 7.66 67.42 9.86 ISNs[32] 4.9 11.2 38.6 84.3 7.22 4.3 10.1 36.0 80.4 7.51 62.55 8.95 GeoDecoder[5] 6.3 14.7 50.6 88.5 4.9 5.4 13.5 46.6 88.1 5.58 54.16 5.07 CLIP[39] (Classification) 6.1 14.3 49.7 92.7 5.05 6.1 13.6 50.3 95.4 4.97 25.64 1.96 DINOv2[33] (Classification) 7.4 18.1 58.2 96.8 3.86 7.9 18.4 60.8 96.2 3.62 4.28 1.60 GeoCLIP[54]-FineTuned 8.3 22.5 63.0 93.9 2.97 6.7 18.6 58.2 94.1 3.69 22.52 2.82 
+
+VidTAG (Ours) 21.5 41.0 76.7 97.9 1.35 22.2 39.8 74.3 97.5 1.49 3.87 1.07 
+
+Table 2. Comparison of our model with baseline methods on GAMa split of the BDD100k dataset 
+
+Model Frame-wise Metrics Video Metrics Distance ( ar [%] @ km) ↑ Median Distance Error(km) ↓
+
+Distance ( ar [%] @ km) ↑ Median Distance Error(km) ↓
+
+DFD ↓ MRD ↓Sub-street Street Locality City Sub-street Street Locality City 0.5 km 1 km 5 km 25 km 0.5 km 1 km 5 km 25 km 
+
+GeoCLIP[54]-ZeroShot 4.1 10.1 33.5 74.9 11.15 4.0 9.6 32.2 75.3 11.08 14.29 1.51 PlaNet[59] 7.7 15.4 44.1 84.5 6.26 6.3 14.3 43.5 86.4 6.21 43.19 6.76 ISNs[32] 8.2 16.3 44.8 86.1 6.11 7.0 14.9 45.1 87.2 6.06 40.07 6.14 GeoDecoder[5] 12.9 23.2 52.8 88.9 4.44 10.7 20.4 52.8 87.7 4.50 28.46 2.92 CLIP[39] (Classification) 10.9 20.3 49.9 90.2 5.03 9.4 18.4 50.6 90.3 4.90 17.34 1.26 DINOv2[33] (Classification) 13.2 23.2 50.4 89.7 4.92 11.5 21.0 52.5 90.3 4.50 16.90 1.85 GeoCLIP[54]-FineTuned 16.3 28.3 57.8 89.1 3.28 15.9 28.7 61.2 90.9 2.87 6.50 0.50 
+
+VidTAG (Ours) 35.4 53.1 77.8 94.4 0.88 35.8 53.6 78.4 94.6 0.86 0.39 0.17 
+
+Table 3. City-level prediction results on CityGuessr68k 
+
+Model City ↑ State ↑ Country ↑ Continent ↑
+
+PlaNet[59] 55.8 56.3 60.8 74.1 ISNs[32] 59.5 59.9 64.1 75.9 GeoDecoder[5] 64.2 64.5 69.5 79.9 GeoReasoner[26] 38.5 42.8 64.4 81.9 Qwen2.5-VL[2] 55.1 59.9 78.2 91.3 OSV[1] 23.1 33.5 55.6 78.1 StreetCLIP[12] 55.6 56.8 69.7 91.2 GeoCLIP[54] 57.8 60.5 75.9 90.8 Timesformer[3] 60.9 61.4 66.1 78.4 VideoMAE[51] 64.5 64.5 65.9 74.4 CityGuessr[21] 69.6 70.2 74.8 83.8 
+
+VidTAG(Ours) 94.9 95.5 96.8 98.5 
+
+labels. We adapt it to a city-level GPS retrieval task, where the gallery contains the GPS coordinates of the city cen-tres. We compare VidTAG to image classification, MLLM, CLIP-based, and video classification baselines. As shown in Table 3, our model outperforms all previous state-of-the-art approaches by more than 25% at the city level, reaching 
+
+∼95% accuracy. It also achieves the best performance at state, country, and continent levels, indicating strong gener-alization to global-scale datasets. A more detailed analysis of hard cases is provided in Supplementary Sec. K. 
+
+5.4. Accuracy vs Throughput Tradeoff Analysis 
+
+Traditional models exhibit a clear tradeoff between ge-olocalization accuracy and inference throughput: higher performance usually comes with larger model sizes and lower FPS. Figure 7 summarizes this behaviour. CNN[23]-based PlaNet[59] achieves the fastest inference at around 100 FPS. Swin-B[28]-based GeoDecoder[5] improves ge-30 40 50 60 70 80 90 100  
+
+> FPS (higher is better)
+> 10
+> 15
+> 20
+> 25
+> 30
+> 35
+> 40
+> Framewise Acc. @ 1km (higher is better)
+> VidTAG (Ours)
+> GeoCLIP
+> DINOv2-Cls.
+> CLIP-Cls. GeoDecoder
+> PlaNet
+> FPS vs Framewise Accuracy @ 1km
+> VidTAG
+> Baselines
+> ViT Backbone
+> Swin Backbone
+> CNN Backbone
+
+Figure 7. Performance vs Throughput Tradeoff. Our model is significantly better with only a minimal throughput decrease. 
+
+olocalization accuracy but reduces throughput by about 24 FPS. DINOv2[33] and CLIP[39] classification base-lines are slower still, with only modest performance gains. Retrieval-based GeoCLIP[54] further reduces FPS due to the additional retrieval computation. Overall, these models follow a roughly linear performance–throughput tradeoff. In contrast, our model achieves significantly better ac-curacy than GeoCLIP with only a minimal decrease in throughput, demonstrating that the proposed modules are lightweight yet effective. Figure 7 also shows our model evaluated with three different gallery resolutions, which are discussed in Sec. 5.5. A detailed computational cost analy-sis is provided in Supplementary Sec. I. 
+
+5.5. Effect of Gallery Resolution 
+
+The resolution of the grid gallery has a sizable impact on both performance and computational cost. Finer galleries 7Table 4. Component-wise Ablation Study                                                                             
+
+> Ablation Component Frame-wise Metrics Video Metrics Distance ( ar[%] @ km) ↑Median Distance Error(km) ↓
+> Distance ( ar[%] @ km) ↑Median Distance Error(km) ↓
+> DFD ↓MRD ↓Backbone TempGeo GeoRefiner Street Locality Street Locality CLIP DINOv2 1 km 5 km 1 km 5 km
+> ✓✗✗✗22.5 63.0 2.97 18.6 58.2 3.69 22.52 2.82
+> ✗✓✗✗26.4 70.1 2.13 24.7 69.4 2.32 9.15 1.03
+> ✗✓✓✗30.2 72.5 1.91 30.5 72.3 1.99 3.01 0.41
+> ✓✓✓✗40.1 75.4 1.38 38.7 73.5 1.52 7.63 1.57
+> ✓✓✓✓41.0 76.7 1.35 39.8 74.3 1.49 3.87 1.07
+
+Table 5. Impact of Gallery Resolution                             
+
+> Resolution Distance (a r [%] @ km) ↑Median Distance Error(km) ↓
+> DFD ↓MRD ↓Sub-street Street Locality (km) 0.5 km (500 m) 1 km 5 km
+> 116.7 38.6 75.1 1.43 4.21 1.18 0.5 20.1 40.3 75.5 1.35 3.98 1.11 0.1 21.5 41.0 76.7 1.35 3.87 1.07
+
+provide more precise candidate locations, but their size scales quadratically with resolution, increasing compute and memory requirements. Table 5 compares our model on Mapillary (MSLS)[58] using galleries with resolutions of 1 km, 0.5 km, and 0.1 km. For our main evaluations, we use a resolution of 0.1 km on MSLS, which is finer than the lowest distance threshold (0.5 km) while keeping the gallery size manageable. Finer resolutions would lead to a massive gallery with diminishing returns. For GAMa, we choose a 0.5 km resolution because of availability of denser data. We include further discussion in the Supplementary ma-terial. Sec. H demonstrates the generalizability of our proposed techniques, with a unified model which signifi-cantly outperforms state-of-the-art methods and baselines including finetuned GeoCLIP[54] on MSLS and GAMa, and CityGuessr[21] on CityGuessr68k. Sec. C shows our model’s robustness towards video length variation. 
+
+## 6. Ablation Studies 
+
+6.1. Component-wise Analysis 
+
+As outlined in Section 3, our model comprises several com-ponents whose effects are quantified in Table 4. Beginning with a Finetuned GeoCLIP baseline that yields moderate re-sults, we observe consistent gains as additional components are introduced. The full configuration combining CLIP and DINOv2 backbones with TempGeo and GeoRefiner deliv-ers the strongest overall performance. The trajectory metrics exhibit a clear progression: re-placing CLIP with DINOv2 reduces DFD and MRD, and adding TempGeo further decreases both. Reintroducing CLIP then provides a 10% improvement in 1km accuracy through complementarity with DINOv2, albeit at the cost of some smoothness, as reflected by increases in DFD and MRD. Incorporating GeoRefiner restores smoothness, bringing these values back down. Taken together, the results indicate that TempGeo and GeoRefiner successfully im-prove temporal consistency, their primary objective, while 
+
+Table 6. Effectiveness of our dual encoder                   
+
+> Encoders Distance ( ar[%] @ km) ↑Median Distance Error(km) ↓
+> Sub-street Street Locality City 0.5 km (500 m) 1 km 5 km 25 km
+> CLIP + SigLIP 11.4 27.8 71.0 97.1 2.15
+> CLIP + DINOv2 22.9 40.1 75.4 97.4 1.38
+
+the joint use of CLIP and DINOv2 drives accuracy. 
+
+6.2. Importance of Choice in Dual Encoders 
+
+As discussed in Sec. 3.1, our model employs a dual frame encoder approach, which entails combining image features from both CLIP[38] and DINOv2[33] to obtain the final frame feature embedding. The choice of the two encoders is not arbitrary, as both encoders complement each other and provide utility to the model, which the other one cannot. CLIP provides the semantic understanding which DINOv2 lacks, and DINOv2 provides a strong general representa-tion that CLIP cannot provide. Thus, they overcome each others’ shortcomings. We test this hypothesis by training a variation of our model in which we replace the DINOv2 encoder with a SigLIP[63] encoder, which is essentially an upgraded CLIP. Table 6 shows that despite similar feature size, the CLIP-DINOv2 combination is superior in terms of performance, which empirically verifies our hypothesis. Additional ablations examining the choice of α and β
+
+hyperparameters, number of MLP layers in image encoder, 
+
+σ values for RFF in location encoder and training sequence length appear in Supplementary Sec. B. 
+
+## 7. Conclusion 
+
+We propose a framework for global video geolocaliza-tion, introducing a frame-to-GPS retrieval approach that achieves precise and scalable localization with temporally consistent trajectories. We leverage the complementary strengths of DINOv2 and CLIP for better feature repre-sentation. Our TempGeo module ensures temporal align-ment, and the GeoRefiner module refines noisy GPS pre-dictions for improved accuracy. Experiments on datasets such as MSLS, GAMa, and CityGuessr68k demonstrate state-of-the-art performance in both fine-grained localiza-tion and trajectory consistency, significantly outperforming prior works. 8Acknowledgments 
+
+This work was supported in parts by the US Army contract W911NF-2120192 and National Geospatial-Intelligence Agency(NGA) Award #HM0476-20-1-0001. We would like to extend our gratitude to all the re-viewers for their valuable suggestions. We would also like to thank Ishan Rajendrakumar Dave, Sirnam Swetha, David G. Shatwell and Jeffrey A. Chan-Santiago for their contributions and insightful discusssions. 
+
+## References 
+
+[1] Guillaume Astruc, Nicolas Dufour, Ioannis Siglidis, Con-stantin Aronssohn, Nacim Bouia, Stephanie Fu, Romain Loiseau, Van Nguyen Nguyen, Charles Raude, Elliot Vin-cent, et al. Openstreetview-5m: The many roads to global visual geolocation. In Proceedings of the IEEE/CVF Con-ference on Computer Vision and Pattern Recognition , pages 21967–21977, 2024. 6, 7 [2] Shuai Bai, Keqin Chen, Xuejing Liu, Jialin Wang, Wenbin Ge, Sibo Song, Kai Dang, Peng Wang, Shijie Wang, Jun Tang, et al. Qwen2. 5-vl technical report. arXiv preprint arXiv:2502.13923 , 2025. 2, 6, 7 [3] Gedas Bertasius, Heng Wang, and Lorenzo Torresani. Is space-time attention all you need for video understanding? In ICML , page 4, 2021. 7 [4] Ron Campos, Ashmal Vayani, Parth Parag Kulkarni, Ro-hit Gupta, Aritra Dutta, and Mubarak Shah. Gaea: Ageolocation aware conversational model. arXiv preprint arXiv:2503.16423 , 2025. 2 [5] Brandon Clark, Alec Kerrigan, Parth Parag Kulkarni, Vi-cente Vivanco Cepeda, and Mubarak Shah. Where we are and what we’re looking at: Query based worldwide image geo-localization using hierarchies and scenes. In Proceed-ings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 23182–23190, 2023. 1, 2, 6, 7, 5 [6] Fabian Deuser, Konrad Habel, and Norbert Oswald. Sam-ple4geo: Hard negative sampling for cross-view geo-localisation. In Proceedings of the IEEE/CVF International Conference on Computer Vision , pages 16847–16856, 2023. 1, 2 [7] Alexey Dosovitskiy, Lucas Beyer, Alexander Kolesnikov, Dirk Weissenborn, Xiaohua Zhai, Thomas Unterthiner, Mostafa Dehghani, Matthias Minderer, Georg Heigold, Syl-vain Gelly, et al. An image is worth 16x16 words: Trans-formers for image recognition at scale. arXiv preprint arXiv:2010.11929 , 2020. 2, 1 [8] Thomas Eiter and Heikki Mannila. Computing discrete fr´ echet distance. Technical Report CD-TR 94/64, Christian Doppler Laboratory for Expert Systems, 1994. 6, 4 [9] J.M. Facil, D. Olid, L. Montesano, and J. Civera. Condition-invariant multi-view place recognition. arXiv preprint arXiv:1902.09516 , 2019. 3 [10] Anshuman Gaharwar, Parth Parag Kulkarni, Joshua Dickey, and Mubarak Shah. Xi-net: Transformer based seismic waveform reconstructor. In 2023 IEEE International Confer-ence on Image Processing (ICIP) , pages 2725–2729. IEEE, 2023. 6, 5 [11] S. Garg and M. Milford. Seqnet: Learning descriptors for sequence-based hierarchical place recognition. IEEE Robotics and Automation Letters , 6(3):4305–4312, 2021. 3 [12] Lukas Haas, Silas Alberti, and Michal Skreta. Learning gen-eralized zero-shot learners for open-domain image geolocal-ization. arXiv preprint arXiv:2302.00275 , 2023. 6, 7 [13] Lukas Haas, Michal Skreta, Silas Alberti, and Chelsea Finn. Pigeon: Predicting image geolocations. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 12893–12902, 2024. 1, 2 [14] James Hays and Alexei A Efros. Im2gps: estimating geo-graphic information from a single image. In 2008 ieee con-ference on computer vision and pattern recognition , pages 1–8. IEEE, 2008. 2 [15] Kaiming He, Xiangyu Zhang, Shaoqing Ren, and Jian Sun. Deep residual learning for image recognition. In Proceed-ings of the IEEE conference on computer vision and pattern recognition , pages 770–778, 2016. 2 [16] Sixing Hu, Mengdan Feng, Rang MH Nguyen, and Gim Hee Lee. Cvm-net: Cross-view matching network for image-based ground-to-aerial geo-localization. In Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition , pages 7258–7267, 2018. 2 [17] Shuiwang Ji, Wei Xu, Ming Yang, and Kai Yu. 3d convolu-tional neural networks for human action recognition. IEEE Transactions on Pattern Analysis and Machine Intelligence ,35(1):221–231, 2013. 2 [18] Pengyue Jia, Yiding Liu, Xiaopeng Li, Xiangyu Zhao, Yuhao Wang, Yantong Du, Xiao Han, Xuetao Wei, Shuaiqiang Wang, and Dawei Yin. G3: an effective and adaptive framework for worldwide geolocalization using large multi-modality models. Advances in Neural Information Process-ing Systems , 37:53198–53221, 2024. 2 [19] Pengyue Jia, Seongheon Park, Song Gao, Xiangyu Zhao, and Yixuan Li. Georanker: Distance-aware ranking for worldwide image geolocalization. arXiv preprint arXiv:2505.13731 , 2025. 2 [20] Diederik P Kingma and Jimmy Ba. Adam: A method for stochastic optimization. arXiv preprint arXiv:1412.6980 ,2014. 1 [21] Parth Parag Kulkarni, Gaurav Kumar Nayak, and Mubarak Shah. Cityguessr: City-level video geo-localization on a global scale. In European Conference on Computer Vision ,pages 293–311. Springer, 2024. 1, 2, 3, 5, 6, 7, 8 [22] Martha Larson, Mohammad Soleymani, Guillaume Gravier, Bogdan Ionescu, and Gareth JF Jones. The benchmarking initiative for multimedia evaluation: Mediaeval 2016. IEEE MultiMedia , 24(1):93–96, 2017. 2, 3 [23] Yann LeCun, Bernhard Boser, John Denker, Donnie Hen-derson, Richard Howard, Wayne Hubbard, and Lawrence Jackel. Handwritten digit recognition with a back-propagation network. Advances in neural information pro-cessing systems , 2, 1989. 2, 7 
+
+9[24] M Lewis. Bart: Denoising sequence-to-sequence pre-training for natural language generation, translation, and comprehension. arXiv preprint arXiv:1910.13461 , 2019. 4 [25] Patrick Lewis, Ethan Perez, Aleksandra Piktus, Fabio Petroni, Vladimir Karpukhin, Naman Goyal, Heinrich K¨ uttler, Mike Lewis, Wen-tau Yih, Tim Rockt¨ aschel, et al. Retrieval-augmented generation for knowledge-intensive nlp tasks. Advances in neural information processing systems ,33:9459–9474, 2020. 2 [26] Ling Li, Yu Ye, Bingchuan Jiang, and Wei Zeng. Georea-soner: Geo-localization with reasoning in street views using a large vision-language model. In Forty-first International Conference on Machine Learning , 2024. 2, 6, 7 [27] Liu Liu and Hongdong Li. Lending orientation to neural networks for cross-view geo-localization. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 5624–5633, 2019. 2 [28] Ze Liu, Yutong Lin, Yue Cao, Han Hu, Yixuan Wei, Zheng Zhang, Stephen Lin, and Baining Guo. Swin transformer: Hierarchical vision transformer using shifted windows. In 
+
+Proceedings of the IEEE/CVF International Conference on Computer Vision , pages 10012–10022, 2021. 7 [29] R. Mereu et al. Learning sequential descriptors for sequence-based visual place recognition. In Proceedings of the IEEE International Conference on Robotics and Automation (ICRA) , 2022. 3 [30] Li Mi, Chang Xu, Javiera Castillo-Navarro, Syrielle Montar-iol, Wen Yang, Antoine Bosselut, and Devis Tuia. Congeo: Robust cross-view geo-localization across ground view vari-ations. arXiv preprint arXiv:2403.13965 , 2024. 1, 2 [31] Diganta Misra. Mish: A self regularized non-monotonic ac-tivation function. arXiv preprint arXiv:1908.08681 , 2019. 2[32] Eric Muller-Budack, Kader Pustu-Iren, and Ralph Ewerth. Geolocation estimation of photos using a hierarchical model and scene classification. In Proceedings of the European Conference on Computer Vision (ECCV) , pages 563–579, 2018. 1, 2, 6, 7, 5 [33] Maxime Oquab, Timoth´ ee Darcet, Th´ eo Moutakanni, Huy Vo, Marc Szafraniec, Vasil Khalidov, Pierre Fernandez, Daniel Haziza, Francisco Massa, Alaaeldin El-Nouby, et al. Dinov2: Learning robust visual features without supervision. 
+
+arXiv preprint arXiv:2304.07193 , 2023. 2, 3, 7, 8, 1 [34] Adam Paszke, Sam Gross, Francisco Massa, Adam Lerer, James Bradbury, Gregory Chanan, Trevor Killeen, Zeming Lin, Natalia Gimelshein, Luca Antiga, et al. Pytorch: An im-perative style, high-performance deep learning library. Ad-vances in neural information processing systems , 32, 2019. 1[35] Karl Pearson. Liii. on lines and planes of closest fit to sys-tems of points in space. The London, Edinburgh, and Dublin philosophical magazine and journal of science , 2(11):559– 572, 1901. 5 [36] Manu S Pillai, Mamshad Nayeem Rizve, and Mubarak Shah. Garet: Cross-view video geolocalization with adapters and auto-regressive transformers. arXiv preprint arXiv:2408.02840 , 2024. 2 [37] Shraman Pramanick, Ewa M Nowara, Joshua Gleason, Car-los D Castillo, and Rama Chellappa. Where in the world is this image? transformer-based geo-localization in the wild. In European Conference on Computer Vision , pages 196– 215. Springer, 2022. 1, 2 [38] Alec Radford, Jeffrey Wu, Rewon Child, David Luan, Dario Amodei, Ilya Sutskever, et al. Language models are unsu-pervised multitask learners. OpenAI blog , 1(8):9, 2019. 8 [39] Alec Radford, Jong Wook Kim, Chris Hallacy, Aditya Ramesh, Gabriel Goh, Sandhini Agarwal, Girish Sastry, Amanda Askell, Pamela Mishkin, Jack Clark, et al. Learning transferable visual models from natural language supervi-sion. In International conference on machine learning , pages 8748–8763. PMLR, 2021. 2, 3, 7, 1 [40] Krishna Regmi and Ali Borji. Cross-view image synthesis using geometry-guided conditional gans. Computer Vision and Image Understanding , 187:102788, 2019. 2 [41] Krishna Regmi and Mubarak Shah. Bridging the domain gap for ground-to-aerial image matching. In Proceedings of the IEEE/CVF International Conference on Computer Vi-sion , pages 470–479, 2019. 2 [42] Krishna Regmi and Mubarak Shah. Video geo-localization employing geo-temporal feature learning and gps trajectory smoothing. In Proceedings of the IEEE/CVF International Conference on Computer Vision , pages 12126–12135, 2021. 2[43] Hamid Rezatofighi, Nathan Tsoi, JunYoung Gwak, Amir Sadeghian, Ian Reid, and Silvio Savarese. Generalized in-tersection over union: A metric and a loss for bounding box regression. In Proceedings of the IEEE/CVF conference on computer vision and pattern recognition , pages 658–666, 2019. 5 [44] Bojan ˇ Savriˇ c, Tom Patterson, and Bernhard Jenny. The equal earth map projection. International Journal of Geographical Information Science , 33(3):454–465, 2019. 4, 2 [45] Paul Hongsuck Seo, Tobias Weyand, Jack Sim, and Bohyung Han. Cplanet: Enhancing image geolocalization by combi-natorial partitioning of maps. In Proceedings of the Euro-pean Conference on Computer Vision (ECCV) , pages 536– 551, 2018. 2 [46] David G Shatwell, Ishan Rajendrakumar Dave, Sirnam Swetha, and Mubarak Shah. Gt-loc: Unifying when and where in images through a joint embedding space. In 
+
+Proceedings of the IEEE/CVF International Conference on Computer Vision , pages 1–11, 2025. 2 [47] Yujiao Shi, Xin Yu, Dylan Campbell, and Hongdong Li. Where am i looking at? joint location and orientation es-timation by cross-view matching. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 4064–4072, 2020. 2 [48] Karen Simonyan and Andrew Zisserman. Very deep convo-lutional networks for large-scale image recognition. arXiv preprint arXiv:1409.1556 , 2014. 2 [49] Matthew Tancik, Pratul Srinivasan, Ben Mildenhall, Sara Fridovich-Keil, Nithin Raghavan, Utkarsh Singhal, Ravi Ra-mamoorthi, Jonathan Barron, and Ren Ng. Fourier features let networks learn high frequency functions in low dimen-
+
+10 sional domains. Advances in neural information processing systems , 33:7537–7547, 2020. 4, 2 [50] Aysim Toker, Qunjie Zhou, Maxim Maximov, and Laura Leal-Taix´ e. Coming down to earth: Satellite-to-street view synthesis for geo-localization. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 6488–6497, 2021. 2 [51] Zhan Tong, Yibing Song, Jue Wang, and Limin Wang. Videomae: Masked autoencoders are data-efficient learners for self-supervised video pre-training. Advances in neural information processing systems , 35:10078–10093, 2022. 7 [52] Gonzalo Vaca-Castano, Amir Roshan Zamir, and Mubarak Shah. City scale geo-spatial trajectory estimation of a mov-ing camera. In 2012 IEEE Conference on Computer Vision and Pattern Recognition , pages 1186–1193. IEEE, 2012. 2 [53] Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszko-reit, Llion Jones, Aidan N Gomez, Łukasz Kaiser, and Illia Polosukhin. Attention is all you need. Advances in neural information processing systems , 30, 2017. 2, 4, 1 [54] Vicente Vivanco Cepeda, Gaurav Kumar Nayak, and Mubarak Shah. Geoclip: Clip-inspired alignment be-tween locations and images for effective worldwide geo-localization. Advances in Neural Information Processing Systems , 36, 2024. 1, 2, 3, 6, 7, 8, 5 [55] Nam Vo, Nathan Jacobs, and James Hays. Revisiting im2gps in the deep learning era. In Proceedings of the IEEE inter-national conference on computer vision , pages 2621–2630, 2017. 2 [56] Shruti Vyas, Chen Chen, and Mubarak Shah. Gama: Cross-view video geo-localization. In European Conference on Computer Vision , pages 440–456. Springer, 2022. 2, 5, 6, 1, 3, 7, 8 [57] Changhan Wang, Yun Tang, Xutai Ma, Anne Wu, Sravya Popuri, Dmytro Okhonko, and Juan Pino. Fairseq s2t: Fast speech-to-text modeling with fairseq. arXiv preprint arXiv:2010.05171 , 2020. 4 [58] Frederik Warburg, Soren Hauberg, Manuel Lopez-Antequera, Pau Gargallo, Yubin Kuang, and Javier Civera. Mapillary street-level sequences: A dataset for lifelong place recognition. In Proceedings of the IEEE/CVF conference on computer vision and pattern recognition ,pages 2626–2635, 2020. 2, 5, 8, 1, 3, 7 [59] Tobias Weyand, Ilya Kostrikov, and James Philbin. Planet-photo geolocation with convolutional neural networks. In 
+
+European Conference on Computer Vision , pages 37–55. Springer, 2016. 2, 6, 7, 5 [60] Scott Workman, Richard Souvenir, and Nathan Jacobs. Wide-area image geolocalization with aerial reference im-agery. In Proceedings of the IEEE International Conference on Computer Vision , pages 3961–3969, 2015. 2 [61] Hongji Yang, Xiufan Lu, and Yingying Zhu. Cross-view geo-localization with layer-to-layer transformer. Advances in Neural Information Processing Systems , 34:29009–29020, 2021. 1, 2 [62] Fisher Yu, Haofeng Chen, Xin Wang, Wenqi Xian, Yingying Chen, Fangchen Liu, Vashisht Madhavan, and Trevor Dar-rell. Bdd100k: A diverse driving dataset for heterogeneous multitask learning. In Proceedings of the IEEE/CVF con-ference on computer vision and pattern recognition , pages 2636–2645, 2020. 5, 6, 1, 7 [63] Xiaohua Zhai, Basil Mustafa, Alexander Kolesnikov, and Lucas Beyer. Sigmoid loss for language image pre-training. In Proceedings of the IEEE/CVF international conference on computer vision , pages 11975–11986, 2023. 8 [64] Bolei Zhou, Agata Lapedriza, Aditya Khosla, Aude Oliva, and Antonio Torralba. Places: A 10 million image database for scene recognition. IEEE transactions on pattern analysis and machine intelligence , 40(6):1452–1464, 2017. 5 [65] Sijie Zhu, Taojiannan Yang, and Chen Chen. Vigor: Cross-view image geo-localization beyond one-to-one retrieval. In 
+
+Proceedings of the IEEE/CVF Conference on Computer Vi-sion and Pattern Recognition , pages 3640–3649, 2021. 1, 2[66] Sijie Zhu, Mubarak Shah, and Chen Chen. Transgeo: Trans-former is all you need for cross-view image geo-localization. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 1162–1171, 2022. 1, 2
+
+11 VidTAG: Temporally Aligned Video to GPS Geolocalization with Denoising Sequence Prediction at a Global Scale 
+
+# Supplementary Material 
+
+In this supplementary material, we provide additional in-sights on our method. We organize our supplementary into the following sections: A. Training Details B. Additional Ablations B.1. Ablation on α and β in Training Phase B.2. Ablation on MLP layers in Image Encoder B.3. Ablation on σ values for RFF in Location Encoder B.4. Ablation on Training sequence length C. Analysis of Predictions by Video Length D. Reference Gallery D.1. Uniform Grid Gallery Construction D.2. Evaluation with Val-set Gallery Retrieval E. Video and Trajectory Metrics E.1. Video Distance Threshold Accuracy E.2. Discrete Frechet Distance (DFD) E.3. Mean Range Difference (MRD) F. Training of Baselines/SoTA models F.1. Zero Shot F.2. Classification-based SoTA models F.3. Classification-based Foundation Baselines F.4. Retrieval-based SoTA model G. Visualizations in Feature Space H. Unified Model I. Computational Cost J. Qualitative Results on GaMa K. City-level Geolocalization Performance Analysis on CityGuessr68k L. Limitations and Failure Analysis M. Examples of Localizations 
+
+## A. Training Details 
+
+Our model is implemented in PyTorch[34]. The input video consists of 16 frames for training in both phases, resized to 224x224. The model is trained on one node of an NVIDIA RTX A6000 GPU. Both DINOv2[33] and CLIP[39] ver-sions used, have a ViT-L/14[7] backbone. Phase I is trained for 600 epochs while Phase II is trained for 100. For both phases batch size is 128 sequences. We use Adam[20] opti-mizer with a StepLR scheduler with an learning rate decay of 0.99 for Phase I, and 0.95 for Phase II, with 1000 steps of warmup. For Phase I, learning rate is 5e-5 while for Phase II it is 1e-4. The TempGeo module has 2 transformer[53] encoder layers, while the GeoRefiner module has 1 trans-former encoder layer and 2 transformer decoder layers. For Phase II noise addition, entire sequence is collapsed to a sin-gle point with a 10% chance. The rest of the time a random jitter is added with a random sign to both GPS coordinates individually, sampled from a uniform distribution between 0.001 and 0.02. The entire sequence is then shifted with an added noise sampled from a uniform distribution between -0.2 and 0.2. For weighted Hinge loss, α = 10 , β = 1 .For training on GaMa[56] and CityGuessr68k[21] some of the settings are slightly different. Both GaMa split of the BDD100k[62] dataset and CityGuessr68k are much larger datasets than Mapillary(MSLS)[58]. However, as described in Section 4.1, GaMa lacks geographical cover-age, while CityGuessr68k lacks GPS annotation and is rel-atively coarse-grained. In GaMa, each video has approx-imately 38 frames, while number of frames for videos in CityGuessr68k is approximately 100. For consistency with Mapillary(MSLS) which has atleast 16 frames per video, 16 frames were sampled from both datasets. For both model versions, the training was conducted for 100 epochs with a learning rate of 5e-5. Similar to the Map-illary(MSLS) model version, Adam[20] optimizer was used with a StepLR scheduler, learning rate decay of 0.95 and 1000 steps of warmup. The images were resized to 224x224 and training was conducted on a single node of an NVIDIA RTX A6000 GPU. An important observation was that the model version trained on CityGuessr68k converged a lot quicker than the models trained on other two datasets. Note that the training details change only for Phase I, as Phase II input dimension is dataset invariant. 
+
+## B. Additional Ablations 
+
+In this section, we include additional ablations for the choice of α and β hyperparameters, number of MLP lay-ers in image encoder, σ values for RFF in location encoder and training sequence length. 
+
+B.1. Ablation on α and β in Training Phase 
+
+Phase II of our training focuses on alignment of the refined GPS features to the ground truth GPS features. As a re-sult, we opt for using a weighted Hinge loss for training our model. As discussed in Main paper Section 3.5, we use hyperparameters α and β to denote the weights of negative pairs(upper triangular and lower triangular elements of the similarity matrix) and weights of positive pairs(diagonal el-ements of the similarity matrix) respectively. Table 7 shows that α = 10 and β = 1 gives the best results at most dis-tance thresholds as well as in terms of median distance error and trajectory metrics DFD and MRD. 1In a similarity matrix of size N, there are N diagonal ele-ments and N 2 − N off-diagonal elements. Thus the number of diagonal elements scale linearly while the off-diagonal elements scale quadratically. This implies that the weight of off-diagonal elements is a lot more than the diagonal ele-ments which is undesirable for feature alignment. This scal-ing is exacerbated in the frame-wise component of the loss where N = batch size × number of f rames . The fixed weights α and β mitigates this scaling, and assists the model to align diagonal elements better. The values of α = 10 and 
+
+β = 1 are chosen such that the negative and positive terms of the loss have the same order of magnitude. 
+
+Table 7. Ablation for values of α and β                                  
+
+> α,β
+> Distance ( ar[%] @ km) ↑Median Distance Error(km) ↓
+> DFD ↓MRD ↓Sub-street Street Locality City 0.5 km (500 m) 1 km 5 km 25 km
+> 1,1 21.5 41.3 75.5 97.4 1.36 5.21 1.41 10,1 21.5 41.0 76.7 97.9 1.35 3.87 1.07
+> 100,1 21.4 40.9 75.4 97.2 1.38 7.63 1.57
+
+B.2. Ablation on MLP layers in Image Encoder 
+
+As we can see in Main paper Fig. 3, the frame en-coder consists of two backbone encoders, DINOv2[33] and CLIP[39], the TempGeo module and an MLP. Frames of a video are passed through both DINOv2 and CLIP back-bones, and both sets of features are concatenated. The combined features for all frames of a video are input into the TempGeo module that aligns those frames with each other. Finally the output of TempGeo is input to the MLP which gives the final embeddings corresponding to every video frame. The main purpose of the MLP is to accom-modate the dimension of the frame embeddings, such that they become the same size as the GPS embeddings which are output from the location encoder. The output dimen-sions of vectors from DINOv2(ViT-L/14[7]) and CLIP(ViT-L/14) are 1024 and 768 respectively. A 1792-dimensional vector is formed by concatenating the two. As TempGeo is purely a transformer architecture, the input and output are of the same size. The desired final frame embedding dimen-sion is 512. Thus an MLP is employed for converting the 1792-dimensional output of TempGeo to a 512-dimensional frame embedding. Our VidTAG model consists of a 3-layer MLP with Mish[31] activations in between. The Vector di-mension through the MLP goes from 1792 to 1024(layer 1), from 1024 to 768(layer 2) and finally from 768 to 512, making this a gentle transition. For analysis, we trained variations of our model with dif-ferent number of MLP layers. These model variations were trained on 100 epochs and a learning rate decay of 0.95 for efficiency. Rest all settings were kept equivalent to the main model. As shown in Table 8, the choice of 3 layers is the most adequate, as further addition of more layers results in diminishing returns or a decrease in performance, while in-creasing the number of trainable parameters. We see that at the locality level, the model with 4 MLP layers performs the best. However, for the finer thresholds, and on median distance error, the 3-layer version performs the best, which justifies the setting in our model as those metrics are of more importance for the task at hand. 
+
+Table 8. Ablation on Number of layers in MLP in Image Encoder                             
+
+> No. of MLP Layers Distance ( ar[%] @ km) ↑Median Distance Error(km) ↓
+> Trainable Parameters Sub-street 0.5 km (500 m) Street 1 km Locality 5 km City 25 km
+> 212.5 32.6 75.4 98.5 1.71 55.7M 313.5 33.1 77.4 98.7 1.66 56.3M 413.8 31.9 75.6 98.1 1.72 57.4M 512.8 30.6 76.2 98.8 1.82 58M
+
+B.3. Ablation on σ values for RFF in Location En-coder 
+
+The location encoder is used to obtain viable em-beddings from GPS coordinates so that they can be aligned with frame embeddings in the same feature space. The concept of the location encoder was first intro-duced in GeoCLIP[54]. The location encoder computes Random Fourier Features(RFF)[49] of the Equal Earth Projections(EEP)[44] of GPS coordinates at different fre-quencies. These RFF values are passed through individual MLPs and then added together to output the final GPS em-bedding. σ values play an important role in determining the range of these frequencies for computing RFF. Geo-CLIP inferred that larger σ values are preferable for finer scales while smaller σ values perform better at more coarse-grained level. Having said that, determining the exact com-bination of σ values that work best for a particular model is not straightforward and requires extensive amount of ex-perimentation. In Table 9, we show the performance of our model trained on a variety of combinations of 3 frequencies determined by the shown σ values ( σ0, σ1, σ2). We vary 
+
+σ0 from 20 to 22, σ1 from 23 to 25 and σ2 from 27 to 29.We observe that the combination of [ σ0 = 2 0, σ1 = 2 3,
+
+σ2 = 2 8] works the best and provides the model with the highest performance across most of the metrics. 
+
+Table 9. Ablation on σ values for RFF in Location Encoder                                                          
+
+> σvalues Distance ( ar[%] @ km) ↑Median Distance Error(km) ↓
+> σ0σ1σ2
+> Sub-street 0.5 km (500 m) Street 1 km Locality 5 km City 25 km
+> 20232813.5 33.1 77.4 98.7 1.66
+> 20242713.5 32.5 77.4 98.5 1.71
+> 20242813.0 32.7 75.4 98.7 1.68
+> 20242913.3 32.3 77.3 98.8 1.71
+> 20252813.1 31.5 76.6 98.8 1.78
+> 21242812.8 31.3 75.6 98.5 1.73
+> 22242813.3 33.0 75.8 98.8 1.81
+
+2B.4. Ablation on Training sequence length 
+
+As stated perviously, every video in our training split of Mapillary(MSLS) has atleast 16 frames. Length of training sequences does have an impact on the performance of the model. Generally, longer training sequences result in bet-ter performing models which can happen due to a multitude of reasons. Longer training sequences imply more informa-tion per sequence that the model sees, thus generating better features. Also, as validation sequences are longer and of ar-bitrary length, getting the model used to longer sequences is beneficial. Finally, the TempGeo module gets more frames as reference, for feature alignment. For efficiency, these ablations were performed on similar settings to the ones de-scribed in Section B.2. Table 10 shows similar behavior as we have anticipated above. We see a steady increase in the models performance on almost all thresholds as we increase the length of training sequences from 4 to 8 to 16 frames. These frames are sampled from the larger training videos, varying just the number of frames sampled. We see that the accuracy of the model at 1km consistently increases from 26.6% for 4 frames to 31.3% for 8 frames to finally 33.1% for 16 frames. The median error is also reduced from 2.13 km to 1.66 km. Thus we use sequences of 16 frames to train our final model. 
+
+Table 10. Ablation on Training Sequence Length                    
+
+> Training Sequence Length (No. of frames) Distance ( ar[%] @ km) ↑Median Distance Error(km) ↓
+> Sub-street 0.5 km (500 m) Street 1 km Locality 5 km City 25 km
+> 411.0 26.6 73.2 99.1 2.13 812.8 31.3 74.9 98.7 1.80 16 13.5 33.1 77.4 98.7 1.66
+
+## C. Analysis of Predictions by Video Length 
+
+The Mapillary(MSLS)[58] dataset consists of sequences of lengths ranging from 16 frames to 494 frames. Our model is length agnostic, as it can accommodate video sequences of any length as per the design of our dataloader and the model architecture itself. During evaluation, we do not sample frames for any video sequence and feed them as they are. Thus our model can accommodate videos from any dataset, be it GaMa[56] and CityGuessr68k[21] which have a fairly consistent length of approximately 40 and 100 frames respectively, or MSLS which has sequences of vari-able length. However, for a model to be robust to variable length, the performance of the model should not change with video length. To validate the robustness of our model, we compare the performance of our model across sequences of vary-ing lengths from MSLS in terms of Video Distance Error, i.e., distance between centroid of the ground truth sequence and the prediction closest to the centroid of the predicted sequence(computation procedure discussed in Section E.1). 15 19  
+
+> 19 24
+> 24 30
+> 30 37
+> 37 46
+> 46 57
+> 57 71
+> 71 88
+> 88 110
+> 110 136
+> 136 169
+> 169 209
+> 209 259
+> 259 321
+> 321 398
+> 398 494
+> Number of Frames (log scale)
+> 10 1
+> 10 0
+> 10 1
+> Distance Error (log scale)
+> Distance Error vs Number of Frames
+
+Figure 8. Distance Error vs Number of Frames. Median error is consistent, showing robustness of our model. 
+
+Fig. 8 shows a boxplot of distance error vs frame length, with an orange line indicating the median error. We observe that the line does not deviate much implying the median dis-tance error is largely independent of the no. of frames, and thus our model is robust to sequence length variation. 
+
+## D. Reference Gallery 
+
+Reference Gallery is an integral part of any retrieval based approach. As we propose a method for frame-to-GPS retrieval-based geolocalization, we have to construct an ex-tensive gallery of GPS coordinates. GeoCLIP constructs its gallery by randomly sampling points from its training dataset (MP-16[22]). This is not practical in our case, as the frame-wise video geolocalization problem requires higher amount of precision in location prediction as compared to its image counterpart, due to close proximity of frames of a video. An ideal gallery should enable a model to cor-rectly identify its most appropriate match, while at the same time providing no information about the validation set. To achieve this delicate balance, we construct a uniform grid gallery based on the train set, which facilitates our model to perform fine-grained location prediction. 
+
+D.1. Uniform Grid Gallery Construction 
+
+We construct uniform grid galleries for both Mapillary(MSLS)[58] and GaMa[56] datasets. The procedure for gallery construction can be described as follows: 1. For each region that contains a sizable amount of train-ing data, get the maximum and minimum of both lat-itude and longitude( LAT M IN , LON M IN , LAT M AX ,
+
+LON M AX ). (If there are a few outliers they can be skipped). 3Table 11. Comparison of Uniform Grid Gallery evaluation and Validation-set Gallery evaluation on Mapillary(MSLS) dataset                                              
+
+> Model Uniform Grid Gallery Evaluation Validation-set Gallery Evaluation
+> ∆ar[%] @ 1 km ∆Median Distance Distance ( ar[%] @ km) Median Distance Error(km) Distance ( ar[%] @ km) Median Distance Error(km) Sub-street Street Locality City Sub-street Street Locality City 0.5 km (500 m) 1 km 5 km 25 km 0.5 km (500 m) 1 km 5 km 25 km
+> GeoCLIP-FineTuned 8.3 22.5 63.0 93.9 2.97 19.9 31.1 66.3 94.1 2.30 8.6 0.67 VidTAG (Ours) 21.5 41.0 76.7 97.9 1.35 30.8 46.1 77.8 96.3 1.17 5.1 0.18
+
+2. To keep an error margin, determine a constant padding which is to be applied to (LAT M IN , LON M IN ,
+
+LAT M AX , LON M AX ). Also determine the resolution of the gallery (the finer the resolution the larger the gallery. 3. Determine new 
+
+LAT M IN = LAT M IN − padding ,
+
+LAT M AX = LAT M AX + padding ,
+
+LON M IN = LON M IN − padding ,
+
+LON M AX = LON M AX + padding .4. Compute distance( dis LAT ) between (LAT M IN ,
+
+LON M IN ) and (LAT M AX , LON M IN ), and distance( dis LON ) between (LAT M IN , LON M IN )and ( LAT M IN , LON M AX ). 5. Generate a grid with each point at a uniform distance (resolution), dividing the area into equidistant points in both directions 
+
+Npoints = ( dis LAT ∗ dis LON )//resolution 2
+
+D.2. Evaluation with Val-set Gallery Retrieval 
+
+A real world scenario entails not knowing the actual ground truth values pertaining to the queries, which is the reason for constructing a uniform grid gallery. However, if the model was to know the set of possible points already, the retrieval processs would be easier. To test this notion, in-stead of a blind retrieval from a grid gallery, we construct a gallery out of known set of GPS coordinates, which are the ground truth GPS coordinates corresponding to all frames in the validation set. Table 11 shows results of this exper-iment. We observe a rise in performance as compared to a grid gallery(blind) retrieval as hypothesized. However, this observed difference is significantly greater in GeoCLIP-Finetuned baseline, implying that our model does not rely on knowledge of the validation set. This demonstrates the robustness and generalization ability of our model. 
+
+## E. Video and Trajectory Metrics 
+
+We use two metrics to measure the quality of a trajectory for performance evaluation of different models. Both metrics serve different purposes as they focus on different properties of a sequence to determine its quality and overall structure. In this section we highlight these metrics and discuss them below. We also outline the steps required to compute video level accuracy at distance thresholds. 
+
+E.1. Video Distance Threshold Accuracy 
+
+Frame-wise distance threshold accuracies are not sufficient for judging the performance of a model at video level. Thus we compute these for every video considering it as a single unit. This computation can be carried out as follows: 1. Collect all model predictions and ground truth labels for a particular sequence 2. Compute the centroid of the ground truth labels. This will serve as the ground truth label of the entire video sequence 3. Compute the centroid of predictions pertaining to all frames in the sequence. Obtain the prediction that is closest to this centroid (this reduces error due to out-liers). This will serve as the prediction for the entire video sequence 4. Finally compute the distance between the prediction and the ground truth label. Compute distance accuracy at all thresholds using this distance measure. This enables us to effectively measure performance of a model at video level. However, this set of metrics cannot be used to judge the quality of formed trajectories. For this exact purpose we use DFD and MRD, which are described in the following subsections. 
+
+E.2. Discrete Frechet Distance (DFD) 
+
+Discrete Frechet Distance(DFD)[8], also called Coupling distance is a variant of Frechet Distance which is defined as the length of the shortest straight line connecting two curves, that is sufficient for two individual points to traverse their respective curves from start to finish. If the curve is made of discrete points instead of a continuous function, the metric becomes Discrete Frechet Distance. Mathemati-cally, given two curves A and B in the same metric space S, the Frechet Distance between them is given by, 
+
+F (A, B ) = inf  
+
+> α,β
+
+max 
+
+> t∈[0 ,1]
+
+{d(A(α(t)) , B (β(t)) } (6) where d is the distance function of S, t is time reparametrized between [0,1] and α and β are two continu-ous, non-decreasing surjections. Discrete Frechet Distance takes into account the flow of the two sequences, which makes it ideal to measure the quality of a predicted sequence of GPS coordinates against a true GPS trajectory. 4E.3. Mean Range Difference (MRD) 
+
+Mean Range Difference(MRD)[10] is defined as the differ-ence between the expanses covered by two curves, i.e., the range of values covered by the respective curves. Math-ematically, given two curves A and B in the same metric space S, the Range Difference between them is given by, 
+
+R(A, B ) = abs ({max  
+
+> A
+
+− min  
+
+> A
+
+} − { max  
+
+> B
+
+− min  
+
+> B
+
+}) (7) where, abs is the absolute value function and max and min are maximum and minimum functions respectively. Mean Range Difference is the Mean of Range Differences over multiple sequences. It takes into account the overall scope of a sequence. MRD is primarily a 1D metric. However it can be adapted to 2D by computing MRD in both dimen-sions seperately and then taking their mean. This definition makes it similar to GIoU[43] between two objects, but for curves. This makes MRD a good metric for measuring se-quence quality. 
+
+## F. Training of Baselines/SoTA models 
+
+We compare our results to 4 types of baselines. We finetune all models for fair comparison (For GeoCLIP, we show both ZeroShot and FineTuned performance as it is our primary baseline). Types of baselines and their training pipelines are described in the following subsections. 
+
+F.1. Zero Shot 
+
+We show Zero Shot performance on GeoCLIP to establish a level ground. As the model is evaluated Zero-Shot there is no training involved. However, we also train a version of GeoCLIP, which will be described in Section F.4. 
+
+F.2. Classification-based SoTA models 
+
+We compare our model to 3 classification-based models, namely, PlaNet[59], ISNs[32] and GeoDecoder[5]. For training such models, we require the data points to be di-vided into S2-cells. We take all points in the train split of Mapillary(MSLS)[58] and using Google S2 Geometry li-brary 2 divide all these points into S2 cells. For the finest granularity, we choose Level 13 S2 cells. PlaNet and ISNs are trained on these S2 classes. As GeoDecoder is a hi-erarchical model, we divide the training points into Level 8, 10 and 11 S2 cells in addition to the already computed Level 13. This resulted in 1400 cells at level 13, 337 cells at level 11, 146 cells at level 10 and 38 cells at level 8. For GaMa, we follow a similar procedure with levels 13, 10, 8 and 7, with 1882, 293, 94 and 56 S2 cells respectively. The respective models are trained according to their prescribed settings. We also compute scene labels for training ISNs 
+
+> 2code.google.com/archive/p/s2-geometry-library
+
+and GeoDecoder using Places2[64]. The validation is per-formed by predicting an S2 cell, and computing distance from its cell center, as per the process for these methods. 
+
+F.3. Classification-based Foundation Baselines 
+
+Along with the pre-established classification-based models, we also train more baselines. As we use CLIP and DINOv2 backbones in our model, we also compare with methods with these foundation models as a backbone. We finetune these models using procedure similar to other classification-based models with S2 cell classes as described in the previ-ous section. 
+
+F.4. Retrieval-based SoTA model 
+
+Finally, we also finetune GeoCLIP treating all frames as in-dividual images for the network. For a fair comparison, we keep all settings exactly same as our model, and validate the model using the uniform grid gallery. 
+
+## G. Visualizations in Feature Space 
+
+Analyzing the features output by a model can provide fur-ther insight into the model’s learning capability. The more distinct the features, the better the model’s ability to recog-nize patterns and perform retrieval. To gauge our model in a similar light, we visualize the features of the predictions of our model. To generate these visualizations, geospatial data and feature embeddings are processed systematically. Precomputed feature vectors and corresponding GPS co-ordinates for a city, are loaded and concatenated into uni-fied datasets for each model, while sequence boundaries are maintained using labeled indices. Dimensionality reduc-tion is performed on the feature sets using Principal Com-ponent Analysis (PCA)[35], reducing their dimensions to two while preserving the maximum variance. Fig. 9 shows this visualization for sequences in Melbourne and Helsinki, where we see that our model is able to differentiate the fea-tures of each sequence, as seen in the bottom row. We com-pare this visualization with a similar PCA-reduced feature space of GeoCLIP[54](middle row), and observe that Geo-CLIP’s feature space is much more scattered and less co-herent. This demonstrates the effectiveness of the proposed components in aligning the features of the frames of a video with each other. To ensure clarity and interpretability, a subset of se-quences is randomly selected for down-sampling, reducing the density of points in the plots while preserving repre-sentativeness. Color coding is applied consistently across the visualizations to indicate sequence membership, allow-ing for a direct comparison of geospatial coherence be-tween GPS coordinates(top row) and the feature embed-dings. These visualizations reveal a strong structural rela-tionship between the geographic data and the latent feature spaces of our model. 5144.95 145.00 145.05 145.10 145.15 
+
+Longitude 
+
+> 38.10
+> 38.05
+> 38.00
+> 37.95
+> 37.90
+> 37.85
+> 37.80
+> 37.75
+> Latitude
+
+GPS Coordinates    
+
+> 0123
+
+PC1 (16.45% variance) 
+
+> 2
+> 1
+> 0
+> 1
+> 2
+> PC2 (9.73% variance)
+
+GeoCLIP Feature Space (PCA)       
+
+> 0.6 0.4 0.2 0.0 0.2 0.4 0.6
+
+PC1 (9.40% variance) 
+
+> 0.2
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> PC2 (7.53% variance)
+
+DEDD-SEQ Feature Space (PCA) (a) Melbourne, Australia 24.80 24.85 24.90 24.95 
+
+Longitude 
+
+> 60.16
+> 60.17
+> 60.18
+> 60.19
+> 60.20
+> 60.21
+> Latitude
+
+GPS Coordinates      
+
+> 210123
+
+PC1 (11.38% variance) 
+
+> 2
+> 1
+> 0
+> 1
+> 2
+> 3
+> PC2 (6.74% variance)
+
+GeoCLIP Feature Space (PCA)      
+
+> 0.50 0.25 0.00 0.25 0.50 0.75
+
+PC1 (11.96% variance) 
+
+> 0.4
+> 0.2
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> PC2 (9.94% variance)
+
+DEDD-SEQ Feature Space (PCA) (b) Helsinki, Finland 
+
+Figure 9. Feature Space Visualization comparison for output of GeoCLIP[54] and VidTAG. Figure shows the feature analysis in the form of PCA plots for GeoCLIP and our model. First row shows The GPS spread of sequences in Melbourne and Helsinki respectively. Second row displays corresponding PCA plots for sequence-wise outputs of GeoCLIP, while row 3 displays the corresponding PCA plots for our model VidTAG. We see that the features of VidTAG are a lot more distinct as compared to GeoCLIP, whose features are more scattered and unorganized. 
+
+6Table 12. Performance of Unified Model on Mapillary(MSLS) and GAMa datasets                                                                                      
+
+> Model Mapillary(MSLS) GAMa Distance ( ar[%] @ km) ↑Median Distance Error(km) ↓
+> DFD ↓MRD ↓
+> Distance ( ar[%] @ km) ↑Median Distance Error(km) ↓
+> DFD ↓MRD ↓Sub-street Street Locality City Sub-street Street Locality City 0.5 km (500 m) 1 km 5 km 25 km 0.5 km (500 m) 1 km 5 km 25 km
+> Dataset-specific Models
+> GeoCLIP-FineTuned 8.3 22.5 63.0 93.9 2.97 22.52 2.82 16.3 28.3 57.8 89.1 3.28 6.50 0.50 VidTAG 21.5 41.0 76.7 97.9 1.35 3.87 1.07 35.4 53.1 77.8 94.4 0.88 0.39 0.17
+> Universal Models
+> GeoCLIP-ZeroShot 0.9 2.7 22.9 84.6 11.54 24.94 2.83 4.1 10.1 33.5 74.9 11.15 14.29 1.51 VidTAG (Unified) 15.3 35.4 75.3 98.8 1.63 1.47 0.57 19.9 35.7 66.5 91.9 1.95 1.51 0.35
+
+Table 13. Performance of Unified Model on CityGuessr68k 
+
+Model City ↑ State ↑ Country ↑ Continent ↑
+
+CityGuessr 69.6 70.2 74.8 83.8 VidTAG 94.9 95.5 96.8 98.5 VidTAG (Unified) 79.0 80.2 89.1 95.0 
+
+## H. Unified Model 
+
+While VidTAG trained on GAMa and MSLS achieves com-mendable framewise (and video level on CityGuessr68k) geolocalization performance, the ultimate goal is to build a universal model capable of precise geolocalization with-out fine-tuning on a specific dataset. Given the limitations of the existing datasets we seek to achieve a limited version of this by training a single unified model to geolocalize all 3 video datasets at once. We prepare a training split for the unified model by care-fully combining training data from all 3 sources (Mapil-lary(MSLS), GAMa and CityGuessr68k) in the following way: 1. As Mapillary(MSLS) is a smaller dataset, we take the entire training split. 2. For CityGuessr68k, (a) We remove training data from cities which are also present in MSLS to avoid false negatives in the con-trastive loss. (b) As CityGuessr68k is very large, we sample the data in such a way that the number of sequences is roughly equivalent to MSLS. (c) This is achieved by taking all sequences from cities with less than 80 sequences, and randomly sam-pling 80 sequences each, from the rest. 3. For GaMa, we randomly sample videos so that the cor-pus size is equivalent to the other two. We train a model on this unified data for 200 epochs at an learning rate decay rate of 0.97. Rest of the settings are unchanged. Tables 12 and 13 show evaluation performance of our model on individual datasets. Across all 3 datasets, we observe that our unified model outperforms state-of-the-art models by large margins. We see a 13% improvement at 1km on MSLS, and 7% improvement at 1km on GaMa. 
+
+Table 14. Efficiency Analysis of proposed approach 
+
+Model Test GMACs Train Time Acc@1km 
+
+GeoCLIP-ZS 81.91 272 hrs 2.7 GeoCLIP (FT) 169 hrs 22.5 GeoCLIP (total) 441 hrs 22.5 Ours 83.47 68 hrs 41.0 
+
+with pre-computed backbone features 
+
+GeoCLIP-ZS - 2.5 hours 2.7 GeoCLIP (FT) - 2.5 hrs 22.5 GeoCLIP (total) 5 hrs 22.5 Ours - 2.75 hrs 41.0 
+
+We also observe significantly lower median distance error, DFD and MRD in both cases. The unified model also out-performs the best model on CityGuessr68k by 10% at City level. However, there is still some gap to close between the unified model and VidTAG trained on individual datasets. 
+
+## I. Computational Cost 
+
+We provide training time (on A6000s) and inference com-pute cost in Table 14. VidTAG achieves significantly bet-ter performance at similar costs as baseline methods. In the Main paper Section 5.4, we also show that our model achieves a significant gain in performance as compared to GeoCLIP[54] with only a minimal decrease in throughput. In the table, pre-computed backbone features indicate computing and storing the CLIP[39] and DINOv2[33] en-coder features, and inputting them for finetuning the other components of the model. This does not affect the weights of the model as the encoder backbones are frozen anyway, while drastically reducing the training time. 
+
+## J. Qualitative Results on GaMa 
+
+In Section 5.2 of the main paper, we have shown a cou-ple of qualitative examples of trajectories formed by the GPS coordinates predicted by our model for sequences in the Mapillary(MSLS)[58] dataset. Here, we show a few sample trajectories for sequences in the GaMa[56] split of BDD100k[62] dataset, in Fig. 10. The first row shows ex-amples of almost perfectly predicted trajectories from dif-ferent locations. Row 2 shows a few examples where the model was unable to perfectly predict a trajectory, but pre-7(a) Brooklyn, NYC (b) Manhattan, NYC (c) Queens, NYC (d) Oakland, SF    
+
+> (e) Manhattan, NYC (f) Brooklyn Bridge, NYC (g) Tel Aviv, Israel (h) Long Island, NYC
+> Figure 10. Qualitative Examples for trajectories of sequences in GaMa[56] dataset. Row 1 shows almost perfectly predicted trajectories, while row 2 shows coherent trajectories predicted close to the actual trajectory.
+
+dicted GPS coordinates were very close and form a coherent trajectory. Fig. 10a and Fig. 10c shows correctly predicted trajec-tories that involve a curve/turn, while Fig. 10b and Fig. 10d show accurately predicted trajectories for sequences that are in a straight line. Looking at the closely predicted trajectories(Row 2), we see that the model is able to recognize the structure of the trajectory, but fails to perfectly geolocalize points in the se-quence. Fig. 10e and Fig. 10h show examples where the predicted trajectory is extremely close, but the model makes an error in the orientation, while examples in Fig. 10f and Fig. 10g depict cases where model gets the orientation cor-rect and is slightly off in terms of GPS location. We also see that the model is able to generate coherent trajectories across different locations and is not biased towards any spe-cific place or city. 
+
+## K. City-level Geolocalization Performance Analysis on CityGuessr68k 
+
+As shown in Main paper Section 5.3, we outperform CityGuessr[21] as well as GeoCLIP[54] on the task of City Prediction on the CityGuessr68k dataset. As this task was originally designed as a classification task, we modified it to fit our retrieval framework by assigning the city cen-ter GPS coordinates as the ground truth annotations to all frames of videos from that city, as described in the main paper (Section 5.3). Here, we show more analysis regard-ing the same. Fig. 11 shows a comparison between per-formance of VidTAG and CityGuessr in the form of con-fusion matrix heatmaps on the 24 most confusing cities, i.e., the cities on which the model gives the lowest perfor-mance, namely Durban, Lucknow, Nottingham, Makkah, Doha, Mogadishu, Malm, Seoul, Abu Dhabi, Minneapolis, Milwaukee, Shenzhen, Hanoi, Cancun, Hyderabad, Ho Chi Minh City, Hefei, Agra, Damascus, Johannesburg, Shang-hai, Stockholm, Beirut and Incheon in decreasing order of difficulty. We observe that overall, our model shows better ability to identify the city correctly, even in harder cases. We also notice some interesting patterns in case of a few pairs of cities which are mistaken for each other. A few examples are: • Durban and Johannesburg • Lucknow and Agra • Minneapolis and Milwaukee • Shenzhen and Shanghai • Incheon and Seoul All these pairs of cities are located in the same country(in some cases within the same state/province/region) and have areas that look very similar, which might explain the mod-els’ confusion. However, we see that in most of these cases, VidTAG confuses cities in these pairs for each other, but quite a few times, CityGuessr confuses them for something completely different. All these observations demonstrate the capability of our model for the task of city prediction. 8(VidTAG) Figure 11. Figure shows confusion matrix heatmaps for 24 most difficult cities in CityGuesr68k for models VidTAG and CityGuessr respectively. It shows that our model can distinguish cities better, in cases where CityGuessr struggles. Also we see that both models mistake certain pairs of cities for each other, but CityGuessr in some cases confuses them with other cities, which does not happen in case of our model. 
+
+9(b) Shift + Direction Failures      
+
+> (a) Simple Shift Failures
+> (c) Shift + Direction + Trajectory Failures
+> (d) City Scale Failure (e) Region Scale Failure
+
+Figure 12. Supplemental error analysis of VidTAG . (a) through (c) Breakdown of common model error types, highlighting dominant failure modes. (d) and (e) different scales of error: predictions are within the locality in vast majority of the cases, is in a different part of the city approximately 20% of the time. Region level errors happen in <2% of cases. 
+
+## L. Limitations and Failure Analysis 
+
+Our model outperforms the best performing models on framewise video geolocalization across datasets of vary-ing granularities. We also show our model’s capability to address temporal inconsistency issue for the same. How-ever, our model does have certain limitations. Firstly, the performance of our model is dependent on the resolution of the gallery. A coarser gallery leads to a subpar perfor-mance, while a finer gallery increases retrieval time. Sec-ondly, even after achieving state-of-the-art performance on as fine threshold as 0.5km, a higher performance on an even finer threshold is desirable to achieve our goal of attaining perfect, temporally consistent trajectories. We aim to ad-dress these concerns in the future and reduce failures of our model. We provide some examples of failure cases. Fig. 12 shows that VidTAG’s errors are dominated by near-miss confusions among visually similar images from the same lo-cale (Panels a–c). In terms of geographic scale (Panels d,e), mistakes remain local in the vast majority of cases; roughly 20% fall in a different part of the same city, region-level errors are rare ( < 2% ). This pattern suggests the model is reasonably spatially calibrated and that in practical settings, lightweight, locality-aware post-processing could convert many near-misses into correct predictions while keeping catastrophic errors uncommon. 
+
+## M. Examples of Localizations 
+
+As the performance of our model is evaluated at different distance thresholds, we provide a qualitative perspective, showcasing frames from multiple videos that have been ac-curately geolocalized within a certain threshold. We show 5 such cases. Fig. 13 shows frames from some videos that have been accurately geolocalized within 500 m (0.5 km) of the actual location, i.e. at the Sub-street level. Fig. 14 shows a few samples which have been geolocalized within 1 km by our model, i.e. at Street level, but not within 500 m. Fig. 15 shows examples which have been successfully geolocalized at the Locality level, within 5 km, but cannot be recognized at the street level. Fig. 16 shows frames of videos that our model has localized within 25 km, i.e. in the same city as the actual location, but is not able to rec-ognize its locality. Finally, Fig. 17 shows examples where the model fails to geolocalize the video frames within 25km and predicts the model to be in a different city altogether. 10 Figure 13. Visualization of samples for which our model correctly predicts location within 500 m (0.5 km). 
+
+Figure 14. Visualization of samples for which our model correctly predicts location within 1 km but not within 500m (0.5 km). 
+
+Figure 15. Visualization of samples for which our model correctly predicts location within 5 km but not within 1 km. 
+
+Figure 16. Visualization of samples for which our model correctly predicts location within 25km but not within 5km. 
+
+Figure 17. Visualization of samples for which our model cannot predict the location within 25 km. 
+
+11

@@ -1,0 +1,624 @@
+Title: Hypergraph-State Collaborative Reasoning for Multi-Object Tracking
+
+URL Source: https://arxiv.org/pdf/2604.12665v1
+
+Published Time: Wed, 15 Apr 2026 01:04:37 GMT
+
+Number of Pages: 11
+
+Markdown Content:
+# Hypergraph-State Collaborative Reasoning for Multi-Object Tracking 
+
+## Zikai Song 1, 2 , Junqing Yu 1* , Yi-Ping Phoebe Chen 3, Wei Yang 1, Xinchao Wang 2* 1Huazhong University of Science and Technology 2National University of Singapore 
+
+> 3
+
+## La Trobe Uniersity 
+
+## Abstract 
+
+Motion reasoning serves as the cornerstone of multi-object tracking (MOT), as it enables consistent association of targets across frames. However, existing motion estima-tion approaches face two major limitations: (1) instability caused by noisy or probabilistic predictions, and (2) vulner-ability under occlusion, where trajectories often fragment once visual cues disappear. To overcome these issues, we propose a collaborative reasoning framework that enhances motion estimation through joint inference among multiple correlated objects. By allowing objects with similar motion states to mutually constrain and refine each other, our frame-work stabilizes noisy trajectories and infers plausible motion continuity even when target is occluded. To realize this con-cept, we design HyperSSM , an architecture that integrates Hypergraph computation and a State Space Model (SSM) for unified spatial–temporal reasoning. The Hypergraph module captures spatial motion correlations through dynamic hy-peredges, while the SSM enforces temporal smoothness via structured state transitions. This synergistic design enables simultaneous optimization of spatial consensus and tempo-ral coherence, resulting in robust and stable motion estima-tion. Extensive experiments on four mainstream and diverse benchmarks(MOT17, MOT20, DanceTrack, and SportsMOT) covering various motion patterns and scene complexities, demonstrate that our approach achieves state-of-the-art per-formance across a wide range of tracking scenarios. 
+
+## 1. Introduction 
+
+Multi-object tracking (MOT) aims to detect and continuously track multiple targets in dynamic scenes while preserving their identities across consecutive frames [ 26 , 31 , 40 , 50 , 51 ,56 , 71 , 73 ]. Unlike object detection, which focuses solely on identifying objects within a single image [ 43 –46 ], MOT must establish temporal associations between detections over           
+
+> * Corresponding Authors: Xinchao Wang (xinchao@nus.edu.sg) and Jun-qing Yu (yjqing@hust.edu.cn) Code is available at https://github.com/SkyeSong38/HyperMOT v1 v2
+> v3
+> v4 v5
+> v6
+> v7
+> v8
+> e1
+> e2
+> e3
+> 1
+> 1
+> 0
+> 0
+> 0
+> 0
+> 0
+> 0
+> 0
+> 0
+> 0
+> 0
+> 1
+> 0
+> 1
+> 1
+> 0
+> 0
+> 1
+> 1
+> 0
+> 1
+> 0
+> 0
+> e1 e2 e3
+> v1
+> v2
+> v3
+> v4
+> v5
+> v6
+> v7
+> v8
+> Hypergraph
+> construction Motion results
+> Incident matrix
+> Gathering
+> Scattering &
+> Hypergraph -based collaborative reasoning
+> Video sequence
+
+Figure 1. Hypergraph-based collaborative motion estimation .We first construct a motion-aware hypergraph, represented by an incidence matrix, the hyperedge ( e) selectively associating strongly correlated targets based on motion states ( gathering ), the gathered group is then dispersed back to individual nodes for fine-grained motion refinement ( scattering ), achieving both collaborative infer-ence and precise object-specific estimation. 
+
+time. This makes accurate estimation of inter-frame mo-tion indispensable. Motion estimation thus lies at the core of MOT, serving as the fundamental mechanism that en-ables consistent target association and identity maintenance throughout a video sequence [27, 52, 70, 72]. Existing MOT methods can be divided into two distinct categories depending on whether they explicitly estimate mo-tion displacement. (1) Query-based methods [17 , 66 , 69 ]eliminate the need for explicit motion modeling. They rep-resent each target as a learnable query with each query cor-responding to a specific object, through iterative network updates, the query directly regresses the object’s position. (2) Motion-based methods explicitly estimate object mo-tion and integrate it with detection results for tracking. Tra-ditional approaches [ 33 , 68 ] often employ Kalman Filter motion estimation . Recent frameworks [ 25 , 53 ], further leverage learnable motion estimation to capture complex, 
+
+> arXiv:2604.12665v1 [cs.CV] 14 Apr 2026
+
+nonlinear motion dynamics, leading to more robust tracking performance. Our approach follows the motion-based paradigm and aims to tackle two long-standing challenges in motion esti-mation. (C1) Motion noise and instability . Paradoxically, despite the rapid development of learning-based approaches, the hand-crafted Kalman Filter (KF) and its variants remain among the most stable motion estimators. KF assumes constant-velocity linear motion and performs remarkably well in simple, linear trajectories (such as MOT17 [ 37 ]). In contrast, learnable motion estimators can model complex nonlinear dynamics, yet their inherently probabilistic pre-dictions often introduce noise and fluctuations, leading to less consistent performance in linear scenarios. (C2) Ro-bustness under occlusion . When a target becomes heavily occluded, motion estimation tends to fail, resulting in tra-jectory fragmentation or identity switches. Both KF and learnable motion estimation methods struggle to maintain temporal continuity once visual evidence is lost. To address these challenges, we introduce a collabora-tive reasoning framework for motion estimation, as shown in Figure 1. Unlike other approaches that estimate motion independently for each target, our method performs joint estimation across multiple correlated objects. Rather than aggregating all targets indiscriminately, we selectively as-sociate those with highly correlated motion states (in terms of direction and velocity), to preserve individual motion characteristics while enabling cooperative inference. Our approach builds on two key principles to tackle the afore-mentioned challenges. (1) Joint reasoning inherently sta-bilizes motion estimation (for C1 ). When the trajectory of one target becomes noisy or unstable, the shared con-straints from other motion-correlated targets help suppress instability and restore consistency. (2) Cross-object motion transfer enhances occlusion resilience (for C2 ). When a target becomes temporarily invisible, its motion can be prob-abilistically inferred from the observable dynamics of other targets exhibiting similar motion patterns. (e.g. estimating the trajectory of an occluded pedestrian based on the motion trends of others moving in the same direction.) We propose HyperSSM to realize collaborative reasoning for motion estimation, HyperSSM is a unified architecture that synergizes Hypergraph computation with State Space Model (SSM) for spatial collaborative reasoning and tempo-ral motion estimation . (a) From the spatial perspective, the Hypergraph module dynamically constructs motion-aware hyperedges that group objects exhibiting correlated motion states. These hyperedges aggregate object-specific motion information into shared latent group states, enabling spa-tial collaboration that suppresses individual estimation noise through consensus reasoning. (b) From the temporal per-spective, the SSM module models motion evolution via a structured autoregressive process, where motion states are propagated through learnable transition matrices to maintain temporal continuity and adapt to dynamic changes. (c) Fi-nally, HyperSSM bridges spatial and temporal reasoning by embedding hypergraph-derived relational constraints directly into the SSM’s state transition rules. This integration en-forces consistent optimization of spatial group coherence and temporal trajectory smoothness, resulting in robust and sta-ble motion estimation. Comprehensive experiments on both linear motion datasets (MOT17 [ 37 ], MOT20 [ 10 ]) and non-linear motion datasets (DanceTrack [ 55 ], SportsMOT [ 8 ]) demonstrate the state-of-the-art performance of our method. In summary, our main contributions are as follows: 1. We propose a collaborative motion estimation framework that performs joint reasoning among correlated objects, effectively suppressing noise fluctuations and enhancing robustness under occlusion through cross-object motion constraint and information sharing. 2. We design HyperSSM, a unified architecture that inte-grates Hypergraph computation with SSM to achieve spa-tial–temporal collaborative reasoning. The Hypergraph module dynamically captures motion correlations among objects, while the SSM propagates these relationships through structured temporal transitions, jointly optimiz-ing spatial coherence and temporal smoothness for stable motion estimation. 
+
+## 2. Related Work 
+
+Object tracking has numerous applications in computer vi-sion [ 12 , 13 , 32 , 48 , 49 , 62 , 64 ]. Existing MOT methods can be divided into Query-based methods and Motion-based methods depending on whether they explicitly estimate mo-tion of objects. 
+
+Query-based methods (such as TrackFormer [ 36 ] and the MOTR series [ 63 , 66 , 69 ]) do not require explicit mo-tion computation. Derived from DETR [ 6, 74 ], they rep-resent each target as a learnable query that regresses ob-ject positions, maintaining identity consistency through per-sistent queries across the sequence. Recently, when en-hanced with historical memory and large-scale hybrid mod-eling [ 17 , 29 , 42 , 63 ], these methods have achieved strong performance in highly nonlinear and number-fixed scenarios such as DanceTrack [55]. However, query-based methods have inherent limitations. Because each query is fixed to a specific target, they struggle to adapt to object appearances and disappearances, perform-ing well mainly in scenarios with a constant number of targets. In dynamic scenes, their tracking stability degrades, and the query-to-box regression often introduces noisy fluc-tuations, leading to inferior performance in linear-motion benchmarks such as MOT17 [37] and MOT20 [10]. 
+
+Motion-based methods decouple detection and association. They first predict object bounding boxes in each frame us-ing object detectors [ 19 , 39 ], then explicitly estimate ob-ject motions, and finally associate each detection with its most likely trajectory. (1) Many trackers [ 1, 3, 57 , 61 , 68 ]employ hand-crafted Kalman Filters for motion estima-tion , which assume constant-velocity linear motion. Such methods perform remarkably well in linear-motion scenarios like surveillance videos but deteriorate sharply in nonlinear cases such as dancing or sports. (2) Recently, several ap-proaches [ 25 , 28 , 53 , 59 , 67 ] have introduced learnable mo-tion estimation networks , replacing the Kalman filter with data-driven predictors that better capture complex nonlinear dynamics and substantially improve tracking robustness. Our method follows this learnable motion estimation paradigm, which combines the strengths of query-based and Kalman-based approaches. By decoupling detection and mo-tion estimation, it avoids the fixed-number and linear-motion limitations of query-based methods, while the learnable mo-tion predictor overcomes the Kalman filter’s weakness in nonlinear dynamics. However, current learnable estimators still suffer from noisy predictions and poor robustness under occlusion. To address these issues, we introduce a collab-orative reasoning framework that jointly estimates motion among correlated targets, effectively stabilizing trajectories and enhancing occlusion resilience. 
+
+Graph learning in MOT. In recent years, several meth-ods [ 2 , 7 , 24 , 38 , 65 ] have introduced graph neural networks (GNNs) [ 58 ] to perform association matching in multi-object tracking. These methods model objects across frames as nodes, while edges represent potential associations between detections. By learning relational dependencies among nodes, GNNs infer the likelihood that two detections belong to the same target, thereby enabling accurate cross-frame matching and identity association. Existing graph-based MOT methods mainly focus on linking the same target across consecutive frames to achieve identity association, but they still track each object separately without considering relationships among different targets. In contrast, our approach models motion correlations among multiple objects within the same frame through a hypergraph structure, enabling collaborative tracking by capturing com-plex, high-order interactions. This design introduces a new paradigm for MOT, allowing the model to reason collectively over multiple targets rather than treating them as independent entities. 
+
+## 3. Method 
+
+In this section, we present our tracking framework following a bottom-up exposition. • We first introduce the core component HyperSSM block 
+
+(Sec. 3.2), which details how multiple targets are aggre-gated and jointly reasoned to enable collaborative mod-eling. To clarify its design, we begin with the necessary preliminaries (Sec. 3.1) covering the concepts of Hyper-graph and State Space Model (SSM). • We then describe how HyperSSM blocks are integrated into a motion estimation module (Sec. 3.3) to perform motion prediction. • Finally, we outline the overall tracking framework (Sec. 3.4), which integrates all components into a complete motion-based tracking pipeline. 
+
+3.1. Preliminary 
+
+Hypergraph Learning. Unlike conventional graphs where each edge connects only two nodes, a hypergraph allows a single hyperedge to connect multiple nodes, thereby cap-turing complex and high-order relationships. Hypergraph computation [ 14 , 15 , 18 ] generally consists of two stages: (1) Construction. Given a feature map X extracted from a neural network, the construction stage applies a mapping function f : X → G to build a hypergraph G by inferring latent correlations among features. (2) Convolution. The subsequent hypergraph convolution propagates high-order information through gathering and scattering operations defined as: 
+
+Y gathering 
+
+←−−−−− W D −1 
+
+> e
+
+HT X, Xh
+
+> scattering
+
+←−−−−− σ(D−1 
+
+> v
+
+HY Θ) ,
+
+(1) where Y denotes the hyperedge features, and W is a diago-nal matrix of edge weights. De and Dv represent diagonal matrices of edge and vertex degrees, respectively, while H
+
+is the |v| × | e| incidence matrix of the hypergraph. Θ de-notes learnable parameters, and σ(·) is a nonlinear activation function. 
+
+State Space Model. State Space Models (SSMs) [ 9, 20 ]have demonstrated strong capability in modeling long-range dependencies within sequential data. They are derived from the concept of continuous dynamical systems by introducing a hidden state ht that maps a sequence of inputs xt to corre-sponding outputs yt, where N denotes the dimension of the hidden state. Among recent variants, the S4 model [ 21 , 22 ]is one of the most widely used formulations, whose autore-gressive process can be expressed as: 
+
+ht = Aht−1 + Bxt,yt = Cht + Dxt, (2) where xt denotes the input, ht is the hidden state, and yt is the output. A, B, C, and D are learnable matrices, with 
+
+A and B typically discretized from continuous parameters using zero-order hold (ZOH) or Euler discretization rules. 
+
+3.2. HyperSSM block 
+
+Hypergraph Construction . We define a hypergraph G =
+
+{V, E } by its vertex set V and hyperedge set E. In our !𝐵 
+
+# ℎ̅ 𝐴 
+
+## 𝑋 
+
+## 𝑌 
+
+# 𝐻𝐶𝑜𝑛𝑣 
+
+# 𝐶        
+
+> Hypergraph construction
+> V2E
+> Gathering
+> E2V
+> Scattering
+> Vertex
+> features
+> Vertex
+> features
+> Edge
+> features
+> 𝑁
+> 𝐿
+> 𝑁
+> 𝐿
+> 𝐸
+> 𝐿
+> 𝑁 -objects
+> 𝐸 -edges
+> 𝐿 -frames
+
+HyperSSM Block Hyper Convolution edge    
+
+> vertex
+> edge1 edge2 edge3
+> Incidence matrix
+> 𝑏𝑎𝑙𝑙 (𝑣 ,𝑒 )
+> Objects
+
+Figure 2. HyperSSM block and Hyper Convolution. The HyperSSM block integrates hypergraph computation into the SSM. Given the input motion feature X of all objects N within L frames. First, collaborative reasoning is performed via hyper convolution (HConv), involving a vertex-to-edge (V2E) gathering from vertices to hyperedges and followed by a edge-to-vertex (E2V) scattering back to vertices. The block then computes hidden states h from the HConv-processed input X using discretized parameters A and B. Finally, outputs Y are generated through trainable parameters C and an additional HConv block. 
+
+approach, we define each object is represented as a vertex, and its motion feature x ∈ Rd constitutes the vertex set 
+
+V . To model the relationships among objects with similar motion status, a distance threshold θ is used to construct an e-ball around each motion feature, which will serve as a hyperedge. The overall hyperedge set is defined as E =
+
+{ball (v, e ) | v ∈ V }, where ball (v, e ) = {u| || xu − xv || d <θ, u ∈ V } denotes the set of neighboring vertex for a given 
+
+v. In computations, a hypergraph G is typically represented by its incidence matrix H.Computing motion feature x ∈ Rd is as follows: Let the historical trajectory of an object be denoted as pL ∈
+
+RL×4, where L is the number of frames and each element 
+
+pt = ( x, y, w, h ) represents the object’s box at frame t.For each target, we first compute the displacement between consecutive frames to obtain the velocity sequence: 
+
+vt = pt − pt−1, t = 2 , . . . , L. 
+
+To emphasize recent motion trends while suppressing noise, we apply an exponential moving average (EMA) weight-ing scheme, where frames closer to the current one receive higher weights: 
+
+ˆv =
+
+> L
+
+X
+
+> t=1
+
+α(1 − α)L−tvt,
+
+with α controlling the decay rate. Finally, the smoothed velocity ˆv is passed through a trajectory embedding module 
+
+to obtain the motion representation x ∈ Rd.
+
+Hyper Convolution ( HConv ). We employ a standard spatial-domain Hyper convolution [ 18 ] with an additional residual connection. This process facilitates collaborative reasoning through a gathering phase from vertices to hyperedges and a scattering phase from hyperedges to vertices, as described below: 
+
+xe = 1
+
+|Nv (e)|
+
+X 
+
+> v∈Nv(e)
+
+xv Θ
+
+x′ 
+
+> v
+
+= xv + 1
+
+|Ne(v)|
+
+X
+
+> e∈Ne(v)
+
+xe
+
+(3) where Nv (e) and Ne(v) are two indicate functions defined as: Nv (e) = {v|v ∈ e, v ∈ V } and Ne(v) = {e|v ∈ e, e ∈
+
+E}. Θ is a trainable parameter. The matrix formulation of the hypergraph computation can be defined as: 
+
+HConv (X) = σ(D−1 
+
+> v
+
+HW D −1 
+
+> e
+
+HT Xv Θ) (4) where Dv and De represent the diagonal degree matrices of the vertices and hyperedges. 
+
+HConv -embedded SSM. Our HyperSSM block integrates Hypergraph structure into State Space Model, as illustrated in Figure 2. Building upon the conventional SSM workflow where the first step computes hidden states ht from input Xt
+
+in frame t using discretized parameters A and B, and the 
+
+second step generates outputs Yt via trainable parameters C
+
+and D. HyperSSM introduces three critical modifications: (1) embedding Hypergraph computation during the initial state transition phase to model multi-object motion interac-tions within Xt, (2) removing the redundant D parameter to prevent over-parameterization while leveraging trainable hypergraph parameters Θ from the hypergraph computation, and (3) incorporating a residual connection that combines the original input Xt with the transformed hidden state to preserve essential motion features. The operation can be formalized as: 
+
+ht = Aht−1 + B · HConv (Xt)
+
+Yt = Xt + Cht + HConv (Xt). (5) These innovations enhance spatiotemporal relationship modeling through Hypergraph-structured reasoning while retaining the computational efficiency of SSM, enabling robust motion estimation with explicit capture of complex object interactions and streamlined parameterization. trajectory embedding 
+
+> embed
+
+# …
+
+ℎ hidden      
+
+> state
+> HyperSSM
+> block FFN
+> proj
+> PE
+> layer 1
+> layer 2layer n
+
+𝑃 !!
+
+𝑃 !!"#     
+
+> ℎ
+> Figure 3. The architecture of the motion estimation model. The motion estimation module comprises multiple cascaded HyperSSM layers. Given the multi-frame multi-object position information
+> PLt, we encode it into trajectory embeddings to guide each layer. The resulting motion features are processed through a feed-forward network (FFN), generating the position information PLt+1 for the next sliding window at one-frame intervals.
+
+3.3. Motion Estimation 
+
+The motion estimation module is illustrated in Figure 3. Given the position information {P it = ( x, y, w, h )}i∈Nt∈L of all objects N across L frames in the range [t − L + 1 , t ],we encode this multi-frame multi-object position informa-tion PNL ∈ RN ×L×4 into trajectory embeddings T NL ∈
+
+RN ×L×d. These trajectory embeddings T are used as guid-ance and fed, along with the position information, into a motion estimation module composed of multiple cascaded layers, each layer containing a HyperSSM block. The re-sulting motion features are passed through a feed-forward network (FFN) to estimate the motion result PNLt+1 ( in which Lt+1 ∈ [t − L + 2 , t + 1] ) for the next sliding win-dow, shifted by one frame. Within the motion estimation, trajectory embeddings are applied to each layer. The out-put from the previous HyperSSM layer input to next layer, enabling precise refinement of the trajectory over time. Ad-ditionally, the hidden state acts as a messenger, transmitting information between cascaded layers, allowing the trajectory to progressively regress toward the ground truth labels. 
+
+3.4. Overall Tracking Framework 
+
+Tracking Pipeline Our MOT approach adopts the tracking-by-detection paradigm, the overall tracking pipeline operates in five sequential stages: 
+
+(1) Detection: a publicly YOLOX detector [ 19 ] processes each incoming frame to obtain candidate detections; 
+
+(2) Motion Estimation: our HyperSSM motion estima-tion module predicts the future positions of existing tracks; 
+
+(3) Tracks Association: an adaptive association strategy that matches existing tracks with the most suitable detections from multiple confidence levels. 
+
+(4) Tracks Initialization or Termination: a track ini-tialization strategy that selectively creates new tracks from unmatched high-confidence detections, tracks that remain unmatched for a predefined number of frames are either deleted or temporarily suspended. 
+
+Tracks Association. Instead of employing the conventional Hungarian algorithm for tracks association, we adopt a multi-stage adaptive association strategy as in [ 47 ] that emphasizes track-level consistency. Three categories of detections are constructed—high-confidence retained after Non-Maximum Suppression (NMS), low-confidence to recover missed tar-gets, and high-confidence suppressed by NMS. For each track–detection pair, a cost based on motion, spatial, and appearance cues is computed. The matching process iter-atively selects track–detection pairs with minimal mutual costs under adaptive thresholds, updating associations in a stage-wise manner until no valid matches remain. 
+
+Tracks Initialization or Termination. After association, unmatched high-confidence detections are considered for track initialization. To avoid redundant or false trajectories, we adopt a spatially aware initialization process: The latest positions of successfully matched tracks are treated as an-chors, and both anchors and remaining detections undergo NMS to eliminate overlaps. Only detections that remain after suppression are used to create new tracks, ensuring that initialization occurs selectively and consistently. 
+
+## 4. Experiments 
+
+4.1. Settings 
+
+Training loss. We take the smooth L1 loss and generalized-IoU [ 41 ] between the estimation and ground-truth of all frames within the estimated sliding window: 
+
+L = λ1
+
+> L
+
+X
+
+> t
+
+LL1(P t, P tgt ) + λ2
+
+> L
+
+X
+
+> t
+
+LGIoU (P t, P tgt ) (6) where L represents the length of a sliding window, λ1 and 
+
+λ2 represent the weight coefficients for smooth L1 loss and GIoU loss, respectively, Pgt is the ground-truth labels. Methods HOTA IDF1 MOTA AssA DetA                                                                                                                                                                                             
+
+> query-based methods:
+> TransTrack [54] 48.9 59.4 65.0 45.2 53.3 TransCenter [60] 54.5 62.2 73.2 49.7 60.1 MOTR [66] 57.2 68.4 71.9 55.8 /MeMOT [4] 56.9 69.0 72.5 55.2 /MeMOTR [16] 58.8 71.5 72.8 58.4 59.6 MOTRv2 [69] 62.0 75.0 78.6 60.6 63.8 MOTRv3 [63] 60.2 72.4 75.9 58.7 62.1 MOTIP [17] 59.3 71.3 75.3 57.0 62.0 SAMBA [42] 58.8 71.0 72.9 58.2 59.7 DualMOT [30] 61.5 75.1 73.8 62.5 65.0
+> motion-based methods:
+> Bytetrack [68]* 63.1 77.3 80.3 62.0 64.5 StrongSORT [11]* 64.4 79.5 79.6 64.4 64.6 BoT-SORT [1]* 65.0 80.2 80.5 65.5 64.9 OC-SORT [5]* 63.2 77.5 78.0 63.4 63.2 SparseTrack [33]* 65.1 80.1 81.0 //HybridSORT [61]* 64.0 78.7 79.9 //MambaMOT [28] 61.1 73.9 78.1 //TrackSSM [25] 61.4 74.1 78.5 59.6 63.6 ETTrack [23] 61.9 75.9 79.0 60.5 /DiffusionTrack [34] 60.8 73.8 77.9 58.8 63.2 OFTrack [53] 64.1 78.8 80.1 63.3 64.6 DiffMOT [35] 64.5 79.3 79.8 64.6 64.7
+> HyperSSM (Ours) 66.9 83.1 81.5 68.2 66.3
+> Table 1. Performance comparison on MOT17 test sets, following the private protocol. The *denotes Kalman Filter, others adopt learnable motion estimation. Methods HOTA IDF1 MOTA AssA DetA
+> query-based methods:
+> TransCenter [60] /58.7 67.7 //MeMOT [4] 54.1 66.1 63.7 55.0 /
+> motion-based methods:
+> Bytetrack [68]* 61.3 75.2 77.8 59.6 63.4 StrongSORT [11]* 62.6 77.0 73.8 64.0 61.3 BoT-SORT [1]* 63.3 77.5 77.8 62.9 64.0 OC-SORT [5]* 62.4 76.3 75.7 62.5 62.4 SparseTrack [33]* 63.4 77.3 78.2 //HybridSORT [61]* 63.9 78.4 76.7 //DiffusionTrack [34] 55.3 66.3 72.8 51.3 59.9 OFTrack [53] 63.4 76.9 75.6 62.1 62.2 DiffMOT [35] 61.7 74.9 76.7 60.5 63.2
+> HyperSSM (Ours) 65.2 77.5 80.0 66.3 62.5
+> Table 2. Performance comparison on MOT20 test sets, following the private protocol. The *denotes Kalman Filter, others adopt learnable motion estimation.
+
+Dataset. We evaluate the performance of our HyperSSM in both linear motion and non-linear motion scenarios, linear motion corresponding to the MOT17 [ 37 ] and MOT20 [ 10 ]datasets, non-linear motion corresponding to the Dance-Track [ 55 ] and SportsMOT [ 8] datasets. As most other trackers [ 25 , 68 ], we merge the MOT17 and MOT20 training sets to train our model and report results on the MOT17 test set and MOT20 test set. For reporting results on the DanceTrack and SportsMOT test sets, we train HyperSSM separately on their respective training and validation sets. We conduct ablation experiments both on MOT17 and Dance-Track datasets, for MOT17 ablation, we train our model on the train-half set and ablation study test on the val-half set. For DanceTrack ablation, we train our model on the training sets and perform ablation testing on the validation set. 
+
+Implementation Details. During the training phase of HyperSSM, trajectory segments—rather than images—are used for training, consistent with methodologies from Diff-MOT [ 35 ] and TrackSSM [ 25 ]. The input consists of posi-tion and motion data derived from 5-frame trajectory seg-ments. For training, we employ a batch size of 128, the Adam optimizer (learning rate = 0 .0001 ), and an 8-layer flow decoder. Training is conducted over 360 epochs for the MOT17, MOT20, and SportsMOT datasets, and 260 epochs for DanceTrack. While the smooth L1 loss is used exclu-sively for MOT17, MOT20, and DanceTrack, SportsMOT training incorporates both smooth L1 and GIoU losses. This adjustment is driven by the larger inter-frame object dis-placement distances in SportsMOT, where GIoU loss en-hances motion model convergence speed. All experiments are performed on NVIDIA Tesla V100 GPUs, implemented in PyTorch 1.22 and Python 3.11. 
+
+4.2. SOTA Comparison 
+
+MOT17 and MOT20 are datasets for multi-pedestrian track-ing under the linear motion pattern. We use the standard split and obtain the test set evaluation by submitting the results to the online MOTChallenge website. The performances are presented in Table 1 and 2 under the "private" proto-col. Our HyperSSM achieves a superior performance both in MOT17 and MOT20 with the HOTA of 66.9 and 65.2, showing impressive performance among all models. 
+
+DanceTrack is a long-range group dancing dataset and has similar disruptors, severe occlusion, and frequent crossovers with highly complex non-linear motion. Table 3 shows that our HyperSSM performs superior quality, obtains the and 65.7 HOTA and 68.0 IDF1 score. 
+
+SportsMOT represents sports environments and is charac-terized by varied motion patterns and intricate non-linear movements. As illustrated in Table 4, our HyperSSM out-performs other trackers with a notable HOTA score of 78.5, highlighting its superior performance. 
+
+4.3. Ablation Study 
+
+We ablate our approach using the MOT17 and DanceTrack datasets. For MOT17, we follow the methodology of Byte-Methods HOTA IDF1 MOTA AssA DetA 
+
+query-based methods: 
+
+TransTrack [54] 45.5 45.2 88.4 27.5 75.9 MOTR [66] 54.2 51.5 79.7 40.2 73.5 MeMOTR [16] 68.5 71.2 89.9 58.4 80.5 MOTRv2 [69] 73.4 76.0 92.1 64.4 83.7 MOTRv3 [63] 70.4 72.3 92.9 59.3 83.8 
+
+MOTIP [17] 72.0 76.8 91.9 63.5 81.8 SAM2MOT [29] 75.8 83.9 88.5 72.2 79.7 SAMBA [42] 67.2 70.5 88.1 57.5 78.8 DualMOT [30] 76.2 79.9 85.0 68.3 85.0 
+
+motion-based methods: 
+
+StrongSORT [11]* 55.6 55.2 91.1 38.6 80.7 BoT-SORT [1]* 54.7 56.0 91.3 37.8 79.6 Bytetrack [68]* 47.7 53.9 89.6 32.1 71.0 OC-SORT [5]* 55.1 54.6 92.0 38.3 80.3 SparseTrack [33]* 55.7 58.1 91.3 39.3 79.2 HybridSORT [61]* 65.7 67.4 91.8 / /DiffusionTrack [34] 52.4 47.5 89.3 33.5 82.2 MambaTrack [59] 56.8 57.8 90.1 39.8 80.1 MambaMOT [28] 56.1 54.9 90.3 39.0 80.8 TrackSSM [25] 57.7 57.5 92.2 41.0 81.5 ETTrack [23] 56.4 57.5 92.2 39.1 81.7 DiffMOT [35] 62.3 63.0 92.8 47.2 82.5 HyperSSM(Ours) 65.7 68.0 92.7 52.6 82.4 Table 3. Performance comparison on DanceTrack test sets. The *
+
+denotes Kalman Filter, others adopt learnable motion estimation. Methods HOTA IDF1 MOTA AssA DetA 
+
+query-based methods: 
+
+TransTrack [54] 68.9 72.5 92.6 57.5 82.7 MeMOTR [16] 70.0 71.4 91.5 59.1 83.1 MOTIP [17] 72.6 77.1 92.4 63.2 83.5 SAMBA [42] 69.8 71.9 90.3 59.4 82.2 DualMOT [30] 73.9 78.7 91.5 66.6 82.2 
+
+motion-based methods: 
+
+Bytetrack [68]* 64.1 71.4 95.9 52.3 78.5 OC-SORT [5]* 73.7 74.0 96.5 61.5 88.5 MambaTrack [59] 72.6 72.8 95.3 60.3 87.6 MambaMOT [28] 71.3 71.1 94.9 58.6 86.7 TrackSSM [25] 74.4 74.5 96.8 62.4 88.8 ETTrack [23] 74.3 74.5 96.8 62.1 88.8 MixSort [8] 74.1 74.4 96.5 62.0 88.5 DiffMOT [35] 76.2 76.1 97.1 65.1 89.3 
+
+HyperSSM(Ours) 78.5 80.0 97.0 69.2 89.2 
+
+Table 4. Performance comparison on SportsMOT test sets. The *
+
+denotes Kalman Filter, others adopt learnable motion estimation. 
+
+Track by splitting the MOT17 training set into a train-half set and a val-half set. For DanceTrack, we are trained on full training set and tested on validation set. 
+
+Comparison with other motion models. By maintaining 
+
+Motion methods MOT17 DanceTrack HOTA IDF1 MOTA HOTA IDF1 MOTA Kalman 64.5 74.7 79.1 47.0 52.2 87.3 OC-Kalman 64.6 74.9 79.0 52.5 54.3 89.1 SSM 63.4 72.1 78.6 53.7 53.5 88.9 HyperSSM 65.5 75.9 79.7 59.7 60.6 89.5 Table 5. Comparison with other motion models. The detection and association strategies are fixed across all methods. 59.7                                                                                              
+
+> 65.5 65.5
+> 66.7
+> 75.9 76.1
+> 53.3
+> 59.7 59.8
+> 52.9
+> 60.6 60.8
+> HyperSSM layers
+> 63.8 65.1 65.5 65.5 65.6
+> 73.4 74.7 75.9 75.9 76
+> 57.1
+> 59.3 59.7 59.7 59.9
+> 58.8 60.1 60.6 60.6 60.7
+> 55
+> 60
+> 65
+> 70
+> 75
+> 13579
+> HOTA(MOT17) IDF1(MOT17)
+> HOTA(DanceTrack) IDF1(DanceTrack)
+> 63.8 65.1 65.5 65.5 65.6
+> 73.4 74.7 75.9 75.9 76
+> 57.1
+> 59.3 59.7 59.7 59.9
+> 58.8 60.1 60.6 60.6 60.7
+> 55
+> 60
+> 65
+> 70
+> 75
+> 13579
+> HOTA(MOT17) IDF1(MOT17)
+> HOTA(DanceTrack) IDF1(DanceTrack)
+> 63.8 65.1 65.5 65.5 65.6
+> 73.4 74.7 75.9 75.9 76
+> 57.1
+> 59.3 59.7 59.7 59.9
+> 58.8 60.1 60.6 60.6 60.7
+> 55
+> 60
+> 65
+> 70
+> 75
+> 13579
+> HOTA(MOT17) IDF1(MOT17)
+> HOTA(DanceTrack) IDF1(DanceTrack)
+> 63.8 65.1 65.5 65.5 65.6
+> 73.4 74.7 75.9 75.9 76
+> 57.1
+> 59.3 59.7 59.7 59.9
+> 58.8 60.1 60.6 60.6 60.7
+> 55
+> 60
+> 65
+> 70
+> 75
+> 13579
+> HOTA(MOT17) IDF1(MOT17)
+> HOTA(DanceTrack) IDF1(DanceTrack)
+> 59.7
+> 65.5 65.5
+> 66.7
+> 75.9 76.1
+> 53.3
+> 59.7 59.8
+> 52.9
+> 60.6 60.8
+
+50 
+
+55 
+
+60 
+
+65 
+
+70 
+
+75 
+
+2 4 6 8    
+
+> 59.7
+> 65.5 65.5
+> 66.7
+> 75.9 76.1
+> 53.3
+> 59.7 59.8
+> 52.9
+> 60.6 60.8
+
+50 
+
+55 
+
+60 
+
+65 
+
+70 
+
+75 
+
+2 4 6 863.8 65.1 65.5 65.5 65.6                                                                                            
+
+> 73.4 74.7 75.9 75.9 76
+> 57.1
+> 59.3 59.7 59.7 59.9
+> 58.8 60.1 60.6 60.6 60.7
+> 55
+> 60
+> 65
+> 70
+> 75
+> 13579
+> HOTA(MOT17) IDF1(MOT17)
+> HOTA(DanceTrack) IDF1(DanceTrack)
+> 63.8 65.1 65.5 65.5 65
+> 73.4 74.7 75.9 75.9 7
+> 57.1
+> 59.3 59.7 59.7 59
+> 58.8 60.1 60.6 60.6 60
+> 55
+> 60
+> 65
+> 70
+> 75
+> 1357
+> HOTA(MOT17) IDF1(MOT17)
+> HOTA(DanceTrack) IDF1(DanceTra
+> 63.8 65.1 65.5 65.5 65.6
+> 73.4 74.7 75.9 75.9 76
+> 57.1
+> 59.3 59.7 59.7 59.9
+> 58.8 60.1 60.6 60.6 60.7
+> 55
+> 60
+> 65
+> 70
+> 75
+> 13579
+> HOTA(MOT17) IDF1(MOT17)
+> HOTA(DanceTrack) IDF1(DanceTrack)
+> 63.8 65.1 65.5 65.5 65.6
+> 73.4 74.7 75.9 75.9 76
+> 57.1
+> 59.3 59.7 59.7 59.9
+> 58.8 60.1 60.6 60.6 60.7
+> 55
+> 60
+> 65
+> 70
+> 75
+> 13579
+> HOTA(MOT17) IDF1(MOT17)
+> HOTA(DanceTrack) IDF1(DanceTrack)
+> Seuqence lengths
+> 63.8 65.5 65.6
+> 73.4
+> 75.9 76
+> 57.1 59.7 59.9
+> 58.8
+> 60.6 60.7
+> 63.8
+> 65.5 65.6
+> 73.4
+> 75.9 76
+> 57.1 59.7 59.9
+> 58.8
+> 60.6 60.7
+
+55 
+
+60 
+
+65 
+
+70 
+
+75 
+
+1 3 5 7 9
+
+Figure 4. Ablation study on the number of HyperSSM layers(left) and the length of trajectory segments(right). 
+
+consistent detection and hyper-parameter settings, we re-place our estimation module HyperSSM with Kalman Filter, OC-Kalman [ 5 ], and traditional SSM [ 25 ] to assess perfor-mance differences. Results in Table 5 show that the Kalman series excels in MOT17 due to its constant velocity assump-tion. HyperSSM offers comparable gains over the Kalman fil-ter in MOT17, but delivers substantially larger improvements in non-linear patterns. Additionally, HyperSSM consistently surpasses traditional SSM across all scenarios, demonstrat-ing broader applicability. 
+
+HyperSSM layers and sequence length in motion esti-mation. In our motion estimation module, we analyze two key design factors: the number of HyperSSM layers and the length of trajectory segments. As shown in the left part of 4, increasing the number of layers yields diminishing returns, with improvements becoming negligible beyond 8 layers; thus, we select 8 iterations as a balanced choice between accuracy and efficiency. We further examine the influence of historical segment length by evaluating trajectories of 1, 3, 5, 7, and 9 frames. Although longer segments improve predictive capability, excessively long histories can extend beyond the optimal prediction horizon. As shown in the right part of 4, performance peaks at a segment length of 5 frames and we adopt this configuration in our final framework. 
+
+Ablation analysis of critical hyperparameter. The param-eter θ measures the motion similarity between two objects and determines whether a hyperedge is established between them. We evaluate θ on MOT17 in Table 7, the best perfor-mance is achieved when θ = 0 .8 (HOTA = 65.5). When the threshold increases beyond 0.8, performance drops because θ 0.5 0.7 0.8 0.9 0.95 0.98 HOTA 47.7 62.1 65.5 65.3 64.8 64.7 IDF1 47.3 68.8 75.9 75.5 73.4 72.9 MOTA 72.1 76.2 79.7 79.5 79.4 77.8   
+
+> Table 6. Ablation analysis of parameter θ, it measures motion similarity between two objects to establish hyperedges.
+
+Model SSM HyperSSM YOLOX X X L M SHOTA 71.9 74.1 72.4 68.1 57.3 IDF1 77.0 81.9 78.8 73.7 67.0 Params(M) 104.3 135.3 76.5 41.1 19.0 
+
+fps 20.3 17.5 22.7 26.8 28.8 
+
+> Table 7. Efficiency comparison on various YOLOX models.
+
+overly strict constraints reduce the number of valid asso-ciations. This observation is intuitive: a smaller threshold introduces excessive associations, while a larger threshold results in too few connections. 
+
+Efficiency comparison. Table 7 presents an efficiency comparison among various YOLOX models and the orig-inal SSM model. Notably, the pretrained YOLOX mod-els utilized in this comparison are trained on the complete MOT17 [ 37 ] train set. To mitigate the impact of pre-training data, both training and inference operations are conducted on the MOT17 full train set rather than the half train set. It is essential to recognize that the experimental results in this context serve as a reference for comparing model sizes and do not adhere to the same evaluation standards as other results. The efficiency findings reveal that the lightweight model achieves a higher tracking speed, whereas the larger model demonstrates superior performance. 
+
+4.4. Qualitative analysis on motion challenges 
+
+To further demonstrate the effectiveness of our method, we visualize motion estimation trajectories on representative MOT17 scenes (Figure 5) that correspond to the two key challenges. For motion instability (C1) , we use a surveil-lance sequence with linear pedestrian motion. The baseline produces trajectories with clearly observable fluctuations, indicating its sensitivity to noise. In contrast, our method generates much smoother and more stable trajectories. This result shows that collaborative reasoning, achieved by jointly estimating motion across multiple correlated targets, can ef-fectively reduce noise in individual motion predictions. For 
+
+occlusion robustness (C2) , we visualize a crowded street scenario with frequent and severe occlusions. Compared with the baseline, our method exhibits fewer trajectory drifts and preserves identity continuity more accurately. These Baseline (TrackSSM ) Ours (HyperSSM )   
+
+> traj  frame traj  frame
+> Baseline (TrackSSM )Ours (HyperSSM )
+> Figure 5. Visualizations under the two key challenge scenarios: a motion-smoothness–dependent scene (top) and a crowded scene with severe occlusion (bottom).
+
+observations confirm that the collaborative design provides stronger robustness in heavily occluded environments. 
+
+## 5. Conclusion 
+
+In this work, we introduced HyperSSM, a collaborative mo-tion estimation framework that leverages hypergraph-based interaction modeling together with a state space formulation. Through the collaborative reasoning mechanism enabled by HyperSSM, multiple objects can inform and refine one another’s motion estimates, which effectively suppresses noise fluctuations and reduces the impact of occlusion. The integration of hypergraph relational constraints with a learn-able state propagation process allows the model to capture structured spatial relations while maintaining stable tempo-ral dynamics. Beyond achieving strong tracking accuracy, our study reveals that incorporating high-order relationships among objects is a powerful principle for motion estimation, offering a new direction that moves beyond independent per-object prediction. The experimental results across several mainstream benchmarks confirm the reliability and robust-ness of this design. Future work may extend HyperSSM to broader tracking scenarios or integrate richer modalities to further enhance collaborative motion reasoning. Acknowledgement 
+
+This work is supported by the National Natural Science Foundation of China (Numbers 62272184 and 62402189), the China Postdoctoral Science Foundation (Numbers 2024M751012, 2025T180429, and GZC20230894), the Postdoctor Project of Hubei Province (Number 2024HBB-HCXB014), and the National Research Foundation, Singa-pore, under its Medium Sized Center for Advanced Robotics Technology Innovation. 
+
+## References 
+
+[1] Nir Aharon, Roy Orfaig, and Ben-Zion Bobrovsky. Bot-sort: Robust associations multi-pedestrian tracking. arXiv preprint arXiv:2206.14651 , 2022. 3, 6, 7 [2] Xuewei Bai, Yongcai Wang, Deying Li, Haodi Ping, and LI Chunxu. Star: Spatial-temporal tracklet matching for multi-object tracking. In The Thirty-ninth Annual Conference on Neural Information Processing Systems . 3 [3] Alex Bewley, Zongyuan Ge, Lionel Ott, Fabio Ramos, and Ben Upcroft. Simple online and realtime tracking. In 2016 IEEE international conference on image processing (ICIP) ,pages 3464–3468. IEEE, 2016. 3 [4] Jiarui Cai, Mingze Xu, Wei Li, Yuanjun Xiong, Wei Xia, Zhuowen Tu, and Stefano Soatto. Memot: multi-object track-ing with memory. In Proceedings of the CVPR , pages 8090– 8100, 2022. 6 [5] Jinkun Cao, Xinshuo Weng, Rawal Khirodkar, Jiangmiao Pang, and Kris Kitani. Observation-centric sort: Rethink-ing sort for robust multi-object tracking. arXiv preprint arXiv:2203.14360 , 2022. 6, 7 [6] Nicolas Carion, Francisco Massa, Gabriel Synnaeve, Nicolas Usunier, Alexander Kirillov, and Sergey Zagoruyko. End-to-end object detection with transformers. In Proceedings of the ECCV , pages 213–229. Springer, 2020. 2 [7] Orcun Cetintas, Guillem Brasó, and Laura Leal-Taixé. Uni-fying short and long-term tracking with graph hierarchies. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 22877–22887, 2023. 3 [8] Yutao Cui, Chenkai Zeng, Xiaoyu Zhao, Yichun Yang, Gang-shan Wu, and Limin Wang. Sportsmot: A large multi-object tracking dataset in multiple sports scenes. In Proceedings of the IEEE/CVF International Conference on Computer Vision ,pages 9921–9931, 2023. 2, 6, 7 [9] Tri Dao and Albert Gu. Transformers are ssms: Generalized models and efficient algorithms through structured state space duality. arXiv preprint arXiv:2405.21060 , 2024. 3 [10] Patrick Dendorfer, Hamid Rezatofighi, Anton Milan, Javen Shi, Daniel Cremers, Ian Reid, Stefan Roth, Konrad Schindler, and Laura Leal-Taixé. Mot20: A benchmark for multi object tracking in crowded scenes. arXiv preprint arXiv:2003.09003 ,2020. 2, 6 [11] Yunhao Du, Yang Song, Bo Yang, and Yanyun Zhao. Strongsort: Make deepsort great again. arXiv preprint arXiv:2202.13514 , 2022. 6, 7 [12] Na Feng, Zikai Song, Junqing Yu, Yi Ping Phoebe Chen, and Tao Guan. Sset: a dataset for shot segmentation, event detection, player tracking in soccer videos. Multimedia Tools and Applications , 79(1):28971–28992, 2020. 2 [13] Na Feng, Ying Tang, Zikai Song, Junqing Yu, Yi-Ping Phoebe Chen, and Wei Yang. Ma-vlad: a fine-grained local feature ag-gregation scheme for action recognition. Multimedia Systems ,30(3):139, 2024. 2 [14] Yifan Feng, Haoxuan You, Zizhao Zhang, Rongrong Ji, and Yue Gao. Hypergraph neural networks. In Proceedings of the AAAI conference on artificial intelligence , pages 3558–3565, 2019. 3 [15] Yifan Feng, Jiangang Huang, Shaoyi Du, Shihui Ying, Jun-Hai Yong, Yipeng Li, Guiguang Ding, Rongrong Ji, and Yue Gao. Hyper-yolo: When visual object detection meets hyper-graph computation. IEEE Transactions on Pattern Analysis and Machine Intelligence , 2024. 3 [16] Ruopeng Gao and Limin Wang. Memotr: Long-term memory-augmented transformer for multi-object tracking. In Proceed-ings of the IEEE/CVF International Conference on Computer Vision (ICCV) , pages 9901–9910, 2023. 6, 7 [17] Ruopeng Gao, Ji Qi, and Limin Wang. Multiple object track-ing as id prediction. arXiv preprint arXiv:2403.16848 , 2024. 1, 2, 6, 7 [18] Yue Gao, Yifan Feng, Shuyi Ji, and Rongrong Ji. Hgnn+: General hypergraph neural networks. IEEE Transactions on Pattern Analysis and Machine Intelligence , 45(3):3181–3199, 2022. 3, 4 [19] Zheng Ge, Songtao Liu, Feng Wang, Zeming Li, and Jian Sun. Yolox: Exceeding yolo series in 2021. arXiv preprint arXiv:2107.08430 , 2021. 3, 5 [20] Albert Gu and Tri Dao. Mamba: Linear-time sequence modeling with selective state spaces. arXiv preprint arXiv:2312.00752 , 2023. 3 [21] Albert Gu, Karan Goel, and Christopher Re. Efficiently mod-eling long sequences with structured state spaces. 3 [22] Albert Gu, Karan Goel, Ankit Gupta, and Christopher Re. On the parameterization and initialization of diagonal state space models. Advances in Neural Information Processing Systems ,35:35971–35983, 2022. 3 [23] Xudong Han, Nobuyuki Oishi, Yueying Tian, Elif Ucurum, Rupert Young, Chris Chatwin, and Philip Birch. Ettrack: enhanced temporal motion predictor for multi-object tracking. 
+
+Applied Intelligence , 55(1):1–17, 2025. 6, 7 [24] Jiawei He, Zehao Huang, Naiyan Wang, and Zhaoxiang Zhang. Learnable graph matching: Incorporating graph parti-tioning with deep feature learning for multiple object tracking. In Proceedings of the CVPR , pages 5299–5309, 2021. 3 [25] Bin Hu, Run Luo, Zelin Liu, Cheng Wang, and Wenyu Liu. Trackssm: A general motion predictor by state-space model. 
+
+arXiv preprint arXiv:2409.00487 , 2024. 1, 3, 6, 7 [26] Xiantao Hu, Ying Tai, Xu Zhao, Chen Zhao, Zhenyu Zhang, Jun Li, Bineng Zhong, and Jian Yang. Exploiting multimodal spatial-temporal patterns for video object tracking. In Pro-ceedings of the AAAI Conference on Artificial Intelligence ,pages 3581–3589, 2025. 1 [27] Xiantao Hu, Bineng Zhong, Qihua Liang, Liangtao Shi, Zhiyi Mo, Ying Tai, and Jian Yang. Adaptive perception for unified visual multi-modal object tracking. IEEE Transactions on Artificial Intelligence , 2025. 1 [28] Hsiang-Wei Huang, Cheng-Yen Yang, Wenhao Chai, Zhongyu Jiang, and Jenq-Neng Hwang. Exploring learning-based motion models in multi-object tracking. arXiv preprint arXiv:2403.10826 , 2024. 3, 6, 7 [29] Junjie Jiang, Zelin Wang, Manqi Zhao, Yin Li, and Dong-Sheng Jiang. Sam2mot: A novel paradigm of multi-object tracking by segmentation. arXiv preprint arXiv:2504.04519 ,2025. 2, 7 [30] Hyunseop Kim, Juheon Jeong, Hanul Kim, and Yeong Jun Koh. Dual-path temporal decoder for end-to-end multi-object tracking. In The Thirty-ninth Annual Conference on Neural Information Processing Systems . 6, 7 [31] Hao Li, Yuhao Wang, Xiantao Hu, Wenning Hao, Pingping Zhang, Dong Wang, and Huchuan Lu. Cadtrack: Learning contextual aggregation with deformable alignment for robust rgbt tracking. arXiv preprint arXiv:2511.17967 , 2025. 1 [32] Wenbing Li, Hang Zhou, Junqing Yu, Zikai Song, and Wei Yang. Coupled mamba: Enhanced multimodal fusion with coupled state space model. Advances in Neural Information Processing Systems , 37:59808–59832, 2024. 2 [33] Zelin Liu, Xinggang Wang, Cheng Wang, Wenyu Liu, and Xiang Bai. Sparsetrack: Multi-object tracking by performing scene decomposition based on pseudo-depth. arXiv preprint arXiv:2306.05238 , 2023. 1, 6, 7 [34] Run Luo, Zikai Song, Lintao Ma, Jinlin Wei, Wei Yang, and Min Yang. Diffusiontrack: Diffusion model for multi-object tracking. arXiv preprint arXiv:2308.09905 , 2023. 6, 7 [35] Weiyi Lv, Yuhang Huang, Ning Zhang, Ruei-Sung Lin, Mei Han, and Dan Zeng. Diffmot: A real-time diffusion-based multiple object tracker with non-linear prediction. In Pro-ceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 19321–19330, 2024. 6, 7 [36] Tim Meinhardt, Alexander Kirillov, Laura Leal-Taixe, and Christoph Feichtenhofer. Trackformer: Multi-object tracking with transformers. In Proceedings of the CVPR , pages 8844– 8854, 2022. 2 [37] Anton Milan, Laura Leal-Taixé, Ian Reid, Stefan Roth, and Konrad Schindler. Mot16: A benchmark for multi-object tracking. arXiv preprint arXiv:1603.00831 , 2016. 2, 6, 8 [38] Akshay Rangesh, Pranav Maheshwari, Mez Gebre, Siddhesh Mhatre, Vahid Ramezani, and Mohan M Trivedi. Trackmpnn: A message passing graph neural architecture for multi-object tracking. arXiv preprint arXiv:2101.04206 , 2021. 3 [39] Shaoqing Ren, Kaiming He, Ross Girshick, and Jian Sun. Faster r-cnn: Towards real-time object detection with region proposal networks. Advances in neural information process-ing systems , 28, 2015. 3 [40] Weihong Ren, Xinchao Wang, Jiandong Tian, Yandong Tang, and Antoni B. Chan. Tracking-by-counting: Using net-work flows on crowd density maps for tracking multiple tar-gets. IEEE Transactions on Image Processing , 30:1439–1452, 2021. 1 [41] Hamid Rezatofighi, Nathan Tsoi, JunYoung Gwak, Amir Sadeghian, Ian Reid, and Silvio Savarese. Generalized in-tersection over union: A metric and a loss for bounding box regression. In Proceedings of the CVPR , pages 658–666, 2019. 5 [42] Mattia Segu, Luigi Piccinelli, Siyuan Li, Yung-Hsu Yang, Bernt Schiele, and Luc Van Gool. Samba: Synchronized set-of-sequences modeling for multiple object tracking. arXiv preprint arXiv:2410.01806 , 2024. 2, 6, 7 [43] Feifei Shao, Yawei Luo, Li Zhang, Lu Ye, Siliang Tang, Yi Yang, and Jun Xiao. Improving weakly supervised object localization via causal intervention. In Proceedings of the 29th ACM International Conference on Multimedia , pages 3321–3329, 2021. 1 [44] Feifei Shao, Long Chen, Jian Shao, Wei Ji, Shaoning Xiao, Lu Ye, Yueting Zhuang, and Jun Xiao. Deep learning for weakly-supervised object detection and localization: A survey. 
+
+Neurocomputing , 496:192–207, 2022. [45] Feifei Shao, Yawei Luo, Fei Gao, Yi Yang, and Jun Xiao. Knowledge-guided causal intervention for weakly-supervised object localization. IEEE Transactions on Knowledge and Data Engineering , 36(11):6477–6489, 2024. [46] Feifei Shao, Yawei Luo, Lei Chen, Ping Liu, Wei Yang, Yi Yang, and Jun Xiao. Counterfactual co-occurring learning for bias mitigation in weakly-supervised object localization. 
+
+IEEE Transactions on Multimedia , 2026. 1 [47] Kyujin Shim, Kangwook Ko, Yujin Yang, and Changick Kim. Focusing on tracks for online multi-object tracking. In Pro-ceedings of the Computer Vision and Pattern Recognition Conference , pages 11687–11696, 2025. 5 [48] Zikai Song, Junqing Yu, Hengyou Cai, Yangliu Hu, and Yi-Ping Phoebe Chen. Fine-grain level sports video search en-gine. In International Conference on Multimedia Modeling ,pages 519–531. Springer, 2019. 2 [49] Zikai Song, Zhiwen Wan, Wei Yuan, Ying Tang, Junqing Yu, and Yi-Ping Phoebe Chen. Distractor-aware tracker with a domain-special optimized benchmark for soccer player track-ing. In Proceedings of the 2021 International Conference on Multimedia Retrieval , pages 276–284, 2021. 2 [50] Zikai Song, Junqing Yu, Yi-Ping Phoebe Chen, and Wei Yang. Transformer tracking with cyclic shifting window attention. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , pages 8791–8800, 2022. 1 [51] Zikai Song, Run Luo, Junqing Yu, Yi-Ping Phoebe Chen, and Wei Yang. Compact transformer tracker with correlative masked modeling. In Proceedings of the AAAI conference on artificial intelligence , pages 2321–2329, 2023. 1 [52] Zikai Song, Ying Tang, Run Luo, Lintao Ma, Junqing Yu, Yi-Ping Phoebe Chen, and Wei Yang. Autogenic language embedding for coherent point tracking. In Proceedings of the 32nd ACM International Conference on Multimedia , pages 2021–2030, 2024. 1 [53] Zikai Song, Run Luo, Lintao Ma, Ying Tang, Yi-Ping Phoebe Chen, Junqing Yu, and Wei Yang. Temporal coherent object flow for multi-object tracking. Proceedings of the AAAI Con-ference on Artificial Intelligence , 39(7):6978–6986, 2025. 1, 3, 6 [54] Peize Sun, Jinkun Cao, Yi Jiang, Rufeng Zhang, Enze Xie, Zehuan Yuan, Changhu Wang, and Ping Luo. Transtrack: Multiple object tracking with transformer. arXiv preprint arXiv:2012.15460 , 2020. 6, 7 [55] Peize Sun, Jinkun Cao, Yi Jiang, Zehuan Yuan, Song Bai, Kris Kitani, and Ping Luo. Dancetrack: Multi-object tracking in uniform appearance and diverse motion. In Proceedings of the CVPR , pages 20993–21002, 2022. 2, 6 [56] Xinchao Wang, Engin Türetken, Francois Fleuret, and Pascal Fua. Tracking interacting objects using intertwined flows. 
+
+IEEE transactions on pattern analysis and machine intelli-gence , 38(11):2312–2326, 2015. 1 [57] Nicolai Wojke, Alex Bewley, and Dietrich Paulus. Simple online and realtime tracking with a deep association metric. In 2017 IEEE international conference on image processing (ICIP) , pages 3645–3649. IEEE, 2017. 3 [58] Zonghan Wu, Shirui Pan, Fengwen Chen, Guodong Long, Chengqi Zhang, and Philip S Yu. A comprehensive survey on graph neural networks. IEEE transactions on neural networks and learning systems , 32(1):4–24, 2020. 3 [59] Changcheng Xiao, Qiong Cao, Zhigang Luo, and Long Lan. Mambatrack: a simple baseline for multiple object tracking with state space model. In Proceedings of the 32nd ACM International Conference on Multimedia , pages 4082–4091, 2024. 3, 7 [60] Yihong Xu, Yutong Ban, Guillaume Delorme, Chuang Gan, Daniela Rus, and Xavier Alameda-Pineda. Transcenter: Transformers with dense representations for multiple-object tracking. IEEE Transactions on Pattern Analysis and Machine Intelligence , 2022. 6 [61] Mingzhan Yang, Guangxin Han, Bin Yan, Wenhua Zhang, Jinqing Qi, Huchuan Lu, and Dong Wang. Hybrid-sort: Weak cues matter for online multi-object tracking. In Proceedings of the AAAI Conference on Artificial Intelligence , pages 6504– 6512, 2024. 3, 6, 7 [62] Liliang Ye, Yunyao Zhang, Yafeng Wu, Yi-Ping Phoebe Chen, Junqing Yu, Wei Yang, and Zikai Song. Mvp: Winning solution to smp challenge 2025 video track. In Proceedings of the 33rd ACM International Conference on Multimedia ,pages 14079–14085, 2025. 2 [63] En Yu, Tiancai Wang, Zhuoling Li, Yuang Zhang, Xiangyu Zhang, and Wenbing Tao. Motrv3: Release-fetch supervi-sion for end-to-end multi-object tracking. arXiv preprint arXiv:2305.14298 , 2023. 2, 6, 7 [64] Junqing Yu, Aiping Lei, Zikai Song, Tingting Wang, Hengyou Cai, and Na Feng. Comprehensive dataset of broadcast soccer videos. In 2018 IEEE Conference on Multimedia Information Processing and Retrieval (MIPR) , pages 418–423, 2018. 2 [65] AmirAli Bagher Zadeh, Paul Pu Liang, Soujanya Poria, Erik Cambria, and Louis-Philippe Morency. Multimodal language analysis in the wild: Cmu-mosei dataset and interpretable dynamic fusion graph. In Proceedings of the 56th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers) , pages 2236–2246, 2018. 3 [66] Fangao Zeng, Bin Dong, Yuang Zhang, Tiancai Wang, Xi-angyu Zhang, and Yichen Wei. Motr: End-to-end multiple-object tracking with transformer. In Proceedings of the ECCV ,pages 659–675, 2022. 1, 2, 6, 7 [67] Jiaming Zhang, Cheng Liang, Yutao Cui, Xiangbo Shu, Gangshan Wu, and Limin Wang. Trackmamba: Mamba-transformer tracking. 3 [68] Yifu Zhang, Peize Sun, Yi Jiang, Dongdong Yu, Fucheng Weng, Zehuan Yuan, Ping Luo, Wenyu Liu, and Xinggang Wang. Bytetrack: Multi-object tracking by associating every detection box. In Proceedings of the ECCV , pages 1–21. Springer, 2022. 1, 3, 6, 7 [69] Yuang Zhang, Tiancai Wang, and Xiangyu Zhang. Motrv2: Bootstrapping end-to-end multi-object tracking by pretrained object detectors. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , pages 22056–22065, 2023. 1, 2, 6, 7 [70] Yaozong Zheng, Bineng Zhong, Qihua Liang, Guorong Li, Rongrong Ji, and Xianxian Li. Toward unified token learning for vision-language tracking. IEEE Transactions on Circuits and Systems for Video Technology , 34(4):2125–2135, 2023. 1 [71] Yaozong Zheng, Bineng Zhong, Qihua Liang, Zhiyi Mo, Shengping Zhang, and Xianxian Li. Odtrack: Online dense temporal token learning for visual tracking. In Proceedings of the AAAI conference on artificial intelligence , pages 7588– 7596, 2024. 1 [72] Yaozong Zheng, Bineng Zhong, Qihua Liang, Ning Li, and Shuxiang Song. Decoupled spatio-temporal consistency learn-ing for self-supervised tracking. In Proceedings of the AAAI Conference on Artificial Intelligence , pages 10635–10643, 2025. 1 [73] Yaozong Zheng, Bineng Zhong, Qihua Liang, Shengping Zhang, Guorong Li, Xianxian Li, and Rongrong Ji. Towards universal modal tracking with online dense temporal token learning. IEEE Transactions on Pattern Analysis and Machine Intelligence , 2025. 1 [74] Xizhou Zhu, Weijie Su, Lewei Lu, Bin Li, Xiaogang Wang, and Jifeng Dai. Deformable detr: Deformable trans-formers for end-to-end object detection. arXiv preprint arXiv:2010.04159 , 2020. 2
