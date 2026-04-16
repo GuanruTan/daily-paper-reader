@@ -1,0 +1,610 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-04-16T20:13:26.141482+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 3,
+    "deep_cap": 6,
+    "deep_selected": 3,
+    "quick_candidates": 13,
+    "quick_skim_target": 11,
+    "quick_selected": 11
+  },
+  "deep_dive": [
+    {
+      "id": "2604.13128v1",
+      "title": "Learning Probabilistic Responsibility Allocations for Multi-Agent Interactions",
+      "abstract": "Human behavior in interactive settings is shaped not only by individual objectives but also by shared constraints with others, such as safety. Understanding how people allocate responsibility, i.e., how much one deviates from their desired policy to accommodate others, can inform the design of socially compliant and trustworthy autonomous systems. In this work, we introduce a method for learning a probabilistic responsibility allocation model that captures the multimodal uncertainty inherent in multi-agent interactions. Specifically, our approach leverages the latent space of a conditional variational autoencoder, combined with techniques from multi-agent trajectory forecasting, to learn a distribution over responsibility allocations conditioned on scene and agent context. Although ground-truth responsibility labels are unavailable, the model remains tractable by incorporating a differentiable optimization layer that maps responsibility allocations to induced controls, which are available. We evaluate our method on the INTERACTION driving dataset and demonstrate that it not only achieves strong predictive performance but also provides interpretable insights, through the lens of responsibility, into patterns of multi-agent interaction.",
+      "authors": [
+        "Isaac Remy",
+        "Caleb Chang",
+        "Karen Leung"
+      ],
+      "primary_category": "cs.MA",
+      "categories": [
+        "cs.MA",
+        "cs.LG",
+        "cs.RO",
+        "eess.SY"
+      ],
+      "published": "2026-04-13T21:49:41+00:00",
+      "link": "https://arxiv.org/pdf/2604.13128v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "leverages techniques from multi-agent trajectory forecasting for interaction modeling",
+      "llm_evidence_cn": "利用多智能体轨迹预测技术进行交互建模",
+      "llm_evidence": "利用多智能体轨迹预测技术进行交互建模",
+      "canonical_evidence": "利用多智能体轨迹预测技术进行交互建模",
+      "llm_tldr_en": "Learns probabilistic responsibility allocations in multi-agent interactions using trajectory forecasting techniques.",
+      "llm_tldr_cn": "利用轨迹预测技术学习多智能体交互中的概率责任分配。",
+      "llm_tldr": "利用轨迹预测技术学习多智能体交互中的概率责任分配。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "multi-agent trajectory forecasting and interaction modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2604.13244v1",
+      "title": "4th Workshop on Maritime Computer Vision (MaCVi): Challenge Overview",
+      "abstract": "The 4th Workshop on Maritime Computer Vision (MaCVi) is organized as part of CVPR 2026. This edition features five benchmark challenges with emphasis on both predictive accuracy and embedded real-time feasibility. This report summarizes the MaCVi 2026 challenge setup, evaluation protocols, datasets, and benchmark tracks, and presents quantitative results, qualitative comparisons, and cross-challenge analyses of emerging method trends. We also include technical reports from top-performing teams to highlight practical design choices and lessons learned across the benchmark suite. Datasets, leaderboards, and challenge resources are available at https://macvi.org/workshop/cvpr26.",
+      "authors": [
+        "Benjamin Kiefer",
+        "Jan Lukas Augustin",
+        "Jon Muhovič",
+        "Mingi Jeong",
+        "Arnold Wiliem",
+        "Janez Pers",
+        "Matej Kristan",
+        "Alberto Quattrini Li",
+        "Matija Teršek",
+        "Josip Šarić",
+        "Arpita Vats",
+        "Dominik Hildebrand",
+        "Rafia Rahim",
+        "Mahmut Karaaslan",
+        "Arpit Vaishya",
+        "Steve Xie",
+        "Ersin Kaya",
+        "Akib Mashrur",
+        "Tze-Hsiang Tang",
+        "Chun-Ming Tsai",
+        "Jun-Wei Hsieh",
+        "Ming-Ching Chang",
+        "Wonwoo Jo",
+        "Doyeon Lee",
+        "Yusi Cao",
+        "Lingling Li",
+        "Vinayak Nageli",
+        "Arshad Jamal",
+        "Gorthi Rama Krishna Sai Subrahmanyam",
+        "Jemo Maeng",
+        "Seongju Lee",
+        "Kyoobin Lee",
+        "Xu Liu",
+        "LiCheng Jiao",
+        "Jannik Sheikh",
+        "Martin Weinmann",
+        "Ivan Martinović",
+        "Jose Mateus Raitz Persch",
+        "Rahul Harsha Cheppally",
+        "Mehmet E. Belviranli",
+        "Dimitris Gahtidis",
+        "Hyewon Chun",
+        "Sangmun Lee",
+        "Philipp Gorczak",
+        "Hansol Kim",
+        "Jeeyeon Jeon",
+        "Borja Carrillo Perez",
+        "Jiahui Wang",
+        "Sangmin Park",
+        "Andreas Michel",
+        "Jannick Kuester",
+        "Bettina Felten",
+        "Wolfgang Gross",
+        "Yuan Feng",
+        "Justin Davis"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.RO"
+      ],
+      "published": "2026-04-14T19:21:41+00:00",
+      "link": "https://arxiv.org/pdf/2604.13244v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "maritime computer vision challenges including predictive accuracy",
+      "llm_evidence_cn": "包含预测准确性的海事计算机视觉挑战",
+      "llm_evidence": "包含预测准确性的海事计算机视觉挑战",
+      "canonical_evidence": "包含预测准确性的海事计算机视觉挑战",
+      "llm_tldr_en": "Summarizes maritime computer vision challenges focusing on predictive accuracy and real-time feasibility.",
+      "llm_tldr_cn": "总结了关注预测准确性和实时可行性的海事计算机视觉挑战赛。",
+      "llm_tldr": "总结了关注预测准确性和实时可行性的海事计算机视觉挑战赛。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction in complex maritime environments",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2604.13891v1",
+      "title": "Beyond Conservative Automated Driving in Multi-Agent Scenarios via Coupled Model Predictive Control and Deep Reinforcement Learning",
+      "abstract": "Automated driving at unsignalized intersections is challenging due to complex multi-vehicle interactions and the need to balance safety and efficiency. Model Predictive Control (MPC) offers structured constraint handling through optimization but relies on hand-crafted rules that often produce overly conservative behavior. Deep Reinforcement Learning (RL) learns adaptive behaviors from experience but often struggles with safety assurance and generalization to unseen environments. In this study, we present an integrated MPC-RL framework to improve navigation performance in multi-agent scenarios. Experiments show that MPC-RL outperforms standalone MPC and end-to-end RL across three traffic-density levels. Collectively, MPC-RL reduces the collision rate by 21% and improves the success rate by 6.5% compared to pure MPC. We further evaluate zero-shot transfer to a highway merging scenario without retraining. Both MPC-based methods transfer substantially better than end-to-end PPO, which highlights the role of the MPC backbone in cross-scenario robustness. The framework also shows faster loss stabilization than end-to-end RL during training, which indicates a reduced learning burden. These results suggest that the integrated approach can improve the balance between safety performance and efficiency in multi-agent intersection scenarios, while the MPC component provides a strong foundation for generalization across driving environments. The implementation code is available open-source.",
+      "authors": [
+        "Saeed Rahmani",
+        "Gözde Körpe",
+        "Zhenlin",
+        "Xu",
+        "Bruno Brito",
+        "Simeon Craig Calvert",
+        "Bart van Arem"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "eess.SY"
+      ],
+      "published": "2026-04-15T13:58:38+00:00",
+      "link": "https://arxiv.org/pdf/2604.13891v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "multi-agent scenarios and multi-vehicle interactions at intersections",
+      "llm_evidence_cn": "多智能体场景及路口多车交互",
+      "llm_evidence": "多智能体场景及路口多车交互",
+      "canonical_evidence": "多智能体场景及路口多车交互",
+      "llm_tldr_en": "Integrates MPC and RL to improve navigation and interaction in multi-agent automated driving scenarios.",
+      "llm_tldr_cn": "结合模型预测控制与强化学习，提升多智能体自动驾驶场景下的导航与交互性能。",
+      "llm_tldr": "结合模型预测控制与强化学习，提升多智能体自动驾驶场景下的导航与交互性能。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "multi-agent trajectory forecasting and interaction modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2604.08178v1",
+      "title": "Aligning Agents via Planning: A Benchmark for Trajectory-Level Reward Modeling",
+      "abstract": "In classical Reinforcement Learning from Human Feedback (RLHF), Reward Models (RMs) serve as the fundamental signal provider for model alignment. As Large Language Models evolve into agentic systems capable of autonomous tool invocation and complex reasoning, the paradigm of reward modeling faces unprecedented challenges--most notably, the lack of benchmarks specifically designed to assess RM capabilities within tool-integrated environments. To address this gap, we present Plan-RewardBench, a trajectory-level preference benchmark designed to evaluate how well judges distinguish preferred versus distractor agent trajectories in complex tool-using scenarios. Plan-RewardBench covers four representative task families -- (i) Safety Refusal, (ii) Tool-Irrelevance / Unavailability, (iii) Complex Planning, and (iv) Robust Error Recovery -- comprising validated positive trajectories and confusable hard negatives constructed via multi-model natural rollouts, rule-based perturbations, and minimal-edit LLM perturbations. We benchmark representative RMs (generative, discriminative, and LLM-as-Judge) under a unified pairwise protocol, reporting accuracy trends across varying trajectory lengths and task categories. Furthermore, we provide diagnostic analyses of prevalent failure modes. Our results reveal that all three evaluator families face substantial challenges, with performance degrading sharply on long-horizon trajectories, underscoring the necessity for specialized training in agentic, trajectory-level reward modeling. Ultimately, Plan-RewardBench aims to serve as both a practical evaluation suite and a reusable blueprint for constructing agentic planning preference data.",
+      "authors": [
+        "Jiaxuan Wang",
+        "Yulan Hu",
+        "Wenjin Yang",
+        "Zheng Pan",
+        "Xin Li",
+        "Lan-Zhe Guo"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-04-09T12:35:06+00:00",
+      "link": "https://arxiv.org/pdf/2604.08178v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "trajectory-level preference benchmark for agent alignment",
+      "llm_evidence_cn": "智能体对齐的轨迹级偏好基准",
+      "llm_evidence": "智能体对齐的轨迹级偏好基准",
+      "canonical_evidence": "智能体对齐的轨迹级偏好基准",
+      "llm_tldr_en": "Plan-RewardBench evaluates reward models using trajectory-level preferences in complex tool-using scenarios.",
+      "llm_tldr_cn": "Plan-RewardBench 在复杂工具使用场景下，利用轨迹级偏好评估奖励模型。",
+      "llm_tldr": "Plan-RewardBench 在复杂工具使用场景下，利用轨迹级偏好评估奖励模型。",
+      "llm_tags": [
+        "query:tp:composite"
+      ],
+      "matched_query_tag": "query:tp:composite",
+      "matched_query_text": "Papers central to 轨迹预测（车辆、行人、船舶、飞机等）相关的论文，考虑密集场景、目标意图、多智能体、轨迹表示学习等概念, especially work that connects or combines: trajectory prediction for autonomous agents; pedestrian trajectory prediction in crowded scenes; maritime vessel trajectory and path prediction algorithms; multi-agent trajectory forecasting and interaction modeling; target intent and goal estimation for trajectory prediction; trajectory representation learning and feature extraction; study of pedestrian and vehicle trajectory prediction models; trajectory prediction in complex maritime environments; deep learning techniques for intent aware trajectory forecasting; trajectory representation learning based on multimodal large language model.",
+      "matched_requirement_id": "req-composite-tp",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.08366v1",
+      "title": "Scaling-Aware Data Selection for End-to-End Autonomous Driving Systems",
+      "abstract": "Large-scale deep learning models for physical AI applications depend on diverse training data collection efforts. These models and correspondingly, the training data, must address different evaluation criteria necessary for the models to be deployable in real-world environments. Data selection policies can guide the development of the training set, but current frameworks do not account for the ambiguity in how data points affect different metrics. In this work, we propose Mixture Optimization via Scaling-Aware Iterative Collection (MOSAIC), a general data selection framework that operates by: (i) partitioning the dataset into domains; (ii) fitting neural scaling laws from each data domain to the evaluation metrics; and (iii) optimizing a data mixture by iteratively adding data from domains that maximize the change in metrics. We apply MOSAIC to autonomous driving (AD), where an End-to-End (E2E) planner model is evaluated on the Extended Predictive Driver Model Score (EPDMS), an aggregate of driving rule compliance metrics. Here, MOSAIC outperforms a diverse set of baselines on EPDMS with up to 80\\% less data.",
+      "authors": [
+        "Tolga Dimlioglu",
+        "Nadine Chang",
+        "Maying Shen",
+        "Rafid Mahmood",
+        "Jose M. Alvarez"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "cs.CV"
+      ],
+      "published": "2026-04-09T15:33:00+00:00",
+      "link": "https://arxiv.org/pdf/2604.08366v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "data selection for end-to-end autonomous driving systems",
+      "llm_evidence_cn": "端到端自动驾驶系统的数据选择",
+      "llm_evidence": "端到端自动驾驶系统的数据选择",
+      "canonical_evidence": "端到端自动驾驶系统的数据选择",
+      "llm_tldr_en": "A framework for optimizing training data mixtures in autonomous driving using neural scaling laws.",
+      "llm_tldr_cn": "一种利用神经缩放定律优化自动驾驶训练数据混合比例的框架。",
+      "llm_tldr": "一种利用神经缩放定律优化自动驾驶训练数据混合比例的框架。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.09824v1",
+      "title": "ProGAL-VLA: Grounded Alignment through Prospective Reasoning in Vision-Language-Action Models",
+      "abstract": "Vision language action (VLA) models enable generalist robotic agents but often exhibit language ignorance, relying on visual shortcuts and remaining insensitive to instruction changes. We present Prospective Grounding and Alignment VLA (ProGAL-VLA), which constructs a 3D entity-centric graph (GSM), uses a slow planner to produce symbolic sub-goals, and aligns them with grounded entities via a Grounding Alignment Contrastive (GAC) loss. All actions are conditioned on a verified goal embedding $g_t$, whose attention entropy provides an intrinsic ambiguity signal. On LIBERO-Plus, ProGAL-VLA increases robustness under robot perturbations from 30.3 to 71.5 percent, reduces language ignorance by 3x-4x, and improves entity retrieval from 0.41 to 0.71 Recall@1. On the Custom Ambiguity Benchmark, it reaches AUROC 0.81 (vs. 0.52), AUPR 0.79, and raises clarification on ambiguous inputs from 0.09 to 0.81 without harming unambiguous success. The verification bottleneck increases mutual information of language-actions, the GAC loss imposes an entity-level InfoNCE bound, and attention entropy yields calibrated selective prediction, indicating that explicit verified grounding is an effective path toward instruction-sensitive, ambiguity-aware agents.",
+      "authors": [
+        "Nastaran Darabi",
+        "Amit Ranjan Trivedi"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.CL",
+        "cs.CV"
+      ],
+      "published": "2026-04-10T18:56:48+00:00",
+      "link": "https://arxiv.org/pdf/2604.09824v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "prospective reasoning and goal embedding for robotic actions",
+      "llm_evidence_cn": "机器人动作的前瞻性推理和目标嵌入",
+      "llm_evidence": "机器人动作的前瞻性推理和目标嵌入",
+      "canonical_evidence": "机器人动作的前瞻性推理和目标嵌入",
+      "llm_tldr_en": "ProGAL-VLA uses prospective reasoning and goal embeddings to improve robotic action alignment and robustness.",
+      "llm_tldr_cn": "ProGAL-VLA 通过前瞻性推理和目标嵌入提高了机器人动作对齐的鲁棒性。",
+      "llm_tldr": "ProGAL-VLA 通过前瞻性推理和目标嵌入提高了机器人动作对齐的鲁棒性。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "target intent and goal estimation for trajectory prediction",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.08743v1",
+      "title": "Balancing Functionality and GDPR-Driven Privacy in ISAC Trajectory Sharing",
+      "abstract": "Integrated Sensing and Communications (ISAC) enables trajectory sharing that enhances beamforming, resource allocation, and cooperative perception, yet raises fundamental privacy concerns under the General Data Protection Regulation (GDPR) data minimisation principle. This paper proposes a Fisher Information Density (FID)-constrained trajectory sharing framework that enforces a local lower bound on estimation uncertainty, providing hard, quantifiable privacy guarantees by construction. Unlike fixed-noise approaches, the proposed method bounds the Privacy Leak Ratio (PLR) regardless of sensing power or adversarial post-processing, ensuring that no trajectory segment can be reconstructed beyond a prescribed accuracy threshold. Simulations on the OpenTraj dataset demonstrate that the framework keeps the average PLR below 20-25% and the maximum leakage segment duration under 2-2.5 s, while preserving data utility for downstream tasks such as movement prediction. The resulting criterion is interpretable, model-agnostic, and compatible with GDPR-compliant ISAC system design.",
+      "authors": [
+        "Zexin Fang",
+        "Bin Han",
+        "Zhuojun Tian",
+        "Hans D. Schotten"
+      ],
+      "primary_category": "eess.SP",
+      "categories": [
+        "eess.SP",
+        "cs.NI"
+      ],
+      "published": "2026-04-09T20:11:48+00:00",
+      "link": "https://arxiv.org/pdf/2604.08743v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "trajectory sharing framework for cooperative perception and sensing",
+      "llm_evidence_cn": "用于协作感知和传感的轨迹共享框架",
+      "llm_evidence": "用于协作感知和传感的轨迹共享框架",
+      "canonical_evidence": "用于协作感知和传感的轨迹共享框架",
+      "llm_tldr_en": "Proposes a privacy-preserving trajectory sharing framework for Integrated Sensing and Communications.",
+      "llm_tldr_cn": "提出了一种用于集成传感与通信的隐私保护轨迹共享框架。",
+      "llm_tldr": "提出了一种用于集成传感与通信的隐私保护轨迹共享框架。",
+      "llm_tags": [
+        "query:tp:composite"
+      ],
+      "matched_query_tag": "query:tp:composite",
+      "matched_query_text": "Papers central to 轨迹预测（车辆、行人、船舶、飞机等）相关的论文，考虑密集场景、目标意图、多智能体、轨迹表示学习等概念, especially work that connects or combines: trajectory prediction for autonomous agents; pedestrian trajectory prediction in crowded scenes; maritime vessel trajectory and path prediction algorithms; multi-agent trajectory forecasting and interaction modeling; target intent and goal estimation for trajectory prediction; trajectory representation learning and feature extraction; study of pedestrian and vehicle trajectory prediction models; trajectory prediction in complex maritime environments; deep learning techniques for intent aware trajectory forecasting; trajectory representation learning based on multimodal large language model.",
+      "matched_requirement_id": "req-composite-tp",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.11251v1",
+      "title": "CLAW: Composable Language-Annotated Whole-body Motion Generation",
+      "abstract": "Training language-conditioned whole-body controllers for humanoid robots requires large-scale datasets pairing motion trajectories with natural-language descriptions.Existing approaches based on motion capture are costly and limited in diversity, while text-to-motion generative models produce purely kinematic outputs that are not guaranteed to be physically feasible.Therefore, we present CLAW, an interactive web-based pipeline for scalable generation of language-annotated whole-body motion data for the Unitree G1 humanoid robot. CLAW treats the motion modes of a kinematic planner as composable building blocks, each parameterized by movement, heading, speed, pelvis height and duration, and provides two browser-based interfaces -- a real-time keyboard mode and a timeline-based sequence editor -- for exploratory and batch data collection. A low-level whole-body controller tracks the planner's kinematic references in MuJoCo simulation, producing physically grounded trajectories recorded at 50Hz. Simultaneously, a deterministic template-based annotation engine generates diverse natural-language descriptions at multiple stylistic registers for every segment and for the full trajectory. We release the system as open source to support scalable generation of language-motion paired data for humanoid robot learning.",
+      "authors": [
+        "Jianuo Cao",
+        "Yuxin Chen",
+        "Masayoshi Tomizuka"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-04-13T10:02:04+00:00",
+      "link": "https://arxiv.org/pdf/2604.11251v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "pairing motion trajectories with natural-language descriptions",
+      "llm_evidence_cn": "将运动轨迹与自然语言描述配对",
+      "llm_evidence": "将运动轨迹与自然语言描述配对",
+      "canonical_evidence": "将运动轨迹与自然语言描述配对",
+      "llm_tldr_en": "A pipeline for generating language-annotated whole-body motion trajectories for humanoid robots.",
+      "llm_tldr_cn": "一种为人形机器人生成带有语言标注的全身运动轨迹的数据流水线。",
+      "llm_tldr": "一种为人形机器人生成带有语言标注的全身运动轨迹的数据流水线。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning and feature extraction",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.11083v1",
+      "title": "FlowCoMotion: Text-to-Motion Generation via Token-Latent Flow Modeling",
+      "abstract": "Text-to-motion generation is driven by learning motion representations for semantic alignment with language. Existing methods rely on either continuous or discrete motion representations. However, continuous representations entangle semantics with dynamics, while discrete representations lose fine-grained motion details. In this context, we propose FlowCoMotion, a novel motion generation framework that unifies both treatments from a modeling perspective. Specifically, FlowCoMotion employs token-latent coupling to capture both semantic content and high-fidelity motion details. In the latent branch, we apply multi-view distillation to regularize the continuous latent space, while in the token branch we use discrete temporal resolution quantization to extract high-level semantic cues. The motion latent is then obtained by combining the representations from the two branches through a token-latent coupling network. Subsequently, a velocity field is predicted based on the textual conditions. An ODE solver integrates this velocity field from a simple prior, thereby guiding the sample to the potential state of the target motion. Extensive experiments show that FlowCoMotion achieves competitive performance on text-to-motion benchmarks, including HumanML3D and SnapMoGen.",
+      "authors": [
+        "Dawei Guan",
+        "Di Yang",
+        "Chengjie Jin",
+        "Jiangtao Wang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-04-13T07:04:47+00:00",
+      "link": "https://arxiv.org/pdf/2604.11083v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "motion representation learning for semantic alignment",
+      "llm_evidence_cn": "用于语义对齐的运动表示学习",
+      "llm_evidence": "用于语义对齐的运动表示学习",
+      "canonical_evidence": "用于语义对齐的运动表示学习",
+      "llm_tldr_en": "FlowCoMotion unifies continuous and discrete motion representations for high-fidelity text-to-motion generation.",
+      "llm_tldr_cn": "FlowCoMotion 统一了连续和离散运动表示，用于高保真文本到运动生成。",
+      "llm_tldr": "FlowCoMotion 统一了连续和离散运动表示，用于高保真文本到运动生成。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning and feature extraction",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.13204v1",
+      "title": "Weakly-supervised Learning for Physics-informed Neural Motion Planning via Sparse Roadmap",
+      "abstract": "The motion planning problem requires finding a collision-free path between start and goal configurations in high-dimensional, cluttered spaces. Recent learning-based methods offer promising solutions, with self-supervised physics-informed approaches such as Neural Time Fields (NTFields) solving the Eikonal equation to learn value functions without expert demonstrations. However, existing physics-informed methods struggle to scale in complex, multi-room environments, where simply increasing the number of samples cannot resolve local minima or guarantee global consistency. We propose Hierarchical Neural Time Fields (H-NTFields), a weakly-supervised framework that combines weak supervision from sparse roadmaps with physics-informed PDE regularization. The roadmap provides global topological anchors through upper and lower bounds on travel times, while PDE losses enforce local geometric fidelity and obstacle-aware propagation. Experiments on 18 Gibson environments and real robotic platforms show that H-NTFields substantially improves robustness over prior physics-informed methods, while enabling fast amortized inference through a continuous value representation.",
+      "authors": [
+        "Ruiqi Ni",
+        "Yuchen Liu",
+        "Ahmed H. Qureshi"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-04-14T18:26:22+00:00",
+      "link": "https://arxiv.org/pdf/2604.13204v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "neural motion planning and path finding in cluttered spaces",
+      "llm_evidence_cn": "复杂空间中的神经运动规划与路径寻找",
+      "llm_evidence": "复杂空间中的神经运动规划与路径寻找",
+      "canonical_evidence": "复杂空间中的神经运动规划与路径寻找",
+      "llm_tldr_en": "Combines sparse roadmaps with physics-informed neural fields for motion planning in complex environments.",
+      "llm_tldr_cn": "结合稀疏路线图与物理信息神经场，解决复杂环境中的运动规划问题。",
+      "llm_tldr": "结合稀疏路线图与物理信息神经场，解决复杂环境中的运动规划问题。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.11861v1",
+      "title": "BIND-USBL: Bounding IMU Navigation Drift using USBL in Heterogeneous ASV-AUV Teams",
+      "abstract": "Accurate and continuous localization of Autonomous Underwater Vehicles (AUVs) in GPS-denied environments is a persistent challenge in marine robotics. In the absence of external position fixes, AUVs rely on inertial dead-reckoning, which accumulates unbounded drift due to sensor bias and noise. This paper presents BIND-USBL, a cooperative localization framework in which a fleet of Autonomous Surface Vessels (ASVs) equipped with Ultra-Short Baseline (USBL) acoustic positioning systems provides intermittent fixes to bound AUV dead-reckoning error. The key insight is that long-duration navigation failure is driven not by the accuracy of individual USBL measurements, but by the temporal sparsity and geometric availability of those fixes. BIND-USBL combines a multi-ASV formation model linking survey scale and anchor placement to acoustic coverage, a conflict-graph-based TDMA uplink scheduler for shared-channel servicing, and delayed fusion of received USBL updates with drift-prone dead reckoning. The framework is evaluated in the HoloOcean simulator using heterogeneous ASV-AUV teams executing lawnmower coverage missions. The results show that localization performance is shaped by the interaction of survey scale, acoustic coverage, team composition, and ASV-formation geometry. Further, the spatial-reuse scheduler improves per-AUV fix delivery rate without violating the no-collision constraint, while maintaining low end-to-end fix latency.",
+      "authors": [
+        "Pranav Kedia",
+        "Rajini Makam",
+        "Heiko Hamann",
+        "Suresh Sundaram"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.MA"
+      ],
+      "published": "2026-04-13T12:50:48+00:00",
+      "link": "https://arxiv.org/pdf/2604.11861v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "cooperative localization for ASV-AUV teams in marine robotics",
+      "llm_evidence_cn": "海洋机器人中 ASV-AUV 团队的协作定位",
+      "llm_evidence": "海洋机器人中 ASV-AUV 团队的协作定位",
+      "canonical_evidence": "海洋机器人中 ASV-AUV 团队的协作定位",
+      "llm_tldr_en": "BIND-USBL provides a cooperative localization framework to bound navigation drift in maritime environments.",
+      "llm_tldr_cn": "BIND-USBL 提供了一个协作定位框架，用于限制海洋环境中的导航漂移。",
+      "llm_tldr": "BIND-USBL 提供了一个协作定位框架，用于限制海洋环境中的导航漂移。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "maritime vessel trajectory and path prediction algorithms",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.13453v1",
+      "title": "FAST: A Synergistic Framework of Attention and State-space Models for Spatiotemporal Traffic Prediction",
+      "abstract": "Traffic forecasting requires modeling complex temporal dynamics and long-range spatial dependencies over large sensor networks. Existing methods typically face a trade-off between expressiveness and efficiency: Transformer-based models capture global dependencies well but suffer from quadratic complexity, while recent selective state-space models are computationally efficient yet less effective at modeling spatial interactions in graph-structured traffic data. We propose FAST, a unified framework that combines attention and state-space modeling for scalable spatiotemporal traffic forecasting. FAST adopts a Temporal-Spatial-Temporal architecture, where temporal attention modules capture both short- and long-term temporal patterns, and a Mamba-based spatial module models long-range inter-sensor dependencies with linear complexity. To better represent heterogeneous traffic contexts, FAST further introduces a learnable multi-source spatiotemporal embedding that integrates historical traffic flow, temporal context, and node-level information, together with a multi-level skip prediction mechanism for hierarchical feature fusion. Experiments on PeMS04, PeMS07, and PeMS08 show that FAST consistently outperforms strong baselines from Transformer-, GNN-, attention-, and Mamba-based families. In particular, FAST achieves the best MAE and RMSE on all three benchmarks, with up to 4.3\\% lower RMSE and 2.8\\% lower MAE than the strongest baseline, demonstrating a favorable balance between accuracy, scalability, and generalization.",
+      "authors": [
+        "Xinjin Li",
+        "Jinghan Cao",
+        "Mengyue Wang",
+        "Yue Wu",
+        "Longxiang Yan",
+        "Yeyang Zhou",
+        "Ziqi Sha",
+        "Yu Ma"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-04-15T04:05:10+00:00",
+      "link": "https://arxiv.org/pdf/2604.13453v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "spatiotemporal traffic prediction and modeling spatial interactions",
+      "llm_evidence_cn": "时空交通预测与空间交互建模",
+      "llm_evidence": "时空交通预测与空间交互建模",
+      "canonical_evidence": "时空交通预测与空间交互建模",
+      "llm_tldr_en": "Combines attention and state-space models for scalable spatiotemporal traffic forecasting.",
+      "llm_tldr_cn": "结合注意力机制和状态空间模型，实现可扩展的时空交通预测。",
+      "llm_tldr": "结合注意力机制和状态空间模型，实现可扩展的时空交通预测。",
+      "llm_tags": [
+        "query:tp:composite"
+      ],
+      "matched_query_tag": "query:tp:composite",
+      "matched_query_text": "Papers central to 轨迹预测（车辆、行人、船舶、飞机等）相关的论文，考虑密集场景、目标意图、多智能体、轨迹表示学习等概念, especially work that connects or combines: trajectory prediction for autonomous agents; pedestrian trajectory prediction in crowded scenes; maritime vessel trajectory and path prediction algorithms; multi-agent trajectory forecasting and interaction modeling; target intent and goal estimation for trajectory prediction; trajectory representation learning and feature extraction; study of pedestrian and vehicle trajectory prediction models; trajectory prediction in complex maritime environments; deep learning techniques for intent aware trajectory forecasting; trajectory representation learning based on multimodal large language model.",
+      "matched_requirement_id": "req-composite-tp",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.13098v1",
+      "title": "C$^2$T: Captioning-Structure and LLM-Aligned Common-Sense Reward Learning for Traffic--Vehicle Coordination",
+      "abstract": "State-of-the-art (SOTA) urban traffic control increasingly employs Multi-Agent Reinforcement Learning (MARL) to coordinate Traffic Light Controllers (TLCs) and Connected Autonomous Vehicles (CAVs). However, the performance of these systems is fundamentally capped by their hand-crafted, myopic rewards (e.g., intersection pressure), which fail to capture high-level, human-centric goals like safety, flow stability, and comfort. To overcome this limitation, we introduce C2T, a novel framework that learns a common-sense coordination model from traffic-vehicle dynamics. C2T distills \"common-sense\" knowledge from a Large Language Model (LLM) into a learned intrinsic reward function. This new reward is then used to guide the coordination policy of a cooperative multi-intersection TLC MARL system on CityFlow-based multi-intersection benchmarks. Our framework significantly outperforms strong MARL baselines in traffic efficiency, safety, and an energy-related proxy. We further highlight C2T's flexibility in principle, allowing distinct \"efficiency-focused\" versus \"safety-focused\" policies by modifying the LLM prompt.",
+      "authors": [
+        "Yuyang Chen",
+        "Kaiyan Zhao",
+        "Yiming Wang",
+        "Ming Yang",
+        "Bin Rao",
+        "Zhenning Li"
+      ],
+      "primary_category": "cs.MA",
+      "categories": [
+        "cs.MA",
+        "cs.CV",
+        "cs.RO"
+      ],
+      "published": "2026-04-10T06:11:35+00:00",
+      "link": "https://arxiv.org/pdf/2604.13098v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "LLM-aligned reward learning for traffic-vehicle coordination and autonomous vehicles",
+      "llm_evidence_cn": "用于交通-车辆协调和自动驾驶汽车的LLM对齐奖励学习",
+      "llm_evidence": "用于交通-车辆协调和自动驾驶汽车的LLM对齐奖励学习",
+      "canonical_evidence": "用于交通-车辆协调和自动驾驶汽车的LLM对齐奖励学习",
+      "llm_tldr_en": "Uses LLMs to learn intrinsic rewards for multi-agent coordination in urban traffic scenarios.",
+      "llm_tldr_cn": "利用大语言模型学习城市交通场景中多智能体协同的内在奖励。",
+      "llm_tldr": "利用大语言模型学习城市交通场景中多智能体协同的内在奖励。",
+      "llm_tags": [
+        "query:tp:composite"
+      ],
+      "matched_query_tag": "query:tp:composite",
+      "matched_query_text": "Papers central to 轨迹预测（车辆、行人、船舶、飞机等）相关的论文，考虑密集场景、目标意图、多智能体、轨迹表示学习等概念, especially work that connects or combines: trajectory prediction for autonomous agents; pedestrian trajectory prediction in crowded scenes; maritime vessel trajectory and path prediction algorithms; multi-agent trajectory forecasting and interaction modeling; target intent and goal estimation for trajectory prediction; trajectory representation learning and feature extraction; study of pedestrian and vehicle trajectory prediction models; trajectory prediction in complex maritime environments; deep learning techniques for intent aware trajectory forecasting; trajectory representation learning based on multimodal large language model.",
+      "matched_requirement_id": "req-composite-tp",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.13853v1",
+      "title": "Mosaic: An Extensible Framework for Composing Rule-Based and Learned Motion Planners",
+      "abstract": "Safe and explainable motion planning remains a central challenge in autonomous driving. While rule-based planners offer predictable and explainable behavior, they often fail to grasp the complexity and uncertainty of real-world traffic. Conversely, learned planners exhibit strong adaptability but suffer from reduced transparency and occasional safety violations. We introduce Mosaic, an extensible framework for structured decision-making that integrates both paradigms through arbitration graphs. By decoupling trajectory verification and scoring from the generation of trajectories by individual planners, every decision becomes transparent and traceable. Trajectory verification at a higher level introduces redundancy between the planners, limiting emergency braking to the rare case where all planners fail to produce a valid trajectory. Through unified scoring and optimal trajectory selection, rule-based and learned planners with complementary strengths and weaknesses can be combined to yield the best of both worlds. In experimental evaluation on nuPlan, Mosaic achieves 95.48 CLS-NR and 93.98 CLS-R on the Val14 closed-loop benchmark, setting a new state of the art, while reducing at-fault collisions by 30% compared to either planner in isolation. On the interPlan benchmark, focused on highly interactive and difficult scenarios, Mosaic scores 54.30 CLS-R, outperforming its best constituent planner by 23.3% - all without retraining or requiring additional data. The code is available at github.com/KIT-MRT/mosaic.",
+      "authors": [
+        "Nick Le Large",
+        "Marlon Steiner",
+        "Lingguang Wang",
+        "Willi Poh",
+        "Jan-Hendrik Pauls",
+        "Ömer Şahin Taş",
+        "Christoph Stiller"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-04-15T13:23:47+00:00",
+      "link": "https://arxiv.org/pdf/2604.13853v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "trajectory verification and scoring for autonomous driving motion planners",
+      "llm_evidence_cn": "自动驾驶运动规划中的轨迹验证与评分",
+      "llm_evidence": "自动驾驶运动规划中的轨迹验证与评分",
+      "canonical_evidence": "自动驾驶运动规划中的轨迹验证与评分",
+      "llm_tldr_en": "Proposes Mosaic, a framework integrating rule-based and learned planners for safe autonomous driving trajectories.",
+      "llm_tldr_cn": "提出Mosaic框架，结合规则与学习型规划器以实现安全的自动驾驶轨迹生成。",
+      "llm_tldr": "提出Mosaic框架，结合规则与学习型规划器以实现安全的自动驾驶轨迹生成。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}

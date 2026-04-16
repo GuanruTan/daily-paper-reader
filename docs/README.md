@@ -6,73 +6,64 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-04-15
-- 运行时间：2026-04-15 20:27:25 UTC
+- 最新运行日期：2026-04-16
+- 运行时间：2026-04-16 20:14:48 UTC
 - 运行状态：成功
-- 本次总论文数：17
-- 精读区：6
+- 本次总论文数：14
+- 精读区：3
 - 速读区：11
 
 ### 今日简报（AI）
-今日深度复盘 17 篇前沿论文，聚焦自动驾驶轨迹预测的鲁棒性与多智能体协同规划的稳定性。
-重点关注基于梯度的分布偏移检测技术及多车协同扩散规划的在线微调框架，有效解决复杂场景下的模型失效问题。
-建议优先研读满分论文中“预测过去”的创新思路，掌握识别轨迹预测偏差并提升系统可靠性的核心方法。
-- 详情：[/202604/15/README](/202604/15/README)
+今日聚焦多智能体交互与具身智能，深度解析了 14 篇涵盖责任分配建模及海事视觉挑战的前沿成果。
+核心突破在于利用概率分配优化多智能体协作，并展示了前瞻性推理在视觉-语言-动作（VLA）模型中的对齐潜力。
+推荐优先研读高分论文中关于复杂交互场景的责任建模方法，以把握智能体协同演进的新趋势。
+- 详情：[/202604/16/README](/202604/16/README)
 
 ### 精读区论文标签
-1. [Forecasting the Past: Gradient-Based Distribution Shift Detection in Trajectory Prediction](/202604/15/2604.12425v1-forecasting-the-past-gradient-based-distribution-shift-detection-in-trajectory-prediction)  
-   标签：评分：10.0/10、query:tp
-   evidence：自动驾驶轨迹预测中的分布偏移检测
-2. [Multi-ORFT: Stable Online Reinforcement Fine-Tuning for Multi-Agent Diffusion Planning in Cooperative Driving](/202604/15/2604.11734v2-multi-orft-stable-online-reinforcement-fine-tuning-for-multi-agent-diffusion-planning-in-cooperative-driving)  
+1. [Learning Probabilistic Responsibility Allocations for Multi-Agent Interactions](/202604/16/2604.13128v1-learning-probabilistic-responsibility-allocations-for-multi-agent-interactions)  
    标签：评分：9.0/10、query:tp
-   evidence：协作驾驶中的多智能体轨迹与智能体间自注意力机制
-3. [FeaXDrive: Feasibility-aware Trajectory-Centric Diffusion Planning for End-to-End Autonomous Driving](/202604/15/2604.12656v1-feaxdrive-feasibility-aware-trajectory-centric-diffusion-planning-for-end-to-end-autonomous-driving)  
-   标签：评分：9.0/10、query:tp
-   evidence：自动驾驶中以轨迹为中心的扩散规划与运动学约束
-4. [Closed-Form Characterization of Constrained Double-Integrator Optimal Control](/202604/15/2604.13007v1-closed-form-characterization-of-constrained-double-integrator-optimal-control)  
-   标签：评分：9.0/10、query:tp
-   evidence：预测混合交通中的人类驾驶行为和轨迹
-5. [VidTAG: Temporally Aligned Video to GPS Geolocalization with Denoising Sequence Prediction at a Global Scale](/202604/15/2604.12159v1-vidtag-temporally-aligned-video-to-gps-geolocalization-with-denoising-sequence-prediction-at-a-global-scale)  
+   evidence：利用多智能体轨迹预测技术进行交互建模
+2. [4th Workshop on Maritime Computer Vision (MaCVi): Challenge Overview](/202604/16/2604.13244v1-4th-workshop-on-maritime-computer-vision-macvi-challenge-overview)  
    标签：评分：8.0/10、query:tp
-   evidence：通过GPS地理定位和序列预测绘制其轨迹
-6. [Hypergraph-State Collaborative Reasoning for Multi-Object Tracking](/202604/15/2604.12665v1-hypergraph-state-collaborative-reasoning-for-multi-object-tracking)  
+   evidence：包含预测准确性的海事计算机视觉挑战
+3. [Beyond Conservative Automated Driving in Multi-Agent Scenarios via Coupled Model Predictive Control and Deep Reinforcement Learning](/202604/16/2604.13891v1-beyond-conservative-automated-driving-in-multi-agent-scenarios-via-coupled-model-predictive-control-and-deep-reinforcement-learning)  
    标签：评分：8.0/10、query:tp
-   evidence：多目标跟踪中的运动推理与轨迹连续性
+   evidence：多智能体场景及路口多车交互
 
 ### 速读区论文标签
-1. [Situation-Aware Feedback-Predictive Control Framework for Lane-Less Dense Traffic](/202604/15/2604.12590v1-situation-aware-feedback-predictive-control-framework-for-lane-less-dense-traffic)  
-   标签：评分：8.0/10、query:tp
-   evidence：密集交通中邻近车辆的预测控制与空间分布
-2. [Rethinking Video Human-Object Interaction: Set Prediction over Time for Unified Detection and Anticipation](/202604/15/2604.10397v1-rethinking-video-human-object-interaction-set-prediction-over-time-for-unified-detection-and-anticipation)  
+1. [Aligning Agents via Planning: A Benchmark for Trajectory-Level Reward Modeling](/202604/16/2604.08178v1-aligning-agents-via-planning-a-benchmark-for-trajectory-level-reward-modeling)  
    标签：评分：7.0/10、query:tp
-   evidence：预测人机交互的未来演变
-3. [Towards Situation-aware State Modeling for Air Traffic Flow Prediction](/202604/15/2604.11198v2-towards-situation-aware-state-modeling-for-air-traffic-flow-prediction)  
+   evidence：智能体对齐的轨迹级偏好基准
+2. [ProGAL-VLA: Grounded Alignment through Prospective Reasoning in Vision-Language-Action Models](/202604/16/2604.09824v1-progal-vla-grounded-alignment-through-prospective-reasoning-in-vision-language-action-models)  
    标签：评分：7.0/10、query:tp
-   evidence：利用飞机轨迹进行空中交通流量预测的状态到流量建模
-4. [Uncertainty Guided Exploratory Trajectory Optimization for Sampling-Based Model Predictive Control](/202604/15/2604.12149v1-uncertainty-guided-exploratory-trajectory-optimization-for-sampling-based-model-predictive-control)  
+   evidence：机器人动作的前瞻性推理和目标嵌入
+3. [CLAW: Composable Language-Annotated Whole-body Motion Generation](/202604/16/2604.11251v1-claw-composable-language-annotated-whole-body-motion-generation)  
    标签：评分：7.0/10、query:tp
-   evidence：将轨迹表示为概率分布的轨迹优化
-5. [Unveiling the Surprising Efficacy of Navigation Understanding in End-to-End Autonomous Driving](/202604/15/2604.12208v1-unveiling-the-surprising-efficacy-of-navigation-understanding-in-end-to-end-autonomous-driving)  
-   标签：评分：7.0/10、query:tp
-   evidence：用于约束自动驾驶长期规划的导航路径
-6. [From Kinematics to Dynamics: Learning to Refine Hybrid Plans for Physically Feasible Execution](/202604/15/2604.12474v1-from-kinematics-to-dynamics-learning-to-refine-hybrid-plans-for-physically-feasible-execution)  
-   标签：评分：7.0/10、query:tp
-   evidence：机器人智能体的物理可行连续轨迹生成
-7. [Data-driven Reachable Set Estimation with Tunable Adversarial and Wasserstein Distributional Guarantees](/202604/15/2604.12654v1-data-driven-reachable-set-estimation-with-tunable-adversarial-and-wasserstein-distributional-guarantees)  
-   标签：评分：7.0/10、query:tp
-   evidence：针对未来轨迹包含概率的可达集估计
-8. [WUTDet: A 100K-Scale Ship Detection Dataset and Benchmarks with Dense Small Objects](/202604/15/2604.07759v1-wutdet-a-100k-scale-ship-detection-dataset-and-benchmarks-with-dense-small-objects)  
-   标签：评分：6.0/10、query:tp
-   evidence：复杂海事环境下的导航船舶检测
-9. [STORM: End-to-End Referring Multi-Object Tracking in Videos](/202604/15/2604.10527v1-storm-end-to-end-referring-multi-object-tracking-in-videos)  
-   标签：评分：6.0/10、query:tp
-   evidence：结合运动推理共同执行目标定位与跟踪
-10. [CLAW: Composable Language-Annotated Whole-body Motion Generation](/202604/15/2604.11251v2-claw-composable-language-annotated-whole-body-motion-generation)  
-   标签：评分：6.0/10、query:tp
    evidence：将运动轨迹与自然语言描述配对
-11. [Agentic Aggregation for Parallel Scaling of Long-Horizon Agentic Tasks](/202604/15/2604.11753v1-agentic-aggregation-for-parallel-scaling-of-long-horizon-agentic-tasks)  
+4. [Weakly-supervised Learning for Physics-informed Neural Motion Planning via Sparse Roadmap](/202604/16/2604.13204v1-weakly-supervised-learning-for-physics-informed-neural-motion-planning-via-sparse-roadmap)  
+   标签：评分：7.0/10、query:tp
+   evidence：复杂空间中的神经运动规划与路径寻找
+5. [FAST: A Synergistic Framework of Attention and State-space Models for Spatiotemporal Traffic Prediction](/202604/16/2604.13453v1-fast-a-synergistic-framework-of-attention-and-state-space-models-for-spatiotemporal-traffic-prediction)  
+   标签：评分：7.0/10、query:tp
+   evidence：时空交通预测与空间交互建模
+6. [Mosaic: An Extensible Framework for Composing Rule-Based and Learned Motion Planners](/202604/16/2604.13853v1-mosaic-an-extensible-framework-for-composing-rule-based-and-learned-motion-planners)  
+   标签：评分：7.0/10、query:tp
+   evidence：自动驾驶运动规划中的轨迹验证与评分
+7. [Scaling-Aware Data Selection for End-to-End Autonomous Driving Systems](/202604/16/2604.08366v1-scaling-aware-data-selection-for-end-to-end-autonomous-driving-systems)  
    标签：评分：6.0/10、query:tp
-   evidence：为长程智能体任务聚合并行轨迹
+   evidence：端到端自动驾驶系统的数据选择
+8. [Balancing Functionality and GDPR-Driven Privacy in ISAC Trajectory Sharing](/202604/16/2604.08743v1-balancing-functionality-and-gdpr-driven-privacy-in-isac-trajectory-sharing)  
+   标签：评分：6.0/10、query:tp
+   evidence：用于协作感知和传感的轨迹共享框架
+9. [FlowCoMotion: Text-to-Motion Generation via Token-Latent Flow Modeling](/202604/16/2604.11083v1-flowcomotion-text-to-motion-generation-via-token-latent-flow-modeling)  
+   标签：评分：6.0/10、query:tp
+   evidence：用于语义对齐的运动表示学习
+10. [BIND-USBL: Bounding IMU Navigation Drift using USBL in Heterogeneous ASV-AUV Teams](/202604/16/2604.11861v1-bind-usbl-bounding-imu-navigation-drift-using-usbl-in-heterogeneous-asv-auv-teams)  
+   标签：评分：6.0/10、query:tp
+   evidence：海洋机器人中 ASV-AUV 团队的协作定位
+11. [C$^2$T: Captioning-Structure and LLM-Aligned Common-Sense Reward Learning for Traffic--Vehicle Coordination](/202604/16/2604.13098v1-c2t-captioning-structure-and-llm-aligned-common-sense-reward-learning-for-traffic--vehicle-coordination)  
+   标签：评分：6.0/10、query:tp
+   evidence：用于交通-车辆协调和自动驾驶汽车的LLM对齐奖励学习
 
 
 <div class="dpr-home-promo-card">

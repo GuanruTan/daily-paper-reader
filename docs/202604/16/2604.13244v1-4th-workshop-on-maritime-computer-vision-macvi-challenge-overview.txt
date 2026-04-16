@@ -1,0 +1,775 @@
+Title: 4th Workshop on Maritime Computer Vision (MaCVi): Challenge Overview
+
+URL Source: https://arxiv.org/pdf/2604.13244v1
+
+Published Time: Thu, 16 Apr 2026 00:13:17 GMT
+
+Number of Pages: 19
+
+Markdown Content:
+# 4th Workshop on Maritime Computer Vision (MaCVi): Challenge Overview 
+
+## Benjamin Kiefer 1, Jan Lukas Augustin 2,3, Jon Muhoviˇ c4, Mingi Jeong 5, Arnold Wiliem 6,7,Janez Pers 4, Matej Kristan 4, Alberto Quattrini Li 8, Matija Terˇ sek 9, Josip ˇ Sari´ c10 , Arpita Vats 11 ,Dominik Hildebrand 12 , Rafia Rahim 12 , Mahmut Karaaslan 13 , Arpit Vaishya 1, Steve Xie 1, Ersin Kaya 13 ,Akib Mashrur 6, Tze-Hsiang Tang 14 , Chun-Ming Tsai 15 , Jun-Wei Hsieh 16 , Ming-Ching Chang 17 ,18 ,Wonwoo Jo 19 , Doyeon Lee 20 , Yusi Cao 21 , Lingling Li 21 , Vinayak Nageli 22 , Arshad Jamal 23 ,Gorthi Rama Krishna Sai Subrahmanyam 22 , Jemo Maeng 24 , Seongju Lee 24 , Kyoobin Lee 24 , Xu Liu 21 ,LiCheng Jiao 21 , Jannik Sheikh 25 , Martin Weinmann 26 , Ivan Martinovi´ c10 ,Jose Mateus Raitz Persch 27 , Rahul Harsha Cheppally 27 , Mehmet E. Belviranli 28 , Dimitris Gahtidis 6,Hyewon Chun 19 , Sangmun Lee 19 , Philipp Gorczak 3, Hansol Kim 19 , Jeeyeon Jeon 19 ,Borja Carrillo Perez 29 , Jiahui Wang 21 , Sangmin Park 24 , Andreas Michel 25 , Jannick Kuester 25 ,Bettina Felten 25 , Wolfgang Gross 25 , Yuan Feng 30 , Justin Davis 28 1LOOKOUT, 2Helmut Schmidt University, 3catskill GmbH, 4University of Ljubljana, 5Virginia Tech, 
+
+> 6
+
+## Shield AI, 7Queensland University of Technology, 8Dartmouth College, 9Luxonis, 
+
+> 10
+
+## Faculty of Electrical Engineering and Computing, University of Zagreb, 11 LinkedIn, 
+
+> 12
+
+## University of Tuebingen, 13 Konya Technical University, 14 Schneider Electric Taiwan Co., Ltd., 
+
+> 15
+
+## University of Taipei, 16 National Yang Ming Chiao Tung University, 17 University at Albany, SUNY, 
+
+> 18
+
+## Inventec Corporation, 19 HD Korea Shipbuilding & Offshore Engineering Co., Ltd., 
+
+> 20
+
+## Seoul National University, 21 Xidian University, 22 Indian Institute of Technology, Tirupati, 
+
+> 23
+
+## Centre for Artificial Intelligence and Robotics (CAIR), Bangalore, India, 
+
+> 24
+
+## Gwangju Institute of Science and Technology, 25 Fraunhofer IOSB, 
+
+> 26
+
+## Karlsruhe Institute of Technology, 27 Kansas State University, 28 Colorado School of Mines, 
+
+> 29
+
+## Arquimea Research Center, 30 Independent Researcher 
+
+## Abstract 
+
+The 4 th Workshop on Maritime Computer Vision (MaCVi) is organized as part of CVPR 2026. This edition features five benchmark challenges with emphasis on both predictive accuracy and embedded real-time feasibility. This report summarizes the MaCVi 2026 challenge setup, evaluation pro-tocols, datasets, and benchmark tracks, and presents quanti-tative results, qualitative comparisons, and cross-challenge analyses of emerging method trends. We also include techni-cal reports from top-performing teams to highlight practical design choices and lessons learned across the benchmark suite. Datasets, leaderboards, and challenge resources are available at 
+
+https://macvi .org/workshop/cvpr26 .    
+
+> (a) Vision-to-Chart (b) Thermal Detection (c) Embedded Seg. (d) LaRS Panoptic (e) Multi-modal
+> Figure 1. Overview of MaCVi @ CVPR 2026 challenges, including Vision-to-Chart Data Association, Thermal Object Detection Maritime Collision Avoidance Dataset, Embedded Semantic Segmentation, LaRS Panoptic Segmentation, and the Multi-modal Challenge Multiaqua.
+> arXiv:2604.13244v1 [cs.CV] 14 Apr 2026
+
+1st Place 2nd Place 3rd Place 4th Place                                                  
+
+> Figure 2. Qualitative detection examples from the Vision-to-Chart Data Association challenge. Each panel shows the overlay of predicted and ground-truth bounding boxes and predicted index of associated chart marker. Table 1. Results for the Vision-to-Chart Data Association challenge on the held out test split. Ranking medals indicate final placement. The baseline (gray) is the organizer-provided DETR-style fusion transformer. Method names are derived from the submitted technical reports.
+> Place Method Institution P↑R↑F1 ↑mIoU ↑Overall ↑
+> 1Skyline-aware ROI-calibrated association [§A.1] HD Korea Shipbuilding 0.9248 0.6934 0.7926 0.7365 0.7646
+> 2QueryMLP projection + DETR [§A.2] Arquimea Research Center 0.8563 0.7604 0.8055 0.6718 0.7386
+> 3Dynamic chart-derived DEIMv2 [§A.3] Xidian University team 0.4107 0.3827 0.3962 0.3705 0.3834 -Fusion transformer (baseline) MaCVi Organizers 0.3142 0.2925 0.3029 0.3636 0.3333 4th IMU-conditioned query DETR [§A.4] IIT Tirupati / CAIR-DRDO 0.2170 0.2107 0.2138 0.2499 0.2318
+
+## 1. Introduction 
+
+Maritime environments, with their unique challenges such as dynamic lighting, reflections, and cluttered scenes, demand specialized computer vision techniques [ 9, 17 , 19 , 21 , 42 ,49 ]. Autonomous systems like Unmanned Surface Vehicles (USVs) rely heavily on robust vision algorithms to navi-gate, detect, and interpret complex surroundings [ 2, 22 , 58 ]. Addressing these challenges requires not only cutting-edge algorithms but also standardized benchmarks and a collabo-rative research ecosystem [1, 3, 8, 27]. The 4 th Workshop on Maritime Computer Vision (MaCVi 2026) builds on the momentum of previous iterations [20 , 23 , 24 ] and marks this year’s workshop at CVPR 2026. The 2026 challenge suite includes Vision-to-Chart Data As-sociation, Thermal Object Detection, LaRS Panoptic Seg-mentation, Embedded Semantic Segmentation, and Multi-modal Semantic Segmentation. This draft report summarizes the current challenge con-figuration for MaCVi 2026 and serves as the starting point for iterative updates. The rest of the paper is structured as follows: Section 2 details the general challenge proto-cols, while Section 3 outlines the challenge tracks. All datasets, evaluation tools, and leaderboards are available at https://macvi .org/workshop/cvpr26 .
+
+## 2. Challenge Participation Protocol 
+
+As in previous challenge iterations, all tracks followed a shared participation and evaluation protocol, with task-specific details provided on the individual challenge pages. Rules, datasets, evaluation code, and starter kits were dis-tributed through the workshop website, and participants sub-mitted predictions through the official evaluation server in the required task-specific formats, including ONNX export where applicable. Submission frequency was limited to one to three entries per day depending on the track. The evalu-ation server handled automated scoring and public leader-boards for most tracks, with the challenge timeline spanning December 29, 2025 to March 15, 2026 (AoE). After final verification, teams were ranked by the official track metrics and compliance requirements, and top teams were invited to contribute short technical reports for this overview paper. 
+
+## 3. MaCVi 2026 Challenge Tracks 
+
+MaCVi @ CVPR 2026 features five benchmark challenges. The 2026 edition puts explicit emphasis on both model qual-ity and embedded real-time constraints. 
+
+3.1. Vision-to-Chart Data Association Challenge 
+
+This challenge studies association between visible maritime navigational aids and chart markers from a monocular RGB image. Given an image and a set of chart queries, methods must detect visible buoys and assign them to the correct markers under clutter, reflections, and long-range viewpoints. The dataset contains 4,285 training, 904 validation, and 924 test samples; the training and validation splits are public, while the test split is private. Ranking follows [ 26 ] and uses buoy-detection Preci-sion/Recall/F1, matched-box mIoU, and an overall score defined as the arithmetic mean of F1 and mIoU. We use the real-time organizer baseline from [ 26 ]. Submissions were limited to 250M parameters and were evaluated by the organizers for reproducibility and private-test performance. Table 1 and Figure 2 summarize the final results. All top-Table 2. Results for the Thermal Object Detection challenge. Ranking medals indicate final placement. The baseline (gray) is the organizer-provided Faster R-CNN with ResNet-50. Self-reported inference speed and hardware are included. Backbone and detection-level pretraining datasets are reported separately (IN = ImageNet-1K, IN-22K = ImageNet-22K, LVD = Large Vision Dataset).                                                                 
+
+> Place Method Institution AP ↑AP 50 AP 75 AR 1AR 10 FPS Hardware Backbone pretr. Det. pretr.
+> 1Multi-arch ensemble + SSL [§B.1] Schneider Electric Taiwan 0.4868 0.8268 0.4709 0.3043 0.5937 ∼0.01 A100 40GB IN-22K, LVD-142M COCO, O365
+> 2DEIMv2 ensemble [§B.2] U. Taipei / NYCU / UAlbany 0.4709 0.8218 0.4409 0.2987 0.5763 ∼0.1 RTX 3090 LVD-1689M COCO
+> 3AGAF [§B.3] HD Korea Shipbuilding 0.4685 0.8067 0.4628 0.3033 0.5850 ∼1.5 RTX 5070 LVD-1689M COCO -Faster R-CNN (baseline) MaCVi Organizers 0.3137 0.6313 0.2769 0.2417 0.4167 ∼32 A30 IN COCO 1st place
+> 2nd place
+> 3rd place
+> Baseline
+> 0.0
+> 0.1
+> 0.2
+> 0.3
+> 0.4
+> 0.5
+> 0.6
+> AP
+> 0.528 0.514 0.501
+> 0.357
+> 0.445 0.428 0.436
+> 0.271
+> Per-class AP
+> Vessel
+> Nav. Object
+> 1st place
+> 2nd place
+> 3rd place
+> Baseline
+> 0.0
+> 0.1
+> 0.2
+> 0.3
+> 0.4
+> 0.5
+> 0.6
+> 0.7
+> 0.8
+> AP
+> 0.382 0.364 0.362
+> 0.250
+> 0.549 0.524 0.520
+> 0.382
+> 0.714
+> 0.655
+> 0.696
+> 0.394
+> Per-size AP (COCO thresholds)
+> Small
+> Medium
+> Large
+
+Figure 3. Per-class and per-size AP breakdown for the Thermal Object Detection challenge. Left: AP for vessel vs. navigational object classes. Right: AP at COCO size thresholds (small / medium / large). Vessel detection is consistently easier than navigational object detection across all methods. Small object AP remains the main bottleneck. 
+
+ranked methods outperform the organizer baseline, with the first two methods showing a substantial margin. Technical descriptions of all submissions are provided in Section A. Across submissions, the strongest trend is the use of ex-plicit geometric priors. Top methods project chart informa-tion into image space, define query-specific search regions, or inject chart- and IMU-derived cues into the detector. The winning method combines skyline estimation, ROI projec-tion, assignment, and calibration in a staged pipeline; the second-place method uses a learned world-to-image projec-tion as a compact spatial prior; and the third-place method shows that a stronger visual backbone and decoder can fur-ther improve robustness. Overall, the results suggest that physically grounded geometric conditioning is especially effective for vision-to-chart association, and that stronger detection backbones remain complementary to these priors. 
+
+3.2. Thermal Object Detection Challenge 
+
+Night-time and low-visibility conditions are critical oper-ational scenarios for unmanned surface vehicles, yet con-ventional RGB-based perception systems perform poorly in such conditions. Thermal infrared imaging offers a modality that is largely invariant to ambient illumination, making it a natural complement for maritime operations. This challenge targets obstacle and vessel detection in thermal imagery. The challenge uses the Maritime Collision Avoidance Dataset [ 12 ], which contains annotated electro-optical im-agery captured from German, British, and Dutch waters between 2023 and 2025. For the MaCVi 2026 edition, the dataset is organized into two object classes ( vessel and navi-gational object ) with COCO-format bounding box annota-tions. The dataset comprises 704 train, 173 val, and 381 test images with hidden labels. An NVIDIA RTX 5080 GPU, sponsored by catskill GmbH, was offered as a prize for the top-performing team. 
+
+3.2.1. Evaluation Protocol 
+
+Detection performance is evaluated using the standard COCO object detection metrics. The primary ranking metric is Average Precision (AP), computed as AP averaged over IoU thresholds from 0.50 to 0.95 in steps of 0.05. AP 50 
+
+serves as a tiebreaker. Additional reported metrics include AP 75 , AR 1, and AR 10 .Participants submit COCO-style JSON files containing bounding boxes, class labels, and confidence scores. A max-imum of three submissions per day is allowed during the challenge period. All participants are required to report inference speed (in FPS) and the hardware used for bench-marking. As baseline, we provide a Faster R-CNN with a ResNet-50 backbone pretrained on COCO. 
+
+3.2.2. Submissions, Analysis and Trends 
+
+Table 2 summarizes the overall ranking, Figure 3 reports the class and size breakdown, Figure 4 shows representative detections, and Figure 5 plots the precision–recall curves at IoU = 0.50. 
+
+Ensemble dominance. All three podium methods rely on multi-model ensembles fused via Weighted Boxes Fu-sion (WBF) [ 48 ]. The winning method combines 6 models spanning 5 distinct architectures (Co-DINO [ 56 ], DDQDETR [ 55 ], DINO [ 54 ], RTMDet [ 37 ], and RF-DETR [ 46 ]), the 2nd place method ensembles 11 DEIMv2 detectors trained at 4 different resolutions with different random seeds, and the 3rd place method fuses 9 RF-DETR 2XLarge sources via class-aware WBF with per-class weights for vessels and navigational objects. The comple-mentary strategies architecture diversity, optimization diver-sity, and class-aware fusion all prove effective for improving recall and localization stability. 
+
+Semi-supervised learning. The 1st place method employs a three-phase training pipeline that includes pseudo-labeling on the 381 unlabeled test images followed by MixPL [ 4]teacher-student training. This semi-supervised component #1105     
+
+> (hard)
+> Ground truth 1st place 2nd place 3rd place Baseline
+> #1082
+> (baseline_gap)
+> #1243
+> (success)
+
+Figure 4. Qualitative detection examples from the Thermal Object Detection challenge. Each row shows one test image with ground truth (green) and predictions from the top three methods and baseline. Columns left to right: ground truth, 1st place, 2nd place, 3rd place, baseline. Predictions are filtered at confidence ≥ 0.3. V = vessel, N = navigational object. 
+
+demonstrates that even modest amounts of unlabeled data can meaningfully improve performance when labeled train-ing sets are small (704 images). 
+
+Resolution and small objects. A domain-specific chal-lenge is that 63.4% of annotated objects are smaller than 
+
+32 × 32 pixels (COCO “small” category), with navigational objects having a median size of only 8.3 × 18 .6 pixels. The technical reports indicate that higher inference resolution is the single largest lever for improving detection of these small objects. The 2nd place method explores resolutions from 1024 × 1024 up to 1600 × 1600 , assigning higher WBF weights to models operating at larger scales. 
+
+Contrast enhancement. Both top methods apply CLAHE (Contrast Limited Adaptive Histogram Equalization) to im-prove feature contrast in thermal imagery. Notably, the 1st place report observes that CLAHE benefits strong models but slightly hurts weaker ones ( −0.002 to −0.008 AP), sug-gesting that it amplifies existing model capacity rather than providing a universal boost. 
+
+Annotation quality and domain-specific filtering. The 3rd place method demonstrates that carefully curating the training labels can rival more complex learning strategies. Fixing inconsistent wind-turbine annotations in the provided dataset yielded the single largest gain of any individual technique across all submissions (+0.027 AP). Addition-ally, a YOLO-based [ 16 ] horizon detector that suppresses navigational-object false positives above the estimated sky-0.0 0.2 0.4 0.6 0.8 1.0                
+
+> Recall
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> Precision
+> All categories, IoU=0.50
+> 1st place (AP50=0.827)
+> 2nd place (AP50=0.822)
+> 3rd place (AP50=0.807)
+> Baseline (AP50=0.631)
+> 0.0 0.2 0.4 0.6 0.8 1.0
+> Recall
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> Precision
+> All categories, IoU=0.75
+> 1st place (AP75=0.471)
+> 2nd place (AP75=0.441)
+> 3rd place (AP75=0.463)
+> Baseline (AP75=0.277)
+> 0.0 0.2 0.4 0.6 0.8 1.0
+> Recall
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> Precision
+> Vessel only, IoU=0.50
+> 1st place (AP50=0.817)
+> 2nd place (AP50=0.815)
+> 3rd place (AP50=0.788)
+> Baseline (AP50=0.652)
+> 0.0 0.2 0.4 0.6 0.8 1.0
+> Recall
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> Precision
+> Nav. Object only, IoU=0.50
+> 1st place (AP50=0.836)
+> 2nd place (AP50=0.829)
+> 3rd place (AP50=0.826)
+> Baseline (AP50=0.610)
+
+Figure 5. Precision–Recall curves for the Thermal Object Detec-tion challenge. Curves are shown for each method at IoU=0.50. 
+
+line contributed a further +0.012 AP. These domain-specific adaptations—annotation refinement and geometric filtering— are complementary to the ensemble and semi-supervised strategies employed by the other top teams. 
+
+3.2.3. Discussion and Challenge Winners 
+
+The winners of the Thermal Object Detection challenge are listed in Table 2. All three winning methods leverage large-scale ensembles (6–11 models) as their core strategy, Table 3. Results for the USV-based Panoptic Segmentation Challenge measured in overall panoptic quallity (PQ) and separate for thing and stuff classes. Competing methods are compared to a baseline Mask2Former model [5] and the top-performing PanSR method [59]. 
+
+Place Team Method Section PQ SQ RQ PQ st PQ th 
+
+⋆ MaCVi Team PanSR (Swin-L) - 57.3 75.9 66.9 95.4 43.0  
+
+> 1
+
+FER Zagreb M2F-DINOv3 §C.1 53.5 74.3 63.3 95.8 37.7  
+
+> 2
+
+Fraunhofer IOSB - BIG MaskDINOv3 §C.2 48.3 72.4 57.7 94.9 30.9  
+
+> 3
+
+KTSFOE ThingSeg-DGCR §C.3 42.6 71.0 51.1 91.8 24.2 4th PanopticMaritimeScenery M2F-Mot3-SwinL-FPN - 42.2 73.5 48.7 95.3 22.3 5th NTNU RF-DETR - 40.3 69.9 48.0 93.3 20.4 6th Dt deep-square NewSR - 36.0 73.1 40.8 94.3 14.2 - MaCVi Team M2F (Swin-B) - 41.4 75.2 47.1 92.5 22.3 confirming that ensemble-based fusion remains a dominant approach for detection challenges with limited training data. The 1st place method additionally demonstrates that semi-supervised learning provides meaningful gains when labeled data is scarce, while the 3rd place method shows that an-notation quality and domain-specific filtering (§B.3) can be competitive alternatives to semi-supervised learning. Across all submissions, small object detection remains the central difficulty: the extreme size distribution of thermal maritime objects (median navigational object area ≈154 px 2) pushes current detector architectures to their limits. Detailed method descriptions are provided in §B.1, §B.2, and §B.3. 
+
+3.3. LaRS Panoptic Segmentation Challenge 
+
+This challenge continues the LaRS panoptic benchmark and requires parsing USV-view scenes into stuff classes and 
+
+thing instances. The stuff classes include water, sky, and static obstacles, while the thing classes include eight types of dynamic obstacles: boat/ship, buoy, row boat, swimmer, animal, paddle board, float and other. As in previous editions, strong performance requires balancing semantic consistency, instance-level detection, and robustness to small obstacles. 
+
+3.3.1. Evaluation Protocol 
+
+Submitted methods are ranked based on panoptic quality (PQ) averaged over 11 classes and evaluated on 1,203 test images from the LaRS dataset. Different from standard evaluation, dynamic obstacle detections inside static ob-stacle regions are not additionally penalized as false pos-itives [ 60 ]. For training, participants are allowed to use the LaRS training and validation sets, which consist of 2,605 and 198 labeled images respectively, as well as other datasets if disclosed. To provide additional insights, we factorize the panoptic quality into recognition quality (RQ) and segmen-tation quality (SQ) [ 25 ], as well as separately evaluate stuff (PQ st ) and thing (PQ th ) classes. 
+
+3.3.2. Submissions, Analysis and Trends 
+
+The challenge received 26 submissions from 6 different teams. Table 3 shows the results for the top submission from each team, along with the performance of the state-of-the-art method PanSR [ 59 ] (out of competition) and our Mask2Former baseline with Swin-B backbone. Results from the remaining submissions are available on the public leader-board on the MaCVi website. Further, we analyze the results with a focus on the top three performing teams, for which detailed technical reports are provided in the appendix C. We observe that four of the six submitted methods outper-form our baseline, while none surpass PanSR, the state-of-the-art method for maritime panoptic segmentation, which achieves 57.3 PQ on the LaRS test set. The top-performing submission, M2F-DINOv3, comes close with 53.5 PQ and even exceeds PanSR on stuff classes (PQ st ). However, the lower performance on thing classes underscores the impor-tance of dynamic obstacle detection in maritime scenes. The second-ranked submission, MaskDINOv3, achieves 48.3 PQ, trailing the winner by 5.2 PQ points, while the third-ranked ThingSeg-DGCR reaches 42.6 PQ, trailing by 10.9 PQ points. Performance on thing classes appears to be the main factor differentiating the top three methods as well, with MaskDINOv3 and ThingSeg-DGCR falling behind M2F-DINOv3 by roughly 7 and 13 PQ th points, respectively. 
+
+Performance by scene attributes. To further understand these differences, we now examine stratified performance according to different scene attributes including environment, illumination, reflections, and conditions. Figure 6 shows that the global ranking is preserved across most of the scenarios. Interestingly, the top two submissions outperform the SOTA method PanSR in certain challenging scenarios, such as night illumination and heavy reflections. The winning M2F-DINOv3 further surpasses PanSR in overexposed scenes, as well as under rain, fog, and in the presence of plants or debris. These results indicate that large-scale backbone pretraining can enhance model robustness in difficult scenarios. River-like Sea-like       
+
+> 0
+> 20
+> 40
+> 60
+> 80
+> 100
+> Panoptic Quality (PQ)
+> Environment
+> M2F-DINOv3
+> MaskDINOv3
+> ThingSeg-DGCR
+> PanSR (Swin-L)
+> Baseline (Mask2Former)
+> Day Dusk Night
+> Illumination
+> Heavy Moderate None
+> Reflections
+> Under-
+> exposed
+> Over-
+> exposed
+> Sun
+> glitter
+> Dirty
+> lens
+> Wakes Rain Fog Plant/
+> debris
+> 0
+> 20
+> 40
+> 60
+> 80
+> 100
+> Panoptic Quality (PQ)
+> Conditions
+
+Figure 6. Panoptic quality stratified according to scene attributes. 
+
+Detection rate by obstacle size. Figure 7 shows the de-tection rates of dynamic obstacles as a function of object size. It also shows the normalized object frequency for each size bin (blue). Detection rates are lowest for the smallest objects (first bin), which also contains the largest number of instances. This is where the gap between the submitted methods and the SOTA PanSR is largest, highlighting the impact of PanSR’s object-centric proposal head and training scheme, that addresses the oversegmentation and mask drift-ing in inference typical for Mask-Dino-based models, and improves small object detection and dense scenarios. 0 - 32 32 - 64 64 - 128 > 128 
+
+> Object diagonal [px]
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> Detection rate
+> PanSR (Swin-L)
+> M2F-DINOv3
+> MaskDINOv3
+> ThingSeg-DGCR
+> Baseline (Baseline Mask2Former (Swin-B))
+> Normalized frequency
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> 1.2
+> Normalized frequency
+> Detection rate by obstacle size
+
+Figure 7. Dynamic obstacle detection rate stratified according to object size. 
+
+Qualitative results. Figure 8 presents qualitative results on three LaRS test scenes for the top-performing methods. The largest differences appear in the third scene, which contains many small objects. Even PanSR fails to detect all objects labeled in the ground truth, and the detection rate is lower for the other methods. Interestingly, MaskDINOv3 detects more objects than M2F-DINOv3 but struggles to segment the sea, highlighting differences in how Mask2Former and MaskDINO generate mask proposals. 
+
+3.3.3. Discussion and Challenge Winners 
+
+The winners of the LaRS Panoptic Segmentation challenge are listed in Table 3. All three methods outperform our baseline and show notable improvements in both stuff and thing segmentation. The performance of the winning method is comparable to the winner of the previous challenge, yet it still falls short of our baseline specialized for maritime panoptic segmentation. The top two methods highlight the strong trend of using mask-transformer meta-architectures with large-scale, self-supervised backbones. While self-supervised pretraining improves robustness under challeng-ing conditions such as rain and fog, detecting small objects in crowded scenes remains challenging. Further gains may come from combining large-scale self-supervised pretrain-ing [ 47 ] with targeted small-object detection strategies [ 59 ]. 
+
+3.4. Embedded Semantic Segmentation Challenge 
+
+Recent maritime obstacle segmentation methods often rely on expensive, power-hungry hardware, making them unsuit-able for small, energy-constrained USVs. Building on pre-vious editions [ 23 , 24 ], this challenge targets methods that balance segmentation quality and real-time efficiency and evaluates them on a real-world Luxonis embedded device OAK4 [36]. 
+
+3.4.1. Evaluation Protocol 
+
+The Embedded Semantic Segmentation Challenge follows the LaRS evaluation protocol [ 60 ] with additional deploy-ment constraints for embedded execution. Methods pre-dict per-pixel labels for water, sky, and obstacles and are evaluated with navigation-oriented rather than conventional segmentation metrics. Following LaRS, static obstacle detection is measured by water-edge accuracy ( μ), while dynamic obstacle detection is summarized by F1. To balance dynamic obstacle detection and segmentation quality, the primary ranking metric is the combined quality score 
+
+Q = F1 · mIoU . (1) Because submissions must run on the target embedded platform, models must be exportable to ONNX with a static computation graph, use only supported operations, accept a single 768 × 384 image normalized with ImageNet [ 7]statistics, and achieve at least 30 FPS on the target device. For server-side evaluation, submitted models are quan-tized to INT8 using the LaRS validation split, compiled for device execution, and evaluated after standard resizing and padding, with outputs resized back to the original resolution before scoring. Final rankings are computed with the LaRS Image GT PanSR [59] 1 M2F-DINOv3 2 MaskDINOv3 3 ThingSeg-DGCR 
+
+> Figure 8. Qualitative results of the top-performing methods in the LaRS panoptic segmentation challenge. Table 4. Overview of the submissions for the USV-based Embedded Obstacle Segmentation challenge. For comparison, last year’s winning method is included inline in gray and is not assigned placements. The best results among current non-gray entries are denoted in bold.
+
+Place Institution Method Section FPS Q↓ μ Pr Re F1 mIoU 
+
+∗ DLMU RSOS-Net [24] 85.1 64.2 72.5 66.4 67.9 67.1 95.7  
+
+> 1
+
+Independent Researcher DSOS-Net §D.1 66.5 61.9 68.3 62.6 69.7 66.0 93.8  
+
+> 2
+
+Independent / K-State PIDNet-S §D.2 67.6 52.1 67.8 54.1 56.4 55.2 94.4  
+
+> 3
+
+Colorado School of Mines RSOS R50 §D.3 96.3 46.4 61.5 41.6 67.0 51.3 90.3 - Colorado School of Mines YXHR medium §D.3 64.9 45.3 64.3 42.6 64.3 51.3 88.4 5th DT Deep-Square newlight - 130.1 39.4 56.3 32.1 75.8 45.1 87.3 6th UCLA EdgeModel - 32.4 18.5 54.9 13.9 59.9 22.5 82.3 metrics above, and average embedded throughput is reported alongside accuracy. 
+
+3.4.2. Submissions, Analysis and Trends 
+
+We received 20 submissions from 5 teams. Final rankings assign one placement per team using the best-ranked sub-mission when a team enters multiple models. Table 4 also includes last year’s winning method [ 24 ] for comparison, but that entry is not part of the ranking. The top three methods highlight complementary strate-gies for embedded maritime segmentation. DSOS-Net (§D.1) leads overall by combining a DINOv3-pretrained ConvNeXt backbone [ 33 , 47 ] with a lightweight RSOS-Net-style decoder [ 50 ] and a two-stage training schedule. PIDNet-S (§D.2) emphasizes quantization-friendly real-time deployment and Copy-Paste obstacle augmentation for small and rare obstacles. RSOS R50 (§D.3) revisits RSOS-Net in PyTorch with a ResNet-50 backbone and lightweight multi-scale context aggregation. Compared to last year’s reference model, the top-ranked methods do not surpass the best Q or F1 scores, but they remain above the embedded speed threshold. Among this year’s ranked entries, DSOS-Net achieves the best quality score and F1, PIDNet-S the best mIoU, and RSOS R50 the 
+
+> Figure 9. Detection rate and FP as a function of obstacle size for embedded segmentation methods. Only the three winning and the best-performing method from last year’s challenge are shown.
+
+highest throughput of the top three, highlighting the trade-off between quality and throughput. Across obstacle sizes in Figure 9, DSOS-Net is strongest on the smallest obstacles, with RSOS R50 also competitive, whereas last year’s RSOS-Net remains strongest on medium and large obstacles. RSOS-Net and DSOS-Net also produce the fewest false positives, while RSOS R50 generates more small-object false alarms. Under scene conditions and envi-ronments (Figures 10 and 11), last year’s RSOS-Net remains Figure 10. Detection F1 under challenging visual conditions for embedded segmentation methods. Only the three winning and the best-performing method from last year’s challenge are shown. 
+
+> Figure 11. Detection F1 across scene environments and reflection levels for embedded segmentation methods showing the three win-ning and the best-performing method from last year’s challenge.
+
+strongest in many difficult settings, DSOS-Net is the best current entry overall and strongest when reflections are ab-sent, and PIDNet-S is generally more stable than RSOS R50 but less accurate. Overall, DSOS-Net is the strongest ranked method this year, while last year’s RSOS-Net remains a strong reference. 
+
+3.4.3. Discussion and Challenge Winners 
+
+Table 4 lists the winners of the Embedded Semantic Seg-mentation challenge. DSOS-Net leads overall, PIDNet-S prioritizes quantization-friendly real-time deployment, and RSOS R50 remains competitive when throughput is priori-tized. 
+
+3.5. Multimodal Semantic Segmentation Challenge 
+
+This track studies segmentation with synchronized RGB, thermal, and LiDAR inputs on MULTIAQUA. Methods pre-dict four classes— static obstacle , dynamic obstacle , water ,and sky —and must remain reliable when one or more modal-ities are degraded or missing. 
+
+3.5.1. Evaluation Protocol 
+
+Participants submitted predictions for the labeled valida-tion/daytime split and the hidden test/nighttime split. The main challenge is two-fold: methods must exploit auxil-iary modalities such as thermal and LiDAR while still re-lying on RGB when it is informative. Ranking is based on 
+
+M , the mean of the two mIoU scores; per-split mIoU and dynamic-obstacle IoU are also reported to capture nighttime robustness and safety-critical obstacle detection. 
+
+3.5.2. Submissions, Analysis and Trends 
+
+The challenge received 36 submissions from 3 teams, with only each team’s best entry used for the final ranking. Tech-nical reports for the top-performing methods are provided in Appendix E. Two of the submitted methods use strong pretrained backbones from the SAM family, giving them a strong start with the RGB input, while potentially also helping with interpreting other modalities. As shown by the winner, GatedMemorySAM, explicitly modeling difficult visibility conditions is a necessary part of training robust multimodal models. 
+
+3.5.3. Discussion and Challenge Winners 
+
+The winners of the Multimodal Semantic Segmentation chal-lenge are listed in Table 5. GatedMemorySAM performs best overall and even outperforms the MaCVi reference on the validation split. The other two methods remain competitive on daytime data but degrade markedly at night, showing that robust cross-modal fusion under degraded sensing remains difficult. 
+
+## 4. Conclusion 
+
+This summary presents the MaCVi 2026 challenges and we see a trend towards maritime perception methods that transfer across tasks, sensing conditions, and deployment constraints. Future iterations will introduce more generalist challenges. 
+
+Acknowledgments. We thank all participating teams, con-tributors, and organizers supporting the MaCVi initiative. We also thank catskill GmbH for sponsoring the RTX 5080 GPU prize, Luxonis for sponsoring the embedded challenge prize, and LOOKOUT for data support.                                             
+
+> Table 5. Results for the USV-based Multimodal Segmentation Challenge. We report M, validation/test mIoU, and dynamic-obstacle IoU.
+> Place Team Method Section MmIoU ( val )IoU do (val )mIoU ( test )IoU do (test )
+> ⋆MaCVi Team SWIN-B + Mask2Former -83.4 90.8 70.1 76.0 37.0
+> 1GIST AI LAB GatedMemorySAM §E.1 82.1 93.3 78.8 70.9 35.4
+> 2Xidian University Adapted MFNet-SAM-LoRA §E.2 64.2 90.9 70.3 37.6 7.4
+> 3Fraunhofer IOSB Modified DustNet §E.3 62.8 87.9 60.7 37.6 13.5
+
+## Appendix - Meta Challenge + Tech Reports 
+
+Generalist Meta Challenge 
+
+The Generalist Meta Challenge evaluates whether a method remains competitive across multiple maritime tasks rather than excelling on only one benchmark. Teams must partici-pate in at least two active challenge tracks and submit a short report (maximum four double-column pages, excluding ref-erences) that justifies why the method should be considered generalist and lists all evaluated tracks. 
+
+Evaluation protocol and metrics. Let there be M chal-lenge leaderboards, with leaderboard i containing Ni ranked entries. For each model j, the per-leaderboard rank is defined as 
+
+rij =
+
+(
+
+observed rank of j, j ∈ leaderboard i Ni + 1 , j / ∈ leaderboard i  (2) Each rank is converted to a normalized score in [0 , 1] using 
+
+sij = max 
+
+
+
+0, 1 − rij − 1
+
+Ni − 1
+
+
+
+, (3) so rank 1 maps to 1, the last listed rank Ni maps to 0, and missing entries ( Ni + 1 ) also map to 0. The final metric is the Consistency Score , computed as the arithmetic mean across leaderboards: 
+
+Cj = 1
+
+M
+
+> M
+
+X
+
+> i=1
+
+sij . (4) This protocol makes scores comparable across heteroge-neous leaderboards and penalizes selective participation, because non-submitted tracks contribute zero to the final average. 
+
+Participation. As this is a newly introduced challenge in the current MaCVi edition, no teams submitted eligible en-tries for the Generalist Meta Challenge. Accordingly, no official rankings, consistency scores, or winning methods are reported for this track in this version of the workshop summary. 
+
+Technical Reports 
+
+## A . Vision-to-Chart Data Association Challenge 
+
+A.1. 1 Skyline-Aware ROI-Calibrated Buoy Asso-ciation 
+
+Wonwoo Jo, Hansol Kim, Hyewon Chun, Sangmun Lee, Jeeyeon Jeon HD Korea Shipbuilding & Offshore Engineering Co., Ltd. 
+
+The winning submission uses a staged pipeline that explic-itly injects geometric structure before final buoy–query as-signment. The method first estimates the skyline to com-pensate vessel roll, then projects each chart query into a query-conditioned image ROI using learned distance- and bearing-dependent calibration curves. Buoy candidates are generated with RF-DETR 2XL from both the full image and ROI crops, matched to chart queries with Hungarian assignment, and filtered with a gradient-boosted calibrator trained on assignment features. According to the submitted report, this design improves the overall validation score from 0.317 for the organizer baseline to 0.885 on the validation and from X to 0.765 on the test split in the final packaged system, and achieved the top leaderboard performance on both splits. 
+
+A.2. 2 Learned World-to-Image Projection for Query-Conditioned DETR 
+
+Borja Carrillo-Perez Arquimea Research Center 
+
+The second-place method extends the organizer’s DETR-style baseline with a dedicated QueryMLP that predicts the buoy’s waterline contact point directly in image coordinates from chart measurements and IMU orientation. The pre-dicted pixel location is appended to the query embedding, reducing the geometric reasoning burden on the transformer decoder and providing a stronger spatial prior for associa-tion. The report emphasizes the use of normalized distance, inverse distance, bearing, pitch, roll, and heading as inputs to the projection MLP, followed by a standard DETR train-ing pipeline with score-bias calibration at inference. This lightweight modification achieved an overall private-test score of 0.7386 and ranked second on the official leader-board. 
+
+A.3. 3 Dynamic Chart-Derived Queries with DEIMv2 
+
+Yusi Cao, Jiahui Wang, Lingling Li, Xu Liu, Licheng Jiao 
+
+The third-place report builds on the DEIMv2 detection frame-work with a DINOv3 ViT-Tiny backbone and adapts it to the vision-to-chart setting through dynamic chart-derived queries. Each chart marker is encoded by a lightweight MLP into a hidden embedding and processed jointly with multi-scale image features in a decoder that supports a variable number of valid queries via masking. The network predicts both a visibility confidence and normalized bounding-box coordinates for each query. The submitted model contains approximately 8.37M parameters, is trained for 120 epochs with AdamW and cosine decay, and uses horizontal flips together with query noise augmentation on distance and bearing. The reported validation performance was 0.409 precision, 0.385 recall, 0.397 F1, and 0.363 mIoU, corre-sponding to third place in the challenge ranking. 
+
+A.4. (4th) IMU-Conditioned Query DETR for Mar-itime Buoy Detection 
+
+Vinayak Nageli 1, Arshad Jamal 2, Rama Krishna S. Gorthi 11Indian Institute of Technology Tirupati, 2Centre for Artificial Intelligence and Robotics (CAIR), DRDO 
+
+The fourth-place submission replaces the standard learned object queries of the baseline with geometry-aware query embeddings derived from chart distance, chart bearing, and an encoded IMU state vector. The model uses a ResNet-50 backbone and a transformer detector whose query represen-tation is produced by a small MLP operating on distance, sine/cosine bearing encoding, and IMU context. To improve localization of small buoys, the authors additionally intro-duce a weighted horizontal-center loss, motivated by the importance of accurate lateral placement in this task. Train-ing is performed in two stages with AdamW and cosine annealing, first with BCE+L1+GIoU losses and then with an L1-focused continuation stage. The report highlights improved convergence from navigational priors. However, the submission reports a validation overall score of 0.2147, which could not be reproduced by the challenge organizers. 
+
+## B. Thermal Object Detection Challenge 
+
+B.1. 1 Multi-Architecture Ensemble with Semi-Supervised Learning 
+
+Tze-Hsiang Tang 
+
+seantangth@gmail.com 
+
+Schneider Electric Taiwan Co., Ltd 
+
+This report describes a 6-model ensemble with multi-scale test-time augmentation (TTA), low-threshold pseudo-labeling, semi-supervised learning via MixPL [ 4 ], and CLAHE-based TTA diversity, fused via Weighted Boxes Fusion (WBF) [48]. 
+
+Models. Five distinct architectures are combined for pre-diction diversity: Co-DINO [ 56 ] (Swin-L, O365 →COCO pretrained, val AP ≈0.456), DDQDETR [ 55 ] (Swin-L, val 0.434), DINO [ 54 ] (Swin-L, val 0.428), RTMDet-l [ 37 ] (CSPNeXt, val 0.437), and RF-DETR [ 46 ] (DINOv2 ViT, val 0.442). A 6th model—Co-DINO trained with MixPL teacher-student EMA (val 0.472)—provides the semi-supervised component. All models except RF-DETR use MMDetection 3.3.0. 
+
+Training. Training proceeds in three phases on a sin-gle A100 40GB GPU. Phase 1 ( ∼10 h): five base mod-els are trained on the 704 labeled images with AdamW (lr= 10 −4, wd= 5 × 10 −4), cosine schedule, EMA, and Ran-domResize (0.5–1.5 ×) + flip augmentation at resolutions 
+
+1333 × 1000 (DETR variants) and 960 × 720 (RTMDet). Phase 2 ( ∼5 h): pseudo labels are generated on the 381 test images from ensemble predictions at per-class thresholds (vessel ≥0.35, nav ≥0.25), yielding ∼794 pseudo annota-tions; all five models are fine-tuned on 1085 images (704 GT + 381 pseudo). Phase 3 ( ∼2 h): MixPL teacher-student EMA (momentum=0.0002) is applied to Co-DINO for 4000 iterations (batch size 2, gradient accumulation 4), producing the 6th model with val AP 0.472 (+0.016 over Phase 2). 
+
+Inference & Ensemble. Each model runs TTA at 4 scales 
+
+× 2 orientations = 8 sources. For the two Co-DINO models, CLAHE preprocessing (clipLimit=3.0, tile= 8 × 8) adds 16 extra sources. The resulting 64 sources (48 standard + 16 CLAHE) are fused via WBF (equal weights, iou thr=0.74, skip=0.15). Full inference takes ∼2–3 min/image on an A100. 
+
+Domain observations. 63.4% of objects are < 32 ×32 px (nav median 8.3 × 18 .6 px). Higher inference resolution is the single largest lever. Architecture diversity (DETR + anchor-based + ViT) provides complementary predictions. CLAHE improves strong models but hurts weaker ones (−0.002 to −0.008 AP). Semi-supervised MixPL gave the largest late-stage gain (+0.0033 AP). Only the competition dataset was used; pretraining utilized COCO, Objects365 (Co-DINO), and ImageNet-22K (Swin-L). 
+
+B.2. 2 Optimization-Diverse Multi-Scale Ensem-ble 
+
+Chun-Ming Tsai 1, Jun-Wei Hsieh 2, Ming-Ching Chang 3
+
+cmtsai@go.utaipei.edu.tw, jwhsieh@nycu.edu.tw, mchang2@albany.edu 
+
+> 1
+
+University of Taipei, 2National Yang Ming Chiao Tung University, 3University at Albany, SUNY 
+
+This report presents an optimization-diverse multi-scale en-semble framework for thermal object detection. Multiple DEIMv2 detectors are trained with different random seeds and input resolutions, and their predictions are combined via WBF [48] to improve robustness and localization accuracy. 
+
+Architecture. All models are based on the DEIMv2 detection framework with a DINOv3-X transformer back-bone, implemented in PyTorch. The final system ensembles 11 detectors operating at four resolutions ( 1024 × 1024 ,
+
+1280 × 1280 , 1440 × 1440 , and 1600 × 1600 ). Predic-tions from all models are merged using WBF with parame-ters IoU=0.72, skip box thr=0.004, and per-class top-k=250. Higher-resolution models are assigned slightly larger fusion weights. 
+
+Training. All models are initialized from the publicly available DEIMv2-X COCO pretrained checkpoint, which uses a DINOv3 backbone pretrained in a self-supervised manner on large-scale datasets (e.g., LVD). No additional external datasets beyond these publicly available pretrained weights are used; all fine-tuning is performed solely on the MaCVi 2026 thermal dataset. Training employs multi-scale augmentation, random horizontal flipping, geometric trans-formations, and photometric distortions. CLAHE-based con-trast enhancement is applied only in the 1440-resolution configuration as a probabilistic augmentation ( p = 0 .5) dur-ing training; it is not used during inference. 
+
+Inference. Experiments are conducted on a workstation with an NVIDIA RTX 3090. Single-model inference takes approximately 0.2–0.3 s per image; the 11-model ensemble adds additional overhead due to multi-model inference and fusion. 
+
+B.3. 3 AGAF (Agreement-Gated Auxiliary Fusion) 
+
+Wonwoo Jo, Hyewon Chun, Sangmun Lee 
+
+{wonwoojo, hyewonchun, sangmunlee }@hd.com 
+
+HD Korea Shipbuilding & Offshore Engineering Co., Ltd. 
+
+This report presents AGAF, a pipeline combining RF-DETR [ 46 ] 2XLarge detectors with annotation refinement, skyline filtering, and agreement-gated auxiliary fusion via class-aware WBF [48]. 
+
+Architecture. The system is built on RF-DETR 2XLarge with a DINOv2-Base [ 41 ] backbone and windowed attention. Multiple checkpoints trained at 960 px and 1280 px resolu-tions are combined into a 9-source ensemble via class-aware WBF (IoU = 0.76) with per-class weights for vessels and navigational objects, reflecting the different transfer charac-teristics of each category. 
+
+Domain-specific adaptations. Four key adaptations tar-get the thermal maritime domain: (1) Annotation refinement :the provided labels contain inconsistent wind-turbine an-notations; correcting these and producing turbine-added 
+
+(primary) and turbine-removed (auxiliary) annotation vari-ants yields the single largest gain (+0.027 AP). (2) Skyline filtering : a YOLO-based [ 16 ] horizon detector, trained on manually annotated skyline boxes from the challenge images, suppresses navigational-object false positives above the esti-mated horizon (+0.012 AP). (3) Class-aware ensemble : per-class WBF source weights account for category-dependent detection difficulty. (4) Agreement-gated fusion : an auxiliary model trained on the turbine-removed annotations confirms class-1 (vessel) hypotheses asymmetrically—it can only con-firm, not create, detections, avoiding label-policy mismatch between annotation variants. 
+
+Training. All models use AdamW with base LR 10 −4
+
+and encoder LR 1.5 × 10 −4, step LR decay at epoch 40, ViT layer decay 0.8, EMA (decay 0.993), and multi-scale training with expanded scales. Training runs range from 10 to 50 epochs depending on the variant. Only the MaCVi 2026 dataset is used (667 train / 162 val images); no external maritime data or annotations are employed. The DINOv2 backbone uses standard ImageNet-pretrained initialization. 
+
+Inference. Experiments are conducted on a single NVIDIA RTX 5070 (12 GB). Single-model inference runs at ∼15 FPS at 960 px; the full 9-source ensemble pipeline operates at ∼1.5 FPS per image. 
+
+## C. LaRS Panoptic Segmentation Challenge 
+
+C.1. 1 M2F-DINOv3 
+
+Ivan Martinovi´ c
+
+ivan.martinovic@fer.hr 
+
+Faculty of Electrical Engineering and Computing, University of Zagreb, Croatia 
+
+Our method is based on Mask2Former [ 5] with a pre-trained DINOv3 [ 47 ] vision transformer backbone. The Mask2Former segmentation head expects a multi-scale fea-ture pyramid, whereas the DINOv3 backbone produces fea-tures at a native stride of 16 , denoted by F16 . To bridge this mismatch, we construct a feature pyramid following the de-sign used in ViTDet [ 30 ] and EoMT [ 18 ]. More specifically, we build feature maps at strides 4, 8, 16 , and 32 , correspond-ing to F4, F8, F16 , and F32 . Starting from F16 , we obtain higher-resolution features using repeated upsampling blocks, and lower-resolution features using downsampling blocks. Each block consists of a 2 × 2 convolution (transposed for upsampling, standard for downsampling) with stride 2, fol-lowed by a GELU activation, a depthwise 3 × 3 convolu-tion, and a normalization layer. In our implementation, the same stride-16 DINOv3 feature tensor is reused to gener-ate all pyramid levels. The pixel decoder and transformer decoder follow the original Mask2Former design. We eval-uate two backbone variants, DINOv3-L and DINOv3-H+. The models are trained on four NVIDIA RTX A6000 Ada GPUs (48 GB VRAM per GPU) with a total batch size of 
+
+16 . Training is performed for 90 ,000 iterations using a crop size of 512 × 1024 . Unless otherwise stated, the remain-ing optimization and decoder hyperparameters follow the standard Mask2Former configuration for Cityscapes. To im-prove performance on underrepresented categories, we apply rare-class oversampling. Following the repeat-factor sam-pling strategy introduced for LVIS [ 13 ], we first compute the image-level frequency f (c) of each class c, i.e., the fraction of training images in which class c appears. We then define Table 6. Panoptic segmentation results on the LARS validation set. 
+
+Method PQ SQ RQ Mask2Former + DINOv3-L 54.8 75.8 63.5 Mask2Former + DINOv3-H+ 55.8 75.5 65.4 the class repeat factor as 
+
+r(c) = max 1,
+
+s
+
+tf (c)
+
+!
+
+,
+
+where t is the repeat threshold. The repeat factor assigned to an image is the maximum repeat factor among all classes present in that image. In our experiments, we use t = 0 .25 .In addition, we use a rare-class-aware cropping strategy. For images containing rare classes, we first sample a target seg-ment with probability proportional to its class repeat factor. We then draw up to 10 random crops and accept the first one that contains at least 10% of the target segment area. If none of the sampled crops satisfies this condition, we keep the last sampled crop. This procedure makes rare classes more likely to appear in the final training crop. Table 6 reports validation-set results for the two backbone variants. For the final submission, we retrained the Mask2Former + DINOv3-H+ model on the union of the training and validation splits. The resulting model achieved 53 .5 PQ on the LARS test set. 
+
+C.2. 2 MaskDINOv3 
+
+Jannik Sheikh 1, Andreas Michel 1, Wolfgang Gross 1, Martin Weinmann 2
+
+firstname.lastname@iosb.fraunhofer.de martin.weinmann@kit.edu 
+
+> 1
+
+Fraunhofer IOSB, Germany 
+
+> 2
+
+Karlsruhe Institute of Technology, Germany 
+
+This technical report describes our solution to the 4th Work-shop on Maritime Computer Vision (MaCVi) USV-based Panoptic Segmentation challenge, building upon our previ-ous top-3 submission (PQ 53.9) using MaskDINO [29]. This work evaluates DINOv3 [ 47 ], a vision founda-tion model for dense features, as a replacement for the ImageNet-22K [ 45 ] pre-trained Swin-L [ 32 ] backbone. Since MaskDINO requires multi-scale features but DINOv3 produces single-scale outputs, we employ DEIMv2 [ 15 ], which uses a Spatial Tuning Adapter (STA) to convert DI-NOv3 outputs into multi-scale features. 
+
+Experimental Settings. Experiments were conducted on four NVIDIA H100 GPUs using a distilled DINOv3 ViT-H+/16 model (840M parameters). Features were extracted from ViT blocks 14, 22, and 31 and passed to the STA module, which used a base channel dimension of 32 for its convolutions. Training with AdamW [ 35 ] followed two stages: (1) frozen backbone, training STA and MaskDINO head for 25k iterations with base LR 2.2×10 −5; (2) full fine-tuning in two runs with progressively reduced LR ( 2.2×10 −5
+
+then 5 × 10 −6) and backbone multipliers (0.1, 0.05) for 15k and 10k iterations respectively, along with per-class weighting to improve PQ Th . Both stages used augmentations including 1024 × 1024 crops, horizontal flips, and multi-scale resizing. 
+
+Observations and Remarks. On LaRS [ 60 ] test, our model achieves PQ 48.3 (F1 69.5). Compared to MaskDINO with Swin-L, PQ St improved notably (92.3 → 94.9), indicat-ing DINOv3’s suitability for stuff segmentation. However, PQ Th declined (39.4 → 30.9) despite per-class weighting. We hypothesize this stems from pre-training differences: Swin-L benefits from COCO panoptic pre-training provid-ing instance-level priors, while DINOv3’s self-supervised training may lack instance-discriminative representations. The PQ St gain highlights DINOv3’s potential, warranting further research on thing-class adaptations. 
+
+C.3. 3 ThingSeg-DGCR 
+
+Hyewon Chun, Wonwoo Jo, Sangmun Lee 
+
+{hyewonchun, wonwoojo, sangmunlee }@hd.com 
+
+HD Korea Shipbuilding & Offshore Engineering Co., Ltd. 
+
+Algorithm outline . We use two MaskDINO-R50 check-points as the panoptic backbone and an RF-DETR-Seg Medium branch for thing recovery, building on the official MaskDINO [ 29 ] and RF-DETR [ 46 ] codebases. One MaskDINO checkpoint is trained with rare-class rebalancing and the other with thing-aware crop fine-tuning; both are evaluated at scale 896 with horizontal flips. The RF-DETR branch runs only on the eight thing classes at resolution 720. We merge detector masks into the panoptic output only when conservative overlap rules are satisfied, then apply class-specific GrabCut refinement. 
+
+Training . The MaskDINO models start from Detectron2 ImageNet-pretrained ResNet-50 weights and use batch size 1 with large-scale jitter at 896. We then run 16k iterations with rare-class repeat sampling and 8k more with thingaware crops. RF-DETR-Seg Medium uses EMA, gradient check-pointing, batch size 2 with gradient accumulation 8, and offline copy-paste of rare thing instances onto water regions, initialized from an earlier LaRS RF-DETR model. 
+
+Datasets . We used only official LaRS data and deriva-tives: the panoptic train/validation/test splits, a thing-only COCO export derived from LaRS, and synthetic copy-paste images built from LaRS training images. We did not use external maritime datasets, private annotations, or external imagery. The ResNet-50 backbone uses standard ImageNet pretraining. 
+
+Hardware and inference speed . All training and infer-ence were run on a single NVIDIA RTX A4000 GPU. A single MaskDINO checkpoint runs at about 3.5–4.5 FPS; the full pipeline runs at roughly 0.5–0.7 FPS. Domain-specific adaptations . In LaRS, stuff is relatively easy; the main challenge is recovering small maritime thing instances. Buoys, swimmers, paddle boards, row boats, and rare obstacles are sparse, small, and visually ambiguous, so we treated the task primarily as a thing-recovery problem. That led us to rare-class rebalancing, thing-aware crops, a conservative detector branch, and stronger GrabCut settings for buoys and swimmers. 
+
+## D. LaRS Embedded Segmentation Challenge 
+
+D.1. 1 DSOS-Net: DINOv3-based Water Surface Obstacle Segmentation Network 
+
+Yuan Feng 
+
+fengyuan9822@outlook.com, 931772830@qq.com 
+
+Independent Researcher 
+
+Method. Inspired by the encoder-decoder architecture, we propose DSOS-Net for real-time surface obstacle de-tection. The network architecture primarily consists of an encoder section and a decoder section. In the encoder, we employ ConvNeXt [ 33 ] as the backbone network, which has been self-supervised pre-trained on the LVD-1689M dataset using the DINOv3 method [ 47 ], enabling effective extraction of robust multi-scale features. The decoder adopts the RSOS-Net [ 50 ] architecture, which comprises a lightweight feature pyramid network, a fast pyramid pooling module, and an attention-based feature fusion module. Specifically, the fast pyramid pooling module effectively expands the receptive field by combining global average pooling and cascaded av-erage pooling operations, enabling the capture of both global and local contextual information, which is crucial for distin-guishing water surface disturbances from real obstacles in maritime environments. The attention-based feature fusion module, employing a channel-spatial attention mechanism, enables DSOS-Net to focus more on real obstacles, reducing false positives and missed detections. The combination of the robust feature representation from ConvNeXt and the effi-cient segmentation head from RSOS-Net achieves a balance between accuracy and inference speed. 
+
+Training. We implemented DSOS-Net using PyTorch with an image input size of 768 × 384 and a batch size of 6. The training was conducted on an NVIDIA RTX 2080 Ti GPU with 12 GB memory. We adopted a two-stage training strategy. In the first stage, the model was trained for 100 epochs using the AdamW optimizer with an initial learning rate of 1 × 10 −4 and a cosine learning rate scheduler. The loss function combines cross-entropy loss and Dice loss with equal weights. To address the severe class imbalance problem, we set the class weights for obstacle, water, and sky classes as 3.0, 1.0, and 1.0, respectively. In the second stage, we continued training for an additional 20 epochs, resulting in a total of 120 epochs, with equal class weights of 1.0 for all classes to achieve better precision-recall balance. For data augmentation, techniques including random horizontal flip with probability 0.5, random vertical flip with probability 0.3, random rotation within ±15 ◦, color jitter with brightness, contrast, and saturation adjustments within ±0.3 and hue within ±0.15 , and Gaussian blur were applied. Regarding datasets, only the LaRS dataset [ 60 ] was utilized for training and validation. The backbone network was initialized with ConvNeXt weights pretrained by the DINOv3 method. 
+
+Observations 
+
+• Two-stage Training Effect: In our submissions, the ver-sion with ID 16965 from the first stage achieved a Q-score of 61.5, F1-score of 65.7, and mIoU of 93.5, with preci-sion of 56.7% and recall of 78.2% at 55.9 FPS. The high class weight for the obstacle class resulted in high recall but relatively low precision. The version with ID 17010 from the second stage achieved the best Q-score of 61.9, F1-score of 66.0, and mIoU of 93.8, with precision of 62.6% and recall of 69.7% at 66.5 FPS, ranking 1st on the leaderboard. The inference speed was evaluated by submitting ONNX models to the official evaluation server. • Backbone Efficiency: With a smaller ConvNeXt variant, DSOS-Net can achieve up to 98 FPS while maintaining competitive segmentation accuracy. • Feature Representation: The self-supervised pre-training of DINOv3 on large-scale datasets provides robust feature representations that transfer well to maritime obstacle seg-mentation, effectively reducing the domain gap between pre-training and downstream tasks. • Evaluation Strictness: The evaluation of the USV-based Embedded Obstacle Segmentation challenge appears to be stricter compared to last year. • Code Availability: The code for DSOS-Net will be publicly accessible soon at https://github.com/Yuan-Feng1998. 
+
+D.2. 2 PIDNet-S with Copy-Paste Obstacle Aug-mentation 
+
+Jose Mateus Raitz Persch 1, Rahul Harsha Cheppally 2
+
+jmraitzp@protonmail.com, r4hul@ksu.edu 
+
+> 1
+
+Independent Researcher, 2Kansas State University 
+
+Architecture. We use PIDNet-S [51 ](github.com/XuJiacong/PIDNet), a lightweight three-branch (Proportional–Integral–Derivative) network with 32 base channels, PPM pooling (96 channels), and a PIDHead decoder (128 channels, 3 classes). The Derivative branch explicitly models boundary detail, which is particularly relevant for maritime segmentation where water–obstacle boundaries are often ambiguous. The backbone is initialized from ImageNet-1K pretrained weights. We made no archi-tectural modifications—PIDNet-S was selected specifically because its BatchNorm + Conv + ReLU composition quantizes cleanly under the server’s INT8 quantization pipeline on the Luxonis RVC4. During our evaluation phase, we found that architectures relying on attention mechanisms (SegFormer) or large-kernel depthwise convolutions (SegNeXt) suffered catastrophic INT8 degradation ( −67% to −82% mIoU), making simple convolution-based designs the only viable choice. 
+
+Training. We train at the target resolution of 768 ×
+
+384 using SGD (lr = 0.133, momentum = 0.9, weight de-cay = 5×10 −4) for 15,000 iterations with polynomial LR decay (power = 0.9) and a 2,500-iteration linear warmup. Batch size is 320 (160 per GPU). Losses: CrossEntropy (w = 0.4), two OHEM losses ( w = 1.0, threshold = 0.9), and BoundaryLoss ( w = 20). Augmentations include Large Scale Jittering (ratio ∈ [0 .5, 2.0] ), random crop, horizontal flip, enhanced photometric distortion (brightness, contrast, sat-uration, hue, gamma jitter), and reflect padding matching the server preprocessing. Framework: mmsegmentation [ 6], PyTorch 2.1.2, CUDA 12.1. 
+
+Copy-Paste augmentation. The key component of our method is a Copy-Paste obstacle augmentation [ 11 ] using crops extracted from three external maritime datasets: Wa-terScenes [53 ], ROSEBUD [28 ], and the night subset of 
+
+MULTIAQUA [ 40 ]. All three were remapped to the LaRS 3-class schema and deduplicated with perceptual hashing. We mined ∼30,000 obstacle crops (water-adjacent, area 50– 100k px at target resolution) and stored them in a shared database. During training, with probability 0.7, 1–3 crops are sampled with size-based tier weights (oversampling small obstacles), brightness-matched to the local water region, and pasted before photometric distortion. This approach was motivated by a failure analysis of our Phase 2 baseline server submission and a spatial out-of-distribution study on the LaRS test set, both of which showed that the majority of false negatives involved small or rare obstacle types under unusual lighting—gaps that external maritime datasets could address. An initial run with a shorter schedule (8k iterations) failed due to “augmentation shock,” which we resolved by extending to 15k iterations with longer warmup. 
+
+Datasets. LaRS [ 60 ] (train: 2,605 images) for train-ing; ImageNet-1K for backbone pretraining; WaterScenes, ROSEBUD, and MULTIAQUA night as external augmen-tation sources (crops only, no joint training). No custom-annotated data was used. 
+
+Hardware & inference speed. Training was performed on 2 × NVIDIA RTX A6000 (48 GB) with DDP. On the challenge server (Luxonis RVC4, INT8 quantization), our model achieves 67.7 FPS. 
+
+D.3. 3 RSOS-Net R50 PyTorch + YOLOX-HR 
+
+Justin Davis, Mehmet E. Belviranli 
+
+{jcdavis, belviranli }@mines.edu   
+
+> LaRS Image Geometric Augmentation
+> Copy-Paste
+> Obstacles
+> Photometric Distortion
+> PIDNet-S 3-Class Output
+> External crops WS+RB+MA
+> Figure 12. Training pipeline. WS = WaterScenes, RB = ROSEBUD, MA = MULTIAQUA night.
+
+Colorado School of Mines, Colorado, United States 
+
+Method. Our submission is a PyTorch reimplemen-tation of RSOS-Net [ 50 ], the 1st-place solution from the MaCVi 2025 Embedded Obstacle Segmentation Chal-lenge [ 24 ]. RRSOS-Net is a lightweight encoder-decoder segmentation network designed for water-surface obstacle detection, using multi-scale context pooling and channel-spatial attention to suppress false positives from reflections, sun glitter, and wakes. In the MaCVi 2025 challenge pro-ceedings, the authors submitted both a ResNet-50 variant (Q = 63.6, 102.8 FPS) and a ResNet-101 variant (Q = 64.2, 85.1 FPS), with the R101 achieving the top accuracy score. The subsequent journal paper [ 50 ] provides a comprehensive description of the architecture using a ResNet-18 backbone. Our reimplementation is based on this full architectural spec-ification, adapting the design to a ResNet-50 backbone with a 4-scale feature pyramid (layers 1–4) and applying a revised training pipeline. The ResNet-50 backbone is initialized with ImageNet-1K pretrained weights and uses output stride 16 via dilated convolutions in stage 4. 
+
+Training. All training used only the LaRS [ 60 ] dataset (SGD, 16-bit mixed precision, batch size 8, 200 epochs). The loss combines cross-entropy, dice loss (weight 2.0), and focal loss (weight 1.0) on the main head, with stan-dard cross-entropy on two auxiliary FCN heads (weight 0.4). Augmentations include random scale/crop/flip, color jitter, brightness–contrast and HSV shifts, Gaussian and motion blur, noise, random shadows, and coarse dropout. Training was performed on a single NVIDIA RTX 5080 GPU. The original authors trained for 160,000 steps at batch size 16 (∼1,000 epochs), roughly 5× our training volume, which likely accounts for some of the accuracy gap between our R50 (Q = 46.4) and theirs (Q = 63.6). 
+
+Additional Submission—YOLOX-HR. We also sub-mitted YOLOX-HR [ 10 ], a custom high-resolution vari-ant of YOLOX using the medium CSPDarknet53 backbone (YXHR medium), motivated by the observation that small dynamic obstacle detection was critical for F1/Q metrics. YOLOX-HR employs a stacked dual Path Aggregation FPN (PAFPN) that fuses features from stride 2 through 32, yield-ing predictions at stride 2 to preserve spatial detail for small objects. Its purely convolutional architecture (Conv-BN-SiLU) typically has highly optimized kernels on embedded platforms such as the RVC4. 
+
+Observations. 
+
+• RSOS-R50 achieves Q = 46.4 at 96.3 FPS, while YXHR medium achieves Q = 45.3 at 64.9 FPS. Despite YOLOX-HR having more parameters and higher mIoU, the overall Q is lower at a significant FPS cost, showing that RSOS-Net’s lightweight decoder modules scale more efficiently at nearly 1.5× the inference speed. • YOLOX-HR showed better Q scores than our RSOS-Net variant during training but overfit to the train/val split, most likely due to the low amount of training data relative to the parameter count. • The accuracy gap between our R50 and the original au-thors’ R50 is likely attributable to: training duration ( 5×
+
+fewer samples), adaptation of the published R18 architec-ture to an R50 backbone, and training pipeline differences. 
+
+## E. Multimodal Semantic Segmentation Chal-lenge 
+
+E.1. 1 GatedMemorySAM 
+
+Jemo Maeng, Sangmin Park, Seongju Lee, Kyoobin Lee 
+
+{maengjemo, leowiu24, lsj2121 }@gm.gist.ac.kr, kyoobinlee@gist.ac.kr 
+
+GIST AI LAB, Gwangju Institute of Science and Technology, South Korea 
+
+Method. We introduce GatedMemorySAM , which builds upon MemorySAM [ 31 ] that repurposes SAM2’s [ 44 ] tem-poral memory attention for cross-modal fusion by treating each input modality (RGB, LiDAR, Thermal) as a separate “frame” in SAM2’s video pipeline. We extend this framework with two key modifications: (1) Soft MoE LoRA adaptation, and (2) quality-aware modality scoring. For backbone adaptation, we replace standard LoRA [ 14 ]with Soft MoE routing [ 43 ] over multiple LoRA experts, inserted into every attention block (Q and V projections, 48 layers total) with rank = 4 and 3 experts. Each spatial token is softly routed to all experts via a learned gating network, enabling per-token specialization across modalities. For modality weighting, we introduce a
+
+CrossModalFusionHead that compares all modality features via global average pooling and a shared comparison MLP to produce per-modality softmax weights. These weights drive two score-based fusion mechanisms: (i) 
+
+memory modulation , which max-normalizes the scores and scales each modality’s backbone features before they enter SAM2’s memory bank, so that the best modality retains full strength while weaker ones are suppressed; and (ii) 
+
+weighted mask fusion , which averages the per-modality decoder outputs using the same softmax weights. The overall pipeline is illustrated in Figure 13. 
+
+> Figure 13. Overview of GatedMemorySAM. Each modality is en-coded by SAM2 with Soft-MoE LoRA, scored by the CrossModal-FusionHead, and fused via memory modulation and weighted mask fusion.
+
+Training Details. We train with the AdamW optimizer (lr 
+
+= 6 × 10 −4, weight decay = 0 .01 ) using a warmup poly-nomial LR schedule (10-epoch warmup, power = 0 .9) for 200 epochs. The loss function is Online Hard Example Min-ing Cross-Entropy (OHEM-CE). Input images are resized to 
+
+1024 × 1024 . We use DDP training with an effective batch size of 16 across 8 GPUs with gradient accumulation. 
+
+Night Augmentation. Since the test set consists entirely of nighttime images while training data is daytime, we apply an extensive nighttime simulation pipeline: brightness dark-ening (range [0 .03 , 0.45] with 60% dark-biased sampling), contrast reduction, gamma correction ( [0 .4, 0.8] ), Gaussian and Poisson shot noise, cross-modal replacement (CRM, 
+
+p = 0 .20 ), and PhysAug [ 52 ]-inspired spatial perturbations (random convolution filters and planar Fourier wave patterns, 
+
+p = 0 .40 ). 
+
+Datasets and Pretrained Weights. We train exclusively on the MULTIAQUA dataset provided by the challenge or-ganizers. The SAM2 Hiera-B+ backbone is initialized from publicly available pretrained weights. No additional external datasets or annotations are used. 
+
+Hardware and FPS. Training was conducted on 8×
+
+NVIDIA RTX 3090 GPUs (24GB each). Inference runs on a single NVIDIA Titan RTX GPU at approximately 2.1 FPS (1024 × 1024 input, 3 modalities processed sequentially). 
+
+Maritime Domain Adaptations. The primary challenge is the extreme day-night domain gap (daytime training vs. nighttime-only test). Our nighttime simulation augmentation was the single most impactful component, nearly doubling the test mIoU. 
+
+E.2. 2 Adapted MFNet-SAM-LoRA 
+
+Yusi Cao, Jiahui Wang, Lingling Li, Xu Liu, LiCheng Jiao 
+
+cys734511@163.com, 18257864149@163.com, llli@xidian.edu.cn, xuliu361@163.com, lchjiao@mail.xidian.edu.cn 
+
+School of Artificial Intelligence, Xidian University, China 
+
+Method. We adapted the existing Multimodal Fine-tuning Network (MFNet) by leveraging the Segment Any-thing Model (SAM, ViT-Large) as our foundational back-bone. To process three distinct modalities within MFNet’s dual-branch architecture, we feed the RGB image into the primary branch, while concatenating the Thermal image and projected LiDAR data (distance d and reflectivity r) into a 3-channel auxiliary tensor for the secondary branch. Both inputs are processed concurrently by the frozen SAM encoder, which is equipped with trainable Low-Rank Adap-tation (LoRA) layers for parameter-efficient tuning. The extracted features are then fused across scales via Squeeze-and-Excitation (SE) blocks and decoded using a UNet-style head. Observing the drastic day-to-night domain shift in the maritime environment, this Thermal-LiDAR fusion en-sures robustness against nighttime RGB degradation. Fur-thermore, to handle recording boat artifacts, we explicitly set ignore index=0 in our loss computation to prevent erroneous structure learning. 
+
+Training. Our training strictly utilized the daytime splits of the provided MULTIAQUA dataset, relying solely on SAM’s native SA-1B pre-trained weights without any ad-ditional maritime datasets or custom pseudo-labels. We optimized the network using AdamW (initial LR=0.001, weight decay=1e-4) with a CosineAnnealingWarmRestarts scheduler over 80 epochs. Data augmentation was minimal, utilizing only 512×512 random cropping and horizontal flip-ping. To manage hardware constraints, Automatic Mixed Precision (AMP) and gradient accumulation were employed to achieve an effective batch size of 8. All procedures were executed on a single NVIDIA GeForce RTX 4090 GPU, achieving an efficient inference speed of approximately 12 FPS. 
+
+E.3. 3 Modified DustNet 
+
+Andreas Michel 1, Jannik Sheikh 1, Jannick Kuester 1, Bettina Felten 1, Wolfgang Gross 1, Martin Weinmann 2
+
+firstname.lastname@iosb.fraunhofer.de martin.weinmann@kit.edu 
+
+> 1
+
+Fraunhofer IOSB, Germany 
+
+> 2
+
+Karlsruhe Institute of Technology, Germany 
+
+Methodology. Our methodology builds upon the DustNet architecture [ 38 , 39 ], a deep neural network specifically designed for visual density estimation tasks. The DustNet-C variant leverages a dual-branch encoder architecture to extract temporal, global, and local feature representations. We adapt this architecture for multi-modal sensor fusion by repurposing the dual input streams. Hereby, the primary branch processes RGB imagery, while the secondary branch receives a fused representation of LiDAR and thermal in-frared data. For the latter, 2D projected LiDAR data is concatenated channel-wise with the thermal infrared image, preprocessed using Contrast Limited Adaptive Histogram Equalization (CLAHE) [ 57 ]. Each modality stream is pro-cessed through dedicated backbone networks for domain-specific feature extraction. The resulting feature maps are subsequently integrated via a cross-attention mechanism. 
+
+Experimental Settings. All experiments were conducted using two Nvidia A100 GPUs, each equipped with 80 GB of VRAM. The modified DustNet architecture was im-plemented with a Swin-L [ 32 ] backbone, initialized with weights pretrained on the ImageNet-1K dataset [ 7] to lever-age learned visual representations. The model was trained on the maritime subset of the MULTIAQUA dataset for 36 epochs, employing cross-entropy as the loss function and AdamW [ 34 ] as the optimizer. Data augmentation during this phase was limited to large-scale jitter and stochastic hor-izontal flipping. Subsequently, fine-tuning was performed for 2 additional epochs, incorporating stochastic brightness attenuation on the RGB input channels to enhance robustness under variable illumination conditions. The trained model achieves an inference throughput of 7 fps on a single A100 GPU. 
+
+Observations And Remarks. Employing separate back-bones for each input branch enables modality-specific feature learning. However, this approach does not inherently out-perform a single-backbone architecture with concatenated inputs. Moreover, achieving optimal performance likely re-quires extensive hyperparameter tuning and a refined training strategy. The exclusive use of the MultiAqua dataset may further limit the model’s ability to fully exploit the potential of multi-modal fusion, indicating that a larger and more di-verse dataset may be required. Finally, the inherently low contrast of thermal imagery presents an additional challenge, suggesting that more sophisticated preprocessing techniques warrant further investigation. References 
+
+[1] Domenico Bloisi. Background modeling and foreground detection for maritime video surveillance. Chapter in Hand-book on Background Modeling and Foreground Detection for Video Surveillance: Traditional and Recent Approaches, Implementations, Benchmarking and Evaluation, Chapman and Hall/CRC , pages 14–1, 2014. 2 [2] Borja Bovcon and Matej Kristan. WaSR–A Water Segmenta-tion and Refinement Maritime Obstacle Detection Network. 
+
+IEEE Transactions on Cybernetics , pages 1–14, 2021. 2 [3] Borja Bovcon, Jon Muhovi ˇc, Janez Per ˇs, and Matej Kristan. The mastr1325 dataset for training deep usv obstacle detection models. In Int. Conf. Intell. Robots and Systems , pages 3431– 3438. IEEE, 2019. 2 [4] Zeming Chen, Wenwei Zhang, Xinjiang Wang, Kai Chen, and Zhi Wang. Mixed pseudo labels for semi-supervised object detection. arXiv preprint arXiv:2312.07006 , 2023. 3, 10 [5] Bowen Cheng, Ishan Misra, Alexander G. Schwing, Alexan-der Kirillov, and Rohit Girdhar. Masked-attention mask trans-former for universal image segmentation. In IEEE Conference on Computer Vision and Pattern Recognition (CVPR) , 2022. 5, 11 [6] MMSegmentation Contributors. MMSegmenta-tion: Openmmlab semantic segmentation toolbox and benchmark. https : / / github .com / open -mmlab/mmsegmentation , 2020. 14 [7] Jia Deng, Wei Dong, Richard Socher, Li-Jia Li, Kai Li, and Li Fei-Fei. Imagenet: A large-scale hierarchical image database. In 2009 IEEE conference on computer vision and pattern recognition , pages 248–255. Ieee, 2009. 6, 16 [8] Chaitra Desai, Sujay Benur, Ujwala Patil, and Uma Mude-nagudi. Rsuigm: Realistic synthetic underwater image gener-ation with image formation model. ACM Trans. Multimedia Comput. Commun. Appl. , 21(1), Dec. 2024. 2 [9] Antonio-Javier Gallego, Antonio Pertusa, Pablo Gil, and Robert B Fisher. Detection of bodies in maritime rescue operations using unmanned aerial vehicles with multispectral cameras. Journal of Field Robotics , 36(4):782–796, 2019. 2 [10] Zheng Ge, Songtao Liu, Feng Wang, Zeming Li, and Jian Sun. Yolox: Exceeding yolo series in 2021. arXiv preprint arXiv:2107.08430 , 2021. 14 [11] Golnaz Ghiasi, Yin Cui, Aravind Srinivas, Rui Qian, Tsung-Yi Lin, Ekin D. Cubuk, Quoc V. Le, and Barret Zoph. Simple copy-paste is a strong data augmentation method for instance segmentation. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , pages 2918–2928, 2021. 14 [12] Philipp Gorczak, Thomas L ¨ubcke, Martin Portier, and Hel-mut Schmid. Maritime collision avoidance dataset germany, english channel, and the netherlands. In Journal of Physics: Conference Series , volume 3123, page 012024. IOP Publish-ing, 2025. 3 [13] Agrim Gupta, Piotr Dollar, and Ross Girshick. Lvis: A dataset for large vocabulary instance segmentation. In Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition , pages 5356–5364, 2019. 11 [14] E. J. Hu, Y. Shen, P. Wallis, Z. Allen-Zhu, Y. Li, S. Wang, L. Wang, and W. Chen. Lora: Low-rank adaptation of large language models. In International Conference on Learning Representations (ICLR) , 2022. 15 [15] Shihua Huang, Yongjie Hou, Longfei Liu, Xuanlong Yu, and Xi Shen. Real-time object detection meets dinov3. arXiv preprint arXiv:2509.20787 , 2025. 12 [16] Glenn Jocher, Ayush Chaurasia, and Jing Qiu. Ultralytics YOLO, Jan. 2023. 4, 11 [17] Ur ˇska Kanjir, Harm Greidanus, and Kri ˇstof O ˇstir. Vessel detection and classification from spaceborne optical images: A literature survey. Remote sensing of environment , 207:1–26, 2018. 2 [18] Tommie Kerssies, Niccolo Cavagnero, Alexander Hermans, Narges Norouzi, Giuseppe Averta, Bastian Leibe, Gijs Dubbelman, and Daan De Geus. Your vit is secretly an image segmentation model. In Proceedings of the computer vi-sion and pattern recognition conference , pages 25303–25313, 2025. 11 [19] Benjamin Kiefer, Dominik Hildebrand, Rafia Rahim, Mahmut Karaaslan, Michael DeFilippo, Ersin Kaya, and Andreas Zell. Real-time radar–vision association via monocular distance estimation. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) Workshops ,June 2026. 2 [20] Benjamin Kiefer, Matej Kristan, Janez Per ˇs, Lojze ˇZust, Fabio Poiesi, Fabio Andrade, Alexandre Bernardino, Matthew Dawkins, Jenni Raitoharju, Yitong Quan, Adem Atmaca, Ti-mon H ¨ofer, Qiming Zhang, Yufei Xu, Jing Zhang, Dacheng Tao, Lars Sommer, Raphael Spraul, Hangyue Zhao, Hongpu Zhang, Yanyun Zhao, Jan Lukas Augustin, Eui-ik Jeon, Impyeong Lee, Luca Zedda, Andrea Loddo, Cecilia Di Ru-berto, Sagar Verma, Siddharth Gupta, Shishir Muralidhara, Niharika Hegde, Daitao Xing, Nikolaos Evangeliou, Anthony Tzes, Vojt ˇech Bartl, Jakub ˇSpa ˇnhel, Adam Herout, Neelanjan Bhowmik, Toby P. Breckon, Shivanand Kundargi, Tejas An-vekar, Ramesh Ashok Tabib, Uma Mudenagudi, Arpita Vats, Yang Song, Delong Liu, Yonglin Li, Shuman Li, Chenhao Tan, Long Lan, Vladimir Somers, Christophe De Vleeschouwer, Alexandre Alahi, Hsiang-Wei Huang, Cheng-Yen Yang, Jenq-Neng Hwang, Pyong-Kun Kim, Kwangju Kim, Kyoungoh Lee, Shuai Jiang, Haiwen Li, Zheng Ziqiang, Tuan-Anh Vu, Hai Nguyen-Truong, Sai-Kit Yeung, Zhuang Jia, Sophia Yang, Chih-Chung Hsu, Xiu-Yu Hou, Yu-An Jhang, Simon Yang, and Mau-Tsuen Yang. 1st workshop on maritime computer vision (macvi) 2023: Challenge results. In Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV) Workshops , pages 265–302, January 2023. 2 [21] Benjamin Kiefer, David Ott, and Andreas Zell. Leveraging synthetic data in object detection on unmanned aerial vehicles. 
+
+arXiv preprint arXiv:2112.12252 , 2021. 2 [22] Benjamin Kiefer, Yitong Quan, and Andreas Zell. Approx-imate supervised object distance estimation on unmanned surface vehicles, 2025. 2 [23] Benjamin Kiefer, Lojze ˇZust, Matej Kristan, Janez Per ˇs, Matija Ter ˇsek, Arnold Wiliem, Martin Messmer, Cheng-Yen Yang, Hsiang-Wei Huang, Zhongyu Jiang, Heng-Cheng Kuo, Jie Mei, Jenq-Neng Hwang, Daniel Stadler, Lars Sommer, Kaer Huang, Aiguo Zheng, Weitu Chong, Kanokphan Lert-niphonphan, Jun Xie, Feng Chen, Jian Li, Zhepeng Wang, Luca Zedda, Andrea Loddo, Cecilia Di Ruberto, Tuan-Anh Vu, Hai Nguyen-Truong, Tan-Sang Ha, Quan-Dung Pham, Sai-Kit Yeung, Yuan Feng, Nguyen Thanh Thien, Lixin Tian, Andreas Michel, Wolfgang Gross, Martin Weinmann, Borja Carrillo-Perez, Alexander Klein, Antje Alex, Edgardo Solano-Carrillo, Yannik Steiniger, Angel Bueno Rodriguez, Sheng-Yao Kuan, Yuan-Hao Ho, Felix Sattler, Matej Fabijani ´c, Mag-dalena ˇSimunec, and Nadir Kapetanovi ´c. 2nd workshop on maritime computer vision (macvi) 2024: Challenge results. In 
+
+Proceedings of the IEEE/CVF Winter Conference on Applica-tions of Computer Vision (WACV) Workshops , pages 869–891, January 2024. 2, 6 [24] Benjamin Kiefer, Lojze Zust, Matej Kristan, Janez Pers, Matija Tersek, Uma Mudenagudi, Chaitra Desai, Arnold Wil-iem, Marten Kreis, Nikhil Akalwadi, Zhiqiang Zhong, Zhe Zhang, Sujie Liu, Xuran Chen, Yang Yang, Matej Fabijanic, Fausto Ferreira, Seongju Lee, Shanliang Yao, Himanshu Ku-mar, Aurelius Marcus, Gregor Novak, Yuan Feng, Annie Cheng, Thien Nguyen, Jannik Sheikh, Josip Saric, Zhuoxiao Li, Yutang Lu, Yipeng Lin, Xiang Yang, Ching-Heng Cheng, Ali Awad, Jon Muhovi ˇc, Yitong Quan, Junseok Lee, Ky-oobin Lee, Runwei Guan, Xiaoyu Huang, Yi Ni, Tzu-Yu Lin, Chia-Ming Lee, Chih-Chung Hsu, Andreas Michel, Wolfgang Gross, Nan Jiang, Fei Feng, Evan Lucas, Ashraf Saleem, Yu-Fan Lin, and Martin Weinmann. 3rd workshop on maritime computer vision (macvi) 2025: Challenge results. In Proceed-ings of the Winter Conference on Applications of Computer Vision (WACV) Workshops , pages 1542–1569, February 2025. 2, 6, 7, 14 [25] Alexander Kirillov, Kaiming He, Ross Girshick, Carsten Rother, and Piotr Dollar. Panoptic segmentation. In Proceed-ings of the IEEE Computer Society Conference on Computer Vision and Pattern Recognition , volume 2019-June, pages 9396–9405. IEEE Computer Society, June 2019. 5 [26] Marten Kreis and Benjamin Kiefer. Real-time fusion of visual and chart data for enhanced maritime vision, 2025. 2 [27] Matej Kristan, Jiri Matas, Ale ˇs Leonardis, Tomas Voj ´ı˜r, Ro-man Pflugfelder, Gustavo Fern ´andez, Georg Nebehay, Fatih Porikli, and Luka ˇCehovin. A novel performance evaluation methodology for single-target trackers. IEEE Transactions on Pattern Analysis and Machine Intelligence , 38(11):2137– 2155, 2016. 2 [28] Reeve Lambert, Jalil Chavez-Galaviz, Jianwen Li, and Nina Mahmoudian. ROSEBUD: A deep fluvial segmentation dataset for monocular vision-based river navigation and ob-stacle avoidance. Sensors , 22(13):4681, 2022. 14 [29] Feng Li, Hao Zhang, Huaizhe xu, Shilong Liu, Lei Zhang, Lionel M. Ni, and Heung-Yeung Shum. Mask DINO: To-wards A Unified Transformer-based Framework for Object Detection and Segmentation, Dec. 2022. 12 [30] Yanghao Li, Hanzi Mao, Ross Girshick, and Kaiming He. Exploring plain vision transformer backbones for object de-tection. In European conference on computer vision , pages 280–296. Springer, 2022. 11 [31] C. Liao, X. Zheng, Y. Lyu, H. Xue, Y. Cao, J. Wang, K. Yang, and X. Hu. Memorysam: Memorize modalities and semantics with segment anything model 2 for multi-modal semantic segmentation. arXiv preprint arXiv:2503.06700 , 2025. 15 [32] Ze Liu, Yutong Lin, Yue Cao, Han Hu, Yixuan Wei, Zheng Zhang, Stephen Lin, and Baining Guo. Swin transformer: Hierarchical vision transformer using shifted windows. In 
+
+Proceedings of the IEEE/CVF International Conference on Computer Vision , pages 10012–10022, 2021. 12, 16 [33] Zhuang Liu, Hanzi Mao, Chao-Yuan Wu, Christoph Feicht-enhofer, Trevor Darrell, and Saining Xie. A convnet for the 2020s. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , pages 11976–11986, 2022. 7, 13 [34] Ilya Loshchilov and Frank Hutter. Decoupled weight decay regularization. arXiv preprint arXiv:1711.05101 , 2017. 16 [35] Ilya Loshchilov and Frank Hutter. Decoupled weight de-cay regularization. In International Conference on Learning Representations , 2019. 12 [36] Luxonis. OAK4-D. https://docs .luxonis .com/ hardware/products/OAK%204%20D . Luxonis doc-umentation. Accessed: 2026-04-08. 6 [37] Chengqi Lyu, Wenwei Zhang, Haian Huang, Yue Zhou, Yudong Wang, Yanyi Liu, Shilong Zhang, and Kai Chen. Rtmdet: An empirical study of designing real-time object detectors. arXiv preprint arXiv:2212.07784 , 2022. 3, 10 [38] Andreas Michel, Martin Weinmann, Jannick Kuester, Faisal Alnasser, Tomas Gomez, Mark Falvey, Rainer Schmitz, Wolf-gang Middelmann, and Stefan Hinz. Dustnet++: Deep learning-based visual regression for dust density estimation. 
+
+International Journal of Computer Vision , 133(7):4220–4244, 2025. 16 [39] Andreas Michel, Martin Weinmann, Fabian Schenkel, Tomas Gomez, Mark Falvey, Rainer Schmitz, Wolfgang Middel-mann, and Stefan Hinz. Dustnet: Attention to dust. In DAGM German Conference on Pattern Recognition , pages 211–226. Springer, 2023. 16 [40] Jon Muhovi ˇc and Janez Per ˇs. MULTIAQUA: A multimodal maritime dataset and robust training strategies for multimodal semantic segmentation, 2025. 14 [41] Maxime Oquab, Timoth ´ee Darcet, Th ´eo Moutakanni, Huy V Vo, Marc Szafraniec, Vasil Khalidov, Pierre Fernandez, Daniel HAZIZA, Francisco Massa, Alaaeldin El-Nouby, et al. Dinov2: Learning robust visual features without supervision. 
+
+Transactions on Machine Learning Research , 2023. 11 [42] Dilip K Prasad, Huixu Dong, Deepu Rajan, and Chai Quek. Are object detection assessment criteria ready for maritime computer vision? IEEE Transactions on Intelligent Trans-portation Systems , 21(12):5295–5304, 2019. 2 [43] J. Puigcerver, C. Riquelme, B. Mustafa, and N. Houlsby. From sparse to soft mixtures of experts. In International Conference on Learning Representations (ICLR) , 2024. 15 [44] N. Ravi, V. Gabber, Y.-T. Hu, R. Hu, C. Ryali, T. Ma, H. Khedr, R. R ¨adle, C. Rolber, L. Gustafson, E. Mintun, J. Pan, K. V. Alwala, N. Carion, C.-Y. Wu, R. Girshick, P. Doll ´ar, and C. Feichtenhofer. Sam 2: Segment anything in images and videos. arXiv preprint arXiv:2408.00714 , 2024. 15 [45] Tal Ridnik, Emanuel Ben-Baruch, Asaf Noy, and Lihi Zelnik-Manor. Imagenet-21k pretraining for the masses. arXiv preprint arXiv:2104.10972 , 2021. 12 [46] Isaac Robinson, Peter Robicheaux, Matvei Popov, Deva Ra-manan, and Neehar Peri. Rf-detr: Neural architecture search for real-time detection transformers. In ICLR , 2026. 3, 10, 11, 12 [47] Oriane Sim ´eoni, Huy V Vo, Maximilian Seitzer, Federico Baldassarre, Maxime Oquab, Cijo Jose, Vasil Khalidov, Marc Szafraniec, Seungeun Yi, Micha ¨el Ramamonjisoa, et al. Di-nov3. arXiv preprint arXiv:2508.10104 , 2025. 6, 7, 11, 12, 13 [48] Roman Solovyev, Weimin Wang, and Tatiana Gabruseva. Weighted boxes fusion: Ensembling boxes from different object detection models. Image and Vision Computing ,107:104117, 2021. 3, 10, 11 [49] Leon Amadeus Varga, Benjamin Kiefer, Martin Messmer, and Andreas Zell. Seadronessee: A maritime benchmark for detecting humans in open water. In Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision , pages 2260–2270, 2022. 2 [50] Ning Wang, Yuan Feng, Lixin Tian, and Yi Wei. Rsos-net: Real-time surface obstacle segmentation network for uncrewed waterborne vehicles. IEEE Transactions on Intelli-gent Transportation Systems , 27(1):1052–1065, 2026. 7, 13, 14 [51] Jiacong Xu, Zixiang Xiong, and Shankar P. Bhattacharyya. PIDNet: A real-time semantic segmentation network inspired by PID controllers. In Proceedings of the IEEE/CVF Confer-ence on Computer Vision and Pattern Recognition (CVPR) ,pages 19529–19539, 2023. 13 [52] X. Xu, J. Yang, W. Shi, S. Ding, L. Luo, and J. Liu. Physaug: A physical-guided and frequency-based data augmentation for single-domain generalized object detection. In Proceedings of the AAAI Conference on Artificial Intelligence , volume 39, pages 21815–21823, 2025. 15 [53] Shanliang Yao, Runwei Guan, Zhaodong Wu, Yi Ni, Zile Huang, Ryan Wen Liu, Yong Yue, Weiping Ding, Eng Gee Lim, Hyungjoon Seo, et al. Waterscenes: A multi-task 4d radar-camera fusion dataset and benchmarks for autonomous driving on water surfaces. IEEE Transactions on Intelligent Transportation Systems , 2024. 14 [54] Hao Zhang, Feng Li, Shilong Liu, Lei Zhang, Hang Su, Jun Zhu, Lionel M Ni, and Heung-Yeung Shum. Dino: Detr with improved denoising anchor boxes for end-to-end object detection. In ICLR , 2023. 3, 10 [55] Shilong Zhang, Xinjiang Wang, Jiaqi Wang, Jiangmiao Pang, Chengqi Lyu, Wenwei Zhang, Ping Luo, and Kai Chen. Dense distinct query for end-to-end object detection. In CVPR , 2023. 3, 10 [56] Zhuofan Zong, Guanglu Song, and Yu Liu. Detrs with col-laborative hybrid assignments training. In ICCV , 2023. 3, 10 [57] Karel Zuiderveld. Contrast limited adaptive histogram equal-ization. In Graphics gems IV , pages 474–485. 1994. 16 [58] Lojze ˇZust and Matej Kristan. Learning maritime obstacle detection from weak annotations by scaffolding. In Proceed-ings of the IEEE/CVF Winter Conference on Applications of Computer Vision , pages 955–964, 2022. 2 [59] Lojze ˇZust and Matej Kristan. PanSR: An object-centric mask transformer for panoptic segmentation. arXiv preprint arXiv:2412.10589 , 2024. 5, 6, 7 [60] Lojze ˇZust, Janez Per ˇs, and Matej Kristan. LaRS: A diverse panoptic maritime obstacle detection dataset and benchmark. In International Conference on Computer Vision (ICCV) ,2023. 5, 6, 12, 13, 14
