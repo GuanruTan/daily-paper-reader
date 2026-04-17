@@ -6,64 +6,47 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-04-16
-- 运行时间：2026-04-16 20:14:48 UTC
+- 最新运行日期：2026-04-17
+- 运行时间：2026-04-17 20:30:31 UTC
 - 运行状态：成功
-- 本次总论文数：14
-- 精读区：3
-- 速读区：11
+- 本次总论文数：9
+- 精读区：2
+- 速读区：7
 
 ### 今日简报（AI）
-今日聚焦多智能体交互与具身智能，深度解析了 14 篇涵盖责任分配建模及海事视觉挑战的前沿成果。
-核心突破在于利用概率分配优化多智能体协作，并展示了前瞻性推理在视觉-语言-动作（VLA）模型中的对齐潜力。
-推荐优先研读高分论文中关于复杂交互场景的责任建模方法，以把握智能体协同演进的新趋势。
-- 详情：[/202604/16/README](/202604/16/README)
+今日精选 9 篇前沿论文，深度聚焦强化学习规模化扩展与具身智能系统的隐式规划。
+- 详情：[/202604/17/README](/202604/17/README)
 
 ### 精读区论文标签
-1. [Learning Probabilistic Responsibility Allocations for Multi-Agent Interactions](/202604/16/2604.13128v1-learning-probabilistic-responsibility-allocations-for-multi-agent-interactions)  
+1. [RAD-2: Scaling Reinforcement Learning in a Generator-Discriminator Framework](/202604/17/2604.15308v1-rad-2-scaling-reinforcement-learning-in-a-generator-discriminator-framework)  
    标签：评分：9.0/10、query:tp
-   evidence：利用多智能体轨迹预测技术进行交互建模
-2. [4th Workshop on Maritime Computer Vision (MaCVi): Challenge Overview](/202604/16/2604.13244v1-4th-workshop-on-maritime-computer-vision-macvi-challenge-overview)  
+   evidence：为自动驾驶运动规划建模多模态未来不确定性
+2. [World-Value-Action Model: Implicit Planning for Vision-Language-Action Systems](/202604/17/2604.14732v1-world-value-action-model-implicit-planning-for-vision-language-action-systems)  
    标签：评分：8.0/10、query:tp
-   evidence：包含预测准确性的海事计算机视觉挑战
-3. [Beyond Conservative Automated Driving in Multi-Agent Scenarios via Coupled Model Predictive Control and Deep Reinforcement Learning](/202604/16/2604.13891v1-beyond-conservative-automated-driving-in-multi-agent-scenarios-via-coupled-model-predictive-control-and-deep-reinforcement-learning)  
-   标签：评分：8.0/10、query:tp
-   evidence：多智能体场景及路口多车交互
+   evidence：学习未来轨迹的结构化潜变量表示
 
 ### 速读区论文标签
-1. [Aligning Agents via Planning: A Benchmark for Trajectory-Level Reward Modeling](/202604/16/2604.08178v1-aligning-agents-via-planning-a-benchmark-for-trajectory-level-reward-modeling)  
+1. [From Time Series to State: Situation-Aware Modeling for Air Traffic Flow Prediction](/202604/17/2604.11198v3-from-time-series-to-state-situation-aware-modeling-for-air-traffic-flow-prediction)  
    标签：评分：7.0/10、query:tp
-   evidence：智能体对齐的轨迹级偏好基准
-2. [ProGAL-VLA: Grounded Alignment through Prospective Reasoning in Vision-Language-Action Models](/202604/16/2604.09824v1-progal-vla-grounded-alignment-through-prospective-reasoning-in-vision-language-action-models)  
+   evidence：利用飞机状态和轨迹进行空中交通流预测
+2. [SynHAT: A Two-stage Coarse-to-Fine Diffusion Framework for Synthesizing Human Activity Traces](/202604/17/2604.14705v1-synhat-a-two-stage-coarse-to-fine-diffusion-framework-for-synthesizing-human-activity-traces)  
    标签：评分：7.0/10、query:tp
-   evidence：机器人动作的前瞻性推理和目标嵌入
-3. [CLAW: Composable Language-Annotated Whole-body Motion Generation](/202604/16/2604.11251v1-claw-composable-language-annotated-whole-body-motion-generation)  
+   evidence：合成人类活动轨迹并捕捉时空依赖关系
+3. [Benchmarking Classical Coverage Path Planning Heuristics on Irregular Hexagonal Grids for Maritime Coverage Scenarios](/202604/17/2604.15202v1-benchmarking-classical-coverage-path-planning-heuristics-on-irregular-hexagonal-grids-for-maritime-coverage-scenarios)  
    标签：评分：7.0/10、query:tp
-   evidence：将运动轨迹与自然语言描述配对
-4. [Weakly-supervised Learning for Physics-informed Neural Motion Planning via Sparse Roadmap](/202604/16/2604.13204v1-weakly-supervised-learning-for-physics-informed-neural-motion-planning-via-sparse-roadmap)  
+   evidence：海事覆盖路径规划启发式算法与基准测试
+4. [A Hierarchical Spatiotemporal Action Tokenizer for In-Context Imitation Learning in Robotics](/202604/17/2604.15215v1-a-hierarchical-spatiotemporal-action-tokenizer-for-in-context-imitation-learning-in-robotics)  
    标签：评分：7.0/10、query:tp
-   evidence：复杂空间中的神经运动规划与路径寻找
-5. [FAST: A Synergistic Framework of Attention and State-space Models for Spatiotemporal Traffic Prediction](/202604/16/2604.13453v1-fast-a-synergistic-framework-of-attention-and-state-space-models-for-spatiotemporal-traffic-prediction)  
-   标签：评分：7.0/10、query:tp
-   evidence：时空交通预测与空间交互建模
-6. [Mosaic: An Extensible Framework for Composing Rule-Based and Learned Motion Planners](/202604/16/2604.13853v1-mosaic-an-extensible-framework-for-composing-rule-based-and-learned-motion-planners)  
-   标签：评分：7.0/10、query:tp
-   evidence：自动驾驶运动规划中的轨迹验证与评分
-7. [Scaling-Aware Data Selection for End-to-End Autonomous Driving Systems](/202604/16/2604.08366v1-scaling-aware-data-selection-for-end-to-end-autonomous-driving-systems)  
+   evidence：用于从运动序列中学习的分层时空动作分词器
+5. [Boundary Sampling to Learn Predictive Safety Filters via Pontryagin's Maximum Principle](/202604/17/2604.13325v1-boundary-sampling-to-learn-predictive-safety-filters-via-pontryagins-maximum-principle)  
    标签：评分：6.0/10、query:tp
-   evidence：端到端自动驾驶系统的数据选择
-8. [Balancing Functionality and GDPR-Driven Privacy in ISAC Trajectory Sharing](/202604/16/2604.08743v1-balancing-functionality-and-gdpr-driven-privacy-in-isac-trajectory-sharing)  
+   evidence：表征自动系统中避免安全违规的轨迹
+6. [Training-Free Semantic Multi-Object Tracking with Vision-Language Models](/202604/17/2604.14074v1-training-free-semantic-multi-object-tracking-with-vision-language-models)  
    标签：评分：6.0/10、query:tp
-   evidence：用于协作感知和传感的轨迹共享框架
-9. [FlowCoMotion: Text-to-Motion Generation via Token-Latent Flow Modeling](/202604/16/2604.11083v1-flowcomotion-text-to-motion-generation-via-token-latent-flow-modeling)  
+   evidence：多目标跟踪及基于轨迹的交互标签
+7. [SGA-MCTS: Decoupling Planning from Execution via Training-Free Atomic Experience Retrieval](/202604/17/2604.14712v1-sga-mcts-decoupling-planning-from-execution-via-training-free-atomic-experience-retrieval)  
    标签：评分：6.0/10、query:tp
-   evidence：用于语义对齐的运动表示学习
-10. [BIND-USBL: Bounding IMU Navigation Drift using USBL in Heterogeneous ASV-AUV Teams](/202604/16/2604.11861v1-bind-usbl-bounding-imu-navigation-drift-using-usbl-in-heterogeneous-asv-auv-teams)  
-   标签：评分：6.0/10、query:tp
-   evidence：海洋机器人中 ASV-AUV 团队的协作定位
-11. [C$^2$T: Captioning-Structure and LLM-Aligned Common-Sense Reward Learning for Traffic--Vehicle Coordination](/202604/16/2604.13098v1-c2t-captioning-structure-and-llm-aligned-common-sense-reward-learning-for-traffic--vehicle-coordination)  
-   标签：评分：6.0/10、query:tp
-   evidence：用于交通-车辆协调和自动驾驶汽车的LLM对齐奖励学习
+   evidence：将高保真轨迹提取为状态-目标-动作原子
 
 
 <div class="dpr-home-promo-card">

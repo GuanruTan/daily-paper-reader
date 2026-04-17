@@ -1,0 +1,370 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-04-17T20:29:15.660526+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 2,
+    "deep_cap": 6,
+    "deep_selected": 2,
+    "quick_candidates": 7,
+    "quick_skim_target": 11,
+    "quick_selected": 7
+  },
+  "deep_dive": [
+    {
+      "id": "2604.15308v1",
+      "title": "RAD-2: Scaling Reinforcement Learning in a Generator-Discriminator Framework",
+      "abstract": "High-level autonomous driving requires motion planners capable of modeling multimodal future uncertainties while remaining robust in closed-loop interactions. Although diffusion-based planners are effective at modeling complex trajectory distributions, they often suffer from stochastic instabilities and the lack of corrective negative feedback when trained purely with imitation learning. To address these issues, we propose RAD-2, a unified generator-discriminator framework for closed-loop planning. Specifically, a diffusion-based generator is used to produce diverse trajectory candidates, while an RL-optimized discriminator reranks these candidates according to their long-term driving quality. This decoupled design avoids directly applying sparse scalar rewards to the full high-dimensional trajectory space, thereby improving optimization stability. To further enhance reinforcement learning, we introduce Temporally Consistent Group Relative Policy Optimization, which exploits temporal coherence to alleviate the credit assignment problem. In addition, we propose On-policy Generator Optimization, which converts closed-loop feedback into structured longitudinal optimization signals and progressively shifts the generator toward high-reward trajectory manifolds. To support efficient large-scale training, we introduce BEV-Warp, a high-throughput simulation environment that performs closed-loop evaluation directly in Bird's-Eye View feature space via spatial warping. RAD-2 reduces the collision rate by 56% compared with strong diffusion-based planners. Real-world deployment further demonstrates improved perceived safety and driving smoothness in complex urban traffic.",
+      "authors": [
+        "Hao Gao",
+        "Shaoyu Chen",
+        "Yifan Zhu",
+        "Yuehao Song",
+        "Wenyu Liu",
+        "Qian Zhang",
+        "Xinggang Wang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-04-16T17:59:44+00:00",
+      "link": "https://arxiv.org/pdf/2604.15308v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "modeling multimodal future uncertainties for autonomous driving motion planning",
+      "llm_evidence_cn": "为自动驾驶运动规划建模多模态未来不确定性",
+      "llm_evidence": "为自动驾驶运动规划建模多模态未来不确定性",
+      "canonical_evidence": "为自动驾驶运动规划建模多模态未来不确定性",
+      "llm_tldr_en": "Proposes RAD-2, a generator-discriminator framework for robust closed-loop trajectory planning in autonomous driving.",
+      "llm_tldr_cn": "提出RAD-2框架，通过生成器-判别器结构实现自动驾驶中鲁棒的闭环轨迹规划。",
+      "llm_tldr": "提出RAD-2框架，通过生成器-判别器结构实现自动驾驶中鲁棒的闭环轨迹规划。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2604.14732v1",
+      "title": "World-Value-Action Model: Implicit Planning for Vision-Language-Action Systems",
+      "abstract": "Vision-Language-Action (VLA) models have emerged as a promising paradigm for building embodied agents that ground perception and language into action. However, most existing approaches rely on direct action prediction, lacking the ability to reason over long-horizon trajectories and evaluate their consequences, which limits performance in complex decision-making tasks. In this work, we introduce World-Value-Action (WAV) model, a unified framework that enables implicit planning in VLA systems. Rather than performing explicit trajectory optimization, WAV model learn a structured latent representation of future trajectories conditioned on visual observations and language instructions. A learned world model predicts future states, while a trajectory value function evaluates their long-horizon utility. Action generation is then formulated as inference in this latent space, where the model progressively concentrates probability mass on high-value and dynamically feasible trajectories. We provide a theoretical perspective showing that planning directly in action space suffers from an exponential decay in the probability of feasible trajectories as the horizon increases. In contrast, latent-space inference reshapes the search distribution toward feasible regions, enabling efficient long-horizon decision making. Extensive simulations and real-world experiments demonstrate that the WAV model consistently outperforms state-of-the-art methods, achieving significant improvements in task success rate, generalization ability, and robustness, especially in long-horizon and compositional scenarios.",
+      "authors": [
+        "Runze Li",
+        "Hongyin Zhang",
+        "Junxi Jin",
+        "Qixin Zeng",
+        "Zifeng Zhuang",
+        "Yiqi Tang",
+        "Shangke Lyu",
+        "Donglin Wang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.LG"
+      ],
+      "published": "2026-04-16T07:46:05+00:00",
+      "link": "https://arxiv.org/pdf/2604.14732v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "learn a structured latent representation of future trajectories",
+      "llm_evidence_cn": "学习未来轨迹的结构化潜变量表示",
+      "llm_evidence": "学习未来轨迹的结构化潜变量表示",
+      "canonical_evidence": "学习未来轨迹的结构化潜变量表示",
+      "llm_tldr_en": "Introduces WAV model for implicit planning by learning latent representations of future trajectories in VLA systems.",
+      "llm_tldr_cn": "引入WAV模型，通过学习VLA系统中未来轨迹的潜变量表示实现隐式规划。",
+      "llm_tldr": "引入WAV模型，通过学习VLA系统中未来轨迹的潜变量表示实现隐式规划。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning and feature extraction",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2604.11198v3",
+      "title": "From Time Series to State: Situation-Aware Modeling for Air Traffic Flow Prediction",
+      "abstract": "Accurate air traffic prediction in the terminal airspace (TA) is pivotal for proactive air traffic management (ATM). However, existing data-driven approaches predominantly rely on time series-based forecasting paradigms, which inherently overlook critical aircraft state information, such as real-time kinematics and proximity to airspace boundaries. To address this limitation, we propose \\textit{AeroSense}, a direct state-to-flow modeling framework for air traffic prediction. Unlike classical time series-based methods that first aggregate aircraft trajectories into macroscopic flow sequences before modeling, AeroSense explicitly represents the real-time airspace situation as \\textit{a dynamic set of aircraft states}, enabling the direct processing of a variable number of aircraft instead of time series as inputs. Specifically, we introduce a situation-aware state representation that enables AeroSense to sense the instantaneous terminal airspace situation directly from microscopic aircraft states. Furthermore, we design a model architecture that incorporates masked self-attention to capture inter-aircraft interactions, together with two decoupled prediction heads to model heterogeneous flow dynamics across two key functional areas of the TA. Extensive experiments on a large-scale real-world airport dataset demonstrate that AeroSense consistently achieves state-of-the-art performance, validating that direct modeling of microscopic aircraft states yields substantially higher predictive fidelity than time series-based baselines. Moreover, the proposed framework exhibits superior robustness during peak traffic periods, achieves Pareto-optimal performance under dayparting multi-object evaluation, and provides meaningful interpretability through attention-based visualizations.",
+      "authors": [
+        "Anqi Liu",
+        "Jiangtao Zhao",
+        "Guiyuan Jiang",
+        "Feng Hong",
+        "Yanwei Yu",
+        "Bin Wang"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-04-13T08:54:19+00:00",
+      "link": "https://arxiv.org/pdf/2604.11198v3",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "air traffic flow prediction using aircraft state and trajectories",
+      "llm_evidence_cn": "利用飞机状态和轨迹进行空中交通流预测",
+      "llm_evidence": "利用飞机状态和轨迹进行空中交通流预测",
+      "canonical_evidence": "利用飞机状态和轨迹进行空中交通流预测",
+      "llm_tldr_en": "Proposes AeroSense to predict air traffic flow by modeling dynamic aircraft states instead of macroscopic sequences.",
+      "llm_tldr_cn": "提出AeroSense框架，通过建模动态飞机状态而非宏观序列来预测空中交通流量。",
+      "llm_tldr": "提出AeroSense框架，通过建模动态飞机状态而非宏观序列来预测空中交通流量。",
+      "llm_tags": [
+        "query:tp:composite"
+      ],
+      "matched_query_tag": "query:tp:composite",
+      "matched_query_text": "Papers central to 轨迹预测（车辆、行人、船舶、飞机等）相关的论文，考虑密集场景、目标意图、多智能体、轨迹表示学习等概念, especially work that connects or combines: trajectory prediction for autonomous agents; pedestrian trajectory prediction in crowded scenes; maritime vessel trajectory and path prediction algorithms; multi-agent trajectory forecasting and interaction modeling; target intent and goal estimation for trajectory prediction; trajectory representation learning and feature extraction; study of pedestrian and vehicle trajectory prediction models; trajectory prediction in complex maritime environments; deep learning techniques for intent aware trajectory forecasting; trajectory representation learning based on multimodal large language model.",
+      "matched_requirement_id": "req-composite-tp",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.13325v1",
+      "title": "Boundary Sampling to Learn Predictive Safety Filters via Pontryagin's Maximum Principle",
+      "abstract": "Safety filters provide a practical approach for enforcing safety constraints in autonomous systems. While learning-based tools scale to high-dimensional systems, their performance depends on informative data that includes states likely to lead to constraint violation, which can be difficult to efficiently sample in complex, high-dimensional systems. In this work, we characterize trajectories that barely avoid safety violations using the Pontryagin Maximum Principle. These boundary trajectories are used to guide data collection for learned Hamilton-Jacobi Reachability, concentrating learning efforts near safety-critical states to improve efficiency. The learned Control Barrier Value Function is then used directly for safety filtering. Simulations and experimental validation on a shared-control automotive racing application demonstrate PMP sampling improves learning efficiency, yielding faster convergence, reduced failure rates, and improved safe set reconstruction, with wall times around 3ms.",
+      "authors": [
+        "James Dallas",
+        "Thomas Lew",
+        "John Talbot",
+        "Jonathan DeCastro",
+        "Somil Bansal",
+        "John Subosits"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "eess.SY"
+      ],
+      "published": "2026-04-14T22:13:25+00:00",
+      "link": "https://arxiv.org/pdf/2604.13325v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "characterize trajectories that avoid safety violations in autonomous systems",
+      "llm_evidence_cn": "表征自动系统中避免安全违规的轨迹",
+      "llm_evidence": "表征自动系统中避免安全违规的轨迹",
+      "canonical_evidence": "表征自动系统中避免安全违规的轨迹",
+      "llm_tldr_en": "Uses Pontryagin's Maximum Principle to sample boundary trajectories for learning predictive safety filters.",
+      "llm_tldr_cn": "利用庞特里亚金极大值原理采样边界轨迹，以学习预测性安全过滤器。",
+      "llm_tldr": "利用庞特里亚金极大值原理采样边界轨迹，以学习预测性安全过滤器。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.14705v1",
+      "title": "SynHAT: A Two-stage Coarse-to-Fine Diffusion Framework for Synthesizing Human Activity Traces",
+      "abstract": "Human activity traces (HATs) are critical for many applications, including human mobility modeling and point-of-interest (POI) recommendation. However, growing privacy concerns have severely limited access to authentic large-scale HAT datasets. Recent advances in generative AI provide new opportunities to synthesize realistic and privacy-preserving HATs for such applications. Yet two major challenges remain: (i) HATs are highly irregular and dynamic, with long and varying time intervals, making it difficult to capture their complex spatio-temporal dependencies and underlying distributions; and (ii) generative models are often computationally expensive, making long-term, fine-grained HAT synthesis inefficient. To address these challenges, we propose SynHAT, a computationally efficient coarse-to-fine HAT synthesis framework built on a novel spatio-temporal denoising diffusion model. In Stage 1, we develop Coarse-HADiff, which models the overall spatio-temporal dependencies of coarse-grained latent spatio-temporal traces. It incorporates a novel Latent Spatio-Temporal U-Net with dual Drift-Jitter branches to jointly model smooth spatial transitions and temporal variations during denoising. In Stage 2, we introduce a three-step pipeline consisting of Behavior Pattern Extraction, Fine-HADiff, which shares the same architecture as Coarse-HADiff, and Semantic Alignment to generate fine-grained latent spatio-temporal traces from the Stage 1 outputs. We extensively evaluate SynHAT in terms of data fidelity, utility, privacy, robustness, and scalability. Experiments on real-world HAT datasets from four cities across three countries show that SynHAT substantially outperforms state-of-the-art baselines, achieving 52% and 33% improvements on spatial and temporal metrics, respectively.",
+      "authors": [
+        "Rongchao Xu",
+        "Lin Jiang",
+        "Dahai Yu",
+        "Ximiao Li",
+        "Guang Wang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-04-16T07:12:16+00:00",
+      "link": "https://arxiv.org/pdf/2604.14705v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "synthesizing human activity traces and capturing spatio-temporal dependencies",
+      "llm_evidence_cn": "合成人类活动轨迹并捕捉时空依赖关系",
+      "llm_evidence": "合成人类活动轨迹并捕捉时空依赖关系",
+      "canonical_evidence": "合成人类活动轨迹并捕捉时空依赖关系",
+      "llm_tldr_en": "A two-stage diffusion framework for synthesizing realistic and privacy-preserving human activity traces.",
+      "llm_tldr_cn": "一种两阶段扩散框架，用于合成真实且保护隐私的人类活动轨迹。",
+      "llm_tldr": "一种两阶段扩散框架，用于合成真实且保护隐私的人类活动轨迹。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning and feature extraction",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.14074v1",
+      "title": "Training-Free Semantic Multi-Object Tracking with Vision-Language Models",
+      "abstract": "Semantic Multi-Object Tracking (SMOT) extends multi-object tracking with semantic outputs such as video summaries, instance-level captions, and interaction labels, aiming to move from trajectories to human-interpretable descriptions of dynamic scenes. Existing SMOT systems are trained end-to-end, coupling progress to expensive supervision, limiting the ability to rapidly adapt to new foundation models and new interactions. We propose TF-SMOT, a training-free SMOT pipeline that composes pretrained components for detection, mask-based tracking, and video-language generation. TF-SMOT combines D-FINE and the promptable SAM2 segmentation tracker to produce temporally consistent tracklets, uses contour grounding to generate video summaries and instance captions with InternVideo2.5, and aligns extracted interaction predicates to BenSMOT WordNet synsets via gloss-based semantic retrieval with LLM disambiguation. On BenSMOT, TF-SMOT achieves state-of-the-art tracking performance within the SMOT setting and improves summary and caption quality compared to prior art. Interaction recognition, however, remains challenging under strict exact-match evaluation on the fine-grained and long-tailed WordNet label space; our analysis and ablations indicate that semantic overlap and label granularity substantially affect measured performance.",
+      "authors": [
+        "Laurence Bonat",
+        "Francesco Tonini",
+        "Elisa Ricci",
+        "Lorenzo Vaquero"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-04-15T16:44:57+00:00",
+      "link": "https://arxiv.org/pdf/2604.14074v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "multi-object tracking and interaction labels from trajectories",
+      "llm_evidence_cn": "多目标跟踪及基于轨迹的交互标签",
+      "llm_evidence": "多目标跟踪及基于轨迹的交互标签",
+      "canonical_evidence": "多目标跟踪及基于轨迹的交互标签",
+      "llm_tldr_en": "Proposes TF-SMOT for training-free multi-object tracking and semantic description of dynamic scene interactions.",
+      "llm_tldr_cn": "提出TF-SMOT，一种无需训练的多目标跟踪管线，用于动态场景交互的语义描述。",
+      "llm_tldr": "提出TF-SMOT，一种无需训练的多目标跟踪管线，用于动态场景交互的语义描述。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "multi-agent trajectory forecasting and interaction modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.15202v1",
+      "title": "Benchmarking Classical Coverage Path Planning Heuristics on Irregular Hexagonal Grids for Maritime Coverage Scenarios",
+      "abstract": "Coverage path planning on irregular hexagonal grids is relevant to maritime surveillance, search and rescue and environmental monitoring, yet classical methods are often compared on small ad hoc examples or on rectangular grids. This paper presents a reproducible benchmark of deterministic single-vehicle coverage path planning heuristics on irregular hexagonal graphs derived from synthetic but maritime-motivated areas of interest. The benchmark contains 10,000 Hamiltonian-feasible instances spanning compact, elongated, and irregular morphologies, 17 heuristics from seven families, and a common evaluation protocol covering Hamiltonian success, complete-coverage success, revisits, path length, heading changes, and CPU latency. Across the released dataset, heuristics with explicit shortest-path reconnection solve the relaxed coverage task reliably but almost never produce zero-revisit tours. Exact Depth-First Search confirms that every released instance is Hamiltonian-feasible. The strongest classical Hamiltonian baseline is a Warnsdorff variant that uses an index-based tie-break together with a terminal-inclusive residual-degree policy, reaching 79.0% Hamiltonian success. The dominant design choice is not tie-breaking alone, but how the residual degree is defined when the endpoint is reserved until the final move. This shows that underreported implementation details can materially affect performance on sparse geometric graphs with bottlenecks. The benchmark is intended as a controlled testbed for heuristic analysis rather than as a claim of operational optimality at fleet scale.",
+      "authors": [
+        "Carlos S. Sepúlveda",
+        "Gonzalo A. Ruz"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "math.OC"
+      ],
+      "published": "2026-04-16T16:28:03+00:00",
+      "link": "https://arxiv.org/pdf/2604.15202v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Maritime coverage path planning heuristics and benchmarking",
+      "llm_evidence_cn": "海事覆盖路径规划启发式算法与基准测试",
+      "llm_evidence": "海事覆盖路径规划启发式算法与基准测试",
+      "canonical_evidence": "海事覆盖路径规划启发式算法与基准测试",
+      "llm_tldr_en": "Benchmarks classical coverage path planning heuristics for maritime surveillance and search scenarios.",
+      "llm_tldr_cn": "针对海事监视和搜救场景，对经典的覆盖路径规划启发式算法进行了基准测试。",
+      "llm_tldr": "针对海事监视和搜救场景，对经典的覆盖路径规划启发式算法进行了基准测试。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "maritime vessel trajectory and path prediction algorithms",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.14712v1",
+      "title": "SGA-MCTS: Decoupling Planning from Execution via Training-Free Atomic Experience Retrieval",
+      "abstract": "LLM-powered systems require complex multi-step decision-making abilities to solve real-world tasks, yet current planning approaches face a trade-off between the high latency of inference-time search and the limited generalization of supervised fine-tuning. To address this limitation, we introduce \\textbf{SGA-MCTS}, a framework that casts LLM planning as non-parametric retrieval. Offline, we leverage Monte Carlo Tree Search (MCTS) to explore the solution space and distill high-fidelity trajectories into State-Goal-Action (SGA) atoms. These atoms are de-lexicalized primitives that abstract concrete entities into symbolic slots, preserving reusable causal logic while discarding domain-specific noise. Online, a retrieval-augmented agent employs a hybrid symbolic-semantic mechanism to fetch relevant SGAs and re-ground them into the current context as soft reasoning hints. Empirical results on complex benchmarks demonstrate that this paradigm enables frozen, open-weights models to match the performance of SOTA systems (e.g., GPT-5) without task-specific fine-tuning. By effectively amortizing the heavy computational cost of search, SGA-MCTS achieves System 2 reasoning depth at System 1 inference speeds, rendering autonomous planning both scalable and real-time feasible.",
+      "authors": [
+        "Xin Xie",
+        "Dongyun Xue",
+        "Wuguannan Yao",
+        "Mingxiao Feng",
+        "Wengang Zhou",
+        "Xiang Qi",
+        "Houqiang Li",
+        "Peng Zhang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-04-16T07:22:36+00:00",
+      "link": "https://arxiv.org/pdf/2604.14712v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "distill high-fidelity trajectories into State-Goal-Action atoms",
+      "llm_evidence_cn": "将高保真轨迹提取为状态-目标-动作原子",
+      "llm_evidence": "将高保真轨迹提取为状态-目标-动作原子",
+      "canonical_evidence": "将高保真轨迹提取为状态-目标-动作原子",
+      "llm_tldr_en": "Introduces SGA-MCTS to decouple planning from execution using non-parametric retrieval of trajectory primitives.",
+      "llm_tldr_cn": "引入SGA-MCTS框架，通过非参数化检索轨迹基元实现规划与执行的解耦。",
+      "llm_tldr": "引入SGA-MCTS框架，通过非参数化检索轨迹基元实现规划与执行的解耦。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning and feature extraction",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.15215v1",
+      "title": "A Hierarchical Spatiotemporal Action Tokenizer for In-Context Imitation Learning in Robotics",
+      "abstract": "We present a novel hierarchical spatiotemporal action tokenizer for in-context imitation learning. We first propose a hierarchical approach, which consists of two successive levels of vector quantization. In particular, the lower level assigns input actions to fine-grained subclusters, while the higher level further maps fine-grained subclusters to clusters. Our hierarchical approach outperforms the non-hierarchical counterpart, while mainly exploiting spatial information by reconstructing input actions. Furthermore, we extend our approach by utilizing both spatial and temporal cues, forming a hierarchical spatiotemporal action tokenizer, namely HiST-AT. Specifically, our hierarchical spatiotemporal approach conducts multi-level clustering, while simultaneously recovering input actions and their associated timestamps. Finally, extensive evaluations on multiple simulation and real robotic manipulation benchmarks show that our approach establishes a new state-of-the-art performance in in-context imitation learning.",
+      "authors": [
+        "Fawad Javed Fateh",
+        "Ali Shah Ali",
+        "Murad Popattia",
+        "Usman Nizamani",
+        "Andrey Konin",
+        "M. Zeeshan Zia",
+        "Quoc-Huy Tran"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-04-16T16:47:08+00:00",
+      "link": "https://arxiv.org/pdf/2604.15215v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "hierarchical spatiotemporal action tokenizer for learning from motion sequences",
+      "llm_evidence_cn": "用于从运动序列中学习的分层时空动作分词器",
+      "llm_evidence": "用于从运动序列中学习的分层时空动作分词器",
+      "canonical_evidence": "用于从运动序列中学习的分层时空动作分词器",
+      "llm_tldr_en": "Proposes a spatiotemporal action tokenizer for robotics to improve imitation learning from motion data.",
+      "llm_tldr_cn": "提出一种用于机器人的分层时空动作分词器，通过运动数据改进模仿学习。",
+      "llm_tldr": "提出一种用于机器人的分层时空动作分词器，通过运动数据改进模仿学习。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning and feature extraction",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}

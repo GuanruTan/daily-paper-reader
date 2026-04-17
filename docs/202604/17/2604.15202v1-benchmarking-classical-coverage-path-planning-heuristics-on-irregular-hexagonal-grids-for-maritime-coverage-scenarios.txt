@@ -1,0 +1,226 @@
+Title: Benchmarking Classical Coverage Path Planning Heuristics on Irregular Hexagonal Grids for Maritime Coverage Scenarios
+
+URL Source: https://arxiv.org/pdf/2604.15202v1
+
+Published Time: Fri, 17 Apr 2026 01:23:14 GMT
+
+Number of Pages: 7
+
+Markdown Content:
+> 1
+
+# Benchmarking Classical Coverage Path Planning Heuristics on Irregular Hexagonal Grids for Maritime Coverage Scenarios 
+
+Carlos S. Sep´ ulveda and Gonzalo A. Ruz, Senior Member, IEEE 
+
+Abstract —Coverage path planning on irregular hexagonal grids is relevant to maritime surveillance, search and rescue and environmental monitoring, yet classical methods are often compared on small ad hoc examples or on rectangular grids. This paper presents a reproducible benchmark of deterministic single-vehicle coverage path planning heuristics on irregular hexagonal graphs derived from synthetic but maritime-motivated areas of interest. The benchmark contains 10 000 Hamiltonian-feasible instances spanning compact, elongated, and irregular morpholo-gies, 17 heuristics from seven families, and a common evaluation protocol covering Hamiltonian success, complete-coverage suc-cess, revisits, path length, heading changes, and CPU latency. Across the released dataset, heuristics with explicit shortest-path reconnection solve the relaxed coverage task reliably but almost never produce zero-revisit tours. Exact Depth-First Search confirms that every released instance is Hamiltonian-feasible. The strongest classical Hamiltonian baseline is a Warnsdorff variant that uses an index-based tie-break together with a terminal-inclusive residual-degree policy, reaching 79.0% Hamiltonian success. The dominant design choice is not tie-breaking alone, but how the residual degree is defined when the endpoint is reserved until the final move. This shows that underreported implementation details can materially affect performance on sparse geometric graphs with bottlenecks. The benchmark is intended as a controlled testbed for heuristic analysis rather than as a claim of operational optimality at fleet scale. 
+
+Index Terms —Motion planning, Modeling and simulation, Decision-making, Coverage path planning, Hexagonal grids. 
+
+I. I NTRODUCTION 
+
+# COVERAGE path planning (CPP) seeks trajectories that observe every point in an area of interest (AOI) while controlling travel effort, redundancy, and maneuvering com-plexity [1]–[4]. In ocean and coastal operations, CPP arises in persistent surveillance, search and rescue, environmental monitoring, and inspection missions performed by unmanned surface, aerial, or underwater vehicles [5], [6]. In these set-tings, the AOI is rarely convex: coastlines, islands, exclusion 
+
+C. S. Sep´ ulveda is with the Facultad de Ingenier´ ıa y Ciencias, Uni-versidad Adolfo Ib´ a˜ nez, Santiago, Chile, and the Direcci´ on de Progra-mas, Investigaci´ on y Desarrollo, Armada de Chile, Valpara´ ıso, Chile (car-los.sepulveda@alumnos.uai.cl). G. A. Ruz is with the Facultad de Ingenier´ ıa y Ciencias, Universidad Adolfo Ib´ a˜ nez, Santiago, Chile, the Millennium Nucleus for Social Data Science (SODAS), and the Millennium Nucleus in Data Science for Plant Resilience (PhytoLearning) (gonzalo.ruz@uai.cl). Supported by the Chilean Navy (Directorate of Programs, Research and De-velopment), ANID FONDECYT 1230315, ANID-MILENIO-NCN2024 103, ANID-MILENIO-NCN2024 047, CMM FB210005, and ANID Doctorado Nacional 21210465. 
+
+zones, and navigational constraints generate narrow passages and bottleneck corridors that challenge simple sweep patterns. Hexagonal discretizations are attractive for maritime sensing because they provide near-isotropic local connectivity, uniform neighbor distance, and a natural approximation to circular sensing footprints [7], [8]. However, most CPP comparisons in the literature either focus on rectangular grids, exact methods on small instances, or case-specific examples that do not support broad conclusions about robustness across irregular topologies [2], [3], [9]. This paper addresses a narrower but practically impor-tant question: how do classical deterministic CPP heuristics compare when they are evaluated under a common protocol on a large set of irregular hexagonal graphs that remain small enough to audit for Hamiltonian feasibility? We do not propose a new planner. Instead, we contribute a controlled benchmark that makes algorithmic strengths, failure modes, and implementation sensitivities visible. The main contributions are: 1) A dataset of 10 000 irregular hexagonal AOIs with three morphology families and verified Hamiltonian feasibil-ity. 2) A common implementation and evaluation protocol for 17 deterministic heuristics from seven families, all op-erating on the same graph model and start / return conventions. 3) A comparative analysis covering Hamiltonian success, complete-coverage success, revisits, path length, head-ing changes, latency, morphology-specific behavior, and failure modes. 4) Evidence that residual-degree policy under endpoint reservation is a first-order design choice for Warnsdorff-style traversal on sparse hexagonal graphs, whereas tie-breaking acts as a secondary effect. 5) Public release of the benchmark generator, audited in-stances, and evaluation scripts to support reproducible comparison with future heuristic, exact, and learning-based methods. II. R ELATED WORK 
+
+Classical CPP surveys organize methods by decomposi-tion and traversal strategy, including cellular decomposition, spanning-tree coverage, and sweep-based patterns [1]–[4]. 
+
+> arXiv:2604.15202v1 [cs.RO] 16 Apr 2026 2
+
+Boustrophedon coverage [1] and spanning-tree coverage [10] remain standard baselines because they provide simple de-terministic behavior and strong relaxed-coverage guarantees. Bahnemann et al. [11] recently revisited boustrophedon plan-ning as a generalized TSP, highlighting the gap between classi-cal sweep assumptions and practical irregular decompositions. Hexagonal decompositions have been explored in robotics and UAV coverage because their geometry reduces directional bias and supports natural neighborhood relations [7], [8], [12]. In maritime settings, hexagonal grids also appear in exact or mixed-integer formulations for multi-UAV search and rescue [5], [6]. Those works are important for operational motivation, but they do not provide a large-scale benchmark of classical heuristics on irregular sparse hexagonal graphs. Warnsdorff’s rule, originally proposed for the Knight’s Tour [13] and later generalized to Hamilton paths on graphs [14], is a natural degree-based heuristic for sparse traversal problems. In the specific context of hexagonal grid graphs, Hamiltonicity has also been studied from a graph-theoretic perspective [15]. The appeal of Warnsdorff-style traversal lies in the simplicity of the residual-degree heuristic. Its weakness is that local choices can irreversibly consume articulation-like corridor cells in irregular topologies. The present benchmark shows that Warnsdorff is not fully specified by “choose the minimum residual degree” alone when the terminal node is reserved until the final move: the operational definition of residual degree itself matters. Recent combinatorial-optimization benchmarks emphasize Euclidean routing on complete graphs [16]. CPP on sparse geometric graphs is structurally different: adjacency con-straints, obstacle-induced bottlenecks, and the distinction be-tween relaxed coverage and zero-revisit traversal are central. A dedicated benchmark is therefore justified. III. P ROBLEM FORMULATION 
+
+A. Hexagonal AOI Graph 
+
+Let A ⊂ R2 denote a polygonal area of interest (AOI), possibly with interior holes representing forbidden or ob-structed regions. Rather than using an exact continuous-space decomposition, we adopt a fixed-resolution approximate cel-lular decomposition based on a regular hexagonal lattice. The lattice is aligned with the minimum rotated rectangle of A and instantiated as an even-q offset grid with hexagon circumradius 
+
+h.A hexagonal cell is retained if it has sufficient geometric support in the free space according to intersection and overlap tests with the AOI and its holes. The resulting binary occu-pancy mask is then post-processed to remove discretization artifacts: we keep the largest connected component, remove interior dead ends, preserve a single exterior boundary ring, and enforce accessibility from the exterior border. This post-processing suppresses discretization-induced topological arti-facts so that benchmark failures are attributable to heuristic behavior rather than to spurious graph defects. This yields a set of visitable cells V with |V| ∈ [28 , 46] .An undirected graph G = ( V ∪ { b, b ′}, E) is finally con-structed by connecting face-adjacent visitable hexagons. A departure node b and a return node b′ are attached only to cells on the outer ring that admit a feasible line-of-sight connection from the launch location. We emphasize that this representation is intended to define a controlled family of sparse hexagonal graphs for reproducible benchmarking and exact Hamiltonian auditing, rather than to claim an exact geometric decomposition of the continuous AOI. The choice of a regular hexagonal discretization is de-liberate. Relative to square grids, hexagonal cells provide a more isotropic local neighborhood and a natural surrogate for approximately circular sensing footprints, while still yielding graphs of manageable size for exhaustive feasibility auditing. Conversely, exact cellular decompositions are often preferable when continuous boundary fidelity is the primary concern. In this work, our objective is not to optimize the decomposition itself, but to compare CPP heuristics under a common, repro-ducible graph representation. 
+
+B. Two Coverage Objectives 
+
+We distinguish two tasks. 
+
+Relaxed coverage requires a walk from b to b′ that visits every cell in V at least once; revisits are allowed. 
+
+Hamiltonian coverage requires a path π =(b, v 1, . . . , v |V| , b ′) that visits each cell exactly once. This is the zero-revisit version of the problem and is combinatorially much more difficult on sparse irregular graphs [15]. 
+
+C. Benchmark Perspective 
+
+The benchmark is intentionally focused on graphs small enough to permit exact Hamiltonian feasibility auditing, yet rich enough to contain narrow corridors, concavities, and obstacle-induced dead ends. The goal is not to claim that these instances represent the full scale of operational missions, but to provide a controlled regime in which qualitative differences among heuristics can be measured reproducibly. IV. D ATASET 
+
+A. Generation Pipeline 
+
+Each instance is generated in three stages: (i) an outer polygon is sampled from one of three morphology families; (ii) a hexagonal tessellation is mounted in the oriented bounding-box frame; and (iii) interior cells are removed to create islands, shoals, exclusion zones, and bottleneck corridors. Morphology is classified post hoc using the Polsby–Popper compactness ratio c = 4 πA/P 2 and the aspect ratio α of the minimum rotated rectangle of the AOI polygon: Compact 
+
+instances ( c > 0.6 and α < 2) are convex or near-convex shapes representing open patrol zones. Elongated instances (α ≥ 2) are high-aspect-ratio shapes representing coastal strips, channels, or fjord-like corridors. Irregular instances (all remaining, i.e., c ≤ 0.6 and α < 2) are concave shapes with deeper indentations and stronger obstacle interaction. The released dataset contains 5 788 compact, 177 elongated, and 4 035 irregular instances. 3  
+
+> Compact ( c=0 .78 ,
+> α=1 .3)
+> Elongated ( α=3 .1)Irregular with narrow corridor ( c=0 .41 ,
+> α=1 .6)
+> Fig. 1. Representative instances from each morphological family showing the hexagonal tessellation with base node ( ♢) serving as both starting and terminal point.
+
+B. Maritime Motivation and Scale 
+
+The geometric scales are maritime-motivated rather than claimed to be fully representative of any single platform or theater. AOI areas, hex-cell sizes, and base standoff distances were selected to create sparse graphs in the 28–46-cell range while preserving an interpretation compatible with maritime coverage scenarios. This choice keeps the benchmark compu-tationally auditable and exposes the tension between complete coverage and zero-revisit traversal. 
+
+C. Feasibility Audit 
+
+Every released instance was audited offline for Hamiltonian feasibility using exhaustive Depth-First Search (DFS) with backtracking. Instances failing the audit were discarded. This design choice is essential: a heuristic should fail on this benchmark because of algorithmic weakness, not because the underlying instance is inherently infeasible. 
+
+D. Evaluation Protocol 
+
+All 17 heuristics are deterministic and are evaluated on the full 10 000-instance dataset. Every method receives the same graph, the same start and return convention, and the same adjacency constraints. No method is given instance-specific tuning. Because the benchmark evaluates the full released dataset rather than a random sample, we focus on descriptive statistics over the entire benchmark. V. H EURISTIC ALGORITHMS 
+
+All heuristics operate on the same graph G and are grouped into seven families. Full implementations are provided in the released repository; we describe each family below and provide pseudocode for the Warnsdorff variants (Algorithm 1), which are central to the paper’s main finding. 
+
+A. Family 1: Linear Sweep (3 methods) 
+
+Boustrophedon projects centroids onto the principal axis of the oriented bounding box, partitions them into rows, and traverses consecutive rows in alternating directions. Inter-row transitions use shortest-path reconnections on the adjacency graph, which may revisit cells. Row-OneWay retains a fixed row direction and uses fly-back transitions. Segment-Snake 
+
+applies the same idea within obstacle-aware local segments. 
+
+B. Family 2: Interleaved Sweep (2 methods) 
+
+Row-Interleave visits rows in an interleaved order to reduce sharp local turn sequences. Seg.-Interleave applies the same principle within obstacle-aware segments. 
+
+C. Family 3: Contour / Spiral (3 methods) 
+
+Spiral-Inward traverses successive boundary rings from the perimeter inward. Spiral-Outward starts near the center and expands outward. Boundary-Peel repeatedly removes the current outer layer and reconnects when necessary. 
+
+D. Family 4: Spanning-Tree Coverage (2 methods) 
+
+STC-Tree follows the Spanning Tree Coverage paradigm [10]: a spanning tree of the internal-cell graph is constructed and then circumnavigated via DFS to guarantee complete coverage. Gabriely and Rimon showed that any spanning tree suffices for the coverage guarantee; the choice of tree affects path quality but not completeness. In our hexagonal adaptation, the spanning tree is built by BFS rooted at the internal cell nearest to the base; if the BFS tree does not span all internal cells, the instance is reported as unsolved. STC-Like uses the same DFS circumnavigation but builds the spanning tree with a distance-biased BFS that expands nearest neighbors first, producing shorter tree edges. Additionally, any internal cells not reached by the initial tree are connected via greedy nearest-neighbor shortest-path bridges after the circumnavigation, making this variant more robust to weakly connected subgraphs. 4
+
+E. Family 5: Graph-Based Local Search (5 methods) 1) Warnsdorff Variants: Warnsdorff’s rule selects the un-visited neighbor with minimum residual degree, excluding the return node until all internal cells have been visited. The benchmark distinguishes two independent implementation axes. First, two tie-break rules are evaluated: index (prefer the smallest node index) and distance (prefer the smallest Eu-clidean move from the current node). Second, two residual-degree policies are evaluated under endpoint reservation. In the endpoint-aware (EP) policy, the terminal node is excluded from the residual-degree count while more than one internal target remains; the resulting degree therefore reflects only future moves that remain effectively us-able during the current phase of the traversal. In the terminal-inclusive (TI) policy, the terminal remains excluded from the candidate set but is still counted inside the residual degree, so endpoint adjacency acts as a latent structural signal rather than as an immediately admissible move. Combining these two axes yields four Warnsdorff variants: Warnsdorff-EP (index), Warnsdorff-EP (dist.), Warnsdorff-TI (index), and Warnsdorff-TI (dist.). Algorithm 1 shows the unified procedure. The critical dis-tinction between EP and TI is in line 8: under EP, the terminal 
+
+b′ is excluded from the neighbor count of candidate j when unvisited targets remain, so the degree reflects only immedi-ately usable moves. Under TI, b′ is counted in the degree even though it is not an admissible candidate, providing a latent proximity signal that discourages premature consumption of cells adjacent to the terminal. Because Warnsdorff variants have no backtracking mecha-nism, a failure to find an unvisited neighbor at any step causes immediate termination. Consequently, for all four Warnsdorff variants the coverage completion rate (CCR) equals the Hamil-tonian success rate (HSR). 
+
+2) DFS-Backtrack: DFS-Backtrack greedily extends the path through unvisited neighbors, selecting the neighbor with minimum residual degree at each step. When none is available, it backtracks on the visited subgraph to the nearest node that still has an unexplored branch via BFS shortest path, incurring revisits. After covering all internal cells it returns to the terminal via shortest path. 
+
+F. Family 6: Wavefront / Brushfire (1 method) 
+
+Wavefront-Hex constructs a static distance field on the internal hex graph via multi-source BFS seeded at the terminal frontier (internal cells adjacent to b′). Each internal cell receives a wavefront label equal to its BFS distance from this frontier. The traversal proceeds greedily from b: at each step, it moves to the adjacent unvisited cell that maximizes the wavefront label (farthest from the terminal), with ties broken lexicographically by minimum residual unvisited degree, min-imum Euclidean distance, and minimum node index. When no adjacent unvisited cell exists, a BFS connector through the internal subgraph (traversing both visited and unvisited cells) bridges to the highest-wavefront remaining cell reachable via the shortest path. Cells traversed by the connector are marked 
+
+Algorithm 1 Warnsdorff’s Rule (unified EP/TI formulation)                                                                                                              
+
+> Require: Graph G,base b,terminal b′,tie break
+> ∈ { index ,distance }, policy ∈ { EP ,TI }
+> 1: v←b;visited ← { b};π←[b]
+> 2: while unvisited internal targets remain do
+> 3: C ← { j∈ N (v) : j / ∈visited and (j̸=b′if targets remain )}
+> 4: if C=∅then
+> 5: return (π, FAIL)
+> 6: end if
+> 7: for each j∈ C do
+> 8: dj←|{ k∈N(j):k/∈(visited ∪ { v})and (k̸=
+> b′if policy=EP and targets >1) }|
+> 9: if tie break = index then
+> 10: tj←j
+> 11: else
+> 12: tj← ∥ sv−sj∥2
+> 13: end if
+> 14: end for
+> 15: v∗←arg min j∈C (dj, t j)
+> 16: visited ←visited ∪{ v∗};π←π⊕v∗;v←v∗
+> 17: end while
+> 18: if b′∈ N (v)then
+> 19: return (π⊕b′,SUCCESS)
+> 20: else
+> 21: return (π, FAIL)
+> 22: end if
+
+as covered. This mechanism guarantees complete coverage but introduces revisits when the connector passes through previously visited cells. 
+
+G. Family 7: Space-Filling Curve (1 method) 
+
+Morton Z-order ranks centroids by Morton code (bit-interleaved quantized coordinates) and reconnects non-adjacent successive cells through shortest feasible paths. VI. E VALUATION METRICS 
+
+We report the following metrics. 
+
+Hamiltonian success rate (HSR) : fraction of instances solved with a valid zero-revisit path from b to b′.
+
+Coverage completion rate (CCR) : fraction of instances in which all cells are covered at least once. 
+
+Revisits : mean and standard deviation of repeated cell visits on the subset of completed-coverage instances. 
+
+Distance : mean and standard deviation of the total Eu-clidean path length in the normalized coordinate system of the graph (coordinates are base-centered and scaled by the maximum cell-to-base radius per instance), computed on the subset of completed-coverage instances. 
+
+Turns : mean and standard deviation of the cumulative absolute heading change (in radians) along the path, computed on the subset of completed-coverage instances. 
+
+Latency : CPU wall-clock time in milliseconds per instance, measured on an AMD Ryzen 9 5900HX. VII. R ESULTS 
+
+All results are computed on the full 10 000-instance bench-mark. 5
+
+TABLE I FEASIBILITY ON THE FULL BENCHMARK . HSR: H AMILTONIAN SUCCESS RATE . CCR: COMPLETE -COVERAGE SUCCESS RATE .
+
+Method Family HSR (%) CCR (%) Exact DFS (oracle) Oracle 100.0 100.0 Warnsdorff-TI (index) Graph 79.0 79.0 Warnsdorff-TI (dist.) Graph 71.8 71.8 Warnsdorff-EP (index) Graph 47.5 47.5 DFS-Backtrack Graph 34.7 100.0 Warnsdorff-EP (dist.) Graph 31.0 31.0 Boustrophedon Linear Sweep 0.0 100.0 Row-OneWay Linear Sweep 0.0 100.0 Segment-Snake Linear Sweep 0.0 100.0 Row-Interleave Interleaved 0.0 100.0 Seg.-Interleave Interleaved 0.0 100.0 Spiral-Outward Contour 0.0 100.0 Spiral-Inward Contour 0.0 100.0 Boundary-Peel Contour 0.0 100.0 STC-Tree STC 0.0 100.0 STC-Like STC 0.0 100.0 Wavefront-Hex Wavefront 7.3 100.0 Morton Z-order Space-filling 0.0 100.0 
+
+TABLE II PATH -QUALITY AND LATENCY METRICS . R EVISITS , DISTANCE , AND TURNS ARE COMPUTED ON THE SUBSET OF COMPLETED -COVERAGE INSTANCES FOR EACH METHOD .                                                                        
+
+> Method Revisits Distance (norm.) Turns (rad) Latency (ms) Warnsdorff-EP (dist.) 0.0±0.03.23 ±0.36 45 .1±5.80.62 Warnsdorff-TI (dist.) 0.0±0.03.26 ±0.37 47 .1±6.20.64 Warnsdorff-TI (index) 0.0±0.03.27 ±0.38 42 .5±6.50.65 Warnsdorff-EP (index) 0.0±0.03.32 ±0.38 42 .3±5.70.75 DFS-Backtrack 3.3±6.23.33 ±0.45 49 .6±12 .51.04 Boustrophedon 6.4±2.03.56 ±0.43 51 .6±6.627.39 Segment-Snake 6.5±2.13.56 ±0.43 51 .7±6.526.89 Row-OneWay 8.6±3.63.67 ±0.49 54 .6±7.128.57 Seg.-Interleave 16 .2±4.23.98 ±0.57 61 .2±8.030.99 Row-Interleave 18 .4±4.34.04 ±0.55 54 .0±7.330.00 Spiral-Inward 12 .1±12 .73.84 ±0.74 50 .9±19 .11.77 Spiral-Outward 12 .0±12 .63.85 ±0.74 50 .7±18 .21.95 Boundary-Peel 16 .1±12 .63.85 ±0.71 59 .9±17 .81.29 STC-Tree 35 .8±3.54.61 ±0.72 75 .6±13 .01.04 STC-Like 35 .8±3.54.61 ±0.72 78 .9±11 .90.91 Wavefront-Hex 5.5±3.53.40 ±0.43 40 .2±7.32.15 Morton Z-order 18 .6±5.44.13 ±0.61 72 .7±10 .01.36
+
+A. Feasibility 
+
+Table I reveals two robust patterns. First, heuristics that al-low shortest-path reconnection solve the relaxed coverage task reliably but almost never induce zero-revisit tours. Second, the only nonzero Hamiltonian success rates are achieved by the Warnsdorff family, DFS-Backtrack, and, to a much smaller extent, Wavefront-Hex. The strongest classical Hamiltonian baseline is Warnsdorff-TI (index) at 79.0% HSR. Note that the four Warnsdorff variants report HSR = CCR because these heuristics lack a backtracking mechanism and terminate imme-diately upon encountering an empty candidate set (Sec. V-E). 
+
+B. Path Quality 
+
+Table II shows that the most attractive heuristic depends on the objective. Linear sweeps are the strongest baselines when the priority is short and low-redundancy relaxed coverage. Tree-based coverage methods incur the largest redundancy be-cause branch circumnavigation is built into their design. DFS-
+
+TABLE III WARNSDORFF VARIANTS . EP: ENDPOINT -AWARE RESIDUAL DEGREE . TI: 
+
+> TERMINAL
+
+-INCLUSIVE RESIDUAL DEGREE .                    
+
+> Variant HSR (%) Distance (norm.) Turns (rad) Latency (ms) Warnsdorff-EP (index) 47.5 3.32 ±0.38 42 .3±5.70.75 Warnsdorff-EP (dist.) 31.0 3.23 ±0.36 45 .1±5.80.62 Warnsdorff-TI (index) 79.0 3.27 ±0.38 42 .5±6.50.65 Warnsdorff-TI (dist.) 71.8 3.26 ±0.37 47 .1±6.20.64
+
+TABLE IV HAMILTONIAN SUCCESS RATE OF THE FOUR WARNSDORFF VARIANTS STRATIFIED BY AOI MORPHOLOGY .
+
+Morphology n EP (idx) EP (dist.) TI (idx) TI (dist.) Compact 5788 61.1% 32.1% 91.1% 84.0% Elongated 177 69.5% 30.5% 77.4% 63.3% Irregular 4035 27.0% 29.4% 61.7% 54.8% Overall 10000 47.5% 31.0% 79.0% 71.8% 
+
+Backtrack occupies an intermediate position: it can occasion-ally realize Hamiltonian traversals, but its relaxed-coverage paths are less structured than those of the best sweep-based methods. Wavefront-Hex is notable because it retains a modest Hamiltonian success rate (7.3%) while also keeping revisits, distance, and turns relatively low among the revisit-allowed planners. 
+
+C. Warnsdorff Sensitivity to Residual-Degree Policy and Tie-Breaking 
+
+Table III shows that the dominant effect is the residual-degree policy, not tie-breaking alone. Switching from endpoint-aware to terminal-inclusive residual degree increases HSR by 31.5 percentage points for the index tie-break and by 40.8 points for the distance tie-break. Within both policies, however, index-based tie-breaking outperforms distance-based tie-breaking on this dataset: by +16.5 pp under EP and 
+
++7.2 pp under TI. The superiority of index-based tie-breaking is initially coun-terintuitive, since Euclidean proximity might be expected to improve locality. A plausible interpretation is that distance-based tie-breaking makes the traversal overly myopic: by re-peatedly preferring the nearest admissible cell, it may consume corridor cells before the opposite subregion has been secured. In contrast, index-based tie-breaking induces a deterministic ordering inherited from the lattice construction rather than an explicit nearest-neighbor bias. On this dataset, that ordering appears to be less damaging to connector preservation. More importantly, the dominant effect is the residual-degree policy under endpoint reservation. Whether terminal adjacency contributes to the residual-degree score substantially changes the ranking of candidate moves and, therefore, the likelihood of preserving narrow connector cells until the final stages of the traversal. 
+
+D. Morphology-Specific Performance 
+
+Table IV underscores why aggregate performance alone is insufficient. Compact instances are easiest for all Warnsdorff variants, but the ranking of the four variants is stable across 6 
+
+> Fig. 2. *
+
+Warnsdorff-EP (FAIL)  
+
+> Fig. 3. *
+
+Warnsdorff-TI (SUCCESS)  
+
+> Fig. 4. Corridor-consumption failure under EP and its mitigation under TI. Both use index tie-breaking on the same irregular instance.
+
+morphology families: the terminal-inclusive policy dominates the endpoint-aware policy, and index-based tie-breaking dom-inates distance-based tie-breaking within each policy. The gap widens on irregular instances, where articulation-like corridor cells are more common and local degree information becomes more fragile. The elongated category ( n = 177 , 1.8% of the dataset) is included for completeness; its smaller sample size means that its individual statistics carry higher variance and should be interpreted with appropriate caution. 
+
+E. Failure-Mode Analysis 
+
+Manual inspection of failures shows a recurring mechanism: the heuristic enters a subregion through a narrow corridor, ex-hausts that region, and then discovers that the corridor needed to reach the remaining cells has already been consumed. This failure is especially damaging for greedy Hamiltonian heuristics because no revisit is permitted to recover connec-tivity. Endpoint-aware Warnsdorff is more vulnerable to this mechanism because it suppresses the endpoint signal inside the residual-degree score. The terminal-inclusive policy partially mitigates the problem by allowing endpoint adjacency to influence candidate ranking earlier, without actually permitting premature selection of the terminal node. VIII. D ISCUSSION 
+
+The benchmark highlights a central trade-off relevant to maritime planning: methods that are excellent at guaranteed relaxed coverage are not necessarily useful when zero-revisit behavior matters, and methods with some Hamiltonian po-tential can be fragile on obstacle-rich sparse graphs. The right baseline therefore depends on the operational objective. If the mission tolerates revisits, structured sweeps remain competitive because of their simplicity and path economy. If zero-revisit traversal matters, degree-aware graph heuristics deserve attention, but their implementation details must be reported explicitly. The Warnsdorff results are the clearest methodological lesson of the benchmark. On sparse irregular graphs with a reserved endpoint, “minimum residual degree” is not a fully specified heuristic until the treatment of the terminal node is made explicit. The residual-degree policy has a much larger effect than the secondary tie-break rule on this dataset. This matters for reproducibility: papers that describe only the headline heuristic but not the endpoint-handling policy risk reporting results that cannot be faithfully replicated. 
+
+Limitations. The benchmark is single-agent, static, and synthetic. It does not model currents, kinematic feasibility beyond geometric adjacency, uncertain detection, or online replanning. The graph sizes are deliberately limited to 28– 46 cells to preserve exact feasibility auditing; larger instances may change the absolute ranking of methods. These limitations do not invalidate the benchmark, but they define its scope: controlled comparison of classical heuristics on audited irreg-ular hexagonal graphs. The reported results are conditioned on the adopted hexagonal discretization and its post-processing pipeline. Different discretizations (e.g., exact cellular decom-position, adaptive quadtrees, or triangulations) could alter the absolute difficulty and ranking of the benchmark instances. Our claims are therefore restricted to this audited family of sparse hexagonal graphs. DATA AND CODE AVAILABILITY 
+
+The benchmark generator, heuristic implementations, exact DFS oracle, and evaluation scripts are available at https: //github.com/carsepmo/cpp benchmarks/. The version associ-ated with this submission corresponds to GitHub release 
+
+v1.0.0 . The audited benchmark dataset is archived at Zen-odo [17]. The companion image archive used to generate the manuscript figures is archived at Zenodo [18]. IX. C ONCLUSION 
+
+We presented a reproducible benchmark for coverage path planning on irregular hexagonal grids motivated by maritime coverage scenarios. The benchmark combines 10 000 audited instances, 17 deterministic heuristics, and a common evalu-ation protocol spanning feasibility, path quality, and runtime. The main empirical message is that relaxed complete coverage and Hamiltonian coverage are qualitatively different tasks: 7
+
+methods that reliably solve the former generally fail on the latter. Exact DFS confirms that the benchmark instances them-selves are Hamiltonian-feasible, so observed failures reflect algorithmic weakness rather than hidden infeasibility. Among the tested classical baselines, the strongest Hamiltonian per-formance is achieved by Warnsdorff-TI (index), while the dominant implementation choice within the Warnsdorff family is the residual-degree policy under endpoint reservation rather than tie-breaking alone. We hope this benchmark provides a stronger baseline for future heuristic, exact, and learning-based work on maritime coverage planning. REFERENCES [1] H. Choset, “Coverage for robotics–a survey of recent results,” Annals of mathematics and artificial intelligence , vol. 31, no. 1, pp. 113–126, 2001. [2] E. Galceran and M. Carreras, “A survey on coverage path planning for robotics,” Robotics and Autonomous systems , vol. 61, pp. 1258–1276, 2013. [3] T. M. Cabreira, L. B. Brisolara, and R. F. Paulo, “Survey on coverage path planning with unmanned aerial vehicles,” Drones , vol. 3, pp. 1–38, 3 2019. [4] G. Fevgas, T. Lagkas, V. Argyriou, and P. Sarigiannidis, “Coverage path planning methods focusing on energy efficient and cooperative strategies for unmanned aerial vehicles,” Sensors , vol. 22, 2 2022. [5] S.-W. Cho, J.-H. Park, H.-J. Park, and S. Kim, “Multi-uav coverage path planning based on hexagonal grid decomposition in maritime search and rescue,” Mathematics , vol. 10, no. 1, p. 83, 2021. [6] S. W. Cho, H. J. Park, H. Lee, D. H. Shim, and S. Y. Kim, “Coverage path planning for multiple unmanned aerial vehicles in maritime search and rescue operations,” Computers and Industrial Engineering , vol. 161, 11 2021. [7] C. P. Birch, S. P. Oom, and J. A. Beecham, “Rectangular and hexagonal grids used for observation, experiment and simulation in ecology,” 
+
+Ecological modelling , vol. 206, no. 3-4, pp. 347–359, 2007. [8] E. Kadioglu, C. Urtis, and N. Papanikolopoulos, “Uav coverage using hexagonal tessellation,” in 27th Mediterranean Conference on Control and Automation, MED 2019 - Proceedings . Institute of Electrical and Electronics Engineers Inc., 7 2019, pp. 37–42. [9] C. S. Tan, R. Mohd-Mokhtar, and M. R. Arshad, “A comprehensive review of coverage path planning in robotics using classical and heuristic algorithms,” IEEE Access , vol. 9, pp. 119 310–119 342, 2021. [10] Y. Gabriely and E. Rimon, “Spanning-tree based coverage of contin-uous areas by a mobile robot,” Annals of mathematics and artificial intelligence , vol. 31, no. 1, pp. 77–98, 2001. [11] R. B¨ ahnemann, N. Lawrance, J. J. Chung, M. Pantic, R. Siegwart, and J. Nieto, “Revisiting boustrophedon coverage path planning as a generalized traveling salesman problem,” in Field and Service Robotics: Results of the 12th International Conference . Springer, 2021, pp. 277– 290. [12] H. Azp´ urua, G. M. Freitas, D. G. Macharet, and M. F. Campos, “Multi-robot coverage path planning using hexagonal segmentation for geophysical surveys,” Robotica , vol. 36, pp. 1144–1166, 8 2018. [13] H. von Warnsdorf, Des R¨ osselsprunges einfachste und allgemeinste L¨ osung . Verhagen, 1823. [14] I. Pohl, “A method for finding hamilton paths and knight’s tours,” 
+
+Communications of the ACM , vol. 10, no. 7, pp. 446–449, 1967. [15] K. Islam, H. Meijer, Y. N. Rodr´ ıguez, D. Rappaport, and H. Xiao, “Hamilton circuits in hexagonal grid graphs.” in CCCG , 2007, pp. 85– 88. [16] F. Berto, C. Hua, J. Park, L. Luttmann, Y. Ma, F. Bu, J. Wang, H. Ye, M. Kim, S. Choi et al. , “Rl4co: an extensive reinforcement learning for combinatorial optimization benchmark,” in Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V. 2 , 2025, pp. 5278–5289. [17] C. S. Sep´ ulveda and G. A. Ruz, “Irregular hexagonal aoi coverage path planning benchmark dataset,” 2026. [Online]. Available: https: //doi.org/10.5281/zenodo.19477858 [18] ——, “Benchmark figures and instance visualizations for the irregular hexagonal aoi cpp benchmark,” 2026. [Online]. Available: https://doi.org/10.5281/zenodo.19547071
