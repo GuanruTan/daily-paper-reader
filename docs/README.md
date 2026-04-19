@@ -6,55 +6,46 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-04-18
-- 运行时间：2026-04-18 20:05:44 UTC
+- 最新运行日期：2026-04-19
+- 运行时间：2026-04-19 19:54:38 UTC
 - 运行状态：成功
-- 本次总论文数：11
+- 本次总论文数：8
 - 精读区：2
-- 速读区：9
+- 速读区：6
 
 ### 今日简报（AI）
-今日聚焦足式机器人意图感知协作与视觉保障的人机安全交互，深度解析 2 篇 8.0 分前沿成果。
-重点推荐无需预知伙伴信息的足式机器人协同运输方案，以及具备数学不确定性保障的视觉安全协作技术。
-建议关注强化学习与最优控制在路径规划中的效能对比，并探索多智能体在旅游谈判等复杂场景下的应用。
-- 详情：[/202604/18/README](/202604/18/README)
+今日聚焦机器人社交交互理解与复杂动态环境下的安全导航，深度解析 8 篇前沿论文。
+重点推荐通过词汇引导动态图学习提升机器人社交感知，以及利用 CBF 技术解决未知非线性障碍物下的概率安全导航。
+建议关注机器人如何通过理解社交语义与运动约束，实现更安全、更符合人类舒适度的智能避障。
+- 详情：[/202604/19/README](/202604/19/README)
 
 ### 精读区论文标签
-1. [PAINT: Partner-Agnostic Intent-Aware Cooperative Transport with Legged Robots](/202604/18/2604.12852v1-paint-partner-agnostic-intent-aware-cooperative-transport-with-legged-robots)  
+1. [Teaching Robots to Interpret Social Interactions through Lexically-guided Dynamic Graph Learning](/202604/19/2604.10895v1-teaching-robots-to-interpret-social-interactions-through-lexically-guided-dynamic-graph-learning)  
    标签：评分：8.0/10、query:tp
-   evidence：意图感知的协作运输和伙伴意图估计
-2. [Vision-Based Safe Human-Robot Collaboration with Uncertainty Guarantees](/202604/18/2604.15221v1-vision-based-safe-human-robot-collaboration-with-uncertainty-guarantees)  
+   evidence：推断内部状态并预测未来行为
+2. [CBF-based Probabilistic Safe Navigation under Unknown Nonlinear Obstacle Dynamics](/202604/19/2604.14818v1-cbf-based-probabilistic-safe-navigation-under-unknown-nonlinear-obstacle-dynamics)  
    标签：评分：8.0/10、query:tp
-   evidence：用于安全人机协作的人类运动预测
+   evidence：未知非线性障碍物动力学下的安全导航
 
 ### 速读区论文标签
-1. [Representations Before Pixels: Semantics-Guided Hierarchical Video Prediction](/202604/18/2604.11707v1-representations-before-pixels-semantics-guided-hierarchical-video-prediction)  
+1. [BoxTuning: Directly Injecting the Object Box for Multimodal Model Fine-Tuning](/202604/19/2604.11136v1-boxtuning-directly-injecting-the-object-box-for-multimodal-model-fine-tuning)  
    标签：评分：7.0/10、query:tp
-   evidence：自动驾驶视频预测中的语义表示预测
-2. [A Comparison of Reinforcement Learning and Optimal Control Methods for Path Planning](/202604/18/2604.12628v1-a-comparison-of-reinforcement-learning-and-optimal-control-methods-for-path-planning)  
-   标签：评分：7.0/10、query:tp
-   evidence：使用DDPG和状态映射的自动驾驶车辆路径规划
-3. [PEMANT: Persona-Enriched Multi-Agent Negotiation for Travel](/202604/18/2604.10475v1-pemant-persona-enriched-multi-agent-negotiation-for-travel)  
+   evidence：多模态大语言模型中的轨迹追踪
+2. [Optimal Kinodynamic Motion Planning Through Anytime Bidirectional Heuristic Search with Tight Termination Condition](/202604/19/2604.11587v1-optimal-kinodynamic-motion-planning-through-anytime-bidirectional-heuristic-search-with-tight-termination-condition)  
    标签：评分：6.0/10、query:tp
-   evidence：家庭级出行规划和需求预测的多智能体协商
-4. [HO-Flow: Generalizable Hand-Object Interaction Generation with Latent Flow Matching](/202604/18/2604.10836v1-ho-flow-generalizable-hand-object-interaction-generation-with-latent-flow-matching)  
+   evidence：自主系统的动力学运动规划
+3. [Empirical Prediction of Pedestrian Comfort in Mobile Robot Pedestrian Encounters](/202604/19/2604.13677v1-empirical-prediction-of-pedestrian-comfort-in-mobile-robot-pedestrian-encounters)  
    标签：评分：6.0/10、query:tp
-   evidence：将手部和物体运动编码到统一的潜流形中以捕捉交互动力学
-5. [Scalable Trajectory Generation for Whole-Body Mobile Manipulation](/202604/18/2604.12565v1-scalable-trajectory-generation-for-whole-body-mobile-manipulation)  
+   evidence：行人交互运动学与主观舒适度预测
+4. [Towards Multi-Object-Tracking with Radar on a Fast Moving Vehicle: On the Potential of Processing Radar in the Frequency Domain](/202604/19/2604.14013v1-towards-multi-object-tracking-with-radar-on-a-fast-moving-vehicle-on-the-potential-of-processing-radar-in-the-frequency-domain)  
    标签：评分：6.0/10、query:tp
-   evidence：在不同环境中生成大规模协调轨迹数据
-6. [Diffusion Sequence Models for Generative In-Context Meta-Learning of Robot Dynamics](/202604/18/2604.13366v1-diffusion-sequence-models-for-generative-in-context-meta-learning-of-robot-dynamics)  
+   evidence：自动驾驶赛车和超车场景中的移动目标跟踪与自车运动
+5. [Scouting By Reward: VLM-TO-IRL-Driven Player Selection For Esports](/202604/19/2604.14474v1-scouting-by-reward-vlm-to-irl-driven-player-selection-for-esports)  
    标签：评分：6.0/10、query:tp
-   evidence：使用扩散序列模型进行机器人控制的前向动力学预测
-7. [Vision-and-Language Navigation for UAVs: Progress, Challenges, and a Research Roadmap](/202604/18/2604.13654v1-vision-and-language-navigation-for-uavs-progress-challenges-and-a-research-roadmap)  
+   evidence：编码结构化的状态-动作轨迹
+6. [Learning Ad Hoc Network Dynamics via Graph-Structured World Models](/202604/19/2604.14811v1-learning-ad-hoc-network-dynamics-via-graph-structured-world-models)  
    标签：评分：6.0/10、query:tp
-   evidence：无人机导航与复杂环境下的长程任务
-8. [POMDP-based Object Search with Growing State Space and Hybrid Action Domain](/202604/18/2604.14965v1-pomdp-based-object-search-with-growing-state-space-and-hybrid-action-domain)  
-   标签：评分：6.0/10、query:tp
-   evidence：复杂环境中移动机器人的最优动作和路径选择
-9. [On-Line Policy Iteration with Trajectory-Driven Policy Generation](/202604/18/2604.15004v1-on-line-policy-iteration-with-trajectory-driven-policy-generation)  
-   标签：评分：6.0/10、query:tp
-   evidence：用于路径规划的轨迹驱动策略生成
+   evidence：通过图模型从离线轨迹中联合学习动力学
 
 
 <div class="dpr-home-promo-card">

@@ -1,0 +1,346 @@
+Title: Empirical Prediction of Pedestrian Comfort in Mobile Robot Pedestrian Encounters
+
+URL Source: https://arxiv.org/pdf/2604.13677v1
+
+Published Time: Thu, 16 Apr 2026 00:44:48 GMT
+
+Number of Pages: 9
+
+Markdown Content:
+# Empirical Prediction of Pedestrian Comfort in Mobile Robot–Pedestrian Encounters 
+
+Alireza Jafari, Hong-Son Nguyen, and Yen-Chen Liu ∗
+
+Abstract —Mobile robots joining public spaces like sidewalks must care for pedestrian comfort. Many studies consider pedestri-ans’ objective safety, for example, by developing collision avoid-ance algorithms, but not enough studies take the pedestrian’s subjective safety or comfort into consideration. Quantifying comfort is a major challenge that hinders mobile robots from un-derstanding and responding to human emotions. We empirically look into the relationship between the mobile robot-pedestrian interaction kinematics and subjective comfort. We perform one-on-one experimental trials, each involving a mobile robot and a volunteer. Statistical analysis of pedestrians’ reported comfort versus the kinematic variables shows moderate but significant correlations for most variables. Based on these empirical findings, we design three comfort estimators/predictors derived from the minimum distance, the minimum projected time-to-collision, and a composite estimator. The composite estimator employs all studied kinematic variables and reaches the highest prediction rate and classifying performance among the predictors. The composite predictor has an odds ratio of 3.67. In simple terms, when it identifies a pedestrian as comfortable, it is almost 4 times more likely that the pedestrian is comfortable rather than uncomfortable. The study provides a comfort quantifier for incorporating pedestrian feelings into path planners for more socially compliant robots. 
+
+Index Terms —social robotics, human-robot interaction, pedes-trian comfort, path planning, mobile robot navigation 
+
+I. I NTRODUCTION 
+
+Social robots are entering human-populated areas such as sidewalks, hospitals, and airports, and cause discomfort, anxiety, and other moral and ethical concerns [1]. Most path-planning algorithms, for example, [2], prioritize objective safety over subjective safety or comfort, perhaps due to the complexity of quantifying human emotions for the controller. Without quantifying pedestrian anxiety, a mobile robot cannot understand pedestrians’ feelings, predict their responses, and plan a socially acceptable path [3]. Neglecting nuanced human factors yields socially awkward behavior patterns and walkers’ discomfort [4]. Mobile robots must respect pedestrian comfort in public spaces, specifically on sidewalks [5]. Multiple factors affect the human-robot interaction’s pleasantness, such as the robot’s 
+
+This work was supported in part by the National Science and Technology Council (NSTC), Taiwan, under Grant NSTC 114-2628-E-006-010 and NSTC 114-2218-E-006-021. National Cheng Kung University’s Institutional Review Board (IRB) re-viewed and approved all the study procedures. The authors are with the Department of Mechanical Engineering, National Cheng Kung University, Tainan, Taiwan. (e-mail: 
+
+yliu@mail.ncku.edu.tw )Accepted to IEEE ICRA 2026. This is the author-prepared version of the accepted paper and will be removed after the conference. 
+
+shape, size, and noise [6], [7] and the robot’s personality [8]. Another example is the interaction kinematics. Safe and pleas-ant pedestrian walks require the robot to understand how the movement patterns affect the pedestrians’ feelings [9]. Among the kinematic variables, previous research primarily uses the minimum distance between the robot and the human, and only at low speeds. Other kinematic variables are vastly unexplored, e.g., speed, lateral distance, time-to-collision, and trajectory curvature. A novelty of this paper is the empirical study of the neglected kinematic variables’ effects on pedestrian comfort. During multiple one-on-one hallway trials, we record the trajectories of a mobile robot and a pedestrian’s reported com-fort. We statistically analyze the correlations of six kinematic variables with the pedestrian reports. The kinematic variables are robot speed, minimum distance, lateral distance, maximum curvature, minimum PTTC, and distance at minimum PTTC. The results show that the minimum PTTC has the strongest correlation, followed by minimum distance and speed; the difference between the last two is not definitive for ranking. Another contribution of this research is the design of empir-ical comfort predictors. Using the recorded data and manual binning, we construct three predictors for comfort estimations using the kinematic variables. The minimum distance predictor is selected because it is the most popular in research, possibly due to the simplicity of the measurements in practice. The PTTC-based estimator is chosen because of its strongest corre-lation among the variables. The composite estimator combines the results from all kinematic variables, aiming to capture as many comfort aspects of the pedestrian as possible. The composite estimator has the highest F1 score, followed by the minimum distance and PTTC-based predictors, respectively. We would like to highlight the point that the composite estimator has an odds ratio of 3.67. In other words, when the estimator detects a comfortable pedestrian, it is nearly four times more likely that the pedestrian is actually comfortable. The comfort evaluation framework developed in this work has broad implications for path-planning algorithms. It provides a way for the algorithms to estimate pedestrian comfort, allowing them to incorporate the walkers’ feelings into their cost functions. Therefore, the estimator enables path planners to detect comfortable paths from the generated trajectories, for example, in reinforcement learning studies like [3], [10]. The paper structure is as follows. Section II reviews the literature and positions the contribution. Section III introduces the kinematic variables. Section IV details the design of the experiments. Section V presents the results, discusses the 
+
+> arXiv:2604.13677v1 [cs.RO] 15 Apr 2026
+
+statistics, designs the predictors, and details the limitations. Section VI outlines the paper and suggests follow-ups. II. R ELATED WORKS 
+
+Human-robot spatial interaction originated from Hall’s re-search on proxemics [11]. His classification of human personal space zones has been extensively adopted in human-robot interaction research. For example, Xu et al. study proxemics application to quadruped robot-human interaction [12]. They conclude that moving sideways or gazing at the pedestrian encourages the walker to maintain further distance from the robot. Moreover, Shiomi et al. apply the Social Force Model (SFM), a distance-based pedestrian model, to a mobile in a shopping mall [4]. The pedestrians perceive the mobile robot as more comfortable than a traditional time-varying dynamic window method. Augmenting SFM, Ægidius et al. add behavioral patterns into SFM and improve quadruped interactions with pedestrians [13]. Robot speed also affects human comfort. Neggers et al. show that the higher the robot speed, the more passing distance pedestrians prefer and the less comfort they report [14], [15]. In addition, MacArthur et al. performed experiments using a mobile robot with multiple volunteers self-reporting their trust [16]. Their statistically significant analysis shows that the participants report lower trust in faster robots. Song et al. investigate the speed of the robot and the signaling distance effects on the perceived comfort for delivery robots [17]. The participants watch pre-recorded videos and answer questions afterward. The volunteers feel less comfortable as the speed increases. Lateral distance and curvature are other factors influencing walkers’ comfort. Pedestrians maintain certain distances from the robot when they pass by. Neggers et al. report increasing discomfort and intensified avoidance behavior when the lateral distance decreases [14]. In addition, the robot’s trajectory curvature, as a metric of movement smoothness, influences pedestrian anxiety. Greenberg et al. study the sharpness of the curvature on human emotional states, such as pleasure and arousal, by a virtual reality environment [18]. The participants prefer moderate curvatures. Besides spatial geometry, pedestrian comfort depends on temporal variables, too. In e-scooter-pedestrian interactions, Projected Time-to-Collision (PTTC) correlates with walkers’ reported comfort [19]. Jafari and Liu perform e-scooter-pedestrian trials in a hallway setup and report especially stronger correlations at very low PTTC corresponding to high relative speeds [20]. Mobile robots are significantly slower than e-scooters. Thus, the correlations may be weaker; nonetheless, we expect the effect to exist to some extent in mobile robot-human interactions, as well. Overall, many studies still use Hall’s research for inter-personal spaces developed for human-human encounters and apply it to human-robot interactions. Although the minimum distance to the robot plays a role in human discomfort, it is not the only factor. In addition, the zones defined for human-human interactions differ from human-robot’s. For example, the intimate zone of 0.45 m is different when the interacting agent is a robot [21]. Recently, researchers noticed the gap and modified the zones [14], [15] or introduced new terms into the comfort estimations [18], [22]. In addition, other kinematic factors, spatial and temporal, influence the comfort that are rarely investigated for mobile robot-human interactions. III. K INEMATIC VARIABLES 
+
+This paper studies the relationship between pedestrians’ subjective comfort, denoted as S, and objective kinematic measures during robot-pedestrian interactions in hallway en-vironments. Understanding pedestrian comfort is the primary challenge in social robotics. Currently, most researchers use the distance to the pedestrian and the degree of personal space violation in comfort quantification, ignoring other key variables. We empirically study multiple kinematic variables’ influence on walkers’ comfort. The kinematic variables are the robot’s speed, the minimum distance, the lateral distance, the maximum trajectory curva-ture, the minimum PTTC, and the distance at the moment of minimum PTTC. The variables are selected from prior research in human-robot interaction and proxemics theory. Each variable captures a distinct aspect of the robot-pedestrian interaction that has been theoretically linked to comfort per-ception: spatial relationships (minimum distance, lateral dis-tance), temporal dynamics (PTTC), and behavioral adaptations (trajectory curvature, robot speed). 
+
+Robot speed is a key variable affecting pedestrian comfort. Previous research studies its effect on pedestrian comfort at low speeds ( ≤ 1 m/s ), while in this paper, we test significantly higher speeds. At lower speeds, the randomness in human danger interpretations reflected in questionnaires obscures possible correlations. Therefore, we select significantly higher speeds to push the pedestrians to their limits, where the responses are more centralized. During the experiments, we arbitrarily assign one of the following two speed conditions to each participant:  
+
+> •
+
+R14: The robot moves at a constant speed of 1.4 m/s throughout the trial.  
+
+> •
+
+R28: The robot moves at a constant speed of 2.8 m/s throughout the trial. The robot’s speed is kept constant; however, it steers away from the pedestrian during the avoidance maneuver. 
+
+Minimum distance is the primary predictor of pedestrian comfort that robotics researchers adopted from proxemics the-ory. In this research, we evaluate its correlation with reported comfort alongside other kinematic variables. During the trials, we collect the relative Euclidean distance between the robot and the pedestrian. Its minimum, Dmin , is the most well-known variable in similar human comfort studies; see Fig. 1(a). 
+
+Lateral distance is how close the robot comes to the pedestrian sideways as opposed to frontal confrontation. It is also closely related to proxemic theory. In all trials, the robot passes the human. The perpendicular distance between the robot and the pedestrian at the passing moment is the lateral distance Dlat ; see Fig. 1(b). 𝑥 
+
+> 𝑦
+> Pedestrian
+> Mobile robot
+
+𝐷 𝑚𝑖𝑛 (a) 𝑥 
+
+> 𝑦
+> Pedestrian
+> Mobile robot
+
+𝐷 𝑙𝑎𝑡 (b) 𝑥 
+
+> 𝑦
+> Pedestrian
+> Mobile robot
+
+𝑟 
+
+𝜌 = 1
+
+𝑟 
+
+> (c) 𝑥
+> 𝑦
+> Pedestrian
+> Mobile robot
+
+𝐷 𝑇 𝑃 
+
+𝐷 𝑇 𝑃 
+
+=𝑑𝑖𝑠𝑡𝑎𝑛𝑐𝑒 𝑎𝑡 𝑇 𝑝 (d) 
+
+Fig. 1: Spatial kinematic variables definitions. (a) The min-imum of the relative Euclidean distance between the robot and the pedestrian during a trial, Dmin . (b) The perpendicular distance between the robot and the pedestrian at the passing moment, Dlat . (c) The maximum curvature of the robot’s trajectory during a trial, ρ. (d) the distance between the robot and the pedestrian at the moment of TP , DTP .
+
+Maximum curvature is the maximum curvature along the robot’s trajectory during the interaction with a pedestrian. Recent research highlights the curvature role in comfort es-timation and suggests an optimal curvature [18]. We report similar trends at higher speeds. Fig. 1(c) shows the trajectory of the robot during a trial, where r is its minimum radius and 
+
+ρ = 1 
+
+> r
+
+denotes the maximum curvature. 
+
+Minimum PTTC is a subjective safety indicator in e-scooter-pedestrian interactions [20]. The research correlates the reported discomfort with the minimum PTTC. We calculate PTTC evolution during each trial and use its minimum Tp as a key temporal variable in mobile robot-pedestrian interactions. Since mobile robots move more slowly than e-scooters (around 1 m/s compared to 2-5 m/s), the randomness in human danger interpretation may dilute the results. Thus, the extension to mobile robots weakens the correlation; however, we are interested in whether it remains significant. 
+
+Distance at minimum PTTC is a new variable introduced in this paper. Following the previous variable, the moment of minimum PTTC TP is a critical instant in pedestrian comfort assessment. Fig. 1(d) shows the distance between the robot and the pedestrian at the moment, DTP . We examine whether the variable affects pedestrian comfort and plays a complementary role alongside the other variables. We simultaneously measure and calculate these variables during each trial and statistically study their correlation with the reported subjective comfort. The variables are interrelated because of their interconnected nature. Nevertheless, each variable captures distinct aspects of the encounter. Subsequent statistical analysis examines both individual variable effects and their combined predictive power for comfort assessment. Using the variables’ empirical relation to reported comfort, Depth camera  
+
+> 2D LiDAR
+> 3D LiDAR
+> Nvidia
+> Jetson
+> Agilex
+> Scout Mini
+> (a) (b)
+
+Fig. 2: (a) An Agilex Scout Mini is the mobile base. A Zedx depth camera detects the pedestrians. A 3D LiDAR measures the lateral distance. (b) The robot approaches the pedestrian head-on [23] and passes him in a trial. The supplementary video shows a sample experimental run. we construct pedestrian comfort predictors and statistically compare their performance. IV. E XPERIMENTS 
+
+This section focuses on the experimental methodology de-signed for the systematic collection of these kinematic data while recording participant comfort responses. It includes the setup details, such as the hardware, and the design of the experiments, including the scenarios and the participant selec-tion. All the experimental procedures follow ethical guidelines and are approved by the Institutional Review Board (IRB) at the research institutions. 
+
+A. Experiment setup 
+
+Fig 2(a) shows the mobile robot used during the trials. Setting the lateral velocity to zero converts the mobile robot with Mecanum wheels to a nonholonomic differential-drive robot. A depth camera and a 3D LiDAR detect the pedestrian and measure the relative distance and velocity vectors. A 2D LiDAR triggers emergency shutdowns to prevent collisions. StereoLabs Zedx camera captures the pedestrian using the corresponding ROS2 package and publishes the relative posi-tion and velocity topics at a rate of 15 Hz; We use the ROS2 Humble middleware. The 3D LiDAR identifies the pedestrian in the camera’s blind spots with a rate of 10 Hz. The Nvidia Jetson AGX Orin Developer Kit serves as the processing unit, executing ROS2 packages. It records the robot’s heading, its speed, the relative position, and the relative velocity. 
+
+B. Experimental Procedure 
+
+This section describes the design of the experiments, the participants’ biases, and their age and gender distributions. Twenty-two males and ten females volunteered following announcements posted on social media groups; previous re-search does not support a significant gender-dependent attitude toward mobile robots [17]. Their age ranges from 23 to 41 years old, with a mean and standard deviation of 25.7 and 3.58 years, respectively. The pedestrian and the robot move toward each other in a 3.2-meter-wide hallway. Instructions recommend that the participants walk casually and comfortably. They report their comfort level on a 1 to 5 Likert scale using questionnaires during the trials; 1 is the most dangerous interaction and 5 stands for the most comfortable one. Because the participants are volunteers, positive bias in re-porting comfort levels is expected. The questionnaire includes additional Likert scale questions regarding the participants’ trust in the safe operation of mobile robots. We collect the volunteers’ responses to these questions before the trials. Twenty of thirty-two participants are familiar with mobile robots. The result, with an average of 3.84 and a standard deviation of 0.93, indicates a positive bias compared to neutral populations [24]. During the trials, an operator with a remote control navi-gates the robots in the hallway. The operator moves the robot toward the end of the hall, passes the pedestrian, and returns to the hall’s center. The robot speed is constant at 1.4 m/s and 2.8 m/s, for “R14” and “R28” trial types, respectively. At lower speeds, the randomness in situation interpretation may domi-nate the reported discomforts and obscure the correlations. At higher relative speeds, pedestrians’ reported comfort is less individualized [20]. The participants believe that the robot moves autonomously and are unaware of the human operator. Each participant attends five trials that are either all R14 or all R28, resulting in 5 × 16 = 80 trials for each speed. We discard 2 of 160 trials because of complete data collection failures. Another 13 trials are dismissed only in the related analysis due to partial failure in lateral distance measurements by LiDAR. The pedestrians may become more comfortable with the setup over consecutive trials at the same speed. Table Ipresents comfort ratings across five consecutive trials averaged over the volunteers. Linear regression shows R14 and R28 have a slight negative slope (-0.10, p = 0.18) and a slight positive slope (+0.10, p = 0.26), respectively. The trends do not reach statistical significance. Additionally, the aggregated regression line is flat, and indicates that pedestrians do not report higher comfort ratings in subsequent trials. Moreover, the relatively stable standard deviation (R14: 17-28% and R28: 29-36%) suggests consistent individual differences in comfort perception throughout the experiment. Overall, there is no evidence of volunteers adapting to the test setup. V. R ESULTS AND DISCUSSIONS 
+
+This section presents the experimental results using box-plots, discusses the statistical significance of the correlations, and compares the variables. Then, it designs empirical comfort estimators using the collected data, interprets their statistics, and compares their performance. A limitation section discusses the drawbacks, challenges, and study constraints. TABLE I: Comfort ratings across five consecutive trials aver-aged over the volunteers. Cells report the corresponding mean (absolute SD/mean ×100) for R14, R28, and the total.          
+
+> Group
+> Trial 1
+> Trial 2
+> Trial 3
+> Trial 4
+> Trial 5
+> Slope
+> p–value
+> R14 4.25 (20%) 4.12 (17%) 4.06 (28%) 4.00 (26%) 3.81 (26%) -0.10 0.18 R28 3.44 (30%) 3.38 (34%) 3.44 (32%) 3 62 (36%) 3.81 (29%) +0.10 0.26 Total 3.84 (27%) 3.75 (27%) 3.75 (30%) 3.81 (31%) 3.81 (27%) 0.0 1.0
+
+A. Subjective comfort and kinematic variables 
+
+This section provides insights into how pedestrians react to mobile robot motion parameters. We visually present the experimental results through box plots to highlight and discuss the trends in the collected comfort data across the kinematic variables. In addition, we study the comfort correlation with the variables statistically and summarize the final results in Table II. In the following figures, the number of samples in each box is marked on the figure. The outliers are data points outside 1.5 times the IQR above the third quartile or below the first. However, they are not removed from the statistical analysis. Additionally, we employ distance correlation ( dCor ) with permutation testing (1000 iterations) for statistical analysis be-cause it doesn’t require any normality assumptions and detects nonlinear nonmonotonic relationships. Moreover, it handles ordinal variables like Likert-scale comfort ratings where the equal-interval assumption between response categories is not necessarily correct. Fig. 3(a) presents the reported comfort for the two speed groups, R14 and R28. The results show that the subjective comfort S decreases with robot speed v, confirming the study by Neggers et al. [14]. The comfort means (standard deviation) are 4.04 (0.94) and 3.56 (1.12) for the R14 and R28 groups, respectively. In addition, the distance correlation categorizes the relationship between comfort and speed as moderate but statistically significant with dCor = 0 .214 and permutation 
+
+p < 0.001 . The moderate relationship suggests speed is a contributing factor to pedestrian comfort. Fig. 3(b) depicts the subjective comfort S trend across four minimum distance bins, A to D. The results show that the pedestrians generally feel more comfortable when the minimum distance is higher. Similar to speed, the statistical test confirms a moderate but significant relationship between comfort and the minimum distance with dCor = 0 .219 and permutation p < 0.011 . The trend involves a sharp increase at low distances around 0.5 m, which flattens as the distance becomes larger. The 0.5 m threshold suggests that robot navigation algorithms must maintain distances above 0.5 m for pedestrian comfort considerations. Fig. 3(c) shows comfort versus lateral distance Dlat grouped A (R14) B (R28)                                              
+
+> Speed v (m/s)
+> 0
+> 1
+> 2
+> 3
+> 4
+> 5
+> 6
+> Subjective comfort S (-)
+> n=79 n=79 (a) A (0-0.5) B (0.5-1.0) C (1.0-1.5) D (1.5-∞)
+> Minimum distance D min (m)
+> 0
+> 1
+> 2
+> 3
+> 4
+> 5
+> 6
+> Subjective comfort S (-)
+> n=8 n=81 n=60 n=9 (b) A (0.25-0.5) B (0.5-0.75) C (0.75-1.0) D (1.0-∞)
+> Lateral distance D lat (m)
+> 0
+> 1
+> 2
+> 3
+> 4
+> 5
+> 6
+> Subjective comfort S (-)
+> n=30 n=62 n=44 n=9 (c) A (0-0.4) B (0.4-0.8) C (0.8-1.2) D (1.2-∞)
+> Curvature ρ(1/m)
+> 0
+> 1
+> 2
+> 3
+> 4
+> 5
+> 6
+> Subjective comfort S (-)
+> n=49 n=72 n=24 n=13
+> (d) A (0-0.3) B (0.3-0.5) C (0.5-0.7) D (0.7-0.9) E (0.9-∞)
+> Minimum PTTC TP(s)
+> 0
+> 1
+> 2
+> 3
+> 4
+> 5
+> 6
+> Subjective comfort S (-)
+> n=5 n=53 n=53 n=30 n=17 (e) A (0-0.5) B (0.5-1.0) C (1.0-1.5) D (1.5-∞)
+> Distance at T pDTp(m)
+> 0
+> 1
+> 2
+> 3
+> 4
+> 5
+> 6
+> Subjective comfort S (-)
+> n=3 n=51 n=67 n=37 (f)
+
+Fig. 3: Visual representation of the collected data and the kinematic variable trends after binning. The y–axis is the subjective comfort S. The x–axis is (a) The robot speed v. (b) The minimum distance Dmin . (c) The lateral distance Dlat . (d) The maximum curvature ρ. (e) The minimum PTTC Tp (f) The distance at minimum PTTC DTP .in four bins. A nonmonotonic inverted U trend between the lateral distance and pedestrian comfort, peaking in bin C, suggests an optimal Dlat around 0.75–1.0 m. The trend aligns with Pacchierotti et al.’s study [25]. They test lateral distances of 0.2, 0.3, and 0.4 m and report that, for general users, the highest comfort ratings happen at 0.4 m. On the contrary, the result contradicts Neggers et al.’s study reporting a monotonic increase in comfort with lateral distance [14], possibly due to the small sample size of Fig. 3(c)’s last bin. Moreover, the distance correlation analysis indicates a weak and insignificant correlation, dCor = 0 .167 with a permu-tation p = 0.132 , contrasting with the significant relation reported by [14]. Perhaps the reason lies in the more strictly controlled nature of their experiments compared to our more realistic trials. Overall, there is not enough evidence for a statistically significant relationship between subjective comfort and lateral distance. Fig. 3(d) is the subjective comfort across four bins contain-ing maximum curvature ρ of the trajectory recorded in each trial. The plot indicates a nonmonotonic, inverted U relation-ship where the comfort peaks in bin C, 0.8 < ρ < 1.2, and drops in extreme curvature. Similar to Greenberg et al. [22], we did not find sufficient evidence of a statistically significant relation ( dCor = 0 .107 , p = 0 .732 ). The results suggest that maximum curvature is not a suitable sole predictor of subjective comfort. However, Fig. 3(d) shows patterns similar to those reported by Greenberg et al. [18] in a previous study. The figure shares the inverted U shape and the existence of an optimal maximum curvature with the study. Briefly, despite the absence of strong statistical significance, visual patterns hint at a subtle relation between the curvature and the subjective comfort. In Fig. 3(e), the mean comfort levels progressively increase across the bins of Tp. Therefore, the longer Tp relates to higher comfort. The effect, while moderate with dCor = 0 .269 , is statistically significant with p = 0 .002 . The findings align with previous research using e-scooters [20] demonstrating pedestrians feel more comfortable if the Tp is higher. The statistical analysis suggests that Tp, although not exclusive, has the strongest correlation with comfort among the studied kinematic variables. Fig. 3(f) displays the subjective comfort trend versus the distance at the minimum PTTC, Tp. The plot shows that the comfort and DTp have a nonmonotonic inverted U shape relation, like the lateral distance. The highest comfort is apparent in bin C when 1.0 ≤ DTp < 1.5. The association is modest, dCor = 0 .196 , but statistically significant with permutation p = 0 .033 . Therefore, DTp , besides the other kinematic variables, affects pedestrian comfort. Table II summarizes the statistical tests in this section. TABLE II: Statistical comparison of the subjective comfort variation with the kinematic variables using distance cor-relation dCor and corresponding permutation p–value; the permutation iteration is 1000.                         
+
+> Variable dCor Permutation p Sample Size
+> Robot speed ( v)0.214 <0.001 158 Minimum distance ( Dmin )0.219 <0.011 158 Lateral distance ( Dlat )0.167 0.132 145 a
+> Max. curvature ( ρ)0.107 0.732 158 Minimum PTTC ( Tp)0.269 0.002 158 Distance at min. Tp(DTp)0.196 0.033 158
+> aLiDAR data were lost in some trials despite camera recordings.
+
+Overall, the statistical and visual analysis demonstrates that pedestrian comfort is most strongly associated with the min-imum PTTC Tp. The next kinematic associated variables are the speed v, the distance at Tp, and the minimum distance 
+
+Dmin . Lateral distance and maximum curvature have the weakest correlations, although they suggest visible trends. Yet, despite the existence of better indicators, the most used pedestrian comfort metric is the minimum distance, perhaps due to the measurement’s practicalities. 
+
+B. Predictors 
+
+In this section, we predict human comfort using the kine-matic variables and their empirical relations with comfort visible in Fig. 3. The minimum distance estimator ˆSd only uses Dmin ; the minimum PTTC estimator ˆSt only relies on 
+
+Tp; the composite estimator ˆSE combines all six kinematic variables. The reasoning behind the estimator’s design is as follows:  
+
+> •
+
+The minimum distance, as it is the most widely used variable in the literature and provides a comparison baseline.  
+
+> •
+
+The minimum PTTC, because it exhibits the strongest correlation with comfort.  
+
+> •
+
+All variables, since each captures a distinct characteristic of human comfort, even though they are not independent and may show high collinearity. To simplify the estimations, we assume that the pedestrian is comfortable if the reported comfort level is 4 or 5 and uncomfortable otherwise. Thus, the binary comfort index is 
+
+SE =
+
+(
+
+1, if S ≥ 4,
+
+0, otherwise . (1) The estimators must predict SE . The chi-square test evaluates the predictors’ reliability in detecting human comfort. The higher the χ2 value, the better the predictions match the collected data. Moreover, we use accuracy, precision, recall (sensitivity), specificity, and F1 (the harmonic mean of preci-TABLE III: Contingency table of ˆSd vs SE      
+
+> ˆSd\SE01035 48
+> 115 47
+
+sion and recall) metrics to compare the three estimators. The definitions are Accuracy = TP+TN Total , (2) Precision = TP TP+FP , (3) Recall = TP TP+FN , (4) Specificity = TN TN+FP , (5) 
+
+F1 = 2 × Precision × Recall Precision + Recall , (6) where TP, TN, FP, and FN are the numbers of true positives, true negatives, false positives, and false negatives, respectively. 
+
+Minimum distance-based predictor: This predictor uses Fig. 3(b) by setting 
+
+ˆSd =
+
+(
+
+1, if Dmin ≥ 1.0,
+
+0, otherwise . (7) For ˆSd, the Chi-square test result is χ2 = 3 .92 with p =0.0478 . The p–value is just below the typical 0.05 threshold for statistical significance, showing that the correlation between the predictor and the binary comfort is moderate to strong. Table III is the contingency table. Considering the odds ratio in the table, the odds of actually having SE = 1 are 2.28 
+
+fold higher when ˆSd = 1 compared to when ˆSd = 0 . In other words, the odds of having a comfortable pedestrian are almost twice as high when the estimator identifies it as comfortable. 
+
+Minimum PTTC predictor: This predictor utilizes the Fig. 3(e) and sets 
+
+ˆSt =
+
+(
+
+1, if Tp ≥ 0.7,
+
+0, otherwise . (8) Chi-square test result shows moderate association with χ2 =2.46 and p = 0 .12 . The correlation between the estimator and the binary comfort is moderate. The tests in Section V-A show that the correlation between the S and TP is stronger than that between S and Dmin . However, when converted to binary values using binning in Fig. 3, the Tp association drops significantly, possibly due to imperfect manual selection. Table IV presents the counts of TP, TN, FP, and FN for 
+
+ˆSt. Based on the odds ratio, the likelihood of encountering a comfortable pedestrian SE = 1 is approximately 2.03 times higher when the estimator predicts ˆSt = 1 , compared to when it predicts otherwise. Put simply, when the estimator flags a case as comfortable, the odds of it truly being comfortable nearly double. TABLE IV: Contingency table of ˆSt vs SE      
+
+> ˆSt\SE01040 63
+> 110 32
+
+TABLE V: The assigned weights to each bin in Fig. 3. The composite estimator combines all the variables across their internal bins.                                           
+
+> Variable vDmin Dlat ρTpDTp
+> Weight wvwdwlwrwtwp
+> Bins A200100
+> B010001
+> C–22202
+> D–21022
+> E––––2–
+
+Composite predictor: This predictor utilizes all the kine-matic variables in the Fig. 3. However, since there are multiple variables, it requires a middle step compared to the previous predictors. We define weights for each bin in each of the boxes of the collected data. The middle variable E combines these weights as 
+
+E = wv + wd + wl + wr + wt + wp, (9) where Table V shows the assigned weights to each bin corresponding to the kinematic variables. The weights are assigned using visual inspection of how boxes present the subjective comfort. When a box contains many data points corresponding to the highest comfort levels, the maximum score is assigned to it. If it corresponds to mostly low comfort levels, its weight is set to zero. If it is unclear, the weight assumes a neutral value. Fig. 4 shows E trend with the reported comfort. An al-most monotonic trend relates S and E. Based on the visual inspection of the boxes, we set 
+
+ˆSE =
+
+(
+
+1, if E ≥ 4,
+
+0, otherwise , (10) because most of the data points with E < 4 have associated comfort levels below 4. For the composite estimator ˆSE , the Chi-square test indicates a high statistical significance com-pared to previous metrics with χ2 = 11 .87 and p = 0 .0006 ,way below the typical threshold. The stronger correlation indicates that the combined metric outperforms the individual variable metrics. Therefore, despite collinearities, it is most likely true that each variable captures a distinct aspect of human comfort. Table VI is the contingency table for the estimator ˆSE . The odds ratios of the ˆSE are 3.67. For the composite predictor, it means that when the algorithm flags comfort, ˆSE = 1 , the 0 1 2 3 4 5 6 7 8 9 10 11 
+
+E
+
+0
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+> Subjective comfort S (-)
+> n=1
+> n=12
+> n=23
+> n=27
+> n=22
+> n=14
+> n=12
+> n=7
+> n=6
+> n=13
+> n=3
+> n=5
+
+Fig. 4: Comfort scores trend with the middle variable E. TABLE VI: Contingency table of ˆSE vs SE       
+
+> ˆSE\SE01032 31
+> 118 64
+
+odds that the pedestrian is actually comfortable, SE = 1 , are 3.67 times the odds when it does not flag comfort. For the other methods, the odds are significantly lower, showing the advan-tage of the combined method over the others, especially in reward/punishment trajectory evaluating algorithms. Table VII compares the estimator’s performance. It demonstrates that 
+
+ˆSE , the composite index, outperforms the other estimators in four of the five metrics: the accuracy, the precision, the sensitivity (recall), and, as a result F1 score. However, in specificity, the other two estimators perform better. While all three models show relatively high recall (75-78%), indicating they successfully identify most positive cases, they have moderate specificity at best, particularly ˆSd and ˆSt,struggling in correctly identifying negative cases. Table VII suggests that ˆSE has the best balance between detecting true positives and avoiding false alarms according to the F1 score. 
+
+C. Limitations 
+
+Despite providing insights into robot-pedestrian interaction kinematics and designing potentially useful comfort estima-TABLE VII: Estimator comparison using performance metrics for classification.                      
+
+> Estimator Accuracy Precision Recall Specificity F1
+> ˆSE0.662 0.674 0.781 0.508 0.723
+> ˆSd0.566 0.495 0.758 0.422 0.599
+> ˆSt0.497 0.337 0.762 0.388 0.467
+
+tors, the study faces a few methodological constraints. Al-though the participants’ group size and bias are comparable with those of similar research, a comprehensive study re-quires a larger group of participants and a more gender and age-balanced population. In addition, the volunteer sampling leads to positive attitudes toward mobile robots, distorting the comfort responses distributions. Moreover, the reliance on post-trial measures (questionnaires) adds additional noise to the reported comfort due to the randomness in participants’ judgments. Although the pedestrians did not adapt to the test setup, a randomized trial order better avoids such concerns. In addition, the same dataset used in analysis evaluates the predictors. Since even a human hand crafted detector is a learning algorithm, a rigorous evaluation must be done using a train-test split. Employing only two speeds is another limitation. Multiple intermediate speed steps yield a more robust correlation anal-ysis in future works. Furthermore, the remote-controlled robot exhibits patterns that do not match an autonomous mobile robot. Thus, the distribution of the studied kinematic variables may differ in autonomous settings. In addition, the manual binning and threshold setting obscure the underlying patterns and damage the prediction power. For instance, the predictor based on ˆSt underperforms relative to ˆSd despite Tp’s higher correlation with comfort compared to Dmin .VI. C ONCLUSIONS 
+
+The paper quantifies pedestrian comfort in human-robot interactions in hallway trials. Six kinematic variables are statistically evaluated, including the popular minimum distance to and the recent PTTC. Experiments rank their correlation with pedestrian comfort. We empirically design a composite comfort predictor using all the introduced kinematic variables and compare its performance with single variable predictors. Our study shows that the minimum PTTC has the highest correlation with walkers’ comfort among the studied variables. The minimum distance and the robot speed are the next immediate followers. Regarding the designed predictors, the composite predictor outperforms the single-variable predictors, i.e., the minimum distance and the PTTC estimators. The composite estimator achieves an F1 score of 0.72 and an odds ratio of 3.67. Thus, trajectories it flags as comfortable have, by nearly fourfold, higher odds of matching human-reported comfort compared to when it doesn’t flag. Path-planning algorithms can utilize this predictor in their cost function. Namely, the robot assigns higher rewards to paths the composite model deems comfortable and generates socially compliant movements. Three directions for future work are identified. First, we extend our model to more diverse environments and participant groups to further assess robustness. Second, we intend to apply the composite predictor to a path-planning framework and evaluate pedestrian feedback in fully autonomous scenarios. Third, we explore machine learning approaches to derive com-fort predictions from large-scale pedestrian trajectory datasets. REFERENCES [1] T. Furlanis, T. Kanda, and D. Brˇ sˇ ci´ c, “Robots as moral environments,” 
+
+AI & Society , vol. 39, no. 4, pp. 1749–1767, 2024. [2] C. P´ erez-D’Arpino, C. Liu, P. Goebel, R. Mart´ ın-Mart´ ın, and S. Savarese, “Robot navigation in constrained pedestrian environments using reinforcement learning,” in 2021 IEEE International Conference on Robotics and Automation (ICRA) , 2021, pp. 1140–1146. [3] A. Kapoor, S. Swamy, P. Bachiller, and L. J. Manso, “SocNavGym: A reinforcement learning gym for social navigation,” in 2023 32nd IEEE International Conference on Robot and Human Interactive Communica-tion (RO-MAN) , 2023, pp. 2010–2017. [4] M. Shiomi, F. Zanlungo, K. Hayashi, and T. Kanda, “Towards a socially acceptable collision avoidance for a mobile robot navigating among pedestrians using a pedestrian model,” International Journal of Social Robotics , vol. 6, pp. 443–455, 2014. [5] A. Jafari and Y.-C. Liu, “Time-to-collision based social force model for intelligent agents on shared public spaces,” International Journal of Social Robotics , vol. 16, pp. 1953–1968, 2024. [6] T. Kanda and H. Ishiguro, Human-robot interaction in social robotics .CRC Press, 2017. [7] C. Bartneck, T. Belpaeme, F. Eyssel, T. Kanda, M. Keijsers, and S. ˇ Sabanovi´ c, Human-Robot Interaction: An Introduction . Cambridge University Press, 2024. [8] M. Moujahid, D. A. Robb, C. Dondrup, and H. Hastie, “Come closer: The effects of robot personality on human proxemics behaviours,” in 2023 32nd IEEE International Conference on Robot and Human Interactive Communication (RO-MAN) , 2023, pp. 2610–2616. [9] S. Agrawal, N. Ostermann-Myrau, N. Dengler, and M. Bennewitz, “Pedestrians and robots: A novel dataset for learning distinct social navigation forces,” 2025. [Online]. Available: https://arxiv.org/abs/2503.16481 [10] X. Lu, A. Faragasso, Y. Wang, A. Yamashita, and H. Asama, “Group-aware robot navigation in crowds using spatio-temporal graph attention network with deep reinforcement learning,” IEEE Robotics and Automa-tion Letters , vol. 10, no. 4, pp. 4140–4147, 2025. [11] E. T. Hall, “A system for the notation of proxemic behavior,” American Anthropologist , vol. 65, no. 5, pp. 1003–1026, 1963. [12] X. Xu, Z. Meng, E. Li, M. Khamis, P. G. Zhao, and R. Bretin, “Understanding dynamic human-robot proxemics in the case of four-legged canine-inspired robots,” in 2025 IEEE International Conference on Robotics and Automation (ICRA) , 2025, pp. 7808–7814. [13] S. Ægidius, R. Chac´ on-Quesada, A. M. Delfaki, D. Kanoulas, and Y. Demiris, “ASFM: Augmented social force model for legged robot social navigation,” in 2024 IEEE-RAS 23rd International Conference on Humanoid Robots (Humanoids) , 2024, pp. 37–44. [14] M. M. E. Neggers, R. H. Cuijpers, P. A. M. Ruijten, and W. A. IJs-selsteijn, “The effect of robot speed on comfortable passing distances,” 
+
+Frontiers in Robotics and AI , vol. 9, 2022. [15] ——, “Determining shape and size of personal space of a human when passed by a robot,” International Journal of Social Robotics , vol. 14, no. 2, pp. 561–572, 2022. [16] K. R. MacArthur, K. Stowers, and P. A. Hancock, “Human-robot interaction: Proximity and speed—slowly back away from the robot!” in Advances in Human Factors in Robots and Unmanned Systems ,P. Savage-Knepshield and J. Chen, Eds., 2017, pp. 365–374. [17] H. Song, P. Preuschoff, B. Grzeschik, and A. M. Rosenthal-von der P¨ utten, “No need for speed? the impact of delivery robot speed on passersby’s perceived comfort and safety and preferred signaling dis-tance,” International Journal of Social Robotics , vol. 17, no. 7, pp. 1277–1288, 2025. [18] B. Greenberg, U. Gonz´ alez-Bravo, J. Yi, and J. Feldman, “Effects of mobile robot passing-motion path curvature on human affective states in a hallway environment,” International Journal of Social Robotics ,2025. [19] A. Jafari and Y.-C. Liu, “Perceived time-to-collision as public space users’ discomfort metric,” 2023, paper presented at the 22nd World Congress of the International Federation of Automatic Control, Yoko-hama, Japan, 9–14 July 2023. [20] ——, “Pedestrians’ safety using projected time-to-collision to electric scooters,” Nature Communications , vol. 15, p. 5701, 2024. [21] N. E. Neef, S. Zabel, M. Lauckner, and S. Otto, “What is appropriate? on the assessment of human-robot proxemics for casual encounters in closed environments,” International Journal of Social Robotics , vol. 15, no. 6, pp. 953–967, 2023. [22] B. Greenberg, M. Grossi, S. L. Karri, J. Yi, J. Feldman, and K. Stromswold, “Experimental evaluation of the impact of robot path shape and speed on human affective states in a hallway-passing sce-nario,” poster presented at the Workshop on Advances in Social Navi-gation, ICRA 2025. Non-archival. [23] A. Francis, C. P´ erez-D’Arpino, C. Li, F. Xia, A. Alahi, R. Alami, A. Bera, A. Biswas, J. Biswas, R. Chandra, H.-T. L. Chiang, M. Everett, S. Ha, J. Hart, J. P. How, H. Karnan, T.-W. E. Lee, L. J. Manso, R. Mirsky, S. Pirk, P. T. Singamaneni, P. Stone, A. V. Taylor, P. Traut-man, N. Tsoi, M. V´ azquez, X. Xiao, P. Xu, N. Yokoyama, A. Toshev, and R. Mart´ ın-Mart´ ın, “Principles and guidelines for evaluating social robot navigation algorithms,” J. Hum.-Robot Interact. , vol. 14, no. 2, Feb. 2025. [24] S. Naneva, M. Sarda Gou, T. L. Webb, and T. J. Prescott, “A systematic review of attitudes, anxiety, acceptance, and trust towards social robots,” 
+
+International Journal of Social Robotics , vol. 12, no. 6, pp. 1179–1201, 2020. [25] E. Pacchierotti, H. I. Christensen, and P. Jensfelt, “Evaluation of passing distance for social robots,” in ROMAN 2006 - The 15th IEEE Inter-national Symposium on Robot and Human Interactive Communication ,2006, pp. 315–320.

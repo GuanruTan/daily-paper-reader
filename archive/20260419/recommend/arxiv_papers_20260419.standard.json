@@ -1,0 +1,320 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-04-19T19:53:36.853643+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 2,
+    "deep_cap": 6,
+    "deep_selected": 2,
+    "quick_candidates": 6,
+    "quick_skim_target": 11,
+    "quick_selected": 6
+  },
+  "deep_dive": [
+    {
+      "id": "2604.10895v1",
+      "title": "Teaching Robots to Interpret Social Interactions through Lexically-guided Dynamic Graph Learning",
+      "abstract": "For a robot to be called socially intelligent, it must be able to infer users internal states from their current behaviour, predict the users future behaviour, and if required, respond appropriately. In this work, we investigate how robots can be endowed with such social intelligence by modelling the dynamic relationship between user's internal states (latent) and actions (observable state). Our premise is that these states arise from the same underlying socio-cognitive process and influence each other dynamically. Drawing inspiration from theories in Cognitive Science, we propose a novel multi-task learning framework, termed as \\textbf{SocialLDG} that explicitly models the dynamic relationship among the states represent as six distinct tasks. Our framework uses a language model to introduce lexical priors for each task and employs dynamic graph learning to model task affinity evolving with time. SocialLDG has three advantages: First, it achieves state-of-the-art performance on two challenging human-robot social interaction datasets available publicly. Second, it supports strong task scalability by learning new tasks seamlessly without catastrophic forgetting. Finally, benefiting from explicit modelling task affinity, it offers insights on how different interactions unfolds in time and how the internal states and observable actions influence each other in human decision making.",
+      "authors": [
+        "Tongfei Bian",
+        "Mathieu Chollet",
+        "Tanaya Guha"
+      ],
+      "primary_category": "cs.HC",
+      "categories": [
+        "cs.HC",
+        "cs.RO"
+      ],
+      "published": "2026-04-13T01:56:00+00:00",
+      "link": "https://arxiv.org/pdf/2604.10895v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "infer internal states and predict future behavior",
+      "llm_evidence_cn": "推断内部状态并预测未来行为",
+      "llm_evidence": "推断内部状态并预测未来行为",
+      "canonical_evidence": "推断内部状态并预测未来行为",
+      "llm_tldr_en": "Proposes a framework to infer latent internal states and predict future actions for social robots.",
+      "llm_tldr_cn": "提出一个框架，通过建模内部状态与行为的关系来推断意图并预测社交机器人的未来行为。",
+      "llm_tldr": "提出一个框架，通过建模内部状态与行为的关系来推断意图并预测社交机器人的未来行为。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "target intent and goal estimation for trajectory prediction",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2604.14818v1",
+      "title": "CBF-based Probabilistic Safe Navigation under Unknown Nonlinear Obstacle Dynamics",
+      "abstract": "Safe navigation for an ego vehicle in uncertain environments characterized by dynamic obstacles with unknown nonlinear dynamics is a challenging problem of significant practical interest. Existing approaches in the literature either lack formal safety guarantees, require full model knowledge, or fail to account for the risk associated with the vehicle's exact body geometry and the temporal evolution of uncertainty between sampling instants. In this paper, we propose a data-driven observer for the unknown obstacle dynamics that generates an alpha-confidence set flow, which is exactly transformed into a Control Barrier Function (CBF) to enforce (1-alpha)-probability safety. The proposed framework accommodates nonlinear ego vehicle dynamics of arbitrary relative degree, as demonstrated through case studies involving first- and second-order dynamics of an unmanned surface vehicle.",
+      "authors": [
+        "Jiwon Lee",
+        "Hugo Matias",
+        "Daniel Silvestre",
+        "Thinh T. Doan"
+      ],
+      "primary_category": "eess.SY",
+      "categories": [
+        "eess.SY"
+      ],
+      "published": "2026-04-16T09:38:16+00:00",
+      "link": "https://arxiv.org/pdf/2604.14818v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "safe navigation under unknown nonlinear obstacle dynamics",
+      "llm_evidence_cn": "未知非线性障碍物动力学下的安全导航",
+      "llm_evidence": "未知非线性障碍物动力学下的安全导航",
+      "canonical_evidence": "未知非线性障碍物动力学下的安全导航",
+      "llm_tldr_en": "Proposes a data-driven observer for obstacle dynamics to ensure safe navigation for ego vehicles.",
+      "llm_tldr_cn": "提出一种针对障碍物动力学的数据驱动观测器，以确保自动驾驶车辆的安全导航。",
+      "llm_tldr": "提出一种针对障碍物动力学的数据驱动观测器，以确保自动驾驶车辆的安全导航。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2604.11136v1",
+      "title": "BoxTuning: Directly Injecting the Object Box for Multimodal Model Fine-Tuning",
+      "abstract": "Object-level spatial-temporal understanding is essential for video question answering, yet existing multimodal large language models (MLLMs) encode frames holistically and lack explicit mechanisms for fine-grained object grounding. Recent work addresses this by serializing bounding box coordinates as text tokens, but this text-coordinate paradigm suffers from a fundamental modality mismatch: object information is inherently visual, yet encoding it as text incurs a high token cost that forces aggressive temporal downsampling. We propose BoxTuning, which resolves this mismatch by injecting object spatial-temporal information directly into the visual modality. Colored bounding boxes and trajectory trails are rendered onto video frames as visual prompts, with only a concise color-to-object legend retained as text. This reduces the token cost significantly, achieving 87-93% text token reduction in practice. It also preserves full temporal resolution, where the trajectory trails further encode inter-frame motion direction and speed within each keyframe, recovering fine-grained dynamics that text-coordinate methods are forced to discard. Experimental results on five video QA benchmarks (CLEVRER, Perception Test, STAR, NExT-QA, IntentQA) show that BoxTuning surpasses text-coordinate baselines on spatially oriented tasks and nearly eliminates the accuracy degradation observed on reasoning-centric tasks, establishing visual prompting as a more natural and efficient paradigm for conveying object information to video MLLMs.",
+      "authors": [
+        "Zekun Qian",
+        "Ruize Han",
+        "Wei Feng"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-04-13T07:49:31+00:00",
+      "link": "https://arxiv.org/pdf/2604.11136v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "trajectory trails in multimodal large language models",
+      "llm_evidence_cn": "多模态大语言模型中的轨迹追踪",
+      "llm_evidence": "多模态大语言模型中的轨迹追踪",
+      "canonical_evidence": "多模态大语言模型中的轨迹追踪",
+      "llm_tldr_en": "Injects trajectory trails and boxes into MLLMs to improve spatial-temporal understanding in videos.",
+      "llm_tldr_cn": "将轨迹追踪和边界框注入多模态大模型，提升视频的时空理解能力。",
+      "llm_tldr": "将轨迹追踪和边界框注入多模态大模型，提升视频的时空理解能力。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning based on multimodal large language model",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.11587v1",
+      "title": "Optimal Kinodynamic Motion Planning Through Anytime Bidirectional Heuristic Search with Tight Termination Condition",
+      "abstract": "This paper introduces Bidirectional Tight Informed Trees (BTIT*), an asymptotically optimal kinodynamic sampling-based motion planning algorithm that integrates an anytime bidirectional heuristic search (Bi-HS) and ensures the \\emph{meet-in-the-middle} property (MMP) and optimality (MM-optimality). BTIT* is the first anytime MEET-style algorithm to utilize termination conditions that are efficient to evaluate and enable early termination \\emph{on-the-fly} in batch-wise sampling-based motion planning. Experiments show that BTIT* achieves strongly faster time-to-first-solution and improved convergence than representative \\emph{non-lazy} informed batch planners on two kinodynamic benchmarks: a 4D double-integrator model and a 10D linearized Quadrotor. The source code is available here.",
+      "authors": [
+        "Yi Wang",
+        "Bingxian Mu",
+        "Shahab Shokouhi",
+        "May-Win Thein"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-04-13T15:03:00+00:00",
+      "link": "https://arxiv.org/pdf/2604.11587v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "kinodynamic motion planning for autonomous systems",
+      "llm_evidence_cn": "自主系统的动力学运动规划",
+      "llm_evidence": "自主系统的动力学运动规划",
+      "canonical_evidence": "自主系统的动力学运动规划",
+      "llm_tldr_en": "Introduces an optimal kinodynamic sampling-based motion planning algorithm with bidirectional search.",
+      "llm_tldr_cn": "引入一种基于双向搜索的最优动力学采样运动规划算法。",
+      "llm_tldr": "引入一种基于双向搜索的最优动力学采样运动规划算法。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.13677v1",
+      "title": "Empirical Prediction of Pedestrian Comfort in Mobile Robot Pedestrian Encounters",
+      "abstract": "Mobile robots joining public spaces like sidewalks must care for pedestrian comfort. Many studies consider pedestrians' objective safety, for example, by developing collision avoidance algorithms, but not enough studies take the pedestrian's subjective safety or comfort into consideration. Quantifying comfort is a major challenge that hinders mobile robots from understanding and responding to human emotions. We empirically look into the relationship between the mobile robot-pedestrian interaction kinematics and subjective comfort. We perform one-on-one experimental trials, each involving a mobile robot and a volunteer. Statistical analysis of pedestrians' reported comfort versus the kinematic variables shows moderate but significant correlations for most variables. Based on these empirical findings, we design three comfort estimators/predictors derived from the minimum distance, the minimum projected time-to-collision, and a composite estimator. The composite estimator employs all studied kinematic variables and reaches the highest prediction rate and classifying performance among the predictors. The composite predictor has an odds ratio of 3.67. In simple terms, when it identifies a pedestrian as comfortable, it is almost 4 times more likely that the pedestrian is comfortable rather than uncomfortable. The study provides a comfort quantifier for incorporating pedestrian feelings into path planners for more socially compliant robots.",
+      "authors": [
+        "Alireza Jafari",
+        "Hong-Son Nguyen",
+        "Yen-Chen Liu"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "eess.SY"
+      ],
+      "published": "2026-04-15T09:56:34+00:00",
+      "link": "https://arxiv.org/pdf/2604.13677v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "pedestrian interaction kinematics and subjective comfort prediction",
+      "llm_evidence_cn": "行人交互运动学与主观舒适度预测",
+      "llm_evidence": "行人交互运动学与主观舒适度预测",
+      "canonical_evidence": "行人交互运动学与主观舒适度预测",
+      "llm_tldr_en": "Analyzes the relationship between robot-pedestrian interaction kinematics and subjective comfort levels.",
+      "llm_tldr_cn": "分析了机器人与行人交互运动学与主观舒适度水平之间的关系。",
+      "llm_tldr": "分析了机器人与行人交互运动学与主观舒适度水平之间的关系。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "study of pedestrian and vehicle trajectory prediction models",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.14013v1",
+      "title": "Towards Multi-Object-Tracking with Radar on a Fast Moving Vehicle: On the Potential of Processing Radar in the Frequency Domain",
+      "abstract": "We promote in this paper the processing of radar data in the frequency domain to achieve higher robustness against noise and structural errors, especially in comparison to feature-based methods. This holds also for high dynamics in the scene, i.e., ego-motion of the vehicle with the sensor plus the presence of an unknown number of other moving objects. In addition to the high robustness, the processing in the frequency domain has the so far neglected advantage that the underlying correlation based methods used for, e.g., registration, provide information about all moving structures in the scene. A typical automotive application case is overtaking maneuvers, which in the context of autonomous racing are used here as a motivating example. Initial experiments and results with Fourier SOFT in 2D (FS2D) are presented that use the Boreas dataset to demonstrate radar-only-odometry, i.e., radar-odometry without sensor-fusion, to support our arguments.",
+      "authors": [
+        "Tim Hansen",
+        "Arturo Gomez-Chavez",
+        "Ilya Shimchik",
+        "Andreas Birk"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "cs.CV",
+        "eess.IV",
+        "eess.SP"
+      ],
+      "published": "2026-04-15T15:57:05+00:00",
+      "link": "https://arxiv.org/pdf/2604.14013v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "tracking moving objects and ego-motion for autonomous racing and overtaking",
+      "llm_evidence_cn": "自动驾驶赛车和超车场景中的移动目标跟踪与自车运动",
+      "llm_evidence": "自动驾驶赛车和超车场景中的移动目标跟踪与自车运动",
+      "canonical_evidence": "自动驾驶赛车和超车场景中的移动目标跟踪与自车运动",
+      "llm_tldr_en": "Proposes frequency-domain radar processing for robust multi-object tracking in high-dynamic automotive scenarios.",
+      "llm_tldr_cn": "提出频域雷达处理方法，用于高动态汽车场景下的鲁棒多目标跟踪。",
+      "llm_tldr": "提出频域雷达处理方法，用于高动态汽车场景下的鲁棒多目标跟踪。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "study of pedestrian and vehicle trajectory prediction models",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.14474v1",
+      "title": "Scouting By Reward: VLM-TO-IRL-Driven Player Selection For Esports",
+      "abstract": "Traditional esports scouting workflows rely heavily on manual video review and aggregate performance metrics, which often fail to capture the nuanced decision-making patterns necessary to determine if a prospect fits a specific tactical archetype. To address this, we reframe style-based player evaluation in esports as an Inverse Reinforcement Learning (IRL) problem. In this paper, we introduce a novel player selection framework that learns professional-specific reward functions from logged gameplay demonstrations, allowing organizations to rank candidates by their stylistic alignment with a target star player. Our proposed architecture utilizes a multimodal, two-branch intake: one branch encodes structured state-action trajectories derived from high-resolution in-game telemetry, while the second encodes temporally aligned tactical pseudo-commentary generated by Vision-Language Models (VLMs) from broadcast footage. These representations are fused and evaluated via a Generative Adversarial Imitation Learning (GAIL) objective, where a discriminator learns to capture the unique mechanical and tactical signatures of elite professionals. By transitioning from generic skill estimation to scouting \"by reward,\" this framework provides a scalable, workflow-aware digital twin system that enables data-driven roster construction and targeted talent discovery across massive candidate pools.",
+      "authors": [
+        "Qing Yan",
+        "Wenyu Yang",
+        "Yufei Wang",
+        "Wenhao Ma",
+        "Linchong Hu",
+        "Yifei Jin",
+        "Anton Dahbura"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-04-15T23:10:49+00:00",
+      "link": "https://arxiv.org/pdf/2604.14474v1",
+      "tags": [
+        "keyword:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "encodes structured state-action trajectories",
+      "llm_evidence_cn": "编码结构化的状态-动作轨迹",
+      "llm_evidence": "编码结构化的状态-动作轨迹",
+      "canonical_evidence": "编码结构化的状态-动作轨迹",
+      "llm_tldr_en": "Uses IRL and trajectory encoding to evaluate player styles in esports based on gameplay data.",
+      "llm_tldr_cn": "利用逆强化学习和轨迹编码，根据游戏数据评估电子竞技选手的风格。",
+      "llm_tldr": "利用逆强化学习和轨迹编码，根据游戏数据评估电子竞技选手的风格。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning and feature extraction",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.14811v1",
+      "title": "Learning Ad Hoc Network Dynamics via Graph-Structured World Models",
+      "abstract": "Ad hoc wireless networks exhibit complex, innate and coupled dynamics: node mobility, energy depletion and topology change that are difficult to model analytically. Model-free deep reinforcement learning requires sustained online interaction whereas existing model based approaches use flat state representations that lose per node structure. Therefore we propose G-RSSM, a graph structured recurrent state space model that maintains per node latent states with cross node multi head attention to learn the dynamics jointly from offline trajectories. We apply the proposed method to the downstream task clustering where a cluster head selection policy trains entirely through imagined rollouts in the learned world model. Across 27 evaluation scenarios spanning MANET, VANET, FANET, WSN and tactical networks with N=30 to 1000 nodes, the learned policy maintains high connectivity with only trained for N=50. Herein, we propose the first multi physics graph structured world model applied to combinatorial per node decision making in size agnostic wireless ad hoc networks.",
+      "authors": [
+        "Can Karacelebi",
+        "Yusuf Talha Sahin",
+        "Elif Surer",
+        "Ertan Onur"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.MA",
+        "cs.NI"
+      ],
+      "published": "2026-04-16T09:32:15+00:00",
+      "link": "https://arxiv.org/pdf/2604.14811v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "learning dynamics jointly from offline trajectories via graph models",
+      "llm_evidence_cn": "通过图模型从离线轨迹中联合学习动力学",
+      "llm_evidence": "通过图模型从离线轨迹中联合学习动力学",
+      "canonical_evidence": "通过图模型从离线轨迹中联合学习动力学",
+      "llm_tldr_en": "A graph-structured world model to learn complex network dynamics from offline trajectory data.",
+      "llm_tldr_cn": "一种图结构世界模型，用于从离线轨迹数据中学习复杂的网络动力学。",
+      "llm_tldr": "一种图结构世界模型，用于从离线轨迹数据中学习复杂的网络动力学。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning and feature extraction",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
