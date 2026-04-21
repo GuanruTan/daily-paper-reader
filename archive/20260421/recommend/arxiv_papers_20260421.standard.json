@@ -1,0 +1,765 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-04-21T20:31:50.056285+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 13,
+    "deep_cap": 6,
+    "deep_selected": 7,
+    "quick_candidates": 22,
+    "quick_skim_target": 11,
+    "quick_selected": 11
+  },
+  "deep_dive": [
+    {
+      "id": "2604.16783v1",
+      "title": "EdgeVTP: Exploration of Latency-efficient Trajectory Prediction for Edge-based Embedded Vision Applications",
+      "abstract": "Vehicle trajectory prediction is central to highway perception, but deployment on roadside edge devices necessitates bounded, deterministic end-to-end latency. We present EdgeVTP, an embedded-first trajectory predictor that combines interaction-aware graph modeling with a lightweight transformer backbone and a one-shot curve decoder. By predicting future motion as compact curve parameters (anchored at the last observed position) rather than horizon-scaled autoregressive waypoints, EdgeVTP reduces decoding overhead while producing smooth trajectories. To keep runtime predictable in crowded scenes, we explicitly bound interaction complexity via a locality graph with a hard neighbor cap. Across three highway benchmarks and two Jetson-class platforms, EdgeVTP achieves the lowest measured end-to-end latency under a protocol that includes graph construction and post-processing, while attaining state-of-the-art (SotA) prediction accuracy on two of the three datasets and competitive error on other benchmarks. Our code is available at https://github.com/SeungjinStevenKim/EdgeVTP.",
+      "authors": [
+        "Seungjin Kim",
+        "Reza Jafarpourmarzouni",
+        "Christopher Neff",
+        "Hamed Tabkhi",
+        "Vinit Katariya"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-04-18T02:13:02+00:00",
+      "link": "https://arxiv.org/pdf/2604.16783v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "vehicle trajectory prediction in highway and crowded scenes",
+      "llm_evidence_cn": "高速公路及拥挤场景下的车辆轨迹预测",
+      "llm_evidence": "高速公路及拥挤场景下的车辆轨迹预测",
+      "canonical_evidence": "高速公路及拥挤场景下的车辆轨迹预测",
+      "llm_tldr_en": "EdgeVTP is a latency-efficient vehicle trajectory predictor using interaction-aware graph modeling for edge devices.",
+      "llm_tldr_cn": "EdgeVTP 是一种针对边缘设备的高效车辆轨迹预测器，采用交互感知图建模。",
+      "llm_tldr": "EdgeVTP 是一种针对边缘设备的高效车辆轨迹预测器，采用交互感知图建模。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "study of pedestrian and vehicle trajectory prediction models",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2604.18126v1",
+      "title": "Chatting about Conditional Trajectory Prediction",
+      "abstract": "Human behavior has the nature of mutual dependencies, which requires human-robot interactive systems to predict surrounding agents trajectories by modeling complex social interactions, avoiding collisions and executing safe path planning. While there exist many trajectory prediction methods, most of them do not incorporate the own motion of the ego agent and only model interactions based on static information. We are inspired by the humans theory of mind during trajectory selection and propose a Cross time domain intention-interactive method for conditional Trajectory prediction(CiT). Our proposed CiT conducts joint analysis of behavior intentions over time, and achieves information complementarity and integration across different time domains. The intention in its own time domain can be corrected by the social interaction information from the other time domain to obtain a more precise intention representation. In addition, CiT is designed to closely integrate with robotic motion planning and control modules, capable of generating a set of optional trajectory prediction results for all surrounding agents based on potential motions of the ego agent. Extensive experiments demonstrate that the proposed CiT significantly outperforms the existing methods, achieving state-of-the-art performance in the benchmarks.",
+      "authors": [
+        "Yuxiang Zhao",
+        "Wei Huang",
+        "Haipeng Zeng",
+        "Huan Zhao",
+        "Yujie Song"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.CV"
+      ],
+      "published": "2026-04-20T11:44:16+00:00",
+      "link": "https://arxiv.org/pdf/2604.18126v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "modeling complex social interactions and behavior intentions for trajectory prediction",
+      "llm_evidence_cn": "为轨迹预测建模复杂的社交互动和行为意图",
+      "llm_evidence": "为轨迹预测建模复杂的社交互动和行为意图",
+      "canonical_evidence": "为轨迹预测建模复杂的社交互动和行为意图",
+      "llm_tldr_en": "Proposes a cross-time domain intention-interactive method for conditional trajectory prediction in multi-agent systems.",
+      "llm_tldr_cn": "提出一种跨时域意图交互方法，用于多智能体系统中的条件轨迹预测。",
+      "llm_tldr": "提出一种跨时域意图交互方法，用于多智能体系统中的条件轨迹预测。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "multi-agent trajectory forecasting and interaction modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2604.14732v2",
+      "title": "World-Value-Action Model: Implicit Planning for Vision-Language-Action Systems",
+      "abstract": "Vision-Language-Action (VLA) models have emerged as a promising paradigm for building embodied agents that ground perception and language into action. However, most existing approaches rely on direct action prediction, lacking the ability to reason over long-horizon trajectories and evaluate their consequences, which limits performance in complex decision-making tasks. In this work, we introduce World-Value-Action (WAV) model, a unified framework that enables implicit planning in VLA systems. Rather than performing explicit trajectory optimization, WAV model learn a structured latent representation of future trajectories conditioned on visual observations and language instructions. A learned world model predicts future states, while a trajectory value function evaluates their long-horizon utility. Action generation is then formulated as inference in this latent space, where the model progressively concentrates probability mass on high-value and dynamically feasible trajectories. We provide a theoretical perspective showing that planning directly in action space suffers from an exponential decay in the probability of feasible trajectories as the horizon increases. In contrast, latent-space inference reshapes the search distribution toward feasible regions, enabling efficient long-horizon decision making. Extensive simulations and real-world experiments demonstrate that the WAV model consistently outperforms state-of-the-art methods, achieving significant improvements in task success rate, generalization ability, and robustness, especially in long-horizon and compositional scenarios. Code is available at https://github.com/Win-commit/WAV.",
+      "authors": [
+        "Runze Li",
+        "Hongyin Zhang",
+        "Junxi Jin",
+        "Qixin Zeng",
+        "Zifeng Zhuang",
+        "Yiqi Tang",
+        "Shangke Lyu",
+        "Donglin Wang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.LG"
+      ],
+      "published": "2026-04-16T07:46:05+00:00",
+      "link": "https://arxiv.org/pdf/2604.14732v2",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "structured latent representation of future trajectories in vision-language-action systems",
+      "llm_evidence_cn": "视觉-语言-动作系统中的未来轨迹结构化潜变量表示",
+      "llm_evidence": "视觉-语言-动作系统中的未来轨迹结构化潜变量表示",
+      "canonical_evidence": "视觉-语言-动作系统中的未来轨迹结构化潜变量表示",
+      "llm_tldr_en": "WAV model enables implicit planning by learning structured latent representations of future trajectories for agents.",
+      "llm_tldr_cn": "WAV模型通过学习智能体未来轨迹的结构化潜变量表示，实现了隐式规划。",
+      "llm_tldr": "WAV模型通过学习智能体未来轨迹的结构化潜变量表示，实现了隐式规划。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning based on multimodal large language model",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2604.17176v1",
+      "title": "Intent-aligned Autonomous Spacecraft Guidance via Reasoning Models",
+      "abstract": "Future spacecraft operations require autonomy that can interpret high-level mission intent while preserving safety. However, existing trajectory optimization still relies heavily on expert-crafted formulations and does not support intent-conditioned decision-making. This paper proposes an intent-aligned spacecraft guidance framework that links high-level reasoning and safe trajectory optimization through explicit intermediate abstractions, based on behavior sequences and waypoint constraints. A foundation model first predicts an intent-aligned behavior plan, a waypoint generation model then converts it into waypoint constraints, and the safe trajectory is computed via optimization. This decomposition enables scalable supervision without sacrificing safety. Numerical experiments in close-proximity operation scenarios demonstrate that the proposed pipeline achieves over 90\\% SCP convergence and yields a $1.5\\times$ higher rate of generating trajectories that satisfy the top intent-prioritized performance criteria than heuristic decision-making. These results support the use of intermediate behavior abstraction as a practical interface between foundation-model reasoning and safety-critical onboard spacecraft autonomy.",
+      "authors": [
+        "Yuji Takubo",
+        "Simone D'Amico"
+      ],
+      "primary_category": "eess.SY",
+      "categories": [
+        "eess.SY",
+        "cs.AI",
+        "math.OC"
+      ],
+      "published": "2026-04-19T00:25:54+00:00",
+      "link": "https://arxiv.org/pdf/2604.17176v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "intent-aligned behavior plan and trajectory optimization for spacecraft",
+      "llm_evidence_cn": "航天器意图对齐的行为计划与轨迹优化",
+      "llm_evidence": "航天器意图对齐的行为计划与轨迹优化",
+      "canonical_evidence": "航天器意图对齐的行为计划与轨迹优化",
+      "llm_tldr_en": "A framework linking high-level mission intent to safe trajectory optimization for spacecraft.",
+      "llm_tldr_cn": "一种将高层任务意图与航天器安全轨迹优化相结合的框架。",
+      "llm_tldr": "一种将高层任务意图与航天器安全轨迹优化相结合的框架。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "target intent and goal estimation for trajectory prediction",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2604.17915v1",
+      "title": "OneDrive: Unified Multi-Paradigm Driving with Vision-Language-Action Models",
+      "abstract": "Vision-Language Models(VLMs) excel at autoregressive text generation, yet end-to-end autonomous driving requires multi-task learning with structured outputs and heterogeneous decoding behaviors, such as autoregressive language generation, parallel object detection and trajectory regression. To accommodate these differences, existing systems typically introduce separate or cascaded decoders, resulting in architectural fragmentation and limited backbone reuse. In this work, we present a unified autonomous driving framework built upon a pretrained VLM, where heterogeneous decoding behaviors are reconciled within a single transformer decoder. We demonstrate that pretrained VLM attention exhibits strong transferability beyond pure language modeling. By organizing visual and structured query tokens within a single causal decoder, structured queries can naturally condition on visual context through the original attention mechanism. Textual and structured outputs share a common attention backbone, enabling stable joint optimization across heterogeneous tasks. Trajectory planning is realized within the same causal LLM decoder by introducing structured trajectory queries. This unified formulation enables planning to share the pretrained attention backbone with images and perception tokens. Extensive experiments on end-to-end autonomous driving benchmarks demonstrate state-of-the-art performance, including 0.28 L2 and 0.18 collision rate on nuScenes open-loop evaluation and competitive results (86.8 PDMS) on NAVSIM closed-loop evaluation. The full model preserves multi-modal generation capability, while an efficient inference mode achieves approximately 40% lower latency. Code and models are available at https://github.com/Z1zyw/OneDrive",
+      "authors": [
+        "Yiwei Zhang",
+        "Xuesong Chen",
+        "Jin Gao",
+        "Hanshi Wang",
+        "Fudong Ge",
+        "Weiming Hu",
+        "Shaoshuai Shi",
+        "Zhipeng Zhang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-04-20T07:50:00+00:00",
+      "link": "https://arxiv.org/pdf/2604.17915v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "unified driving framework with trajectory regression using vision-language models",
+      "llm_evidence_cn": "使用视觉语言模型的统一驾驶框架及轨迹回归",
+      "llm_evidence": "使用视觉语言模型的统一驾驶框架及轨迹回归",
+      "canonical_evidence": "使用视觉语言模型的统一驾驶框架及轨迹回归",
+      "llm_tldr_en": "A unified autonomous driving framework using pretrained VLMs for multi-task learning including trajectory regression.",
+      "llm_tldr_cn": "一种利用预训练视觉语言模型进行包括轨迹回归在内的多任务学习的统一自动驾驶框架。",
+      "llm_tldr": "一种利用预训练视觉语言模型进行包括轨迹回归在内的多任务学习的统一自动驾驶框架。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning based on multimodal large language model",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2604.18210v1",
+      "title": "TacticGen: Grounding Adaptable and Scalable Generation of Football Tactics",
+      "abstract": "Success in association football relies on both individual skill and coordinated tactics. While recent advancements in spatio-temporal data and deep learning have enabled predictive analyses like trajectory forecasting, the development of tactical design remains limited. Bridging this gap is essential, as prediction reveals what is likely to occur, whereas tactic generation determines what should occur to achieve strategic objectives. In this work, we present TacticGen, a generative model for adaptable and scalable tactic generation. TacticGen formulates tactics as sequences of multi-agent movements and interactions conditioned on the game context. It employs a multi-agent diffusion transformer with agent-wise self-attention and context-aware cross-attention to capture cooperative and competitive dynamics among players and the ball. Trained with over 3.3 million events and 100 million tracking frames from top-tier leagues, TacticGen achieves state-of-the-art precision in predicting player trajectories. Building on it, TacticGen enables adaptable tactic generation tailored to diverse inference-time objectives through classifier guidance mechanism, specified via rules, natural language, or neural models. Its modeling performance is also inherently scalable. A case study with football experts confirms that TacticGen generates realistic, strategically valuable tactics, demonstrating its practical utility for tactical planning in professional football. The project page is available at: https://shengxu.net/TacticGen/.",
+      "authors": [
+        "Sheng Xu",
+        "Guiliang Liu",
+        "Tarak Kharrat",
+        "Yudong Luo",
+        "Mohamed Aloulou",
+        "Javier López Peña",
+        "Konstantin Sofeikov",
+        "Adam Reid",
+        "Paul Roberts",
+        "Steven Spencer",
+        "Joe Carnall",
+        "Ian McHale",
+        "Oliver Schulte",
+        "Hongyuan Zha",
+        "Wei-Shi Zheng"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.LG",
+        "cs.MA"
+      ],
+      "published": "2026-04-20T12:57:11+00:00",
+      "link": "https://arxiv.org/pdf/2604.18210v1",
+      "tags": [
+        "keyword:TP"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "multi-agent movements and interactions for trajectory forecasting",
+      "llm_evidence_cn": "多智能体运动与交互的轨迹预测",
+      "llm_evidence": "多智能体运动与交互的轨迹预测",
+      "canonical_evidence": "多智能体运动与交互的轨迹预测",
+      "llm_tldr_en": "Generates multi-agent football tactics using a diffusion transformer based on trajectory forecasting principles.",
+      "llm_tldr_cn": "基于轨迹预测原理，使用扩散Transformer生成足球比赛中的多智能体战术运动。",
+      "llm_tldr": "基于轨迹预测原理，使用扩散Transformer生成足球比赛中的多智能体战术运动。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "multi-agent trajectory forecasting and interaction modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2604.18486v1",
+      "title": "OneVL: One-Step Latent Reasoning and Planning with Vision-Language Explanation",
+      "abstract": "Chain-of-Thought (CoT) reasoning has become a powerful driver of trajectory prediction in VLA-based autonomous driving, yet its autoregressive nature imposes a latency cost that is prohibitive for real-time deployment. Latent CoT methods attempt to close this gap by compressing reasoning into continuous hidden states, but consistently fall short of their explicit counterparts. We suggest that this is due to purely linguistic latent representations compressing a symbolic abstraction of the world, rather than the causal dynamics that actually govern driving. Thus, we present OneVL (One-step latent reasoning and planning with Vision-Language explanations), a unified VLA and World Model framework that routes reasoning through compact latent tokens supervised by dual auxiliary decoders. Alongside a language decoder that reconstructs text CoT, we introduce a visual world model decoder that predicts future-frame tokens, forcing the latent space to internalize the causal dynamics of road geometry, agent motion, and environmental change. A three-stage training pipeline progressively aligns these latents with trajectory, language, and visual objectives, ensuring stable joint optimization. At inference, the auxiliary decoders are discarded and all latent tokens are prefilled in a single parallel pass, matching the speed of answer-only prediction. Across four benchmarks, OneVL becomes the first latent CoT method to surpass explicit CoT, delivering state-of-the-art accuracy at answer-only latency, and providing direct evidence that tighter compression, when guided in both language and world-model supervision, produces more generalizable representations than verbose token-by-token reasoning. Project Page: https://xiaomi-embodied-intelligence.github.io/OneVL",
+      "authors": [
+        "Jinghui Lu",
+        "Jiayi Guan",
+        "Zhijian Huang",
+        "Jinlong Li",
+        "Guang Li",
+        "Lingdong Kong",
+        "Yingyan Li",
+        "Han Wang",
+        "Shaoqing Xu",
+        "Yuechen Luo",
+        "Fang Li",
+        "Chenxu Dang",
+        "Junli Wang",
+        "Tao Xu",
+        "Jing Wu",
+        "Jianhua Wu",
+        "Xiaoshuai Hao",
+        "Wen Zhang",
+        "Tianyi Jiang",
+        "Lingfeng Zhang",
+        "Lei Zhou",
+        "Yingbo Tang",
+        "Jie Wang",
+        "Yinfeng Gao",
+        "Xizhou Bu",
+        "Haochen Tian",
+        "Yihang Qiu",
+        "Feiyang Jia",
+        "Lin Liu",
+        "Yigu Ge",
+        "Hanbing Li",
+        "Yuannan Shen",
+        "Jianwei Cui",
+        "Hongwei Xie",
+        "Bing Wang",
+        "Haiyang Sun",
+        "Jingwei Zhao",
+        "Jiahui Huang",
+        "Pei Liu",
+        "Zeyu Zhu",
+        "Yuncheng Jiang",
+        "Zibin Guo",
+        "Chuhong Gong",
+        "Hanchao Leng",
+        "Kun Ma",
+        "Naiyang Wang",
+        "Guang Chen",
+        "Kuiyuan Yang",
+        "Hangjun Ye",
+        "Long Chen"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.CL",
+        "cs.RO"
+      ],
+      "published": "2026-04-20T16:37:22+00:00",
+      "link": "https://arxiv.org/pdf/2604.18486v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "latent reasoning for trajectory prediction in VLA-based autonomous driving",
+      "llm_evidence_cn": "基于VLA的自动驾驶轨迹预测中的潜空间推理",
+      "llm_evidence": "基于VLA的自动驾驶轨迹预测中的潜空间推理",
+      "canonical_evidence": "基于VLA的自动驾驶轨迹预测中的潜空间推理",
+      "llm_tldr_en": "A unified VLA and world model framework that uses latent tokens for efficient trajectory reasoning and planning.",
+      "llm_tldr_cn": "一种统一的VLA和世界模型框架，利用潜空间令牌进行高效的轨迹推理与规划。",
+      "llm_tldr": "一种统一的VLA和世界模型框架，利用潜空间令牌进行高效的轨迹推理与规划。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning based on multimodal large language model",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2604.16741v1",
+      "title": "LiDAR-based Crowd Navigation with Visible Edge Group Representation",
+      "abstract": "Robot navigation in crowded pedestrian environments is a well-known challenge and we explore the practical deployment of group-based representations in this setting. Pedestrian groups have been empirically shown to enable a mobile robot's navigation behavior to be safer and more social. However, existing approaches either explored groups only in limited scenarios with no high-density crowds or depended on external detection modules to track individuals, which are prone to noise and errors due to occlusions in crowds. We show that group prediction accuracy affects navigation performance only marginally in crowded environments. Based on this observation, we propose the visible edge-based group representation. We additionally demonstrate via simulation experiments that our navigation framework, integrated with the simplified group representation, performs comparatively in terms of safety and socialness in dense crowds, while achieving faster computation speed. Finally, we deploy our navigation framework on a real robot to explore the benefits of practically deploying group-based representations in the real world.",
+      "authors": [
+        "Allan Wang",
+        "Aaron Steinfeld"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-04-17T23:13:18+00:00",
+      "link": "https://arxiv.org/pdf/2604.16741v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "group-based representations for robot navigation in crowded pedestrian environments",
+      "llm_evidence_cn": "拥挤行人环境下机器人导航的群体表示",
+      "llm_evidence": "拥挤行人环境下机器人导航的群体表示",
+      "canonical_evidence": "拥挤行人环境下机器人导航的群体表示",
+      "llm_tldr_en": "Proposes a visible edge-based group representation to improve robot navigation in high-density crowds.",
+      "llm_tldr_cn": "提出了一种基于可见边缘的群体表示方法，以改进高密度人群中的机器人导航。",
+      "llm_tldr": "提出了一种基于可见边缘的群体表示方法，以改进高密度人群中的机器人导航。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "pedestrian trajectory prediction in crowded scenes",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2604.13366v2",
+      "title": "Diffusion Sequence Models for Generative In-Context Meta-Learning of Robot Dynamics",
+      "abstract": "Accurate modeling of robot dynamics is essential for model-based control, yet remains challenging under distributional shifts and real-time constraints. In this work, we formulate system identification as an in-context meta-learning problem and compare deterministic and generative sequence models for forward dynamics prediction. We take a Transformer-based meta-model, as a strong deterministic baseline, and introduce to this setting two complementary diffusion-based approaches: (i) inpainting diffusion (Diffuser), which learns the joint input-observation distribution, and (ii) conditioned diffusion models (CNN and Transformer), which generate future observations conditioned on control inputs. Through large-scale randomized simulations, we analyze performance across in-distribution and out-of-distribution regimes, as well as computational trade-offs relevant for control. We show that diffusion models significantly improve robustness under distribution shift, with inpainting diffusion achieving the best performance in our experiments. Finally, we demonstrate that warm-started sampling enables diffusion models to operate within real-time constraints, making them viable for control applications. These results highlight generative meta-models as a promising direction for robust system identification in robotics.",
+      "authors": [
+        "Angelo Moroncelli",
+        "Matteo Rufolo",
+        "Gunes Cagin Aydin",
+        "Asad Ali Shahid",
+        "Loris Roveda"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.RO",
+        "eess.SY"
+      ],
+      "published": "2026-04-15T00:21:49+00:00",
+      "link": "https://arxiv.org/pdf/2604.13366v2",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "forward dynamics prediction for robot control using diffusion sequence models",
+      "llm_evidence_cn": "使用扩散序列模型进行机器人控制的前向动力学预测",
+      "llm_evidence": "使用扩散序列模型进行机器人控制的前向动力学预测",
+      "canonical_evidence": "使用扩散序列模型进行机器人控制的前向动力学预测",
+      "llm_tldr_en": "Compares diffusion-based sequence models for predicting robot dynamics to improve model-based control.",
+      "llm_tldr_cn": "比较了基于扩散的序列模型在预测机器人动力学方面的表现，以改进基于控制的模型。",
+      "llm_tldr": "比较了基于扩散的序列模型在预测机器人动力学方面的表现，以改进基于控制的模型。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.11083v2",
+      "title": "FlowCoMotion: Text-to-Motion Generation via Token-Latent Flow Modeling",
+      "abstract": "Text-to-motion generation is driven by learning motion representations for semantic alignment with language. Existing methods rely on either continuous or discrete motion representations. However, continuous representations entangle semantics with dynamics, while discrete representations lose fine-grained motion details. In this context, we propose FlowCoMotion, a novel motion generation framework that unifies both treatments from a modeling perspective. Specifically, FlowCoMotion employs token-latent coupling to capture both semantic content and high-fidelity motion details. In the latent branch, we apply multi-view distillation to regularize the continuous latent space, while in the token branch we use discrete temporal resolution quantization to extract high-level semantic cues. The motion latent is then obtained by combining the representations from the two branches through a token-latent coupling network. Subsequently, a velocity field is predicted based on the textual conditions. An ODE solver integrates this velocity field from a simple prior, thereby guiding the sample to the potential state of the target motion. Extensive experiments show that FlowCoMotion achieves competitive performance on text-to-motion benchmarks, including HumanML3D and SnapMoGen.",
+      "authors": [
+        "Dawei Guan",
+        "Di Yang",
+        "Chengjie Jin",
+        "Jiangtao Wang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-04-13T07:04:47+00:00",
+      "link": "https://arxiv.org/pdf/2604.11083v2",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "learning motion representations for semantic alignment and high-fidelity details",
+      "llm_evidence_cn": "学习用于语义对齐和高保真细节的运动表示",
+      "llm_evidence": "学习用于语义对齐和高保真细节的运动表示",
+      "canonical_evidence": "学习用于语义对齐和高保真细节的运动表示",
+      "llm_tldr_en": "Proposes a framework for text-to-motion generation by unifying continuous and discrete motion representations.",
+      "llm_tldr_cn": "通过统一连续和离散运动表示，提出了一种文本到运动生成的框架。",
+      "llm_tldr": "通过统一连续和离散运动表示，提出了一种文本到运动生成的框架。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning and feature extraction",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.16967v1",
+      "title": "NaviFormer: A Deep Reinforcement Learning Transformer-like Model to Holistically Solve the Navigation Problem",
+      "abstract": "Path planning is usually solved by addressing either the (high-level) route planning problem (waypoint sequencing to achieve the final goal) or the (low-level) path planning problem (trajectory prediction between two waypoints avoiding collisions). However, real-world problems usually require simultaneous solutions to the route and path planning subproblems with a holistic and efficient approach. In this paper, we introduce NaviFormer, a deep reinforcement learning model based on a Transformer architecture that solves the global navigation problem by predicting both high-level routes and low-level trajectories. To evaluate NaviFormer, several experiments have been conducted, including comparisons with other algorithms. Results show competitive accuracy from NaviFormer since it can understand the constraints and difficulties of each subproblem and act consequently to improve performance. Moreover, its superior computation speed proves its suitability for real-time missions.",
+      "authors": [
+        "Daniel Fuertes",
+        "Andrea Cavallaro",
+        "Carlos R. del-Blanco",
+        "Fernando Jaureguizar",
+        "Narciso García"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-04-18T11:32:34+00:00",
+      "link": "https://arxiv.org/pdf/2604.16967v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "predicting low-level trajectories for navigation",
+      "llm_evidence_cn": "预测导航中的底层轨迹",
+      "llm_evidence": "预测导航中的底层轨迹",
+      "canonical_evidence": "预测导航中的底层轨迹",
+      "llm_tldr_en": "A Transformer-based model that simultaneously predicts high-level routes and low-level trajectories for navigation.",
+      "llm_tldr_cn": "一种基于Transformer的模型，可同时预测导航中的高层路线和底层轨迹。",
+      "llm_tldr": "一种基于Transformer的模型，可同时预测导航中的高层路线和底层轨迹。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2604.15507v1",
+      "title": "Trajectory Planning for Safe Dual Control with Active Exploration",
+      "abstract": "Planning safe trajectories under model uncertainty is a fundamental challenge. Robust planning ensures safety by considering worst-case realizations, yet ignores uncertainty reduction and leads to overly conservative behavior. Actively reducing uncertainty on-the-fly during a nominal mission defines the dual control problem. Most approaches address this by adding a weighted exploration term to the cost, tuned to trade off the nominal objective and uncertainty reduction, but without formal consideration of when exploration is beneficial. Moreover, safety is enforced in some methods but not in others. We study a budget-constrained dual control problem, where uncertainty is reduced subject to safety and a mission-level cost budget that limits the allowable degradation in task performance due to exploration. In this work, we propose Dual-gatekeeper, a framework that integrates robust planning with active exploration under formal guarantees of safety and budget feasibility. The key idea is that exploration is pursued only when it provides a verifiable improvement without compromising safety or violating the budget, enabling the system to balance immediate task performance with long-term uncertainty reduction in a principled manner. We provide two implementations of the framework based on different safety mechanisms and demonstrate its performance on quadrotor navigation and autonomous car racing case studies under parametric uncertainty.",
+      "authors": [
+        "Kaleb Ben Naveed",
+        "Manveer Singh",
+        "Devansh R. Agrawal",
+        "Dimitra Panagou"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-04-16T20:31:52+00:00",
+      "link": "https://arxiv.org/pdf/2604.15507v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "planning safe trajectories under uncertainty",
+      "llm_evidence_cn": "不确定性下的安全轨迹规划",
+      "llm_evidence": "不确定性下的安全轨迹规划",
+      "canonical_evidence": "不确定性下的安全轨迹规划",
+      "llm_tldr_en": "Studies trajectory planning with active exploration to reduce model uncertainty while ensuring safety.",
+      "llm_tldr_cn": "研究了带有主动探索的轨迹规划，旨在降低模型不确定性的同时确保安全性。",
+      "llm_tldr": "研究了带有主动探索的轨迹规划，旨在降低模型不确定性的同时确保安全性。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.12474v2",
+      "title": "From Kinematics to Dynamics: Learning to Refine Hybrid Plans for Physically Feasible Execution",
+      "abstract": "In many robotic tasks, agents must traverse a sequence of spatial regions to complete a mission. Such problems are inherently mixed discrete-continuous: a high-level action sequence and a physically feasible continuous trajectory. The resulting trajectory and action sequence must also satisfy problem constraints such as deadlines, time windows, and velocity or acceleration limits. While hybrid temporal planners attempt to address this challenge, they typically model motion using linear (first-order) dynamics, which cannot guarantee that the resulting plan respects the robot's true physical constraints. Consequently, even when the high-level action sequence is fixed, producing a dynamically feasible trajectory becomes a bi-level optimization problem. We address this problem via reinforcement learning in continuous space. We define a Markov Decision Process that explicitly incorporates analytical second-order constraints and use it to refine first-order plans generated by a hybrid planner. Our results show that this approach can reliably recover physical feasibility and effectively bridge the gap between a planner's initial first-order trajectory and the dynamics required for real execution.",
+      "authors": [
+        "Lidor Erez",
+        "Shahaf S. Shperberg",
+        "Ayal Taitler"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-04-14T09:00:08+00:00",
+      "link": "https://arxiv.org/pdf/2604.12474v2",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "physically feasible continuous trajectory generation for robotic agents",
+      "llm_evidence_cn": "机器人智能体物理可行的连续轨迹生成",
+      "llm_evidence": "机器人智能体物理可行的连续轨迹生成",
+      "canonical_evidence": "机器人智能体物理可行的连续轨迹生成",
+      "llm_tldr_en": "Refines hybrid plans into dynamically feasible trajectories for robots while satisfying physical constraints.",
+      "llm_tldr_cn": "将混合规划细化为满足物理约束的机器人动态可行轨迹。",
+      "llm_tldr": "将混合规划细化为满足物理约束的机器人动态可行轨迹。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.17147v1",
+      "title": "ScenarioControl: Vision-Language Controllable Vectorized Latent Scenario Generation",
+      "abstract": "We introduce ScenarioControl, the first vision-language control mechanism for learned driving scenario generation. Given a text prompt or an input image, Scenario-Control synthesizes diverse, realistic 3D scenario rollouts - including map, 3D boxes of reactive actors over time, pedestrians, driving infrastructure, and ego camera observations. The method generates scenes in a vectorized latent space that represents road structure and dynamic agents jointly. To connect multimodal control with sparse vectorized scene elements, we propose a cross-global control mechanism that integrates crossattention with a lightweight global-context branch, enabling fine-grained control over road layout and traffic conditions while preserving realism. The method produces temporally consistent scenario rollouts from the perspectives different actors in the scene, supporting long-horizon continuation of driving scenarios. To facilitate training and evaluation, we release a dataset with text annotations aligned to vectorized map structures. Extensive experiments validate that the control adherence and fidelity of ScenarioControl compare favorable to all tested methods across all experiments. Project webpage: https://light.princeton.edu/ScenarioControl",
+      "authors": [
+        "Lili Gao",
+        "Yanbo Xu",
+        "William Koch",
+        "Samuele Ruffino",
+        "Luke Rowe",
+        "Behdad Chalaki",
+        "Dmitriy Rivkin",
+        "Julian Ost",
+        "Roger Girgis",
+        "Mario Bijelic",
+        "Felix Heide"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "published": "2026-04-18T21:00:26+00:00",
+      "link": "https://arxiv.org/pdf/2604.17147v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "vectorized latent scenario generation including pedestrians and actors",
+      "llm_evidence_cn": "包含行人和参与者的矢量化潜空间场景生成",
+      "llm_evidence": "包含行人和参与者的矢量化潜空间场景生成",
+      "canonical_evidence": "包含行人和参与者的矢量化潜空间场景生成",
+      "llm_tldr_en": "A vision-language controllable mechanism for generating realistic driving scenarios and actor rollouts.",
+      "llm_tldr_cn": "一种用于生成逼真驾驶场景和参与者演变的视觉语言可控机制。",
+      "llm_tldr": "一种用于生成逼真驾驶场景和参与者演变的视觉语言可控机制。",
+      "llm_tags": [
+        "query:tp:composite"
+      ],
+      "matched_query_tag": "query:tp:composite",
+      "matched_query_text": "Papers central to 轨迹预测（车辆、行人、船舶、飞机等）相关的论文，考虑密集场景、目标意图、多智能体、轨迹表示学习等概念, especially work that connects or combines: trajectory prediction for autonomous agents; pedestrian trajectory prediction in crowded scenes; maritime vessel trajectory and path prediction algorithms; multi-agent trajectory forecasting and interaction modeling; target intent and goal estimation for trajectory prediction; trajectory representation learning and feature extraction; study of pedestrian and vehicle trajectory prediction models; trajectory prediction in complex maritime environments; deep learning techniques for intent aware trajectory forecasting; trajectory representation learning based on multimodal large language model.",
+      "matched_requirement_id": "req-composite-tp",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2604.16702v1",
+      "title": "Autonomous Vehicle Collision Avoidance With Racing Parameterized Deep Reinforcement Learning",
+      "abstract": "Road traffic accidents are a leading cause of fatalities worldwide. In the US, human error causes 94% of crashes, resulting in excess of 7,000 pedestrian fatalities and $500 billion in costs annually. Autonomous Vehicles (AVs) with emergency collision avoidance systems that operate at the limits of vehicle dynamics at a high frequency, a dual constraint of nonlinear kinodynamic accuracy and computational efficiency, further enhance safety benefits during adverse weather and cybersecurity breaches, and to evade dangerous human driving when AVs and human drivers share roads. This paper parameterizes a Deep Reinforcement Learning (DRL) collision avoidance policy Out-Of-Distribution (OOD) utilizing race car overtaking, without explicit geometric mimicry reference trajectory guidance, in simulation, with a physics-informed, simulator exploit-aware reward to encode nonlinear vehicle kinodynamics. Two policies are evaluated, a default uni-direction and a reversed heading variant that navigates in the opposite direction to other cars, which both consistently outperform a Model Predictive Control and Artificial Potential Function (MPC-APF) baseline, with zero-shot transfer to proportionally scaled hardware, across three intersection collision scenarios, at 31x fewer Floating Point Operations (FLOPS) and 64x lower inference latency. The reversed heading policy outperforms the default racing overtaking policy in head-to-head collisions by 30% and the baseline by 50%, and matches the former in side collisions, where both DRL policies evade 10% greater than numerical optimal control.",
+      "authors": [
+        "Shathushan Sivashangaran",
+        "Vihaan Dutta",
+        "Apoorva Khairnar",
+        "Sepideh Gohari",
+        "Azim Eskandarian"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-04-17T21:11:39+00:00",
+      "link": "https://arxiv.org/pdf/2604.16702v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "autonomous vehicle collision avoidance with racing parameterized deep reinforcement learning",
+      "llm_evidence_cn": "基于赛车参数化深度强化学习的自动驾驶车辆避障",
+      "llm_evidence": "基于赛车参数化深度强化学习的自动驾驶车辆避障",
+      "canonical_evidence": "基于赛车参数化深度强化学习的自动驾驶车辆避障",
+      "llm_tldr_en": "Develops a DRL-based collision avoidance policy for autonomous vehicles operating at kinodynamic limits.",
+      "llm_tldr_cn": "为在动力学极限下运行的自动驾驶车辆开发了基于深度强化学习的避障策略。",
+      "llm_tldr": "为在动力学极限下运行的自动驾驶车辆开发了基于深度强化学习的避障策略。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.16263v1",
+      "title": "Semantic Area Graph Reasoning for Multi-Robot Language-Guided Search",
+      "abstract": "Coordinating multi-robot systems (MRS) to search in unknown environments is particularly challenging for tasks that require semantic reasoning beyond geometric exploration. Classical coordination strategies rely on frontier coverage or information gain and cannot incorporate high-level task intent, such as searching for objects associated with specific room types. We propose \\textit{Semantic Area Graph Reasoning} (SAGR), a hierarchical framework that enables Large Language Models (LLMs) to coordinate multi-robot exploration and semantic search through a structured semantic-topological abstraction of the environment. SAGR incrementally constructs a semantic area graph from a semantic occupancy map, encoding room instances, connectivity, frontier availability, and robot states into a compact task-relevant representation for LLM reasoning. The LLM performs high-level semantic room assignment based on spatial structure and task context, while deterministic frontier planning and local navigation handle geometric execution within assigned rooms. Experiments on the Habitat-Matterport3D dataset across 100 scenarios show that SAGR remains competitive with state-of-the-art exploration methods while consistently improving semantic target search efficiency, with up to 18.8\\% in large environments. These results highlight the value of structured semantic abstractions as an effective interface between LLM-based reasoning and multi-robot coordination in complex indoor environments.",
+      "authors": [
+        "Ruiyang Wang",
+        "Hao-Lun Hsu",
+        "Jiwoo Kim",
+        "Miroslav Pajic"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-04-17T17:19:54+00:00",
+      "link": "https://arxiv.org/pdf/2604.16263v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "incorporating high-level task intent for multi-robot coordination",
+      "llm_evidence_cn": "在多机器人协作中融入高层任务意图",
+      "llm_evidence": "在多机器人协作中融入高层任务意图",
+      "canonical_evidence": "在多机器人协作中融入高层任务意图",
+      "llm_tldr_en": "Uses LLMs to coordinate multi-robot exploration by reasoning about high-level task intent and semantic maps.",
+      "llm_tldr_cn": "利用大语言模型通过推理高层任务意图和语义地图来协调多机器人探索。",
+      "llm_tldr": "利用大语言模型通过推理高层任务意图和语义地图来协调多机器人探索。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "target intent and goal estimation for trajectory prediction",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.17527v1",
+      "title": "Safer Trajectory Planning with CBF-guided Diffusion Model for Unmanned Aerial Vehicles",
+      "abstract": "Safe and agile trajectory planning is essential for autonomous systems, especially during complex aerobatic maneuvers. Motivated by the recent success of diffusion models in generative tasks, this paper introduces AeroTrajGen, a novel framework for diffusion-based trajectory generation that incorporates control barrier function (CBF)-guided sampling during inference, specifically designed for unmanned aerial vehicles (UAVs). The proposed CBF-guided sampling addresses two critical challenges: (1) mitigating the inherent unpredictability and potential safety violations of diffusion models, and (2) reducing reliance on extensively safety-verified training data. During the reverse diffusion process, CBF-based guidance ensures collision-free trajectories by seamlessly integrating safety constraint gradients with the diffusion model's score function. The model features an obstacle-aware diffusion transformer architecture with multi-modal conditioning, including trajectory history, obstacles, maneuver styles, and goal, enabling the generation of smooth, highly agile trajectories across 14 distinct aerobatic maneuvers. Trained on a dataset of 2,000 expert demonstrations, AeroTrajGen is rigorously evaluated in simulation under multi-obstacle environments. Simulation results demonstrate that CBF-guided sampling reduces collision rates by 94.7% compared to unguided diffusion baselines, while preserving trajectory agility and diversity. Our code is open-sourced at https://github.com/RoboticsPolyu/CBF-DMP.",
+      "authors": [
+        "Peiwen Yang",
+        "Shiyu Bai",
+        "Weisong Wen",
+        "Yixin Gao",
+        "Jiahao Hu"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-04-19T16:41:16+00:00",
+      "link": "https://arxiv.org/pdf/2604.17527v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "diffusion-based trajectory generation for autonomous UAVs",
+      "llm_evidence_cn": "基于扩散模型的无人机轨迹生成",
+      "llm_evidence": "基于扩散模型的无人机轨迹生成",
+      "canonical_evidence": "基于扩散模型的无人机轨迹生成",
+      "llm_tldr_en": "AeroTrajGen uses CBF-guided diffusion models for safe and agile trajectory planning in autonomous UAVs.",
+      "llm_tldr_cn": "AeroTrajGen利用CBF引导的扩散模型，为无人机提供安全敏捷的轨迹规划。",
+      "llm_tldr": "AeroTrajGen利用CBF引导的扩散模型，为无人机提供安全敏捷的轨迹规划。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2604.16962v1",
+      "title": "Multi-stage Planning for Multi-target Surveillance using Aircrafts Equipped with Synthetic Aperture Radars Aware of Target Visibility",
+      "abstract": "Generating trajectories for synthetic aperture radar (SAR)-equipped aircraft poses significant challenges due to terrain constraints, and the need for straight-flight segments to ensure high-quality imaging. Related works usually focus on trajectory optimization for predefined straight-flight segments that do not adapt to the target visibility, which depends on the 3D terrain and aircraft orientation. In addition, this assumption does not scale well for the multi-target problem, where multiple straight-flight segments that maximize target visibility must be defined for real-time operations. For this purpose, this paper presents a multi-stage planning system. First, the waypoint sequencing to visit all the targets is estimated. Second, straight-flight segments maximizing target visibility according to the 3D terrain are predicted using a novel neural network trained with deep reinforcement learning. Finally, the segments are connected to create a trajectory via optimization that imposes 3D Dubins curves. Evaluations demonstrate the robustness of the system for SAR missions since it ensures high-quality multi-target SAR image acquisition aware of 3D terrain and target visibility, and real-time performance.",
+      "authors": [
+        "Daniel Fuertes",
+        "Carlos R. del-Blanco",
+        "Fernando Jaureguizar",
+        "Juan José Navarro-Corcuera",
+        "Narciso García"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-04-18T11:04:25+00:00",
+      "link": "https://arxiv.org/pdf/2604.16962v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Generating trajectories for aircraft surveillance",
+      "llm_evidence_cn": "为飞机监视生成轨迹",
+      "llm_evidence": "为飞机监视生成轨迹",
+      "canonical_evidence": "为飞机监视生成轨迹",
+      "llm_tldr_en": "A multi-stage planning system for aircraft trajectory optimization in multi-target surveillance.",
+      "llm_tldr_cn": "一种用于多目标监视中飞机轨迹优化的多阶段规划系统。",
+      "llm_tldr": "一种用于多目标监视中飞机轨迹优化的多阶段规划系统。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
