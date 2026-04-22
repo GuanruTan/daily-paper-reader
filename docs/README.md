@@ -6,76 +6,73 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-04-21
-- 运行时间：2026-04-21 20:34:57 UTC
+- 最新运行日期：2026-04-22
+- 运行时间：2026-04-22 20:35:50 UTC
 - 运行状态：成功
-- 本次总论文数：18
-- 精读区：7
+- 本次总论文数：17
+- 精读区：6
 - 速读区：11
 
 ### 今日简报（AI）
-今日聚焦自动驾驶轨迹预测与导航控制，深度研读了兼顾边缘计算效率与大模型交互的 18 篇前沿论文。
-重点推荐 EdgeVTP 对嵌入式端侧延迟的极致优化，以及利用对话式 AI 增强条件轨迹预测的新颖范式。
-建议关注如何将 Transformer 架构与视觉语言模型结合，以实现更具可控性的复杂场景生成与导航。
-- 详情：[/202604/21/README](/202604/21/README)
+今日精选 17 篇前沿论文，深度解析多视角人群追踪与 VLA 模型的高效演进。
+重点关注 SpanVLA 通过负样本恢复提升动作衔接效率，以及利用视地交互技术在大场景下实现精准的多视角人群追踪。
+建议关注视觉语言动作模型（VLA）的微调优化与物理信息驱动的追踪技术，探索其在自动驾驶与复杂场景监控中的落地潜力。
+- 详情：[/202604/22/README](/202604/22/README)
 
 ### 精读区论文标签
-1. [EdgeVTP: Exploration of Latency-efficient Trajectory Prediction for Edge-based Embedded Vision Applications](/202604/21/2604.16783v1-edgevtp-exploration-of-latency-efficient-trajectory-prediction-for-edge-based-embedded-vision-applications)  
-   标签：评分：10.0/10、query:tp
-   evidence：高速公路及拥挤场景下的车辆轨迹预测
-2. [Chatting about Conditional Trajectory Prediction](/202604/21/2604.18126v1-chatting-about-conditional-trajectory-prediction)  
-   标签：评分：10.0/10、query:tp
-   evidence：为轨迹预测建模复杂的社交互动和行为意图
-3. [World-Value-Action Model: Implicit Planning for Vision-Language-Action Systems](/202604/21/2604.14732v2-world-value-action-model-implicit-planning-for-vision-language-action-systems)  
+1. [Multi-view Crowd Tracking Transformer with View-Ground Interactions Under Large Real-World Scenes](/202604/22/2604.19318v1-multi-view-crowd-tracking-transformer-with-view-ground-interactions-under-large-real-world-scenes)  
    标签：评分：9.0/10、query:tp
-   evidence：视觉-语言-动作系统中的未来轨迹结构化潜变量表示
-4. [Intent-aligned Autonomous Spacecraft Guidance via Reasoning Models](/202604/21/2604.17176v1-intent-aligned-autonomous-spacecraft-guidance-via-reasoning-models)  
+   evidence：多视角人群跟踪与地面轨迹估计
+2. [SpanVLA: Efficient Action Bridging and Learning from Negative-Recovery Samples for Vision-Language-Action Model](/202604/22/2604.19710v1-spanvla-efficient-action-bridging-and-learning-from-negative-recovery-samples-for-vision-language-action-model)  
    标签：评分：9.0/10、query:tp
-   evidence：航天器意图对齐的行为计划与轨迹优化
-5. [OneDrive: Unified Multi-Paradigm Driving with Vision-Language-Action Models](/202604/21/2604.17915v1-onedrive-unified-multi-paradigm-driving-with-vision-language-action-models)  
-   标签：评分：9.0/10、query:tp
-   evidence：使用视觉语言模型的统一驾驶框架及轨迹回归
-6. [TacticGen: Grounding Adaptable and Scalable Generation of Football Tactics](/202604/21/2604.18210v1-tacticgen-grounding-adaptable-and-scalable-generation-of-football-tactics)  
-   标签：评分：9.0/10、query:tp
-   evidence：多智能体运动与交互的轨迹预测
-7. [OneVL: One-Step Latent Reasoning and Planning with Vision-Language Explanation](/202604/21/2604.18486v1-onevl-one-step-latent-reasoning-and-planning-with-vision-language-explanation)  
-   标签：评分：9.0/10、query:tp
-   evidence：基于VLA的自动驾驶轨迹预测中的潜空间推理
+   evidence：基于视觉语言模型的自动驾驶轨迹规划
+3. [AnchorRefine: Synergy-Manipulation Based on Trajectory Anchor and Residual Refinement for Vision-Language-Action Models](/202604/22/2604.17787v1-anchorrefine-synergy-manipulation-based-on-trajectory-anchor-and-residual-refinement-for-vision-language-action-models)  
+   标签：评分：8.0/10、query:tp
+   evidence：将VLA动作建模分解为轨迹锚点和残差细化
+4. [Geometric Trajectory Optimization for TRACON Arrivals: An NLP Approach with ATC Vectoring Maneuver Modeling](/202604/22/2604.18454v1-geometric-trajectory-optimization-for-tracon-arrivals-an-nlp-approach-with-atc-vectoring-maneuver-modeling)  
+   标签：评分：8.0/10、query:tp
+   evidence：飞机进场的高保真轨迹优化
+5. [Multi-Step Gaussian Process Propagation for Adaptive Path Planning](/202604/22/2604.19148v1-multi-step-gaussian-process-propagation-for-adaptive-path-planning)  
+   标签：评分：8.0/10、query:tp
+   evidence：使用高斯过程的自主水面船舶路径规划
+6. [Multimodal embodiment-aware navigation transformer](/202604/22/2604.19267v1-multimodal-embodiment-aware-navigation-transformer)  
+   标签：评分：8.0/10、query:tp
+   evidence：扩散模型为机器人生成可导航轨迹
 
 ### 速读区论文标签
-1. [LiDAR-based Crowd Navigation with Visible Edge Group Representation](/202604/21/2604.16741v1-lidar-based-crowd-navigation-with-visible-edge-group-representation)  
+1. [Robust Nonlinear Trajectory Tracking Control for Autonomous Racing on Three-Dimensional Tracks](/202604/22/2604.19452v1-robust-nonlinear-trajectory-tracking-control-for-autonomous-racing-on-three-dimensional-tracks)  
    标签：评分：8.0/10、query:tp
-   evidence：拥挤行人环境下机器人导航的群体表示
-2. [NaviFormer: A Deep Reinforcement Learning Transformer-like Model to Holistically Solve the Navigation Problem](/202604/21/2604.16967v1-naviformer-a-deep-reinforcement-learning-transformer-like-model-to-holistically-solve-the-navigation-problem)  
-   标签：评分：8.0/10、query:tp
-   evidence：预测导航中的底层轨迹
-3. [ScenarioControl: Vision-Language Controllable Vectorized Latent Scenario Generation](/202604/21/2604.17147v1-scenariocontrol-vision-language-controllable-vectorized-latent-scenario-generation)  
-   标签：评分：8.0/10、query:tp
-   evidence：包含行人和参与者的矢量化潜空间场景生成
-4. [Safer Trajectory Planning with CBF-guided Diffusion Model for Unmanned Aerial Vehicles](/202604/21/2604.17527v1-safer-trajectory-planning-with-cbf-guided-diffusion-model-for-unmanned-aerial-vehicles)  
-   标签：评分：8.0/10、query:tp
-   evidence：基于扩散模型的无人机轨迹生成
-5. [Diffusion Sequence Models for Generative In-Context Meta-Learning of Robot Dynamics](/202604/21/2604.13366v2-diffusion-sequence-models-for-generative-in-context-meta-learning-of-robot-dynamics)  
+   evidence：将动力学效应集成到轨迹跟踪的预测模型中
+2. [AEGIS: Anchor-Enforced Gradient Isolation for Knowledge-Preserving Vision-Language-Action Fine-Tuning](/202604/22/2604.16067v1-aegis-anchor-enforced-gradient-isolation-for-knowledge-preserving-vision-language-action-fine-tuning)  
    标签：评分：7.0/10、query:tp
-   evidence：使用扩散序列模型进行机器人控制的前向动力学预测
-6. [Trajectory Planning for Safe Dual Control with Active Exploration](/202604/21/2604.15507v1-trajectory-planning-for-safe-dual-control-with-active-exploration)  
+   evidence：用于机器人控制和动作专家的视觉语言模型微调
+3. [Physics-Informed Tracking (PIT)](/202604/22/2604.16895v1-physics-informed-tracking-pit)  
    标签：评分：7.0/10、query:tp
-   evidence：不确定性下的安全轨迹规划
-7. [Autonomous Vehicle Collision Avoidance With Racing Parameterized Deep Reinforcement Learning](/202604/21/2604.16702v1-autonomous-vehicle-collision-avoidance-with-racing-parameterized-deep-reinforcement-learning)  
+   evidence：物理信息轨迹跟踪与地标损失
+4. [Infrastructure-Centric World Models: Bridging Temporal Depth and Spatial Breadth for Roadside Perception](/202604/22/2604.17651v1-infrastructure-centric-world-models-bridging-temporal-depth-and-spatial-breadth-for-roadside-perception)  
    标签：评分：7.0/10、query:tp
-   evidence：基于赛车参数化深度强化学习的自动驾驶车辆避障
-8. [Multi-stage Planning for Multi-target Surveillance using Aircrafts Equipped with Synthetic Aperture Radars Aware of Target Visibility](/202604/21/2604.16962v1-multi-stage-planning-for-multi-target-surveillance-using-aircrafts-equipped-with-synthetic-aperture-radars-aware-of-target-visibility)  
+   evidence：模拟环境演变和长期行为分布
+5. [ST-$π$: Structured SpatioTemporal VLA for Robotic Manipulation](/202604/22/2604.17880v1-st--structured-spatiotemporal-vla-for-robotic-manipulation)  
    标签：评分：7.0/10、query:tp
-   evidence：为飞机监视生成轨迹
-9. [FlowCoMotion: Text-to-Motion Generation via Token-Latent Flow Modeling](/202604/21/2604.11083v2-flowcomotion-text-to-motion-generation-via-token-latent-flow-modeling)  
+   evidence：用于动作预测的时空VLA
+6. [XEmbodied: A Foundation Model with Enhanced Geometric and Physical Cues for Large-Scale Embodied Environments](/202604/22/2604.18484v1-xembodied-a-foundation-model-with-enhanced-geometric-and-physical-cues-for-large-scale-embodied-environments)  
+   标签：评分：7.0/10、query:tp
+   evidence：具身轨迹感知的几何与物理线索
+7. [Accelerating trajectory optimization with Sobolev-trained diffusion policies](/202604/22/2604.19011v1-accelerating-trajectory-optimization-with-sobolev-trained-diffusion-policies)  
+   标签：评分：7.0/10、query:tp
+   evidence：利用学习的扩散策略加速轨迹优化
+8. [MOSA: Motion-Guided Semantic Alignment for Dynamic Scene Graph Generation](/202604/22/2604.19631v1-mosa-motion-guided-semantic-alignment-for-dynamic-scene-graph-generation)  
+   标签：评分：7.0/10、query:tp
+   evidence：编码对象对运动属性和动态交互
+9. [BOIL: Learning Environment Personalized Information](/202604/22/2604.17137v1-boil-learning-environment-personalized-information)  
    标签：评分：6.0/10、query:tp
-   evidence：学习用于语义对齐和高保真细节的运动表示
-10. [From Kinematics to Dynamics: Learning to Refine Hybrid Plans for Physically Feasible Execution](/202604/21/2604.12474v2-from-kinematics-to-dynamics-learning-to-refine-hybrid-plans-for-physically-feasible-execution)  
+   evidence：引导多智能体系统中的长期智能体行为
+10. [Do LLM-derived graph priors improve multi-agent coordination?](/202604/22/2604.17191v1-do-llm-derived-graph-priors-improve-multi-agent-coordination)  
    标签：评分：6.0/10、query:tp
-   evidence：机器人智能体物理可行的连续轨迹生成
-11. [Semantic Area Graph Reasoning for Multi-Robot Language-Guided Search](/202604/21/2604.16263v1-semantic-area-graph-reasoning-for-multi-robot-language-guided-search)  
+   evidence：大语言模型衍生的多智能体协作图先验
+11. [An Innovation-Based Approach to Detect Stealthy Disturbance Attacks in Maritime Monitoring](/202604/22/2604.17572v1-an-innovation-based-approach-to-detect-stealthy-disturbance-attacks-in-maritime-monitoring)  
    标签：评分：6.0/10、query:tp
-   evidence：在多机器人协作中融入高层任务意图
+   evidence：海事监测和AIS数据估计
 
 
 <div class="dpr-home-promo-card">
