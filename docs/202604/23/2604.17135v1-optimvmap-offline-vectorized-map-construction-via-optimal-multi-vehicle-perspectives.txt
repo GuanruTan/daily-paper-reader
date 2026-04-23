@@ -1,0 +1,433 @@
+Title: OptiMVMap: Offline Vectorized Map Construction via Optimal Multi-vehicle Perspectives
+
+URL Source: https://arxiv.org/pdf/2604.17135v1
+
+Published Time: Tue, 21 Apr 2026 01:03:13 GMT
+
+Number of Pages: 17
+
+Markdown Content:
+# OptiMVMap: Offline Vectorized Map Construction via Optimal Multi-vehicle Perspectives 
+
+## Zedong Dan 1,2†, Zijie Wang 1,4†, Wei Zhang 3, Xiangru Lin 1, Weiming Zhang 3, Xiao Tan 3,Jingdong Wang 3, Liang Lin 1,5, Guanbin Li 1,4,51Sun Yat-sen University 2Zhongguancun Academy 3Baidu Inc. 
+
+4Shenzhen Loop Area Institute 5Guangdong Key Laboratory of Big Data Analysis and Processing 
+
+{danzd, wangzj75 }@mail2.sysu.edu.cn, liguanbin@mail.sysu.edu.cn 
+
+## Abstract 
+
+Offline vectorized maps constitute critical infrastructure for high-precision autonomous driving and mapping ser-vices. Existing approaches rely predominantly on single ego-vehicle trajectories, which fundamentally suffer from viewpoint insufficiency: while memory-based methods ex-tend observation time by aggregating ego-trajectory frames, they lack the spatial diversity needed to reveal occluded re-gions. Incorporating views from surrounding vehicles offers complementary perspectives, yet naive fusion introduces three key challenges: computational cost from large candi-date pools, redundancy from near-collinear viewpoints, and noise from pose errors and occlusion artifacts. We present OptiMVMap, which reformulates multi-vehicle mapping as a select-then-fuse problem to address these challenges systematically. An Optimal Vehicle Selec-tion (OVS) module strategically identifies a compact sub-set of helpers that maximally reduce ego-centric uncer-tainty in occluded regions, addressing computation and re-dundancy challenges. Cross-Vehicle Attention (CVA) and Semantic-aware Noise Filter (SNF) then perform pose-tolerant alignment and artifact suppression before BEV-level fusion, addressing the noise challenge. This targeted pipeline yields more complete and topologically faithful maps with substantially fewer views than indiscriminate ag-gregation. On nuScenes and Argoverse2, OptiMVMap im-proves MapTRv2 by +10.5 mAP and +9.3 mAP, respec-tively, and surpasses memory-augmented baselines MVMap and HRMapNet by +6.2 mAP and +3.8 mAP on nuScenes. These results demonstrate that uncertainty-guided selection of helper vehicles is essential for efficient and accurate multi-vehicle vectorized mapping. The code is released at https://github.com/DanZeDong/OptiMVMap. 
+
+> †
+
+Equal Contribution. Work done during an internship at Baidu. 
+
+> *
+
+Corresponding author is Guanbin Li. 
+
+## 1. Introduction Frames     
+
+> Map Decoder
+> (a) memory augmented single-vehicle map construction
+> memory ...
+> Select Map Decoder
+> PV2BEV
+> or
+> PV2BEV fuse
+> features
+> fuse
+> (b) OptiMVMap: select-then-fuse multi-vehilce map construction
+> ego’s BEV feature warpped non-ego’s BEV feature :where the lane should be in ego’s BEV
+> :where the lane actually is in non-ego’s BEV
+> CVA
+> align denoise
+> Map Decoder
+> SNF
+
+Figure 1. Comparison on the various design of map construc-tion framework. (a) Memory-augmented single-vehicle meth-ods with temporal memory (e.g.MVMap) or coarse map history (e.g.HRMapNet). (b) OptiMVMap: adopts Select–then–Fuse paradigm: selects complementary non-ego views first, then aligns and denoises during fusion. 
+
+Vectorized map construction—recovering structured map elements (lanes, boundaries, crossings) as geometric primitives from sensor observations—is critical infrastruc-ture for autonomous driving, enabling localization, path planning, and decision-making [3, 20, 32]. Current ap-proaches fall into two paradigms: online methods decode maps frame-by-frame in real-time under strict latency con-straints [5, 8, 9, 26, 28], while offline methods collect sensor logs in-vehicle and generate maps off-board, elimi-nating communication and bandwidth constraints. We fo-cus on the offline setting—the de facto industry practice [3, 20]—which adopts a “collect first, build later” paradigm for production mapping systems, and is broadly consis-tent with large-scale off-board auto-labeling pipelines in autonomous driving[23]. Existing offline methods pre-
+
+> arXiv:2604.17135v1 [cs.CV] 18 Apr 2026
+
+dominantly rely on single-vehicle trajectories, formulating map construction as object detection and adopting DETR-based architectures to decode vectorized elements from ego-centric BEV features [4, 5, 9, 11] (Fig. 1(a)). However, single-trajectory construction faces a fundamental bottle-neck: viewpoint insufficiency —restricted to one perspec-tive, the ego vehicle suffers from occlusions and long-range degradation, resulting in missing map elements in complex or distant areas. To address the viewpoint insufficiency, recent methods adopt memory-augmented strategies in two primary forms (illustrated in Fig. 1b): (i) temporal memory aggregates ad-jacent frames from the same trajectory [9, 22, 24, 30]; and (ii) map-level history memory accumulates nearby outputs into a coarse, rasterized local map [27]. While these meth-ods expand temporal context, they remain fundamentally single-vehicle: the additional observations come from re-dundant and nearly collinear viewpoints, thus failing to in-troduce the diversity and complementarity necessary to re-veal occluded or distant regions. Worse, without quality control, early errors propagate and corrupt future predic-tions. Critically, memory-based methods merely extend ob-servation time but do not fundamentally resolve viewpoint insufficiency—they lack the spatial diversity that only com-plementary vehicle perspectives can provide 
+
+An intuitive solution is to move beyond a single ego viewpoint and incorporate complementary views from other vehicles: larger inter-view parallax and time gaps restore visibility, reducing uncertainty in occluded and long-range regions. Indeed, our analysis reveals that 84.6% (nuScenes) and 70.2% (AV2) of scenes include other trajectories within 60m, and the ego vehicle is typically accompanied by 10+ non-ego viewpoints across distance bins (Fig. 2), render-ing multi-vehicle integration both feasible and promising. However, effectively leveraging this abundance of view-points is non-trivial. Naively fusing all nearby vehicles in-troduces three key challenges: (i) the candidate pool is large and heterogeneous, making exhaustive fusion computation-ally prohibitive; (ii) spatial proximity does not guarantee complementary information—nearby vehicles may provide redundant near-collinear views; and (iii) indiscriminate fu-sion amplifies noise from pose errors and occlusion-induced artifacts. To address these challenges, we adopt a select-then-fuse paradigm: strategically identify a compact subset of helper vehicles that maximally reduce ego-centric uncer-tainty in occluded regions, then refine their alignment and suppress fusion noise before integration. To instantiate this paradigm, we propose Opt imal Multi-
+
+Vehicle Vectorized Map Construction ( OptiMVMap ), a plug-and-play framework (overview in Fig. 3). At its core lies an Optimal Vehicle Selection (OVS) module that transforms selection into a principled decision problem: it ranks non-ego candidates by their expected reduction ego vehicle non-ego vehicles Number of ego vehicles with >10 non-ego vehicle’s      
+
+> viewpoints in different distance interval 0-10 10-20 20-30 30-40 40-50 50-60 Distance interval (m) Number of ego vehicles  17500 15000 12500 10000 7500 5000 2500 0
+
+Figure 2. Surrounding vehicle analysis. Across all distance in-tervals, there are more than 14,000 ego-vehicles with at least 10 non-ego vehicles in nuScenes dataset. 
+
+in ego-centric BEV uncertainty over occluded and long-range regions while accounting for spatial relevance, ge-ometric visibility, and viewpoint complementarity, retain-ing only a compact subset to bound computation and elim-inate redundancy. Critically, even after selection, pose and temporal drift cause BEV misalignment (Fig. 1, bot-tom), and residual fusion noise persists. We address these through a lightweight refinement approach: Cross-Vehicle Attention (CVA) performs pose-tolerant BEV alignment to compensate for extrinsic inaccuracies and temporal asyn-chrony, while a Semantic-aware Noise Filter (SNF) ap-plies learned, content-aware weights to suppress occlusion-and dynamics-induced artifacts. The refined BEV features are then fused, yielding maps that are more complete and topologically faithful than those produced by view-agnostic aggregation, yet obtained with substantially fewer fused views. To enable multi-vehicle research, we extend nuScenes and Argoverse2 to nuScenes-MV and AV2-MV by associ-ating each ego frame with helper views from other trajec-tories (60m radius, ≥30min separation). Evaluation proto-cols remain unchanged for fair comparison. Comprehen-sive evaluations demonstrate that OptiMVMap outperforms existing methods by substantial margins. When integrated with MapTRv2, it establishes a new state of the art, improv-ing mAP over the single-vehicle baseline by +10.5mAP 
+
+on nuScenes and +9.3mAP on Argoverse2. Furthermore, it surpasses the memory-augmented single-vehicle methods MVMap and HRMapNet by +6.2 mAP and +3.8 mAP , re-spectively, on nuScenes. Our main contributions are as follows: • To our knowledge, we are the first to systematically inves-tigate offline vectorized map construction from a multi-vehicle perspective, identifying that indiscriminate view aggregation is suboptimal due to redundant viewpoints and pose/temporal noise. • We propose OptiMVMap , which reformulates multi-vehicle mapping as a select–then–fuse problem to aggre-gate diverse yet complementary views. • OptiMVMap integrates seamlessly with existing vector-ized map perception methods and achieves state-of-the-art performance on nuScenes and Argoverse2 with a small OVS-selected helper set, confirming that selective, complementary-view fusion is essential for robust vector-ized mapping. 
+
+## 2. Related Works 
+
+2.1. Single-vehicle Vectorized Map Construction 
+
+Single-vehicle Methods. Classical maps rely on SLAM with costly human refinement [14, 15]. Recent works au-tomate vectorized map construction from onboard sensors. HDMapNet [7] produces BEV semantic segmentations with heuristic vectorization. Recent work also explores improv-ing lane/centerline learning through generative BEV priors, e.g., LaneDiffusion [17]. VectorMapNet [11] is the first end-to-end framework that autoregressively decodes point sequences. Building on this line, DETR-style designs de-code instances directly from BEV features [4, 5, 8, 9, 28]. 
+
+Memory-augmented Single-vehicle Methods. To mitigate the limited field of view of a single vehicle, StreamMap-Net and IC-Mapper aggregate temporally adjacent frames along the same ego trajectory [24, 30]. HRMapNet [27] writes nearby predictions into a coarse local raster canvas, while MVMap [22] fuses entire ego trajectory frames with a NeRF-style module. However, these memories remain fundamentally single-vehicle: additional observations are drawn from nearly collinear viewpoints and thus provide limited parallax to recover occluded or long-range structure; further, the lack of memory quality control allows early errors to be preserved and propagated. In contrast, Opti-MVMap differs fundamentally: rather than accumulating all ego frames, it follows a select–then–fuse paradigm, se-lecting non-ego vehicles from nearby trajectories to provide complementary context where the ego view is uncertain, while filtering noisy or redundant observations. 
+
+2.2. Online Vectorized Map Construction 
+
+Most single-vehicle end-to-end methods run in an online 
+
+manner—decoding vectorized elements per frame from the current sensor stream [4, 5, 8, 9, 28]. Streaming-memory variants enlarge the temporal window yet remain fundamen-tally single-vehicle [24, 30]. In contrast, we target the of-fline setting: leveraging cross-trajectory evidence from mul-tiple vehicles to harvest complementary views and improve reliability under occlusions and at long range, while remain-ing compatible as a plug-in to standard online backbones. 
+
+2.3. Offline Vectorized Map Construction 
+
+Offline vectorized maps are the backbone of high-precision driving and mapping services [3, 20]. VMA [3] proposes a scalable divide-and-conquer system that represents ele-ments as unified point sequences for city-scale production. DuMapNet [20] injects priors as queries with group-wise prediction and contextual prompts, improving spatial con-sistency and enabling large-scale deployment. LDMapNet-U [21] further extends this production-oriented line to lane-level map updating with prior-map encoding and instance-level change prediction. Beyond these production sys-tems, MVMap [22] performs dense volumetric fusion of an ego trajectory in an offline pipeline. Although this yields stronger spatial consistency than streaming approaches, it aggregates only single-vehicle views and lacks utility-aware admission, leading to near-collinear redundancy and propa-gation of early errors. In contrast, our OptiMVMap adopts a select-then-fuse strategy guided by semantic/uncertainty cues, retaining only a small set of high-value candidates and focusing computation on complementary evidence. 
+
+## 3. Methodology 
+
+3.1. Problem Setup 
+
+Given surround-view images of the ego vehicle Ie =
+
+{Iie}Ni=1 and surround-view images of M candidate non-ego vehicles {I vj }Mj=1 with Ivj = {Iivj }Ni=1 , our offline 
+
+setting considers cross-trajectory observations that may be asynchronous but can be temporally and spatially aligned to a common BEV frame. From the M candidates, the OVS module selects a top-K subset to serve as helper ve-hicles ( K ≪ M ), where N is the number of surround-view cameras per vehicle. The goal of offline multi-vehicle vectorized map construction is to recover the local BEV map from the ego images together with the selected non-ego evidence. The final output is a set of vectorized map elements {(c, P)}, where c is a semantic class label and 
+
+P = {(xi, y i)}Li=1 is an ordered 2D point sequence of length L in the BEV coordinate system. 
+
+3.2. Overview 
+
+In general, we adopt a select–then–fuse offline pipeline with two stages: (1) Optimal Vehicle Selection. Given the ego and M candidate non-ego vehicles, OVS ranks candidates by their expected reduction in ego-centric BEV uncertainty over occluded and long-range regions—using spatial relevance, visibility, and baseline complementar-ity—and selects a compact top-K set. (2) Lightweight fusion. The selected views enter a two-step BEV fea-ture path (Fig. 3): Cross-Vehicle Attention (CVA) per-forms pose-tolerant cross-trajectory alignment and infor-mation exchange to produce per-pair aligned features; a 
+
+Semantic-aware Noise Filter (SNF) then applies learned semantic weights to suppress occlusion-/dynamics-induced artifacts and aggregates the aligned features into a consoli-dated BEV representation. Finally, a standard DETR-style map decoder operates on the fused BEV feature to produce vectorized map instances. OptiMVMap is plug-and-play Map Queries 
+
+ego non-ego non-ego 
+
+> semantic segment
+
+Backbone   
+
+> Q
+> Cross Vehicle Attention Layers
+> Cross Vehicle Attention Layers
+> Cross Vehicle Attention Layers
+> C
+> VQ,V
+> C
+> VQ
+> Image Encoder
+> Semantic Encoder
+> Cross Vehicle Attention network
+> Noise Scorer
+> Noise Scorer
+> Noise Scorer
+> Aggregation
+> Semantic-aware Noise Filter
+> Map Decoder
+> Map Decoder Bf
+> BeBeehanced Besem
+> Bv1
+> Bv2
+> Bv1
+> sem
+> Bv2
+> sem
+> PV2BEV Soft LSS
+> PV2BEV Hard LSS
+> Bv1
+> fused
+> Bv2
+> fused
+> 1. Generate uncertainty maps
+> non ego uncertainty maps
+> OVS network
+> 2. Using OVS network to score each non-ego vehicles
+> 0.07
+> 0.46 0.41
+> 0.01 0.02 0.01 0.01 0.01
+> 0.46 0.41 ...
+> ego
+> ego
+> CVA layer QV
+> Cross Attention V
+> non-ego pos
+> Q
+> MLP
+> non-ego
+
+OVS network for each ego/non-ego vehicle pair 
+
+> non-ego CSingle-Vehicle Map Construction Output Uncertainty Map
+
+Optimal Vehicle Selection ego Multi-Vehicle Map Construction with Light-weight Fusion Figure 3. Overview of OptiMVMap (Select then Fuse). Firstly, OVS ranks non-ego vehicles by their expected reduction of ego-centric BEV uncertainty (occluded/long-range) and selects a compact top-K. Selected views are aligned via pose-tolerant Cross-Vehicle Attention (CVA), then denoised and aggregated by a Semantic-aware Noise Filter (SNF) into a fused BEV feature. A DETR-style decoder queries the fused BEV to produce vectorized map instances; the module is plug-and-play and detector-agnostic. 
+
+and detector-agnostic : it attaches at the BEV feature level as a pre-decoder module and requires no changes to down-stream decoders. 
+
+3.3. Optimal Vehicle Selection 
+
+Selecting non-ego vehicles optimally is central to reliable mapping: useful helpers are those that (i) most reduce the ego’s BEV uncertainty in occluded and long-range regions and (ii) occupy geometrically complementary positions rel-ative to the ego. Guided by these factors, we introduce the 
+
+Optimal Vehicle Selection (OVS) module to choose the most beneficial non-ego vehicles. 
+
+Two-stage strategy. As illustrated in Fig. 3, OVS pro-ceeds in two stages: single-vehicle uncertainty estimation 
+
+followed by multi-vehicle selection . First, for each vehicle, we compute a BEV uncertainty map that highlights high-uncertainty areas; we then form the candidate set for each ego by spatial partitioning and proximity. Next, we cre-ate the candidate non-ego vehicle set for each ego vehicle according to their positions. The uncertainty maps and po-sitions of both ego and candidate non-ego vehicles are then fed into the OVS network, which selects the optimal non-ego vehicles. By design, the budget K is small (e.g., 1–3), preventing redundant, near-collinear choices and bounding downstream computation. This approach significantly re-duces uncertainty within the ego vehicle’s critical percep-tion regions. Finally, we integrate selected non-ego vehi-cles’ views to obtain the final multi-vehicle vectorized map. Firstly, to generate the uncertainty map for each vehicle, we individually input each vehicle’s views into the map con-struction model and obtain point-wise classification uncer-tainties UP corresponding to each polyline point P. These uncertainties indicate regions that need improvement with-out non-ego assistance. To obtain pixel-wise uncertainty 
+
+Ui,j , we convert them to a pixel-wise BEV map by averag-ing within a radius-d neighborhood: 
+
+Ui,j = 1
+
+|Ωi,j |
+
+X
+
+> P∈Ωi,j
+
+UP. (1) where Ωi,j collects points within distance d of pixel (i, j ).Then, to create the candidate non-ego set, we partition the ego vehicle’s BEV space into Nh × Nw equally-sized square regions, selecting the closest non-ego vehicle to each region center as a candidate. Next, we encode pixel-wise uncertainty maps into com-pact features Ue (ego) and Uv (each non-ego v) via a small BEV Pixel Index Depth Prob. PV Feature                            
+
+> 0011122... ... ... 0.2 0.3 0.1 0.15 0.07 0.35 0.1 137-1 -2 48
+> Max Pooling according to Depth Prob.
+> ... -1 43BEV Feature BEV Pixel Index Frustum Feature
+> 0011122... ... 0.2 0.9 0.7 -0.15-0.14 1.4 0.8
+> Sum Pooling
+> ... 0.41 2.2 1.1 BEV Feature Soft LSS with BEV Sum Pooling Hard LSS with BEV Max Pooling
+
+Figure 4. Comparison between Soft LSS and Hard LSS. 
+
+convolutional network Gθ :
+
+Ue = Gθ (Ue), Uv = Gθ (Uv ). (2) To assess uncertainty-reducing potential, we spatially align 
+
+Ue with each candidate Uv using a CVA step, generating integrated uncertainty features: 
+
+ˆUv = F(Ue, Uv ). (3) Each non-ego’s spatial position embedding Ev then serves as a query in a cross-attention module with ˆUv , and an MLP produces a suitability score sv :
+
+sv = MLP (CA (Ev , ˆUv )) . (4) Finally, we select the top-K non-ego vehicles based on 
+
+{sv }. By construction, OVS concentrates computation on high-utility, geometrically complementary helpers and tar-gets uncertainty reduction in the ego’s hard regions, provid-ing the inputs for the subsequent CVA/SNF fusion pipeline. 
+
+3.4. Multi-vehicle Vectorized Map Construction 
+
+BEV Encoder. We first extract per-view (PV) image and 
+
+semantic features for the ego and each non-ego vehicle. Let the ego’s multi-view images and semantic segmentations be 
+
+Ie and Se (and analogously Iv , Sv for a non-ego v). Us-ing separate convolutional image and semantic encoders, we first derive PV features Fe and Fv , and their seman-tic counterparts Fsem e and Fsem v . These PV features are then transformed into BEV features Be and Bv , and their semantic counterparts Bsem e and Bsem v , using the PV2BEV module. We use LSS [12] to transform PV image features into BEV features. In LSS’s BEV pooling, it directly sums depth-weighted PV features (frustum features) into BEV grids, performing a soft assignment (Soft-LSS). However, for PV semantic features, this soft assignment leads to se-mantic ambiguity. To mitigate this, we propose Hard-LSS: we directly assign PV semantic features to BEV grids and use depth probabilities as confidence scores. As illustrated in Fig. 4, for each BEV grid cell, we retain only the seman-tic feature corresponding to the highest depth probability. Each non-ego BEV feature Bv is then initially aligned to the ego BEV coordinates by BEV warping using coordinate transformations derived from camera parameters. 
+
+Cross-Vehicle Attention (CVA) network. We apply CVA only to the OVS-selected helpers so that cross-vehicle align-ment and fusion remain lightweight. The Cross-Vehicle At-tention (CVA) network progressively aligns and integrates BEV features from ego and non-ego vehicles. Due to cal-ibration errors across vehicles, BEV warping cannot fully resolve rotational and translational misalignments. CVA addresses these by learned, feature-conditioned sampling 
+
+while exchanging information across vehicles. A CVA layer is denoted as F(Qin , V). First, each non-ego BEV feature 
+
+Bv is individually fused with the ego feature Be, generating intermediate aligned features. Subsequently, another CVA layer further refines alignment by integrating these interme-diate features with the original non-ego features: 
+
+Bf used v = F(F(Be, Bv ), Bv ), (5) where Bf used v denotes the refined non-ego BEV feature af-ter alignment and integration. Specifically, a CVA layer F
+
+is adapted from deformable attention [31]. Given a query feature Qin , value feature V, and a set of reference points 
+
+R, CVA computes adaptive sampling offsets and weights as follows: 
+
+Qout = Qin +
+
+> Nof f
+
+X
+
+> i=1
+
+Wi · DA (Qin , R + Oi, Wv V), (6) 
+
+Oi = OffsetProj ([ Qin , V]) , Wi = WeightEmbed ([ Qin , V]) ,
+
+(7) where Oi and Wi represent sampling offsets and weights, respectively; Nof f is the number of sampling offsets for each query; and R denotes reference points. We use two shallow CVA layers with a small Nof f , yielding near-linear cost in HW and K under our small-K regime. Addition-ally, to ensure consistency, the ego vehicle’s BEV features are also self-enhanced using CVA: 
+
+Benhanced e = F(F(Be, Be), Be). (8) 
+
+Semantic-aware Noise Filter (SNF). After CVA, residual artifacts may persist (e.g., dynamics- and occlusion-induced noise). Guided by semantic and uncertainty priors, SNF computes pixel-wise weights indicating confidence in each feature’s reliability. SNF acts as a quality gate, normaliz-ing contributions across ego + selected non-ego vehicles at each pixel. Weights for Benhanced e and each Bf used vj are computed as: 
+
+Se, Sv1 , ..., SvK = Softmax (NS (Benhanced e , Bsem e ),
+
+NS (Bf used v1 , Bsem v1 ), ..., 
+
+NS (Bf used vK , Bsem vK )) 
+
+(9) where NS is a noise-scoring convolutional network. The final BEV representation is an adapted combination of the ego-enhanced and fused non-ego features, modulated by the learned reliability weights: 
+
+Bf = Se ⊙ Benhanced  
+
+> e
+
++
+
+> K
+
+X
+
+> j=1
+
+Svj ⊙ Bfused  
+
+> vj
+
+, (10) where ⊙ denotes element-wise multiplication. This semantic-aware gating suppresses noisy or conflicting ev-idence while stabilizing fusion across sources. 
+
+Map decoder. Given the fused BEV feature Bf produced by CVA and SNF, we employ a standard vectorized map decoder to generate the vectorized map. The framework is decoder-agnostic: any DETR-style design and query-initialization scheme can be used (e.g., MapTRv2 [9]) with-out modification. 
+
+3.5. Training 
+
+We train in two stages. (i) Fusion backbone pretraining: 
+
+CVA + SNF + decoder are trained with random non-ego ve-hicle sampling (OVS disabled). (ii) OVS training: the pre-trained fusion backbone is fixed and OVS is learned to select helpers. At inference, only the OVS-selected Top-
+
+K views are fused, preserving the lightweight design. To train the multi-vehicle vectorized map construction model, following MapTRv2 [9], we use a one-to-one set predic-tion loss including a classification loss, a point-to-point loss and an edge direction loss. When plugging OptiMVMap into MapTRv2-like methods, the one-to-many set predic-tion loss Lone 2many is also adopted. Besides, we use a dense prediction loss Ldense to further leverage semantic and geometric information, consisting of a depth prediction loss, a BEV semantic segmentation loss, a BEV instance segmentation loss and a PV segmentation loss. Note that 
+
+Ldense is applied on Benhanced e , {Bvj }Kj=1 and Bf . The overall loss is: 
+
+Lmap = βoLone 2one + βmLone 2many + βdLdense . (11) To stabilize OVS and avoid label ambiguity, we construct candidate sets such that the non-ego vehicle selected from each of the 8 BEV regions is distinct, yielding a unique opti-mal subset for the chosen K. Every possible vehicle combi-nation is evaluated via mean average precision (mAP), and the highest-score set is used as ground truth. We train OVS with a sigmoid BCE loss: 
+
+LOVS = − 1
+
+|V| 
+
+X
+
+> v∈V
+
+[yv log( σ(sv )) + (1 − yv ) log(1 − σ(sv ))] ,
+
+(12) where V is the set of candidate non-ego vehicles and σ(·)
+
+denotes the sigmoid function. This objective drives the net-work to assign higher scores to candidate views that effec-tively reduce uncertainty and improve mapping quality. 
+
+## 4. Experiments 
+
+4.1. Experimental Settings 
+
+Datasets. The large-scale nuScenes[1] dataset includes 2D city-level global vectorized maps and 1,000 scenes, each approximately 20 seconds long, with each frame pro-viding RGB images from 6 cameras. The Argoverse 2 (AV2)[18] dataset contains 1000 scenes from 6 U.S. cities, each roughly 15s long, and provides synchronized RGB im-ages from seven cameras. As introduced in Sec.1, we ex-tend the two datasets into nuScenes-MV and Argoverse2-MV datasets as follows: for each ego vehicle, we first select non-ego vehicles within a 60m radius from other trajecto-ries with a ≥ 30 min time separation to avoid near-collinear viewpoints and to leverage occlusion changes; If none exist, we select frames from the same trajectory as fallback. 
+
+Metrics. We conduct evaluation with Chamfer distance based Average Precision (AP) following previous main-stream works [7, 9] for fair comparisons. The AP is cal-culated under the average of three Chamfer distance thresh-olds of 0.5, 1.0, and 1.5 meters. The perception ranges are [-15.0m, 15.0m] for the X-axis and [-30.0m, 30.0m] for the Y-axis. Three types of map instances are selected for HD map construction, including pedestrian crossing, lane di-vider, and road boundary. 
+
+Implementation Details. Please refer to the supplementary document for more details. 
+
+4.2. Main Results 
+
+Select–then–Fuse delivers state-of-the-art with few helpers. Unless otherwise specified, we use a small helper 
+
+K=2 non-ego vehicles. On nuScenes (Table 1), simply plugging OptiMVMap into MapTRv2 already yields a sub-stantial gain, and adding MGMap’s query initialization (QI) further lifts the improvement to +10.5 mAP (61.5 →72.0). With few more budget ( K=5 ), MapTRv2 + OptiMVMap reaches 73.9 mAP, setting a new SOTA on nuScenes (+2.1 over InterationMap on 24 epoch setting). For 110 epoch set-ting, we reach 78.1 mAP (+1.6 over MapExpert). We also surpass the prior best on AV2 by 0.8 mAP with only K=2 .
+
+Plug-and-play across architectures. OptiMVMap acts as a modular layer that consistently improves diverse backbones. For the autoregressive VectorMapNet, it brings +14.2 mAP (40.9 →55.1). For the leading ap-proach MGMap, OptiMVMap improves our reproduction MGMap by +6.1 mAP (63.2 →69.3), demonstrating that uncertainty-guided selection, pose-tolerant alignment, and semantic-aware denoising transfer effectively across decod-ing paradigms. 
+
+Beyond memory-augmented single-vehicle. Compared with memory-augmented baselines, OptiMVMap achieves higher accuracy with only K=2 ∼ 3 helpers. Specifically, relative to MVMap (on VectorMapNet) we observe +6.2 Table 1. Comparison with SOTA on nuScenes. Unless otherwise specified, we use K=2 non-ego helpers for OptiMVMap plug-in experiments. 
+
+Methods Backbone Epochs AP div (↑) AP ped (↑) AP bnd (↑) mAP (↑)
+
+MapTR [8] R50 24 46.3 51.5 53.1 50.3 MapVR [26] R50 24 56.2 56.5 60.1 57.6 PivotNet [5] R50 30 47.7 54.4 51.4 51.2 BeMapNet [13] R50 30 62.3 57.7 59.4 59.8 StreamMapNet [24] R50 30 66.3 61.7 62.1 63.4 HIMap [29] R50 30 68.4 62.6 69.1 66.7 Mask2Map [4] R50 24 71.3 70.6 72.9 71.6 InteractionMap [19] R50 24 72.7 69.7 73.0 71.8 VectorMapNet [11] R50 24 36.1 47.3 39.3 40.9 VectorMapNet + MVMap [22] R50 24 55.0 46.2 45.5 48.9 VectorMapNet + OptiMVMap R50 24 51.2 60.3 54.8 55.1 MGMap [10] R50 24 61.8 65.0 67.5 64.8 MGMap†[10] R50 24 64.2 60.1 65.3 63.2 MGMap + OptiMVMap R50 24 69.3 66.5 72.2 69.3 MapTRv2 [9] R50 24 59.8 62.4 62.4 61.5 MapTRv2 + HRMapNet [27] R50 24 67.4 65.8 68.5 67.2 MapTRv2 + OptiMVMap R50 24 70.0 70.6 72.2 71.0 MapTRv2 + OptiMVMap + QI R50 24 71.0 71.5 73.6 72.0 MapTRv2 + OptiMVMap ( K=5) R50 24 72.5 73.8 75.4 73.9 MapTRv2 + OptiMVMap ( K=7) R50 24 72.7 74.2 76.1 74.3 
+
+MapTracker [2] R50 100 72.4 77.3 74.2 74.7 MapExpert [25] R50 100 73.9 79.4 76.2 76.5 MapTRv2 + OptiMVMap ( K=7) R50 110 76.1 78.5 79.7 78.1 
+
+Table 2. Comparison with SOTA on AV2. Unless otherwise spec-ified, we use K=2 non-ego helpers for OptiMVMap plug-in ex-periments. All results are obtained under the same setting with an ResNet50 backbone, 3-dim prediction.                                 
+
+> Methods AP div (↑)AP ped (↑)AP bnd (↑)mAP (↑)
+> MapTRv2 [9] 69.3 59.3 64.4 64.3 HIMap [29] 68.3 66.7 70.3 68.4 MapTracker [2] 66.4 74.5 73.4 71.4 InteractionMap [19] 75.5 67.7 73.1 72.1 MapExpert [25] 66.9 76.4 75.1 72.8 MapTRv2 + HRMapNet [27] 71.5 64.1 69.7 68.5 MapTRv2 + OptiMVMap 75.9 70.4 74.7 73.6
+
+mAP (48.9 →55.1), and relative to HRMapNet (on Map-TRv2) we gain +3.8 mAP (67.2 →71.0). These results sup-port the premise in Sec. 1: complementary, non-collinear viewpoints selected by OVS, aligned by CVA, and denoised by SNF are more effective than longer temporal stacks or coarse map histories. By fusing BEV features rather than output rasters, our pipeline preserves richer BEV informa-tion prior to decoding, yielding cleaner topology under oc-clusions and at long range. 
+
+Cross-dataset generalization. On Argoverse 2 (Ta-ble 2), plugging OptiMVMap into MapTRv2 improves the baseline by +9.3 mAP (64.3 →73.6) and surpasses HRMapNet by +5.1 mAP (68.5 →73.6), indicating that the uncertainty-guided select–then–fuse paradigm generalizes 
+
+Figure 5. Comparison of qualitative results on the nuScenes dataset. “Unc. Map” means uncertainty map. The blue car lo-gos in GT. figure show the locations of non-ego vehicles. 
+
+beyond nuScenes with the small helper budget. Achieving a new SOTA on AV2 (+1.5 over the InteractionMap, +0.8 over the MapExpert) further confirms OptiMVMap’s cross-dataset generalization. 
+
+4.3. Ablation Studies 
+
+We conduct ablations to test the hypothesis that selecting a small, complementary helper set before fusion is the pri-mary driver of performance. Unless otherwise specified, all ablations are trained for 24 epochs on the full nuScenes training set. For the main component analysis, following Mask2Map, we train for 24 epochs on a 1/4 nuScenes sub-set to enable faster iteration. 
+
+Contribution of Main Components. Table 3 progres-sively adds each component to MapTRv2 baseline. Sim-ply concatenating ego and non-ego features and fusing them through shallow MLPs provides only a marginal +1.8 mAP gain, since naive fusion fails to compensate for noise and cross-vehicle misalignment. Adding CVA yields +2.6 mAP (39.5 →42.1), confirming that pose-tolerant cross-vehicle alignment is a prerequisite for reliable fusion. Introducing SNF provides another +2.0 mAP (42.1 →44.1) by suppress-ing occlusion-/dynamics-induced artifacts. Further replac-ing BEV sum pooling with depth–semantic decoupled max pooling brings +0.9 mAP (44.1 →45.0) for avoiding seman-tic blurring. Finally, adding OVS on top lifts performance by a further +4.8 mAP (45.0 →49.8), exceeding the com-bined gains of alignment and denoising, indicating that se-lecting a small set of complementary helpers before fusion is the dominant driver of accuracy. 
+
+Effect of non-ego vehicle selection. Table 4 compares 
+
+OVS with two policies under the same helper budget K:(i) Random — uniformly sampling K helpers from the 60 m candidate pool, averaged over 10 independent trials; (ii) Closest — choosing the K spatially nearest helpers in the ego-centric BEV frame. The Random average remains substantially lower, implying that indiscriminate aggrega-tion of available frames tends to inject pose/asynchrony and occlusion noise and is therefore suboptimal. Mean-while, Closest mirrors temporal stacking behaviors (e.g., selecting near-collinear views as in trajectory-wise fusion), which provides limited parallax and high redundancy, yield-ing smaller improvements. OVS outperforms both by a clear margin ( +6.9 mAP over Random , +4.4 mAP over 
+
+Closest ), indicating that selecting complementary view-points—rather than merely nearby ones—drives the gains. 
+
+Analysis on helper budget K. As shown in Table 5, increasing K from 1 →2 yields +4.8 mAP. Enlarging K
+
+to 3, 4, and 5 brings only about +1 mAP per step (71.0 →72.1 →72.9 →73.9), and beyond that the curve grad-ually flattens, with merely +0.3 from K=5 to 6 and 
+
++0.1 from K=6 to 7. This small-K knee shows that an OVS-selected set of 2-5 complementary helpers captures most of the attainable gains; simply accumulating more frames delivers diminishing returns and increases redun-dancy/pose–async noise—i.e., indiscriminately “fusing-all” is not optimal. 
+
+Noise robustness under pose perturbations. Please refer to the supplementary document for more details. 
+
+4.4. Qualitative Analysis 
+
+In Fig. 10, walls occlude the pavement behind the ego and the far-range straight lanes, where the ego’s uncertainty map peaks. The MapTRv2 baseline misses these distant cen-terlines and warps boundaries; HRMapNet aggregates such errors without quality control. OptiMVMap selects two non-ego helpers whose viewpoints look through the wall-                                                                            
+
+> Table 3. Ablation analysis of key components on nuScenes.
+> Methods AP div (↑)AP ped (↑) AP bnd (↑)mAP( ↑)MapTRv2 baseline 35.1 34.8 43.1 37.7 Naive Fusion 38.0 35.0 45.5 39.5 CVA 40.5 38.7 47.1 42.1 CVA + SNF 43.9 38.2 50.2 44.1 CVA + SNF + BEV Max Pooling 42.8 41.2 50.9 45.0 CVA + SNF + Pooling + OVS 46.8 46.6 56.0 49.8
+> Table 4. Comparison of non-ego vehicle selection method (Ran-dom is averaged over 10 trials).
+> Methods AP div (↑)AP ped (↑)AP bnd (↑)mAP (↑)
+> Random 65.8 63.3 66.1 65.1 Closest 68.3 65.6 68.5 67.6 OVS 71.0 71.5 73.6 72.0
+> Table 5. Analysis on non-ego vehicle number K.
+> KAP div (↑)AP ped (↑)AP bnd (↑)mAP (↑)
+> 166.2 64.4 68.1 66.2 270.0 70.6 72.2 71.0 371.0 71.6 73.6 72.1 471.7 72.6 74.5 72.9 572.5 73.8 75.4 73.9 672.7 74.1 75.9 74.2 772.7 74.2 76.1 74.3
+
+occluded corridor and down the long straight, and—after alignment/denoising—recovers the straight lane lines and cleans the fork boundaries. The uncertainty hotspots pre-cisely coincide with these regions and guide OVS to the most complementary views, explaining why selective fu-sion succeeds where indiscriminate aggregation fails. More qualitative results are in the supplementary material. 
+
+## 5. Conclusion 
+
+We revisit offline vectorized map construction from a multi-vehicle perspective and present OptiMVMap, a plug-and-play select–then–fuse framework that aggregates comple-mentary views from surrounding vehicles. With only 2–5 selected helpers, OptiMVMap yields more complete and topologically faithful maps, particularly under occlusion and at long range. Integrated with MapTRv2, it achieves state-of-the-art performance on nuScenes and Argoverse2, consistently surpassing strong single-vehicle and memory-augmented baselines. These results demonstrate that prin-cipled, complementary-view selection—rather than indis-criminate aggregation—is essential for robust offline vec-torized mapping. We anticipate that our work will inspire future research on multi-perspective, selection-aware map-ping approaches. Acknowledgments 
+
+This work is supported in part by the National Key R&D Program of China (NO. 2024YFB3908503 and 2024YFB3908500), and in part by the National Natural Sci-ence Foundation of China (NO. 62322608). OptiMVMap: Offline Vectorized Map Construction via Optimal Multi-vehicle Perspectives 
+
+# Supplementary Material 
+
+Table 6. Robustness of injected pose noise on nuScenes. We report mAP under varying standard deviations of Gaussian rota-tion/translation noise.                                 
+
+> Rotation noise std. (rad) →
+> Methods 00.005 0.01 0.02 0.05 MapTRv2 61.5 60.8 58.0 50.6 32.3 MapTRv2 + OptiMVMap 71.0 70.8 70.6 69.8 65.7
+> Translation noise std. (m) →
+> Methods 00.05 0.1 0.5 1.0 MapTRv2 61.5 61.2 59.8 35.6 18.8 MapTRv2 + OptiMVMap 71.0 70.8 70.7 68.0 62.3
+
+## 6. Implementation Details 
+
+We employ ResNet50 [6] as the backbone network for im-age processing and ResNet18 for uncertainty map feature extraction in OVS. We utilize InternImage [16] as the pre-trained model for semantic prior generation. The default settings for instance queries, point queries, and decoder lay-ers are 50, 20, and 6, respectively. We use the AdamW opti-mizer with a learning rate of 6×10 −4 and a weight decay of 0.01. All models are trained using 8 80GB NVIDIA Tesla A100 GPUs, with a batch size of 4 per node, leading to a total batch size of 32. For the overall loss, we set βo = 1 ,
+
+βm = 1 , βd = 1 , βc = 1 .
+
+## 7. Noise robustness under pose perturbations. 
+
+Tab. 6 injects Gaussian rotation/translation noise into ve-hicle poses. From 0 to 0.05rad rotation noise, the Map-TRv2 baseline drops -29.2 mAP, whereas CVA retains most accuracy (-5.3 mAP). At 1m translation std., the baseline collapses to 18.8 mAP while our model still achieves 62.3 mAP. These show that explicit cross-vehicle alignment via CVA is essential for making BEV fusion robust to extrinsic inaccuracies. 
+
+## 8. Performance on Geospatially Disjoint Split. 
+
+Tab. 7 shows results on StreamMapNet’s disjoint split. Op-tiMVMap outperforms SOTA methods HRMapNet (+1.2) and MapExpert (+0.5 mAP), confirming generalization be-yond training locations. 
+
+Table 7. Performance on StreamMapNet Geo-Disjoint Split. 
+
+Method epoch AP div AP ped AP bnd mAP 
+
+StreamMapNet 24 30.1 29.6 41.9 33.9 HRMapNet 24 30.3 36.9 44.0 37.1 Ours 24 32.0 38.1 45.0 38.3 
+
+MapTracker 72 30.0 45.9 45.1 40.3 MapExpert 100 34.1 46.7 45.1 42.0 Ours 72 35.2 47.8 45.9 42.5 
+
+Table 8. Computational Efficiency. 
+
+Map Construction Efficiency Baseline FPS Ours FPS 
+
+HRMapNet 17.0 K=1 10.6 StreamMapNet 14.2 K=3 5.4 MapTRv2 14.1 K=5 4.8 
+
+Vehicle Selection Latency Random Closest OVS Latency (ms) 0.27 0.28 12.6 
+
+## 9. Computational Efficiency. 
+
+Tab. 8 shows our method at K=1 achieves near real-time in-ference comparable to MapTRv2. FPS decreases gradually with K, remaining acceptable for offline pipelines. OVS operates on low-resolution uncertainty maps, adding only 12.6ms/sample. 
+
+## 10. Extra Qualitative Results 
+
+We present 15 additional qualitative examples from the NuScenes and the Argoverse2 dataset using only 3 helper vehicles, covering challenging scenarios such as night-time crossroads, severe occlusion in rainy day, and dis-tant, curved lane-shape. These results reveal that Opti-MVMap can select the right non-ego vehicles that pro-vide complementary information for the uncertainty areas while not introducing too much noise. This enables the map decoder to restore missing map details due to oc-clusion or remote distance, and produce markedly higher-precision reconstructions. By contrast, HRMapNet occa-sionally underperforms even MapTRv2 in these challeng-ing settings, indicating that the absence of explicit noise filtering and data-source selection in HRMapNet leads to error accumulation and ultimately degrades map qual-Figure 6. More qualitative results on the nuScenes dataset. Figure 7. More qualitative results on the nuScenes dataset. Figure 8. More qualitative results on the nuScenes dataset. Figure 9. More qualitative results on the nuScenes dataset. Figure 10. More qualitative results on the Argoverse2 dataset. ity. 
+
+## References 
+
+[1] Holger Caesar, Varun Bankiti, Alex H Lang, Sourabh Vora, Venice Erin Liong, Qiang Xu, Anush Krishnan, Yu Pan, Gi-ancarlo Baldan, and Oscar Beijbom. Nuscenes: A multi-modal dataset for autonomous driving. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , 2020. 6 [2] Jiacheng Chen, Yuefan Wu, Jiaqi Tan, Hang Ma, and Ya-sutaka Furukawa. Maptracker: Tracking with strided mem-ory fusion for consistent vector hd mapping. In Proceedings of the European Conference on Computer Vision (ECCV) ,2024. 7 [3] Shaoyu Chen, Yunchi Zhang, Bencheng Liao, Jiafeng Xie, Tianheng Cheng, Wei Sui, Qian Zhang, Chang Huang, Wenyu Liu, and Xinggang Wang. VMA: Divide-and-conquer vectorized map annotation system for large-scale driving scene. arXiv preprint arXiv:2304.09807 , 2023. 1, 3[4] Sehwan Choi, Jungho Kim, Hongjae Shin, and Jun Won Choi. Mask2map: Vectorized hd map construction using bird’s eye view segmentation masks. In Proceedings of the European Conference on Computer Vision (ECCV) , 2024. 2, 3, 7 [5] Wenjie Ding, Limeng Qiao, Xi Qiu, and Chi Zhang. Pivot-net: Vectorized pivot learning for end-to-end hd map con-struction. In Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV) , 2023. 1, 2, 3, 7 [6] Kaiming He, Xiangyu Zhang, Shaoqing Ren, and Jian Sun. Deep residual learning for image recognition. In Proceed-ings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , 2016. 1 [7] Qi Li, Yue Wang, Yilun Wang, and Hang Zhao. Hdmapnet: An online hd map construction and evaluation framework. In Proceedings of the International Conference on Robotics and Automation (ICRA) , 2022. 3, 6 [8] Bencheng Liao, Shaoyu Chen, Xinggang Wang, Tianheng Cheng, Qian Zhang, Wenyu Liu, and Chang Huang. Maptr: Structured modeling and learning for online vectorized hd map construction. In Proceedings of the International Con-ference on Learning Representations (ICLR) , 2023. 1, 3, 7 [9] Bencheng Liao, Shaoyu Chen, Yunchi Zhang, Bo Jiang, Qian Zhang, Wenyu Liu, Chang Huang, and Xinggang Wang. Maptrv2: An end-to-end framework for online vectorized hd map construction. International Journal of Computer Vision (IJCV) , pages 1352–1374, 2024. 1, 2, 3, 6, 7 [10] Xiaolu Liu, Song Wang, Wentong Li, Ruizi Yang, Junbo Chen, and Jianke Zhu. Mgmap: Mask-guided learning for online vectorized hd map construction. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , 2024. 7 [11] Yicheng Liu, Tianyuan Yuan, Yue Wang, Yilun Wang, and Hang Zhao. Vectormapnet: End-to-end vectorized hd map learning. In Proceedings of the International Conference on Machine Learning (ICML) , 2023. 2, 3, 7 [12] Jonah Philion and Sanja Fidler. Lift, splat, shoot: Encoding images from arbitrary camera rigs by implicitly unproject-ing to 3d. In Proceedings of the European Conference on Computer Vision (ECCV) , 2020. 5 [13] Limeng Qiao, Wenjie Ding, Xi Qiu, and Chi Zhang. End-to-end vectorized hd-map construction with piecewise bezier curve. In Proceedings of the IEEE/CVF Conference on Com-puter Vision and Pattern Recognition (CVPR) , 2023. 7 [14] Tixiao Shan and Brendan Englot. Lego-loam: Lightweight and ground-optimized lidar odometry and mapping on vari-able terrain. In Proceedings of the IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS) , 2018. 3[15] Tixiao Shan, Brendan Englot, Drew Meyers, Wei Wang, Carlo Ratti, and Daniela Rus. Lio-sam: Tightly-coupled lidar inertial odometry via smoothing and mapping. In Proceed-ings of the IEEE/RSJ international conference on intelligent robots and systems (IROS) , 2020. 3 [16] Wenhai Wang, Jifeng Dai, Zhe Chen, Zhenhang Huang, Zhiqi Li, Xizhou Zhu, Xiaowei Hu, Tong Lu, Lewei Lu, Hongsheng Li, Xiaogang Wang, and Yu Qiao. Internim-age: Exploring large-scale vision foundation models with deformable convolutions. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , 2023. 1 [17] Zijie Wang, Weiming Zhang, Wei Zhang, Xiao Tan, Hongx-ing Liu, Yaowei Wang, and Guanbin Li. Lanediffusion: Im-proving centerline graph learning via prior injected bev fea-ture generation. In Proceedings of the IEEE/CVF Interna-tional Conference on Computer Vision (ICCV) , 2025. 3 [18] Benjamin Wilson, William Qi, Tanmay Agarwal, John Lam-bert, Jagjeet Singh, Siddhesh Khandelwal, Bowen Pan, Rat-nesh Kumar, Andrew Hartnett, Jhony Kaesemodel Pontes, Deva Ramanan, Peter Carr, and James Hays. Argoverse 2: Next generation datasets for self-driving perception and fore-casting. In Proceedings of the Conference on Neural Infor-mation Processing Systems Track on Datasets and Bench-marks (NeurIPS) , 2023. 6 [19] Kuang Wu, Chuan Yang, and Zhanbin Li. Interactionmap: Improving online vectorized hdmap construction with in-teraction. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , 2025. 7 [20] Deguo Xia, Weiming Zhang, Xiyan Liu, Wei Zhang, Chent-ing Gong, Jizhou Huang, Mengmeng Yang, and Diange Yang. DuMapNet: An end-to-end vectorization system for city-scale lane-level map generation. In Proceedings of the ACM SIGKDD Conference on Knowledge Discovery and Data Mining (KDD) , 2024. 1, 3 [21] Deguo Xia, Weiming Zhang, Xiyan Liu, Wei Zhang, Chent-ing Gong, Xiao Tan, Jizhou Huang, Mengmeng Yang, and Diange Yang. Ldmapnet-u: An end-to-end system for city-scale lane-level map updating. In Proceedings of the ACM SIGKDD Conference on Knowledge Discovery and Data Mining (KDD) , 2025. 3 [22] Ziyang Xie, Ziqi Pang, and Yu-Xiong Wang. Mv-map: Off-board hd-map generation with multi-view consistency. In 
+
+Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV) , 2023. 2, 3, 7 [23] Zhiyuan Yang, Xuekuan Wang, Wei Zhang, Xiao Tan, Jincheng Lu, Jingdong Wang, Errui Ding, and Cairong Zhao. Fusion4dal: Offline multi-modal 3d object detection for 4d auto-labeling. International Journal of Computer Vision , 133 (7):3951–3969, 2025. 1 [24] Tianyuan Yuan, Yicheng Liu, Yue Wang, Yilun Wang, and Hang Zhao. Streammapnet: Streaming mapping network for vectorized online hd-map construction. In Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV) , 2024. 2, 3, 7 [25] Dapeng Zhang, Dayu Chen, Peng Zhi, Yinda Chen, Zhen-long Yuan, Chenyang Li, Sunjing, Rui Zhou, and Qingguo Zhou. Mapexpert: Online hd map construction with simple and efficient sparse map element expert. In Proceedings of the AAAI Conference on Artificial Intelligence (AAAI) , 2025. 7[26] Gongjie Zhang, Jiahao Lin, Shuang Wu, Zhipeng Luo, Yang Xue, Shijian Lu, Zuoguan Wang, et al. Online map vec-torization for autonomous driving: A rasterization perspec-tive. In Proceedings of the Conference on Neural Informa-tion Processing Systems (NeurIPS) , 2024. 1, 7 [27] Xiaoyu Zhang, Guangwei Liu, Zihao Liu, Ningyi Xu, Yun-hui Liu, and Ji Zhao. Enhancing vectorized map perception with historical rasterized maps. In Proceedings of the Euro-pean Conference on Computer Vision (ECCV) , 2024. 2, 3, 7[28] Zhixin Zhang, Yiyuan Zhang, Xiaohan Ding, Fusheng Jin, and Xiangyu Yue. Online vectorized hd map construction using geometry. In Proceedings of the European Conference on Computer Vision (ECCV) , 2024. 1, 3 [29] Yi Zhou, Hui Zhang, Jiaqian Yu, Yifan Yang, Sangil Jung, Seung-In Park, and ByungIn Yoo. Himap: Hybrid represen-tation learning for end-to-end vectorized hd map construc-tion. In Proceedings of the IEEE/CVF Conference on Com-puter Vision and Pattern Recognition (CVPR) , 2024. 7 [30] Jiangtong Zhu, Zhao Yang, Yinan Shi, Jianwu Fang, and Jianru Xue. Ic-mapper: Instance-centric spatio-temporal modeling for online vectorized map construction. In Pro-ceedings of the ACM International Conference on Multime-dia (ACMMM) , 2024. 2, 3 [31] Xizhou Zhu, Weijie Su, Lewei Lu, Bin Li, Xiaogang Wang, and Jifeng Dai. Deformable detr: Deformable transformers for end-to-end object detection. In Proceedings of the In-ternational Conference on Learning Representations (ICLR) ,2021. 5 [32] Xi Zhu, Xiya Cao, Zhiwei Dong, Caifa Zhou, Qiangbo Liu, Wei Li, and Yongliang Wang. Nemo: Neural map growing system for spatiotemporal fusion in bird’s-eye-view and bdd-map benchmark. arXiv preprint arXiv:2306.04540 , 2023. 1

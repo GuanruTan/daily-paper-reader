@@ -1,0 +1,521 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-04-23T20:43:52.783991+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 2,
+    "deep_cap": 6,
+    "deep_selected": 2,
+    "quick_candidates": 16,
+    "quick_skim_target": 11,
+    "quick_selected": 11
+  },
+  "deep_dive": [
+    {
+      "id": "2604.17776v1",
+      "title": "Trajectory-Based Optimization for Air Traffic Control in the Terminal Maneuvering Area",
+      "abstract": "We present a trajectory-based optimization framework for arrival sequencing and scheduling in the terminal maneuvering area (TMA). Unlike node-link scheduling models that reduce trajectories to time-delay variables, the proposed method computes implementable per-aircraft speed profiles and path extensions that achieve required landing separation through terminal air traffic control actions. The framework combines an analytic TMA path model, consisting of a tangent leg, a radius-to-fix turn, and a final-approach segment, with a nonlinear program (NLP) that jointly optimizes path stretch and segment speeds under a weighted objective. Three landing-order policies are examined: First-Entry-First-Serve (FEFS), First-on-Final-First-Serve (FOFFS), and FOFFS with Constrained Position Shifting (CPS) up to $k$ positions. CPS is implemented through a two-phase approach coupling mixed-integer linear programming (MILP) with NLP to select an optimized landing order before trajectory optimization. The aircraft population follows a realistic weight-class fleet mix with pair-specific wake-turbulence separation, and each scenario is perturbed by a Gaussian wind sample projected onto each segment to convert commanded airspeeds into ground speeds. An online rolling-horizon formulation commits each aircraft trajectory irrevocably upon entry, enabling real-time decision-making. Monte Carlo experiments on the simplified A80 TMA show that: (i) FOFFS consistently outperforms FEFS in delay, path stretch, and fuel burn by exploiting geometric asymmetries among arrival streams; (ii) CPS further reduces separation violations and path stretch, though with diminishing returns and rapidly increasing solver cost; (iii) fuel estimates from BADA 3 and OpenAP show consistent qualitative trends; and (iv) per-entry optimization completes in near real-time, supporting practical deployment.",
+      "authors": [
+        "Yutian Pang",
+        "Daniel Delahaye",
+        "John-Paul Clarke"
+      ],
+      "primary_category": "eess.SY",
+      "categories": [
+        "eess.SY",
+        "math.OC",
+        "math.PR"
+      ],
+      "published": "2026-04-20T03:53:30+00:00",
+      "link": "https://arxiv.org/pdf/2604.17776v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "trajectory-based optimization for aircraft arrival sequencing and path modeling",
+      "llm_evidence_cn": "基于轨迹的飞机进场排序和路径建模优化",
+      "llm_evidence": "基于轨迹的飞机进场排序和路径建模优化",
+      "canonical_evidence": "基于轨迹的飞机进场排序和路径建模优化",
+      "llm_tldr_en": "Optimizes aircraft trajectories and speed profiles for air traffic control in terminal maneuvering areas.",
+      "llm_tldr_cn": "优化终端管制区内的飞机轨迹和速度剖面，用于空中交通管制。",
+      "llm_tldr": "优化终端管制区内的飞机轨迹和速度剖面，用于空中交通管制。",
+      "llm_tags": [
+        "query:tp:composite"
+      ],
+      "matched_query_tag": "query:tp:composite",
+      "matched_query_text": "Papers central to 轨迹预测（车辆、行人、船舶、飞机等）相关的论文，考虑密集场景、目标意图、多智能体、轨迹表示学习等概念, especially work that connects or combines: trajectory prediction for autonomous agents; pedestrian trajectory prediction in crowded scenes; maritime vessel trajectory and path prediction algorithms; multi-agent trajectory forecasting and interaction modeling; target intent and goal estimation for trajectory prediction; trajectory representation learning and feature extraction; study of pedestrian and vehicle trajectory prediction models; trajectory prediction in complex maritime environments; deep learning techniques for intent aware trajectory forecasting; trajectory representation learning based on multimodal large language model.",
+      "matched_requirement_id": "req-composite-tp",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2604.20485v1",
+      "title": "Co-State Based Data Fusion and Risk Aware Filtering for Spacecraft Navigation and Hazard Prediction",
+      "abstract": "This paper develops a co-state based fusion frame work for spacecraft navigation, consistency monitoring, and hazard forecasting. A differential algebraic co-state is introduced as an instantaneous Lagrange multiplier that enforces measurement dynamics compatibility at the differential level and provides a physically interpretable signal of geometric inconsistency. On a longer time scale, co-state and innovation trajectories are used to learn a continuous time Markov generator governing transitions between coarse behavioural regimes, enabling intrinsic probabilistic risk forecasting through mode probabilities and mean first-passage time (MFPT). The resulting architecture unifies geometric projection, stochastic inference, and probabilistic risk assessment in a single online pipeline without requiring predefined fault models, labelled failure data, or heuristic thresholds. The framework is demonstrated on real lunar powered-descent telemetry, where it detects structural internal model inconsistency significantly earlier than physical divergence or statistical inconsistency in an Extended Kalman Filter (EKF). The results show that geometric inconsistency, stochastic drift, and probabilistic risk rise coherently prior to failure, yielding interpretable and operationally meaningful early-warning capability for autonomous landing systems.",
+      "authors": [
+        "Surya Ratna Prakash D",
+        "Soumyendu Raha"
+      ],
+      "primary_category": "math.DS",
+      "categories": [
+        "math.DS"
+      ],
+      "published": "2026-04-22T12:16:51+00:00",
+      "link": "https://arxiv.org/pdf/2604.20485v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "hazard forecasting and regime transition prediction using co-state and innovation trajectories",
+      "llm_evidence_cn": "利用共态和创新轨迹进行危险预测和行为模式转换预测",
+      "llm_evidence": "利用共态和创新轨迹进行危险预测和行为模式转换预测",
+      "canonical_evidence": "利用共态和创新轨迹进行危险预测和行为模式转换预测",
+      "llm_tldr_en": "Develops a framework for spacecraft hazard prediction and behavioral regime forecasting using trajectories.",
+      "llm_tldr_cn": "开发了一个利用轨迹进行航天器危险预测和行为模式预测的框架。",
+      "llm_tldr": "开发了一个利用轨迹进行航天器危险预测和行为模式预测的框架。",
+      "llm_tags": [
+        "query:tp:composite"
+      ],
+      "matched_query_tag": "query:tp:composite",
+      "matched_query_text": "Papers central to 轨迹预测（车辆、行人、船舶、飞机等）相关的论文，考虑密集场景、目标意图、多智能体、轨迹表示学习等概念, especially work that connects or combines: trajectory prediction for autonomous agents; pedestrian trajectory prediction in crowded scenes; maritime vessel trajectory and path prediction algorithms; multi-agent trajectory forecasting and interaction modeling; target intent and goal estimation for trajectory prediction; trajectory representation learning and feature extraction; study of pedestrian and vehicle trajectory prediction models; trajectory prediction in complex maritime environments; deep learning techniques for intent aware trajectory forecasting; trajectory representation learning based on multimodal large language model.",
+      "matched_requirement_id": "req-composite-tp",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2604.17190v1",
+      "title": "LookasideVLN: Direction-Aware Aerial Vision-and-Language Navigation",
+      "abstract": "Aerial Vision-and-Language Navigation (Aerial VLN) enables unmanned aerial vehicles (UAVs) to follow natural language instructions and navigate complex urban environments. While recent advances have achieved progress through large-scale memory graphs and lookahead path planning, they remain limited by shallow instruction understanding and high computational cost. In particular, existing methods rely primarily on landmark descriptions, overlooking directional cues \"a key source of spatial context in human navigation\". In this work, we propose LookasideVLN, a new paradigm that exploits directional cues in natural language to achieve both more accurate spatial reasoning and greater computational efficiency. LookasideVLN comprises three core components: (1) an Egocentric Lookaside Graph (ELG) that dynamically encodes instruction-relevant landmarks and their directional relationships, (2) a Spatial Landmark Knowledge Base (SLKB) that provides lightweight memory retrieval from prior navigation experiences, and (3) a Lookaside MLLM Navigation Agent that aligns multimodal information from user instructions, visual observations, and landmark-direction information from ELG for path planning. Extensive experiments show that LookasideVLN significantly outperforms the state-of-the-art CityNavAgent, even with a single-level lookahead, demonstrating that leveraging directional cues is a powerful yet efficient strategy for Aerial VLN.",
+      "authors": [
+        "Yuwei Ning",
+        "Ganlong Zhao",
+        "Yipeng Qin",
+        "Si Liu",
+        "Yang Liu",
+        "Liang Lin",
+        "Guanbin Li"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-04-19T01:36:53+00:00",
+      "link": "https://arxiv.org/pdf/2604.17190v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "lookahead path planning for UAVs in urban environments",
+      "llm_evidence_cn": "城市环境中无人机的前瞻路径规划",
+      "llm_evidence": "城市环境中无人机的前瞻路径规划",
+      "canonical_evidence": "城市环境中无人机的前瞻路径规划",
+      "llm_tldr_en": "Proposes LookasideVLN to improve aerial navigation by exploiting directional cues in natural language instructions.",
+      "llm_tldr_cn": "提出LookasideVLN，通过利用自然语言指令中的方向线索来改进无人机导航。",
+      "llm_tldr": "提出LookasideVLN，通过利用自然语言指令中的方向线索来改进无人机导航。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.16298v1",
+      "title": "FineCog-Nav: Integrating Fine-grained Cognitive Modules for Zero-shot Multimodal UAV Navigation",
+      "abstract": "UAV vision-language navigation (VLN) requires an agent to navigate complex 3D environments from an egocentric perspective while following ambiguous multi-step instructions over long horizons. Existing zero-shot methods remain limited, as they often rely on large base models, generic prompts, and loosely coordinated modules. In this work, we propose FineCog-Nav, a top-down framework inspired by human cognition that organizes navigation into fine-grained modules for language processing, perception, attention, memory, imagination, reasoning, and decision-making. Each module is driven by a moderate-sized foundation model with role-specific prompts and structured input-output protocols, enabling effective collaboration and improved interpretability. To support fine-grained evaluation, we construct AerialVLN-Fine, a curated benchmark of 300 trajectories derived from AerialVLN, with sentence-level instruction-trajectory alignment and refined instructions containing explicit visual endpoints and landmark references. Experiments show that FineCog-Nav consistently outperforms zero-shot baselines in instruction adherence, long-horizon planning, and generalization to unseen environments. These results suggest the effectiveness of fine-grained cognitive modularization for zero-shot aerial navigation. Project page: https://smartdianlab.github.io/projects-FineCogNav.",
+      "authors": [
+        "Dian Shao",
+        "Zhengzheng Xu",
+        "Peiyang Wang",
+        "Like Liu",
+        "Yule Wang",
+        "Jieqi Shi",
+        "Jing Huo"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "published": "2026-04-17T17:59:48+00:00",
+      "link": "https://arxiv.org/pdf/2604.16298v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "multimodal UAV navigation using foundation models and cognitive modules",
+      "llm_evidence_cn": "基于基础模型和认知模块的多模态无人机导航",
+      "llm_evidence": "基于基础模型和认知模块的多模态无人机导航",
+      "canonical_evidence": "基于基础模型和认知模块的多模态无人机导航",
+      "llm_tldr_en": "Proposes FineCog-Nav for zero-shot UAV navigation using fine-grained cognitive modules and foundation models.",
+      "llm_tldr_cn": "提出FineCog-Nav，利用细粒度认知模块和基础模型实现零样本无人机导航。",
+      "llm_tldr": "提出FineCog-Nav，利用细粒度认知模块和基础模型实现零样本无人机导航。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning based on multimodal large language model",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.17241v1",
+      "title": "GaLa: Hypergraph-Guided Visual Language Models for Procedural Planning",
+      "abstract": "Implicit spatial relations and deep semantic structures encoded in object attributes are crucial for procedural planning in embodied AI systems. However, existing approaches often over rely on the reasoning capabilities of vision language models (VLMs) themselves, while overlooking the rich structured semantic information that can be mined from multimodal inputs. As a result, models struggle to effectively understand functional spatial relationships in complex scenes. To fully exploit implicit spatial relations and deep semantic structures in multimodal data, we propose GaLa, a vision language framework for multimodal procedural planning. GaLa introduces a hypergraph-based representation, where object instances in the image are modeled as nodes, and region-level hyperedges are constructed by aggregating objects according to their attributes and functional semantics. This design explicitly captures implicit semantic relations among objects as well as the hierarchical organization of functional regions. Furthermore, we design a TriView HyperGraph Encoder that enforces semantic consistency across the node view, area view, and node area association view via contrastive learning, enabling hypergraph semantics to be more effectively injected into downstream VLM reasoning. Extensive experiments on the ActPlan1K and ALFRED benchmarks demonstrate that GaLa significantly outperforms existing methods in terms of execution success rate, LCS, and planning correctness.",
+      "authors": [
+        "Kun Wang",
+        "Yiming Li",
+        "Mingcheng Qu",
+        "Aqiang Zhang",
+        "Guang Yang",
+        "Tonghua Su"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-04-19T04:04:02+00:00",
+      "link": "https://arxiv.org/pdf/2604.17241v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "hypergraph-based representation for procedural planning",
+      "llm_evidence_cn": "基于超图的程序化规划表示",
+      "llm_evidence": "基于超图的程序化规划表示",
+      "canonical_evidence": "基于超图的程序化规划表示",
+      "llm_tldr_en": "A vision-language framework using hypergraph representations for multimodal procedural planning in complex scenes.",
+      "llm_tldr_cn": "一种利用超图表示进行复杂场景下多模态程序化规划的视觉语言框架。",
+      "llm_tldr": "一种利用超图表示进行复杂场景下多模态程序化规划的视觉语言框架。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning based on multimodal large language model",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.16585v1",
+      "title": "The Global Neural World Model: Spatially Grounded Discrete Topologies for Action-Conditioned Planning",
+      "abstract": "We present the Global Neural World Model (GNWM), a self-stabilizing framework that achieves topological quantization through balanced continuous entropy constraints. Operating as a continuous, action-conditioned Joint-Embedding Predictive Architecture (JEPA), the GNWM maps environments onto a discrete 2D grid, enforcing translational equivariance without pixel-level reconstruction. Our results show this architecture prevents manifold drift during autoregressive rollouts by using grid ``snapping'' as a native error-correction mechanism. Furthermore, by training via maximum entropy exploration (random walks), the model learns generalized transition dynamics rather than memorizing specific expert trajectories. We validate the GNWM across passive observation, active agent control, and abstract sequence regimes, demonstrating its capacity to act not just as a spatial physics simulator, but as a causal discovery model capable of organizing continuous, predictable concepts into structured topological maps.",
+      "authors": [
+        "Noureddine Kermiche"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-04-17T15:12:15+00:00",
+      "link": "https://arxiv.org/pdf/2604.16585v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "action-conditioned predictive architecture for transition dynamics",
+      "llm_evidence_cn": "动作条件预测架构用于状态转移动力学",
+      "llm_evidence": "动作条件预测架构用于状态转移动力学",
+      "canonical_evidence": "动作条件预测架构用于状态转移动力学",
+      "llm_tldr_en": "A world model using discrete topologies for action-conditioned planning and transition dynamics.",
+      "llm_tldr_cn": "一种利用离散拓扑进行动作条件规划和转移动力学建模的世界模型。",
+      "llm_tldr": "一种利用离散拓扑进行动作条件规划和转移动力学建模的世界模型。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.17876v1",
+      "title": "OFlow: Injecting Object-Aware Temporal Flow Matching for Robust Robotic Manipulation",
+      "abstract": "Robust robotic manipulation requires not only predicting how the scene evolves over time, but also recognizing task-relevant objects in complex scenes. However, existing VLA models face two limitations. They typically act only on the current frame, while future prediction and object-aware reasoning are often learned in separate latent spaces. We propose OFlow (injecting Object-Aware Temporal Flow Matching into VLAs), a framework that addresses both limitations by unifying temporal foresight and object-aware reasoning in a shared semantic latent space. Our method forecasts future latents with temporal flow matching, factorizes them into object-aware representations that emphasize physically relevant cues while filtering task-irrelevant variation, and conditions continuous action generation on these predictions. By integrating OFlow into VLA pipelines, our method enables more reliable control under distribution shifts. Extensive experiments across LIBERO, LIBERO-Plus, MetaWorld, and SimplerEnv benchmarks and real-world tasks demonstrate that object-aware foresight consistently enhances robustness and success.",
+      "authors": [
+        "Kuanning Wang",
+        "Ke Fan",
+        "Chenhao Qiu",
+        "Zeyu Shangguan",
+        "Yuqian Fu",
+        "Yanwei Fu",
+        "Daniel Seita",
+        "Xiangyang Xue"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-04-20T06:38:01+00:00",
+      "link": "https://arxiv.org/pdf/2604.17876v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "forecasts future latents with temporal flow matching for robotic manipulation",
+      "llm_evidence_cn": "通过时间流匹配预测机器人操作的未来潜变量",
+      "llm_evidence": "通过时间流匹配预测机器人操作的未来潜变量",
+      "canonical_evidence": "通过时间流匹配预测机器人操作的未来潜变量",
+      "llm_tldr_en": "Unifies temporal foresight and object-aware reasoning in a shared latent space for robotics.",
+      "llm_tldr_cn": "在共享潜空间中统一了机器人操作的时间预测和目标感知推理。",
+      "llm_tldr": "在共享潜空间中统一了机器人操作的时间预测和目标感知推理。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning and feature extraction",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.17090v1",
+      "title": "Marrying Text-to-Motion Generation with Skeleton-Based Action Recognition",
+      "abstract": "Human action recognition and motion generation are two active research problems in human-centric computer vision, both aiming to align motion with textual semantics. However, most existing works study these two problems separately, without uncovering the links between them, namely that motion generation requires semantic comprehension. This work investigates unified action recognition and motion generation by leveraging skeleton coordinates for both motion understanding and generation. We propose Coordinates-based Autoregressive Motion Diffusion (CoAMD), which synthesizes motion in a coarse-to-fine manner. As a core component of CoAMD, we design a Multi-modal Action Recognizer (MAR) that provides gradient-based semantic guidance for motion generation. Furthermore, we establish a rigorous benchmark by evaluating baselines on absolute coordinates. Our model can be applied to four important tasks, including skeleton-based action recognition, text-to-motion generation, text-motion retrieval, and motion editing. Extensive experiments on 13 benchmarks across these tasks demonstrate that our approach achieves state-of-the-art performance, highlighting its effectiveness and versatility for human motion modeling. Code is available at https://github.com/jidongkuang/CoAMD.",
+      "authors": [
+        "Jidong Kuang",
+        "Hongsong Wang",
+        "Jie Gui"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-04-18T17:58:50+00:00",
+      "link": "https://arxiv.org/pdf/2604.17090v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "motion generation and understanding using skeleton coordinates and diffusion",
+      "llm_evidence_cn": "利用骨架坐标和扩散模型进行动作生成与理解",
+      "llm_evidence": "利用骨架坐标和扩散模型进行动作生成与理解",
+      "canonical_evidence": "利用骨架坐标和扩散模型进行动作生成与理解",
+      "llm_tldr_en": "Proposes a unified framework for human action recognition and motion generation using skeleton-based diffusion.",
+      "llm_tldr_cn": "提出一个统一的框架，利用基于骨架的扩散模型进行人体动作识别和运动生成。",
+      "llm_tldr": "提出一个统一的框架，利用基于骨架的扩散模型进行人体动作识别和运动生成。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning and feature extraction",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.19105v1",
+      "title": "EgoMotion: Hierarchical Reasoning and Diffusion for Egocentric Vision-Language Motion Generation",
+      "abstract": "Faithfully modeling human behavior in dynamic environments is a foundational challenge for embodied intelligence. While conditional motion synthesis has achieved significant advances, egocentric motion generation remains largely underexplored due to the inherent complexity of first-person perception. In this work, we investigate Egocentric Vision-Language (Ego-VL) motion generation. This task requires synthesizing 3D human motion conditioned jointly on first-person visual observations and natural language instructions. We identify a critical \\textit{reasoning-generation entanglement} challenge: the simultaneous optimization of semantic reasoning and kinematic modeling introduces gradient conflicts. These conflicts systematically degrade the fidelity of multimodal grounding and motion quality. To address this challenge, we propose a hierarchical generative framework \\textbf{EgoMotion}. Inspired by the biological decoupling of cognitive reasoning and motor control, EgoMotion operates in two stages. In the Cognitive Reasoning stage, A vision-language model (VLM) projects multimodal inputs into a structured space of discrete motion primitives. This forces the VLM to acquire goal-consistent representations, effectively bridging the semantic gap between high-level perceptual understanding and low-level action execution. In the Motion Generation stage, these learned representations serve as expressive conditioning signals for a diffusion-based motion generator. By performing iterative denoising within a continuous latent space, the generator synthesizes physically plausible and temporally coherent trajectories. Extensive evaluations demonstrate that EgoMotion achieves state-of-the-art performance, and produces motion sequences that are both semantically grounded and kinematically superior to existing approaches.",
+      "authors": [
+        "Ruibing Hou",
+        "Mingyue Zhou",
+        "Yuwei Gui",
+        "Mingshuang Luo",
+        "Bingpeng Ma",
+        "Hong Chang",
+        "Shiguang Shan",
+        "Xilin Chen"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-04-21T05:31:06+00:00",
+      "link": "https://arxiv.org/pdf/2604.19105v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "synthesizing 3D human motion conditioned on visual observations",
+      "llm_evidence_cn": "基于视觉观察合成3D人体运动",
+      "llm_evidence": "基于视觉观察合成3D人体运动",
+      "canonical_evidence": "基于视觉观察合成3D人体运动",
+      "llm_tldr_en": "Investigates egocentric vision-language motion generation to model human behavior in dynamic environments.",
+      "llm_tldr_cn": "研究第一人称视角的视言运动生成，以模拟动态环境中的人类行为。",
+      "llm_tldr": "研究第一人称视角的视言运动生成，以模拟动态环境中的人类行为。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning and feature extraction",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.17106v1",
+      "title": "Live LTL Progress Tracking: Towards Task-Based Exploration",
+      "abstract": "Motivated by the challenge presented by non-Markovian objectives in reinforcement learning (RL), we present a novel framework to track and represent the progress of autonomous agents through complex, multi-stage tasks. Given a specification in finite linear temporal logic (LTL), the framework establishes a 'tracking vector' which updates at each time step in a trajectory rollout. The values of the vector represent the status of the specification as the trajectory develops, assigning true, false, or 'open' labels (where 'open' is used for indeterminate cases). Applied to an LTL formula tree, the tracking vector can be used to encode detailed information about how a task is executed over a trajectory, providing a potential tool for new performance metrics, diverse exploration, and reward shaping. In this paper, we formally present the framework and algorithm, collectively named Live LTL Progress Tracking, give a simple working example, and demonstrate avenues for its integration into RL models. Future work will apply the framework to problems such as task-space exploration and diverse solution-finding in RL.",
+      "authors": [
+        "Noel Brindise",
+        "Cedric Langbort",
+        "Melkior Ornik"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-04-18T18:46:41+00:00",
+      "link": "https://arxiv.org/pdf/2604.17106v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "track and represent progress through trajectory rollouts",
+      "llm_evidence_cn": "通过轨迹展开跟踪并表示进度",
+      "llm_evidence": "通过轨迹展开跟踪并表示进度",
+      "canonical_evidence": "通过轨迹展开跟踪并表示进度",
+      "llm_tldr_en": "A framework to track and represent the progress of autonomous agents through complex tasks using LTL tracking vectors.",
+      "llm_tldr_cn": "一种利用LTL跟踪向量在复杂任务中跟踪并表示自主智能体进度的框架。",
+      "llm_tldr": "一种利用LTL跟踪向量在复杂任务中跟踪并表示自主智能体进度的框架。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning and feature extraction",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.19411v1",
+      "title": "GOLD-BEV: GrOund and aeriaL Data for Dense Semantic BEV Mapping of Dynamic Scenes",
+      "abstract": "Understanding road scenes in a geometrically consistent, scene-centric representation is crucial for planning and mapping. We present GOLD-BEV, a framework that learns dense bird's-eye-view (BEV) semantic environment maps-including dynamic agents-from ego-centric sensors, using time-synchronized aerial imagery as supervision only during training. BEV-aligned aerial crops provide an intuitive target space, enabling dense semantic annotation with minimal manual effort and avoiding the ambiguity of ego-only BEV labeling. Crucially, strict aerial-ground synchronization allows overhead observations to supervise moving traffic participants and mitigates the temporal inconsistencies inherent to non-synchronized overhead sources. To obtain scalable dense targets, we generate BEV pseudo-labels using domain-adapted aerial teachers, and jointly train BEV segmentation with optional pseudo-aerial BEV reconstruction for interpretability. Finally, we extend beyond aerial coverage by learning to synthesize pseudo-aerial BEV images from ego sensors, which support lightweight human annotation and uncertainty-aware pseudo-labeling on unlabeled drives.",
+      "authors": [
+        "Joshua Niemeijer",
+        "Alaa Eddine Ben Zekri",
+        "Reza Bahmanyar",
+        "Philipp M. Schmälzle",
+        "Houda Chaabouni-Chouayakh",
+        "Franz Kurz"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-04-21T12:39:41+00:00",
+      "link": "https://arxiv.org/pdf/2604.19411v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "BEV mapping of dynamic agents and moving traffic participants",
+      "llm_evidence_cn": "动态智能体和移动交通参与者的BEV映射",
+      "llm_evidence": "动态智能体和移动交通参与者的BEV映射",
+      "canonical_evidence": "动态智能体和移动交通参与者的BEV映射",
+      "llm_tldr_en": "Learns dense BEV semantic maps including dynamic agents using aerial-ground synchronization.",
+      "llm_tldr_cn": "利用空地同步技术学习包含动态智能体的稠密BEV语义地图。",
+      "llm_tldr": "利用空地同步技术学习包含动态智能体的稠密BEV语义地图。",
+      "llm_tags": [
+        "query:tp:composite"
+      ],
+      "matched_query_tag": "query:tp:composite",
+      "matched_query_text": "Papers central to 轨迹预测（车辆、行人、船舶、飞机等）相关的论文，考虑密集场景、目标意图、多智能体、轨迹表示学习等概念, especially work that connects or combines: trajectory prediction for autonomous agents; pedestrian trajectory prediction in crowded scenes; maritime vessel trajectory and path prediction algorithms; multi-agent trajectory forecasting and interaction modeling; target intent and goal estimation for trajectory prediction; trajectory representation learning and feature extraction; study of pedestrian and vehicle trajectory prediction models; trajectory prediction in complex maritime environments; deep learning techniques for intent aware trajectory forecasting; trajectory representation learning based on multimodal large language model.",
+      "matched_requirement_id": "req-composite-tp",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.17135v1",
+      "title": "OptiMVMap: Offline Vectorized Map Construction via Optimal Multi-vehicle Perspectives",
+      "abstract": "Offline vectorized maps constitute critical infrastructure for high-precision autonomous driving and mapping services. Existing approaches rely predominantly on single ego-vehicle trajectories, which fundamentally suffer from viewpoint insufficiency: while memory-based methods extend observation time by aggregating ego-trajectory frames, they lack the spatial diversity needed to reveal occluded regions. Incorporating views from surrounding vehicles offers complementary perspectives, yet naive fusion introduces three key challenges: computational cost from large candidate pools, redundancy from near-collinear viewpoints, and noise from pose errors and occlusion artifacts.   We present OptiMVMap, which reformulates multi-vehicle mapping as a select-then-fuse problem to address these challenges systematically. An Optimal Vehicle Selection (OVS) module strategically identifies a compact subset of helpers that maximally reduce ego-centric uncertainty in occluded regions, addressing computation and redundancy challenges. Cross-Vehicle Attention (CVA) and Semantic-aware Noise Filter (SNF) then perform pose-tolerant alignment and artifact suppression before BEV-level fusion, addressing the noise challenge. This targeted pipeline yields more complete and topologically faithful maps with substantially fewer views than indiscriminate aggregation. On nuScenes and Argoverse2, OptiMVMap improves MapTRv2 by +10.5 mAP and +9.3 mAP, respectively, and surpasses memory-augmented baselines MVMap and HRMapNet by +6.2 mAP and +3.8 mAP on nuScenes. These results demonstrate that uncertainty-guided selection of helper vehicles is essential for efficient and accurate multi-vehicle vectorized mapping. The code is released at https://github.com/DanZeDong/OptiMVMap.",
+      "authors": [
+        "Zedong Dan",
+        "Zijie Wang",
+        "Wei Zhang",
+        "Xiangru Lin",
+        "Weiming Zhang",
+        "Xiao Tan",
+        "Jingdong Wang",
+        "Liang Lin",
+        "Guanbin Li"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-04-18T20:23:27+00:00",
+      "link": "https://arxiv.org/pdf/2604.17135v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "multi-vehicle perspectives for map construction and autonomous driving infrastructure",
+      "llm_evidence_cn": "用于地图构建和自动驾驶基础设施的多车视角融合",
+      "llm_evidence": "用于地图构建和自动驾驶基础设施的多车视角融合",
+      "canonical_evidence": "用于地图构建和自动驾驶基础设施的多车视角融合",
+      "llm_tldr_en": "Reformulates multi-vehicle mapping to improve autonomous driving infrastructure through optimal viewpoint fusion.",
+      "llm_tldr_cn": "通过优化多车视角融合重构地图构建，为高精度自动驾驶提供关键基础设施。",
+      "llm_tldr": "通过优化多车视角融合重构地图构建，为高精度自动驾驶提供关键基础设施。",
+      "llm_tags": [
+        "query:tp:composite"
+      ],
+      "matched_query_tag": "query:tp:composite",
+      "matched_query_text": "Papers central to 轨迹预测（车辆、行人、船舶、飞机等）相关的论文，考虑密集场景、目标意图、多智能体、轨迹表示学习等概念, especially work that connects or combines: trajectory prediction for autonomous agents; pedestrian trajectory prediction in crowded scenes; maritime vessel trajectory and path prediction algorithms; multi-agent trajectory forecasting and interaction modeling; target intent and goal estimation for trajectory prediction; trajectory representation learning and feature extraction; study of pedestrian and vehicle trajectory prediction models; trajectory prediction in complex maritime environments; deep learning techniques for intent aware trajectory forecasting; trajectory representation learning based on multimodal large language model.",
+      "matched_requirement_id": "req-composite-tp",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.17473v1",
+      "title": "Dual-Anchoring: Addressing State Drift in Vision-Language Navigation",
+      "abstract": "Vision-Language Navigation(VLN) requires an agent to navigate through 3D environments by following natural language instructions. While recent Video Large Language Models(Video-LLMs) have largely advanced VLN, they remain highly susceptible to State Drift in long scenarios. In these cases, the agent's internal state drifts away from the true task execution state, leading to aimless wandering and failure to execute essential maneuvers in the instruction. We attribute this failure to two distinct cognitive deficits: Progress Drift, where the agent fails to distinguish completed sub-goals from remaining ones, and Memory Drift, where the agent's history representations degrade, making it lose track of visited landmarks. In this paper, we propose a Dual-Anchoring Framework that explicitly anchors the instruction progress and history representations. First, to address progress drift, we introduce Instruction Progress Anchoring, which supervises the agent to generate structured text tokens that delineate completed versus remaining sub-goals. Second, to mitigate memory drift, we propose Memory Landmark Anchoring, which utilizes a Landmark-Centric World Model to retrospectively predict object-centric embeddings extracted by the Segment Anything Model, compelling the agent to explicitly verify past observations and preserve distinct representations of visited landmarks. Facilitating this framework, we curate two extensive datasets: 3.6 million samples with explicit progress descriptions, and 937k grounded landmark data for retrospective verification. Extensive experiments in both simulation and real-world environments demonstrate the superiority of our method, achieving a 15.2% improvement in Success Rate and a remarkable 24.7% gain on long-horizon trajectories. To facilitate further research, we will release our code, data generation pipelines, and the collected datasets.",
+      "authors": [
+        "Kangyi Wu",
+        "Pengna Li",
+        "Kailin Lyu",
+        "Lin Zhao",
+        "Qingrong He",
+        "Jinjun Wang",
+        "Jianyi Liu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-04-19T15:03:38+00:00",
+      "link": "https://arxiv.org/pdf/2604.17473v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "addressing state drift in vision-language navigation for agents",
+      "llm_evidence_cn": "解决智能体视言导航中的状态漂移问题",
+      "llm_evidence": "解决智能体视言导航中的状态漂移问题",
+      "canonical_evidence": "解决智能体视言导航中的状态漂移问题",
+      "llm_tldr_en": "Proposes Dual-Anchoring to mitigate state drift and improve landmark tracking in vision-language navigation.",
+      "llm_tldr_cn": "提出双锚定机制，以减轻视言导航中的状态漂移并改进地标跟踪。",
+      "llm_tldr": "提出双锚定机制，以减轻视言导航中的状态漂移并改进地标跟踪。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
