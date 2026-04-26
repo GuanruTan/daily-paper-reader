@@ -1,0 +1,663 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-04-26T20:19:23.111374+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 9,
+    "deep_cap": 6,
+    "deep_selected": 6,
+    "quick_candidates": 22,
+    "quick_skim_target": 11,
+    "quick_selected": 11
+  },
+  "deep_dive": [
+    {
+      "id": "2604.21479v1",
+      "title": "Frozen LLMs as Map-Aware Spatio-Temporal Reasoners for Vehicle Trajectory Prediction",
+      "abstract": "Large language models (LLMs) have recently demonstrated strong reasoning capabilities and attracted increasing research attention in the field of autonomous driving (AD). However, safe application of LLMs on AD perception and prediction still requires a thorough understanding of both the dynamic traffic agents and the static road infrastructure. To this end, this study introduces a framework to evaluate the capability of LLMs in understanding the behaviors of dynamic traffic agents and the topology of road networks. The framework leverages frozen LLMs as the reasoning engine, employing a traffic encoder to extract spatial-level scene features from observed trajectories of agents, while a lightweight Convolutional Neural Network (CNN) encodes the local high-definition (HD) maps. To assess the intrinsic reasoning ability of LLMs, the extracted scene features are then transformed into LLM-compatible tokens via a reprogramming adapter. By residing the prediction burden with the LLMs, a simpler linear decoder is applied to output future trajectories. The framework enables a quantitative analysis of the influence of multi-modal information, especially the impact of map semantics on trajectory prediction accuracy, and allows seamless integration of frozen LLMs with minimal adaptation, thereby demonstrating strong generalizability across diverse LLM architectures and providing a unified platform for model evaluation.",
+      "authors": [
+        "Yanjiao Liu",
+        "Jiawei Liu",
+        "Xun Gong",
+        "Zifei Nie"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-04-23T09:39:51+00:00",
+      "link": "https://arxiv.org/pdf/2604.21479v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "LLMs as spatio-temporal reasoners for vehicle trajectory prediction with traffic encoders",
+      "llm_evidence_cn": "利用大语言模型作为时空推理器进行车辆轨迹预测",
+      "llm_evidence": "利用大语言模型作为时空推理器进行车辆轨迹预测",
+      "canonical_evidence": "利用大语言模型作为时空推理器进行车辆轨迹预测",
+      "llm_tldr_en": "Evaluates and utilizes frozen LLMs for understanding agent behaviors and predicting vehicle trajectories.",
+      "llm_tldr_cn": "评估并利用冻结的大语言模型来理解智能体行为并预测车辆轨迹。",
+      "llm_tldr": "评估并利用冻结的大语言模型来理解智能体行为并预测车辆轨迹。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning based on multimodal large language model",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2604.21249v1",
+      "title": "Reasoning About Traversability: Language-Guided Off-Road 3D Trajectory Planning",
+      "abstract": "While Vision-Language Models (VLMs) enable high-level semantic reasoning for end-to-end autonomous driving, particularly in unstructured environments, existing off-road datasets suffer from language annotations that are weakly aligned with vehicle actions and terrain geometry. To address this misalignment, we propose a language refinement framework that restructures annotations into action-aligned pairs, enabling a VLM to generate refined scene descriptions and 3D future trajectories directly from a single image. To further encourage terrain-aware planning, we introduce a preference optimization strategy that constructs geometry-aware hard negatives and explicitly penalizes trajectories inconsistent with local elevation profiles. Furthermore, we propose off-road-specific metrics to quantify traversability compliance and elevation consistency, addressing the limitations of conventional on-road evaluation. Experiments on the ORAD-3D benchmark demonstrate that our approach reduces average trajectory error from 1.01m to 0.97m, improves traversability compliance from 0.621 to 0.644, and decreases elevation inconsistency from 0.428 to 0.322, highlighting the efficacy of action-aligned supervision and terrain-aware optimization for robust off-road driving.",
+      "authors": [
+        "Byounggun Park",
+        "Soonmin Hwang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-04-23T03:26:42+00:00",
+      "link": "https://arxiv.org/pdf/2604.21249v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "VLM-based 3D future trajectory generation for autonomous driving",
+      "llm_evidence_cn": "基于视觉语言模型的自动驾驶3D未来轨迹生成",
+      "llm_evidence": "基于视觉语言模型的自动驾驶3D未来轨迹生成",
+      "canonical_evidence": "基于视觉语言模型的自动驾驶3D未来轨迹生成",
+      "llm_tldr_en": "Proposes a language-guided framework for off-road 3D trajectory planning using Vision-Language Models.",
+      "llm_tldr_cn": "提出了一种利用视觉语言模型进行越野3D轨迹规划的语言引导框架。",
+      "llm_tldr": "提出了一种利用视觉语言模型进行越野3D轨迹规划的语言引导框架。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2604.21489v1",
+      "title": "MISTY: High-Throughput Motion Planning via Mixer-based Single-step Drifting",
+      "abstract": "Multi-modal trajectory generation is essential for safe autonomous driving, yet existing diffusion-based planners suffer from high inference latency due to iterative neural function evaluations. This paper presents MISTY (Mixer-based Inference for Single-step Trajectory-drifting Yield), a high-throughput generative motion planner that achieves state-of-the-art closed-loop performance with pure single-step inference. MISTY integrates a vectorized Sub-Graph encoder to capture environment context, a Variational Autoencoder to structure expert trajectories into a compact 32-dimensional latent manifold, and an ultra-lightweight MLP-Mixer decoder to eliminate quadratic attention complexity. Importantly, we introduce a latent-space drifting loss that shifts the complex distribution evolution entirely to the training phase. By formulating explicit attractive and repulsive forces, this mechanism empowers the model to synthesize novel, proactive maneuvers, such as active overtaking, that are virtually absent from the raw expert demonstrations. Extensive evaluations on the nuPlan benchmark demonstrate that MISTY achieves state-of-the-art results on the challenging Test14-hard split, with comprehensive scores of 80.32 and 82.21 in non-reactive and reactive settings, respectively. Operating at over 99 FPS with an end-to-end latency of 10.1 ms, MISTY offers an order-of-magnitude speedup over iterative diffusion planners while while achieving significantly robust generation.",
+      "authors": [
+        "Yining Xing",
+        "Zehong Ke",
+        "Yiqian Tu",
+        "Zhiyuan Liu",
+        "Wenhao Yu",
+        "Jianqiang Wang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-04-23T09:50:34+00:00",
+      "link": "https://arxiv.org/pdf/2604.21489v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "multi-modal trajectory generation and latent manifold structuring for autonomous driving",
+      "llm_evidence_cn": "自动驾驶的多模态轨迹生成与潜流形构建",
+      "llm_evidence": "自动驾驶的多模态轨迹生成与潜流形构建",
+      "canonical_evidence": "自动驾驶的多模态轨迹生成与潜流形构建",
+      "llm_tldr_en": "MISTY is a high-throughput motion planner using VAEs to structure expert trajectories for driving.",
+      "llm_tldr_cn": "MISTY是一个高吞吐量运动规划器，利用VAE构建专家轨迹的潜流形用于驾驶。",
+      "llm_tldr": "MISTY是一个高吞吐量运动规划器，利用VAE构建专家轨迹的潜流形用于驾驶。",
+      "llm_tags": [
+        "query:tp:composite"
+      ],
+      "matched_query_tag": "query:tp:composite",
+      "matched_query_text": "Papers central to 轨迹预测（车辆、行人、船舶、飞机等）相关的论文，考虑密集场景、目标意图、多智能体、轨迹表示学习等概念, especially work that connects or combines: trajectory prediction for autonomous agents; pedestrian trajectory prediction in crowded scenes; maritime vessel trajectory and path prediction algorithms; multi-agent trajectory forecasting and interaction modeling; target intent and goal estimation for trajectory prediction; trajectory representation learning and feature extraction; study of pedestrian and vehicle trajectory prediction models; trajectory prediction in complex maritime environments; deep learning techniques for intent aware trajectory forecasting; trajectory representation learning based on multimodal large language model.",
+      "matched_requirement_id": "req-composite-tp",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2604.17419v1",
+      "title": "ARMove: Learning to Predict Human Mobility through Agentic Reasoning",
+      "abstract": "Human mobility prediction is a critical task but remains challenging due to its complexity and variability across populations and regions. Recently, large language models (LLMs) have made progress in zero-shot prediction, but existing methods suffer from limited interpretability (due to black-box reasoning), lack of iterative learning from new data, and poor transferability. In this paper, we introduce \\textbf{ARMove}, a fully transferable framework for predicting human mobility through agentic reasoning. To address these limitations, ARMove employs standardized feature management with iterative optimization and user-specific customization: four major feature pools for foundational knowledge, user profiles for segmentation, and an automated generation mechanism integrating LLM knowledge. Robust generalization is achieved via agentic decision-making that adjusts feature weights to maximize accuracy while providing interpretable decision paths. Finally, large-small model synergy distills strategies from large LLMs (e.g., 72B) to smaller ones (e.g., 7B), reducing costs and enhancing performance ceilings. Extensive experiments on four global datasets show ARMove outperforms state-of-the-art baselines on 6 out of 12 metrics (gains of 0.78\\% to 10.47\\%), with transferability tests confirming robustness across regions, users, and scales. The other 4 items also achieved suboptimal results. Transferability tests confirm its 19 robustness across regions, user groups, and model scales, while interpretability 20 analysis highlights its transparency in decision-making. Our codes are available at: https://anonymous.4open.science/r/ARMove-F847.",
+      "authors": [
+        "Chuyue Wang",
+        "Jie Feng",
+        "Yuxi Wu",
+        "Shenglin Yi",
+        "Hang Zhang"
+      ],
+      "primary_category": "cs.MA",
+      "categories": [
+        "cs.MA",
+        "cs.LG"
+      ],
+      "published": "2026-04-19T12:59:20+00:00",
+      "link": "https://arxiv.org/pdf/2604.17419v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "predicting human mobility through agentic reasoning with LLMs",
+      "llm_evidence_cn": "通过大语言模型的智能体推理预测人类移动性",
+      "llm_evidence": "通过大语言模型的智能体推理预测人类移动性",
+      "canonical_evidence": "通过大语言模型的智能体推理预测人类移动性",
+      "llm_tldr_en": "ARMove is a framework for human mobility prediction using LLMs and agentic reasoning.",
+      "llm_tldr_cn": "ARMove是一个利用大语言模型和智能体推理进行人类移动性预测的框架。",
+      "llm_tldr": "ARMove是一个利用大语言模型和智能体推理进行人类移动性预测的框架。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning based on multimodal large language model",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2604.19059v1",
+      "title": "AeroBridge-TTA: Test-Time Adaptive Language-Conditioned Control for UAVs",
+      "abstract": "Language-guided unmanned aerial vehicles (UAVs) often fail not from bad reasoning or perception, but from execution   mismatch: the gap between a planned trajectory and the controller's ability to track it when the real dynamics differ   from training (mass changes, drag shifts, actuator delay, wind). We propose AeroBridge-TTA, a language-conditioned   control pipeline that targets this gap with test-time adaptation. It has three parts: a language encoder that maps the   command into a subgoal, an adaptive policy conditioned on the subgoal and a learned latent, and a test-time   adaptation (TTA) module that updates the latent online from observed transitions. On five language-conditioned UAV   tasks under 13 mismatch conditions with the same domain randomization, AeroBridge-TTA ties a strong PPO-MLP baseline   in-distribution and wins all 5 out-of-distribution (OOD) conditions, +22.0 pts on average (62.7% vs. 40.7%); the +8.5   pt overall gain comes entirely from the OOD regime. A same-weights ablation that only changes the step size $α$   shows the latent update itself is responsible for a $4.6\\times$ OOD lift.",
+      "authors": [
+        "Lingxue Lyu"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-04-21T04:08:23+00:00",
+      "link": "https://arxiv.org/pdf/2604.19059v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "language-conditioned control pipeline mapping commands to subgoals and trajectories for UAVs",
+      "llm_evidence_cn": "将指令映射到无人机子目标和轨迹的语言条件控制流水线",
+      "llm_evidence": "将指令映射到无人机子目标和轨迹的语言条件控制流水线",
+      "canonical_evidence": "将指令映射到无人机子目标和轨迹的语言条件控制流水线",
+      "llm_tldr_en": "A test-time adaptive pipeline for UAVs that bridges the gap between planned trajectories and execution.",
+      "llm_tldr_cn": "一种无人机测试时自适应流水线，弥合了规划轨迹与执行之间的差距。",
+      "llm_tldr": "一种无人机测试时自适应流水线，弥合了规划轨迹与执行之间的差距。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2604.21241v1",
+      "title": "CorridorVLA: Explicit Spatial Constraints for Generative Action Heads via Sparse Anchors",
+      "abstract": "Vision--Language--Action (VLA) models often use intermediate representations to connect multimodal inputs with continuous control, yet spatial guidance is often injected implicitly through latent features. We propose $CorridorVLA$, which predicts sparse spatial anchors as incremental physical changes (e.g., $Δ$-positions) and uses them to impose an explicit tolerance region in the training objective for action generation. The anchors define a corridor that guides a flow-matching action head: trajectories whose implied spatial evolution falls outside it receive corrective gradients, while minor deviations from contacts and execution noise are permitted. On the more challenging LIBERO-Plus benchmark, CorridorVLA yields consistent gains across both SmolVLA and GR00T, improving success rate by $3.4\\%$--$12.4\\%$ over the corresponding baselines; notably, our GR00T-Corr variant reaches a success rate of $83.21\\%$. These results indicate that action-aligned physical cues can provide direct and interpretable constraints for generative action policies, complementing spatial guidance encoded in visual or latent forms. Code is available at https://github.com/corridorVLA.",
+      "authors": [
+        "Dachong Li",
+        "ZhuangZhuang Chen",
+        "Jin Zhang",
+        "Jianqiang Li"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-04-23T03:17:50+00:00",
+      "link": "https://arxiv.org/pdf/2604.21241v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "explicit spatial constraints and anchors for trajectory generation",
+      "llm_evidence_cn": "轨迹生成的显式空间约束与锚点",
+      "llm_evidence": "轨迹生成的显式空间约束与锚点",
+      "canonical_evidence": "轨迹生成的显式空间约束与锚点",
+      "llm_tldr_en": "Uses sparse spatial anchors to guide trajectory generation in VLA models through explicit tolerance regions.",
+      "llm_tldr_cn": "在VLA模型中利用稀疏空间锚点通过显式容差区域引导轨迹生成。",
+      "llm_tldr": "在VLA模型中利用稀疏空间锚点通过显式容差区域引导轨迹生成。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning based on multimodal large language model",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2604.21391v1",
+      "title": "From Noise to Intent: Anchoring Generative VLA Policies with Residual Bridges",
+      "abstract": "Bridging high-level semantic understanding with low-level physical control remains a persistent challenge in embodied intelligence, stemming from the fundamental spatiotemporal scale mismatch between cognition and action. Existing generative VLA policies typically adopt a \"Generation-from-Noise\" paradigm, which disregards this disparity, leading to representation inefficiency and weak condition alignment during optimization. In this work, we propose ResVLA, an architecture that shifts the paradigm to \"Refinement-from-Intent.\" Recognizing that robotic motion naturally decomposes into global intent and local dynamics, ResVLA utilizes spectral analysis to decouple control into a deterministic low-frequency anchor and a stochastic high-frequency residual. By anchoring the generative process on the predicted intent, our model focuses strictly on refining local dynamics via a residual diffusion bridge. Extensive simulation experiments show that ResVLA achieves competitive performance, strong robustness to language and robot embodiment perturbations, and faster convergence than standard generative baselines. It also demonstrates strong performance in real-world robot experiments.",
+      "authors": [
+        "Yiming Zhong",
+        "Yaoyu He",
+        "Zemin Yang",
+        "Pengfei Tian",
+        "Yifan Huang",
+        "Qingqiu Huang",
+        "Xinge Zhu",
+        "Yuexin Ma"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-04-23T07:59:26+00:00",
+      "link": "https://arxiv.org/pdf/2604.21391v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "decouples robotic motion into global intent and local dynamics",
+      "llm_evidence_cn": "将机器人运动解耦为全局意图和局部动力学",
+      "llm_evidence": "将机器人运动解耦为全局意图和局部动力学",
+      "canonical_evidence": "将机器人运动解耦为全局意图和局部动力学",
+      "llm_tldr_en": "Proposes ResVLA to refine robotic actions from intent anchors, bridging cognition and physical control.",
+      "llm_tldr_cn": "提出ResVLA架构，通过意图锚点优化机器人动作，连接认知与物理控制。",
+      "llm_tldr": "提出ResVLA架构，通过意图锚点优化机器人动作，连接认知与物理控制。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "target intent and goal estimation for trajectory prediction",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2604.16859v1",
+      "title": "GAMMA-Net: Adaptive Long-Horizon Traffic Spatio-Temporal Forecasting Model based on Interleaved Graph Attention and Multi-Axis Mamba",
+      "abstract": "Accurate traffic forecasting is crucial for intelligent transportation systems, supporting effective traffic management, congestion reduction, and informed urban planning. However, traditional models often fail to adequately capture the intricate spatio-temporal dependencies present in traffic data. To overcome these limitations, we introduce GAMMA-Net, a novel approach that integrates Graph Attention Networks (GAT) with multi-axis Selective State Space Models (Mamba). The GAT component uses a self-attention mechanism to dynamically adjust the influence of nodes within the traffic network, enabling adaptive spatial dependency modeling based on real-time conditions. Simultaneously, the Mamba module efficiently models long-term temporal and spatial dynamics without the heavy computational cost of conventional recurrent architectures. Extensive experiments on several benchmark traffic datasets, including METR-LA, PEMS-BAY, PEMS03, PEMS04, PEMS07, and PEMS08, show that GAMMA-Net consistently outperforms existing state-of-the-art models across different prediction horizons, achieving up to a 16.25% reduction in Mean Absolute Error (MAE) compared to baseline models. Ablation studies highlight the critical contributions of both the spatial and temporal components, emphasizing their complementary role in improving prediction accuracy. In conclusion, the GAMMA-Net model sets a new standard in traffic forecasting, offering a powerful tool for next-generation traffic management and urban planning. The code for this study is available at https://github.com/hdy6438/GAMMA-Net",
+      "authors": [
+        "Dongyi He",
+        "Yuanquan Gao",
+        "Bin Jiang",
+        "He Yan"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-04-18T06:14:34+00:00",
+      "link": "https://arxiv.org/pdf/2604.16859v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "spatio-temporal traffic forecasting using graph attention",
+      "llm_evidence_cn": "利用图注意力的时空交通预测",
+      "llm_evidence": "利用图注意力的时空交通预测",
+      "canonical_evidence": "利用图注意力的时空交通预测",
+      "llm_tldr_en": "Combines GAT and Mamba for adaptive long-horizon spatio-temporal traffic forecasting.",
+      "llm_tldr_cn": "结合GAT和Mamba进行自适应长时空交通预测。",
+      "llm_tldr": "结合GAT和Mamba进行自适应长时空交通预测。",
+      "llm_tags": [
+        "query:tp:composite"
+      ],
+      "matched_query_tag": "query:tp:composite",
+      "matched_query_text": "Papers central to 轨迹预测（车辆、行人、船舶、飞机等）相关的论文，考虑密集场景、目标意图、多智能体、轨迹表示学习等概念, especially work that connects or combines: trajectory prediction for autonomous agents; pedestrian trajectory prediction in crowded scenes; maritime vessel trajectory and path prediction algorithms; multi-agent trajectory forecasting and interaction modeling; target intent and goal estimation for trajectory prediction; trajectory representation learning and feature extraction; study of pedestrian and vehicle trajectory prediction models; trajectory prediction in complex maritime environments; deep learning techniques for intent aware trajectory forecasting; trajectory representation learning based on multimodal large language model.",
+      "matched_requirement_id": "req-composite-tp",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.17407v1",
+      "title": "Think before Go: Hierarchical Reasoning for Image-goal Navigation",
+      "abstract": "Image-goal navigation steers an agent to a target location specified by an image in unseen environments. Existing methods primarily handle this task by learning an end-to-end navigation policy, which compares the similarities of target and observation images and directly predicts the actions. However, when the target is distant or lies in another room, such methods fail to extract informative visual cues, leading the agent to wander around. Motivated by the human cognitive principle that deliberate, high-level reasoning guides fast, reactive execution in complex tasks, we propose Hierarchical Reasoning Navigation (HRNav), a framework that decomposes image-goal navigation into high-level planning and low-level execution. In high-level planning, a vision-language model is trained on a self-collected dataset to generate a short-horizon plan, such as whether the agent should walk through the door or down the hallway. This downgrades the difficulty of the long-horizon task, making it more amenable to the execution part. In low-level execution, an online reinforcement learning policy is utilized to decide actions conditioned on the short-horizon plan. We also devise a novel Wandering Suppression Penalty (WSP) to further reduce the wandering problem. Together, these components form a hierarchical framework for Image-Goal Navigation. Extensive experiments in both simulation and real-world environments demonstrate the superiority of our method.",
+      "authors": [
+        "Pengna Li",
+        "Kangyi Wu",
+        "Shaoqing Xu",
+        "Fang Li",
+        "Lin Zhao",
+        "Long Chen",
+        "Zhi-Xin Yang",
+        "Nanning Zheng"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-04-19T12:30:22+00:00",
+      "link": "https://arxiv.org/pdf/2604.17407v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "high-level planning and low-level execution for agent navigation",
+      "llm_evidence_cn": "智能体导航的高层规划与底层执行",
+      "llm_evidence": "智能体导航的高层规划与底层执行",
+      "canonical_evidence": "智能体导航的高层规划与底层执行",
+      "llm_tldr_en": "Proposes HRNav, a hierarchical reasoning framework for image-goal navigation in autonomous agents.",
+      "llm_tldr_cn": "提出HRNav框架，通过高层规划和底层执行实现智能体的图像目标导航。",
+      "llm_tldr": "提出HRNav框架，通过高层规划和底层执行实现智能体的图像目标导航。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.21794v1",
+      "title": "Learning to Communicate: Toward End-to-End Optimization of Multi-Agent Language Systems",
+      "abstract": "Multi-agent systems built on large language models have shown strong performance on complex reasoning tasks, yet most work focuses on agent roles and orchestration while treating inter-agent communication as a fixed interface. Latent communication through internal representations such as key-value caches offers a promising alternative to text-based protocols, but existing approaches do not jointly optimize communication with multi-agent reasoning. Therefore we propose DiffMAS, a training framework that treats latent communication as a learnable component of multi-agent systems. DiffMAS performs parameter-efficient supervised training over multi-agent latent trajectories, enabling agents to jointly learn how information should be encoded and interpreted across interactions. Experiments on mathematical reasoning, scientific QA, code generation, and commonsense benchmarks show that DiffMAS consistently improves reasoning accuracy and decoding stability over single-agent inference, text-based multi-agent systems, and prior latent communication methods, achieving 26.7% on AIME24, 20.2% on GPQA-Diamond, and consistent gains across reasoning benchmarks.",
+      "authors": [
+        "Ye Yu",
+        "Heming Liu",
+        "Haibo Jin",
+        "Xiaopeng Yuan",
+        "Peng Kuang",
+        "Haohan Wang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CL",
+        "cs.MA"
+      ],
+      "published": "2026-04-23T15:53:25+00:00",
+      "link": "https://arxiv.org/pdf/2604.21794v1",
+      "tags": [
+        "keyword:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "training framework for multi-agent latent trajectories and inter-agent communication",
+      "llm_evidence_cn": "多智能体潜轨迹和智能体间通信的训练框架",
+      "llm_evidence": "多智能体潜轨迹和智能体间通信的训练框架",
+      "canonical_evidence": "多智能体潜轨迹和智能体间通信的训练框架",
+      "llm_tldr_en": "DiffMAS optimizes multi-agent systems by learning latent communication protocols over agent trajectories.",
+      "llm_tldr_cn": "DiffMAS通过学习智能体轨迹上的潜在通信协议来优化多智能体系统。",
+      "llm_tldr": "DiffMAS通过学习智能体轨迹上的潜在通信协议来优化多智能体系统。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "multi-agent trajectory forecasting and interaction modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2604.17679v1",
+      "title": "A Hamilton-Jacobi Reachability-Guided Search Framework for Efficient and Safe Indoor Planar Robot Navigation",
+      "abstract": "Autonomous navigation requires planning to reach a goal safely and efficiently in complex and potentially dynamic environments. Graph search-based algorithms are widely adopted due to their generality and theoretical guarantees when equipped with admissible heuristics. However, the computational complexity of graph search grows rapidly with the dimensionality of the search space, often making real-time planning in dynamic environments intractable. In this paper, we combine offline Hamilton-Jacobi (HJ) reachability with online graph search to leverage the complementary strengths of both. Precomputed HJ value functions, used as informative heuristics and proactive safety constraints, amortize online computation of the graph search process. At the same time, graph search enables reachability-based reasoning to be incorporated into online planning, overcoming the long-standing challenge of HJ reachability requiring full knowledge of the environment. Extensive simulation studies and real-world experiments demonstrate that the proposed approach consistently outperforms baseline methods in terms of planning efficiency and navigation safety, in environments with and without human presence.",
+      "authors": [
+        "Hanyang Hu",
+        "Cameron Siu",
+        "Mo Chen"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-04-20T00:30:21+00:00",
+      "link": "https://arxiv.org/pdf/2604.17679v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "planning to reach a goal safely in dynamic environments for autonomous navigation",
+      "llm_evidence_cn": "在动态环境中为自主导航进行安全到达目标的规划",
+      "llm_evidence": "在动态环境中为自主导航进行安全到达目标的规划",
+      "canonical_evidence": "在动态环境中为自主导航进行安全到达目标的规划",
+      "llm_tldr_en": "Combines HJ reachability with graph search for efficient and safe robot navigation in dynamic scenes.",
+      "llm_tldr_cn": "结合HJ可达性与图搜索，实现动态场景下高效安全的机器人导航。",
+      "llm_tldr": "结合HJ可达性与图搜索，实现动态场景下高效安全的机器人导航。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.17706v1",
+      "title": "OmniVLA-RL: A Vision-Language-Action Model with Spatial Understanding and Online RL",
+      "abstract": "Visual-Language-Action (VLA) models represent a paradigm shift in embodied AI, yet existing frameworks often struggle with imprecise spatial perception, suboptimal multimodal fusion, and instability in reinforcement learning. To bridge these gaps, we propose OmniVLA-RL, a novel architecture that leverages a Mix-of-Transformers (MoT) design to synergistically integrate reasoning, spatial, and action experts. Furthermore, we introduce Flow-GSPO, which reformulates flow matching as a Stochastic Differential Equation (SDE) process and integrates it with Group Segmented Policy Optimization (GSPO) to enhance action precision and training robustness. Extensive evaluations on the LIBERO and LIBERO-Plus benchmarks demonstrate that OmniVLA-RL significantly outperforms state-of-the-art methods, effectively overcoming the fundamental limitations of current VLA models.",
+      "authors": [
+        "Haoxiang Jie",
+        "Yaoyuan Yan",
+        "Xiangyu Wei",
+        "Kailin Wang",
+        "Hongjie Yan",
+        "Zhiyou Heng",
+        "Daocheng Chen"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-04-20T01:36:58+00:00",
+      "link": "https://arxiv.org/pdf/2604.17706v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "spatial understanding and action precision in VLA",
+      "llm_evidence_cn": "VLA中的空间理解与动作精度",
+      "llm_evidence": "VLA中的空间理解与动作精度",
+      "canonical_evidence": "VLA中的空间理解与动作精度",
+      "llm_tldr_en": "Enhances VLA models with spatial experts and flow matching for more precise robot action and path execution.",
+      "llm_tldr_cn": "通过空间专家和流匹配增强VLA模型，实现更精确的机器人动作和路径执行。",
+      "llm_tldr": "通过空间专家和流匹配增强VLA模型，实现更精确的机器人动作和路径执行。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.21924v1",
+      "title": "Long-Horizon Manipulation via Trace-Conditioned VLA Planning",
+      "abstract": "Long-horizon manipulation remains challenging for vision-language-action (VLA) policies: real tasks are multi-step, progress-dependent, and brittle to compounding execution errors. We present LoHo-Manip, a modular framework that scales short-horizon VLA execution to long-horizon instruction following via a dedicated task-management VLM. The manager is decoupled from the executor and is invoked in a receding-horizon manner: given the current observation, it predicts a progress-aware remaining plan that combines (i) a subtask sequence with an explicit done + remaining split as lightweight language memory, and (ii) a visual trace -- a compact 2D keypoint trajectory prompt specifying where to go and what to approach next. The executor VLA is adapted to condition on the rendered trace, thereby turning long-horizon decision-making into repeated local control by following the trace. Crucially, predicting the remaining plan at each step yields an implicit closed loop: failed steps persist in subsequent outputs, and traces update accordingly, enabling automatic continuation and replanning without hand-crafted recovery logic or brittle visual-history buffers. Extensive experiments spanning embodied planning, long-horizon reasoning, trajectory prediction, and end-to-end manipulation in simulation and on a real Franka robot demonstrate strong gains in long-horizon success, robustness, and out-of-distribution generalization. Project page: https://www.liuisabella.com/LoHoManip",
+      "authors": [
+        "Isabella Liu",
+        "An-Chieh Cheng",
+        "Rui Yan",
+        "Geng Chen",
+        "Ri-Zhao Qiu",
+        "Xueyan Zou",
+        "Sha Yi",
+        "Hongxu Yin",
+        "Xiaolong Wang",
+        "Sifei Liu"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-04-23T17:59:04+00:00",
+      "link": "https://arxiv.org/pdf/2604.21924v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "visual trace trajectory prompt for VLA planning",
+      "llm_evidence_cn": "用于VLA规划的视觉轨迹提示",
+      "llm_evidence": "用于VLA规划的视觉轨迹提示",
+      "canonical_evidence": "用于VLA规划的视觉轨迹提示",
+      "llm_tldr_en": "Uses a visual trace trajectory prompt within a VLA framework to guide long-horizon robot manipulation tasks.",
+      "llm_tldr_cn": "在VLA框架内使用视觉轨迹提示来引导长程机器人操作任务。",
+      "llm_tldr": "在VLA框架内使用视觉轨迹提示来引导长程机器人操作任务。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning based on multimodal large language model",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2604.17896v1",
+      "title": "Can Explicit Physical Feasibility Benefit VLA Learning? An Empirical Study",
+      "abstract": "Vision-Language-Action (VLA) models map multimodal inputs directly to robot actions and are typically trained through large-scale imitation learning. While this paradigm has shown strong performance, prevailing VLA training procedures do not explicitly supervise hard physical constraints such as obstacle avoidance or kinematic feasibility. As a result, the geometric structure underlying physically feasible behavior must be inferred only implicitly from demonstrations. In this paper, we study whether introducing explicit feasibility supervision can provide effective structured guidance for VLA policies. We formulate a simple geometry-grounded feasibility objective and integrate it into the training stage of a diffusion-based VLA policy. To evaluate this idea systematically, we use obstacle-aware manipulation as a controlled probe of geometry-dependent physical feasibility. Empirical results show that augmenting VLA training with feasibility supervision improves both physical reliability and overall task performance, while also enhancing learning efficiency in the low-data regime. These findings indicate that explicit feasibility signals can effectively complement imitation-based VLA learning, highlighting their potential for developing more reliable VLA policies.",
+      "authors": [
+        "Yubai Wei",
+        "Chen Wu",
+        "Hashem Haghbayan"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "cs.RO"
+      ],
+      "published": "2026-04-20T07:15:12+00:00",
+      "link": "https://arxiv.org/pdf/2604.17896v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "explicit physical feasibility for VLA action prediction",
+      "llm_evidence_cn": "VLA动作预测中的显式物理可行性监督",
+      "llm_evidence": "VLA动作预测中的显式物理可行性监督",
+      "canonical_evidence": "VLA动作预测中的显式物理可行性监督",
+      "llm_tldr_en": "Integrates physical feasibility constraints into VLA models to improve robot action and trajectory generation.",
+      "llm_tldr_cn": "将物理可行性约束集成到VLA模型中，以改进机器人动作和轨迹生成。",
+      "llm_tldr": "将物理可行性约束集成到VLA模型中，以改进机器人动作和轨迹生成。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.18064v1",
+      "title": "Understanding Human Actions through the Lens of Executable Models",
+      "abstract": "Human-centred systems require an understanding of human actions in the physical world. Temporally extended sequences of actions are intentional and structured, yet existing methods for recognising what actions are performed often do not attempt to capture their structure, particularly how the actions are executed. This, however, is crucial for assessing the quality of the action's execution and its differences from other actions. To capture the internal mechanics of actions, we introduce a domain-specific language EXACT that represents human motions as underspecified motion programs, interpreted as reward-generating functions for zero-shot policy inference using forward-backwards representations. By leveraging the compositional nature of EXACT motion programs, we combine individual policies into an executable neuro-symbolic model that uses program structure for compositional modelling. We evaluate the utility of the proposed pipeline for creating executable action models by analysing motion-capture data to understand human actions, for the tasks of human action segmentation and action anomaly detection. Our results show that the use of executable action models improves data efficiency and captures intuitive relationships between actions compared with monolithic, task-specific approaches.",
+      "authors": [
+        "Rimvydas Rubavicius",
+        "Manisha Dubey",
+        "N. Siddharth",
+        "Subramanian Ramamoorthy"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-04-20T10:33:18+00:00",
+      "link": "https://arxiv.org/pdf/2604.18064v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Understanding intentional human actions through executable motion programs",
+      "llm_evidence_cn": "通过可执行运动程序理解有意识的人类动作",
+      "llm_evidence": "通过可执行运动程序理解有意识的人类动作",
+      "canonical_evidence": "通过可执行运动程序理解有意识的人类动作",
+      "llm_tldr_en": "EXACT represents human motions as programs to capture the internal mechanics and intent of actions.",
+      "llm_tldr_cn": "EXACT 将人类运动表示为程序，以捕捉动作的内部机制和意图。",
+      "llm_tldr": "EXACT 将人类运动表示为程序，以捕捉动作的内部机制和意图。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "target intent and goal estimation for trajectory prediction",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.18826v1",
+      "title": "Formulation and Analysis for Integrated Spacecraft Routing and Trajectory Design Problem",
+      "abstract": "This paper studies the integrated spacecraft routing and trajectory optimization problem for satellite servicing missions involving partial en-route propellant replenishment. Unlike terrestrial routing problems, spacecraft operate in a dynamic environment, and we need to optimize the spacecraft routing over a network with nonlinear and time-dependent trajectory costs. In this paper, we tackle this problem using two different formulations. The first formulation, referred to as the arc-based formulation, defines variables based on arcs and employs an iterative decoupling scheme that alternates between mixed-integer linear programming and sequential nonlinear trajectory optimization. The second formulation, referred to as the path-based formulation, defines variables based on paths/routes and leverages column generation and a labeling algorithm to accelerate the identification of promising routes. Through a geosynchronous satellite servicing case study and numerical experiments, we quantify the computational trade-offs between these two formulations in terms of the solution optimality, computational time, and robustness against non-converging or trivial solutions.",
+      "authors": [
+        "Euihyeon Choi",
+        "Koki Ho"
+      ],
+      "primary_category": "math.OC",
+      "categories": [
+        "math.OC"
+      ],
+      "published": "2026-04-20T20:46:36+00:00",
+      "link": "https://arxiv.org/pdf/2604.18826v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "integrated spacecraft routing and trajectory optimization",
+      "llm_evidence_cn": "航天器路径规划与轨迹优化",
+      "llm_evidence": "航天器路径规划与轨迹优化",
+      "canonical_evidence": "航天器路径规划与轨迹优化",
+      "llm_tldr_en": "Analyzes integrated routing and trajectory design for spacecraft in dynamic orbital environments.",
+      "llm_tldr_cn": "分析了动态轨道环境下航天器的集成路径规划与轨迹设计问题。",
+      "llm_tldr": "分析了动态轨道环境下航天器的集成路径规划与轨迹设计问题。",
+      "llm_tags": [
+        "query:tp:composite"
+      ],
+      "matched_query_tag": "query:tp:composite",
+      "matched_query_text": "Papers central to 轨迹预测（车辆、行人、船舶、飞机等）相关的论文，考虑密集场景、目标意图、多智能体、轨迹表示学习等概念, especially work that connects or combines: trajectory prediction for autonomous agents; pedestrian trajectory prediction in crowded scenes; maritime vessel trajectory and path prediction algorithms; multi-agent trajectory forecasting and interaction modeling; target intent and goal estimation for trajectory prediction; trajectory representation learning and feature extraction; study of pedestrian and vehicle trajectory prediction models; trajectory prediction in complex maritime environments; deep learning techniques for intent aware trajectory forecasting; trajectory representation learning based on multimodal large language model.",
+      "matched_requirement_id": "req-composite-tp",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.19404v1",
+      "title": "M$^{2}$GRPO: Mamba-based Multi-Agent Group Relative Policy Optimization for Biomimetic Underwater Robots Pursuit",
+      "abstract": "Traditional policy learning methods in cooperative pursuit face fundamental challenges in biomimetic underwater robots, where long-horizon decision making, partial observability, and inter-robot coordination require both expressiveness and stability. To address these issues, a novel framework called Mamba-based multi-agent group relative policy optimization (M$^{2}$GRPO) is proposed, which integrates a selective state-space Mamba policy with group-relative policy optimization under the centralized-training and decentralized-execution (CTDE) paradigm. Specifically, the Mamba-based policy leverages observation history to capture long-horizon temporal dependencies and exploits attention-based relational features to encode inter-agent interactions, producing bounded continuous actions through normalized Gaussian sampling. To further improve credit assignment without sacrificing stability, the group-relative advantages are obtained by normalizing rewards across agents within each episode and optimized through a multi-agent extension of GRPO, significantly reducing the demand for training resources while enabling stable and scalable policy updates. Extensive simulations and real-world pool experiments across team scales and evader strategies demonstrate that M$^{2}$GRPO consistently outperforms MAPPO and recurrent baselines in both pursuit success rate and capture efficiency. Overall, the proposed framework provides a practical and scalable solution for cooperative underwater pursuit with biomimetic robot systems.",
+      "authors": [
+        "Yukai Feng",
+        "Zhiheng Wu",
+        "Zhengxing Wu",
+        "Junwen Gu",
+        "Junzhi Yu"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-04-21T12:29:00+00:00",
+      "link": "https://arxiv.org/pdf/2604.19404v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "multi-agent coordination and temporal dependencies for underwater robots",
+      "llm_evidence_cn": "水下机器人的多智能体协作与时序依赖",
+      "llm_evidence": "水下机器人的多智能体协作与时序依赖",
+      "canonical_evidence": "水下机器人的多智能体协作与时序依赖",
+      "llm_tldr_en": "Introduces M2GRPO for multi-agent underwater robot pursuit using Mamba-based temporal modeling.",
+      "llm_tldr_cn": "提出M2GRPO框架，利用Mamba模型处理水下机器人多智能体协作追逐中的时序依赖。",
+      "llm_tldr": "提出M2GRPO框架，利用Mamba模型处理水下机器人多智能体协作追逐中的时序依赖。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "multi-agent trajectory forecasting and interaction modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}

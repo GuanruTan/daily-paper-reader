@@ -6,61 +6,73 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-04-23
-- 运行时间：2026-04-23 20:45:19 UTC
+- 最新运行日期：2026-04-26
+- 运行时间：2026-04-26 20:21:11 UTC
 - 运行状态：成功
-- 本次总论文数：13
-- 精读区：2
+- 本次总论文数：17
+- 精读区：6
 - 速读区：11
 
 ### 今日简报（AI）
-今日聚焦空天交通管控与航天器风险预测，深度解析 13 篇涵盖导航、规划与机器人操控的前沿论文。
-重点推荐终端区空中交通轨迹优化算法，以及保障航天器安全的风险感知滤波与数据融合技术。
-建议关注超图引导的视觉语言模型与时空流匹配，探索其在复杂机器人任务规划中的应用潜力。
-- 详情：[/202604/23/README](/202604/23/README)
+今日聚焦大语言模型在时空推理与越野规划中的突破，深度解析 17 篇前沿论文。
+重点关注冻结 LLM 如何赋能车辆轨迹预测，以及语言引导在复杂越野环境 3D 路径规划中的推理应用。
+建议优先研读 LLM 与时空推理结合的满分论文，并关注 VLA 策略在长程操控中的落地潜力。
+- 详情：[/202604/26/README](/202604/26/README)
 
 ### 精读区论文标签
-1. [Trajectory-Based Optimization for Air Traffic Control in the Terminal Maneuvering Area](/202604/23/2604.17776v1-trajectory-based-optimization-for-air-traffic-control-in-the-terminal-maneuvering-area)  
+1. [Frozen LLMs as Map-Aware Spatio-Temporal Reasoners for Vehicle Trajectory Prediction](/202604/26/2604.21479v1-frozen-llms-as-map-aware-spatio-temporal-reasoners-for-vehicle-trajectory-prediction)  
+   标签：评分：10.0/10、query:tp
+   evidence：利用大语言模型作为时空推理器进行车辆轨迹预测
+2. [Reasoning About Traversability: Language-Guided Off-Road 3D Trajectory Planning](/202604/26/2604.21249v1-reasoning-about-traversability-language-guided-off-road-3d-trajectory-planning)  
+   标签：评分：9.0/10、query:tp
+   evidence：基于视觉语言模型的自动驾驶3D未来轨迹生成
+3. [MISTY: High-Throughput Motion Planning via Mixer-based Single-step Drifting](/202604/26/2604.21489v1-misty-high-throughput-motion-planning-via-mixer-based-single-step-drifting)  
+   标签：评分：9.0/10、query:tp
+   evidence：自动驾驶的多模态轨迹生成与潜流形构建
+4. [ARMove: Learning to Predict Human Mobility through Agentic Reasoning](/202604/26/2604.17419v1-armove-learning-to-predict-human-mobility-through-agentic-reasoning)  
    标签：评分：8.0/10、query:tp
-   evidence：基于轨迹的飞机进场排序和路径建模优化
-2. [Co-State Based Data Fusion and Risk Aware Filtering for Spacecraft Navigation and Hazard Prediction](/202604/23/2604.20485v1-co-state-based-data-fusion-and-risk-aware-filtering-for-spacecraft-navigation-and-hazard-prediction)  
+   evidence：通过大语言模型的智能体推理预测人类移动性
+5. [AeroBridge-TTA: Test-Time Adaptive Language-Conditioned Control for UAVs](/202604/26/2604.19059v1-aerobridge-tta-test-time-adaptive-language-conditioned-control-for-uavs)  
    标签：评分：8.0/10、query:tp
-   evidence：利用共态和创新轨迹进行危险预测和行为模式转换预测
+   evidence：将指令映射到无人机子目标和轨迹的语言条件控制流水线
+6. [CorridorVLA: Explicit Spatial Constraints for Generative Action Heads via Sparse Anchors](/202604/26/2604.21241v1-corridorvla-explicit-spatial-constraints-for-generative-action-heads-via-sparse-anchors)  
+   标签：评分：8.0/10、query:tp
+   evidence：轨迹生成的显式空间约束与锚点
 
 ### 速读区论文标签
-1. [LookasideVLN: Direction-Aware Aerial Vision-and-Language Navigation](/202604/23/2604.17190v1-lookasidevln-direction-aware-aerial-vision-and-language-navigation)  
+1. [From Noise to Intent: Anchoring Generative VLA Policies with Residual Bridges](/202604/26/2604.21391v1-from-noise-to-intent-anchoring-generative-vla-policies-with-residual-bridges)  
+   标签：评分：8.0/10、query:tp
+   evidence：将机器人运动解耦为全局意图和局部动力学
+2. [Learning to Communicate: Toward End-to-End Optimization of Multi-Agent Language Systems](/202604/26/2604.21794v1-learning-to-communicate-toward-end-to-end-optimization-of-multi-agent-language-systems)  
+   标签：评分：8.0/10、query:tp
+   evidence：多智能体潜轨迹和智能体间通信的训练框架
+3. [Long-Horizon Manipulation via Trace-Conditioned VLA Planning](/202604/26/2604.21924v1-long-horizon-manipulation-via-trace-conditioned-vla-planning)  
+   标签：评分：8.0/10、query:tp
+   evidence：用于VLA规划的视觉轨迹提示
+4. [GAMMA-Net: Adaptive Long-Horizon Traffic Spatio-Temporal Forecasting Model based on Interleaved Graph Attention and Multi-Axis Mamba](/202604/26/2604.16859v1-gamma-net-adaptive-long-horizon-traffic-spatio-temporal-forecasting-model-based-on-interleaved-graph-attention-and-multi-axis-mamba)  
    标签：评分：7.0/10、query:tp
-   evidence：城市环境中无人机的前瞻路径规划
-2. [GaLa: Hypergraph-Guided Visual Language Models for Procedural Planning](/202604/23/2604.17241v1-gala-hypergraph-guided-visual-language-models-for-procedural-planning)  
+   evidence：利用图注意力的时空交通预测
+5. [A Hamilton-Jacobi Reachability-Guided Search Framework for Efficient and Safe Indoor Planar Robot Navigation](/202604/26/2604.17679v1-a-hamilton-jacobi-reachability-guided-search-framework-for-efficient-and-safe-indoor-planar-robot-navigation)  
    标签：评分：7.0/10、query:tp
-   evidence：基于超图的程序化规划表示
-3. [OFlow: Injecting Object-Aware Temporal Flow Matching for Robust Robotic Manipulation](/202604/23/2604.17876v1-oflow-injecting-object-aware-temporal-flow-matching-for-robust-robotic-manipulation)  
+   evidence：在动态环境中为自主导航进行安全到达目标的规划
+6. [Can Explicit Physical Feasibility Benefit VLA Learning? An Empirical Study](/202604/26/2604.17896v1-can-explicit-physical-feasibility-benefit-vla-learning-an-empirical-study)  
    标签：评分：7.0/10、query:tp
-   evidence：通过时间流匹配预测机器人操作的未来潜变量
-4. [EgoMotion: Hierarchical Reasoning and Diffusion for Egocentric Vision-Language Motion Generation](/202604/23/2604.19105v1-egomotion-hierarchical-reasoning-and-diffusion-for-egocentric-vision-language-motion-generation)  
+   evidence：VLA动作预测中的显式物理可行性监督
+7. [Formulation and Analysis for Integrated Spacecraft Routing and Trajectory Design Problem](/202604/26/2604.18826v1-formulation-and-analysis-for-integrated-spacecraft-routing-and-trajectory-design-problem)  
    标签：评分：7.0/10、query:tp
-   evidence：基于视觉观察合成3D人体运动
-5. [GOLD-BEV: GrOund and aeriaL Data for Dense Semantic BEV Mapping of Dynamic Scenes](/202604/23/2604.19411v1-gold-bev-ground-and-aerial-data-for-dense-semantic-bev-mapping-of-dynamic-scenes)  
+   evidence：航天器路径规划与轨迹优化
+8. [M$^{2}$GRPO: Mamba-based Multi-Agent Group Relative Policy Optimization for Biomimetic Underwater Robots Pursuit](/202604/26/2604.19404v1-m2grpo-mamba-based-multi-agent-group-relative-policy-optimization-for-biomimetic-underwater-robots-pursuit)  
    标签：评分：7.0/10、query:tp
-   evidence：动态智能体和移动交通参与者的BEV映射
-6. [FineCog-Nav: Integrating Fine-grained Cognitive Modules for Zero-shot Multimodal UAV Navigation](/202604/23/2604.16298v1-finecog-nav-integrating-fine-grained-cognitive-modules-for-zero-shot-multimodal-uav-navigation)  
+   evidence：水下机器人的多智能体协作与时序依赖
+9. [Think before Go: Hierarchical Reasoning for Image-goal Navigation](/202604/26/2604.17407v1-think-before-go-hierarchical-reasoning-for-image-goal-navigation)  
    标签：评分：6.0/10、query:tp
-   evidence：基于基础模型和认知模块的多模态无人机导航
-7. [The Global Neural World Model: Spatially Grounded Discrete Topologies for Action-Conditioned Planning](/202604/23/2604.16585v1-the-global-neural-world-model-spatially-grounded-discrete-topologies-for-action-conditioned-planning)  
+   evidence：智能体导航的高层规划与底层执行
+10. [OmniVLA-RL: A Vision-Language-Action Model with Spatial Understanding and Online RL](/202604/26/2604.17706v1-omnivla-rl-a-vision-language-action-model-with-spatial-understanding-and-online-rl)  
    标签：评分：6.0/10、query:tp
-   evidence：动作条件预测架构用于状态转移动力学
-8. [Marrying Text-to-Motion Generation with Skeleton-Based Action Recognition](/202604/23/2604.17090v1-marrying-text-to-motion-generation-with-skeleton-based-action-recognition)  
+   evidence：VLA中的空间理解与动作精度
+11. [Understanding Human Actions through the Lens of Executable Models](/202604/26/2604.18064v1-understanding-human-actions-through-the-lens-of-executable-models)  
    标签：评分：6.0/10、query:tp
-   evidence：利用骨架坐标和扩散模型进行动作生成与理解
-9. [Live LTL Progress Tracking: Towards Task-Based Exploration](/202604/23/2604.17106v1-live-ltl-progress-tracking-towards-task-based-exploration)  
-   标签：评分：6.0/10、query:tp
-   evidence：通过轨迹展开跟踪并表示进度
-10. [OptiMVMap: Offline Vectorized Map Construction via Optimal Multi-vehicle Perspectives](/202604/23/2604.17135v1-optimvmap-offline-vectorized-map-construction-via-optimal-multi-vehicle-perspectives)  
-   标签：评分：6.0/10、query:tp
-   evidence：用于地图构建和自动驾驶基础设施的多车视角融合
-11. [Dual-Anchoring: Addressing State Drift in Vision-Language Navigation](/202604/23/2604.17473v1-dual-anchoring-addressing-state-drift-in-vision-language-navigation)  
-   标签：评分：6.0/10、query:tp
-   evidence：解决智能体视言导航中的状态漂移问题
+   evidence：通过可执行运动程序理解有意识的人类动作
 
 
 <div class="dpr-home-promo-card">
