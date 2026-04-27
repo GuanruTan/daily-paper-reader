@@ -1,0 +1,588 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-04-27T20:30:08.853448+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 4,
+    "deep_cap": 6,
+    "deep_selected": 4,
+    "quick_candidates": 23,
+    "quick_skim_target": 11,
+    "quick_selected": 11
+  },
+  "deep_dive": [
+    {
+      "id": "2604.21479v2",
+      "title": "Frozen LLMs as Map-Aware Spatio-Temporal Reasoners for Vehicle Trajectory Prediction",
+      "abstract": "Large language models (LLMs) have recently demonstrated strong reasoning capabilities and attracted increasing research attention in the field of autonomous driving (AD). However, safe application of LLMs on AD perception and prediction still requires a thorough understanding of both the dynamic traffic agents and the static road infrastructure. To this end, this study introduces a framework to evaluate the capability of LLMs in understanding the behaviors of dynamic traffic agents and the topology of road networks. The framework leverages frozen LLMs as the reasoning engine, employing a traffic encoder to extract spatial-level scene features from observed trajectories of agents, while a lightweight Convolutional Neural Network (CNN) encodes the local high-definition (HD) maps. To assess the intrinsic reasoning ability of LLMs, the extracted scene features are then transformed into LLM-compatible tokens via a reprogramming adapter. By residing the prediction burden with the LLMs, a simpler linear decoder is applied to output future trajectories. The framework enables a quantitative analysis of the influence of multi-modal information, especially the impact of map semantics on trajectory prediction accuracy, and allows seamless integration of frozen LLMs with minimal adaptation, thereby demonstrating strong generalizability across diverse LLM architectures and providing a unified platform for model evaluation.",
+      "authors": [
+        "Yanjiao Liu",
+        "Jiawei Liu",
+        "Xun Gong",
+        "Zifei Nie"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-04-23T09:39:51+00:00",
+      "link": "https://arxiv.org/pdf/2604.21479v2",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "LLMs as spatio-temporal reasoners for vehicle trajectory prediction",
+      "llm_evidence_cn": "大语言模型作为车辆轨迹预测的时空推理器",
+      "llm_evidence": "大语言模型作为车辆轨迹预测的时空推理器",
+      "canonical_evidence": "大语言模型作为车辆轨迹预测的时空推理器",
+      "llm_tldr_en": "Evaluates and utilizes frozen LLMs for vehicle trajectory prediction and road network understanding.",
+      "llm_tldr_cn": "评估并利用冻结的大语言模型进行车辆轨迹预测和路网拓扑理解。",
+      "llm_tldr": "评估并利用冻结的大语言模型进行车辆轨迹预测和路网拓扑理解。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning based on multimodal large language model",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2604.21471v1",
+      "title": "Ufil: A Unified Framework for Infrastructure-based Localization",
+      "abstract": "Infrastructure-based localization enhances road safety and traffic management by providing state estimates of road users. Development is hindered by fragmented, application-specific stacks that tightly couple perception, tracking, and middleware. We introduce Ufil, a Unified Framework for Infrastructure-Based Localization with a standardized object model and reusable multi-object tracking components. Ufil offers interfaces and reference implementations for prediction, detection, association, state update, and track management, allowing researchers to improve components without reimplementing the pipeline. Ufil is open-source C++/ROS 2 software with documentation and executable examples. We demonstrate Ufil by integrating three heterogeneous data sources into a single localization pipeline combining (i) vehicle onboard units broadcasting ETSI ITS-G5 Cooperative Awareness Messages, (ii) a lidar-based roadside sensor node, and (iii) an in-road sensitive surface layer. The pipeline runs unchanged in the CARLA simulator and a small-scale CAV testbed, demonstrating Ufil's scale-independent execution model. In a three-lane highway scenario with 423 and 355 vehicles in simulation and testbed, respectively, the fused system achieves lane-level lateral accuracy with mean lateral position RMSEs of 0.31 m in CARLA and 0.29 m in the CPM Lab, and mean absolute orientation errors around 2.2°. Median end-to-end latencies from sensing to fused output remain below 100 ms across all modalities in both environments.",
+      "authors": [
+        "Simon Schäfer",
+        "Lucas Hegerath",
+        "Marius Molz",
+        "Massimo Marcon",
+        "Bassam Alrifaee"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-04-23T09:29:53+00:00",
+      "link": "https://arxiv.org/pdf/2604.21471v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "infrastructure-based localization and prediction for road users",
+      "llm_evidence_cn": "基于基础设施的道路用户定位与预测",
+      "llm_evidence": "基于基础设施的道路用户定位与预测",
+      "canonical_evidence": "基于基础设施的道路用户定位与预测",
+      "llm_tldr_en": "Ufil is a unified framework for infrastructure-based localization and tracking of road users.",
+      "llm_tldr_cn": "Ufil是一个用于基于基础设施的道路用户定位和跟踪的统一框架。",
+      "llm_tldr": "Ufil是一个用于基于基础设施的道路用户定位和跟踪的统一框架。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "study of pedestrian and vehicle trajectory prediction models",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2604.22068v1",
+      "title": "TRACE: Topology-aware Reconstruction of Accidents in CARLA for AV Evaluation",
+      "abstract": "Validating Autonomous Vehicles (AVs) requires exposure to rare, safety-critical scenarios, infrequent in routine driving data. Existing benchmarks address this by generating synthetic conflicts or mapping accident descriptions to abstract road geometries, failing to capture the topological complexity of real-world crashes. We introduce TRACE , a pipeline that automates the reconstruction of NHTSA crash reports into high-fidelity CARLA simulations by (1) retrieving site-specific OpenStreetMap data to preserve exact road topology, (2) leveraging Large Language Models to infer vehicles' initial state from road geometry and pre-crash maneuvers, and (3) generating simulation trajectories from semi-structured report data. Using this pipeline, we curated a benchmark of 52 diverse accident scenarios covering varied collision types, road topologies, and pre-crash maneuvers, providing a challenging open source resource for testing AV systems against real-world failures.",
+      "authors": [
+        "Nahian Salsabil",
+        "Sebastian Elbaum"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE",
+        "cs.RO"
+      ],
+      "published": "2026-04-23T20:48:30+00:00",
+      "link": "https://arxiv.org/pdf/2604.22068v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "generating simulation trajectories from crash reports",
+      "llm_evidence_cn": "从事故报告中生成模拟轨迹",
+      "llm_evidence": "从事故报告中生成模拟轨迹",
+      "canonical_evidence": "从事故报告中生成模拟轨迹",
+      "llm_tldr_en": "Automates the reconstruction of real-world crash scenarios into high-fidelity simulation trajectories for AV evaluation.",
+      "llm_tldr_cn": "自动将真实碰撞事故报告重建为高保真仿真轨迹，用于自动驾驶评估。",
+      "llm_tldr": "自动将真实碰撞事故报告重建为高保真仿真轨迹，用于自动驾驶评估。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "study of pedestrian and vehicle trajectory prediction models",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2604.22240v1",
+      "title": "OccDirector: Language-Guided Behavior and Interaction Generation in 4D Occupancy Space",
+      "abstract": "Generative world models increasingly rely on 4D occupancy for realistic autonomous driving simulation. However, existing generation frameworks depend on rigid geometric conditions (e.g., explicit trajectories) or simplistic attribute-level text, failing to orchestrate complex, sequential multi-agent interactions. To address this semantic-spatiotemporal gap, we propose OccDirector, a pioneering framework that generates 4D occupancy dynamics conditioned solely on natural language. Operating as a ``scenario director'', OccDirector maps natural language scripts into physically plausible voxel dynamics without requiring geometric priors. Technically, it employs a VLM-driven Spatio-Temporal MMDiT equipped with a history-prefix anchoring strategy to ensure long-horizon interaction consistency. Furthermore, we introduce OccInteract-85k, a novel dataset uniquely annotated with multi-level language instructions: ranging from static layouts to intricate multi-agent behaviors, alongside a novel VLM-based evaluation benchmark. Extensive experiments demonstrate that OccDirector achieves state-of-the-art generation quality and unprecedented instruction-following capabilities, successfully shifting the paradigm from appearance synthesis to language-driven behavior orchestration.",
+      "authors": [
+        "Zhuding Liang",
+        "Tianyi Yan",
+        "Dubing Chen",
+        "Jiasen Zheng",
+        "Huan Zheng",
+        "Cheng-zhong Xu",
+        "Yida Wang",
+        "Kun Zhan",
+        "Jianbing Shen"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-04-24T05:30:35+00:00",
+      "link": "https://arxiv.org/pdf/2604.22240v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "multi-agent interaction generation in 4D occupancy space",
+      "llm_evidence_cn": "4D占据空间中的多智能体交互生成",
+      "llm_evidence": "4D占据空间中的多智能体交互生成",
+      "canonical_evidence": "4D占据空间中的多智能体交互生成",
+      "llm_tldr_en": "OccDirector generates complex multi-agent interactions in 4D occupancy space from natural language.",
+      "llm_tldr_cn": "OccDirector根据自然语言在4D占据空间中生成复杂的多智能体交互。",
+      "llm_tldr": "OccDirector根据自然语言在4D占据空间中生成复杂的多智能体交互。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "multi-agent trajectory forecasting and interaction modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2604.18343v1",
+      "title": "DAG-STL: A Hierarchical Framework for Zero-Shot Trajectory Planning under Signal Temporal Logic Specifications",
+      "abstract": "Signal Temporal Logic (STL) is a powerful language for specifying temporally structured robotic tasks. Planning executable trajectories under STL constraints remains difficult when system dynamics and environment structure are not analytically available. Existing methods typically either assume explicit models or learn task-specific behaviors, limiting zero-shot generalization to unseen STL tasks. In this work, we study offline STL planning under unknown dynamics using only task-agnostic trajectory data. Our central design philosophy is to separate logical reasoning from trajectory realization. We instantiate this idea in DAG-STL, a hierarchical framework that converts long-horizon STL planning into three stages. It first decomposes an STL formula into reachability and invariance progress conditions linked by shared timing constraints. It then allocates timed waypoints using learned reachability-time estimates. Finally, it synthesizes trajectories between these waypoints with a diffusion-based generator. This decomposition--allocation--generation pipeline reduces global planning to shorter, better-supported subproblems. To bridge the gap between planning-level correctness and execution-level feasibility, we further introduce a rollout-free dynamic consistency metric, an anytime refinement search procedure for improving multiple allocation hypotheses under finite budgets, and a hierarchical online replanning mechanism for execution-time recovery. Experiments in Maze2D, OGBench AntMaze, and the Cube domain show that DAG-STL substantially outperforms direct robustness-guided diffusion on complex long-horizon STL tasks and generalizes across navigation and manipulation settings. In a custom environment with an optimization-based reference, DAG-STL recovers most model-solvable tasks while retaining a clear computational advantage over direct optimization based on the explicit system model.",
+      "authors": [
+        "Ruijia Liu",
+        "Ancheng Hou",
+        "Xiao Yu",
+        "Xiang Yin"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "eess.SY"
+      ],
+      "published": "2026-04-20T14:41:37+00:00",
+      "link": "https://arxiv.org/pdf/2604.18343v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "trajectory planning under unknown dynamics using trajectory data",
+      "llm_evidence_cn": "利用轨迹数据在未知动力学下进行轨迹规划",
+      "llm_evidence": "利用轨迹数据在未知动力学下进行轨迹规划",
+      "canonical_evidence": "利用轨迹数据在未知动力学下进行轨迹规划",
+      "llm_tldr_en": "DAG-STL is a hierarchical framework for zero-shot trajectory planning under temporal logic constraints.",
+      "llm_tldr_cn": "DAG-STL是一个在时序逻辑约束下进行零样本轨迹规划的分层框架。",
+      "llm_tldr": "DAG-STL是一个在时序逻辑约束下进行零样本轨迹规划的分层框架。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.17807v1",
+      "title": "Re$^2$MoGen: Open-Vocabulary Motion Generation via LLM Reasoning and Physics-Aware Refinement",
+      "abstract": "Text-to-motion (T2M) generation aims to control the behavior of a target character via textual descriptions. Leveraging text-motion paired datasets, existing T2M models have achieved impressive performance in generating high-quality motions within the distribution of their training data. However, their performance deteriorates notably when the motion descriptions differ significantly from the training texts. To address this issue, we propose Re$^2$MoGen, a Reasoning and Refinement open-vocabulary Motion Generation framework that leverages enhanced Large Language Model (LLM) reasoning to generate an initial motion planning and then refine its physical plausibility via reinforcement learning (RL) post-training. Specifically, Re$^2$MoGen consists of three stages: We first employ Monte Carlo tree search to enhance the LLM's reasoning ability in generating reasonable keyframes of the motion based on text prompts, specifying only the root and several key joints' positions to ease the reasoning process. Then, we apply a human pose model as a prior to optimize the full-body poses based on the planned keyframes and use the resulting incomplete motion to supervise fine-tuning a pre-trained motion generator via a dynamic temporal matching objective, enabling spatiotemporal completion. Finally, we use post-training with physics-aware reward to refine motion quality to eliminate physical implausibility in LLM-planned motions. Extensive experiments demonstrate that our framework can generate semantically consistent and physically plausible motions and achieve state-of-the-art performance in open-vocabulary motion generation.",
+      "authors": [
+        "Jiakun Zheng",
+        "Ting Xiao",
+        "Shiqin Cao",
+        "Xinran Li",
+        "Zhe Wang",
+        "Chenjia Bai"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "published": "2026-04-20T04:59:28+00:00",
+      "link": "https://arxiv.org/pdf/2604.17807v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "LLM reasoning to generate initial motion planning for characters",
+      "llm_evidence_cn": "利用大模型推理生成角色的初始运动规划",
+      "llm_evidence": "利用大模型推理生成角色的初始运动规划",
+      "canonical_evidence": "利用大模型推理生成角色的初始运动规划",
+      "llm_tldr_en": "Combines LLM reasoning and physics-aware refinement for open-vocabulary human motion generation.",
+      "llm_tldr_cn": "结合大模型推理和物理感知优化，实现开放词汇的人体运动生成。",
+      "llm_tldr": "结合大模型推理和物理感知优化，实现开放词汇的人体运动生成。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.19556v1",
+      "title": "Paparazzo: Active Mapping of Moving 3D Objects",
+      "abstract": "Current 3D mapping pipelines generally assume static environments, which limits their ability to accurately capture and reconstruct moving objects. To address this limitation, we introduce the novel task of active mapping of moving objects, in which a mapping agent must plan its trajectory while compensating for the object's motion. Our approach, Paparazzo, provides a learning-free solution that robustly predicts the target's trajectory and identifies the most informative viewpoints from which to observe it, to plan its own path. We also contribute a comprehensive benchmark designed for this new task. Through extensive experiments, we show that Paparazzo significantly improves 3D reconstruction completeness and accuracy compared to several strong baselines, marking an important step toward dynamic scene understanding. Project page: https://davidea97.github.io/paparazzo-page/",
+      "authors": [
+        "Davide Allegro",
+        "Shiyao Li",
+        "Stefano Ghidoni",
+        "Vincent Lepetit"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-04-21T15:09:10+00:00",
+      "link": "https://arxiv.org/pdf/2604.19556v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "robustly predicts the target's trajectory for active mapping",
+      "llm_evidence_cn": "为主动建图稳健地预测目标轨迹",
+      "llm_evidence": "为主动建图稳健地预测目标轨迹",
+      "canonical_evidence": "为主动建图稳健地预测目标轨迹",
+      "llm_tldr_en": "Paparazzo predicts moving object trajectories to plan optimal viewpoints for active 3D reconstruction.",
+      "llm_tldr_cn": "Paparazzo通过预测移动物体轨迹来规划最佳视角，从而实现主动3D重建。",
+      "llm_tldr": "Paparazzo通过预测移动物体轨迹来规划最佳视角，从而实现主动3D重建。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.18305v1",
+      "title": "CAARL: In-Context Learning for Interpretable Co-Evolving Time Series Forecasting",
+      "abstract": "In this paper we investigate forecasting coevolving time series that feature intricate dependencies and nonstationary dynamics by using an LLM Large Language Models approach We propose a novel modeling approach named ContextAware ARLLM CAARL that provides an interpretable framework to decode the contextual dynamics influencing changes in coevolving series CAARL decomposes time series into autoregressive segments constructs a temporal dependency graph and serializes this graph into a narrative to allow processing by LLM This design yields a chainofthoughtlike reasoning path where intermediate steps capture contextual dynamics and guide forecasts in a transparent manner By linking prediction to explicit reasoning traces CAARL enhances interpretability while maintaining accuracy Experiments on realworld datasets validate its effectiveness positioning CAARL as a competitive and interpretable alternative to stateoftheart forecasting methods",
+      "authors": [
+        "Etienne Tajeuna",
+        "Patrick Asante Owusu",
+        "Armelle Brun",
+        "Shengrui Wang"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-04-20T14:14:03+00:00",
+      "link": "https://arxiv.org/pdf/2604.18305v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "interpretable time series forecasting using LLM and temporal dependency graphs",
+      "llm_evidence_cn": "使用大语言模型和时间依赖图进行可解释的时间序列预测",
+      "llm_evidence": "使用大语言模型和时间依赖图进行可解释的时间序列预测",
+      "canonical_evidence": "使用大语言模型和时间依赖图进行可解释的时间序列预测",
+      "llm_tldr_en": "Proposes CAARL for interpretable co-evolving time series forecasting using LLM-based reasoning paths.",
+      "llm_tldr_cn": "提出CAARL框架，利用大语言模型推理路径实现可解释的协同演化时间序列预测。",
+      "llm_tldr": "提出CAARL框架，利用大语言模型推理路径实现可解释的协同演化时间序列预测。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning and feature extraction",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.20764v1",
+      "title": "Personalized electric vehicle energy consumption estimation framework that integrates driver behavior with map data",
+      "abstract": "This paper presents a personalized Battery Electric Vehicle (BEV) energy consumption estimation framework that integrates map-based contextual features with driver-specific velocity prediction and physics-based energy consumption modeling. The system combines route selection, detailed road feature processing, a rule-based reference velocity generator, a PID controller-based vehicle dynamics simulator, and a Bidirectional LSTM model trained to reproduce individual driving behavior. The predicted individual-specific velocity profiles are coupled with a quasi-steady backward energy consumption model to compute tractive power, regenerative braking, and State-of-Charge (SOC) evolution. Evaluation across urban, freeway, and hilly routes demonstrates that the proposed approach captures key driver behavioral patterns such as deceleration at intersections, speed-limit tracking, and road grade-dependent responses, while producing accurate power and SOC trajectories. The results highlight the effectiveness of combining learned driver behavior with map-based context and physics-based energy consumption modeling to produce accurate, personalized BEV SOC depletion profiles.",
+      "authors": [
+        "Sreechakra Vasudeva Raju Rachavelpula",
+        "Sangwhan Cha"
+      ],
+      "primary_category": "eess.SY",
+      "categories": [
+        "eess.SY",
+        "cs.LG"
+      ],
+      "published": "2026-04-22T16:49:52+00:00",
+      "link": "https://arxiv.org/pdf/2604.20764v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "driver-specific velocity prediction and individual driving behavior modeling",
+      "llm_evidence_cn": "特定驾驶员的速度预测和个人驾驶行为建模",
+      "llm_evidence": "特定驾驶员的速度预测和个人驾驶行为建模",
+      "canonical_evidence": "特定驾驶员的速度预测和个人驾驶行为建模",
+      "llm_tldr_en": "Integrates driver behavior and map data for personalized EV velocity and energy consumption prediction.",
+      "llm_tldr_cn": "结合驾驶员行为和地图数据，实现个性化的电动汽车速度预测与能耗估算。",
+      "llm_tldr": "结合驾驶员行为和地图数据，实现个性化的电动汽车速度预测与能耗估算。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "study of pedestrian and vehicle trajectory prediction models",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.18887v1",
+      "title": "HALO: Hybrid Auto-encoded Locomotion with Learned Latent Dynamics, Poincaré Maps, and Regions of Attraction",
+      "abstract": "Reduced-order models are powerful for analyzing and controlling high-dimensional dynamical systems. Yet constructing these models for complex hybrid systems such as legged robots remains challenging. Classical approaches rely on hand-designed template models (e.g., LIP, SLIP), which, though insightful, only approximate the underlying dynamics. In contrast, data-driven methods can extract more accurate low-dimensional representations, but it remains unclear when stability and safety properties observed in the latent space meaningfully transfer back to the full-order system. To bridge this gap, we introduce HALO (Hybrid Auto-encoded Locomotion), a framework for learning latent reduced-order models of periodic hybrid dynamics directly from trajectory data. HALO employs an autoencoder to identify a low-dimensional latent state together with a learned latent Poincaré map that captures step-to-step locomotion dynamics. This enables Lyapunov analysis and the construction of an associated region of attraction in the latent space, both of which can be lifted back to the full-order state space through the decoder. Experiments on a simulated hopping robot and full-body humanoid locomotion demonstrate that HALO yields low-dimensional models that retain meaningful stability structure and predict full-order region-of-attraction boundaries.",
+      "authors": [
+        "Blake Werner",
+        "Sergio A. Esteban",
+        "Massimiliano De Sa",
+        "Max H. Cohen",
+        "Aaron D. Ames"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "eess.SY"
+      ],
+      "published": "2026-04-20T22:09:27+00:00",
+      "link": "https://arxiv.org/pdf/2604.18887v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "learning latent reduced-order models for hybrid dynamical systems",
+      "llm_evidence_cn": "学习混合动力系统的潜空间降阶模型",
+      "llm_evidence": "学习混合动力系统的潜空间降阶模型",
+      "canonical_evidence": "学习混合动力系统的潜空间降阶模型",
+      "llm_tldr_en": "Learns low-dimensional latent dynamics for complex legged robot locomotion and stability analysis.",
+      "llm_tldr_cn": "为复杂的足式机器人运动学习低维潜空间动力学模型，并进行稳定性分析。",
+      "llm_tldr": "为复杂的足式机器人运动学习低维潜空间动力学模型，并进行稳定性分析。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning and feature extraction",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.21078v1",
+      "title": "Impact-Aware Model Predictive Control for UAV Landing on a Heaving Platform",
+      "abstract": "Landing UAVs on heaving marine platforms is challenging because relative vertical motion can generate large impact forces and cause rebound on touchdown. To address this, we develop an impact-aware Model Predictive Control (MPC) framework that models landing as a velocity-level rigid-body impact governed by Newton's restitution law. We embed this as a linear complementarity problem (LCP) within the MPC dynamics to predict the discontinuous post-impact velocity and suppress rebound. In simulation, restitution-aware prediction reduces pre-impact relative velocity and improves landing robustness. Experiments on a heaving-deck testbed show an 86.2% reduction in post-impact deflection compared to a tracking MPC.",
+      "authors": [
+        "Jess Stephenson",
+        "Melissa Greeff"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-04-22T20:41:58+00:00",
+      "link": "https://arxiv.org/pdf/2604.21078v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "predicting motion for UAV landing on marine platforms",
+      "llm_evidence_cn": "预测无人机在海上平台着陆的运动",
+      "llm_evidence": "预测无人机在海上平台着陆的运动",
+      "canonical_evidence": "预测无人机在海上平台着陆的运动",
+      "llm_tldr_en": "Develops an impact-aware MPC to predict and control UAV landing trajectories on moving marine platforms.",
+      "llm_tldr_cn": "开发了一种碰撞感知MPC，用于预测和控制无人机在移动海上平台上的着陆轨迹。",
+      "llm_tldr": "开发了一种碰撞感知MPC，用于预测和控制无人机在移动海上平台上的着陆轨迹。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction in complex maritime environments",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.18940v1",
+      "title": "Localization-Guided Foreground Augmentation in Autonomous Driving",
+      "abstract": "Autonomous driving systems often degrade under adverse visibility conditions-such as rain, nighttime, or snow-where online scene geometry (e.g., lane dividers, road boundaries, and pedestrian crossings) becomes sparse or fragmented. While high-definition (HD) maps can provide missing structural context, they are costly to construct and maintain at scale. We propose Localization-Guided Foreground Augmentation (LG-FA), a lightweight and plug-and-play inference module that enhances foreground perception by enriching geometric context online. LG-FA: (i) incrementally constructs a sparse global vector layer from per-frame Bird's-Eye View (BEV) predictions; (ii) estimates ego pose via class-constrained geometric alignment, jointly improving localization and completing missing local topology; and (iii) reprojects the augmented foreground into a unified global frame to improve per-frame predictions. Experiments on challenging nuScenes sequences demonstrate that LG-FA improves the geometric completeness and temporal stability of BEV representations, reduces localization error, and produces globally consistent lane and topology reconstructions. The module can be seamlessly integrated into existing BEV-based perception systems without backbone modification. By providing a reliable geometric context prior, LG-FA enhances temporal consistency and supplies stable structural support for downstream modules such as tracking and decision-making.",
+      "authors": [
+        "Jiawei Yong",
+        "Deyuan Qu",
+        "Qi Chen",
+        "Kentaro Oguchi",
+        "Shintaro Fukushima"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "published": "2026-04-21T00:26:25+00:00",
+      "link": "https://arxiv.org/pdf/2604.18940v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "enhancing foreground perception of pedestrians and road boundaries in autonomous driving",
+      "llm_evidence_cn": "增强自动驾驶中行人及道路边界的前景感知",
+      "llm_evidence": "增强自动驾驶中行人及道路边界的前景感知",
+      "canonical_evidence": "增强自动驾驶中行人及道路边界的前景感知",
+      "llm_tldr_en": "Improves autonomous driving perception in adverse conditions via localization-guided foreground augmentation.",
+      "llm_tldr_cn": "通过定位引导的前景增强技术，提升恶劣天气下自动驾驶的感知能力。",
+      "llm_tldr": "通过定位引导的前景增强技术，提升恶劣天气下自动驾驶的感知能力。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "study of pedestrian and vehicle trajectory prediction models",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.21138v1",
+      "title": "Navigating the Clutter: Waypoint-Based Bi-Level Planning for Multi-Robot Systems",
+      "abstract": "Multi-robot control in cluttered environments is a challenging problem that involves complex physical constraints, including robot-robot collisions, robot-obstacle collisions, and unreachable motions. Successful planning in such settings requires joint optimization over high-level task planning and low-level motion planning, as violations of physical constraints may arise from failures at either level. However, jointly optimizing task and motion planning is difficult due to the complex parameterization of low-level motion trajectories and the ambiguity of credit assignment across the two planning levels. In this paper, we propose a hybrid multi-robot control framework that jointly optimizes task and motion planning. To enable effective parameterization of low-level planning, we introduce waypoints, a simple yet expressive representation for motion trajectories. To address the credit assignment challenge, we adopt a curriculum-based training strategy with a modified RLVR algorithm that propagates motion feasibility feedback from the motion planner to the task planner. Experiments on BoxNet3D-OBS, a challenging multi-robot benchmark with dense obstacles and up to nine robots, show that our approach consistently improves task success over motion-agnostic and VLA-based baselines. Our code is available at https://github.com/UCSB-NLP-Chang/navigate-cluster",
+      "authors": [
+        "Jiabao Ji",
+        "Yongchao Chen",
+        "Yang Zhang",
+        "Ramana Rao Kompella",
+        "Chuchu Fan",
+        "Gaowen Liu",
+        "Shiyu Chang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-04-22T22:58:47+00:00",
+      "link": "https://arxiv.org/pdf/2604.21138v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "waypoint-based trajectory planning for multi-robot systems in cluttered environments",
+      "llm_evidence_cn": "密集环境下多机器人系统的航点轨迹规划",
+      "llm_evidence": "密集环境下多机器人系统的航点轨迹规划",
+      "canonical_evidence": "密集环境下多机器人系统的航点轨迹规划",
+      "llm_tldr_en": "Proposes a bi-level framework for joint task and motion planning in multi-robot systems.",
+      "llm_tldr_cn": "提出一种双层框架，用于多机器人系统在复杂环境下的任务与运动轨迹联合规划。",
+      "llm_tldr": "提出一种双层框架，用于多机器人系统在复杂环境下的任务与运动轨迹联合规划。",
+      "llm_tags": [
+        "query:tp:composite"
+      ],
+      "matched_query_tag": "query:tp:composite",
+      "matched_query_text": "Papers central to 轨迹预测（车辆、行人、船舶、飞机等）相关的论文，考虑密集场景、目标意图、多智能体、轨迹表示学习等概念, especially work that connects or combines: trajectory prediction for autonomous agents; pedestrian trajectory prediction in crowded scenes; maritime vessel trajectory and path prediction algorithms; multi-agent trajectory forecasting and interaction modeling; target intent and goal estimation for trajectory prediction; trajectory representation learning and feature extraction; study of pedestrian and vehicle trajectory prediction models; trajectory prediction in complex maritime environments; deep learning techniques for intent aware trajectory forecasting; trajectory representation learning based on multimodal large language model.",
+      "matched_requirement_id": "req-composite-tp",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.19145v1",
+      "title": "ST-Prune: Training-Free Spatio-Temporal Token Pruning for Vision-Language Models in Autonomous Driving",
+      "abstract": "Vision-Language Models (VLMs) have become central to autonomous driving systems, yet their deployment is severely bottlenecked by the massive computational overhead of multi-view camera and multi-frame video input. Existing token pruning methods, primarily designed for single-image inputs, treat each frame or view in isolation and thus fail to exploit the inherent spatio-temporal redundancies in driving scenarios. To bridge this gap, we propose ST-Prune, a training-free, plug-and-play framework comprising two complementary modules: Motion-aware Temporal Pruning (MTP) and Ring-view Spatial Pruning (RSP). MTP addresses temporal redundancy by encoding motion volatility and temporal recency as soft constraints within the diversity selection objective, prioritizing dynamic trajectories and current-frame content over static historical background. RSP further resolves spatial redundancy by exploiting the ring-view camera geometry to penalize bilateral cross-view similarity, eliminating duplicate projections and residual background that temporal pruning alone cannot suppress. These two modules together constitute a complete spatio-temporal pruning process, preserving key scene information under strict compression. Validated across four benchmarks spanning perception, prediction, and planning, ST-Prune establishes new state-of-the-art for training-free token pruning. Notably, even at 90\\% token reduction, ST-Prune achieves near-lossless performance with certain metrics surpassing the full-model baseline, while maintaining inference speeds comparable to existing pruning approaches.",
+      "authors": [
+        "Lin Sha",
+        "Haiyun Guo",
+        "Tao Wang",
+        "Cong Zhang",
+        "Min Huang",
+        "Jinqiao Wang",
+        "Qinghai Miao"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-04-21T06:51:08+00:00",
+      "link": "https://arxiv.org/pdf/2604.19145v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "spatio-temporal token pruning for vision-language models in autonomous driving",
+      "llm_evidence_cn": "自动驾驶视觉语言模型的时空令牌剪枝",
+      "llm_evidence": "自动驾驶视觉语言模型的时空令牌剪枝",
+      "canonical_evidence": "自动驾驶视觉语言模型的时空令牌剪枝",
+      "llm_tldr_en": "ST-Prune optimizes VLM efficiency for autonomous driving by exploiting spatio-temporal redundancies.",
+      "llm_tldr_cn": "ST-Prune通过利用时空冗余优化了自动驾驶中视觉语言模型的效率。",
+      "llm_tldr": "ST-Prune通过利用时空冗余优化了自动驾驶中视觉语言模型的效率。",
+      "llm_tags": [
+        "query:tp:composite"
+      ],
+      "matched_query_tag": "query:tp:composite",
+      "matched_query_text": "Papers central to 轨迹预测（车辆、行人、船舶、飞机等）相关的论文，考虑密集场景、目标意图、多智能体、轨迹表示学习等概念, especially work that connects or combines: trajectory prediction for autonomous agents; pedestrian trajectory prediction in crowded scenes; maritime vessel trajectory and path prediction algorithms; multi-agent trajectory forecasting and interaction modeling; target intent and goal estimation for trajectory prediction; trajectory representation learning and feature extraction; study of pedestrian and vehicle trajectory prediction models; trajectory prediction in complex maritime environments; deep learning techniques for intent aware trajectory forecasting; trajectory representation learning based on multimodal large language model.",
+      "matched_requirement_id": "req-composite-tp",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.21232v1",
+      "title": "ReCAPA: Hierarchical Predictive Correction to Mitigate Cascading Failures",
+      "abstract": "Vision-Language-Action systems follow instructions to execute multi-step tasks in multimodal environments. Recent VLA approaches typically rely on post-hoc correction mechanisms or operate under fixed task decompositions and alignment schemes. However, once an intermediate step is mis-specified, local errors propagate through subsequent steps and eventually accumulate into cascading failures. To mitigate this compounding effect, we propose Predictive Alignment and Planning Architecture, a framework that uses prediction and contrast to adjust deviations across three levels: actions, subgoals, and trajectories. Semantic alignment is enforced at all levels using a Sinkhorn-based module and a Score-field module. The predictive correction and alignment jointly update the action generator during training, enabling it to adjust fine-grained steps to remain aligned with the overall intent. We further introduce two new metrics to quantify error propagation and recovery processes in tasks, capturing how mistakes spread and fade over long-horizon execution. Experiments show that ReCAPA achieves competitive results on embodied agent benchmarks such as VisualAgentBench, MineDojo, and AI2-THOR, outperforming strong proprietary and open-source Large Language Model baselines.",
+      "authors": [
+        "Xiyin Zeng",
+        "Yuyu Sun",
+        "Haoyang Li",
+        "Shouqiang Liu",
+        "Hao Wang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-04-23T02:57:50+00:00",
+      "link": "https://arxiv.org/pdf/2604.21232v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "predictive alignment across actions, subgoals, and trajectories",
+      "llm_evidence_cn": "动作、子目标和轨迹的预测对齐",
+      "llm_evidence": "动作、子目标和轨迹的预测对齐",
+      "canonical_evidence": "动作、子目标和轨迹的预测对齐",
+      "llm_tldr_en": "A framework using hierarchical predictive correction to align trajectories and subgoals in VLA systems.",
+      "llm_tldr_cn": "一种利用分层预测修正来对齐VLA系统中轨迹和子目标的框架。",
+      "llm_tldr": "一种利用分层预测修正来对齐VLA系统中轨迹和子目标的框架。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning and feature extraction",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}

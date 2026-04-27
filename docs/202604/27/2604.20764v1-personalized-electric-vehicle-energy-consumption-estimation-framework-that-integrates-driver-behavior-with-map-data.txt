@@ -1,0 +1,309 @@
+Title: Personalized electric vehicle energy consumption estimation framework that integrates driver behavior with map data
+
+URL Source: https://arxiv.org/pdf/2604.20764v1
+
+Published Time: Thu, 23 Apr 2026 01:19:02 GMT
+
+Number of Pages: 28
+
+Markdown Content:
+# Personalized electric vehicle energy consumption estimation framework that integrates driver behavior with map data 
+
+Sreechakra Vasudeva Raju Rachavelpula a, ∗, Sangwhan Cha a
+
+> aDepartment of Computer and Information Sciences, Harrisburg University of Science and Technology, Harrisburg, PA 17101, USA
+
+Abstract 
+
+This paper presents a personalized Battery Electric Vehicle (BEV) energy consumption estimation framework that integrates map-based contextual fea-tures with driver-specific velocity prediction and physics-based energy con-sumption modeling. The system combines route selection, detailed road fea-ture processing, a rule-based reference velocity generator, a PID controller-based vehicle dynamics simulator, and a Bidirectional LSTM model trained to reproduce individual driving behavior. The predicted individual-specific velocity profiles are coupled with a quasi-steady backward energy consump-tion model to compute tractive power, regenerative braking, and State-of-Charge (SOC) evolution. Evaluation across urban, freeway, and hilly routes demonstrates that the proposed approach captures key driver behavioral pat-terns such as deceleration at intersections, speed-limit tracking, and road grade-dependent responses, while producing accurate power and SOC trajec-tories. The results highlight the effectiveness of combining learned driver be-havior with map-based context and physics-based energy consumption mod-eling to produce accurate, personalized BEV SOC depletion profiles. 
+
+Keywords: Battery Electric Vehicles (BEVs), Personalized Energy Consumption Estimation, Driver Behavior Modeling, Long Short-Term Memory (LSTM) networks, Bidirectional LSTMs (BiLSTM), Map-Based Features, OpenStreetMap (OSM), Valhalla Routing Engine, Velocity    
+
+> ∗Corresponding author.
+> Email addresses: smukherjee@my.harrisburgu.edu (Sangwhan Cha),
+> scha@harrisburgu.edu (Sangwhan Cha)
+> arXiv:2604.20764v1 [eess.SY] 22 Apr 2026
+
+Prediction, State-of-Charge (SOC) Estimation, Regenerative Braking, Route-Aware Prediction 
+
+1. Introduction 
+
+The rapid transition from internal combustion engine vehicles to battery electric vehicles (BEVs) has intensified the need for accurate and reliable range estimation. Although BEVs offer substantial benefits in energy ef-ficiency and emissions reduction, their adoption is hindered by persistent range anxiety, driven largely by inaccurate predictions of remaining driving range and state-of-charge (SOC). Existing range-estimation approaches typ-ically rely on recent consumption averages or simplified driving assumptions, and therefore fail to account for critical contextual factors such as road ge-ometry, traffic controls, and individual driving behavior. These omissions lead to significant deviations between predicted and actual energy use, par-ticularly in urban environments with frequent stops, variable gradients, and heterogeneous driving styles. Recent research highlights the importance of incorporating both map-based contextual information—such as slope, curvature, and speed limits— and driver-specific behavioral patterns, which can alter BEV energy con-sumption by 20–40%. Advances in machine learning, especially recurrent neural networks and Long Short-Term Memory (LSTM) architectures, pro-vide a promising foundation for modeling these temporal and contextual de-pendencies. When combined with detailed map data from platforms such as OpenStreetMap and Valhalla, LSTM-based models can forecast future veloc-ity trajectories that reflect both learned past driver behavior and upcoming road conditions. Building on these insights, this work develops a personalized, route context-aware BEV range estimation framework that integrates driver-specific veloc-ity prediction with map-derived features and a physics-based energy con-sumption model. The goal is to produce more realistic velocity forecasts and ultimately deliver an improved energy consumption and SOC estimation sys-tem for electric vehicles. 
+
+2. Literature Review 
+
+Before we introduce our framework and system design, we examine the re-lated literature published for the problems of vehicle speed prediction, driver 2behavior prediction, and map-context informed BEV energy consumption modeling. Vehicle speed prediction and energy consumption estimation have evolved from classical parametric models to sophisticated data-driven ap-proaches that incorporate map information and driver behavioral patterns. Early research relied on physics-based models such as the Intelligent Driver Model (IDM) [1], which provided analytical formulations for car-following behavior and vehicle dynamics using simplified representations of traction, drag, and rolling resistance. However, these parametric models proved inadequate for real-world driving scenarios, failing to capture stochas-ticity and environmental variability in urban traffic conditions [2, 3]. Markov chain extensions to the physics-based models bridged deterministic and stochas-tic approaches but suffered from accuracy degradation at longer prediction horizons due to first-order dependence assumptions [4]. The availability of high-resolution telemetry data enabled machine learn-ing paradigms, initially using Feedforward Neural Networks (FNN) and Sup-port Vector Machines (SVM) for nonlinear mapping between driving param-eters and velocities. Long Short-Term Memory (LSTM) networks became dominant for sequential prediction tasks, substantially outperforming shallow neural networks through selective information retention and sequence conti-nuity modeling [2, 7]. Bidirectional LSTMs further enhanced performance by processing sequences in both temporal directions, yielding smoother velocity profiles that mirror driver anticipation of upcoming road geometry [8, 20]. A critical advancement in velocity predictions involved incorporating map-derived features including road curvature, elevation, intersection density, and traffic signals. Studies demonstrated that integrating OpenStreetMap and elevation data substantially improved predictive accuracy by accounting for gravitational and frictional forces associated with road geometry [9, 2]. Fu-ture road features proved essential for context-aware long-horizon forecasts, establishing map-aware prediction as state-of-the-art [10, 11]. Individual driving styles significantly impact energy consumption, with aggressive drivers reducing electric vehicle range by 20–40% compared to conservative drivers [12, 13]. Driver-specific modeling evolved from static behavioral clustering to temporal sequence modeling using recurrent net-works, improving prediction robustness [14, 15, 16]. However, few works explicitly encode driver identity as a learnable feature, instead aggregating across multiple drivers and diluting individual distinctions. Energy consumption and SOC estimation addresses range anxiety through physics-based backward vehicle models that decompose power demand into 3aerodynamic, inertial, and gravitational components [17, 18]. Modern ap-proaches integrate predictive velocity forecasting with energy management systems, demonstrating that accurate speed prediction directly improves en-ergy allocation and range estimation [19]. Despite significant advances, behavioral variability and route uncertainty remain major sources of estimation error in energy consumption. Current literature lacks comprehensive personalized frameworks that jointly encode driver-specific behavior and future road geometry for long-horizon prediction. This gap motivates the breadth of this research work. 
+
+3. System Architecture 
+
+3.1. Motivation and Framework Overview 
+
+The literature review identified three critical gaps in existing vehicle speed prediction and energy consumption estimation frameworks: (1) insufficient integration of driver-specific behavioral modeling with route data context, (2) limited capability for long-horizon personalized prediction, and (3) inad-equate coupling between data-driven velocity forecasting and physics-based energy consumption models. To address these limitations, we propose a modular system architecture that unifies personalized driver modeling with comprehensive map feature integration and physics-based energy consump-tion estimation. The architecture comprises seven interconnected modules that produce personalized energy consumption estimates for a driver-selected route through a structured processing pipeline, illustrated in Fig. 1. 
+
+3.2. Module Descriptions and Data Flow 
+
+1) Map Display Handler: The pipeline begins with the Map Display Handler, which serves as the user interface for route selection. Imple-mented as a Python-Selenium wrapper around OpenStreetMap (OSM) controlled via ChromeDriver, this module enables users to specify start and destination points through address search or marker placement. The Selenium handler monitors URL changes and HTML elements to confirm successful route retrieval, prompting automatic download of the corresponding route geometry as a GeoJSON file containing latitude-longitude GPS coordinates. This geographic representation forms the main input for subsequent processing stages. 4Figure 1: Overview of the proposed framework. 
+
+2) Route Processor: The Route Processor transforms raw GPS coor-dinates into enriched road feature data by interfacing with the Val-halla routing engine through RESTful APIs. Using GPS coordinates from the GeoJSON file, the module sends HTTP POST requests to Valhalla’s location and elevation API, retrieving node and edge-level attributes such as speed limits, curvature, slope, and intersection den-sity. These API responses containing node and edge data are parsed into a structured Pandas DataFrame that serves as the comprehensive map feature dataset. Error-checking mechanisms handle incomplete or inconsistent API responses to maintain data integrity throughout the pipeline. 3) Velocity Profile Generator: With structured map feature data available, the Velocity Profile Generator constructs an initial reference velocity trajectory. The module applies legal speed limits as upper bounds for straight segments, enforces reduced speeds for curves and roundabouts based on curvature severity, and sets zero velocity at traf-fic lights, stop signs, yield signs, and complex intersections. This rule-based profile provides a baseline velocity-distance curve that reflects fundamental map constraints without personalization, serving as the commanded input for vehicle dynamics simulation in the subsequent 5stage. 4) PID Controller: To generate realistic driving data that captures ve-hicle dynamics such as acceleration limits, the PID Controller mod-ule simulates longitudinal motion by tracking the reference velocity through cascaded proportional-integral-derivative control. Through numerical integration of coupled ordinary differential equations, the controller produces smooth, jerk-limited, and acceleration-limited ve-locity profiles. This simulation generates time-series data including ve-locity, acceleration, jerk, and position that realistically represent how a vehicle would respond to route geometry and legal constraints. The resulting velocity profile serves as the “past driving data” required for personalized prediction in the Driver LSTM Module. 5) Driver LSTM Module: The Driver LSTM Module represents the core contribution of the framework—a bidirectional LSTM network that performs personalized, map-aware velocity prediction. The mod-ule first discretizes the route into uniformly spaced 1-meter intervals and retrieves corresponding node attributes for these discretized coor-dinates using the Route Processor module, ensuring fine-grained spa-tial resolution for inference. Using the PID Controller generated ve-locity profile as past driving context and both past and future map features as environmental inputs, the pre-trained LSTM network con-ducts batch inference to predict driver-specific future velocities along the entire route. This prediction leverages the bidirectional LSTM architecture’s ability to process temporal sequences in both forward and backward direc-tions, effectively modeling how drivers anticipate upcoming road geom-etry when modulating speed. Post-processing using Butterworth and zero-phase filtering removes any high-frequency noise in the predictions while introducing zero phase lag. This results in a refined personalized velocity profile that is informed by both route context and individual driving style. 6) BEV Energy Consumption Model: The predicted velocity pro-file feeds into the BEV Energy Consumption Model, which employs a physics-based backward model to estimate energy requirements. The model computes instantaneous acceleration from the velocity gradient, 6then calculates wheel tractive force by summing aerodynamic drag, rolling resistance, grade forces, and inertial forces. Mechanical power demand is determined from the tractive force and vehicle velocity, which is then used to obtain motor power and battery power consump-tion. Integrating these power profiles over time and distance yields total energy consumption and state-of-charge (SOC) depletion for the complete route. 7) Visualization Module: The Visualization Module completes the pipeline by generating multi-panel graphical plots displaying predicted versus reference velocity profiles aligned with route distance, annotated with map features such as intersections, grade changes, and speed-limit zones. Additional visualizations show instantaneous power consump-tion at the wheels, motor, and battery subsystems, along with cumu-lative energy usage and SOC trajectories. These comparative plots enable rapid validation of prediction accuracy and facilitate interpreta-tion of how map features and driving behavior jointly influence energy consumption. 
+
+3.3. Integrated Data Flow and Architecture Benefits 
+
+The seven modules operate in sequence, with each stage editing or adding to the data stream: 1) Route selection (Map Display Handler) 2) Route feature extraction and structuring (Route Processor) 3) Rule-based reference velocity profile generation (Velocity Profile Gen-erator) 4) Vehicle dynamics simulation with realistic constraints (PID Controller) 5) Personalized, route context informed velocity and acceleration predic-tion (Driver LSTM Module) 6) Physics-based energy consumption estimation (BEV Energy Consump-tion Model) 7) Comprehensive visualization and validation (Visualization Module) This modular architecture directly addresses the identified research gaps by seamlessly integrating driver-specific behavioral modeling with compre-hensive map context in a computationally efficient framework. 74. Theoretical Background and Implementation Details 
+
+The implementation details for the above described modules are briefly described in this section. 
+
+4.1. Map Display Handler 
+
+The Map Display Handler automates route acquisition from OpenStreetMap using Selenium-controlled browser interactions after the user selects a route. A ChromeDriver instance is launched and directed to https://www.openstreetmap. org/directions . The user specifies the start and end points, after which Selenium monitors URL changes and HTML page elements to detect suc-cessful route generation. Once detected, the module automatically triggers the “Download route as GeoJSON” option, producing a JSON file containing all GPS coordinates of the route for downstream processing. 
+
+4.2. Route Processor 
+
+The Route Processor extracts detailed node and edge-level features for each GPS coordinate using Valhalla’s Location, Map Matching, and Ele-vation APIs. The coordinates of the selected route from the GeoJSON file are partitioned into batches and processed in parallel through a lo-cally hosted Valhalla routing engine instance, with a public server at https: //valhalla1.openstreetmap.de as fallback. API responses are merged into a unified dataset containing attributes such as speed limits, curvature, grade, elevation, heading, intersection type, and traffic control indicators. The re-sulting node-level attribute dataset forms the primary input to the Velocity Profile Generator and Driver LSTM modules. 
+
+4.3. Velocity Profile Generator 
+
+The Velocity Profile Generator applies a rule-based hierarchy to convert the road features into a reference velocity profile and speed-limit type that can be used by the PID Controller to generate a more physically accurate velocity profile. Each node is assigned a reference velocity and speed-limit type according to the following priority rules: 1) Traffic control elements (Type 3): Presence of traffic signals, stop signs, or yield signs forces a stop (0 km/h). 2) Intersection entry (Type 3): At 0% edge position which also has a heading change of > 60 ◦, velocity is set to 0 km/h. 83) Intersection exit (Type 3): At 100% edge position which also has a heading change > 60 ◦, velocity is set to 0 km/h. 4) High curvature (Type 2): If curvature exceeds a calibrated thresh-old, the reference velocity is limited to the average edge speed. 5) Default (Type 1): Posted speed limit is used as the reference speed. 
+
+4.4. PID Controller 4.4.1. Theoretical Background 
+
+The PID Controller simulates longitudinal vehicle dynamics through nu-merical integration of cascaded ordinary differential equations (ODEs) that model jerk- and acceleration-limited reference velocity tracking. The con-troller implements a three-state finite state machine—Standard Speed Limit Tracking, Curve Speed Tracking, and Stop Event Tracking. The states dy-namically adjust the commanded velocity based on the look-ahead horizons computed from pre-calculated stopping distance lookup tables (LUTs). The vehicle dynamics are modeled as being governed by the cascaded PID system shown in Fig. 2 with saturation constraints defined by the following ODEs: 
+
+ds dt = v, (1) 
+
+dv dt = a, (2) 
+
+da dt = j, (3) 
+
+dj dt = k3
+
+
+
+sat k2
+
+  sat[ k1(vc − v); amin , a max ] − a; jmin , j max 
+
+ − j
+
+
+
+, (4) where sat( x; xmin , x max ) is the saturation function with xmin and xmax as the constraints for the state x. {s, v, a, j } are the distance, velocity, acceleration, and jerk respectively. Tunable gains k1 < k 2 < k 3 ensure stable tracking of the commanded speed vc with minimal overshoot. Default constraints are 
+
+a ∈ [−4, +2] m/s 2 and j ∈ [−10 , +10] m/s 3, for comfort-oriented driving. 
+
+4.4.2. Implementation 
+
+The controller comprises two submodules as shown in Fig. 3: the Com-mand Velocity Generator produces the command velocity vc(t) through state-dependent logic, and the Vehicle Dynamics Model integrates the ODE system 9Figure 2: Block diagram representation of cascaded PID vehicle dynamics model. 
+
+via Euler’s method with a small timestep h to minimize O(h2) truncation er-ror. 
+
+Command Velocity Generator.. At each timestep, the module computes a look-ahead horizon, 
+
+sh(t) = LUT amax (v(t)) ,
+
+using the worst-case stopping distances from a 1-D pre-computed LUT for initial acceleration, a0 = 2 m/s 2. All speed limit change events within sh(t)
+
+are identified, and required deceleration distance sr(t) is computed as: 
+
+sr(t) = 
+
+
+
+LUT amax (v(t)) , Type 3 (Stop) ,
+
+LUT amax (v(t)) v(t) − vf (t)
+
+v(t) , Type 2 (Curve) . (5) where vf (t) is the reference velocity at the curve event. State transitions occur when distance to event, sf (t) − s(t), drops below 
+
+sr(t). Here sf (t) is the absolute distance to the future event. In Stop Event Tracking, the command velocity is set to vc(t) = 0 until the vehicle halts at or before sf (t). In Curve Speed Tracking, commanded velocity smoothly decelerates by setting: 
+
+vc(t) = vf (t) − vf (t) tanh 
+
+ k s r(t)
+
+sf (t) − s(t)
+
+
+
+, (6) ensuring curve speed attainment before event onset. 10 Integration.. Euler’s method advances the state vector y = {s, v, a, j }T via 
+
+y(t + h) = y(t) + f (t, y )h. 
+
+The resulting velocity, acceleration, and jerk profiles provide realistic past driving sequences for the Driver LSTM Module’s batch inferencing. 
+
+> Figure 3: PID Controller module architecture showing Command Velocity Generator and Vehicle Dynamics Model interaction.
+
+4.5. Driver LSTM Module 4.5.1. Theoretical Background 
+
+The Driver LSTM Module employs a sequence-to-sequence Bidirectional LSTM-based hybrid encoder-decoder architecture similar to the one used by 11 Paparusso et al. [8] to capture temporal dependencies between past driving behavior and future road geometry for future vehicle state prediction. The framework addresses the inherently sequential, nonlinear nature of driver-vehicle dynamics conditioned by both historical behavior and upcoming road features. 
+
+Problem Formulation.. Given position index k, past window size sP , and prediction horizon sF , the model approximates: 
+
+fθ :
+
+
+
+XvP  
+
+> (k−sP:k)
+
+, X rP  
+
+> (k−sP:k)
+
+, X rF  
+
+> (k+1: k+sF)
+
+
+
+7→ Y vF   
+
+> (k+1: k+sF)
+
+(7) where XvP ∈ R(sP +1) ×nv contains past vehicle states such as velocity and acceleration, XrP ∈ R(sP +1) ×nr and XrF ∈ RsF ×nr contain past and future road features such as elevation, heading, speed limit, curvature, traffic control flags, and edge classification, respectively, and Y vF ∈ RsF ×qv represents pre-dicted future vehicle states. Here nv is the number of input vehicle states, nr
+
+is the number of input road features, and qv ≤ nv is the number of predicted vehicle states. 
+
+4.5.2. Architecture and Implementation 
+
+We propose the hybrid encoder-decoder architecture shown in Fig. 4 which comprises two encoders that project the past driving and future road context into latent states which are then used by a recursive decoder for predicting future vehicle states: 1) Past Driving Encoder: Concatenated XvP and XrP are encoded via a BiLSTM layer ( ue = 32 units). Forward and backward final hidden states (hPF , h PB ) and cell states (cPF , c PB ) are concatenated to form unified past state representations hP and cP .2) Future Road Encoder: XrF is encoded through a separate BiLSTM layer (of hidden size ue = 32 units), producing similarly concatenated forward and backward hidden states hF and cell states cF which rep-resent the future road context. 3) State Fusion: Concatenated past and future hidden states hP F =[hP , h F ] and cell states cP F = [ cP , c F ] are projected through two dense layers with 2ue and ud neurons and a dropout ( r = 0 .25 ) for regular-ization, yielding state vectors hD and cD.12 4) Recursive Decoder: A unidirectional LSTM ( ud = 64 units) ini-tialized with states hD and cD and the first cell fed with hD as input generates sequences autoregressively. The output sequence feeds into a BiLSTM layer ( ud = 64 units) followed by a time-distributed dense layer producing the sequence of future vehicle state predictions, ˆY vF .Input sequences use sP = 50 past steps and sF = 100 future predic-tion steps. Input features include the vehicle states longitudinal velocity and acceleration and road features elevation, heading, speed limit, average edge speed, curvature, traffic signals, stop/yield signs, roundabouts, edge classification, link flags, and engineered start-stop indicators. Vehicle speed is the predicted future variable. Continuous features are scaled via SciPy’s 
+
+StandardScaler while categorical features are unscaled. 
+
+Training.. The IEEE Vehicle Speed Dataset [21] containing 5973 rides (9049.3 km) at 1-meter spatial resolution from Czech Republic driving data was used for training the Driver LSTM model. Due to inconsistencies in the categorical road features of the original dataset, additional road features were generated using the Route Processor module and were appended to the original dataset. This amended dataset was used in training. Training employed Adam opti-mizer with learning rate 0.0001, mean-squared error loss function, 70:15:15 train/validation/test split, 30 epochs with early stopping, and sequence gen-eration using stride length of 10 steps with padding. Multiple retraining iterations with data randomization were done to minimize mean absolute error. 
+
+Inference.. The selected route from the Map Display Handler is discretized to 1-meter intervals and the road features are retrieved for these discretized coordinates using Route Processor. The PID Controller generated velocity and acceleration profiles are then interpolated onto these discretized coordi-nates, forming the past vehicle states. These data points are subsequently processed, using a stride of 10 steps, into batches of sequences containing past vehicle states XvP , past road-context features XrP , and future road-context features XrF . These batches of past and future feature matrices are fed into the loaded best LSTM model to predict the future velocity profile ˆY vF , from which only the first 10 predicted steps are retained for each inference window. The predicted velocity segments are then post-processed using a first-order Butterworth low-pass filter followed by a zero-phase forward-backward fil-ter to remove high-frequency noise without phase distortion. The resulting 13 personalized velocity profile feeds the BEV Energy Consumption Model for power, energy consumption, and SOC depletion estimation. 
+
+> Figure 4: Overview of Driver LSTM Module encoder-decoder architecture.
+
+4.6. BEV Energy Consumption Model 4.6.1. Theoretical Background 
+
+BEV energy consumption and state of charge (SOC) estimation employ a quasi-steady, backward physics-based model following the VT-CPEM frame-work [18]. The model computes the instantaneous energy consumption using second-by-second vehicle speed, acceleration, and roadway grade data as in-put variables, enabling high-resolution estimation of tractive power, motor power, battery power, and SOC evolution along the route. 
+
+Tractive Power.. Total tractive force comprises inertial, grade, rolling resis-tance, and aerodynamic components: 
+
+Ftotal (t) = ma (t)+ mg sin( θ(t))+ 12ρA f CDv(t)2+mg cos( θ(t))  C2+C1v(t) Cr
+
+1000 .
+
+(8) From the tractive force, the tractive power at the wheels is calculated as: 
+
+Pwheels (t) = Ftotal (t) v(t) (9) 14 where m is vehicle mass, a acceleration, v velocity, θ road grade angle, Cr
+
+rolling resistance coefficient, C1, C 2 empirical constants, ρ air density, Af
+
+frontal area, and CD drag coefficient. Positive power indicates traction; neg-ative indicates braking. 
+
+Motor Power.. During traction ( Pwheels ≥ 0), the motor supplies power to the wheels: 
+
+Pmotor (t) = Pwheels (t)
+
+ηdriveline ηmotor 
+
+. (10) During braking ( Pwheels < 0), the motor operates in generator mode. The regenerative braking efficiency ηrb is modeled as an exponential function of deceleration: 
+
+ηrb (t) = 
+
+(
+
+e−(α/ |a(t)|), a(t) < 0,
+
+0, a(t) ≥ 0, 0 ≤ ηrb (t) ≤ ηrb, max (11) and 
+
+Pmotor (t) = Pwheels (t) ηrb (t) ηdriveline ηmotor . (12) where ηdriveline and ηmotor are the driveline and motor efficiencies respectively. 
+
+Battery Power.. The net battery power accounts for motor power, auxiliary loads Paux (e.g., HVAC, electronics), and battery efficiency ηbatt :
+
+Pbatt (t) = 
+
+
+
+Pmotor (t) + Paux 
+
+ηbatt 
+
+, traction ,
+
+ Pmotor (t) + Paux 
+
+ηbatt , regeneration .
+
+(13) The sign convention ensures that positive battery power corresponds to dis-charge and negative power corresponds to charging. 
+
+Energy Consumption.. The energy consumption over a route segment is com-puted by integrating the instantaneous battery power over time. The final energy consumption per kilometer in Wh/km is computed as: 
+
+EC = 13600 d
+
+Z
+
+Pbatt (t) dt (14) where d is total distance (km). 15 SOC Dynamics.. Battery state of charge evolves according to: 
+
+∆SOC (t) = Pbatt (t)3600 CW
+
+, (15) 
+
+SOC (t) = SOC (t − 1) − ∆SOC (t), (16) where CW is battery capacity (Wh). SOC is constrained to the operating range [20% , 95%] for battery health preservation. 
+
+4.6.2. Implementation 
+
+The Driver LSTM model-predicted velocity profile feeds directly into the BEV Energy consumption model, propagating driver-specific speed and ac-celeration transients through tractive power, regenerative braking efficiency, and SOC calculations. This sensitivity to behavioral dynamics enables per-sonalized range estimation reflecting both route geometry and individual driving style. 
+
+5. Testing and Results 
+
+To evaluate end-to-end system performance, the pipeline was tested on three representative route types designed to capture diverse driving condi-tions: urban route, freeway route, and hilly terrain route. 
+
+5.1. Urban Route 
+
+Urban driving exhibits repeated acceleration and deceleration due to traf-fic control devices and intersection density. On the Detroit downtown route in Fig. 5, the Driver LSTM-predicted velocity of Fig. 6 captures the decelera-tion trends near intersections but does not always reach a full stop, typically only dropping below 5 mph for each intersection. This behavior is likely due to the limited future context (100 m) chosen in the LSTM architecture, which may be insufficient to perfectly model full vehicle stops. Additionally, the ground-truth dataset used for training does not always contain zero-speed samples for traffic signals or yield signs. As a result, the LSTM model appears to have learned that a full stop is not always required— an interpretation that aligns with real-world driving, where green traffic lights or yield signs during low traffic conditions often eliminate the need to stop. Nevertheless, the model correctly predicts deceleration behavior near traffic signals and at intersections with large heading changes (i.e., left or right turns). 16 The acceleration profile in Fig. 7 further illustrates the differences be-tween the simulated and predicted profiles. The simulated acceleration from the PID Controller saturates at the predefined maximum and minimum lim-its, applying maximum acceleration during speed increases and maximum deceleration during braking. The driver-specific predicted acceleration, how-ever, does not exhibit such saturation and instead reflects smoother, more realistic driving behavior. Both the predicted velocity and acceleration con-tain natural variations, unlike the smooth simulated profiles, capturing the variability present in real-world driving and the patterns learned from the training data. Power and SOC trajectories in Fig. 8 and Fig. 9 also follow expected patterns: positive acceleration yields positive power demand, while braking events produce regenerative power and corresponding SOC recovery. 
+
+> Figure 5: Map view of the chosen urban route.
+
+5.2. Freeway Route 
+
+The freeway route between Canton, MI and Ann Arbor, MI used for test-ing shown in Fig. 10 features long segments of steady cruising. The LSTM-predicted velocity in Fig. 11 oscillates around the legal speed limit, reflecting typical driver micro-adjustments, whereas the PID reference speed used in inference remains smooth. These oscillations also appear in the predicted acceleration in Fig. 12, which reflects the driver’s personal driving style. 17 Figure 6: Predicted velocity for the chosen urban route. 
+
+Figure 7: Predicted acceleration for the chosen urban route. 
+
+18 Figure 8: Predicted power demand for the chosen urban route. 
+
+Figure 9: Predicted energy consumption for the chosen urban route. 
+
+19 Power and SOC profiles in Fig. 13 and Fig. 14 show near-zero mean power fluctuations and almost linear SOC decline in the freeway sections, consistent with low-variability freeway driving. 
+
+> Figure 10: Map view of the chosen freeway route.
+
+5.3. Hilly Terrain Route 
+
+A hilly route in the Porcupine Mountains of Michigan shown in Fig. 15 used for this test case includes an initial descent followed by a sustained climb. The driver-specific predicted velocity in Fig. 16 shows the subtle influence of elevation changes on vehicle speed. The corresponding predicted acceleration profile is shown in Fig. 17. Power and SOC profiles shown in Fig. 18 and Fig. 19, respectively, align with physical expectations: downhill sections exhibit predominantly negative power due to continuous regeneration, while uphill sections show consistently positive power and accelerated SOC depletion. Consequently, the downhill portion exhibits slow SOC depletion, while the uphill portion shows a much faster rate of energy consumption and SOC decline. 
+
+6. Conclusion 
+
+This work presented an integrated framework for personalized BEV range estimation that combines map-derived contextual features, driver-specific ve-locity prediction using an LSTM model, and a physics-based energy and SOC 20 Figure 11: Predicted velocity for the chosen freeway route. 
+
+Figure 12: Predicted acceleration for the chosen freeway route. 
+
+21 Figure 13: Predicted power demand for the chosen Freeway Route. 
+
+Figure 14: Predicted energy Consumption for the chosen Freeway Route. 
+
+22 Figure 15: Map View of the chosen Hilly Terrain Route. 
+
+Figure 16: Predicted Velocity for the chosen Hilly Terrain Route. 
+
+23 Figure 17: Predicted Acceleration for the chosen Hilly Terrain Route. 
+
+Figure 18: Predicted power demand for the chosen Hilly Terrain Route. 
+
+24 Figure 19: Predicted energy Consumption for the chosen Hilly Terrain Route. 
+
+estimation module. The end-to-end pipeline—comprising the Route Proces-sor, Velocity Profile Generator, PID Controller, Driver LSTM Model, and BEV Energy Consumption Model—produced realistic velocity, power, and SOC trajectories across urban, freeway, and hilly routes. System-level evalua-tions demonstrated that the LSTM model captures key behavioral patterns, including deceleration near intersections, speed-limit tracking on freeways, and grade-dependent responses on hilly terrain. The resulting energy and SOC profiles aligned with expected physical behavior, such as regeneration during downhill segments and increased power demand during hill climbs. The results highlight the effectiveness of combining learned driver behav-ior with physics-based modeling for context-aware BEV performance predic-tion. The modular architecture also supports extensibility and experimenta-tion. Future improvements include enhancing stop-event behavior through longer look-ahead context and richer training data, exploring attention-based or transformer architectures for variable-length temporal dependencies, and re-fining the energy model with detailed component-level efficiency maps. Broader evaluation across additional drivers, routes, and environmental conditions would further strengthen generalization. 25 Overall, this framework provides a foundation for accurate, personalized, and route-aware BEV range estimation, enabling applications in eco-routing, energy-aware navigation, and driver-adaptive energy management. 
+
+References 
+
+[1] Lan Liu, Liling Zhu, and Da Yang, “Modeling and simulation of the car-truck heterogeneous traffic flow based on a nonlinear car-following model,” Applied Mathematics and Computation , vol. 273, pp. 706–717, 2016. [2] Felix Deufel et al., “Velocity prediction based on map data for optimal control of electrified vehicles using recurrent neural networks (LSTM),” 
+
+Vehicles , vol. 4, no. 3, pp. 808–824, 2022. [3] Md Ahasan Kabir, “Vehicle speed prediction based on road status using machine learning,” Advanced Research in Energy and Engineering , vol. 2, no. 1, 2020. [4] Felix Deufel, Martin Gießler, and Frank Gauterin, “A generic predic-tion approach for optimal control of electrified vehicles using artificial intelligence,” Vehicles , vol. 4, no. 1, pp. 182–198, 2022. [5] Li Yufang, Chen Mingnuo, and Zhao Wanzhong, “Investigating long-term vehicle speed prediction based on BP-LSTM algorithms,” IET In-telligent Transport Systems , vol. 13, no. 8, pp. 1281–1290, 2019. [6] Zhenhong Lin, “Measuring Range Anxiety: the Substitution-Emergency-Detour (SED) Method,” World Electric Vehicle Journal , vol. 5, 2012, pp. 8–13. doi: 10.3390/wevj5010008. [7] Paul Heckelmann, Sandro Chris Breuer, and Stephan Rinderknecht, “In-vestigation of different LSTM-based encoder-decoder neural networks for vehicle speed prediction,” Scientific Reports , vol. 15, no. 1, p. 32662, 2025. [8] Luca Paparusso, Stefano Melzi, and Francesco Braghin, “Real-time fore-casting of driver-vehicle dynamics on 3D roads: A deep-learning frame-work leveraging Bayesian optimisation,” Transportation Research Part C: Emerging Technologies , vol. 156, p. 104329, 2023. 26 [9] Fei Wu et al., “Study on Factors Affecting the Range of Electric Vehicle with ADVISOR,” Advanced Materials Research , 2013, pp. 1092–1095. doi: 10.4028/www.scientific.net/amr.860-863.1092. [10] Heran Shen et al., “Personalized velocity and energy prediction for elec-tric vehicles with road features in consideration,” IEEE Transactions on Transportation Electrification , vol. 9, no. 3, pp. 3958–3969, 2023. [11] Jianfeng Hou et al., “Vehicle Trajectory Data Augmentation Using Data Features and Road Map,” Electronics , vol. 14, no. 14, p. 2755, 2025. [12] Vincent R. Tannahill, Kashem M. Muttaqi, and Danny Sutanto, “Driver alerting system using range estimation of electric vehicles in real time under dynamically varying environmental conditions,” IET Electrical Systems in Transportation , vol. 6, no. 2, pp. 107–116, 2015. [13] Juan D. Valladolid et al., “A Novel Energy-Efficiency Optimization Ap-proach Based on Driving Patterns Styles and Experimental Tests for Electric Vehicles,” Electronics , vol. 10, no. 10, pp. 1199–1199, 2021. [14] Chen Ly et al., “Driving-style-based codesign optimization of an auto-mated electric vehicle: A cyber-physical system approach,” IEEE Trans-actions on Industrial Electronics , vol. 66, no. 4, pp. 2965–2975, 2018. [15] Rui Wang and Srdjan M. Lukic, “Review of driving conditions prediction and driving style recognition based control algorithms for hybrid elec-tric vehicles,” in 2011 IEEE Vehicle Power and Propulsion Conference .IEEE, 2011, pp. 1–7. [16] Jianhua Guo et al., “A novel energy consumption prediction model with combination of road information and driving style of BEVs,” Sustainable Energy Technologies and Assessments , vol. 42, p. 100826, 2020. [17] Jiquan Wang, Igo Besselink, and Henk Nijmeijer, “Electric vehicle en-ergy consumption modelling and prediction based on road information,” 
+
+World Electric Vehicle Journal , vol. 7, no. 3, pp. 447–458, 2015. [18] Chiara Fiori, Kyoungho Ahn, and Hesham A. Rakha, “Power-based elec-tric vehicle energy consumption model: Model development and valida-tion,” Applied Energy , vol. 168, pp. 257–268, 2016. 27 [19] Chunjie Zhai, Fei Luo, and Yonggui Liu, “A novel predictive energy management strategy for electric vehicles based on velocity prediction,” 
+
+IEEE Transactions on Vehicular Technology , vol. 69, no. 11, pp. 12559– 12569, 2020. [20] Jiri Vrany, Michal Krepelka, and Matej Chumlen, “Generating synthetic vehicle speed records using LSTM,” in IFIP International Conference on Artificial Intelligence Applications and Innovations . Springer, 2023, pp. 125–136. [21] Jiri Vrany et al., Vehicle speed dataset , 2023. doi: 10.21227/n1z9-e630. 28

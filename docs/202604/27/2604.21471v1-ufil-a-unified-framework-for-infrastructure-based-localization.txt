@@ -1,0 +1,322 @@
+Title: Ufil: A Unified Framework for Infrastructure-based Localization
+
+URL Source: https://arxiv.org/pdf/2604.21471v1
+
+Published Time: Fri, 24 Apr 2026 00:40:33 GMT
+
+Number of Pages: 8
+
+Markdown Content:
+# Ufil: A Unified Framework for Infrastructure-based Localization 
+
+Simon Sch¨ afer 1 , Lucas Hegerath 1,† , Marius Molz 1,† , Graduate Student Members, IEEE ,Massimo Marcon 1 , and Bassam Alrifaee 2 , Senior Member, IEEE 
+
+Abstract —Infrastructure-based localization enhances road safety and traffic management by providing state estimates of road users. Development is hindered by fragmented, application-specific stacks that tightly couple perception, tracking, and middleware. We introduce Ufil, a Unified Framework for Infrastructure-Based Localization with a standardized object model and reusable multi-object tracking components. Ufil offers interfaces and reference implementations for prediction, detec-tion, association, state update, and track management, allowing researchers to improve components without reimplementing the pipeline. Ufil is open-source C++/ROS 2 software with docu-mentation and executable examples. We demonstrate Ufil by integrating three heterogeneous data sources into a single local-ization pipeline combining (i) vehicle onboard units broadcasting ETSI ITS-G5 Cooperative Awareness Messages, (ii) a lidar-based roadside sensor node, and (iii) an in-road sensitive surface layer. The pipeline runs unchanged in the CARLA simulator and a small-scale CAV testbed, demonstrating Ufil’s scale-independent execution model. In a three-lane highway scenario with 423 and 355 vehicles in simulation and testbed, respectively, the fused system achieves lane-level lateral accuracy with mean lateral position RMSEs of 0.31 m in CARLA and 0.29 m in the CPM Lab, and mean absolute orientation errors around 2.2°. Median end-to-end latencies from sensing to fused output remain below 100 ms across all modalities in both environments. 
+
+Index Terms —Infrastructure-based localization, Object Detec-tion and Tracking, Traffic Monitoring, Simulation, Small-scale Testbed 
+
+OPEN MATERIAL 
+
+Code github.com/bassamlab/Ufil 
+
+Docs github.com/bassamlab/Ufil-docs I. I NTRODUCTION 
+
+A. Motivation 
+
+Vehicle-centric perception has been shown to be insufficient for achieving reliable, large-scale coordination in complex traffic environments. Limitations in sensing range, occlusions, and incomplete situational awareness restrict the ability of individual vehicles to form a consistent representation of the surrounding traffic scene. Infrastructure-based localization of road users refers to the process of using sensors embedded in roads and the surrounding infrastructure to estimate the states of all road users within a fixed region of interest. This approach  
+
+> 1
+
+The authors are with the Chair of Embedded Software, RWTH Aachen University, {lastname }@embedded.rwth-aachen.de  
+
+> 2
+
+B. Alrifaee is with the Department of Aerospace Engineering, University of the Bundeswehr Munich, Germany, bassam.alrifaee@unibw.de  
+
+> †
+
+Equal contribution We acknowledge the financial support for this project by the Collaborative Research Center / Transregio 339 of the German Research Foundation (DFG). 
+
+promises to enhance safety by sharing state estimations with Connected and Automated Vehicles (CAVs), as well as reduce traffic congestion by providing data for more efficient trajec-tory planning. However, developing such systems in real-world scenarios often involves long development cycles, high costs, and regulatory hurdles related to safety and privacy. To address these challenges, developers typically create simulations of proposed systems before deployment, ensuring satisfactory results are achieved prior to real-world implementation. Several frameworks exist for simulating and developing these systems. Autoware is an open-source software stack designed for self-driving vehicles that supports various func-tionalities but lacks a dedicated focus on infrastructure-centric applications [1]. It has been utilized in test vehicles such as Edgar [2]. The MATLAB Automated Driving Toolbox also serves as a comprehensive environment for designing automated driving algorithms; however, it primarily empha-sizes vehicle-centric models [3]. While it is possible to de-velop an infrastructure-based perception system within these frameworks, they predominantly cater to automated driving contexts that require defining an ego vehicle around which the coordinate system centers, an inconvenient requirement for fixed perspectives typical of infrastructure-based systems. Moreover, while simulations can provide rough estimates of final products, transitioning from simulation to real-world application introduces additional challenges that cannot be fully replicated in virtual environments; this phenomenon is commonly referred to as the sim-to-real gap. In recent years, there has been growing interest in small-scale testbeds that consist of scaled-down versions of real-world traffic settings, including physical vehicles and road networks, alongside distributed computation in networked environments [4]. By integrating physical components with networks, such testbeds offer scenarios that closely resemble real-world deployments while effectively reducing the sim-to-real gap [5]. Recent work has surveyed simulators for automated driving; it found that CARLA is the only open-source simulator that provides all necessary components for simulating an infrastructure-based localization system [6]. CARLA allows simulation of traffic dynamics along with static/dynamic in-frastructure and sensor data across common sensor tech-nologies. Recent extensions include CARLOS, which enables large-scale testing with enhanced Robot Operating System 2 (ROS 2) integration [7]. Various datasets relevant to infrastructure localization exist, but do not provide general frameworks or tooling support. 
+
+> This work has been submitted to the IEEE for possible publication. Copyright may be transferred without notice, after which this version may no longer be accessible.
+> arXiv:2604.21471v1 [cs.RO] 23 Apr 2026
+
+Examples include the A9-Dataset , featuring manually labeled cameras and lidar data for machine learning [8], the LUMPIE 
+
+Dataset, which also contains manually labeled cameras and lidar data [9], and UrbanIng-V2X , which follows similar labeling efforts [10]. Other notable frameworks with open code include 
+
+CoCa3D , a camera-only framework [11]. Additionally, DAIR-V2X/OpenDAIRV2X [12] focuses on Vehicle-to-Infrastructure communication while providing datasets aimed at machine learning models. The INFRA-3DRC dataset presents a sen-sor setup with radar and camera alongside the dataset and provides tracking code for its specific scenario [13]. In Coop-Scenes , the authors fuse one sensor node with vehicle data, providing modality-specific tracking code written in Python, which cannot be easily generalized [14]. FlexSense presents sensing system details along with published datasets but lacks operational code. Some works, like [15], publish functioning machine learning models without providing comprehensive frameworks for them. More complete works, such as Set-ThmSLAM [16], provide a full software suite for robustly localizing autonomous vehicles using infrastructure sensors but are limited by their implementation details. SetThmSLAM 
+
+is written in the proprietary MATLAB system, without the possibility of abstraction for other use cases. Lastly, Open-COOD officially listed 12 supported projects but stopped being maintained in 2023; it was designed as an Open COOperative Detection framework for autonomous driving. The main focus of OpenCOOD is the training of machine learning algorithms and in combination with OpenCDA mainly targeting offline cooperative perception. More up-to-date examples that still utilize OpenCOOD include HEAL (HEterogeneous ALliance) [17], which supports lidar and camera integration as well as the previously mentioned UrbanIng-V2X dataset. Despite advancements made within these frameworks, three significant gaps remain: (i) there is currently no framework ex-plicitly targeting infrastructure-based localization that provides all necessary components while simultaneously leveraging opportunities presented by the static nature of the problem; (ii) limited research exists focused on utilizing small-scale testbeds as intermediate stages for validating such systems before transitioning them into real-world environments; finally, (iii) there is no existing framework designed for agnostic execution allowing scale-independent testing of localization pipelines against simulations, small-scale testbeds, and full-s-cale deployments. 
+
+B. Contribution 
+
+To address these gaps, this paper proposes a Unified Framework for Infrastructure-based Localization (Ufil) , an open-source framework that provides essential building blocks for developing and validating infrastructure-based perception systems. Ufil aims to be data-source-agnostic and scenario-independent. Concretely, we contribute:  
+
+> •
+
+a unified, history-aware object model and modular track-ing pipeline tailored to infrastructure-based localization,  
+
+> •
+
+reference implementations and interfaces for prediction, detection, association, update, and management, enabling plug-and-play comparison of algorithms, and  
+
+> •
+
+a scale-independent execution model demonstrated on a single highway perception pipeline that runs unchanged in CARLA and in a small-scale CAV testbed. We present this paper in connection with the open-source code base, documentation, and application examples. 
+
+C. Outline 
+
+The structure of this paper is organized as follows: In Section III, we present the Ufil framework and explain how its design choices address the gaps identified above. Section IV then instantiates the framework in a concrete infrastructure-based localization system for a three-lane highway, which serves as a case study. Section V details our evaluation methodology and reports tracking accuracy and latency for this system in CARLA and in the Cyber-Physical Mobility Lab (CPM Lab) testbed. Finally, Section VI concludes our findings and discusses potential directions for future work. II. N OTATION 
+
+In this paper, we adopt the following notation conventions:  
+
+> •
+
+Lowercase bold letters, such as aaa, represent vectors, while uppercase bold letters, such as AAA, denote matrices. Calligraphic letters, like A, denote sets.  
+
+> •
+
+The superscript (.)T indicates the transpose of a vector or matrix, and (.)−1 represents the inverse of a matrix. An estimate of the true value (.) is denoted by ˆ(.). 
+
+> •
+
+The subscript (.)k specifies the value at time step k, and 
+
+(.)j,k refers to the j-th value at time step k. Additionally, 
+
+(.)i designates the i-th component of a selected set, where 
+
+i ∈ { a, b, c }.III. F RAMEWORK 
+
+This section introduces Ufil , which forms the core of the work presented in the remainder of the paper. We first summarize the overall concept, including the object model and design goals (Section III-A). We then detail each step of the multi-object tracking cycle, showing how prediction, detection, association, update, and management are exposed as modular, exchangeable components (Section III-B–III-F). We conclude with a simple simulation tool for exploring design choices (Section III-G), which complements the system-level evaluation in Sections IV and V. 
+
+A. Concept 
+
+Ufil is a collection of reusable software components that of-fer standardized definitions, algorithms, and message formats for infrastructure-based localization and tracking applications. Its design is guided by three principles derived from Section I: (i) separate generic tracking logic from application-specific processing, (ii) make all major algorithmic choices pluggable, and (iii) support the same pipelines across simulation, small-scale testbeds, and real-world deployments. At the core of Ufil is a C++ header-only library that provides the unified object model and middleware-independent algo-rithms, including motion models, association metrics, and state update routines. The surrounding ROS 2 packages integrate this core library into a distributed computation architecture, handle configuration and parameter management, and provide tooling for logging, visualization, and evaluation. While the core library can be used without ROS 2, the integration layer implements most of the functionality required for real deployments and large-scale experiments. Ufil represents all road users with a unified object model, illustrated in Figure 1. Each object Oi,k is defined as 
+
+Oi,k = {ˆxxx, P PP ˆxxx, ˆddd, P PP ˆddd, p e, c cc}, (1) where ˆxxx ∈ R6 is the estimated state, PPP ˆxxx ∈ R6×6 the state covariance, ˆddd ∈ R3 and PPP ˆddd ∈ R3×3 the dimensions and their covariance, pe ∈ [0 , 1] the existence probability, and ccc ∈ [0 , 1] 7
+
+the class probability vector with 
+
+> 7
+
+X
+
+> j=1
+
+ccc(j) = 1 . (2) The index i denotes the ith element of the current object list 
+
+Ok, and k the time step. By default, we use seven classes 
+
+{car , truck , motorcycle , bicycle , pedestrian , stationary , other },
+
+(3) in which the last class represents uncertainty and allows for the communication of the absence of a classification result. The state vector encapsulates position and motion data as xxx = ppp vvv θ ωT , with ppp = px py
+
+T ∈ R2,
+
+vvv = vx vy
+
+T ∈ R2, yaw θ ∈ [0 , 360) , and yaw rate ω ∈ R.The dimension vector represents the length, width, and hight of the object enclosing bounding box as ddd = w l hT ∈ R3
+
+For each discrete time step k, the tracker stores the full object list Ok = {O1, . . . , O N }, and each object retains a time-stamped sequence of its history. This history supports retrospective association and moving-horizon estimation. The maximum history length is controlled by pruning policies in the management step (Section III-F). To support reduced state representations, Ufil requires at least position, length, and width. If a tracking algorithm uses only a subset of the state space, the unused components are indicated to downstream components. In the ufil_ros pack-age, they are marked in the serialized covariance matrix by in-serting −1 on the corresponding diagonal entries. Library-level operations never use these entries directly; instead, selection matrices and masks ensure that only modeled components are processed. This convention allows downstream components to work on partial states without changing interfaces while avoiding misuse of non-physical covariance values. Ufil follows the standard multi-object tracking cycle Predic-tion → Detection → Association → Update → Management, and provides interchangeable algorithms for each step. All steps share a common interface and operate on the unified y    
+
+> x
+> vx
+> vy
+> θ,ω
+> w
+> l
+> (px,py)
+> Fig. 1. Object definition in a bird’s eye view.
+
+object model, which simplifies algorithm exchange and com-parison and underpins the portability demonstrated later in Sections IV and V. 
+
+B. Prediction 
+
+Ufil applications implement discrete-time multi-object tracking. For each time step k, the prediction step computes the most probable state of each object at time step k given its state at time step k − 1 and a motion model. Prediction is structured around the four main object com-ponents: kinematic state ˆxxx, dimensions ˆddd, classification ccc, and existence probability pe. While motion models for the predic-tion of the kinematic state are well established, there is no de facto standard for the prediction of dimensions, classification, or existence, so Ufil provides simple defaults which keep these values constant and interfaces for custom predictors. Out of the box, Ufil supports six motion models: No-Prediction, Random Walk, Constant Velocity, Extended Constant Velocity, Constant Acceleration, and Extended Constant Acceleration, all based on [18]. These can be implemented as linear models, but Ufil also supports non-linear transitions via a generic interface. For linear models, prediction follows a Kalman-style up-date: 
+
+ˆxxx− 
+
+> k
+
+= FFF k ˆxxxk−1 + BBBk uuuk + ωk, (4) where FFF k is defined by the motion model, and BBBk, u uuk en-code known inputs, typically omitted in infrastructure-based tracking. With ωk ∼ N (0 , Q QQk), the covariance prediction is 
+
+PPP ˆxxx,k − = FFF k PPP ˆxxx,k −1 FFF Tk + QQQk, (5) where QQQk is modeled as integrated white noise based on [19]. 
+
+C. Detection 
+
+Ufil operates on object-level data, but many sensors provide raw data (e.g., point clouds or images). A detection step is therefore required to convert raw measurements into object hypotheses. Unlike architectures that strictly separate detection and tracking, Ufil integrates detection into the tracking pipeline. Detectors can use predicted objects from the previous time step as priors, for example, to select regions of interest, and can pre-populate parts of the association matrix AAAk.Ufil ships with two implemented detectors. The first is a pass-through detector that forwards inputs already at the object level. The second is a lidar-based detector presented later in Section IV. For any custom detector, the framework provides an open interface. 
+
+D. Association 
+
+Association finds correspondences between detections at time step k and predicted objects. Ufil formulates this as an assignment problem with cost matrix CCCk, where each entry encodes the cost of pairing a detection with an object. Ufil provides four cost measures: (i) Euclidean distance, (ii) Mahalanobis distance, (iii) closed-form Wasserstein dis-tance, and (iv) bounding box Intersection over Union (IoU). User-defined measures can be added via a generic interface. The cost matrix is passed to an assignment solver, which produces an association matrix AAAk. Ufil implements: (i) the Linear Assignment Problem Jonker–Volgenant algo-rithm (LAPJV), (ii) a simplex-based linear programming solver, (iii) a greedy associator, and (iv) a Hungarian as-sociator. Optionally, gating discards assignments above aconfigurable cost threshold cmax ; for Mahalanobis distances, 
+
+cmax can be chosen as a χ2-based threshold, while for other metrics it is specified in metric units. The resulting Boolean association matrix AAAk is used to update objects and identify unassigned detections. A key advantage of integrating multiple solvers into a single framework with a unified interface is that they can be easily compared under identical conditions. For a fixed cost matrix and gating setup, the Hungarian, LAPJV, and simplex-based solvers compute the same optimal one-to-one assignment (up to numerical tolerances), while the greedy associator is faster, but not guaranteed to be globally optimal. We present a runtime benchmark in Figure 2, where each solver solves a linear assignment problem 100 times for growing matrix sizes 
+
+N . The results show that the Hungarian and LAPJV algorithms yield optimal assignments with consistently low runtimes, whereas the simplex-based solver exhibits significantly higher runtimes than the other methods. 
+
+E. Update 
+
+The update step incorporates the associated detections into the object list and refines the estimates. Analogous to pre-diction, Ufil conceptually distinguishes updates for kinematic state, dimensions, classification, and existence probability. N = 5 N = 10 N = 50 N = 100          
+
+> 0
+> 0.1
+> 0.2
+> 0.3≥246 ≥8518
+> Association matrix size
+> Latency  [ms]  LAPJV
+> Hungarian
+> Greedy
+> Simplex
+> Fig. 2. Runtimes of the four solvers implemented in Ufil. Each solver solved the linear assignment problem 100 times for a random N×Nmatrix.
+
+The kinematic state is updated using linear or nonlin-ear Kalman-filter-based updaters. For an associated predic-tion–measurement pair, the innovation and its covariance are 
+
+yyyk = zzzk − HHHk ˆxxx− 
+
+> k
+
+, (6) 
+
+SSSk = HHHk PPP ˆxxx,k − HHHTk + RRRk. (7) Using the Joseph form [20] for numerical stability, Ufil updates state and covariance: 
+
+KKKk = PPP ˆxxx,k − HHHTk SSS−1 
+
+> k
+
+, (8) 
+
+ˆxxxk = ˆ xxx− 
+
+> k
+
++ KKKk yyyk, (9) 
+
+PPP ˆxxx,k = ( I − KKKk HHHk) PPP ˆxxx,k − (I − KKKk HHHk)T + KKKk RRRk KKKTk .
+
+(10) The measurement matrix HHHk is built per measurement to select observed state components. Ufil provides the following out-of-the-box updaters and interfaces for dimension, classification, and existence: (i) a grid-map estimator based on [21] using occupancy to estimate the dimension, (ii) a dimension-based classifier presented in [22] using road-user statistics, and (iii) a heuristic existence update from [22] and a Bayesian estimator from [21]. All updaters provide an open interface and can be replaced by user-specific algorithms. Detailed parameter choices, priors for the dimension-based classifier, and existence-model settings are documented alongside the Ufil examples. 
+
+F. Management 
+
+The management step creates new objects, deletes obsolete ones, and prunes histories to keep the object history consistent and reduce computational load. Ufil provides two deletion strategies: (i) time-based: remove objects without associated detections for longer than a thresh-old and (ii) existence-based: remove objects with existence probability below a threshold. New objects are initialized from unassigned detections using a user-provided function that sets initial state and covariance, as well as dimension, classification, and initial existence probability. Ufil also supports tentative tracks and M/N con-firmation logic to avoid promoting short-lived false positives to confirmed tracks. History pruning is available in three modes: no pruning, time-based pruning, and pruning by number of entries, the latter being useful for moving-horizon estimators. This allows trading off temporal context against memory and runtime. 
+
+G. Simple Simulation 
+
+Selecting a suitable combination of motion models, associa-tion metrics, solvers, and management strategies is non-trivial, as interactions between components and runtime effects are often hard to predict. To support such design decisions, Ufil provides a simple scenario simulator in the ufil_examples 
+
+package that focuses on the multi-object tracking system and explicitly excludes the detection step by providing object-level detections. Users can specify short, controlled scenarios via configuration files and benchmark different tracking configu-rations against each other. As an illustrative case, we consider two pedestrians fol-lowing trajectories that intersect at a crossing point, a classic situation in which trackers tend to swap identities. Around the intersection, the positions become very similar, and as-sociation is particularly challenging. We run a fixed predic-tion–update–management chain and only vary the association stage by combining different solvers with Euclidean and Wasserstein distance hypotheses. In this scenario, the choice of solver (Hungarian, Greedy) does not affect accuracy, as they compute the same optimal assignment for a given cost matrix. In contrast, the hypothesis function has a strong effect: Euclidean distance fails to maintain identities near the inter-section, while Wasserstein distances exploit additional state information to resolve the ambiguity. While the greedy solver provides a fast, though not always optimal, baseline it does perform well in such simple scenarios. This example highlights how the simulator can be used to explore algorithmic trade-offs before deployment and complements the system-level experiments in Section IV and Section V. IV. E XAMPLE 
+
+The previous section introduced Ufil’s building blocks and interfaces. We now show how these blocks can be instantiated into a concrete infrastructure-based localization system, and we use this system in Section V for experimental evaluation. The example system is not intended as a new tracking algo-rithm; it serves as a case study demonstrating how Ufil sup-ports heterogeneous sensors and execution across different en-vironments. Additional modalities (e.g., radar, cameras, other Vehicle-to-Infrastructure (V2I) messages) can be integrated via detectors that produce Ufil objects. We begin with the overall concept of the system in Sec-tion IV-A. We then discuss its integration in a simulator in Section IV-B and its deployment in a small-scale testbed in Section IV-C. 
+
+A. Concept 
+
+The proposed infrastructure-based perception system col-lects data from three complementary sources. The goal is to cover a representative set of modalities routinely discussed in the literature while showcasing the versatility of the frame-work: −10 0 10 20 30         
+
+> −10
+> −5
+> 0
+> 5
+> 10
+> px[m]
+> py [m]
+> Ref. 1
+> Ref. 2
+> Gre. Euc. 1
+> Gre. Euc. 2
+> Hun. Euc. 1
+> Hun. Euc. 2
+> (a) Results with euclidean hypothesizer. −10 010 20 30
+> −10
+> −5
+> 0
+> 5
+> 10
+> px[m]
+> py [m]
+> Ref. 1
+> Ref. 2
+> Gre. Was. 1
+> Gre. Was. 2
+> Hun. Was. 1
+> Hun. Was. 2
+> (b) Results with wasserstein hypothesizer. Fig. 3. Results of the simple simulation crossing example for different hypothesizer and association solvers.
+> •
+
+V2I communication: Cooperative Awareness Messages (CAM) as defined in ETSI EN 302 637-2, a C-V2X standard already used on German roads [23]. Ufil fully integrates this standard, including parsing CAM mes-sages, converting them into the unified object model, and generating standard-compliant messages with correct timing.  
+
+> •
+
+Roadside lidar: a lidar-based Outdoor Sensor Node (OSN) performing detection and tracking, implemented according to [22].  
+
+> •
+
+In-road sensing: a Sensitive Surface Layer (SSL) system as investigated in [24], providing object-level estimates including axle and wheel information. Each data source delivers an object list O to an Roadside Unit (RSU) running a centralized fusion pipeline composed of Ufil components. The RSU fuses all lists and outputs a single global object list for the observed road segment. The RSU fuses all lists and outputs a single global object list for the observed road segment. The specific measurement models, calibration and syn-chronization procedures, and modality-specific parameters are described in the Ufil documentation and example repositories, allowing this paper to focus on the framework rather than on sensor specifics. For testing such pipelines, Ufil provides two testing ap-proaches out of the box: support for the high-fidelity simulator CARLA [25] and for the small-scale cyber-physical testbed CPM Lab [26]. Additionally, the lidar-based tracker in [22] already used an early version of Ufil in a real-world deploy-ment, providing first evidence that Ufil’s abstractions carry over to real infrastructure. A full replication of the three data sources presented above in the real world is currently limited by the lack of a full-scale in-road sensing system; the software stack itself is ready for such an extension. 
+
+B. High Fidelity Simulation 
+
+CARLA and Ufil both provide ROS 2 interfaces, enabling an easy connection. An adapter node subscribes to CARLA topics (e.g., ground-truth vehicle states) and publishes Ufil object lists. These ground-truth lists are the input for three downstream applications. First, they drive the SSL simulation, implemented as a co-simulation. Second, they provide data for the generation of the V2I messages, and lastly, they serve as ground truth for evaluation. The lidar point clouds come directly from CARLA’s sensor models and are processed by the lidar-based OSN module without further adaptation. Scenarios in CARLA are configured via configuration files that specify maps, sensor poses, and traffic spawn/deletion points. Ufil ships with ready-made configurations for one intersection in Town10 and a highway segment in Town05 ,the latter matching the scenario used later in Section V. 
+
+C. Small-scale testbed 
+
+The CPM Lab [26] is a small-scale CAV testbed featur-ing physical vehicles, static infrastructure, and a distributed computation approach. We retrofit it with a Sensing Tex 
+
+pressure-sensitive mat representing the in-road sensing system, a roadside Intel RealSense L515 lidar sensor representing the lidar, and V2I capabilities for the existing small-scale vehicles called μCars [27]. An adapter node converts the lab’s internal vehicle state messages into Ufil object lists, analogous to the CARLA adapter. Lidar and SSL sensors are connected via ROS 2 driver nodes that publish ROS 2 standard messages, which are directly consumed by Ufil components. Because each sensor runs on its own compute unit and communicates via the testbed network, realistic effects such as communication latency and clock offsets are represented faithfully and propagate through the same pipeline used in CARLA. All configurations, launch files, and drivers are provided in the ufil_examples package and documented in the Ufil documentation. V. E XPERIMENTAL RESULTS AND DISCUSSION 
+
+This evaluation aims to provide performance insights into the presented system from Section IV and evaluate the Ufil-based perception pipeline in both CARLA and the CPM Lab. The goal is to assess whether a single framework-enabled application can achieve comparable accuracy and latency even when tested in two separate environments. Rather than opti-mizing a particular tracking algorithm, we focus on demon-strating Ufil’s scale-independent execution. Vehicle  
+
+> Sensor node
+> SSL
+> Fig. 4. Testing scenario: a three-lane highway segment with SSL, lidar OSN, and V2I-equipped vehicles.
+
+For offline evaluation, we record all object lists as ROS 2 bag files and process them with Ufil’s evaluation scripts as described below. 
+
+A. Setup 
+
+The evaluation employs the highway perception system from Section IV as a case study for Ufil’s scale-independent execution. The scenario is a three-lane highway segment with an SSL covering the two right-most lanes near the upstream part of the segment and a roadside lidar OSN installed down-stream, facing the SSL region; their fields of view partially overlap. Vehicles are equipped with V2I functionality and broadcast CAM messages. The same configuration of motion models, association settings, and management policies is used in all experiments. The scenario is instantiated in CARLA and in the CPM Lab. Each experiment runs for approximately 15 min and contains only cars as moving objects. Over one run, CARLA comprises 423 unique vehicles and the CPM Lab 355 vehicles, with typically five to six cars present in the field of view at any given time. CAM messages follow the ETSI update rules with an effective rate between 1 Hz to 10 Hz depending on driving state, while lidar and SSL operate at 10 Hz. The centralized fusion node on the RSU runs as a time-triggered system at 50 Hz. For offline evaluation, the ground-truth and fused object lists are recorded as ROS 2 bag files and converted into HDF5 files containing all object data separated by IDs. Ufil’s evaluation scripts then align reference and estimated trajectories in the local, georeferenced Cartesian map frame used by all components. For each experiment, candidate pairs of reference and estimated tracks are formed and, for each pair, the position Root Mean Square Error (RMSE) over the joint lifetime is computed. Pairs with RMSE above 3 m are discarded as mismatches; the remaining pairs are selected greedily by increasing RMSE, and unmatched estimates are treated as ghost tracks. The resulting matched tracks are used to compute longitudinal, lateral, and orientation errors over time. 
+
+B. Track Accuracy 
+
+We run the Ufil-based perception pipeline on the CARLA and CPM Lab recordings and process the resulting bag files with the evaluation scripts described above. For each matched trajectory pair, we compute errors in longitudinal position px,θ              
+
+> −20
+> 0
+> 20
+> Deviation  [◦]
+> V2I In-road Roadside Global
+> pxpy
+> −2
+> 0
+> 2
+> Deviation  [m] (a) Tracking error in simulation. θ
+> −20
+> 0
+> 20
+> Deviation  [◦]
+> V2I In-road Roadside Global
+> pxpy
+> −2
+> 0
+> 2
+> Deviation  [m]
+> (b) Tracking error in small-scale testbed. Fig. 5. Summary of state accuracy. For each domain, we plot the error for positions px,py(left) and orientation θ(right). For the small-scale testbed we indicate the accuracy of the reference system in gray.
+
+lateral position py , and orientation θ, and then aggregate across all tracks in the scenario. In both environments, the fused system achieves lane-level lateral accuracy across the area of interest. Errors are smallest in the region where SSL, lidar, and V2I overlap, due to redundant observations, and increase slightly outside the SSL coverage where lidar and CAM dominate. For the CARLA scenario, the mean longitudinal and lateral position RMSEs are 0.11 m and 0.31 m, respectively. For the CPM Lab, they are 0.29 m in both directions. Given a typical lane width of approximately 3.5 m, the lateral errors are well within lane-level accuracy. The mean absolute orientation error is 2.12° in CARLA and 2.36° in the CPM Lab. The CPM Lab uses a reference system rather than a ground-truth system; thus, it provides a basis for computing errors rel-ative to its mean position accuracy of approximately 19.89 cm and a mean absolute orientation error of 2.25° [28]. Conse-quently, any computed errors that fall below these reference values may not be meaningful, as they could be indicative of inaccuracies within the reference system itself rather than true performance metrics. We indicated this reference accuracy in the Figure 5b. Qualitatively, the error distributions exhibit similar trends in both environments: longitudinal errors remain small over the full segment, while lateral errors increase slightly in regions with oblique sensor views or reduced overlap between modal-ities. This indicates that the small-scale testbed approximates full-scale behavior well and that Ufil’s abstractions do not introduce environment-specific degradation. 
+
+C. End-to-End Latency 
+
+To assess timing behavior, Ufil propagates sensor times-tamps through the pipeline. Each fused object list emitted by 0 100 200 300 400             
+
+> Latency [ms]
+> V2I In-road Roadside Global
+> (a) Runtime in simulation. 0100 200 300 400
+> Latency [ms]
+> V2I In-road Roadside Global
+> (b) Runtime in small-scale testbed. Fig. 6. Summary of runtime results in both simulation and small-scale testbed.
+
+the RSU carries the timestamp of the most recent contributing sensor measurement, while the evaluation node records the arrival time. For each modality path (CAM, SSL, lidar) and the fused output, we compute the latency as the difference between this sensor timestamp and the arrival time at the evaluation node. This captures sensing, communication, and processing delays along that path, but does not assume global synchronous triggering across sensors. In CARLA, all components share a single simulation clock, so the measured latencies primarily reflect processing time in the sensor drivers and fusion pipeline. In the CPM Lab, each sensor runs on its own compute unit; clocks are synchronized via NTP with offsets below 5 ms, and the measured latencies additionally include realistic network and hardware effects. Across all modalities and for the fused output, the median end-to-end latency remains below 100 ms in both CARLA and the CPM Lab. Occasional outliers occur, for example, when multiple messages from different sources arrive in bursts, but the overall latency profile is compatible with typical requirements for cooperative driving and infrastructure-supported control. These results indicate that the same Ufil-based pipeline can achieve comparable timing characteristics in a purely simulated environment and in a small-scale phys-ical testbed without software-level modifications. VI. C ONCLUSION 
+
+Research on infrastructure-based perception systems re-mains fragmented, with most existing tools tailored to ego-vehicle perception rather than static infrastructure. This pa-per presented Ufil , a Unified Framework for Infrastructure-based Localization, that addresses this gap by providing a standardized object model, a modular multi-object tracking pipeline, and reusable implementations of key building blocks for prediction, detection, association, update, and management. At its core, Ufil comprises a C++ header-only tracking library and a ROS 2 integration layer. The unified object representation with history buffers, together with well-defined interfaces for motion models, association metrics, solvers, and update rules, enables plug-and-play composition of tracking pipelines. Because all components operate on the same data model, Ufil makes it straightforward to compare algorithms fairly, explore design trade-offs (e.g., association hypotheses vs. runtime), and reuse code across projects. Using a single highway perception system as a running ex-ample, we demonstrated that the same Ufil-based pipeline can be executed in a high-fidelity simulator and in a small-scale testbed without code changes, illustrating its scale-independent design and its suitability as a bridge between simulation and real-world deployment. Future work will extend Ufil with additional sensing modalities and fusion strategies, setup full-scale testing scenarios, and integrate it more tightly with safety analysis and validation tools. As open-source software with public documentation and examples, Ufil is intended as a shared research infrastructure for infrastructure-based local-ization rather than as a single optimized tracking algorithm. REFERENCES [1] S. Kato, S. Tokunaga, Y. Maruyama, S. Maeda, M. Hirabayashi, Y. Kitsukawa, A. Monrroy, T. Ando, Y. Fujii, and T. Azumi, “Autoware on board: Enabling autonomous vehicles with embedded systems,” in 
+
+Proceedings of the 9th ACM/IEEE International Conference on Cyber-Physical Systems (ICCPS) , 2018, pp. 287–296. [2] P. Karle, T. Betz, M. Bosk, F. Fent, N. Gehrke, M. Geisslinger, L. Gressenbuch, P. Hafemann, S. Huber, M. H¨ ubner, S. Huch, G. Kaljavesi, T. Kerbl, D. Kulmer, T. Mascetta, S. Maierhofer, F. Pfab, F. Rezabek, E. Rivera, S. Sagmeister, L. Seidlitz, F. Sauerbeck, I. Tahiraj, R. Trauth, N. Uhlemann, G. W¨ ursching, B. Zarrouki, M. Althoff, J. Betz, K. Bengler, G. Carle, F. Diermeyer, J. Ott, and M. Lienkamp, “Edgar: An autonomous driving research platform – from feature development to real-world application,” 2024. [Online]. Available: https://arxiv.org/abs/2309.15492 [3] T. M. Inc., “Automated driving toolbox,” Natick, Massachusetts, United States, 2025, version: 2025a. [Online]. Available: https: //www.mathworks.com/help/driving/index.html [4] A. Mokhtarian, J. Xu, P. Scheffe, M. Kloock, S. Sch¨ afer, H. Bang, V.-A. Le, S. Ulhas, J. Betz, S. Wilson, S. Berman, L. Paull, A. Prorok, and B. Alrifaee, “A survey on small-scale testbeds for connected and automated vehicles and robot swarms: A guide for creating a new testbed,” IEEE Robotics & Automation Magazine , 2024. [5] S. Sch¨ afer and B. Alrifaee, “From small-scale to full-scale: Assessing the potential for transferability of experimental results in small-scale cav testbeds,” in IEEE International Conference on Vehicular Electronics and Safety (ICVES) , 2024. [6] Y. Li, W. Yuan, S. Zhang, W. Yan, Q. Shen, C. Wang, and M. Yang, “Choose your simulator wisely: A review on open-source simulators for autonomous driving,” IEEE Transactions on Intelligent Vehicles , vol. 9, no. 5, pp. 4861–4876, 2024. [7] C. Geller, B. Haas, A. Kloeker, J. Hermens, B. Lampe, T. Beemel-manns, and L. Eckstein, “CARLOS: An Open, Modular, and Scalable Simulation Framework for the Development and Testing of Software for C-ITS,” in IEEE Intelligent Vehicles Symposium (IV) , 2024, pp. 3100– 3106. [8] C. Creß, W. Zimmer, L. Strand, M. Fortkord, S. Dai, V. Lakshmi-narasimhan, and A. Knoll, “A9-dataset: Multi-sensor infrastructure-based dataset for mobility research,” in 2022 IEEE Intelligent Vehicles Symposium (IV) , 2022, pp. 965–970. [9] S. Busch, C. Koetsier, J. Axmann, and C. Brenner, “Lumpi: The leibniz university multi-perspective intersection dataset,” in 2022 IEEE Intelligent Vehicles Symposium (IV) . IEEE, 2022, pp. 1127–1134. [10] K. C. Sekaran, M. Geisler, D. R¨ oßle, A. Mohan, D. Cremers, W. Utschick, M. Botsch, W. Huber, and T. Sch¨ on, “Urbaning-v2x: A large-scale multi-vehicle, multi-infrastructure dataset across multiple intersections for cooperative perception,” 2025. [Online]. Available: https://arxiv.org/abs/2510.23478 [11] Y. Hu, Y. Lu, R. Xu, W. Xie, S. Chen, and Y. Wang, “Collaboration helps camera overtake lidar in 3d detection,” in The IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , 2023. [12] H. Yu, Y. Luo, M. Shu, Y. Huo, Z. Yang, Y. Shi, Z. Guo, H. Li, X. Hu, J. Yuan, and Z. Nie, “Dair-v2x: A large-scale dataset for vehicle-infrastructure cooperative 3d object detection,” in Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition ,2022, pp. 21 361–21 370. [13] S. Agrawal, S. Bhanderi, and G. Elger, “Semi-automatic annotation of 3d radar and camera for smart infrastructure-based perception,” IEEE Access , vol. 12, pp. 34 325–34 341, 2024. [14] M. Vosshans, A. Baumann, M. Drueppel, O. Ait-Aider, Y. Mezouar, T. Dang, and M. Enzweiler, “Coopscenes: Multi-scene infrastructure and vehicle data for advancing collective perception in autonomous driving,” in 2025 IEEE Intelligent Vehicles Symposium (IV) , 2025, pp. 1040–1047. [15] N. Polley, Y. Boualili, F. M¨ utsch, M. Zipfl, T. Fleck, and J. M. Z¨ ollner, “2.5d object detection for intelligent roadside infrastructure,” 2025. [Online]. Available: https://arxiv.org/abs/2507.03564 [16] X. Li, Y. Li, N. Li, A. Girard, and I. Kolmanovsky, “Set-theoretic local-ization for mobile robots with infrastructure-based sensing,” Advanced Control for Applications: Engineering and Industrial Systems , vol. 5, no. 1, p. e117, 2023. [17] Y. Lu, Y. Hu, Y. Zhong, D. Wang, S. Chen, and Y. Wang, “An extensible framework for open heterogeneous collaborative perception,” in The Twelfth International Conference on Learning Representations , 2024. [18] R. Schubert, E. Richter, and G. Wanielik, “Comparison and evaluation of advanced motion models for vehicle tracking,” in 2008 11th Interna-tional Conference on Information Fusion , 2008, pp. 1–6. [19] Y. Bar-Shalom, X. R. Li, and T. Kirubarajan, Estimation with applica-tions to tracking and navigation: theory algorithms and software . John Wiley & Sons, 2002. [20] R. S. Bucy and P. D. Joseph, Filtering for stochastic processes with applications to guidance . Chelsea Pub. Co, 1987. [21] M. Aeberhard, Object-level fusion for surround environment perception in automated driving applications . VDI Verlag, 2017. [22] S. Sch¨ afer, B. Alrifaee, and E. Hashemi, “Lidar-based tracking of traffic participants with sensor nodes in existing urban infrastructure,” 2025. [Online]. Available: https://arxiv.org/abs/2509.20009 [23] G. Kueppers, J.-P. Busch, L. Reiher, and L. Eckstein, “V2aix: A multi-modal real-world dataset of etsi its v2x messages in public road traffic,” in IEEE International Conference on Intelligent Transportation Systems (ITSC) , 2024, pp. 392–398. [24] S. Sch¨ afer, H. Steidl, S. Kowalewski, and B. Alrifaee, “Investigating a pressure sensitive surface layer for vehicle localization,” in IEEE Intelligent Vehicles Symposium (IV) , 2023. [25] A. Dosovitskiy, G. Ros, F. Codevilla, A. Lopez, and V. Koltun, “CARLA: An open urban driving simulator,” in Proceedings of the 1st Annual Conference on Robot Learning , ser. Proceedings of Machine Learning Research, S. Levine, V. Vanhoucke, and K. Goldberg, Eds., vol. 78. PMLR, 11 2017, pp. 1–16. [26] M. Kloock, P. Scheffe, J. Maczijewski, A. Kampmann, A. Mokhtarian, S. Kowalewski, and B. Alrifaee, “Cyber-physical mobility lab: An open-source platform for networked and autonomous vehicles,” in EUCA European Control Conference (ECC) , 2021, pp. 1937–1944. [27] P. Scheffe, J. Maczijewski, M. Kloock, A. Kampmann, A. Derks, S. Kowalewski, and B. Alrifaee, “Networked and autonomous model-scale vehicles for experiments in research and education,” IFAC-PapersOnLine , vol. 53, no. 2, pp. 17 332–17 337, 2020. [28] M. Kloock, P. Scheffe, I. T¨ ulleners, J. Maczijewski, S. Kowalewski, and B. Alrifaee, “Vision-based real-time indoor positioning system for multiple vehicles,” IFAC-PapersOnLine , vol. 53, no. 2, pp. 15 446– 15 453, 2020.

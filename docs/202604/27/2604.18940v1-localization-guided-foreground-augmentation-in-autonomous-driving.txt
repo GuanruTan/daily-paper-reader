@@ -1,0 +1,373 @@
+Title: Localization-Guided Foreground Augmentation in Autonomous Driving
+
+URL Source: https://arxiv.org/pdf/2604.18940v1
+
+Published Time: Wed, 22 Apr 2026 00:29:26 GMT
+
+Number of Pages: 9
+
+Markdown Content:
+# Localization-Guided Foreground Augmentation in Autonomous Driving 
+
+# Jiawei Yong 1* Deyuan Qu 2 Qi Chen 2 Kentaro Oguchi 2 Shintaro Fukushima 11Toyota Motor Corporation, Japan 2Toyota Motor North America, USA 
+
+jiawei yong@mail.toyota.co.jp, s fukushima@mail.toyota.co.jp deyuan.qu@toyota.com, qi.chen@toyota.com, kentaro.oguchi@toyota.com 
+
+# Abstract 
+
+Autonomous driving systems often degrade under adverse vis-ibility conditions—such as rain, nighttime, or snow—where online scene geometry (e.g., lane dividers, road boundaries, and pedestrian crossings) becomes sparse or fragmented. While high-definition (HD) maps can provide missing struc-tural context, they are costly to construct and maintain at scale. We propose Localization-Guided Foreground Augmen-tation (LG-FA), a lightweight and plug-and-play inference module that enhances foreground perception by enriching geometric context online. LG-FA: (i) incrementally con-structs a sparse global vector layer from per-frame Bird’s-Eye View (BEV) predictions; (ii) estimates ego pose via class-constrained geometric alignment, jointly improving localization and completing missing local topology; and (iii) reprojects the augmented foreground into a unified global frame to improve per-frame predictions. Experiments on challenging nuScenes sequences demonstrate that LG-FA improves the geometric completeness and temporal stabil-ity of BEV representations, reduces localization error, and produces globally consistent lane and topology reconstruc-tions. The module can be seamlessly integrated into existing BEV-based perception systems without backbone modifica-tion. By providing a reliable geometric context prior, LG-FA enhances temporal consistency and supplies stable struc-tural support for downstream modules such as tracking and decision-making. 
+
+# 1. Introduction 
+
+Autonomous driving (AD) systems rely heavily on Bird’s-Eye View (BEV) perception to support localization and downstream decision making [ 8– 10 , 20 , 25 ]. However, un-der adverse-visibility conditions such as rain, snow, fog, or nighttime illumination, online scene geometry—including lane dividers, road boundaries, and pedestrian cross-ings—often becomes sparse or fragmented [ 21 , 23 ]. The 
+
+> *Corresponding author. Snow
+> Rain
+
+Figure 1. Challenging scenes under snow and rain where lane markings are faint or missing. Our localization-guided foreground augmentation (LG-FA) aligns the current frame with a lightweight global vector map to complete continuous lane dividers (red) and road boundaries (green), forming a stable augmented foreground perception for downstream tasks. 
+
+loss of such geometric cues leaves the vehicle with insuffi-cient lane and boundary structure for accurate localization and stable downstream decision making. This degradation pattern is illustrated in Fig. 1. Although training-time robustness techniques, such as synthetic multi-weather data augmentation and cross-domain adaptation for perception, can alleviate perception degrada-tion under adverse conditions [ 12 , 18 , 24 ], they mainly oper-ate at the image or feature level to improve the robustness of perception models across domains. These methods enhance visual generalization for adverse-weather scenes, but they do not explicitly reconstruct persistent global road geometry or recover missing lane and boundary topology at runtime. Consequently, when structural cues such as lane dividers or boundaries become invisible, the BEV representation may still lack geometric completeness and spatial consistency. A more effective strategy under such conditions is to en-hance foreground perception by recovering a lightweight geometric scene context that restores road structure and im-proves temporal consistency. This can be achieved in two 
+
+> arXiv:2604.18940v1 [cs.CV] 21 Apr 2026
+
+main ways: (i) High-definition (HD) maps, which provide centimeter-level geometry and topology but incur prohibitive construction and maintenance costs, making large-scale de-ployment impractical [ 6 , 7, 19 ]; and (ii) Lightweight online maps constructed from the outputs of a BEV perception net-work, which provide a scalable and adaptive geometric prior. By localizing the current frame to such an adaptive geomet-ric context and completing missing line structures online, the system can obtain a stable global reference for foreground perception without relying on expensive map infrastructure. To enable this form of runtime foreground augmentation, we propose Localization-Guided Foreground Augmen-tation (LG-FA) , a lightweight module that constructs and leverages online geometric priors for foreground percep-tion under degraded visibility. LG-FA first incrementally aggregates per-frame BEV geometry into a sparse global vector map . It then performs class-constrained localization and line completion to align the current frame to this prior and recover missing local line structures, yielding a line-completed vector map in the global frame. Finally, LG-FA reprojects the current-frame ego vehicle and detected objects into this line-completed vector map to form an Augmented Foreground Perception representation with a shared global reference frame. LG-FA requires no backbone modification, can be attached at inference time. By converting completed geometric context into an enhanced foreground perception representation, LG-FA provides a practical and scalable way to improve perception reliability in degraded environments and offers a more stable input for downstream tasks. The contributions of this work are as follows: • We propose LG-FA, a lightweight plug-and-play runtime module that enhances foreground perception under de-graded visibility using map geometric priors, without mod-ifying the backbone network. • We introduce a pipeline with global vector map construc-tion, class-constrained localization, line completion, and foreground reprojection onto a line-completed vector map to form an augmented foreground perception. • Experiments on nuScenes dataset show that LG-FA en-ables high-quality global map construction and accurate localization and line completion under degraded visibility, thereby improving the geometric reliability and stability of foreground perception. 
+
+# 2. Related Work 
+
+2.1. Bird’s-Eye View (BEV) Perception 
+
+Recent BEV perception has become a core representation for autonomous driving and is widely used for unified scene understanding across perception, forecasting, and planning [ 8 – 10 , 20 , 25 ]. Representative BEV-based sys-tems include UniAD [ 9], VAD [ 10 ], ST-P3 [ 8 ], ViDAR [ 20 ]. Under adverse conditions (e.g., rain, snow, fog, and night-time), many BEV systems rely on training-time robustness techniques such as data augmentation and domain adapta-tion [ 12 , 18 , 24 ]. While these methods improve robustness to appearance changes, they mainly depend on cues from current observations or short temporal windows. When lane markings and road boundaries become weak or invisible, BEV models typically lack an explicit geometric prior to recover missing structures at test time, motivating map-like geometric context as a more stable source of structural cues. 
+
+2.2. High-definition Map and Online Map Methods 
+
+A common solution for missing online geometry is to use high-definition (HD) maps as a structural prior, together with map-based localization to align current observations to the map frame. Classical methods include NDT [ 2 ], ICP [ 1], and visual SLAM [ 4 ]; cooperative LiDAR-based localization can further refine relative poses [ 5]. These methods can achieve high accuracy, but HD map construction, maintenance, and updates are costly [6, 7, 17, 19]. Recent works therefore study online vectorized map con-struction from onboard sensors, including HDMapNet [13], VectorMapNet [ 16 ], StreamMapNet [ 22 ], MapTR [ 14 ], MGMap [ 15 ], and MapUnveiler [ 11 ]. These methods show strong online mapping performance and the value of ex-plicit geometric structure. However, their primary focus is online map reconstruction itself, rather than runtime fore-ground perception enhancement under degraded visibility. In contrast, our work reuses BEV geometric outputs from existing perception networks to build a lightweight global geometric prior and enhance foreground perception through localization-guided line completion. 
+
+# 3. Methodology 
+
+This section presents the Localization-Guided Foreground Augmentation (LG-FA) module, a lightweight plug-and-play runtime component that improves the geometric conti-nuity, temporal stability, and spatial consistency of fore-ground perception under degraded visibility conditions. Rather than modifying the backbone architecture of an exist-ing BEV-based perception network, LG-FA constructs and leverages a line-completed vector map context to produce more reliable foreground perception. As shown in Fig. 2, the module consists of three major components: (1) Global Vector Map Construction , which incrementally aggregates per-frame BEV geometry into a sparse global vector map that serves as a lightweight geometric prior; (2) Localization and Line Completion , which aligns the current frame to this prior and restores missing local line geometry in the global frame while preserving topology; and (3) Augmented Foreground Perception , which reprojects the current-frame ego vehicle and detected objects into the line-completed vector map to form an augmented foreground perception representation with a shared global reference frame. This representation Encoder 
+
+Mapping and Localization 
+
+Bird’s-Eye View (BEV) Feature Cameras Ego location and detections 
+
+Global Vector Map Localization 
+
+> Current frame Road boundary Lane divider
+
+Localization-Guided Foreground Augmentation (LG-FA) 
+
+> Foreground Perception
+
+Figure 2. Overall architecture of the proposed Localization-Guided Foreground Augmentation (LG-FA) framework. Multi-camera inputs are first encoded into a Bird’s-Eye View (BEV) representation. LG-FA incrementally constructs a sparse global vector map from per-frame lane and topology predictions in an incremental aggregation stage. During online inference, the constructed map is used to estimate ego pose via class-constrained geometric alignment, jointly improving lane-level localization accuracy and completing missing local topology. The augmented foreground representations are then fed to downstream modules for motion forecasting and decision-making. This localization-guided augmentation bridges online perception with lightweight map priors, helping maintain temporal consistency when per-frame geometric cues are sparse or fragmented. 
+
+can provide a more stable and geometrically consistent input for downstream tasks. 
+
+3.1. Global Vector Map Construction 
+
+We attach an online global mapping module on top of an existing BEV-based perception network. At each time step, the network produces a frame-level vectorized map, and our module incrementally fuses these vectors into a sparse scene-level global vector map that serves as a lightweight geometric prior for subsequent localization and line completion. 
+
+Problem formulation. At time t, for each class c ∈{pedestrian crossing , lane divider , road boundary }, the net-work outputs a set of predicted polylines, optionally with persistent IDs: 
+
+Vct = {(Γ ct,i , id ct,i )}N ct
+
+> i=1
+
+, (1a) 
+
+Γct,i = [ p1, . . . , p Ki ], pk ∈ R2. (1b) Here, Vct denotes the per-frame vectorized map output of class c at time t, and each element (Γ ct,i , id ct,i ) consists of the polyline geometry and an optional persistent ID. Γct,i is the 
+
+i-th predicted polyline of class c, represented as an ordered sequence of 2D vertices in the ego-centric BEV frame, with the vertex order following the polyline arc length. N ct is the number of predicted polylines of class c at time t, and Ki is the number of vertices in the i-th polyline. We use an externally provided ego pose reference ˆTt
+
+to transform predicted polylines from the ego-centric BEV frame to a unified global scene frame. Specifically, each polyline is transformed as 
+
+˜Γct,i = ˆTt ◦ Γct,i . (2) For each class, we maintain a global set of scene-level polylines Gc = {Gcj }M c 
+
+> j=1
+
+and an online association act :
+
+{1, . . . , N ct } → { 1, . . . , M c} ∪ { ∅}. Here, M c is the cur-rent number of global polylines for class c. act (i) = j indi-cates that the current polyline ˜Γct,i is associated with the j-th global element Gcj , and act (i) = ∅ indicates no match. To measure geometric consistency between a current-frame polyline and a global polyline, we define a symmetric nearest-neighbor discrepancy on sampled points. Let Sδ (·)
+
+denote arc-length sampling with step size δ. The directed average distance is 
+
+d(˜Γ → G) = 1
+
+|Sδ (˜Γ) |
+
+X 
+
+> x∈Sδ(˜Γ)
+
+min   
+
+> y∈Sδ(G)
+
+∥x − y∥, (3) and the symmetric discrepancy is 
+
+D(˜Γ, G ) = 12
+
+
+
+d(˜Γ → G) + d(G → ˜Γ) 
+
+
+
+. (4) Here ˜Γ and G denote a transformed current-frame polyline and a candidate global polyline, respectively. This discrep-ancy is used in the subsequent same-class association and geometry-preserving map update. 
+
+Online mapping. For each class c, we incrementally update the global vector map using the current-frame poly-lines in Vct . (1) Coordinate unification: Each current-frame polyline Γct,i is transformed to the unified global scene frame using the ego pose reference, yielding ˜Γct,i . (2) Association: 
+
+If a persistent ID is available, the current polyline is associ-ated with the corresponding global element by ID. Otherwise, same-class geometric association is performed by matching the current polyline to the best-matching global polyline using the discrepancy defined above, subject to an associa-tion threshold. If no candidate satisfies the threshold, a new global element is initialized. Very short one-frame fragments are suppressed to reduce spurious map growth. (3) Incre-mental merge: For each matched pair, the associated global element is updated by incorporating samples from the current polyline and removing near-duplicate samples within a small tolerance, optionally with local averaging. This preserves local geometric consistency while controlling map size. (4) 
+
+Topology preservation: To bridge small gaps, nearby end-points are snapped only under class and locality constraints, and only when endpoint distance and tangent-direction con-sistency satisfy predefined thresholds. This reduces frag-mentation while avoiding erroneous over-connection. (5) 
+
+Resampling and simplification: Near-uniform arc-length re-sampling is followed by polyline simplification to obtain compact yet geometrically faithful global curves. Finally, the union G = S 
+
+> c
+
+Gc forms the sparse global vector map used for subsequent localization and line completion. 
+
+3.2. Localization and Line Completion 
+
+Given the frame-level vectors Vct = {(Γ ct,i , id ct,i )} and the global polylines Gc = {Gcj } for classes c ∈{pedestrian crossing , lane divider , road boundary }, we pro-cess these 2D vectorized representations in two steps: (i) class-constrained 2D localization to estimate the current pose alignment to the global vector map, and (ii) line completion to recover missing local line geometry using the aligned global vector map prior. In this section, Vct denotes the current frame to be localized and completed with respect to the previously constructed global vector map, and is not restricted to the frames used during the map construction. 
+
+Class-constrained localization. We first resample all polylines with arc-length step δ. For each class c, this yields (i) a current-frame sampled point set Xc = {xn} and (ii) a sampled point set from the global vector map Yc = {ym}.In addition, for the global vector map we form a class-wise segment set Sc by converting each global polyline into line segments between adjacent sampled vertices. Let θ = ( tx, t y , ϕ ) denote the 2D pose alignment parame-ters, with planar rotation R(ϕ) and translation t = [ tx, t y ]⊤.Here, θ is the pose-alignment variable optimized in the lo-calization stage, and the transformation maps the sampled points from the current-frame vector polylines to the global scene frame for correspondence search against the global vector map. The transformed current-frame points are 
+
+ˆXc(θ) = {R(ϕ)x + t | x ∈ Xc}.
+
+To improve alignment robustness and reduce one-sided matching bias, we use a bidirectional objective with two com-plementary terms: a forward term that aligns transformed current-frame observations to the global vector map, and a 
+
+backward term that enforces reverse consistency from the global map to the transformed current-frame observations. For the forward term, we measure point-to-segment dis-crepancy from transformed current-frame sampled points to line segments of the global vector map: 
+
+df (Xc, Sc; θ) = 1
+
+|Xc|
+
+X
+
+> x∈Xc
+
+ρ
+
+
+
+min  
+
+> s∈S c
+
+dseg 
+
+ R(ϕ)x + t, s 
+
+,
+
+(5) where dseg (p, s ) denotes the Euclidean distance from point 
+
+p to line segment s, and ρ is a robust loss. For the backward term, we use sampled points from the global vector map and measure point-to-point discrepancy from these sampled points to the transformed current-frame sampled points: 
+
+db(Yc, Xc; θ) = 1
+
+|Yc|
+
+X
+
+> y∈Yc
+
+ρ
+
+
+
+min  
+
+> x∈Xc
+
+∥R(ϕ)x + t − y∥
+
+
+
+.
+
+(6) We estimate the pose by minimizing the class-weighted bidirectional objective: 
+
+ˆθ = arg min 
+
+> θ
+
+X
+
+> c
+
+wc[df (Xc, Sc; θ) + db(Yc, Xc; θ)] , (7) where wc denotes the class weight. Classes with empty or insufficient sampled points and segments are skipped. In the Iterative Closest Point (ICP)-style solver, corre-spondence search is restricted within the same class and gated by a class-wise threshold rc. Here, wc balances the contribution of different semantic classes in the objective, rc
+
+limits class-wise correspondence search in the solver, and ρ
+
+suppresses the influence of outlier correspondences. Eq. (7) is optimized approximately using the class-constrained alter-nating procedure in Algorithm 1. In Algorithm 1, BuildCorr 
+
+constructs class-wise gated correspondences using forward point-to-segment projection and backward point-to-point nearest-neighbor matching. RobustWeights computes corre-spondence weights from residuals using class weights {wc}
+
+and robust loss ρ. WeightedProcrustes denotes a weighted 2D rigid alignment update that estimates the rotation and translation minimizing the weighted squared residuals over the current correspondence set. PoseDiff measures the pose update using a scaled norm that balances translation and rotation units. For brevity, {rc}, {wc}, and ρ are omitted from the input list of Algorithm 1, but are used internally by 
+
+BuildCorr and RobustWeights .In our implementation, we further use a coarse-to-fine schedule: a coarse stage using only road boundary geometry with a relaxed gate, followed by an all-class refinement stage with tighter class-wise gates. The final pose is obtained by composing the two-stage transforms. 
+
+Line completion. After localization, we apply ˆθ to Vct
+
+and obtain transformed current-frame vectors in the global scene frame. For each global polyline Gcj , we evaluate cov-erage along its arc-length parameterization using segments induced by the transformed current-frame polylines within a narrow buffer around Gcj , and identify uncovered intervals. We then complete missing line geometry using a gap-length-dependent strategy. Gaps shorter than a threshold η
+
+are bridged directly, while longer intervals are completed by splicing the corresponding segments from the global polyline under endpoint continuity and tangent-direction continuity constraints. This yields a line-completed vector map eVct in the global scene frame, providing a more continuous and ge-ometrically complete vector map for foreground perception. 
+
+3.3. Augmented Foreground Perception 
+
+Once the line-completed vector map is obtained, LG-FA uses the refined ego pose estimated in the localization stage to reproject the current-frame ego vehicle and all detected ob-jects into the coordinate frame of the completed map. In this way, the current perception results and the line-completed vector map share a common global reference frame. The ego position and object bounding boxes are then overlaid onto the completed lane dividers, road boundaries, and pedestrian crossings. We refer to this combined description as an aug-mented foreground perception . Figure 3 shows an example of an augmented foreground perception view, where the ego ve-hicle and detected objects are overlaid on the line-completed vector map. The quality of the augmented foreground per-ception relies on both refined localization and map complete-ness. Refined localization improves geometric alignment accuracy, ensuring that the ego vehicle and detected objects are projected to more accurate and geometrically consistent locations in the map frame. The line-completed vector map, in turn, provides continuous lane-level and boundary-level context even when local observations are sparse or frag-mented under degraded visibility conditions. Together, they yield a more accurate and stable geometric interpretation of foreground perception. This augmented foreground perception provides a more stable structural interface for downstream processing. Under poor visibility, frame-wise perception in the original vehicle-centric frame is often sparse or noisy, leading to inconsistent scene interpretation across frames. After reprojection, both the ego state and surrounding objects are anchored to a con-tinuous and globally consistent road geometry, so that sub-sequent modules can operate on a more robust scene frame instead of a drifting local frame with missing structure. In this work, we focus on improving current-frame foreground perception quality through geometric alignment and context 
+
+Algorithm 1 Class-Constrained Localization 
+
+Require: class-wise current sampled points {Xc}, class-wise global sampled points {Yc}, class-wise global segments {S c}, initial pose θ0, max iterations K, con-vergence tolerance εconv 
+
+Ensure: estimated alignment pose ˆθ 
+
+> 1:
+
+θ ← θ0 
+
+> 2:
+
+for k = 1 to K do  
+
+> 3:
+
+P ← BuildCorr( θ) 
+
+> 4:
+
+if P = ∅ then  
+
+> 5:
+
+break  
+
+> 6:
+
+end if  
+
+> 7:
+
+w ← RobustWeights( P, θ ) 
+
+> 8:
+
+θnew ← WeightedProcrustes( P, w) 
+
+> 9:
+
+if PoseDiff( θnew , θ ) < ε conv then  
+
+> 10:
+
+θ ← θnew  
+
+> 11:
+
+break  
+
+> 12:
+
+end if  
+
+> 13:
+
+θ ← θnew  
+
+> 14:
+
+end for  
+
+> 15:
+
+return ˆθ ← θ 
+
+> Figure 3. Ego position (red icon) and detected objects (yellow boxes) reprojected onto the completed map. Colored dashed curves denote the constructed global vector map, while black solid lines indicate the incomplete map predictions from the current frame. Together they form the augmented foreground perception.
+
+completion, rather than explicitly modeling or evaluating downstream prediction or planning. 
+
+# 4. Experiments 
+
+We conduct extensive experiments on LG-FA using the nuScenes dataset [ 3]. All experiments are conducted on a server equipped with an Intel Xeon Platinum 8468 CPU and 4 × NVIDIA A100 80GB GPUs (CUDA 12.8). First, we construct a global vector map by fusion of per-frame BEV vector predictions and compare it with ground truth to assess geometric consistency and scale stability. This fused map serves as a lightweight geometric prior for localization and line completion. Second, we evaluate alignment and line completion under different initialization noise levels. Third, we quantitatively evaluate foreground perception en-hancement using a completion rate metric. The complete source code can be made publicly available upon request or if required, while the backbone checkpoint may be subject to licensing constraints. (a) Scene-0036 (b) Scene-0096 (c) Scene-0927 (d) Scene-1069 
+
+> Ground Truth LG-FA (Ours) Figure 4. Qualitative comparison of our constructed global vector maps with ground truth across four scenes from nuScenes. Table 1. Global vector map quality on the nuScenes validation split. We report mean/median/90th percentile per class (computed on scenes where both ground truth and prediction contain that class).
+
+Class N Chamfer (m) Scale Error (%) Ped. crossing 99 2.16/0.55/3.35 3.2/1.1/5.8 Divider 150 0.68/0.49/1.28 1.5/0.9/2.7 Boundary 149 0.68/0.53/1.22 1.7/1.0/3.1 
+
+4.1. Experiment Setup 
+
+Dataset. We use the nuScenes dataset [ 3], strictly following the official train/val/test split for training and evaluation. The mapping experiments cover both North American and Singa-pore city regions included in nuScenes. For localization ro-bustness evaluation (pose refinement within mapping), since nuScenes provides accurate vehicle poses, we follow [ 5] and inject Gaussian noise with standard deviations σxy = 1 mand σθ = 2 ◦, scaled by α ∈ [1 , 3] to control difficulty. In addition, we include representative rain and nighttime scenes from the official validation split for qualitative analysis under low-visibility conditions. 
+
+Mapping baseline and metrics. For mapping, we com-pare our constructed global vector map with a reference global map built from the official nuScenes vector map lay-ers under the same alignment protocol, evaluating geomet-ric consistency and scale stability. We evaluate geometric consistency using Chamfer Distance , following common practice in vectorized map evaluation exemplified by Vec-torMapNet [ 16 ]. Chamfer Distance measures the average bidirectional point-wise deviation between the predicted and ground-truth polylines, and is representative of the overall geometric accuracy for the majority of scenes. We further re-port the global Scale Error in percent, defined as |1−s|× 100 ,following ORB-SLAM3 [ 4], where s is the estimated scale factor after similarity alignment between the predicted and ground truth maps. 
+
+Localization baseline and metrics. For localization, we use GNSS as the initialization baseline, and compare against ICP [ 1 ] and NDT [ 2 ] as registration-based refine-ment baselines. All methods are evaluated under the same initialization noise levels and on the same data to ensure a fair comparison. We report translation error (m) and head-ing error (deg) as the primary accuracy metrics. In Table 2, we evaluate frame-wise 2D rigid alignment on the ground plane (x, y, yaw) between the current-frame local vector map and the constructed global vector map. The global vector map is loaded from the merged polyline JSON (represented in the last-frame ego coordinates) and is transformed into each target frame using nuScenes ego poses; thus the ground truth transform in the target-ego frame is identity. The local vector map comes from the per-frame polyline prediction of the same scene and frame. We densify polylines with a 0.2 m step and cap the number of points for efficiency (global/local: 40k/20k; NDT source: 8k; frames with fewer than 30 points are skipped). All methods start from the same noisy initialization (GNSS): for each noise scale α, we apply 
+
+K = 8 deterministic perturbations (translations in ±x/ ± y
+
+and yaw in ± directions) with magnitudes 1.0α m and 2.0α◦,respectively. ICP runs 20 iterations with a 2.0 m correspon-dence radius and a 0.7 trimming ratio. NDT uses a 1.0 m grid resolution with 20 iterations. Our method performs class-aware point-to-segment matching with a coarse-to-fine schedule (8 coarse + 15 fine iterations) and class-specific gates (coarse boundary gate 4.0 m; fine gates 1.5/1.5/1.8 m for crossing/divider/boundary). We report per-frame errors averaged over the K perturbations and aggregate over frames using the mean. 
+
+4.2. Evaluation of Global Vector Map Quality 
+
+As shown in Table 1, we report not only the mean but also the median and 90th percentile of map quality metrics to char-acterize the full error distribution. Lane dividers and road boundaries are stable across most sequences: their Chamfer medians are 0.49 m and 0.53 m, and the 90th percentiles remain within 1.28 m and 1.22 m, respectively. Pedestrian (a) (b) (c) (d)        
+
+> step1 step3 step2 step1 step3 step2 step1 step3 step2 step1 step3 step2 Figure 5. Visualization of LG-FA localization and line completion under diverse conditions on the nuScenes validation split. Each case illustrates how LG-FA aligns the current-frame vector map with the global vector map and recovers missing structures in clear-weather (a), nighttime (b), and rainy scenes (c–d), often improving the continuity of pedestrian crossings, lane dividers, and road boundaries. Table 2. Localization robustness vs. noise scale α(σxy = 1 m×α,
+> σθ= 2 ◦×α). GNSS denotes the noisy initial pose.
+
+α Translation error (m) ↓ Heading error (deg) ↓
+
+GNSS ICP NDT Ours GNSS ICP NDT Ours 
+
+1 2.01 1.51 0.62 0.33 2.57 1.22 0.96 0.24 
+
+2 4.02 3.27 1.29 0.72 5.13 1.92 1.34 0.85 
+
+3 6.03 4.52 3.02 1.08 7.70 2.51 2.85 1.59 
+
+crossings exhibit a heavier-tailed distribution (median 0.55 m vs. mean 2.16 m), indicating that a smaller subset of chal-lenging scenes dominates the average; these cases often involve fragmented markings or ambiguous endpoints that lead to larger polyline mismatches. Scale error remains con-sistently low across all classes: dividers show 1.5/0.9/2.7% (mean/median/90th), boundaries 1.7/1.0/3.1%, and pedes-trian crossings 3.2/1.1/5.8%. These statistics provide a more comprehensive view of performance and support the use of the constructed global vector map as a reliable geometric prior for subsequent localization and line completion. Figure 4 visualizes the same four scenes as in the ta-ble. The background is a grayscale point cloud, and vector maps are overlaid in a unified coordinate frame. Compared with ground truth, lane dividers and road boundaries show continuous coverage on straights and gentle curves, with curvature changes and road trajectories in agreement. At complex intersections, elements such as channelizing islands and crosswalks are also largely aligned, with only minor gaps or endpoint offsets in a few occluded or worn regions. For clarity, both ground truth and our results use the same color scheme: red for lane dividers, green for road bound-aries, and blue for pedestrian crossings. These visualizations are consistent with the quantitative findings and indicate that the constructed global vector map has reliable geometric consistency and scale stability. 
+
+4.3. Localization Accuracy and Line Completion 
+
+After verifying the geometric consistency of the constructed global vector map, we further evaluate the alignment (pose refinement) accuracy and line completion of LG-FA. Table 2 reports localization accuracy under different initialization noise levels, using GNSS as the noisy initialization and comparing LG-FA with ICP [ 1 ] and NDT [ 2] as registration-based refinement baselines. Across all noise levels, LG-FA consistently achieves the lowest translation and heading errors, demonstrating robust convergence even under severe pose perturbations. While ICP and NDT rapidly degrade as initialization noise increases, LG-FA maintains stable and accurate alignment by leveraging both the global vector map prior and class-constrained matching. These results indicate that LG-FA achieves reliable alignment under large initialization noise, providing a consistent geometric basis for subsequent line completion. Fig. 5 illustrates four representative cases from the vali-dation split, including one clear-weather, one nighttime, and two rainy scenes. In all cases, road markings are either miss-ing or barely visible due to adverse weather or illumination. Each case shows three sequential steps: Step1 displays the front-camera view overlaid with the current-frame vector map predicted by the base perception backbone, which ap-pears incomplete due to limited visibility or missing lane markings; Step2 shows the BEV view, where the current-frame vector map (black solid lines) is aligned to the global vector map prior (colored dashed lines) and missing regions are completed; Step3 projects the enhanced geometry back into the front-camera view, often revealing improved continu-ity of pedestrian crossings, dividers, and boundaries. These qualitative examples illustrate how LG-FA uses a lightweight global vector map prior to recover missing geometric con-text and form a more stable map-aligned representation for foreground perception under degraded visibility conditions. 
+
+4.4. Evaluation of Foreground Perception 
+
+To quantify the impact of LG-FA on foreground perception without modifying the base perception backbone, we com-pare the full LG-FA pipeline against a pose-only mapping baseline. The baseline builds the global vector map by di-rectly transforming and merging per-frame predictions using the raw nuScenes ego poses, i.e., without alignment (map-based pose refinement) and without line completion. We evaluate the completion rate, defined as the ratio of detected Ped.crossing Divider Boundary Avg      
+
+> (all)
+> 0
+> 20
+> 40
+> 60
+> 80
+> 100
+> Completion Rate (%)  Per-class Summary
+> +69.0% +79.9% +61.1% +70.0%
+> w/o LG-FA w/ LG-FA Figure 6. Completion rate comparison between the pose-only base-line (w/o LG-FA) and the full LG-FA pipeline on the nuScenes validation split (150 scenes). LG-FA consistently improves geomet-ric completeness across all three classes, with substantial gains in pedestrian crossings (+69.0%), lane dividers (+79.9%), and road boundaries (+61.1%).
+
+geometric elements relative to the maximum achievable cov-erage, averaged across all validation scenes. As shown in Fig. 6, LG-FA substantially improves the geometric completeness of foreground perception across all three semantic classes. For pedestrian crossings, the completion rate increases from 30.5% to 99.5% (+69.0%), indicating that the pose-only baseline frequently misses or fragments crossing regions that LG-FA successfully recovers through line completion. Lane dividers show the largest rel-ative improvement, rising from 20.1% to 100.0% (+79.9%), demonstrating that alignment refinement and completion are particularly effective for continuous lane-line structures. Road boundaries improve from 38.9% to 100.0% (+61.1%), reflecting enhanced detection of road edges that are often occluded or weakly visible in single-frame observations. In summary, LG-FA achieves a +70.0% overall improve-ment across all classes. These results demonstrate that the combination of class-constrained localization and line completion enables LG-FA to recover substantially more complete geometric structures than pose-only aggregation, thereby improving the geometric reliability and complete-ness of foreground perception. 
+
+4.5. LG-FA for Autonomous Driving 
+
+In this work, we focus our quantitative evaluation on the geometric completeness, temporal stability, and localization accuracy of the reconstructed foreground, as these properties are critical prerequisites for many downstream autonomy modules. Leveraging the constructed global vector map and accurate ego localization, LG-FA enables downstream planning to operate in augmented foreground perception. Specifically, after projecting the ego vehicle and detected objects into a unified global coordinate frame, we provide this augmented foreground perception to downstream mod-ules for motion forecasting and ego planning. The predicted object trajectories and planned ego path are then visualized 
+
+> Figure 7. A qualitative example of downstream planning on LG-FA augmented foreground perception in the global map frame. Predicted object trajectories and the planned ego path are overlaid on augmented lanes and road boundaries. Left: front camera view. Right: BEV view.
+
+over the augmented global lanes and road boundaries, as illustrated in Fig. 7. The left subfigure presents the front camera view, while the right subfigure shows the correspond-ing BEV representation. This visualization highlights the planning behavior expressed in the global map frame, where the planner can leverage a continuous and geometrically consistent structural context—even when lane markings or boundary cues are weak or partially missing in raw sensor observations. A comprehensive trajectory-level evaluation of downstream decision-making and control performance will be conducted in future work to further validate the system-level benefits of LG-FA. 
+
+# 5. Conclusion 
+
+Unlike approaches that rely on navigation systems or high-definition maps to complete the current scene, LG-FA is an inference-time module for scene completion in BEV-based end-to-end autonomous driving. It constructs a lightweight background map from historical BEV vectors, refines ego pose via class-constrained alignment, and augments frag-mented topology. On nuScenes, LG-FA improves geometric completeness, temporal stability, and localization accuracy, providing stable map-aligned context under incomplete on-line perception. 
+
+# References       
+
+> [1] Paul J Besl and Neil D McKay. Method for registration of 3-d shapes. In Sensor Fusion IV: Control Paradigms and Data Structures , pages 586–606. SPIE, 1992. 2, 6, 7 [2] Peter Biber and Wolfgang Straßer. The normal distributions transform: A new approach to laser scan matching. In Pro-ceedings 2003 IEEE/RSJ International Conference on Intel-ligent Robots and Systems (IROS 2003) , pages 2743–2748. IEEE, 2003. 2, 6, 7 [3] Holger Caesar, Varun Bankiti, Alex H. Lang, Sourabh Vora, Venice Erin Liong, Qiang Xu, Anush Krishnan, Yu Pan, Gian-carlo Baldan, and Oscar Beijbom. nuScenes: A multimodal dataset for autonomous driving. In IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , pages 11621–11631, 2020. 5, 6
+
+[4] Carlos Campos, Richard Elvira, Juan J. G ´omez Rodr ´ıguez, Jos ´e M. M. Montiel, and Juan D. Tard ´os. Orb-slam3: An accurate open-source library for visual, visual–inertial, and multi-map slam. IEEE Transactions on Robotics , 37(6):1874– 1890, 2021. 2, 6 [5] Jiqian Dong, Qi Chen, Deyuan Qu, Hongsheng Lu, Akila Gan-lath, Qing Yang, Sikai Chen, and Samuel Labi. Lidar-based cooperative relative localization. In 2023 IEEE Intelligent Vehicles Symposium (IV) , pages 1–8. IEEE, 2023. 2, 6 [6] Babak Ebrahimi Soorchaei, Mahdi Razzaghpour, Rodolfo Valiente, Arash Raftari, and Yaser Pourmohammadi Fallah. High-definition map representation techniques for automated vehicles. Electronics , 11(20):3374, 2022. 2 [7] Gamal Elghazaly, Rapha ¨el Frank, Scott Harvey, and Stefan Safko. High-definition maps: Comprehensive survey, chal-lenges, and future perspectives. IEEE Open Journal of Intelli-gent Transportation Systems , 4:527–550, 2023. 2 [8] Shengchao Hu, Li Chen, Penghao Wu, Hongyang Li, Junchi Yan, and Dacheng Tao. St-p3: End-to-end vision-based au-tonomous driving via spatial-temporal feature learning. In 
+
+European Conference on Computer Vision , pages 533–549. Springer, 2022. 1, 2 [9] Yihan Hu, Jiazhi Yang, Li Chen, Keyu Li, Chonghao Sima, Xizhou Zhu, Siqi Chai, Senyao Du, Tianwei Lin, Wenhai Wang, et al. Planning-oriented autonomous driving. In Pro-ceedings of the IEEE/CVF conference on computer vision and pattern recognition , pages 17853–17862, 2023. 2 [10] Bo Jiang, Songtao Chen, Qinhong Xu, et al. Vad: Vector-ized scene representation for efficient autonomous driving. In IEEE/CVF International Conference on Computer Vision (ICCV) , 2023. 1, 2 [11] Nayeon Kim, Jinhyeok Park, Jaeyoung Lee, and Sungroh Yoon. Online vectorized hd map construction with clip-level token interaction and propagation. In Advances in Neural Information Processing Systems (NeurIPS) , 2024. 2 [12] Jinlong Li, Runsheng Xu, Jin Ma, Qin Zou, Jiaqi Ma, and Hongkai Yu. Domain adaptive object detection for au-tonomous driving under foggy weather. In Proceedings of the IEEE/CVF winter conference on applications of computer vision , pages 612–622, 2023. 1, 2 [13] Qi Li, Yue Wang, Yilun Wang, and Hang Zhao. Hdmapnet: An online hd map construction and evaluation framework. In 
+
+IEEE International Conference on Robotics and Automation (ICRA) , 2022. 2 [14] Bencheng Liao, Shaoyu Chen, Xinggang Wang, Tianheng Cheng, Qian Zhang, Wenyu Liu, and Chang Huang. Maptr: Structured modeling and learning for online vectorized hd map construction. arXiv preprint arXiv:2208.14437 , 2022. 2 [15] Xiangyu Liu, Shuo Wang, Wei Li, et al. Mgmap: Mask-guided learning for online vectorized hd map construction. In IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , 2024. 2 [16] Yicheng Liu, Tao Yuan, Yizhou Wang, Yue Wang, and Hang Zhao. Vectormapnet: End-to-end vectorized hd map learning. In International Conference on Machine Learning (ICML) ,2023. 2, 6 [17] Hanchen Lyu, Yilun Liu, He Wang, and Liang He. Online high-definition map construction for autonomous vehicles: A survey. Vehicles , 14(1), 2025. 2 [18] Aboli Marathe, Deva Ramanan, Rahee Walambe, and Ke-tan Kotecha. Wedge: A multi-weather autonomous driving dataset built from generative vision-language models. In Pro-ceedings of the IEEE/CVF conference on computer vision and pattern recognition , pages 3318–3327, 2023. 1, 2 [19] Kun Tang, Xu Cao, Zhipeng Cao, Tong Zhou, Erlong Li, Ao Liu, Shengtao Zou, Chang Liu, Shuqi Mei, Elena Sizikova, et al. Thma: Tencent hd map ai system for creating hd map annotations. In Proceedings of the AAAI Conference on Arti-ficial Intelligence , pages 15585–15593, 2023. 2 [20] Zetong Yang, Li Chen, Yanan Sun, and Hongyang Li. Visual point cloud forecasting enables scalable autonomous driving. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 14673–14684, 2024. 1, 2 [21] Keisuke Yoneda, Naoki Suganuma, Ryo Yanase, and Moham-mad Aldibaja. Automated driving recognition technologies for adverse weather conditions. IATSS research , 43(4):253– 262, 2019. 1 [22] Tao Yuan, Zhe Chen, Junjie Zhang, et al. Streammapnet: Streaming mapping network for vectorized online hd map construction. In IEEE/CVF Winter Conference on Applica-tions of Computer Vision (WACV) , 2024. 2 [23] Yuxiao Zhang, Alexander Carballo, Hanting Yang, and Kazuya Takeda. Perception and sensing for autonomous vehicles under adverse weather conditions: A survey. IS-PRS Journal of Photogrammetry and Remote Sensing , 196: 146–177, 2023. 1 [24] Rui Zhao, Huibin Yan, and Shuoyao Wang. Revisiting domain-adaptive object detection in adverse weather by the generation and composition of high-quality pseudo-labels. In 
+
+European Conference on Computer Vision , pages 270–287. Springer, 2024. 1, 2 [25] Wenzhao Zheng, Ruiqi Song, Xianda Guo, Chenming Zhang, and Long Chen. Genad: Generative end-to-end autonomous driving. In European Conference on Computer Vision , pages 87–104. Springer, 2024. 1, 2
