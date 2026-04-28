@@ -6,67 +6,74 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-04-27
-- 运行时间：2026-04-27 20:31:36 UTC
+- 最新运行日期：2026-04-28
+- 运行时间：2026-04-28 20:49:09 UTC
 - 运行状态：成功
-- 本次总论文数：15
-- 精读区：4
+- 本次总论文数：17
+- 精读区：6
 - 速读区：11
 
 ### 今日简报（AI）
-今日聚焦 15 篇前沿成果，深度探讨了冻结 LLM 在车辆轨迹预测中的时空推理能力及基础设施定位新框架。
-满分论文展示了大模型在地图感知上的惊人潜力，结合 Ufil 统一框架，为自动驾驶的精准预测与定位提供了双重保障。
-建议重点关注 LLM 与物理感知融合的趋势，探索如何利用通用智能解决长尾场景下的规划与能耗优化难题。
-- 详情：[/202604/27/README](/202604/27/README)
+- 今日共生成 17 篇推荐（精读 6 篇，速读 11 篇）
+- 精读：《Collaborative Trajectory Prediction via Late Fusion》（10.0/10）, 《ESIA: An Energy-Based Spatiotemporal Interaction-Aware Framework for Pedestrian Intention Prediction》（10.0/10）
+- 速读：《Learning Reactive Human Motion Generation from Paired Interaction Data Using Transformer-Based Models》（8.0/10）, 《ParkingScenes: A Structured Dataset for End-to-End Autonomous Parking in Simulation Scenes》（8.0/10）, 《Large Language Model based Interactive Decision-Making for Autonomous Driving》（8.0/10）
+- 这些结果覆盖了当下较热的方向，建议先看精读区论文的关键问题与方法。
+- 详情：[/202604/28/README](/202604/28/README)
 
 ### 精读区论文标签
-1. [Frozen LLMs as Map-Aware Spatio-Temporal Reasoners for Vehicle Trajectory Prediction](/202604/27/2604.21479v2-frozen-llms-as-map-aware-spatio-temporal-reasoners-for-vehicle-trajectory-prediction)  
+1. [Collaborative Trajectory Prediction via Late Fusion](/202604/28/2604.22973v1-collaborative-trajectory-prediction-via-late-fusion)  
    标签：评分：10.0/10、query:tp
-   evidence：大语言模型作为车辆轨迹预测的时空推理器
-2. [Ufil: A Unified Framework for Infrastructure-based Localization](/202604/27/2604.21471v1-ufil-a-unified-framework-for-infrastructure-based-localization)  
+   evidence：通过 V2V 实现交通智能体的协作轨迹预测
+2. [ESIA: An Energy-Based Spatiotemporal Interaction-Aware Framework for Pedestrian Intention Prediction](/202604/28/2604.23728v1-esia-an-energy-based-spatiotemporal-interaction-aware-framework-for-pedestrian-intention-prediction)  
+   标签：评分：10.0/10、query:tp
+   evidence：行人意图预测与时空交互感知框架
+3. [V-STC: A Time-Efficient Multi-Vehicle Coordinated Trajectory Planning Approach](/202604/28/2604.22196v1-v-stc-a-time-efficient-multi-vehicle-coordinated-trajectory-planning-approach)  
+   标签：评分：9.0/10、query:tp
+   evidence：多车协同轨迹规划方法
+4. [VLM-VPI: A Vision-Language Reasoning Framework for Improving Automated Vehicle-Pedestrian Interactions](/202604/28/2604.23934v1-vlm-vpi-a-vision-language-reasoning-framework-for-improving-automated-vehicle-pedestrian-interactions)  
+   标签：评分：9.0/10、query:tp
+   evidence：行人意图理解与避让感知控制
+5. [SceneSelect: Selective Learning for Trajectory Scene Classification and Expert Scheduling](/202604/28/2604.24514v1-sceneselect-selective-learning-for-trajectory-scene-classification-and-expert-scheduling)  
+   标签：评分：9.0/10、query:tp
+   evidence：针对不同场景异构性和交互模式的轨迹预测挑战
+6. [Semantic Step Prediction: Multi-Step Latent Forecasting in LLM Reasoning Trajectories via Step Sampling](/202604/28/2604.18464v1-semantic-step-prediction-multi-step-latent-forecasting-in-llm-reasoning-trajectories-via-step-sampling)  
    标签：评分：8.0/10、query:tp
-   evidence：基于基础设施的道路用户定位与预测
-3. [TRACE: Topology-aware Reconstruction of Accidents in CARLA for AV Evaluation](/202604/27/2604.22068v1-trace-topology-aware-reconstruction-of-accidents-in-carla-for-av-evaluation)  
-   标签：评分：8.0/10、query:tp
-   evidence：从事故报告中生成模拟轨迹
-4. [OccDirector: Language-Guided Behavior and Interaction Generation in 4D Occupancy Space](/202604/27/2604.22240v1-occdirector-language-guided-behavior-and-interaction-generation-in-4d-occupancy-space)  
-   标签：评分：8.0/10、query:tp
-   evidence：4D占据空间中的多智能体交互生成
+   evidence：通过潜空间预测来预报大语言模型的推理轨迹
 
 ### 速读区论文标签
-1. [DAG-STL: A Hierarchical Framework for Zero-Shot Trajectory Planning under Signal Temporal Logic Specifications](/202604/27/2604.18343v1-dag-stl-a-hierarchical-framework-for-zero-shot-trajectory-planning-under-signal-temporal-logic-specifications)  
+1. [Learning Reactive Human Motion Generation from Paired Interaction Data Using Transformer-Based Models](/202604/28/2604.22164v1-learning-reactive-human-motion-generation-from-paired-interaction-data-using-transformer-based-models)  
+   标签：评分：8.0/10、query:tp
+   evidence：在交互场景中基于他人动作生成个人动作
+2. [ParkingScenes: A Structured Dataset for End-to-End Autonomous Parking in Simulation Scenes](/202604/28/2604.22835v1-parkingscenes-a-structured-dataset-for-end-to-end-autonomous-parking-in-simulation-scenes)  
+   标签：评分：8.0/10、query:tp
+   evidence：用于自动驾驶系统的结构化停车轨迹
+3. [Large Language Model based Interactive Decision-Making for Autonomous Driving](/202604/28/2604.23513v1-large-language-model-based-interactive-decision-making-for-autonomous-driving)  
+   标签：评分：8.0/10、query:tp
+   evidence：用于决策的意图感知交互和多车场景语义建模
+4. [IntentVLM: Open-Vocabulary Intention Recognition through Forward-Inverse Modeling with Video-Language Models](/202604/28/2604.24002v1-intentvlm-open-vocabulary-intention-recognition-through-forward-inverse-modeling-with-video-language-models)  
+   标签：评分：8.0/10、query:tp
+   evidence：意图识别与目标候选生成
+5. [DM$^3$-Nav: Decentralized Multi-Agent Multimodal Multi-Object Semantic Navigation](/202604/28/2604.22014v1-dm3-nav-decentralized-multi-agent-multimodal-multi-object-semantic-navigation)  
    标签：评分：7.0/10、query:tp
-   evidence：利用轨迹数据在未知动力学下进行轨迹规划
-2. [Paparazzo: Active Mapping of Moving 3D Objects](/202604/27/2604.19556v1-paparazzo-active-mapping-of-moving-3d-objects)  
+   evidence：多智能体协作与导航意图交换
+6. [Towards Safe Mobility: A Unified Transportation Foundation Model enabled by Open-Ended Vision-Language Dataset](/202604/28/2604.22260v1-towards-safe-mobility-a-unified-transportation-foundation-model-enabled-by-open-ended-vision-language-dataset)  
    标签：评分：7.0/10、query:tp
-   evidence：为主动建图稳健地预测目标轨迹
-3. [Personalized electric vehicle energy consumption estimation framework that integrates driver behavior with map data](/202604/27/2604.20764v1-personalized-electric-vehicle-energy-consumption-estimation-framework-that-integrates-driver-behavior-with-map-data)  
+   evidence：用于交通分析的交通基础模型
+7. [Cross-Stage Coherence in Hierarchical Driving VQA: Explicit Baselines and Learned Gated Context Projectors](/202604/28/2604.22560v1-cross-stage-coherence-in-hierarchical-driving-vqa-explicit-baselines-and-learned-gated-context-projectors)  
    标签：评分：7.0/10、query:tp
-   evidence：特定驾驶员的速度预测和个人驾驶行为建模
-4. [Impact-Aware Model Predictive Control for UAV Landing on a Heaving Platform](/202604/27/2604.21078v1-impact-aware-model-predictive-control-for-uav-landing-on-a-heaving-platform)  
+   evidence：自动驾驶视觉问答中的预测阶段
+8. [ATRS: Adaptive Trajectory Re-splitting via a Shared Neural Policy for Parallel Optimization](/202604/28/2604.22715v1-atrs-adaptive-trajectory-re-splitting-via-a-shared-neural-policy-for-parallel-optimization)  
    标签：评分：7.0/10、query:tp
-   evidence：预测无人机在海上平台着陆的运动
-5. [Navigating the Clutter: Waypoint-Based Bi-Level Planning for Multi-Robot Systems](/202604/27/2604.21138v1-navigating-the-clutter-waypoint-based-bi-level-planning-for-multi-robot-systems)  
-   标签：评分：7.0/10、query:tp
-   evidence：密集环境下多机器人系统的航点轨迹规划
-6. [ReCAPA: Hierarchical Predictive Correction to Mitigate Cascading Failures](/202604/27/2604.21232v1-recapa-hierarchical-predictive-correction-to-mitigate-cascading-failures)  
-   标签：评分：7.0/10、query:tp
-   evidence：动作、子目标和轨迹的预测对齐
-7. [Re$^2$MoGen: Open-Vocabulary Motion Generation via LLM Reasoning and Physics-Aware Refinement](/202604/27/2604.17807v1-re2mogen-open-vocabulary-motion-generation-via-llm-reasoning-and-physics-aware-refinement)  
+   evidence：用于运动规划优化的自适应轨迹重分割
+9. [From Scene to Object: Text-Guided Dual-Gaze Prediction](/202604/28/2604.20191v1-from-scene-to-object-text-guided-dual-gaze-prediction)  
    标签：评分：6.0/10、query:tp
-   evidence：利用大模型推理生成角色的初始运动规划
-8. [CAARL: In-Context Learning for Interpretable Co-Evolving Time Series Forecasting](/202604/27/2604.18305v1-caarl-in-context-learning-for-interpretable-co-evolving-time-series-forecasting)  
+   evidence：自动驾驶认知建模中的驾驶员注意力与注视预测
+10. [Lexicographic Minimum-Violation Motion Planning using Signal Temporal Logic](/202604/28/2604.20428v1-lexicographic-minimum-violation-motion-planning-using-signal-temporal-logic)  
    标签：评分：6.0/10、query:tp
-   evidence：使用大语言模型和时间依赖图进行可解释的时间序列预测
-9. [HALO: Hybrid Auto-encoded Locomotion with Learned Latent Dynamics, Poincaré Maps, and Regions of Attraction](/202604/27/2604.18887v1-halo-hybrid-auto-encoded-locomotion-with-learned-latent-dynamics-poincar-maps-and-regions-of-attraction)  
+   evidence：具有冲突规范的自动驾驶车辆运动规划
+11. [SOLAR-RL: Semi-Online Long-horizon Assignment Reinforcement Learning](/202604/28/2604.22558v1-solar-rl-semi-online-long-horizon-assignment-reinforcement-learning)  
    标签：评分：6.0/10、query:tp
-   evidence：学习混合动力系统的潜空间降阶模型
-10. [Localization-Guided Foreground Augmentation in Autonomous Driving](/202604/27/2604.18940v1-localization-guided-foreground-augmentation-in-autonomous-driving)  
-   标签：评分：6.0/10、query:tp
-   evidence：增强自动驾驶中行人及道路边界的前景感知
-11. [ST-Prune: Training-Free Spatio-Temporal Token Pruning for Vision-Language Models in Autonomous Driving](/202604/27/2604.19145v1-st-prune-training-free-spatio-temporal-token-pruning-for-vision-language-models-in-autonomous-driving)  
-   标签：评分：6.0/10、query:tp
-   evidence：自动驾驶视觉语言模型的时空令牌剪枝
+   evidence：为多模态大模型智能体整合全局轨迹语义
 
 
 <div class="dpr-home-promo-card">
