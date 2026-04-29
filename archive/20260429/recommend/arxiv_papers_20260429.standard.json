@@ -1,0 +1,518 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-04-29T21:07:30.366541+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 2,
+    "deep_cap": 6,
+    "deep_selected": 2,
+    "quick_candidates": 22,
+    "quick_skim_target": 11,
+    "quick_selected": 11
+  },
+  "deep_dive": [
+    {
+      "id": "2604.23606v1",
+      "title": "Hamiltonian Graph Inference Networks: Joint structure discovery and dynamics prediction for lattice Hamiltonian systems from trajectory data",
+      "abstract": "Lattice Hamiltonian systems underpin models across condensed matter, nonlinear optics, and biophysics, yet learning their dynamics from data is obstructed by two unknowns: the interaction topology and whether node dynamics are homogeneous. Existing graph-based approaches either assume the graph is given or, as in $α$-separable graph Hamiltonian network, infer it only for separable Hamiltonians with homogeneous node dynamics. We introduce the Hamiltonian Graph Inference Network (HGIN), which jointly recovers the interaction graph and predicts long-time trajectories from state data alone, for both separable and non-separable Hamiltonians and under heterogeneous node dynamics. HGIN couples a structure-learning module -- a learnable weighted adjacency matrix trained under a Hamilton's-equations loss -- with a trajectory-prediction module that partitions edges into physically distinct subgraphs via $k$-means clustering, assigning each subgraph its own encoder and thereby breaking the parameter-sharing bottleneck of conventional GNNs. On three benchmarks -- a Klein--Gordon lattice with long-range interactions and two discrete nonlinear Schrödinger lattices (homogeneous and heterogeneous) -- HGIN reduces long-time energy prediction error and trajectory prediction error by six to thirteen orders of magnitude relative to baselines. A symmetry argument on the Hamiltonian loss further shows that the learned weights encode the parity of the underlying pair potential, yielding an interpretable readout of the system's interaction structure.",
+      "authors": [
+        "Ru Geng",
+        "Panayotis Kevrekidis",
+        "Yixian Gao",
+        "Hong-Kun Zhang",
+        "Jian Zu"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "math-ph"
+      ],
+      "published": "2026-04-26T08:37:10+00:00",
+      "link": "https://arxiv.org/pdf/2604.23606v1",
+      "tags": [
+        "keyword:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "predicts long-time trajectories from state data",
+      "llm_evidence_cn": "根据状态数据预测长期轨迹",
+      "llm_evidence": "根据状态数据预测长期轨迹",
+      "canonical_evidence": "根据状态数据预测长期轨迹",
+      "llm_tldr_en": "Jointly infers interaction graphs and predicts long-term trajectories for complex Hamiltonian systems.",
+      "llm_tldr_cn": "联合推断交互图并预测复杂哈密顿系统的长期轨迹。",
+      "llm_tldr": "联合推断交互图并预测复杂哈密顿系统的长期轨迹。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning and feature extraction",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2604.25329v1",
+      "title": "ProDrive: Proactive Planning for Autonomous Driving via Ego-Environment Co-Evolution",
+      "abstract": "End-to-end autonomous driving planners typically generate trajectories from current observations alone. However, real-world driving is highly dynamic, and such reactive planning cannot anticipate future scene evolution, often leading to myopic decisions and safety-critical failures. We propose ProDrive, a world-model-based proactive planning framework that enables ego-environment co-evolution for autonomous driving. ProDrive jointly trains a query-centric trajectory planner and a bird's-eye-view (BEV) world model end-to-end: the planner generates diverse candidate trajectories and planning-aware ego tokens, while the world model predicts future scene evolution conditioned on them. By injecting planner features into the world model and evaluating all candidates in parallel, ProDrive preserves end-to-end gradient flow and allows future outcome assessment to directly shape planning. This bidirectional coupling enables proactive planning beyond current-observation-driven decision-making. Experiments on NAVSIM v1 show that ProDrive outperforms strong baselines in both safety and planning efficiency, while ablations validate the effectiveness of the proposed ego-environment coupling design.",
+      "authors": [
+        "Chuyao Fu",
+        "Shengzhe Gan",
+        "Zhuoli Ouyang",
+        "Yuhan Rui",
+        "Xiaowei Chi",
+        "Sirui Han",
+        "Jiankun Wang",
+        "Hong Zhang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-04-28T07:46:30+00:00",
+      "link": "https://arxiv.org/pdf/2604.25329v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "World model predicts future scene evolution for trajectory planning",
+      "llm_evidence_cn": "世界模型预测未来场景演变以进行轨迹规划",
+      "llm_evidence": "世界模型预测未来场景演变以进行轨迹规划",
+      "canonical_evidence": "世界模型预测未来场景演变以进行轨迹规划",
+      "llm_tldr_en": "ProDrive uses a world model to predict future scene evolution for proactive autonomous driving trajectory planning.",
+      "llm_tldr_cn": "ProDrive 利用世界模型预测未来场景演变，实现自动驾驶的主动轨迹规划。",
+      "llm_tldr": "ProDrive 利用世界模型预测未来场景演变，实现自动驾驶的主动轨迹规划。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2604.20191v2",
+      "title": "From Scene to Object: Text-Guided Dual-Gaze Prediction",
+      "abstract": "Interpretable driver attention prediction is crucial for human-like autonomous driving. However, existing datasets provide only scene-level global gaze rather than fine-grained object-level annotations, inherently failing to support text-grounded cognitive modeling. Consequently, while Vision-Language Models (VLMs) hold great potential for semantic reasoning, this critical data limitations leads to severe text-vision decoupling and visual-bias hallucinations. To break this bottleneck and achieve precise object-level attention prediction, this paper proposes a novel dual-branch gaze prediction framework, establishing a complete paradigm from data construction to model architecture. First, we construct G-W3DA, a object-level driver attention dataset. By integrating a multimodal large language model with the Segment Anything Model 3 (SAM3), we decouple macroscopic heatmaps into object-level masks under rigorous cross-validation, fundamentally eliminating annotation hallucinations. Building upon this high-quality data foundation, we propose the DualGaze-VLM architecture. This architecture extracts the hidden states of semantic queries and dynamically modulates visual features via a Condition-Aware SE-Gate, achieving intent-driven precise spatial anchoring. Extensive experiments on the W3DA benchmark demonstrate that DualGaze-VLM consistently surpasses existing state-of-the-art (SOTA) models in spatial alignment metrics, notably achieving up to a 17.8% improvement in Similarity (SIM) under safety-critical scenarios. Furthermore, a visual Turing test reveals that the attention heatmaps generated by DualGaze-VLM are perceived as authentic by 88.22% of human evaluators, proving its capability to generate rational cognitive priors.",
+      "authors": [
+        "Zehong Ke",
+        "Yanbo Jiang",
+        "Jinhao Li",
+        "Zhiyuan Liu",
+        "Yiqian Tu",
+        "Qingwen Meng",
+        "Heye Huang",
+        "Jianqiang Wang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.RO"
+      ],
+      "published": "2026-04-22T05:11:59+00:00",
+      "link": "https://arxiv.org/pdf/2604.20191v2",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Driver attention and object-level gaze prediction for intent estimation",
+      "llm_evidence_cn": "驾驶员注意力与目标级视线预测用于意图估计",
+      "llm_evidence": "驾驶员注意力与目标级视线预测用于意图估计",
+      "canonical_evidence": "驾驶员注意力与目标级视线预测用于意图估计",
+      "llm_tldr_en": "Proposes a dual-branch framework for object-level driver attention prediction to improve autonomous driving reasoning.",
+      "llm_tldr_cn": "提出一种双分支驾驶员注意力预测框架，通过目标级视线分析提升自动驾驶的语义推理能力。",
+      "llm_tldr": "提出一种双分支驾驶员注意力预测框架，通过目标级视线分析提升自动驾驶的语义推理能力。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "target intent and goal estimation for trajectory prediction",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.19639v1",
+      "title": "Safety-Critical Contextual Control via Online Riemannian Optimization with World Models",
+      "abstract": "Modern world models are becoming too complex to admit explicit dynamical descriptions. We study safety-critical contextual control, where a Planner must optimize a task objective using only feasibility samples from a black-box Simulator, conditioned on a context signal $ξ_t$. We develop a sample-based Penalized Predictive Control (PPC) framework grounded in online Riemannian optimization, in which the Simulator compresses the feasibility manifold into a score-based density $\\hat{p}(u \\mid ξ_t)$ that endows the action space with a Riemannian geometry guiding the Planner's gradient descent. The barrier curvature $κ(ξ_t)$, the minimum curvature of the conditional log-density $-\\ln\\hat{p}(\\cdot\\midξ_t)$, governs both convergence rate and safety margin, replacing the Lipschitz constant of the unknown dynamics. Our main result is a contextual safety bound showing that the distance from the true feasibility manifold is controlled by the score estimation error and a ratio that depends on $κ(ξ_t)$, both of which improve with richer context. Simulations on a dynamic navigation task confirm that contextual PPC substantially outperforms marginal and frozen density models, with the advantage growing after environment shifts.",
+      "authors": [
+        "Tongxin Li"
+      ],
+      "primary_category": "eess.SY",
+      "categories": [
+        "eess.SY",
+        "cs.AI"
+      ],
+      "published": "2026-04-21T16:28:36+00:00",
+      "link": "https://arxiv.org/pdf/2604.19639v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Predictive control and world models for autonomous agent planning",
+      "llm_evidence_cn": "用于自主智能体规划的预测控制和世界模型",
+      "llm_evidence": "用于自主智能体规划的预测控制和世界模型",
+      "canonical_evidence": "用于自主智能体规划的预测控制和世界模型",
+      "llm_tldr_en": "Proposes a Penalized Predictive Control framework using Riemannian optimization for safety-critical autonomous control.",
+      "llm_tldr_cn": "提出了一种基于黎曼优化的惩罚预测控制框架，用于安全关键型的自主控制任务。",
+      "llm_tldr": "提出了一种基于黎曼优化的惩罚预测控制框架，用于安全关键型的自主控制任务。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.22851v1",
+      "title": "EgoDyn-Bench: Evaluating Ego-Motion Understanding in Vision-Centric Foundation Models for Autonomous Driving",
+      "abstract": "While Vision-Language Models (VLMs) have advanced highlevel reasoning in autonomous driving, their ability to ground this reasoning in the underlying physics of ego-motion remains poorly understood. We introduce EgoDyn-Bench, a diagnostic benchmark for evaluating the semantic ego-motion understanding of vision-centric foundation models. By mapping continuous vehicle kinematics to discrete motion concepts via a deterministic oracle, we decouple a model's internal physical logic from its visual perception. Our large-scale empirical audit spanning 20 + models, including closed-source MLLMs, open-source VLMs across multiple scales, and specialized VLAs, identifies a significant Perception Bottleneck: while models exhibit logical physical concepts, they consistently fail to accurately align them with visual observations, frequently underperforming classical non-learned geometric baselines. This failure persists across model scales and domain-specific training, indicating a structural deficit in how current architectures couple visual perception with physical reasoning. We demonstrate that providing explicit trajectory encodings substantially restores physical consistency across all evaluated models, revealing a functional disentanglement between vision and language: egomotion logic is derived almost exclusively from the language modality, while visual observations contribute negligible additional signal. This structural finding provides a standardized diagnostic framework and a practical pathway toward physically aligned embodied AI. Keywords: Ego-motion - Physical Reasoning - Foundation Models",
+      "authors": [
+        "Finn Rasmus Schäfer",
+        "Yuan Gao",
+        "Dingrui Wang",
+        "Thomas Stauner",
+        "Stephan Günnemann",
+        "Mattia Piccinini",
+        "Sebastian Schmidt",
+        "Johannes Betz"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.CL",
+        "cs.RO"
+      ],
+      "published": "2026-04-22T07:49:02+00:00",
+      "link": "https://arxiv.org/pdf/2604.22851v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "evaluating ego-motion and physical logic in multimodal foundation models for autonomous driving",
+      "llm_evidence_cn": "评估自动驾驶多模态大模型中的自车运动理解与物理逻辑",
+      "llm_evidence": "评估自动驾驶多模态大模型中的自车运动理解与物理逻辑",
+      "canonical_evidence": "评估自动驾驶多模态大模型中的自车运动理解与物理逻辑",
+      "llm_tldr_en": "Introduces a benchmark to evaluate how vision-centric foundation models understand vehicle kinematics and ego-motion.",
+      "llm_tldr_cn": "引入基准测试，评估视觉基础模型对车辆运动学和自车运动语义的理解能力。",
+      "llm_tldr": "引入基准测试，评估视觉基础模型对车辆运动学和自车运动语义的理解能力。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning based on multimodal large language model",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.21608v1",
+      "title": "ADMM-Based Distributed Kalman-like Observer with Applications to Cooperative Localization",
+      "abstract": "This paper addresses distributed state estimation for multi-agent systems with local and relative measurements, motivated by cooperative localization problems in which the global state dimension scales with the size of the network. We consider a Kalman-like observer in information form and introduce a sparsity-preserving prediction step based on an exponential forgetting factor, thereby avoiding the dense Riccati recursion of the standard information filter. The correction step is recast as a strongly convex quadratic program with structure induced by the sensing graph, which enables a distributed solution based on the alternating direction method of multipliers (ADMM). In the resulting scheme, each agent updates local copies of its own correction variable and those of its neighbors using only local communication, thus avoiding centralized matrix inversion and consensus over full global-state quantities. A two-time-scale stability analysis is developed for the interconnected observer: the reduced estimation-error dynamics are shown to be uniformly exponentially stable, the ADMM dynamics define an exponentially stable fast subsystem, and these properties are combined to establish uniform exponential stability of the overall distributed observer. Numerical simulations in a multi-agent cooperative localization scenario illustrate the performance of the proposed distributed observer.",
+      "authors": [
+        "Nicola De Carli",
+        "Nicola Bastianello",
+        "Dimos V. Dimarogonas"
+      ],
+      "primary_category": "eess.SY",
+      "categories": [
+        "eess.SY"
+      ],
+      "published": "2026-04-23T12:29:37+00:00",
+      "link": "https://arxiv.org/pdf/2604.21608v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Distributed state estimation and prediction for multi-agent systems",
+      "llm_evidence_cn": "多智能体系统的分布式状态估计与预测",
+      "llm_evidence": "多智能体系统的分布式状态估计与预测",
+      "canonical_evidence": "多智能体系统的分布式状态估计与预测",
+      "llm_tldr_en": "Proposes a distributed Kalman-like observer using ADMM for multi-agent state estimation and cooperative localization.",
+      "llm_tldr_cn": "提出一种基于ADMM的分布式卡尔曼观测器，用于多智能体系统的状态估计和协同定位。",
+      "llm_tldr": "提出一种基于ADMM的分布式卡尔曼观测器，用于多智能体系统的状态估计和协同定位。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "multi-agent trajectory forecasting and interaction modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.22875v1",
+      "title": "SketchVLM: Vision language models can annotate images to explain thoughts and guide users",
+      "abstract": "When answering questions about images, humans naturally point, label, and draw to explain their reasoning. In contrast, modern vision-language models (VLMs) such as Gemini-3-Pro and GPT-5 only respond with text, which can be difficult for users to verify. We present SketchVLM, a training-free, model-agnostic framework that enables VLMs to produce non-destructive, editable SVG overlays on the input image to visually explain their answers. Across seven benchmarks spanning visual reasoning (maze navigation, ball-drop trajectory prediction, and object counting) and drawing (part labeling, connecting-the-dots, and drawing shapes around objects), SketchVLM improves visual reasoning task accuracy by up to +28.5 percentage points and annotation quality by up to 1.48x relative to image-editing and fine-tuned sketching baselines, while also producing annotations that are more faithful to the model's stated answer. We find that single-turn generation already achieves strong accuracy and annotation quality, and multi-turn generation opens up further opportunities for human-AI collaboration. An interactive demo and code are at https://sketchvlm.github.io/.",
+      "authors": [
+        "Brandon Collins",
+        "Logan Bolton",
+        "Hung Huy Nguyen",
+        "Mohammad Reza Taesiri",
+        "Trung Bui",
+        "Anh Totti Nguyen"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-04-23T22:33:15+00:00",
+      "link": "https://arxiv.org/pdf/2604.22875v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Uses vision-language models for ball-drop trajectory prediction and visual reasoning",
+      "llm_evidence_cn": "利用视觉语言模型进行落球轨迹预测和视觉推理",
+      "llm_evidence": "利用视觉语言模型进行落球轨迹预测和视觉推理",
+      "canonical_evidence": "利用视觉语言模型进行落球轨迹预测和视觉推理",
+      "llm_tldr_en": "SketchVLM enables vision-language models to generate SVG overlays for visual reasoning tasks like trajectory prediction.",
+      "llm_tldr_cn": "SketchVLM 使视觉语言模型能够生成 SVG 覆盖层，用于轨迹预测等视觉推理任务。",
+      "llm_tldr": "SketchVLM 使视觉语言模型能够生成 SVG 覆盖层，用于轨迹预测等视觉推理任务。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning based on multimodal large language model",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.21640v1",
+      "title": "Task-specific Subnetwork Discovery in Reinforcement Learning for Autonomous Underwater Navigation",
+      "abstract": "Autonomous underwater vehicles are required to perform multiple tasks adaptively and in an explainable manner under dynamic, uncertain conditions and limited sensing, challenges that classical controllers struggle to address. This demands robust, generalizable, and inherently interpretable control policies for reliable long-term monitoring. Reinforcement learning, particularly multi-task RL, overcomes these limitations by leveraging shared representations to enable efficient adaptation across tasks and environments. However, while such policies show promising results in simulation and controlled experiments, they yet remain opaque and offer limited insight into the agent's internal decision-making, creating gaps in transparency, trust, and safety that hinder real-world deployment. The internal policy structure and task-specific specialization remain poorly understood. To address these gaps, we analyze the internal structure of a pretrained multi-task reinforcement learning network in the HoloOcean simulator for underwater navigation by identifying and comparing task-specific subnetworks responsible for navigating toward different species. We find that in a contextual multi-task reinforcement learning setting with related tasks, the network uses only about 1.5% of its weights to differentiate between tasks. Of these, approximately 85% connect the context-variable nodes in the input layer to the next hidden layer, highlighting the importance of context variables in such settings. Our approach provides insights into shared and specialized network components, useful for efficient model editing, transfer learning, and continual learning for underwater monitoring through a contextual multi-task reinforcement learning method.",
+      "authors": [
+        "Yi-Ling Liu",
+        "Melvin Laux",
+        "Mariela De Lucas Alvarez",
+        "Frank Kirchner",
+        "Rebecca Adam"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "cs.RO"
+      ],
+      "published": "2026-04-23T12:55:45+00:00",
+      "link": "https://arxiv.org/pdf/2604.21640v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "autonomous underwater navigation and multi-task RL",
+      "llm_evidence_cn": "自主水下导航与多任务强化学习",
+      "llm_evidence": "自主水下导航与多任务强化学习",
+      "canonical_evidence": "自主水下导航与多任务强化学习",
+      "llm_tldr_en": "Discovers task-specific subnetworks in RL for interpretable autonomous underwater vehicle navigation.",
+      "llm_tldr_cn": "在强化学习中发现任务特定子网络，以实现可解释的自主水下航行器导航。",
+      "llm_tldr": "在强化学习中发现任务特定子网络，以实现可解释的自主水下航行器导航。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "maritime vessel trajectory and path prediction algorithms",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.23308v1",
+      "title": "CODA: Coordination via On-Policy Diffusion for Multi-Agent Offline Reinforcement Learning",
+      "abstract": "Offline multi-agent reinforcement learning (MARL) enables policy learning from fixed datasets, but is prone to coordination failure: agents trained on static, off-policy data converge to suboptimal joint behaviours because they cannot co-adapt as their policies change. We introduce CODA (Coordination via On-Policy Diffusion for Multi-Agent Reinforcement Learning), a diffusion-based multi-agent trajectory generator for data augmentation that samples conditioned on the current joint policy, producing synthetic experience which reflects the evolving behaviours of the agents, thereby providing a mechanism for co-adaptation. We find that previous diffusion-based augmentation approaches are insufficient for fostering multi-agent coordination because they produce static augmented datasets that do not evolve as the current joint policy changes during training; CODA resolves this by more closely simulating on-policy learning and is a meaningful step toward coordinated behaviours in the offline setting. CODA is algorithm-agnostic and can be layered onto both model-free and model-based offline reinforcement learning pipelines as an augmentation module. Empirically, CODA not only resolves canonical coordination pathologies in continuous polynomial games but also delivers strong results on the more complex MaMuJoCo continuous-control benchmarks.",
+      "authors": [
+        "Marcel Hedman",
+        "Kale-ab Abebe Tessera",
+        "Juan Claude Formanek",
+        "Anya Sims",
+        "Riccardo Zamboni",
+        "Trevor McInroe",
+        "John Torr",
+        "Elliot Fosong"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "stat.ML"
+      ],
+      "published": "2026-04-25T13:49:43+00:00",
+      "link": "https://arxiv.org/pdf/2604.23308v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "diffusion-based multi-agent trajectory generator for interaction modeling",
+      "llm_evidence_cn": "基于扩散模型的多智能体轨迹生成与交互建模",
+      "llm_evidence": "基于扩散模型的多智能体轨迹生成与交互建模",
+      "canonical_evidence": "基于扩散模型的多智能体轨迹生成与交互建模",
+      "llm_tldr_en": "Uses diffusion models to generate multi-agent trajectories for better coordination in offline reinforcement learning.",
+      "llm_tldr_cn": "利用扩散模型生成多智能体轨迹，以增强离线强化学习中的协同能力。",
+      "llm_tldr": "利用扩散模型生成多智能体轨迹，以增强离线强化学习中的协同能力。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "multi-agent trajectory forecasting and interaction modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.21644v1",
+      "title": "An Adaptive Kalman Filter that Learns the Coloring Dynamics of the Process Noise",
+      "abstract": "In many applications of state estimation, the process noise is colored; this case is addressed by applying the standard Kalman filter (KF) to dynamics that are augmented with the coloring dynamics. The present paper considers the case where the coloring dynamics are unknown, which renders the estimates obtained from the standard approach suboptimal. To address this problem, the present paper proposes an adaptive technique based on the principle that, if the measurement noise is white, then the innovations sequence is white if and only if the process noise is white. Leveraging this fact, an Innovations-Whitening Adaptive Kalman Filter (IWAKF) is developed, which learns the process-noise coloring online. By embedding an unknown coloring filter in a state-augmentation framework, IWAKF adapts its parameters by minimizing the empirical autocorrelation of the innovations, thereby driving them toward whiteness and restoring near-optimality without prior knowledge of the coloring dynamics.",
+      "authors": [
+        "Mohammad Almuhaihi",
+        "Dennis Bernstein"
+      ],
+      "primary_category": "eess.SY",
+      "categories": [
+        "eess.SY",
+        "eess.SP"
+      ],
+      "published": "2026-04-23T12:59:13+00:00",
+      "link": "https://arxiv.org/pdf/2604.21644v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Adaptive Kalman filtering for state estimation in autonomous systems",
+      "llm_evidence_cn": "用于自主系统状态估计的自适应卡尔曼滤波技术",
+      "llm_evidence": "用于自主系统状态估计的自适应卡尔曼滤波技术",
+      "canonical_evidence": "用于自主系统状态估计的自适应卡尔曼滤波技术",
+      "llm_tldr_en": "Proposes an adaptive Kalman filter that learns unknown process noise coloring online to improve state estimation.",
+      "llm_tldr_cn": "提出一种自适应卡尔曼滤波器，通过在线学习未知的过程噪声着色特性来优化状态估计。",
+      "llm_tldr": "提出一种自适应卡尔曼滤波器，通过在线学习未知的过程噪声着色特性来优化状态估计。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.23532v1",
+      "title": "Emotion-Conditioned Short-Horizon Human Pose Forecasting with a Lightweight Predictive World Model",
+      "abstract": "Short-term human pose prediction plays a crucial role in interactive systems, assistive robots, and emotion-aware human-computer interaction[1-3]. While current trajectory prediction models primarily rely on geometric motion cues, they often overlook the underlying emotional signals influencing human motion dynamics[4-5]. This paper investigates whether facial expression-derived emotion embeddings can provide auxiliary conditional signals for short-term pose prediction. To further evaluate multimodal conditionation in a recursive prediction setting, we propose a lightweight autoregressive predictive world model that performs 15-step rolling pose prediction. This framework combines pose keypoints with emotion embeddings through a learnable gating mechanism and performs autoregressive unfolding prediction using a recurrent sequence model based on a two-layer LSTM architecture. Experiments were conducted on two small-scale pose-emotion video datasets: controlled motion sequences with minimal facial expression changes and, natural emotion-driven motion sequences with considerable facial expression changes. The results show that simple multimodal fusion does not consistently improve prediction accuracy, while normalized gating fusion significantly enhances the performance of emotion-driven motion sequences. Furthermore, counterfactual perturbation experiments demonstrate that the predicted trajectory exhibits measurable sensitivity to changes in multimodal input, suggesting that facial expression embeddings act as auxiliary conditional signals rather than redundant features. In summary, these results indicate that incorporating facial expression-derived emotion embeddings into emotion-conditional short-term pose prediction based on a lightweight predictive world model architecture is a feasible approach.",
+      "authors": [
+        "Jingni Huang",
+        "Peter Bloodsworth"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-04-26T04:56:45+00:00",
+      "link": "https://arxiv.org/pdf/2604.23532v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Uses emotional signals as intent-aware auxiliary signals for human motion and pose forecasting",
+      "llm_evidence_cn": "利用情感信号作为人类运动和姿态预测的意图感知辅助信号",
+      "llm_evidence": "利用情感信号作为人类运动和姿态预测的意图感知辅助信号",
+      "canonical_evidence": "利用情感信号作为人类运动和姿态预测的意图感知辅助信号",
+      "llm_tldr_en": "This paper proposes an emotion-conditioned world model for short-term human pose forecasting to improve motion dynamics.",
+      "llm_tldr_cn": "该论文提出了一种基于情感调节的世界模型，用于短期人体姿态预测，以改进运动动力学建模。",
+      "llm_tldr": "该论文提出了一种基于情感调节的世界模型，用于短期人体姿态预测，以改进运动动力学建模。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "deep learning techniques for intent aware trajectory forecasting",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.22162v1",
+      "title": "SAMIDARE: Advanced Tracking-by-Segmentation for Dense Scenarios",
+      "abstract": "Automated sports analysis demands robust multi-object tracking (MOT), yet segmentation-based methods often struggle with mask errors and ID switches in dense scenes. We propose SAMIDARE, a framework that enhances SAM2MOT for crowded scenes through three key components: (1) density-aware mask re-generation and (2) selective memory updates, both for adaptive mask control to preserve target feature integrity, and (3) state-aware association and new track initialization, which improves robustness under mutual occlusions and frequent frame-out events. Evaluated on the SportsMOT dataset, SAMIDARE achieves state-of-the-art performance, outperforming the baseline by 2.5 HOTA and 4.2 IDF1 points on the validation set. These results demonstrate that adaptive feature management using mask control and state-aware association provide a robust and efficient solution for dense sports tracking. Code is available at https://github.com/ZabuZabuZabu/SAMIDARE",
+      "authors": [
+        "Shozaburo Hirano",
+        "Norimichi Ukita"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-04-24T02:22:27+00:00",
+      "link": "https://arxiv.org/pdf/2604.22162v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Multi-object tracking and state-aware association in dense scenarios",
+      "llm_evidence_cn": "密集场景下的多目标跟踪与状态感知关联",
+      "llm_evidence": "密集场景下的多目标跟踪与状态感知关联",
+      "canonical_evidence": "密集场景下的多目标跟踪与状态感知关联",
+      "llm_tldr_en": "SAMIDARE improves multi-object tracking in crowded scenes using density-aware masks and state-aware association.",
+      "llm_tldr_cn": "SAMIDARE 通过密度感知掩码和状态感知关联，提升了拥挤场景下的多目标跟踪性能。",
+      "llm_tldr": "SAMIDARE 通过密度感知掩码和状态感知关联，提升了拥挤场景下的多目标跟踪性能。",
+      "llm_tags": [
+        "query:tp:composite"
+      ],
+      "matched_query_tag": "query:tp:composite",
+      "matched_query_text": "Papers central to 轨迹预测（车辆、行人、船舶、飞机等）相关的论文，考虑密集场景、目标意图、多智能体、轨迹表示学习等概念, especially work that connects or combines: trajectory prediction for autonomous agents; pedestrian trajectory prediction in crowded scenes; maritime vessel trajectory and path prediction algorithms; multi-agent trajectory forecasting and interaction modeling; target intent and goal estimation for trajectory prediction; trajectory representation learning and feature extraction; study of pedestrian and vehicle trajectory prediction models; trajectory prediction in complex maritime environments; deep learning techniques for intent aware trajectory forecasting; trajectory representation learning based on multimodal large language model.",
+      "matched_requirement_id": "req-composite-tp",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.23557v1",
+      "title": "DLM: Unified Decision Language Models for Offline Multi-Agent Sequential Decision Making",
+      "abstract": "Building scalable and reusable multi-agent decision policies from offline datasets remains a challenge in offline multi-agent reinforcement learning (MARL), as existing methods often rely on fixed observation formats and action spaces that limit generalization. In contrast, large language models (LLMs) offer a flexible modeling interface that can naturally accommodate heterogeneous observations and actions. Motivated by this, we propose the Decision Language Model (DLM), which formulates multi-agent decision making as a dialogue-style sequence prediction problem under the centralized training with decentralized execution paradigm. DLM is trained in two stages: a supervised fine-tuning phase, which leverages dialogue-style datasets for centralized training with inter-agent context and generates executable actions from offline trajectories, followed by a group relative policy optimization phase to enhance robustness to out-of-distribution actions through lightweight reward functions. Experiments on multiple benchmarks show that a unified DLM outperforms strong offline MARL baselines and LLM-based conversational decision-making methods, while demonstrating strong zero-shot generalization to unseen scenarios across tasks.",
+      "authors": [
+        "Zhuohui Zhang",
+        "Bin Cheng",
+        "Bin He"
+      ],
+      "primary_category": "cs.MA",
+      "categories": [
+        "cs.MA",
+        "cs.AI"
+      ],
+      "published": "2026-04-26T06:34:21+00:00",
+      "link": "https://arxiv.org/pdf/2604.23557v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "multi-agent sequence prediction and interaction modeling using language models",
+      "llm_evidence_cn": "使用语言模型进行多智能体序列预测和交互建模",
+      "llm_evidence": "使用语言模型进行多智能体序列预测和交互建模",
+      "canonical_evidence": "使用语言模型进行多智能体序列预测和交互建模",
+      "llm_tldr_en": "Proposes a Decision Language Model for multi-agent sequential decision making via dialogue-style sequence prediction.",
+      "llm_tldr_cn": "提出一种决策语言模型，通过对话式序列预测实现多智能体序列决策。",
+      "llm_tldr": "提出一种决策语言模型，通过对话式序列预测实现多智能体序列决策。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "multi-agent trajectory forecasting and interaction modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
