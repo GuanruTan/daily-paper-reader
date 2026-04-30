@@ -1,0 +1,633 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-04-30T20:46:57.593502+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 5,
+    "deep_cap": 6,
+    "deep_selected": 5,
+    "quick_candidates": 20,
+    "quick_skim_target": 11,
+    "quick_selected": 11
+  },
+  "deep_dive": [
+    {
+      "id": "2604.26065v1",
+      "title": "FlowS: One-Step Motion Prediction via Local Transport Conditioning",
+      "abstract": "Generative motion prediction must satisfy three simultaneous requirements for real-world autonomy: high accuracy, diverse multimodal futures, and strictly bounded latency. Diffusion models meet the first two but violate the third, requiring tens to hundreds of denoising steps. We identify a conditioning strategy that resolves this tension: \\textit{single-step integration is accurate when the underlying transport problem is local}. A model that must both discover the correct behavioral mode and traverse a long displacement in one step accumulates large discretization errors; conditioning the base distribution to lie near plausible futures reduces the problem to short-range refinement, the regime where a single Euler step suffices. We instantiate this \\emph{local transport conditioning} in FlowS, a conditional flow matching framework with two mechanisms. First, an online, scene-conditioned learned prior emits $K$ calibrated anchor trajectories per agent, each already near a plausible future, converting mode discovery into local correction. Second, a step-consistent displacement field enforces semigroup self-consistency, guaranteeing that a single step inherits multi-step accuracy. Crucially, anchoring this field at learned priors along straight-line paths yields a {stable, low-variance} training target, unlike prior self-consistency methods that suffer from {high-variance bootstrap} signals on curved diffusion paths. On the Waymo Open Motion Dataset, FlowS achieves state-of-the-art Soft mAP {(0.4804) and mAP (0.4703) with ensemble at 75\\,FPS} with single-step inference, demonstrating that local transport conditioning makes one-step generative motion prediction practical for safety-critical autonomy. Code and pretrained models will be released upon acceptance.",
+      "authors": [
+        "Leandro Di Bella",
+        "Adrian Munteanu",
+        "Bruno Cornelis"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-04-28T19:06:06+00:00",
+      "link": "https://arxiv.org/pdf/2604.26065v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "one-step motion prediction for real-world autonomy",
+      "llm_evidence_cn": "用于现实世界自动驾驶的单步运动预测",
+      "llm_evidence": "用于现实世界自动驾驶的单步运动预测",
+      "canonical_evidence": "用于现实世界自动驾驶的单步运动预测",
+      "llm_tldr_en": "Introduces FlowS, a single-step motion prediction model that balances accuracy, diversity, and low latency.",
+      "llm_tldr_cn": "引入了FlowS，一种平衡准确性、多样性和低延迟的单步运动预测模型。",
+      "llm_tldr": "引入了FlowS，一种平衡准确性、多样性和低延迟的单步运动预测模型。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2604.22875v2",
+      "title": "SketchVLM: Vision language models can annotate images to explain thoughts and guide users",
+      "abstract": "When answering questions about images, humans naturally point, label, and draw to explain their reasoning. In contrast, modern vision-language models (VLMs) such as Gemini-3-Pro and GPT-5 only respond with text, which can be difficult for users to verify. We present SketchVLM, a training-free, model-agnostic framework that enables VLMs to produce non-destructive, editable SVG overlays on the input image to visually explain their answers. Across seven benchmarks spanning visual reasoning (maze navigation, ball-drop trajectory prediction, and object counting) and drawing (part labeling, connecting-the-dots, and drawing shapes around objects), SketchVLM improves visual reasoning task accuracy by up to +28.5 percentage points and annotation quality by up to 1.48x relative to image-editing and fine-tuned sketching baselines, while also producing annotations that are more faithful to the model's stated answer. We find that single-turn generation already achieves strong accuracy and annotation quality, and multi-turn generation opens up further opportunities for human-AI collaboration. An interactive demo and code are at https://sketchvlm.github.io/.",
+      "authors": [
+        "Brandon Collins",
+        "Logan Bolton",
+        "Hung Huy Nguyen",
+        "Mohammad Reza Taesiri",
+        "Trung Bui",
+        "Anh Totti Nguyen"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-04-23T22:33:15+00:00",
+      "link": "https://arxiv.org/pdf/2604.22875v2",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "VLM framework for ball-drop trajectory prediction and visual reasoning",
+      "llm_evidence_cn": "基于视觉语言模型的轨迹预测与视觉推理",
+      "llm_evidence": "基于视觉语言模型的轨迹预测与视觉推理",
+      "canonical_evidence": "基于视觉语言模型的轨迹预测与视觉推理",
+      "llm_tldr_en": "Introduces SketchVLM to enable vision-language models to perform and explain tasks like trajectory prediction.",
+      "llm_tldr_cn": "引入SketchVLM框架，使视觉语言模型能够执行并解释轨迹预测等视觉推理任务。",
+      "llm_tldr": "引入SketchVLM框架，使视觉语言模型能够执行并解释轨迹预测等视觉推理任务。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning based on multimodal large language model",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2604.24353v1",
+      "title": "ARETE: Attention-based Rasterized Encoding for Topology Estimation using HSV-transformed Crowdsourced Vehicle Fleet Data",
+      "abstract": "The continuous advancement of autonomous driving (AD) introduces challenges across multiple disciplines to ensure safe and efficient driving. One such challenge is the generation of High-Definition (HD) maps, which must remain up to date and highly accurate for downstream automotive tasks. One promising approach is the use of crowdsourced data from a vehicle fleet, representing road topology and lane-level features. This work focuses on the generation of centerlines and lane dividers from crowdsourced vehicle trajectories. We adopt a Detection Transformer (DETR)-based approach, where a rasterized representation of vehicle trajectories is used as input to predict vectorized lane representations. Each lane consists of a centerline with an associated direction and corresponding lane dividers that are geometrically constrained by the centerline. Our method includes the extraction of local tiles, from which crowdsourced vehicle trajectories are aggregated. Each tile undergoes a transformation into a rasterized representation encoding both the presence and direction of each trajectory, enabling the prediction of vectorized directed lanes. Experiments are conducted on an internal dataset as well as on the public datasets nuScenes and nuPlan.",
+      "authors": [
+        "Daniel Fritz",
+        "Dimitrios Lagamtzis",
+        "Michael Mink",
+        "Markus Enzweiler",
+        "Steffen Schober"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.LG",
+        "cs.RO"
+      ],
+      "published": "2026-04-27T11:47:16+00:00",
+      "link": "https://arxiv.org/pdf/2604.24353v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "rasterized representation of vehicle trajectories for feature extraction",
+      "llm_evidence_cn": "用于特征提取的车辆轨迹栅格化表示",
+      "llm_evidence": "用于特征提取的车辆轨迹栅格化表示",
+      "canonical_evidence": "用于特征提取的车辆轨迹栅格化表示",
+      "llm_tldr_en": "Uses rasterized vehicle trajectories and DETR to estimate road topology and lane-level features.",
+      "llm_tldr_cn": "利用栅格化车辆轨迹和 DETR 模型来估计道路拓扑和车道级特征。",
+      "llm_tldr": "利用栅格化车辆轨迹和 DETR 模型来估计道路拓扑和车道级特征。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning and feature extraction",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2604.24681v1",
+      "title": "Learning Human-Intention Priors from Large-Scale Human Demonstrations for Robotic Manipulation",
+      "abstract": "Human videos contain rich manipulation priors, but using them for robot learning remains difficult because raw observations entangle scene understanding, human motion, and embodiment-specific action. We introduce MoT-HRA, a hierarchical vision-language-action framework that learns human-intention priors from large-scale human demonstrations. We first curate HA-2.2M, a 2.2M-episode action-language dataset reconstructed from heterogeneous human videos through hand-centric filtering, spatial reconstruction, temporal segmentation, and language alignment. On top of this dataset, MoT-HRA factorizes manipulation into three coupled experts: a vision-language expert predicts an embodiment-agnostic 3D trajectory, an intention expert models MANO-style hand motion as a latent human-motion prior, and a fine expert maps the intention-aware representation to robot action chunks. A shared-attention trunk and read-only key-value transfer allow downstream control to use human priors while limiting interference with upstream representations. Experiments on hand motion generation, simulated manipulation, and real-world robot tasks show that MoT-HRA improves motion plausibility and robust control under distribution shift.",
+      "authors": [
+        "Yifan Xie",
+        "YuAn Wang",
+        "Guangyu Chen",
+        "Jinkun Liu",
+        "Yu Sun",
+        "Wenbo Ding"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-04-27T16:42:18+00:00",
+      "link": "https://arxiv.org/pdf/2604.24681v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "predicts embodiment-agnostic 3D trajectory and intention expert model",
+      "llm_evidence_cn": "预测与具体形态无关的3D轨迹及意图专家模型",
+      "llm_evidence": "预测与具体形态无关的3D轨迹及意图专家模型",
+      "canonical_evidence": "预测与具体形态无关的3D轨迹及意图专家模型",
+      "llm_tldr_en": "Learns human-intention priors to predict 3D trajectories for robotic manipulation from large-scale videos.",
+      "llm_tldr_cn": "从大规模视频中学习人类意图先验，以预测机器人操作的3D轨迹。",
+      "llm_tldr": "从大规模视频中学习人类意图先验，以预测机器人操作的3D轨迹。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "target intent and goal estimation for trajectory prediction",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2604.26858v1",
+      "title": "A well-motivated model of pedestrian dynamics",
+      "abstract": "In pedestrian dynamics, the internal drive that propels individuals toward their goals is typically captured by a single, fixed parameter, the desired walking speed. This simplification overlooks that motivation fluctuates in response to changing spatial and social conditions within a crowd. This paper proposes a dynamic motivation model grounded in expectancy-value theory from psychology, in which each agent's motivation evolves over time depending on proximity to the goal, relative position among other pedestrians, and individual goal importance. The resulting motivation modulates multiple movement parameters simultaneously, including walking speed, gap-closing behavior, and interpersonal spacing. The model is evaluated in simulated pre-bottleneck waiting scenarios using paired statistical comparisons across multiple random seeds and population sizes, and compared with trajectory data from the CROMA concert-entry bottleneck experiments under low- and high-motivation framings. Simulations show that the dynamic model produces structured heterogeneity in the crowd: agents self-organize into differentiated positions near the bottleneck, with those closer to the front occupying less space, a pattern absent in the static baseline but clearly present in the experimental data. These findings suggest that motivation in crowds should be understood not as a uniform increase in urgency, but as a mechanism that reorganizes competitive positioning along spatial and social axes. Future work should extend the framework to open-door throughput scenarios, larger populations, and richer social interactions such as group cohesion and cooperative strategies.",
+      "authors": [
+        "Ezel Üsten",
+        "Anna Sieben",
+        "Mohcine Chraibi",
+        "Armin Seyfried"
+      ],
+      "primary_category": "physics.soc-ph",
+      "categories": [
+        "physics.soc-ph"
+      ],
+      "published": "2026-04-29T16:26:27+00:00",
+      "link": "https://arxiv.org/pdf/2604.26858v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "pedestrian dynamics and goal-driven movement in crowds",
+      "llm_evidence_cn": "人群中的行人动力学与目标驱动运动",
+      "llm_evidence": "人群中的行人动力学与目标驱动运动",
+      "canonical_evidence": "人群中的行人动力学与目标驱动运动",
+      "llm_tldr_en": "Proposes a dynamic motivation model for pedestrian movement based on proximity to goals and social conditions.",
+      "llm_tldr_cn": "提出一种基于目标接近度和社交条件的行人运动动态动机模型。",
+      "llm_tldr": "提出一种基于目标接近度和社交条件的行人运动动态动机模型。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "pedestrian trajectory prediction in crowded scenes",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2604.20775v1",
+      "title": "Relative Entropy Estimation in Function Space: Theory and Applications to Trajectory Inference",
+      "abstract": "Trajectory Inference (TI) seeks to recover latent dynamical processes from snapshot data, where only independent samples from time-indexed marginals are observed. In applications such as single-cell genomics, destructive measurements make path-space laws non-identifiable from finitely many marginals, leaving held-out marginal prediction as the dominant but limited evaluation protocol. We introduce a general framework for estimating the Kullback-Leibler divergence (KL) divergence between probability measures on function space, yielding a tractable, data-driven estimator that is scalable to realistic snapshot datasets. We validate the accuracy of our estimator on a benchmark suite, where the estimated functional KL closely matches the analytic KL. Applying this framework to synthetic and real scRNA-seq datasets, we show that current evaluation metrics often give inconsistent assessments, whereas path-space KL enables a coherent comparison of trajectory inference methods and exposes discrepancies in inferred dynamics, especially in regions with sparse or missing data. These results support functional KL as a principled criterion for evaluating trajectory inference under partial observability.",
+      "authors": [
+        "Chao Wang",
+        "Luca Nepote",
+        "Giulio Franzese",
+        "Pietro Michiardi"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-04-22T17:03:49+00:00",
+      "link": "https://arxiv.org/pdf/2604.20775v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "trajectory inference and recovery of latent dynamical processes",
+      "llm_evidence_cn": "轨迹推断与潜在动力学过程恢复",
+      "llm_evidence": "轨迹推断与潜在动力学过程恢复",
+      "canonical_evidence": "轨迹推断与潜在动力学过程恢复",
+      "llm_tldr_en": "Introduces a framework for estimating KL divergence on function space for trajectory inference tasks.",
+      "llm_tldr_cn": "引入函数空间相对熵估计框架，用于从快照数据中恢复潜在的轨迹动力学过程。",
+      "llm_tldr": "引入函数空间相对熵估计框架，用于从快照数据中恢复潜在的轨迹动力学过程。",
+      "llm_tags": [
+        "query:tp:composite"
+      ],
+      "matched_query_tag": "query:tp:composite",
+      "matched_query_text": "Papers central to 轨迹预测（车辆、行人、船舶、飞机等）相关的论文，考虑密集场景、目标意图、多智能体、轨迹表示学习等概念, especially work that connects or combines: trajectory prediction for autonomous agents; pedestrian trajectory prediction in crowded scenes; maritime vessel trajectory and path prediction algorithms; multi-agent trajectory forecasting and interaction modeling; target intent and goal estimation for trajectory prediction; trajectory representation learning and feature extraction; study of pedestrian and vehicle trajectory prediction models; trajectory prediction in complex maritime environments; deep learning techniques for intent aware trajectory forecasting; trajectory representation learning based on multimodal large language model.",
+      "matched_requirement_id": "req-composite-tp",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.20361v1",
+      "title": "Object Referring-Guided Scanpath Prediction with Perception-Enhanced Vision-Language Models",
+      "abstract": "Object Referring-guided Scanpath Prediction (ORSP) aims to predict the human attention scanpath when they search for a specific target object in a visual scene according to a linguistic description describing the object. Multimodal information fusion is a key point of ORSP. Therefore, we propose a novel model, ScanVLA, to first exploit a Vision-Language Model (VLM) to extract and fuse inherently aligned visual and linguistic feature representations from the input image and referring expression. Next, to enhance the ScanVLA's perception of fine-grained positional information, we not only propose a novel History Enhanced Scanpath Decoder (HESD) that directly takes historical fixations' position information as input to help predict a more reasonable position for the current fixation, but also adopt a frozen Segmentation LoRA as an auxiliary component to help localize the referred object more precisely, which improves the scanpath prediction task without incurring additional large computational and time costs. Extensive experimental results demonstrate that ScanVLA can significantly outperform existing scanpath prediction methods under object referring.",
+      "authors": [
+        "Rong Quan",
+        "Yantao Lai",
+        "Dong Liang",
+        "Jie Qin"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-04-22T09:00:51+00:00",
+      "link": "https://arxiv.org/pdf/2604.20361v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "predicting human attention scanpath using vision-language models",
+      "llm_evidence_cn": "使用视觉语言模型预测人类注意力扫描路径",
+      "llm_evidence": "使用视觉语言模型预测人类注意力扫描路径",
+      "canonical_evidence": "使用视觉语言模型预测人类注意力扫描路径",
+      "llm_tldr_en": "Predicts human attention scanpaths in visual scenes using multimodal vision-language feature fusion.",
+      "llm_tldr_cn": "利用多模态视觉语言特征融合预测视觉场景中的人类注意力扫描路径。",
+      "llm_tldr": "利用多模态视觉语言特征融合预测视觉场景中的人类注意力扫描路径。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning based on multimodal large language model",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.21130v1",
+      "title": "Self-Predictive Representation for Autonomous UAV Object-Goal Navigation",
+      "abstract": "Autonomous Unmanned Aerial Vehicles (UAVs) have revolutionized industries through their versatility with applications including aerial surveillance, search and rescue, agriculture, and delivery. Their autonomous capabilities offer unique advantages, such as operating in large open space environments. Reinforcement Learning (RL) empowers UAVs to learn intricate navigation policies, enabling them to optimize flight behavior autonomously. However, one of its main challenge is the inefficiency in using data sample to achieve a good policy. In object-goal navigation (OGN) settings, target recognition arises as an extra challenge. Most UAV-related approaches use relative or absolute coordinates to move from an initial position to a predefined location, rather than to find the target directly. This study addresses the data sample efficiency issue in solving a 3D OGN problem, in addition to, the formalization of the unknown target location setting as a Markov decision process. Experiments are conducted to analyze the interplay of different state representation learning (SRL) methods for perception with a model-free RL algorithm for planning in an autonomous navigation system. The main contribution of this study is the development of the perception module, featuring a novel self-predictive model named AmelPred. Empirical results demonstrate that its stochastic version, AmelPredSto, is the best-performing SRL model when combined with actor-critic RL algorithms. The obtained results show substantial improvement in RL algorithms' efficiency by using AmelPredSto in solving the OGN problem.",
+      "authors": [
+        "Angel Ayala",
+        "Donling Sui",
+        "Francisco Cruz",
+        "Mitchell Torok",
+        "Mohammad Deghat",
+        "Bruno J. T. Fernandes"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-04-22T22:40:11+00:00",
+      "link": "https://arxiv.org/pdf/2604.21130v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Self-predictive representation for object-goal navigation in autonomous UAVs",
+      "llm_evidence_cn": "无人机目标导航中的自预测表示学习",
+      "llm_evidence": "无人机目标导航中的自预测表示学习",
+      "canonical_evidence": "无人机目标导航中的自预测表示学习",
+      "llm_tldr_en": "Proposes a self-predictive representation learning method to improve UAV navigation and target-oriented behavior.",
+      "llm_tldr_cn": "提出一种自预测表示学习方法，旨在优化无人机在目标导航任务中的自主飞行行为。",
+      "llm_tldr": "提出一种自预测表示学习方法，旨在优化无人机在目标导航任务中的自主飞行行为。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "target intent and goal estimation for trajectory prediction",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.22238v1",
+      "title": "CodeGraphVLP: Code-as-Planner Meets Semantic-Graph State for Non-Markovian Vision-Language-Action Models",
+      "abstract": "Vision-Language-Action (VLA) models promise generalist robot manipulation, but are typically trained and deployed as short-horizon policies that assume the latest observation is sufficient for action reasoning. This assumption breaks in non-Markovian long-horizon tasks, where task-relevant evidence can be occluded or appear only earlier in the trajectory, and where clutter and distractors make fine-grained visual grounding brittle. We present CodeGraphVLP, a hierarchical framework that enables reliable long-horizon manipulation by combining a persistent semantic-graph state with an executable code-based planner and progress-guided visual-language prompting. The semantic-graph maintains task-relevant entities and relations under partial observability. The synthesized planner executes over this semantic-graph to perform efficient progress checks and outputs a subtask instruction together with subtask-relevant objects. We use these outputs to construct clutter-suppressed observations that focus the VLA executor on critical evidence. On real-world non-Markovian tasks, CodeGraphVLP improves task completion over strong VLA baselines and history-enabled variants while substantially lowering planning latency compared to VLM-in-the-loop planning. We also conduct extensive ablation studies to confirm the contributions of each component.",
+      "authors": [
+        "Khoa Vo",
+        "Sieu Tran",
+        "Taisei Hanyu",
+        "Yuki Ikebe",
+        "Duy Nguyen",
+        "Bui Duy Quoc Nghi",
+        "Minh Vu",
+        "Anthony Gunderman",
+        "Chase Rainwater",
+        "Anh Nguyen",
+        "Ngan Le"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-04-24T05:27:27+00:00",
+      "link": "https://arxiv.org/pdf/2604.22238v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "semantic-graph state for trajectory reasoning",
+      "llm_evidence_cn": "用于轨迹推理的语义图状态",
+      "llm_evidence": "用于轨迹推理的语义图状态",
+      "canonical_evidence": "用于轨迹推理的语义图状态",
+      "llm_tldr_en": "CodeGraphVLP uses a semantic-graph state to handle non-Markovian long-horizon robot manipulation tasks.",
+      "llm_tldr_cn": "CodeGraphVLP使用语义图状态来处理非马尔可夫长程机器人操作任务。",
+      "llm_tldr": "CodeGraphVLP使用语义图状态来处理非马尔可夫长程机器人操作任务。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning and feature extraction",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.21668v1",
+      "title": "Encoder-Free Human Motion Understanding via Structured Motion Descriptions",
+      "abstract": "The world knowledge and reasoning capabilities of text-based large language models (LLMs) are advancing rapidly, yet current approaches to human motion understanding, including motion question answering and captioning, have not fully exploited these capabilities. Existing LLM-based methods typically learn motion-language alignment through dedicated encoders that project motion features into the LLM's embedding space, remaining constrained by cross-modal representation and alignment. Inspired by biomechanical analysis, where joint angles and body-part kinematics have long served as a precise descriptive language for human movement, we propose \\textbf{Structured Motion Description (SMD)}, a rule-based, deterministic approach that converts joint position sequences into structured natural language descriptions of joint angles, body part movements, and global trajectory. By representing motion as text, SMD enables LLMs to apply their pretrained knowledge of body parts, spatial directions, and movement semantics directly to motion reasoning, without requiring learned encoders or alignment modules. We show that this approach goes beyond state-of-the-art results on both motion question answering (66.7\\% on BABEL-QA, 90.1\\% on HuMMan-QA) and motion captioning (R@1 of 0.584, CIDEr of 53.16 on HumanML3D), surpassing all prior methods. SMD additionally offers practical benefits: the same text input works across different LLMs with only lightweight LoRA adaptation (validated on 8 LLMs from 6 model families), and its human-readable representation enables interpretable attention analysis over motion descriptions. Code, data, and pretrained LoRA adapters are available at https://yaozhang182.github.io/motion-smd/.",
+      "authors": [
+        "Yao Zhang",
+        "Zhuchenyang Liu",
+        "Thomas Ploetz",
+        "Yu Xiao"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-04-23T13:33:28+00:00",
+      "link": "https://arxiv.org/pdf/2604.21668v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "structured motion descriptions for human movement kinematics",
+      "llm_evidence_cn": "人体运动运动学的结构化运动描述",
+      "llm_evidence": "人体运动运动学的结构化运动描述",
+      "canonical_evidence": "人体运动运动学的结构化运动描述",
+      "llm_tldr_en": "Proposes a rule-based structured description for human motion to leverage LLM reasoning without complex encoders.",
+      "llm_tldr_cn": "提出一种基于规则的人体运动结构化描述，以利用LLM推理而无需复杂的编码器。",
+      "llm_tldr": "提出一种基于规则的人体运动结构化描述，以利用LLM推理而无需复杂的编码器。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning and feature extraction",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.23360v1",
+      "title": "Learning from Demonstration with Failure Awareness for Safe Robot Navigation",
+      "abstract": "Learning from demonstration is widely used for robot navigation, yet it suffers from a fundamental limitation: demonstrations consist predominantly of successful behaviors and provide limited coverage of unsafe states. This limitation leads to poor safety when the robot encounters scenarios beyond the demonstration distribution. Failure experiences, such as collisions, contain essential information about unsafe regions, but remain underutilized. The key difficulty lies in the fact that failure data do not provide valid guidance for action imitation, and their naive incorporation into policy learning often degrades performance. We address this challenge by proposing a failure-aware learning framework that explicitly decouples the roles of success and failure data. In this framework, failure experiences are used to shape value estimation in hazardous regions, while policy learning is restricted to successful demonstrations. This separation enables the effective use of failure data without corrupting policy behavior. We implement this design within an offline reinforcement learning (RL) setting and evaluate it in both simulation and real-world environments. The results show that our framework consistently reduces collision rates while preserving the task success rate, and demonstrate strong generalization across different environments and robot platforms.",
+      "authors": [
+        "Xianghui Wang",
+        "Siwei Cheng",
+        "Shanze Wang",
+        "Xinming Zhang",
+        "Dan Zhang",
+        "Wei Zhang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-04-25T16:03:54+00:00",
+      "link": "https://arxiv.org/pdf/2604.23360v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "safe robot navigation and action imitation in unsafe states",
+      "llm_evidence_cn": "机器人安全导航及在不安全状态下的动作模仿",
+      "llm_evidence": "机器人安全导航及在不安全状态下的动作模仿",
+      "canonical_evidence": "机器人安全导航及在不安全状态下的动作模仿",
+      "llm_tldr_en": "Proposes a failure-aware learning framework to improve robot navigation safety using collision data.",
+      "llm_tldr_cn": "提出一种故障感知学习框架，利用碰撞数据提高机器人导航安全性。",
+      "llm_tldr": "提出一种故障感知学习框架，利用碰撞数据提高机器人导航安全性。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.23132v1",
+      "title": "UAV Trajectory and Bandwidth Allocation for Efficient Data Collection in Low-Altitude Intelligent IoT: A Hierarchical DRL Approach",
+      "abstract": "Under the 6G wireless network evolution, the low-altitude Internet of Things (IoT), supported by unmanned aerial vehicles (UAVs) with Integrated Sensing and Communication (ISAC) capabilities, provides ground sensing networks with advanced real-time monitoring and data collection. To maximize data collection volume from distributed IoT nodes, AI-powered data collection technology plays a critical role in enabling intelligent decision-making. Among them, deep reinforcement learning (DRL) has gained particular attention. However, the existing DRL-based work on UAV-assisted IoT nodes data collection rarely address problems such as unknown interference and dynamic data volume. Moreover, these DRL models have high arithmetic requirements and slow convergence speed, making it difficult to carry on UAVs with limited load and arithmetic power. To address these challenges, a hierarchical deep reinforcement learning (HDRL), which can converge quickly and with smaller models, is designed to optimize UAV trajectories and bandwidth allocation to maximize data collection volume. Firstly, the proposed scenario incorporates interference from jammers, dynamic data volume of IoT nodes, and multiple types of obstacles. The entire task is hierarchically structured: the upper-level makes flight trajectory decisions at a coarse temporal granularity, while the lower-level makes bandwidth allocation decisions at a finer temporal granularity. Secondly, a trajectory and bandwidth allocation optimization algorithm based on hierarchical deep deterministic policy gradients (TBH-DDPG) is proposed to solve the problem. Finally, simulation results demonstrate that the proposed algorithm improves convergence speed by 44.44%, and reduces computational cost by 58.05%, compared to non-hierarchical algorithm.",
+      "authors": [
+        "Zhenjia Xu",
+        "Xiaoling Zhang",
+        "Nan Qi",
+        "Xiaojie Li",
+        "Luliang Jia"
+      ],
+      "primary_category": "cs.CE",
+      "categories": [
+        "cs.CE"
+      ],
+      "published": "2026-04-25T04:09:46+00:00",
+      "link": "https://arxiv.org/pdf/2604.23132v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "UAV trajectory and bandwidth allocation for data collection",
+      "llm_evidence_cn": "用于数据收集的无人机轨迹和带宽分配",
+      "llm_evidence": "用于数据收集的无人机轨迹和带宽分配",
+      "canonical_evidence": "用于数据收集的无人机轨迹和带宽分配",
+      "llm_tldr_en": "Uses hierarchical DRL to optimize UAV trajectories for efficient data collection in IoT networks.",
+      "llm_tldr_cn": "使用分层深度强化学习优化无人机轨迹，以实现物联网中高效的数据收集。",
+      "llm_tldr": "使用分层深度强化学习优化无人机轨迹，以实现物联网中高效的数据收集。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.23474v1",
+      "title": "GeoCert: Certified Geometric AI for Reliable Forecasting",
+      "abstract": "Forecasting systems in science must be accurate, physically consistent, and certifiably reliable. Most existing models address prediction, constraint enforcement, and verification separately, limiting scalability and interpretability. We introduce GeoCert, a geometric AI framework that unifies forecasting, physical reasoning, and formal verification within a single differentiable computation. GeoCert formulates forecasting as evolution along a hyperbolic manifold, where negative curvature induces contraction dynamics, intrinsic robustness, and logarithmic-time certification. A hierarchical constraint architecture separates universal physical laws from domain-specific dynamics, enabling certified generalization across energy, climate, finance, and transportation systems. GeoCert achieves state-of-the-art accuracy while reducing computational cost by 97.5% and maintaining better certification rates. By embedding verification into the geometry of learning, GeoCert transforms forecasting from empirical approximation to formally verified inference, offering a scalable foundation for trustworthy, reproducible, and physically grounded scientific AI.",
+      "authors": [
+        "Regina Zhang",
+        "Zongru Li",
+        "Honggang Wen",
+        "Xiaofeng Liu",
+        "Siu-Ming Yiu",
+        "Pietro Liò",
+        "Kwok-Yan Lam"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-04-25T23:54:41+00:00",
+      "link": "https://arxiv.org/pdf/2604.23474v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "geometric AI for reliable forecasting in transportation systems",
+      "llm_evidence_cn": "用于交通系统可靠预测的几何人工智能",
+      "llm_evidence": "用于交通系统可靠预测的几何人工智能",
+      "canonical_evidence": "用于交通系统可靠预测的几何人工智能",
+      "llm_tldr_en": "A geometric AI framework for certified forecasting and physical reasoning across various domains including transport.",
+      "llm_tldr_cn": "一种几何AI框架，用于包括交通在内的多个领域的认证预测和物理推理。",
+      "llm_tldr": "一种几何AI框架，用于包括交通在内的多个领域的认证预测和物理推理。",
+      "llm_tags": [
+        "query:tp:composite"
+      ],
+      "matched_query_tag": "query:tp:composite",
+      "matched_query_text": "Papers central to 轨迹预测（车辆、行人、船舶、飞机等）相关的论文，考虑密集场景、目标意图、多智能体、轨迹表示学习等概念, especially work that connects or combines: trajectory prediction for autonomous agents; pedestrian trajectory prediction in crowded scenes; maritime vessel trajectory and path prediction algorithms; multi-agent trajectory forecasting and interaction modeling; target intent and goal estimation for trajectory prediction; trajectory representation learning and feature extraction; study of pedestrian and vehicle trajectory prediction models; trajectory prediction in complex maritime environments; deep learning techniques for intent aware trajectory forecasting; trajectory representation learning based on multimodal large language model.",
+      "matched_requirement_id": "req-composite-tp",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.23648v1",
+      "title": "Safe Navigation in Unknown and Cluttered Environments via Direction-Aware Convex Free-Region Generation",
+      "abstract": "Convex free regions provide a structured and optimization-friendly representation of collision-free space for robot navigation in unknown and cluttered environments. However, existing methods typically enlarge local collision-free regions mainly according to surrounding obstacle geometry. In cluttered environments, such strategies may fail to generate regions that both accommodate robot geometry and preserve traversable extension along candidate motion directions, thereby limiting downstream traversal, especially in narrow passages. Even when such a region is available, safe motion generation remains challenging, because safety checking at discretized trajectory samples does not guarantee continuously collision-free motion when robot geometry is modeled explicitly. To address these issues, we propose a navigation framework that jointly incorporates candidate motion directions and robot geometry into convex free-region generation, and achieves continuously collision-free motion through continuous-safe trajectory generation. Within each region, the framework performs geometry-aware target pose selection and trajectory generation, together with Lipschitz-based continuous safety certification and local refinement. The resulting free regions and candidate motions are maintained in a region-based graph to support incremental planning. Quantitative results in cluttered 2D navigation scenarios show that the proposed method generates free regions better aligned with downstream traversal and enables reliable collision-free navigation, while additional 3D and real-world experiments on a quadrupedal robot and a UAV demonstrate the extensibility and practical applicability of the framework. The open-source project can be found at https://github.com/ZhichengSong6/FRGraph.",
+      "authors": [
+        "Zhicheng Song",
+        "Yongjian Li",
+        "Kai Chen",
+        "Yulin Li",
+        "Fan Shi",
+        "Jun Ma"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-04-26T10:37:01+00:00",
+      "link": "https://arxiv.org/pdf/2604.23648v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "safe motion generation and trajectory samples in cluttered environments",
+      "llm_evidence_cn": "杂乱环境下的安全运动生成与轨迹采样",
+      "llm_evidence": "杂乱环境下的安全运动生成与轨迹采样",
+      "canonical_evidence": "杂乱环境下的安全运动生成与轨迹采样",
+      "llm_tldr_en": "Generates convex free regions to ensure safe robot navigation and trajectory generation in cluttered spaces.",
+      "llm_tldr_cn": "生成凸自由区域，以确保机器人在杂乱空间中的安全导航和轨迹生成。",
+      "llm_tldr": "生成凸自由区域，以确保机器人在杂乱空间中的安全导航和轨迹生成。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.23818v1",
+      "title": "On the Generalization Properties of Selective State-Space Models for Filtering Tasks for Unknown Systems",
+      "abstract": "Selective State-Space Models (SSMs) such as Mamba have emerged as an alternative architecture to self-attention based transformers in sequence modeling tasks. Recent works have demonstrated the use of transformers in some filtering and output prediction tasks via in-context learning. In this paper, we analyze whether structured SSMs can work equally well for filtering of unknown systems. In particular, we train the SSM on trajectory samples from a set of systems. At run-time, the SSM is given the outputs of an unknown system from the same set and is expected to predict the next output online. Theoretically, under appropriate assumptions, we derive generalization bounds as to why SSMs succeed in such tasks. Empirically, we demonstrate the performance via several numerical examples. We also discuss the advantages and disadvantages of SSMs versus transformers for this task.",
+      "authors": [
+        "Alex Tang",
+        "M. Emrullah Ildiz",
+        "Batin Kurt",
+        "Samet Oymak",
+        "Necmiye Ozay"
+      ],
+      "primary_category": "eess.SY",
+      "categories": [
+        "eess.SY"
+      ],
+      "published": "2026-04-26T17:40:05+00:00",
+      "link": "https://arxiv.org/pdf/2604.23818v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "output prediction and trajectory samples in sequence modeling",
+      "llm_evidence_cn": "序列建模中的输出预测与轨迹样本",
+      "llm_evidence": "序列建模中的输出预测与轨迹样本",
+      "canonical_evidence": "序列建模中的输出预测与轨迹样本",
+      "llm_tldr_en": "Analyzes State-Space Models for filtering and output prediction tasks using trajectory samples.",
+      "llm_tldr_cn": "分析选择性状态空间模型在未知系统轨迹样本过滤和输出预测任务中的泛化性能。",
+      "llm_tldr": "分析选择性状态空间模型在未知系统轨迹样本过滤和输出预测任务中的泛化性能。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning and feature extraction",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.23863v1",
+      "title": "Cooptimizing Safety and Performance Using Safety Value-Constrained Model Predictive Control",
+      "abstract": "Autonomous systems are increasingly deployed in real-world environments, where they must achieve high performance while maintaining safety under state and input constraints. Although Model Predictive Control (MPC) provides a principled framework for constrained optimal control, guaranteeing safety beyond its finite planning horizon remains a fundamental challenge. In this work, we augment MPC with a safety value function-based terminal constraint that enforces membership in a control-invariant safe set at the end of each planning horizon. This formulation enables real-time synthesis of trajectories that are both high-performing and provably safe. We show that, under an exact safety value function and a feasible initialization, the proposed MPC scheme is recursively feasible, thereby ensuring persistent safety. In contrast to traditional terminal set constructions that rely on local linearizations or conservative approximations, our approach incorporates a reachability-based safety value function for terminal constraints, yielding less conservative and more expressive safety guarantees. We validate the proposed framework through simulation and hardware experiments on a Flexiv Rizon 10s manipulator. Results demonstrate improved constraint satisfaction and robustness compared to standard state-constrained MPC and reactive safety filtering, while maintaining competitive task performance. The full implementation and experiments are available on the project website.",
+      "authors": [
+        "Hao Wang",
+        "Nam Nguyen",
+        "Armand Jordana",
+        "Ludovic Righetti",
+        "Somil Bansal"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "eess.SY"
+      ],
+      "published": "2026-04-26T20:10:03+00:00",
+      "link": "https://arxiv.org/pdf/2604.23863v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "real-time synthesis of safe trajectories for autonomous systems",
+      "llm_evidence_cn": "自主系统安全轨迹的实时综合",
+      "llm_evidence": "自主系统安全轨迹的实时综合",
+      "canonical_evidence": "自主系统安全轨迹的实时综合",
+      "llm_tldr_en": "Augments MPC with safety value functions to synthesize high-performing and provably safe trajectories.",
+      "llm_tldr_cn": "通过安全价值函数增强 MPC，以合成高性能且可证明安全的轨迹。",
+      "llm_tldr": "通过安全价值函数增强 MPC，以合成高性能且可证明安全的轨迹。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
