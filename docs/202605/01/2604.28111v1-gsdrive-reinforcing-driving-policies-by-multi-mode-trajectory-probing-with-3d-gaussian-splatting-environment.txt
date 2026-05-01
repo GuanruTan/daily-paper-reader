@@ -1,0 +1,661 @@
+Title: GSDrive: Reinforcing Driving Policies by Multi-mode Trajectory Probing with 3D Gaussian Splatting Environment
+
+URL Source: https://arxiv.org/pdf/2604.28111v1
+
+Published Time: Fri, 01 May 2026 01:22:20 GMT
+
+Number of Pages: 9
+
+Markdown Content:
+# GSDrive: Reinforcing Driving Policies by Multi-mode Trajectory Probing with 3D Gaussian Splatting Environment 
+
+Ziang Guo 1, Min Chen 2∗, Xuefeng Zhang 3, Yixiao Zhou 4,Zufeng Zhang 5∗, and Dzmitry Tsetserukou 6
+
+Abstract — End-to-end (E2E) autonomous driving presents a promising approach for translating perceptual inputs directly into driving actions. However, prohibitive annotation costs and temporal data quality degradation hinder long-term real-world deployment. While combining imitation learning (IL) and reinforcement learning (RL) is a common strategy for policy improvement, conventional RL training relies on delayed, event-based rewards—policies learn only from catastrophic outcomes such as collisions, leading to premature convergence to sub-optimal behaviors. To address these limitations, we introduce GSDrive, a framework that exploits 3D Gaussian Splatting (3DGS) for differentiable, physics-based reward shaping in E2E driving policy improvement. Our method incorporates a flow matching-based trajectory predictor within the 3DGS simula-tor, enabling multi-mode trajectory probing where candidate trajectories are rolled out to assess prospective rewards. This establishes a bidirectional knowledge exchange between IL and RL by grounding reward functions in physically simulated interaction signals, offering immediate dense feedback instead of sparse catastrophic events. Evaluated on the reconstructed nuScenes dataset, our method surpasses existing simulation-based RL driving approaches in closed-loop experiments. Code is available at https://github.com/ZionGo6/GSDrive .
+
+I. INTRODUCTION End-to-end (E2E) driving policies offer an efficient path-way to translate observational data from the real-world into actionable driving decisions [1]. However, their deployment in continuously evolving traffic environments poses sig-nificant challenges [2]. The dynamic nature of real-world traffic renders it impractical to indiscriminately incorporate all collected data into E2E policy training, primarily due to the prohibitive costs associated with labeling and the difficulty of ensuring consistent data quality over time [3]. A common strategy to improve E2E policies is to combine imitation learning (IL) with reinforcement learning (RL). While IL provides strong behavioral priors from expert demonstrations, it is inherently limited by the quality and coverage of the dataset. RL, on the other hand, enables policy improvement through interaction, but its effectiveness is often hindered by sparse and short-sighted reward signals. In        
+
+> 1,6Ziang Guo and Dzmitry Tsetserukou are with Skoltech,
+
+{ziang.guo, d.tsetserukou }@skoltech.ru           
+
+> 2Min Chen is with the Research Center for Intelligent Computing Systems, SKLP, Institute of Computing Technology, Chinese Academy of Sciences, Beijing, China.,
+
+mincheng@ict.ac.cn                
+
+> 4Yixiao Zhou is with Department of Electrical and Elec-tronic Engineering, The University of Hong Kong, China.,
+
+u3649491@connect.hku.hk       
+
+> 3,6Xuefeng Zhang and Zufeng Zhang are with SuZhou Automotive Research Institute of Tsinghua University, China.,
+
+zxf@126.com, zhangzufeng@tsari.tsinghua.edu.cn 
+
+complex driving scenarios, critical events such as collisions are typically the result of a sequence of suboptimal decisions, making it difficult for conventional RL methods to assign meaningful credit to earlier actions. To address this limitation, we propose GSDrive, a novel framework that introduces future-aware reward shaping through multi-mode trajectory probing in a 3D Gaussian Splatting (3DGS) environment. The key idea is to evaluate multiple candidate future trajectories predicted by the policy and use their simulated outcomes to guide current decision-making. Instead of waiting for sparse or delayed rewards, our method provides dense and informative feedback by explicitly estimating the future impact of actions. To realize this idea, we first train a multi-modal trajec-tory predictor using imitation learning with a flow-matching objective, capturing diverse and realistic driving behaviors. During reinforcement learning, the predicted trajectories are probed in the 3DGS environment to simulate future rollouts, and the resulting rewards are used to shape the policy update. This design effectively bridges imitation priors and reinforce-ment learning, enabling the policy to explore beyond demon-strations while maintaining safety-aware inductive biases. Our approach offers several advantages. First, it enables the policy to reason about long-term outcomes without re-quiring explicit future annotations. Second, it provides dense and physically grounded reward signals, improving training stability. Third, it allows continuous policy refinement us-ing unlabeled real-world data through 3DGS reconstruction, reducing reliance on costly annotations. II. RELATED WORK 
+
+A. Generative E2E Autonomous Driving 
+
+Recent research has shaped E2E autonomous driving with profound advances [4]–[7]. Along with the development of generative decision-making, DiffE2E couples hierarchical bidirectional cross attention for multi-sensor feature align-ment with a Transformer-based hybrid diffusion-supervision decoder, which enables the model to generate multi-mode future trajectories [8]. DistillDrive proposes a knowledge distillation framework for the isomorphic source planning model, which uses the example output of the multi-mode planning teacher model to supervise the E2E student model. It further combines multi-mode instance imitation, reinforce-ment learning, and generative modeling to enhance planning-oriented feature learning [9]. ARTEMIS integrates autore-gressive E2E trajectory planning and Mixture-of-Experts 
+
+> arXiv:2604.28111v1 [cs.RO] 30 Apr 2026
+
+(MoE) mechanisms into E2E planning and captures time de-pendence through sequence trajectory point generation [10]. However, these generative decision-making paradigms still face significant challenges in generalization and robustness, as the modeling of complex multi-mode distributions heavily relies on the quality and diversity of offline demonstration data. 
+
+B. RL in Autonomous Driving 
+
+RL is a common solution in E2E autonomous driving to improve exploration, safety, and closed-loop robustness. ZTRS presents a zero-imitation E2E autonomous driving framework that replaces expert imitation with trajectory scoring and offline RL. It proposes an exhaustive strategy optimization (EPO) for offline RL, which shows stronger robustness in security-critical scenarios [11]. More closely related to the generalization of E2E driving policies, ReCog-Drive combines VLM reasoning with diffusion planners and introduces DiffGRPO to strengthen the planner, making it go beyond pure IL [12]. DriveDPO proposes that IL may gener-ate human-like but unsafe trajectories and uses Safety DPO to directly optimize strategy distribution through trajectory-level preference alignment [13]. TakeAD uses experts to take over data and then post-optimize end-to-end strategies in the separation scenario with DPO [14]. These methods primarily focus on strategy fine-tuning, preference alignment, or value-based selection, while the critical reward feedback used for policy improvement remains under-exploited. 
+
+C. Simulation-based Autonomous Driving 
+
+To enhance the supervisory signals, simulation-based E2E autonomous driving methods have been widely discussed. RAD builds a closed-loop RL framework based on 3DGS, which reconstructs a realistic digital driving environment. It allows policies to interact with the environment through rolling drills and design safety-related rewards to close the open-loop gap between causal confusion and IL [15]. ReconDreamer-RL further improves reconstruction-based RL by integrating a video diffusion prior into scene re-construction [16]. Drive&Gen connects the video generation model with the E2E planner to evaluate the quality of synthetic data through controllable generated videos, analyze the domain gap of the planner, and improve the out-of-distribution generalization ability [17]. FutureX enhances E2E planning through a latent world model, where future scene representations are rolled out to refine motion plans [18]. Despite these advancements, these methods often rely on sparse, event-triggered reward signals that fail to accu-rately attribute long-term consequences to specific actions, often leading to suboptimal policy convergence. Based on these insights, we propose designing a more effective E2E strategy optimization framework by closely coupling future trajectories with the physical environment through multi-mode trajectory probes in the 3DGS environment to provide intensive physical rewards with minimal manual design. III. METHODOLOGY 
+
+A. 3DGS Reconstruction 
+
+To initialize Gaussian primitives, we leverage VGGT as a multi-view Transformer to extract global and local geometric features from the six-camera surround-view images {Ii}6
+
+> i=1
+
+of nuScenes [19]. A transformer-based encoder Ψ extracts multi-scale feature maps Fi = Ψ( Ii). To achieve geometric consistency across sparse views, for a query pixel x =[u, v, 1] T in view i, the search for the corresponding 3D geometry in camera j is constrained to the epipolar line lij ,defined as: 
+
+lij = Eij x, (1) where Eij ∈ R3×3 is the Essential Matrix, formulated from the relative rotation Rcam and translation tcam between the two cameras, where E = [tcam ]×Rcam . This mechanism allows the transformer to aggregate cross-view information, effectively triangulating the scene features into a latent 3D representation. Rather than optimizing parameters through iterations, the VGGT decoder predicts the attributes of the Gaussian primi-tives in a single feed-forward pass. For every feature at pixel location (u, v ) with a predicted depth d, the mean center of a 3D Gaussian primitive μ ∈ R3 is recovered via back-projection: 
+
+μ = R−1
+
+> view
+
+(K−1
+
+> view
+
+xd − tview ), (2) where Kview ∈ R3×3 represents the camera intrinsics, while 
+
+R−1 
+
+> view
+
+and tview denote the camera-to-world extrinsics. Si-multaneously, the decoder outputs the remaining Gaussian parameters Θ = {sr , q r , α r , c r }, where sr ∈ R3 are the scaling factors that determine the 3D extent of the primitive, 
+
+qr ∈ R4 is the unit quaternion representing the spatial orientation, which is converted to a rotation matrix Rquat ,
+
+αr ∈ [0 , 1] is the opacity of the Gaussian points, and cr are the color coefficients, parameterized by Spherical Harmonics to account for lighting conditions. The resulting covariance matrix Σr is constructed as 
+
+Σr = Rquat Sr STr RT 
+
+> quat
+
+to maintain physical validity during subsequent refinement, where Sr is the diagonal matrix con-structed from the predicted scaling vector sr . The rendered color Crend and rendered depth Drend are computed via front-to-back α-blending of N Gaussians: 
+
+Crend =
+
+> N
+
+X
+
+> p=1
+
+cpr σpr , Drend =
+
+> N
+
+X
+
+> p=1
+
+zpr σpr , (3) where σpr = αpr
+
+Qp−1 
+
+> j=1
+
+(1 − αpr ) is the transmittance-weighted density, and zpr is the view-space depth of the p-th Gaussian primitive relative to the current camera. The final reconstruc-tion is refined by supervising the rendered output against the image and LiDAR data in nuScenes using the reconstruction loss Lrecon :
+
+Lrecon = λrgb |Crend − Igt |
+
++ λssim (1 − SSIM (Crend , Igt )) + λd∥Drend − Dlidar ∥22,
+
+(4) where Igt is the ground truth image from the dataset, Dlidar 
+
+is the LiDAR point cloud projected into the camera frame, and λ values are the scaling factors that balance photometric detail against geometric accuracy. SSIM (·) is the structural similarity between the rendered patch and the ground truth patch. The use of VGGT allows the 3DGS reconstruction to handle temporal consistency across frames, ensuring that the Gaussian primitives remain spatially anchored and coherent throughout the entire driving sequence. The refined reconstructions are serialized into {G ∗, T∗},where G∗ contains the converged parameters Θ for all 3D Gaussians, and T∗ represents the refined camera poses. The reconstructed 3D Gaussians are rasterized on-the-fly for each camera viewpoint sampled during policy interaction, where the covariance Σr is projected to 2D for rasterization: 
+
+Σ2D = J · W · Σr · W T · JT , (5) where W is the world-to-camera view matrix and J is the Jacobian of perspective projection. 3D Gaussians are then sorted by depth and assigned to image tiles. For each tile, 3D Gaussians with projected radii overlapping the tile are processed onto the image plane (ˆ x, ˆy):
+
+G(ˆ x, ˆy) = αr · exp 
+
+
+
+− 12 uT Σ−12D u
+
+
+
+, (6) where u = [ˆ x, ˆy]T − μ2D is the pixel offset from the projected center. The 2D projected center μ2D is computed by transforming the 3D Gaussian center μ from world space to camera space with perspective projection. Finally, for each pixel, all Gaussians’ contributions are blended in a sorted order to obtain the rendered image: 
+
+ˆI = X 
+
+> q∈GS(ˆ x, ˆy)
+
+Tq · αqr · cqr , (7) where Tq = Q 
+
+> j<q
+
+(1 − αjr ) is the transmittance through Gaussians. GS (ˆ x, ˆy) is the 2D Gaussians covering pixel 
+
+(ˆ x, ˆy), sorted front-to-back. 
+
+B. Learning Pipeline 
+
+The IL pipeline is shown in Fig. 1, where the policy obtains 6 rendered images and agent detection as observa-tions from the 3DGS environment, with the agent detection being the corresponding label in nuScenes. Based on [20], the images ˆI ∈ R6C×H×W are compressed into a Bird’s-eye view (BEV) space to construct spatial features, while the images’ semantic features are extracted via ResNet [21]. Through cross attention blocks, fused queries are directed to a flow matching-based head to obtain trajectory predictions 
+
+TNmodes ×Npoints ×2 and their mode classifications CNmodes under Classifier-Free Guidance (CFG) [22], where Npoints = 6
+
+indicates the number of trajectory points for the future 3
+
+seconds, and Nmodes represents the number of modes from the clustered trajectories in the nuScenes dataset. In our flow matching head, the goal is to learn a velocity field Vθ that transports the distribution of clustered trajec-tories p0 ∈ P (T0) to that of the ground truth trajectories 
+
+p1 ∈ P(T1). We incorporate Optimal Transport (OT) to guide trajectories in minimizing the transport cost between probability distributions [23]. The optimal coupling π∗ ∈
+
+Π( p0, p 1) is defined as: 
+
+π∗ = arg min 
+
+> π∈Π( p0,p 1)
+
+Z
+
+> T0×T 1
+
+∥τ0 − τ1∥2 dπ (τ0, τ 1), (8) where the set of all joint distributions with marginals p0 and 
+
+p1 is 
+
+Π( p0, p 1) = {π ∈ P (T0 × T 1) : π(·, T1) = p0, π (T0, ·) = p1} .
+
+(9) Computing the optimal coupling exactly is computation-ally intensive for large datasets. We therefore employ en-tropic regularization via the Sinkhorn algorithm [24], which solves the regularized optimal transport problem: OT ϵ(p0, p 1) = min 
+
+> π∈Π( p0,p 1)
+
+Z
+
+∥τ0 − τ1∥2 dπ (τ0, τ 1) + ϵH (π),
+
+(10) where H(π) is the Shannon entropy of the coupling, and 
+
+ϵ > 0 is the regularization parameter. The entropic term encourages smoother couplings and enables efficient com-putation via fixed-point iterations. Upon convergence, the optimal coupling is obtained as: 
+
+P ∗ = diag (uOT ) KOT diag (vOT ), (11) where uOT and vOT are the scaling vectors. P ∗
+
+> ij
+
+represents the optimal transport mass, and KOT ij =exp 
+
+
+
+− ∥τ (i)0 −τ (j)1 ∥2
+
+> ϵ
+
+
+
+measures the affinity from the source point i to the target point j.With the computed coupling P ∗ 
+
+> ij
+
+, we define the OT-guided path interpolation, which transports clustered trajectories to ground truth trajectories along cost-minimizing paths: 
+
+τ (i) 
+
+> t
+
+=
+
+> N
+
+X
+
+> j=1
+
+P ∗
+
+> ij
+
+ai
+
+h
+
+(1 − t)τ (i)0 + tτ (j)1
+
+i
+
+, (12) where ai = PNj=1 P ∗ 
+
+> ij
+
+is the marginal weight of the source trajectory i, P ∗ 
+
+> ij
+> ai
+
+is the normalized coupling weight, represent-ing the probability of transitioning from τ (i)0 to τ (j)1 under the optimal transport plan. t ∈ [0 , 1] is the interpolation time. The velocity target at time t is defined as the OT-weighted displacement: 
+
+νOT 
+
+> t
+
+
+
+τ (i) 
+
+> t
+
+| τ (i)0 , τ (j)1
+
+
+
+= Eτ (j)1 ∼π∗(·| τ (i)0 )
+
+h
+
+τ (j)1 − τ (i)0
+
+i
+
+.
+
+(13) Expanding the expectation, we have 
+
+νOT  
+
+> t
+
+=
+
+> N
+
+X
+
+> j=1
+
+w(i)
+
+> j
+
+
+
+τ (j)1 − τ (i)0
+
+
+
+, (14) where w(i) 
+
+> j
+
+= P ∗ 
+
+> ij
+> ai
+
+is the coupling weight, representing the relative importance of target τ (j)1 in transporting source τ (i)0 .The OT-weighted velocity loss for training the velocity field Vθ is: 
+
+Lv = Et∼U [0 ,1] 
+
+" MX
+
+> i=1
+
+wi Vθ
+
+
+
+τ (i) 
+
+> t
+
+, t 
+
+
+
+− νOT 
+
+> t
+> 2
+
+#
+
+, (15) Fig. 1: The IL stage pipeline. Observations from the 3DGS environment are processed through ResNet and BEV compression. Cross attention blocks feed fused queries into a flow matching head to predict multi-mode trajectories and mode classifications. Action logits are constructed using an exponential kernel over normalized distances within the grid space formed by trajectory points, weighted by mode probabilities, and combined with residual logits. The training objective is to focus on imitating expert demonstrations on trajectory to learn a future reward probe. where wi is the normalized marginal weight. M is the number of clustered trajectories in p0. This formulation ensures that Vθ learns to approximate the velocity field that transports clustered trajectories to ground truth trajectories along the OT paths, with a heavier emphasis on well-coupled mode pairs during training. With the velocity field established, the action logits are then constructed based on trajectory predictions T and mode classifications C. From each point (x, y ) ∈ T, we construct a grid space within the spatial boundaries [xmin , x max ] and 
+
+[ymin , y max ]. Then the action anchor sets Ax and Ay are uniformly spaced sequences within the defined grid space 
+
+Ax = {ax, 1, . . . , a x,N anchors }, Ay = {ay, 1, . . . , a y,N anchors }
+
+. The similarity between a trajectory point and an action anchor is computed using an exponential kernel based on the normalized absolute distance in all the trajectory modes 
+
+C.
+
+sx, (m,n ) = exp 
+
+
+
+− |xm − ax,n |
+
+τs · ∆xmax 
+
+
+
+sy, (m,n ) = exp 
+
+
+
+− |ym − ay,n |
+
+τs · ∆ymax 
+
+
+
+,
+
+(16) where τs is the scaling hyperparameter, m ∈ C is the mode index, and n is the action anchor index. Then, the per-mode similarity is normalized by Softmax with a temperature of 0.5, e.g. 
+
+log P (n|m)x = log-softmax 
+
+ sx, (m,n )
+
+0.5
+
+
+
+. (17) The action logits are constructed with the normalized classification weights wm for mode m ∈ C, representing the total log-probability across all modes. Logit x(an) = log X
+
+> m
+
+exp (log P (n|m)x + log( wm)) 
+
+Logit y (an) = log X
+
+> m
+
+exp (log P (n|m)y + log( wm)) . (18) Alongside the constructed action logits from the trajectory, a residual action head is used to obtain residual action logits from fused queries directly. The final action logits are combined as 
+
+Logits x = αL · Logit x + (1 − αL) · Residual Logit x
+
+Logits y = αL · Logit y + (1 − αL) · Residual Logit y , (19) where α controls the ratio of the residual logits. For different training objectives, the ratio of residual action logits and the weights of losses is adjusted. In IL, we assign a large weight to trajectory prediction and a low residual ratio to action generation, targeting the learning of a trajectory probe in the 3DGS environment. In RL, a large weight and a high residual ratio for action generation are set to reinforce the policy through the interaction between the trajectory probe and the 3DGS environment. We introduce more details for each stage in the following sections. 
+
+C. IL Stage 
+
+In IL, the objectives involve imitating trajectory modes clustered from expert trajectories, as well as directly learning from expert trajectories and expert actions. For trajectory modes, the objective is multi-mode classification. 
+
+Lmode = 1
+
+Nm · CmNmX
+
+> i=1
+> Cm
+
+X
+
+> j=1
+
+Focal (pi,j , y i,j ), (20) where the focal loss is Focal (pi,j , y i,j ) = 
+
+(
+
+−α(1 − pi,j )ν log( pi,j ) if yi,j = 1 
+
+−(1 − α)pνi,j log(1 − pi,j ) if yi,j = 0 .
+
+(21) Among the above, Cm and Nm are the total numbers of modes and samples. pi,j is the sigmoid probability for mode 
+
+j. yi,j is the j-th element of the one-hot encoded target vector for the sample i. α and ν are the hyperparameters that manage the imbalance between the modes. The overall IL objectives are along with the OT-weighted velocity loss Lv for the velocity field prediction, the MSE loss LM SE for the trajectory regression, and the cross entropy loss LCE for the action against their ground truth. 
+
+LIL = wmode · Lmode 
+
++ wtraj ·
+
+
+
+LM SE (T, ˆT) + Lv
+
+
+
++ waction · LCE (Logtis , ˆLogits ),
+
+(22) where the weights wmode , wtraj , and waction are for the balance of the loss scale. In the IL stage, as a warm start to RL training, the loss is assigned higher weights of LM SE 
+
+and Lmode than LCE to focus on trajectory prediction. 
+
+Fig. 2: The RL stage pipeline. 
+
+D. RL Stage 
+
+We formulate the RL training in a Markov Decision Process (MDP) defined as (S, A, T , R, γ ). For the state space St, it combines camera images ˆIt, agent detection At,and camera intrinsic and extrinsic matrices Kt and Et for image projection into (ˆI, A, K, E). The action space At is defined by the grid space of trajectory points. The policy outputs logits for a categorical distribution over anchors in the grid space. The action is sampled and then mapped to specific trajectory endpoints. The transition dynamics T are defined by the transition function st+1 ∼ T (·| st, a t), which is governed by the 3DGS environment physics and the policy action output, where the environment takes the current state and action to simulate the next state st+1 of the world. The reward function rt = R(st, a t, s t+1 ) is formulated as: 
+
+rtotal  
+
+> t
+
+=
+
+> Base Rewards
+
+z }| {
+
+wenv · renv  
+
+> t
+
++
+
+> Trajectory Probing
+
+z }| {
+
+wprobe · max  
+
+> i∈K
+
+(rprobe (τi)) , (23) where wenv , w probe are the weights for scale balancing. renv 
+
+> t
+
+is the combination of base interactions, including Survival Bonus (reward for not colliding or going off-road), Progress Reward (distance covered along the expert trajectory), Col-lision Penalty (negative penalty for dynamic and static colli-sions), and Comfort Penalty (negative penalty based on jerk and acceleration). rprobe (τi) is the trajectory probing reward where K trajectory modes τ1, ..., τ K ∈ T are sampled. Each mode is probed by simulating the trajectory in the 3DGS environment. The reward assigned to the current action is the maximum reward obtained among all K probed trajectories. 
+
+rprobe  
+
+> t
+
+= max 
+
+> i=1 ...K
+
+" HX
+
+> h=0
+
+γhrenv (st+h, a t+h)
+
+#
+
+, (24) where H represents the probe horizon that the policy looks ahead to during the trajectory probing process. It defines the future time steps of the trajectory that the policy simulates forward in the 3DGS environment to evaluate the quality of the current action. γh is the discount factor for the probing reward. As shown in Fig. 2, the policy is then shaped by a clipped surrogate objective Lpolicy , value loss Lvalue , and an entropy bonus Sentropy . Having the probability ratio ηt(θ) from the categorical distributions over the action anchors, 
+
+ηt(θ) = πθ (at|st)
+
+πθold (at|st) , (25) where πθ and πθold denote the updated policy and the old policy, the clipped surrogate objective Lpolicy is formulated as follows: 
+
+Lpolicy = −ˆEt
+
+h
+
+min( ηt(θ) ˆAt, clip (ηt(θ), 1 − ϵ, 1 + ϵ) ˆAt)
+
+i
+
+,
+
+(26) where ˆAt is the estimated advantage derived from rewards. 
+
+ϵ is the limitation of the probability ratio ηt(θ).The value loss is defined as 
+
+Lvalue = ˆEt
+
+h
+
+(Vθ (st) − Re t)2i
+
+, (27) where Vθ is the value head. Re t is the estimated return, cal-culated as the sum of the Generalized Advantage Estimation (GAE) and the old value estimate. The entropy bonus Sentropy is meant to encourage explo-ration by preventing the policy from becoming too determin-istic, which is typically associated with Shannon Entropy H.
+
+Sentropy = Et [H(πθold (·| st))] . (28) Beyond direct reward maximization, monitoring and tun-ing the level of policy stochasticity is crucial for our multi-mode probing exploration. We therefore augment the RL ob-jective with a KL divergence regularization, which constrains the policy from deviating too sharply from a trajectory probe. The approximation of KL divergence is computed as follows. 
+
+¯DKL (θold || θ) ≈ Et
+
+ πθ (at|st)
+
+πθold (at|st) − 1 − log πθ (at|st)
+
+πθold (at|st)
+
+
+
+.
+
+(29) Then, we use an Exponential Moving Average (EMA) to track KL divergence in order to achieve an adaptive KL controller. 
+
+¯DEMA ,t = αKL · ¯DEMA ,t −1 + (1 − αKL ) · ¯Dt, (30) where αKL is equal to 0.9, meaning 90% of weight is assigned to history KL divergence and 10% to current KL divergence. Meanwhile, an adaptive KL penalty mechanism is defined with a penalty coefficient κadaptive that adapts based on the KL deviation from the target ¯Dtarget . Given 
+
+δKL = ¯DEMA − ¯Dtarget 
+
+¯Dtarget 
+
+, (31) Fig. 3: The training performance comparison, where the shaded area represents the rolling standard deviation of the mean rewards. 
+
+κadaptive =
+
+
+
+κbase · (1 + 2 δKL ) if ¯DEMA > ¯Dtarget 
+
+0.8 · κbase if ¯DEMA < 0.5 ¯Dtarget 
+
+κbase otherwise ,
+
+(32) where κbase and ¯Dtarget are initialized as the learnable param-eters. Furthermore, we construct the KL penalty loss with a proactive formulation of linear and quadratic penalties. Given 
+
+∆KL = max(0 , ¯DEMA − 0.5 ¯Dtarget ), (33) 
+
+LKL =
+
+(
+
+κadaptive (2∆ KL + 12 ∆2
+
+> KL
+
+) if ¯DEMA > 0.25 ¯Dtarget 
+
+0 otherwise ,
+
+(34) targeting a differentiable KL divergence regularization that complements our flexible learning framework. The final RL objectives are computed as: 
+
+LRL = Lpolicy + c1 · L value − c2 · S entropy [πθ (·| st)] + c3 · L KL ,
+
+(35) where c1, c2, and c3 are the balancing coefficients for value loss, entropy bonus, and KL divergence loss. In the RL stage, the policy is reinforced by anticipating the future rewards of the current actions based on physical interactions between the trajectory points and 3D Gaussian points. IV. EXPERIMENTS 
+
+A. Training Performance 
+
+We show the comparison of the training process be-tween our GSDrive and other RL-based methods in Fig. 3. Each update collects the mean rewards from 4 parallel environments running 8 steps each. In RAD [15], the 3DGS environment is also used for policy learning. However, the critical reward signals, such as collisions, are based on current environmental interactions. When a collision hap-pens, it results from a sequence of poor decisions made over several seconds, not just the final disastrous action. The policy only receives a significant reward signal at the exact moment a critical event occurs, which may lead to early convergence during training on a suboptimal policy with lower overall performance. Shifting from this base, we follow Skill-Critic [26], encoding actions from our dataset into continuous latent variables. Then, hierarchical policy learning with both discrete and continuous action outputs is conducted in the 3DGS environment. The joint optimization on a hybrid action space introduces inherent instability in the Actor-Critic framework, leading to noisy training signals. Our GSDrive, instead of waiting for a sparse and catas-trophic reward, can simulate the likely future trajectory and evaluate it for safety, comfort, and progress. It can then provide a dense, informative reward signal back to the RL training immediately. Optimizing only over a discrete set of actions, our RL objectives lead to more stable and superior training performance than other RL methods. 
+
+B. Closed-loop Evaluation 
+
+To perform a comprehensive evaluation of methods, we define the following closed-loop metrics for our 3DGS environment:  
+
+> •
+
+Episode Reward (ER ↑) repisode  
+
+> •
+
+Driving Speed [ m/s ] (DS ↑) vepisode  
+
+> •
+
+Maximum Acceleration [ m/s 2] (MA ↓) aepisode  
+
+> •
+
+Lane Changes (LC ↑) nepisode  
+
+> •
+
+Maximum Action Jerks [ m/s 3] (MAJ ↓) jepisode  
+
+> •
+
+Maximum Steering Angle [ rad ] (MSA ↓) δepisode  
+
+> •
+
+Collision Rate (CR ↓) λepisode ,where the acceleration aepisode  
+
+> t
+
+= vepisode   
+
+> t+1 −vepisode
+> t
+> ∆t
+
+, the jerk 
+
+jepisode  
+
+> t
+
+= aepisode   
+
+> t+1 −aepisode
+> t
+> ∆t
+
+, and the steering angle δepisode  
+
+> t
+
+=arctan 2(∆ yt, ∆xt).In Tab. I, we show the average results across the 50 test episodes. For RLIR [27], we leverage an Inverse Dynamics Model (IDM) to recover actions from real-world datasets rather than relying on original world model generations to construct reward signals. Yet, the performance of the resulting RL policy is intrinsically capped by the accuracy of the IDM, coupled with extensive IDM training. Following Q-chunking [28], we extend the original action space to a temporally chunked action space, relying on a fixed action chunk length. However, the actions are still executed in an open-loop manner in the environment, enforcing exploration via temporally coherent chunks from offline data. Consequently, our GSDrive demonstrated the best test performance through direct physical reward shaping from the 3DGS environment. It is crucial to note that our approach achieved the highest episode reward while simultaneously maintaining high-speed traversal capabilities, highlighting the effectiveness of leveraging physical probing feedback from 3DGS. 
+
+C. Qualitative Results 
+
+In Fig. 4, we show the multi-view qualitative comparisons between our GSDrive and RAD in the closed-loop test sequences. In scenarios of yielding while avoiding out-of-distribution obstacles, our GSDrive demonstrates superior closed-loop performance. TABLE I: Closed-loop metrics comparison on all the methods. 
+
+# Method ER ↑ DS ↑ MA ↓ LC ↑ MAJ ↓ MSA ↓ CR ↓
+
+# PPO [25] 26 .76 10 .92 2.65 0.60 1.08 0.11 0.39 
+
+# Skill-Critic [26] 30 .38 10 .68 2.78 1.87 1.12 0.08 0.28 
+
+# RLIR [27] 35 .19 11 .23 2.72 1.93 1.52 0.12 0.33 
+
+# Q-chunking [28] 39 .70 13 .90 1.94 1.65 0.80 0.09 0.22 
+
+# RAD [15] 49 .24 12 .85 1.68 2.69 0.68 0.11 0.19 
+
+# Ours 52.97 13.98 1.56 3.59 0.52 0.08 0.11 
+
+D. Ablation Study 
+
+We conduct an ablation study with training and testing on a subset of our dataset. In Tab. II, to maintain the trajectory head with the ability of multi-mode prediction during trajectory probing, we compare the DDPM and DDIM under the diffusion model with our methods [29], [30]. For the experiments, we use denoising steps 20 to investigate the low-step regime for driving tasks, where diffusion models encounter difficulties in learning curved vector fields. While flow matching is able to predict smooth and physically consistent trajectories at low steps [31], it suffers from mode averaging problems, with generated trajectories tending to be fuzzy or conservative, lacking the decisive edges of driving. Thus, CFG benefits this mission by providing strict adherence to the fused conditional queries, ensuring stable yet trenchant trajectory generation that is both physically consistent and precisely aligned with the multiple modes [22]. TABLE II: Ablation study on trajectory head.                                     
+
+> Methods ER ↑DS ↑MA ↓MAJ ↓MSA ↓CR ↓
+> DDPM [29] 45 .08 9.34 2.07 1.21 0.18 0.24
+> DDIM [30] 46 .32 9.69 2.03 1.04 0.13 0.22
+> Flow Matching [31] 51 .77 9.80 2.03 0.99 0.11 0.22
+> Flow Matching + CFG [22] 51.82 9.85 2.01 0.92 0.10 0.19
+
+In Tab. III, we use a direct MLP-based action head to predict the action logits from the fused queries instead of our combination of trajectory-constructed and residual logits. Based on the physical probing signals from the trajectory-constructed action priors, the combined logits establish a hierarchical optimization objective, outperforming a direct MLP that lacks this structural guidance and must solve the entire action space mapping in a single transformation. TABLE III: Ablation study on direct action head, residual action head, and trajectory probing rewards.                                 
+
+> Direct Action Head Residual Action Head Probing Rewards ER ↑DS ↑MA ↓MAJ ↓MSA ↓CR ↓
+> "40 .21 8.22 2.87 0.74 0.13 0.23
+> ""43 .09 9.69 2.23 0.70 0.14 0.20
+> ""49.08 10.20 2.09 0.66 0.13 0.16
+
+V. CONCLUSIONS We presented GSDrive, which reinforces E2E driving policies through multi-mode trajectory probing within a 3D Gaussian Splatting environment. Our approach pretrains the policy via imitation learning with an Optimal Transport-guided flow matching head. During RL, this predictor acts as a prospective reward probe, where the candidate trajectories are rolled out in the 3DGS simulator to evaluate their future physical consequences. We found that the proposed trajectory probing enables the policy to foresee the outcomes of current decisions, allowing preemptive correction before collisions occur. By dynamically balancing trajectory-constructed logits with residual logits across training stages, our framework reconciles imitation priors with exploratory RL, enabling deviation from demonstrator behavior when safety demands while preserving critical inductive biases. Our framework naturally supports lifelong learning, where unlabeled observations can be integrated into 3DGS re-construction without manual annotation. Physical probing feedback from 3DGS proves highly effective for continuous policy improvement. The bidirectional IL-RL knowledge transfer, mediated by the trajectory probe, substantially out-performs methods relying solely on instantaneous environ-mental signals or inverse dynamics models. REFERENCES [1] L. Chen, P. Wu, K. Chitta, B. Jaeger, A. Geiger, and H. Li, “End-to-end autonomous driving: Challenges and frontiers,” IEEE Trans. on Pattern Analysis and Machine Intelligence , vol. 46, no. 12, pp. 10 164–10 183, 2024. [2] E. Nebot and J. S. B. Perez, “The era of end-to-end autonomy: Transitioning from rule-based driving to large driving models,” arXiv preprint arXiv:2603.16050 , 2026. [3] Y. Ye, C. Laidlaw, and J. Steinhardt, “Iterative label refinement matters more than preference optimization under weak supervision,” arXiv preprint arXiv:2501.07886 , 2025. [4] Y. Li, Y. Wang, Y. Liu, J. He, L. Fan, and Z. Zhang, “End-to-end driving with online trajectory evaluation via bev world model,” in 
+
+Proceedings of the IEEE/CVF Int. Conf. on Computer Vision , 2025, pp. 27 137–27 146. [5] C. Sima, K. Chitta, Z. Yu, S. Lan, P. Luo, A. Geiger, H. Li, and J. M. Alvarez, “Centaur: Robust end-to-end autonomous driving with test-time training,” arXiv preprint arXiv:2503.11650 , 2025. [6] A. Naumann, X. Gu, T. Dimlioglu, M. Bojarski, A. Degirmenci, A. Popov, D. Bisla, M. Pavone, U. Muller, and B. Ivanovic, “Data scaling laws for end-to-end autonomous driving,” in Proceedings of the Computer Vision and Pattern Recognition Conference , 2025, pp. 2571–2582. [7] J. Kim, J. Lee, G. Han, D.-J. Lee, M. Jeong, and J. Kim, “Synad: Enhancing real-world end-to-end autonomous driving models through synthetic data integration,” in Proceedings of the IEEE/CVF Int. Conf. on Computer Vision , 2025, pp. 25 197–25 206. Fig. 4: Qualitative comparisons in the closed-loop test. 
+
+[8] R. Zhao, Y. Fan, Z. Chen, F. Gao, and Z. Gao, “Diffe2e: Rethinking end-to-end driving with a hybrid diffusion-regression-classification policy,” in The Thirty-ninth Annual Conf. on Neural Information Processing Systems , 2025. [9] R. Yu, X. Zhang, R. Zhao, H. Yan, and M. Wang, “Distilldrive: End-to-end multi-mode autonomous driving distillation by isomorphic hetero-source planning model,” in Proceedings of the IEEE/CVF Int. Conf. on Computer Vision , 2025, pp. 26 188–26 197. [10] R. Feng, N. Xi, D. Chu, R. Wang, Z. Deng, A. Wang, L. Lu, J. Wang, and Y. Huang, “Artemis: Autoregressive end-to-end trajectory planning with mixture of experts for autonomous driving,” IEEE Robotics and Automation Letters , vol. 11, no. 1, pp. 226–233, 2025. [11] Z. Li, W. Yao, Z. Wang, X. Sun, J. Chen, N. Chang, M. Shen, J. Song, Z. Wu, S. Lan, et al. , “Ztrs: Zero-imitation end-to-end autonomous driving with trajectory scoring,” arXiv preprint arXiv:2510.24108 ,2025. [12] Y. Li, K. Xiong, X. Guo, F. Li, S. Yan, G. Xu, L. Zhou, L. Chen, H. Sun, B. Wang, et al. , “Recogdrive: A reinforced cog-nitive framework for end-to-end autonomous driving,” arXiv preprint arXiv:2506.08052 , 2025. [13] S. Shang, Y. Chen, Y. Wang, Y. Li, and Z. Zhang, “Drivedpo: Policy learning via safety dpo for end-to-end autonomous driving,” arXiv preprint arXiv:2509.17940 , 2025. [14] D. Liu, Y. Gao, D. Qian, Q. Zhang, X. Ye, J. Han, Y. Zheng, X. Liu, Z. Xia, D. Ding, et al. , “Takead: Preference-based post-optimization for end-to-end autonomous driving with expert takeover data,” IEEE Robotics and Automation Letters , vol. 11, no. 2, pp. 1738–1745, 2025. [15] H. Gao, S. Chen, B. Jiang, B. Liao, Y. Shi, X. Guo, Y. Pu, H. Yin, X. Li, X. Zhang, et al. , “Rad: Training an end-to-end driving policy via large-scale 3dgs-based reinforcement learning,” arXiv preprint arXiv:2502.13144 , 2025. [16] C. Ni, G. Zhao, X. Wang, Z. Zhu, W. Qin, X. Chen, G. Jia, G. Huang, and W. Mei, “Recondreamer-rl: Enhancing reinforcement learning via diffusion-based scene reconstruction,” arXiv preprint arXiv:2508.08170 , 2025. [17] J. Wang, Z. Yang, Y. Bai, Y. Li, Y. Zou, B. Sun, A. Kundu, J. Lezama, L. Y. Huang, Z. Zhu, et al. , “Drive&gen: Co-evaluating end-to-end driving and video generation models,” in 2025 IEEE/RSJ Int. Conf. on Intelligent Robots and Systems (IROS) . IEEE, 2025, pp. 8934– 8941. [18] H. Lin, Y. Yang, Y. Zhang, C. Zheng, J. Feng, S. Wang, Z. Wang, S. Chen, B. Wang, Y. Zhang, et al. , “Futurex: Enhance end-to-end autonomous driving via latent chain-of-thought world model,” arXiv preprint arXiv:2512.11226 , 2025. [19] J. Wang, M. Chen, N. Karaev, A. Vedaldi, C. Rupprecht, and D. Novotny, “Vggt: Visual geometry grounded transformer,” in Pro-ceedings of the Computer Vision and Pattern Recognition Conference ,2025, pp. 5294–5306. [20] J. Philion and S. Fidler, “Lift, splat, shoot: Encoding images from arbitrary camera rigs by implicitly unprojecting to 3d,” in European conference on computer vision . Springer, 2020, pp. 194–210. [21] K. He, X. Zhang, S. Ren, and J. Sun, “Deep residual learning for image recognition,” in Proceedings of the IEEE/CVF Conf. on Computer Vision and Pattern Recognition , June 2016. [22] J. Ho and T. Salimans, “Classifier-free diffusion guidance,” arXiv preprint arXiv:2207.12598 , 2022. [23] N. Kornilov, P. Mokrov, A. Gasnikov, and A. Korotin, “Optimal flow matching: Learning straight trajectories in just one step,” Advances in Neural Information Processing Systems , vol. 37, pp. 104 180–104 204, 2024. [24] K. Pham, K. Le, N. Ho, T. Pham, and H. Bui, “On unbalanced optimal transport: An analysis of sinkhorn algorithm,” in Int. Conf. on Machine Learning . PMLR, 2020, pp. 7673–7682. [25] J. Schulman, F. Wolski, P. Dhariwal, A. Radford, and O. Klimov, “Proximal policy optimization algorithms,” arXiv preprint arXiv:1707.06347 , 2017. [26] C. Hao, C. Weaver, C. Tang, K. Kawamoto, M. Tomizuka, and W. Zhan, “Skill-critic: Refining learned skills for hierarchical rein-forcement learning,” IEEE Robotics and Automation Letters , vol. 9, no. 4, pp. 3625–3632, 2024. [27] Y. Ye, T. He, S. Yang, and J. Bian, “Reinforcement learning with inverse rewards for world model post-training,” arXiv preprint arXiv:2509.23958 , 2025. [28] Q. Li, Z. Zhou, and S. Levine, “Reinforcement learning with action chunking,” arXiv preprint arXiv:2507.07969 , 2025. [29] J. Ho, A. Jain, and P. Abbeel, “Denoising diffusion probabilistic models,” Advances in neural information processing systems , vol. 33, pp. 6840–6851, 2020. [30] J. Song, C. Meng, and S. Ermon, “Denoising diffusion implicit models,” arXiv preprint arXiv:2010.02502 , 2020. [31] Y. Lipman, R. T. Chen, H. Ben-Hamu, M. Nickel, and M. Le, “Flow matching for generative modeling,” arXiv preprint arXiv:2210.02747 ,2022.

@@ -1,0 +1,670 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-05-01T20:38:40.708953+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 8,
+    "deep_cap": 6,
+    "deep_selected": 6,
+    "quick_candidates": 20,
+    "quick_skim_target": 11,
+    "quick_selected": 11
+  },
+  "deep_dive": [
+    {
+      "id": "2604.21479v3",
+      "title": "Frozen LLMs as Map-Aware Spatio-Temporal Reasoners for Vehicle Trajectory Prediction",
+      "abstract": "Large language models (LLMs) have recently demonstrated strong reasoning capabilities and attracted increasing research attention in the field of autonomous driving (AD). However, safe application of LLMs on AD perception and prediction still requires a thorough understanding of both the dynamic traffic agents and the static road infrastructure. To this end, this study introduces a framework to evaluate the capability of LLMs in understanding the behaviors of dynamic traffic agents and the topology of road networks. The framework leverages frozen LLMs as the reasoning engine, employing a traffic encoder to extract spatial-level scene features from observed trajectories of agents, while a lightweight Convolutional Neural Network (CNN) encodes the local high-definition (HD) maps. To assess the intrinsic reasoning ability of LLMs, the extracted scene features are then transformed into LLM-compatible tokens via a reprogramming adapter. By residing the prediction burden with the LLMs, a simpler linear decoder is applied to output future trajectories. The framework enables a quantitative analysis of the influence of multi-modal information, especially the impact of map semantics on trajectory prediction accuracy, and allows seamless integration of frozen LLMs with minimal adaptation, thereby demonstrating strong generalizability across diverse LLM architectures and providing a unified platform for model evaluation.",
+      "authors": [
+        "Yanjiao Liu",
+        "Jiawei Liu",
+        "Xun Gong",
+        "Zifei Nie"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-04-23T09:39:51+00:00",
+      "link": "https://arxiv.org/pdf/2604.21479v3",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "frozen LLMs as spatio-temporal reasoners for vehicle trajectory prediction",
+      "llm_evidence_cn": "冻结的LLM作为车辆轨迹预测的时空推理器",
+      "llm_evidence": "冻结的LLM作为车辆轨迹预测的时空推理器",
+      "canonical_evidence": "冻结的LLM作为车辆轨迹预测的时空推理器",
+      "llm_tldr_en": "Evaluates frozen LLMs for vehicle trajectory prediction by encoding traffic scenes and road topology.",
+      "llm_tldr_cn": "通过编码交通场景和道路拓扑，评估冻结的LLM在车辆轨迹预测中的能力。",
+      "llm_tldr": "通过编码交通场景和道路拓扑，评估冻结的LLM在车辆轨迹预测中的能力。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning based on multimodal large language model",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2604.27366v1",
+      "title": "Judge, Then Drive: A Critic-Centric Vision Language Action Framework for Autonomous Driving",
+      "abstract": "Recent advances in vision language action (VLA) models have shown remarkable potential for autonomous driving by directly mapping multimodal inputs to control signals. However, previous VLA-based methods have not explicitly exploited the critic capability of VLAs to refine driving decisions, even though such capability has been well demonstrated in other LLM-based domains, thereby limiting their performance in complex closed-loop scenarios. In this work, we present a theoretically inspired two-stage framework, CriticVLA, which extends the role of VLAs from acting to judging. CriticVLA first generates a rough trajectory and then refines it through multimodal evaluation and single-step optimization guided by a VLA-based critic, yielding higher-quality driving behaviors. To support this process, we construct a large-scale synthetic dataset of 12.9 million annotated trajectories covering diverse driving scenarios, which enhances the critic's reasoning and refinement abilities. Extensive closed-loop experiments on the Bench2Drive benchmark show that CriticVLA significantly surpasses state-of-the-art baselines, achieving a 73.33% total success rate and delivering about 30% improvement in challenging scenarios.",
+      "authors": [
+        "Lijin Yang",
+        "Jianing Huang",
+        "Zhongzhan Huang",
+        "Shu Liu",
+        "Hao Yang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-04-30T03:26:05+00:00",
+      "link": "https://arxiv.org/pdf/2604.27366v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "VLA framework for autonomous driving trajectory generation and refinement",
+      "llm_evidence_cn": "用于自动驾驶轨迹生成与优化的VLA框架",
+      "llm_evidence": "用于自动驾驶轨迹生成与优化的VLA框架",
+      "canonical_evidence": "用于自动驾驶轨迹生成与优化的VLA框架",
+      "llm_tldr_en": "CriticVLA refines autonomous driving trajectories through a two-stage VLA-based acting and judging framework.",
+      "llm_tldr_cn": "CriticVLA通过基于VLA的两阶段行动与评判框架来优化自动驾驶轨迹。",
+      "llm_tldr": "CriticVLA通过基于VLA的两阶段行动与评判框架来优化自动驾驶轨迹。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2604.27935v1",
+      "title": "Flying by Inference: Active Inference World Models for Adaptive UAV Swarms",
+      "abstract": "This paper presents an expert-guided active-inference-inspired framework for adaptive UAV swarm trajectory planning. The proposed method converts multi-UAV trajectory design from a repeated combinatorial optimization problem into a hierarchical probabilistic inference problem. In the offline phase, a genetic-algorithm planner with repulsive-force collision avoidance (GA--RF) generates expert demonstrations, which are abstracted into Mission, Route, and Motion dictionaries. These dictionaries are used to learn a probabilistic world model that captures how expert mission allocations induce route orders and how route orders induce motion-level behaviors. During online operation, the UAV swarm evaluates candidate actions by forming posterior beliefs over symbolic states and minimizing KL-divergence-based abnormality indicators with respect to expert-derived reference distributions. This enables mission allocation, route insertion, motion adaptation, and collision-aware replanning without rerunning the offline optimizer. Bayesian state estimators, including EKF and PF modules, are integrated at the motion level to improve trajectory correction under uncertainty. Simulation results show that the proposed framework preserves expert-like planning structure while producing smoother and more stable behavior than modified Q-learning. Additional validation using real-flight UAV trajectory data demonstrates that the learned world model can correct symbolic predictions under noisy and non-smooth observations, supporting its applicability to adaptive UAV swarm autonomy.",
+      "authors": [
+        "Kaleem Arshid",
+        "Ali Krayani",
+        "Lucio Marcenaro",
+        "David Martin Gomez",
+        "Carlo Regazzoni"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "eess.SP",
+        "eess.SY"
+      ],
+      "published": "2026-04-30T14:34:31+00:00",
+      "link": "https://arxiv.org/pdf/2604.27935v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "multi-UAV swarm trajectory planning and motion behaviors",
+      "llm_evidence_cn": "多无人机集群轨迹规划与运动行为",
+      "llm_evidence": "多无人机集群轨迹规划与运动行为",
+      "canonical_evidence": "多无人机集群轨迹规划与运动行为",
+      "llm_tldr_en": "Develops an active inference framework for adaptive trajectory planning in multi-UAV swarms.",
+      "llm_tldr_cn": "为多无人机集群开发了一种用于自适应轨迹规划的主动推理框架。",
+      "llm_tldr": "为多无人机集群开发了一种用于自适应轨迹规划的主动推理框架。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "multi-agent trajectory forecasting and interaction modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2604.24064v1",
+      "title": "Trajectory Planning for an Articulated Commercial Vehicle using Model Predictive Contouring Control",
+      "abstract": "This paper presents a trajectory planning method for articulated commercial vehicles, specifically tractor-semitrailers, based on Model Predictive Contouring Control (MPCC). Although MPCC has proven effective for passenger cars, it is generally ill-suited for tractor-semitrailers. These vehicles are significantly larger, the semitrailer follows a different path than the tractor, and reversing maneuvers are unstable and prone to jackknifing. Furthermore, practical driving scenarios often require scenario-dependent prioritization of different vehicle `anchor points', e.g., prioritizing the semitrailer position during docking or the tractor position when parking to charge. Therefore, we extend MPCC to enable scenario-dependent weighting of these anchor points and incorporate explicit road-boundary constraints for the front and rear tractor axles and the semitrailer axle, thereby ensuring that all considered wheels remain within the drivable area. The simulation results demonstrate the successful navigation of a representative logistic scenario in both forward and reverse direction. Furthermore, the influence of the optimization parameters on the trajectories is analyzed, providing insights into controlling the vehicle behavior. Finally, first tests using a full-scale prototype vehicle show the practical applicability of the approach.",
+      "authors": [
+        "A. J. Aertssen",
+        "R. G. M. Huisman",
+        "I. J. M. Besselink",
+        "J. Elfring",
+        "M. J. G. van de Molengraft"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-04-27T05:40:01+00:00",
+      "link": "https://arxiv.org/pdf/2604.24064v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Trajectory planning for articulated commercial vehicles using MPCC",
+      "llm_evidence_cn": "使用 MPCC 的铰接式商用车轨迹规划",
+      "llm_evidence": "使用 MPCC 的铰接式商用车轨迹规划",
+      "canonical_evidence": "使用 MPCC 的铰接式商用车轨迹规划",
+      "llm_tldr_en": "Extends Model Predictive Contouring Control for trajectory planning of complex articulated tractor-semitrailers.",
+      "llm_tldr_cn": "扩展模型预测轮廓控制，用于复杂铰接式半挂牵引车的轨迹规划。",
+      "llm_tldr": "扩展模型预测轮廓控制，用于复杂铰接式半挂牵引车的轨迹规划。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "study of pedestrian and vehicle trajectory prediction models",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2604.26353v1",
+      "title": "GateMOT: Q-Gated Attention for Dense Object Tracking",
+      "abstract": "While large models demonstrate the strong representational power of vanilla attention, this core mechanism cannot be directly applied to Dense Object Tracking: its quadratic all-to-all interactions are computationally prohibitive for dense motion estimation on high-resolution features. This mismatch prevents Dense Object Tracking from fully leveraging attention-based modeling in crowded and occlusion-heavy scenes. To address this challenge, we introduce GateMOT, an online tracking framework centered on Q-Gated Attention (Q-Attention), an efficient and spatially aware attention variant. Our key idea is to repurpose the Query from a similarity-conditioning term into a learnable gating unit. This Gating-Query (Gating-Q) produces a probabilistic gate that modulates Key features in an element-wise manner, enabling explicit relevance selection instead of costly global aggregation. Built on this mechanism, parallel Q-Attention heads transform one shared feature map into task-specific yet consistent representations for detection, motion, and re-identification, yielding a tightly coupled multi-task decoder with linear-complexity gating operations. GateMOT achieves state-of-the-art HOTA of 48.4, MOTA of 67.8, and IDF1 of 64.5 on BEE24, and demonstrates strong performance on additional Dense Object Tracking benchmarks. These results show that Q-Attention is a simple, effective, and transferable building block for attention-based tracking in dense tracking scenarios.",
+      "authors": [
+        "Mingjin Lv",
+        "Zelin Liu",
+        "Feifei Shao",
+        "Yi-Ping Phoebe Chen",
+        "Junqing Yu",
+        "Wei Yang",
+        "Zikai Song"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-04-29T07:04:29+00:00",
+      "link": "https://arxiv.org/pdf/2604.26353v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "dense motion estimation in crowded and occlusion-heavy scenes",
+      "llm_evidence_cn": "拥挤和重度遮挡场景下的密集运动估计",
+      "llm_evidence": "拥挤和重度遮挡场景下的密集运动估计",
+      "canonical_evidence": "拥挤和重度遮挡场景下的密集运动估计",
+      "llm_tldr_en": "Introduces Q-Gated Attention for efficient dense object tracking and motion estimation in crowded scenes.",
+      "llm_tldr_cn": "引入Q门控注意力机制，用于拥挤场景下高效的密集目标跟踪与运动估计。",
+      "llm_tldr": "引入Q门控注意力机制，用于拥挤场景下高效的密集目标跟踪与运动估计。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "pedestrian trajectory prediction in crowded scenes",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2604.26839v1",
+      "title": "Walk With Me: Long-Horizon Social Navigation for Human-Centric Outdoor Assistance",
+      "abstract": "Assisting humans in open-world outdoor environments requires robots to translate high-level natural-language intentions into safe, long-horizon, and socially compliant navigation behavior. Existing map-based methods rely on costly pre-built HD maps, while learning-based policies are mostly limited to indoor and short-horizon settings. To bridge this gap, we propose Walk with Me, a map-free framework for long-horizon social navigation from high-level human instructions. Walk with Me leverages GPS context and lightweight candidate points-of-interest from a public map API for semantic destination grounding and waypoint proposal. A High-Level Vision-Language Model grounds abstract instructions into concrete destinations and plans coarse waypoint sequences. During execution, an observation-aware routing mechanism determines whether the Low-Level Vision-Language-Action policy can handle the current situation or whether explicit safety reasoning from the High-Level VLM is needed. Routine segments are executed by the Low-Level VLA, while complex situations such as crowded crossings trigger high-level reasoning and stop-and-wait behavior when unsafe. By combining semantic intent grounding, map-free long-horizon planning, safety-aware reasoning, and low-level action generation, Walk with Me enables practical outdoor social navigation for human-centric assistance.",
+      "authors": [
+        "Lingfeng Zhang",
+        "Xiaoshuai Hao",
+        "Xizhou Bu",
+        "Yingbo Tang",
+        "Hongsheng Li",
+        "Jinghui Lu",
+        "Xiu-shen Wei",
+        "Jiayi Ma",
+        "Yu Liu",
+        "Jing Zhang",
+        "Hangjun Ye",
+        "Xiaojun Liang",
+        "Long Chen",
+        "Wenbo Ding"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-04-29T16:02:13+00:00",
+      "link": "https://arxiv.org/pdf/2604.26839v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "socially compliant navigation and waypoint proposal for outdoor assistance",
+      "llm_evidence_cn": "户外辅助中的社交合规导航与路径点建议",
+      "llm_evidence": "户外辅助中的社交合规导航与路径点建议",
+      "canonical_evidence": "户外辅助中的社交合规导航与路径点建议",
+      "llm_tldr_en": "A map-free framework for long-horizon social navigation using VLM to ground instructions into destinations.",
+      "llm_tldr_cn": "一种无地图长程社交导航框架，利用视觉语言模型将指令转化为目的地和路径点。",
+      "llm_tldr": "一种无地图长程社交导航框架，利用视觉语言模型将指令转化为目的地和路径点。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "study of pedestrian and vehicle trajectory prediction models",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2604.27450v1",
+      "title": "RAY-TOLD: Ray-Based Latent Dynamics for Dense Dynamic Obstacle Avoidance with TDMPC",
+      "abstract": "Dense, dynamic crowds pose a persistent challenge for autonomous mobile robots. Purely reactive planning methods, such as Model Predictive Path Integral (MPPI) control, often fail to escape local minima in complex scenarios due to their limited prediction horizon. To bridge this gap, we propose Ray-based Task-Oriented Latent Dynamics (RAY-TOLD), a hybrid control architecture that integrates obstacle information into latent dynamics and utilizes the robustness of physics-based MPPI with the long-horizon foresight of reinforcement learning. RAY-TOLD leverages a LiDAR-centric latent dynamics model to encode high-dimensional sensor data into a compact state representation, enabling the learning of a terminal value function and a policy prior. We introduce a policy mixture sampling strategy that augments the MPPI candidate population with trajectories derived from the learned policy, effectively guiding the planner towards the goal while maintaining kinematic feasibility. Extensive tests in a stochastic environment with high-density dynamic obstacles demonstrate that our method outperforms the MPPI baseline, reducing the collision rate. The results confirm that blending short-horizon physics-based rollouts with learned long-horizon intent significantly enhances navigation reliability and safety.",
+      "authors": [
+        "Seungho Han",
+        "Seokju Lee",
+        "Jeonguk Kang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-04-30T05:44:46+00:00",
+      "link": "https://arxiv.org/pdf/2604.27450v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Dense dynamic obstacle avoidance and latent dynamics for crowds",
+      "llm_evidence_cn": "密集动态障碍物规避与针对人群的潜空间动力学",
+      "llm_evidence": "密集动态障碍物规避与针对人群的潜空间动力学",
+      "canonical_evidence": "密集动态障碍物规避与针对人群的潜空间动力学",
+      "llm_tldr_en": "Integrates latent dynamics with MPPI for long-horizon obstacle avoidance in dense dynamic crowds.",
+      "llm_tldr_cn": "将潜空间动力学与 MPPI 结合，实现密集动态人群环境下的长时程避障。",
+      "llm_tldr": "将潜空间动力学与 MPPI 结合，实现密集动态人群环境下的长时程避障。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "pedestrian trajectory prediction in crowded scenes",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2604.24487v1",
+      "title": "Guiding Vector Field Generation via Score-based Diffusion Model",
+      "abstract": "Guiding Vector Fields (GVFs) are a powerful tool for robotic path following. However, classical methods assume smooth, ordered curves and fail when paths are unordered, multi-branch, or generated by probabilistic models. We propose a unified framework, termed the Score-Induced Guiding Vector Field (SGVF), which leverages score-based generative modeling to construct vector fields directly from data distributions. SGVF learns tangent fields from point clouds with unit-norm, orthogonality, and directional-consistency losses, ensuring geometric fidelity and control feasibility. This approach removes the reliance on ad-hoc path segmentation and enables guidance along complex topologies such as branching and pseudo-manifolds. The study establishes a correspondence between score vanishing in diffusion models and GVF singularities and highlights representational capacity near sharp path curvatures. Experiments on robotic navigation in planar environments demonstrate that SGVF achieves reliable path following in scenarios where classical GVFs fail, underscoring its potential as a bridge between generative modeling and geometric control. Code and experiment video are available at https://github.com/czr-gif/Guiding-Vector-Field-Generation-via-Score-based-Diffusion-Model.",
+      "authors": [
+        "Zirui Chen",
+        "Shiliang Guo",
+        "Shiyu Zhao"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-04-27T13:55:42+00:00",
+      "link": "https://arxiv.org/pdf/2604.24487v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Score-based generative modeling for robotic path following and vector field generation",
+      "llm_evidence_cn": "基于得分的生成模型用于机器人路径跟随和向量场生成",
+      "llm_evidence": "基于得分的生成模型用于机器人路径跟随和向量场生成",
+      "canonical_evidence": "基于得分的生成模型用于机器人路径跟随和向量场生成",
+      "llm_tldr_en": "Proposes a score-based diffusion model to generate guiding vector fields for complex robotic path following.",
+      "llm_tldr_cn": "提出一种基于得分扩散模型的引导向量场生成框架，用于复杂拓扑下的机器人路径跟随。",
+      "llm_tldr": "提出一种基于得分扩散模型的引导向量场生成框架，用于复杂拓扑下的机器人路径跟随。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.24036v1",
+      "title": "Robust Grounding with MLLMs against Occlusion and Small Objects via Language-guided Semantic Cues",
+      "abstract": "While Multimodal Large Language Models (MLLMs) have enhanced grounding capabilities in general scenes, their robustness in crowded scenes remains underexplored. Crowded scenes entail visual challenges (i.e., occlusion and small objects), which impair object semantics and degrade grounding performance. In contrast, language expressions are immune to such degradation and preserve object semantics. In light of these observations, we propose a novel method that overcomes such constraints by leveraging Language-Guided Semantic Cues (LGSCs). Specifically, our approach introduces a Semantic Cue Extractor (SCE) to derive semantic cues of objects from the visual pipeline of an MLLM. We then guide these cues using corresponding text embeddings to produce LGSCs as linguistic semantic priors. Subsequently, they are reintegrated into the original visual pipeline to refine object semantics. Extensive experiments and analyses demonstrate that incorporating LGSCs into an MLLM effectively improves grounding accuracy in crowded scenes.",
+      "authors": [
+        "Beomchan Park",
+        "Seongho Kim",
+        "Hyunjun Kim",
+        "Sungjune Park",
+        "Yong Man Ro"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "eess.IV"
+      ],
+      "published": "2026-04-27T04:42:03+00:00",
+      "link": "https://arxiv.org/pdf/2604.24036v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "robustness in crowded scenes with occlusion and small objects",
+      "llm_evidence_cn": "在遮挡和小目标的拥挤场景中的鲁棒性",
+      "llm_evidence": "在遮挡和小目标的拥挤场景中的鲁棒性",
+      "canonical_evidence": "在遮挡和小目标的拥挤场景中的鲁棒性",
+      "llm_tldr_en": "Proposes language-guided semantic cues to improve object grounding robustness in complex crowded scenes.",
+      "llm_tldr_cn": "提出语言引导的语义线索，以提高复杂拥挤场景下目标定位的鲁棒性。",
+      "llm_tldr": "提出语言引导的语义线索，以提高复杂拥挤场景下目标定位的鲁棒性。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "pedestrian trajectory prediction in crowded scenes",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.28111v1",
+      "title": "GSDrive: Reinforcing Driving Policies by Multi-mode Trajectory Probing with 3D Gaussian Splatting Environment",
+      "abstract": "End-to-end (E2E) autonomous driving presents a promising approach for translating perceptual inputs directly into driving actions. However, prohibitive annotation costs and temporal data quality degradation hinder long-term real-world deployment. While combining imitation learning (IL) and reinforcement learning (RL) is a common strategy for policy improvement, conventional RL training relies on delayed, event-based rewards-policies learn only from catastrophic outcomes such as collisions, leading to premature convergence to suboptimal behaviors. To address these limitations, we introduce GSDrive, a framework that exploits 3D Gaussian Splatting (3DGS) for differentiable, physics-based reward shaping in E2E driving policy improvement. Our method incorporates a flow matching-based trajectory predictor within the 3DGS simulator, enabling multi-mode trajectory probing where candidate trajectories are rolled out to assess prospective rewards. This establishes a bidirectional knowledge exchange between IL and RL by grounding reward functions in physically simulated interaction signals, offering immediate dense feedback instead of sparse catastrophic events. Evaluated on the reconstructed nuScenes dataset, our method surpasses existing simulation-based RL driving approaches in closed-loop experiments. Code is available at https://github.com/ZionGo6/GSDrive.",
+      "authors": [
+        "Ziang Guo",
+        "Min Chen",
+        "Xuefeng Zhang",
+        "Yixiao Zhou",
+        "Zufeng Zhang",
+        "Dzmitry Tsetserukou"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-04-30T16:59:07+00:00",
+      "link": "https://arxiv.org/pdf/2604.28111v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "multi-mode trajectory probing for autonomous driving policies",
+      "llm_evidence_cn": "自动驾驶策略的多模式轨迹探测",
+      "llm_evidence": "自动驾驶策略的多模式轨迹探测",
+      "canonical_evidence": "自动驾驶策略的多模式轨迹探测",
+      "llm_tldr_en": "Enhances autonomous driving policies using 3D Gaussian Splatting for multi-mode trajectory probing and reward shaping.",
+      "llm_tldr_cn": "利用3D高斯泼溅进行多模式轨迹探测和奖励塑造，增强自动驾驶策略。",
+      "llm_tldr": "利用3D高斯泼溅进行多模式轨迹探测和奖励塑造，增强自动驾驶策略。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2604.26899v1",
+      "title": "Safe Navigation using Neural Radiance Fields via Reachable Sets",
+      "abstract": "Safe navigation in cluttered environments is an important challenge for autonomous systems. Robots navigating through obstacle ridden scenarios need to be able to navigate safely in the presence of obstacles, goals, and ego objects of varying geometries. In this work, reachable set representations of the robot's real-time capabilities in the state space can be utilized to capture safe navigation requirements. While neural radiance fields (NeRFs) are utilized to compute, store, and manipulate the volumetric representations of the obstacles, or ego vehicle, as needed. Constrained optimal control is employed to represent the resulting path planning problem, involving linear matrix inequality constraints. We present simulation results for path planning in the presence of numerous obstacles in two different scenarios. Safe navigation is demonstrated through using reachable sets in the corresponding constrained optimal control problems.",
+      "authors": [
+        "Omanshu Thapliyal",
+        "Malarvizhi Sankaranarayanasamy",
+        "Ravigopal Vennelakanti"
+      ],
+      "primary_category": "eess.SY",
+      "categories": [
+        "eess.SY",
+        "cs.RO"
+      ],
+      "published": "2026-04-29T17:09:19+00:00",
+      "link": "https://arxiv.org/pdf/2604.26899v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Path planning for autonomous systems in cluttered environments",
+      "llm_evidence_cn": "自主系统在拥挤环境中的路径规划",
+      "llm_evidence": "自主系统在拥挤环境中的路径规划",
+      "canonical_evidence": "自主系统在拥挤环境中的路径规划",
+      "llm_tldr_en": "Uses NeRFs and reachable sets for safe path planning and navigation in cluttered environments.",
+      "llm_tldr_cn": "利用神经辐射场和可达集在拥挤环境中实现自主系统的安全路径规划与导航。",
+      "llm_tldr": "利用神经辐射场和可达集在拥挤环境中实现自主系统的安全路径规划与导航。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.24086v1",
+      "title": "AsyncShield: A Plug-and-Play Edge Adapter for Asynchronous Cloud-based VLA Navigation",
+      "abstract": "While Vision-Language-Action (VLA) models have been demonstrated possessing strong zero-shot generalization for robot control, their massive parameter sizes typically necessitate cloud-based deployment. However, cloud deployment introduces network jitter and inference latency, which can induce severe spatiotemporal misalignment in mobile navigation under continuous displacement, so that the stale intents expressed in past ego frames may become spatially incorrect in the current frame and lead to collisions. To address this issue, we propose AsyncShield, a plug-and-play asynchronous control framework. AsyncShield discards traditional black-box time-series prediction in favor of a deterministic physical white-box spatial mapping. By maintaining a temporal pose buffer and utilizing kinematic transformations, the system accurately converts temporal lag into spatial pose offsets to restore the VLA's original geometric intent. To balance intent restoration fidelity and physical safety, the edge adaptation is formulated as a constrained Markov decision process (CMDP). Solved via the PPO-Lagrangian algorithm, a reinforcement learning adapter dynamically trades off between tracking the VLA intent and responding to high-frequency LiDAR obstacle avoidance hard constraints. Furthermore, benefiting from a standardized universal sub-goal interface, domain randomization, and perception-level adaptation via Collision Radius Inflation, AsyncShield operates as a lightweight, plug-and-play module. Simulation and real-world experiments demonstrate that, without fine-tuning any cloud-based foundation models, the framework exhibits zero-shot and robust generalization capabilities, effectively improving the success rate and physical safety of asynchronous navigation.",
+      "authors": [
+        "Kai Yang",
+        "Zedong Chu",
+        "Yingnan Guo",
+        "Zhengbo Wang",
+        "Shichao Xie",
+        "Yanfen Shen",
+        "Xiaolong Wu",
+        "Xing Li",
+        "Mu Xu"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-04-27T06:20:15+00:00",
+      "link": "https://arxiv.org/pdf/2604.24086v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "correcting stale intents in mobile navigation",
+      "llm_evidence_cn": "纠正移动导航中的陈旧意图",
+      "llm_evidence": "纠正移动导航中的陈旧意图",
+      "canonical_evidence": "纠正移动导航中的陈旧意图",
+      "llm_tldr_en": "An adapter for cloud-based VLA navigation that maps stale intents to current spatial frames to prevent collisions.",
+      "llm_tldr_cn": "一种云端VLA导航适配器，通过将陈旧意图映射到当前空间坐标来防止碰撞。",
+      "llm_tldr": "一种云端VLA导航适配器，通过将陈旧意图映射到当前空间坐标来防止碰撞。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "target intent and goal estimation for trajectory prediction",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.26946v1",
+      "title": "Three-Step Nav: A Hierarchical Global-Local Planner for Zero-Shot Vision-and-Language Navigation",
+      "abstract": "Breakthrough progress in vision-based navigation through unknown environments has been achieved by using multimodal large language models (MLLMs). These models can plan a sequence of motions by evaluating the current view at each time step against the task and goal given to the agent. However, current zero-shot Vision-and-Language Navigation (VLN) agents powered by MLLMs still tend to drift off course, halt prematurely, and achieve low overall success rates. We propose Three-Step Nav to counteract these failures with a three-view protocol: First, \"look forward\" to extract global landmarks and sketch a coarse plan. Then, \"look now\" to align the current visual observation with the next sub-goal for fine-grained guidance. Finally, \"look backward\" audits the entire trajectory to correct accumulated drift before stopping. Requiring no gradient updates or task-specific fine-tuning, our planner drops into existing VLN pipelines with minimal overhead. Three-Step Nav achieves state-of-the-art zero-shot performance on the R2R-CE and RxR-CE dataset. Our code is available at https://github.com/ZoeyZheng0/3-step-Nav.",
+      "authors": [
+        "Wanrong Zheng",
+        "Yunhao Ge",
+        "Laurent Itti"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "published": "2026-04-29T17:55:05+00:00",
+      "link": "https://arxiv.org/pdf/2604.26946v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "motion sequence planning for vision-and-language navigation",
+      "llm_evidence_cn": "视觉语言导航中的运动序列规划",
+      "llm_evidence": "视觉语言导航中的运动序列规划",
+      "canonical_evidence": "视觉语言导航中的运动序列规划",
+      "llm_tldr_en": "Proposes a hierarchical global-local planner for zero-shot vision-and-language navigation using MLLMs.",
+      "llm_tldr_cn": "提出一种基于多模态大模型的层次化全局-局部规划器，用于零样本视觉导航。",
+      "llm_tldr": "提出一种基于多模态大模型的层次化全局-局部规划器，用于零样本视觉导航。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.25405v1",
+      "title": "Leveraging Previous-Traversal Point Cloud Map Priors for Camera-Based 3D Object Detection and Tracking",
+      "abstract": "Camera-based 3D object detection and tracking are central to autonomous driving, yet precise 3D object localization remains fundamentally constrained by depth ambiguity when no expensive, depth-rich online LiDAR is available at inference. In many deployments, however, vehicles repeatedly traverse the same environments, making static point cloud maps from prior traversals a practical source of geometric priors. We propose DualViewMapDet, a camera-only inference framework that retrieves such map priors online and leverages them to mitigate the absence of a LiDAR sensor during deployment. The key idea is a dual-space camera-map fusion strategy that avoids one-sided view conversion. Specifically, we (i) project the map into perspective view (PV) and encode multi-channel geometric cues to enrich image features and support BEV lifting, and (ii) encode the map directly in bird's-eye view (BEV) with a sparse voxel backbone and fuse it with lifted camera features in a shared metric space. Extensive evaluations on nuScenes and Argoverse 2 demonstrate consistent improvements over strong camera-only baselines, with particularly strong gains in object localization. Ablations further validate the contributions of PV/BEV fusion and prior-map coverage. We make the code and pre-trained models available at https://dualviewmapdet.cs.uni-freiburg.de .",
+      "authors": [
+        "Markus Käppeler",
+        "Özgün Çiçek",
+        "Yakov Miron",
+        "Abhinav Valada"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "published": "2026-04-28T09:16:44+00:00",
+      "link": "https://arxiv.org/pdf/2604.25405v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "3D object detection and tracking for autonomous driving",
+      "llm_evidence_cn": "自动驾驶中的3D目标检测与跟踪",
+      "llm_evidence": "自动驾驶中的3D目标检测与跟踪",
+      "canonical_evidence": "自动驾驶中的3D目标检测与跟踪",
+      "llm_tldr_en": "Leverages map priors to improve camera-based 3D object detection and tracking for autonomous vehicles.",
+      "llm_tldr_cn": "利用地图先验改进自动驾驶中的相机3D目标检测与跟踪。",
+      "llm_tldr": "利用地图先验改进自动驾驶中的相机3D目标检测与跟踪。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "study of pedestrian and vehicle trajectory prediction models",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2604.27118v1",
+      "title": "PALCAS: A Priority-Aware Intelligent Lane Change Advisory System for Autonomous Vehicles using Federated Reinforcement Learning",
+      "abstract": "We present a priority-aware intelligent lane change advisory system based on multi-agent federated reinforcement learning, namely PALCAS, for autonomous vehicles (AVs). While existing lane-change approaches typically focus on single-agent systems or centralized multi-agent systems, we introduce a federated reinforcement learning-based multi-agent lane change system prioritizing lane changing based on vehicle destination urgency. PALCAS incorporates a novel priority-aware safe lane-change reward function to enable judicious lane-change decisions in both mandatory and discretionary scenarios. PALCAS leverages the parameterized deep Q-network (PDQN) algorithm to facilitate effective cooperation among agents, enabling both lateral and longitudinal motion controls of AVs. Extensive simulations conducted using the SUMO traffic simulator and Mosaic V2X communication framework demonstrate that PALCAS significantly improves traffic efficiency, driving safety, comfort, destination arrival rates, and merging success rates compared to baseline methods.",
+      "authors": [
+        "Yassine Ibork",
+        "Nhat Ha Nguyen",
+        "Myounggyu Won",
+        "Lokesh Das"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-04-29T19:10:53+00:00",
+      "link": "https://arxiv.org/pdf/2604.27118v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Multi-agent lane change system for autonomous vehicles",
+      "llm_evidence_cn": "自动驾驶汽车的多智能体换道系统",
+      "llm_evidence": "自动驾驶汽车的多智能体换道系统",
+      "canonical_evidence": "自动驾驶汽车的多智能体换道系统",
+      "llm_tldr_en": "A federated reinforcement learning system for priority-aware multi-agent lane change coordination.",
+      "llm_tldr_cn": "一种基于联邦强化学习的优先级感知多智能体换道协同系统。",
+      "llm_tldr": "一种基于联邦强化学习的优先级感知多智能体换道协同系统。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "multi-agent trajectory forecasting and interaction modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.28107v1",
+      "title": "Neural Aided Kalman Filtering for UAV State Estimation in Degraded Sensing Environments",
+      "abstract": "Accurate state estimation of nonlinear dynamical systems is fundamental to modern aerospace operations across air, sea, and space domains. Online tracking of adversarial unmanned aerial vehicles (UAVs) is especially challenging due to agile nonlinear motion, noisy and sparse sensor measurements, and unknown control inputs; conditions that violate key assumptions of classical Kalman filter variants and degrade estimation performance. Neural networks (NNs) can learn complex nonlinear relationships from data, but lack principled uncertainty quantification, which is critical for state estimation tasks where confidence bounds drive downstream decisions. We address this with Bayesian Neural Networks (BNNs), which model uncertainty through distributions over network weights and produce predictive means and uncertainties via Monte Carlo sampling. Building on this, we propose the Bayesian Neural Kalman Filter (BNKF): a hybrid framework coupling a trained BNN with a Kalman correction step for robust online UAV state estimation. Unlike related neural Kalman approaches, BNKF produces full state predictions and incorporates Bayesian uncertainty directly into covariance propagation, improving robustness under high noise conditions. We evaluate BNKF under varying radar noise levels and sampling rates using synthetic nonlinear UAV flight data. Five fold cross validation demonstrates that BNKF outperforms Extended and Unscented Kalman Filters in accuracy, precision, and truth containment under degraded sensing. An ensemble variant (BNKFe) further improves precision in high-noise edge cases at a slight accuracy tradeoff. Runtime analysis confirms minimal inference overhead, supporting real-time deployment feasibility.",
+      "authors": [
+        "Akhil Gupta",
+        "Erhan Guven"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-04-30T16:55:15+00:00",
+      "link": "https://arxiv.org/pdf/2604.28107v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "online tracking of adversarial UAVs with agile motion",
+      "llm_evidence_cn": "对具有敏捷运动的对抗性无人机进行在线跟踪",
+      "llm_evidence": "对具有敏捷运动的对抗性无人机进行在线跟踪",
+      "canonical_evidence": "对具有敏捷运动的对抗性无人机进行在线跟踪",
+      "llm_tldr_en": "Combines Bayesian Neural Networks with Kalman filtering for robust UAV state estimation in degraded environments.",
+      "llm_tldr_cn": "结合贝叶斯神经网络与卡尔曼滤波，实现在退化环境下的鲁棒无人机状态估计。",
+      "llm_tldr": "结合贝叶斯神经网络与卡尔曼滤波，实现在退化环境下的鲁棒无人机状态估计。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory prediction for autonomous agents",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2604.28173v1",
+      "title": "Action Motifs: Self-Supervised Hierarchical Representation of Human Body Movements",
+      "abstract": "Effective human behavior modeling requires a representation of the human body movement that capitalizes on its compositionality. We propose a hierarchical representation consisting of Action Atoms that capture the atomic joint movements and Action Motifs that are formed by their temporal compositions and encode similar body movements found across different overall human actions. We derive A4Mer, a nested latent Transformer to learn this hierarchical representation from human pose data in a fully self-supervised manner. A4Mer splits a 3D pose sequence into variable-length segments and represents each segment as a single latent token (Action Atoms). Through bottom-up representation learning, temporal patterns composed of these Action Atoms, which capture meaningful temporal spans of reusable, semantic segments of body movements, naturally emerge (Action Motifs). A4Mer achieves this with a unified pretext task of masked token prediction in their respective latent spaces. We also introduce Action Motif Dataset (AMD), a large-scale dataset of multi-view human behavior videos with full SMPL annotations. We introduce a novel use of cameras by mounting them on the feet to achieve their frame-wise annotations despite frequent and heavy body occlusions. Experimental results demonstrate the effectiveness of A4Mer for extracting meaningful Action Motifs, which significantly benefit human behavior modeling tasks including action recognition, motion prediction, and motion interpolation.",
+      "authors": [
+        "Genki Kinoshita",
+        "Shu Nakamura",
+        "Ryo Kawahara",
+        "Shohei Nobuhara",
+        "Yasutomo Kawanishi",
+        "Ko Nishino"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-04-30T17:55:01+00:00",
+      "link": "https://arxiv.org/pdf/2604.28173v1",
+      "tags": [
+        "keyword:TP",
+        "query:TP"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "hierarchical representation of human body movements and temporal patterns",
+      "llm_evidence_cn": "人体运动的层次化表示与时间模式学习",
+      "llm_evidence": "人体运动的层次化表示与时间模式学习",
+      "canonical_evidence": "人体运动的层次化表示与时间模式学习",
+      "llm_tldr_en": "Proposes A4Mer to learn hierarchical self-supervised representations of human pose sequences.",
+      "llm_tldr_cn": "提出A4Mer，通过自监督学习人体姿态序列的层次化表示。",
+      "llm_tldr": "提出A4Mer，通过自监督学习人体姿态序列的层次化表示。",
+      "llm_tags": [
+        "query:tp"
+      ],
+      "matched_query_tag": "query:tp",
+      "matched_query_text": "trajectory representation learning and feature extraction",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}

@@ -6,71 +6,74 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-04-30
-- 运行时间：2026-04-30 20:50:00 UTC
+- 最新运行日期：2026-05-01
+- 运行时间：2026-05-01 20:42:43 UTC
 - 运行状态：成功
-- 本次总论文数：16
-- 精读区：5
+- 本次总论文数：17
+- 精读区：6
 - 速读区：11
 
 ### 今日简报（AI）
-- 今日共生成 16 篇推荐（精读 5 篇，速读 11 篇）
-- 精读：《FlowS: One-Step Motion Prediction via Local Transport Conditioning》（9.0/10）, 《SketchVLM: Vision language models can annotate images to explain thoughts and guide users》（8.0/10）
-- 速读：《Relative Entropy Estimation in Function Space: Theory and Applications to Trajectory Inference》（7.0/10）, 《Self-Predictive Representation for Autonomous UAV Object-Goal Navigation》（7.0/10）, 《Encoder-Free Human Motion Understanding via Structured Motion Descriptions》（7.0/10）
+- 今日共生成 17 篇推荐（精读 6 篇，速读 11 篇）
+- 精读：《Frozen LLMs as Map-Aware Spatio-Temporal Reasoners for Vehicle Trajectory Prediction》（10.0/10）, 《Judge, Then Drive: A Critic-Centric Vision Language Action Framework for Autonomous Driving》（9.0/10）
+- 速读：《RAY-TOLD: Ray-Based Latent Dynamics for Dense Dynamic Obstacle Avoidance with TDMPC》（8.0/10）, 《GSDrive: Reinforcing Driving Policies by Multi-mode Trajectory Probing with 3D Gaussian Splatting Environment》（8.0/10）, 《Guiding Vector Field Generation via Score-based Diffusion Model》（7.0/10）
 - 这些结果覆盖了当下较热的方向，建议先看精读区论文的关键问题与方法。
-- 详情：[/202604/30/README](/202604/30/README)
+- 详情：[/202605/01/README](/202605/01/README)
 
 ### 精读区论文标签
-1. [FlowS: One-Step Motion Prediction via Local Transport Conditioning](/202604/30/2604.26065v1-flows-one-step-motion-prediction-via-local-transport-conditioning)  
+1. [Frozen LLMs as Map-Aware Spatio-Temporal Reasoners for Vehicle Trajectory Prediction](/202605/01/2604.21479v3-frozen-llms-as-map-aware-spatio-temporal-reasoners-for-vehicle-trajectory-prediction)  
+   标签：评分：10.0/10、query:tp
+   evidence：冻结的LLM作为车辆轨迹预测的时空推理器
+2. [Judge, Then Drive: A Critic-Centric Vision Language Action Framework for Autonomous Driving](/202605/01/2604.27366v1-judge-then-drive-a-critic-centric-vision-language-action-framework-for-autonomous-driving)  
    标签：评分：9.0/10、query:tp
-   evidence：用于现实世界自动驾驶的单步运动预测
-2. [SketchVLM: Vision language models can annotate images to explain thoughts and guide users](/202604/30/2604.22875v2-sketchvlm-vision-language-models-can-annotate-images-to-explain-thoughts-and-guide-users)  
+   evidence：用于自动驾驶轨迹生成与优化的VLA框架
+3. [Flying by Inference: Active Inference World Models for Adaptive UAV Swarms](/202605/01/2604.27935v1-flying-by-inference-active-inference-world-models-for-adaptive-uav-swarms)  
+   标签：评分：9.0/10、query:tp
+   evidence：多无人机集群轨迹规划与运动行为
+4. [Trajectory Planning for an Articulated Commercial Vehicle using Model Predictive Contouring Control](/202605/01/2604.24064v1-trajectory-planning-for-an-articulated-commercial-vehicle-using-model-predictive-contouring-control)  
    标签：评分：8.0/10、query:tp
-   evidence：基于视觉语言模型的轨迹预测与视觉推理
-3. [ARETE: Attention-based Rasterized Encoding for Topology Estimation using HSV-transformed Crowdsourced Vehicle Fleet Data](/202604/30/2604.24353v1-arete-attention-based-rasterized-encoding-for-topology-estimation-using-hsv-transformed-crowdsourced-vehicle-fleet-data)  
+   evidence：使用 MPCC 的铰接式商用车轨迹规划
+5. [GateMOT: Q-Gated Attention for Dense Object Tracking](/202605/01/2604.26353v1-gatemot-q-gated-attention-for-dense-object-tracking)  
    标签：评分：8.0/10、query:tp
-   evidence：用于特征提取的车辆轨迹栅格化表示
-4. [Learning Human-Intention Priors from Large-Scale Human Demonstrations for Robotic Manipulation](/202604/30/2604.24681v1-learning-human-intention-priors-from-large-scale-human-demonstrations-for-robotic-manipulation)  
+   evidence：拥挤和重度遮挡场景下的密集运动估计
+6. [Walk With Me: Long-Horizon Social Navigation for Human-Centric Outdoor Assistance](/202605/01/2604.26839v1-walk-with-me-long-horizon-social-navigation-for-human-centric-outdoor-assistance)  
    标签：评分：8.0/10、query:tp
-   evidence：预测与具体形态无关的3D轨迹及意图专家模型
-5. [A well-motivated model of pedestrian dynamics](/202604/30/2604.26858v1-a-well-motivated-model-of-pedestrian-dynamics)  
-   标签：评分：8.0/10、query:tp
-   evidence：人群中的行人动力学与目标驱动运动
+   evidence：户外辅助中的社交合规导航与路径点建议
 
 ### 速读区论文标签
-1. [Relative Entropy Estimation in Function Space: Theory and Applications to Trajectory Inference](/202604/30/2604.20775v1-relative-entropy-estimation-in-function-space-theory-and-applications-to-trajectory-inference)  
+1. [RAY-TOLD: Ray-Based Latent Dynamics for Dense Dynamic Obstacle Avoidance with TDMPC](/202605/01/2604.27450v1-ray-told-ray-based-latent-dynamics-for-dense-dynamic-obstacle-avoidance-with-tdmpc)  
+   标签：评分：8.0/10、query:tp
+   evidence：密集动态障碍物规避与针对人群的潜空间动力学
+2. [GSDrive: Reinforcing Driving Policies by Multi-mode Trajectory Probing with 3D Gaussian Splatting Environment](/202605/01/2604.28111v1-gsdrive-reinforcing-driving-policies-by-multi-mode-trajectory-probing-with-3d-gaussian-splatting-environment)  
+   标签：评分：8.0/10、query:tp
+   evidence：自动驾驶策略的多模式轨迹探测
+3. [Guiding Vector Field Generation via Score-based Diffusion Model](/202605/01/2604.24487v1-guiding-vector-field-generation-via-score-based-diffusion-model)  
    标签：评分：7.0/10、query:tp
-   evidence：轨迹推断与潜在动力学过程恢复
-2. [Self-Predictive Representation for Autonomous UAV Object-Goal Navigation](/202604/30/2604.21130v1-self-predictive-representation-for-autonomous-uav-object-goal-navigation)  
+   evidence：基于得分的生成模型用于机器人路径跟随和向量场生成
+4. [Safe Navigation using Neural Radiance Fields via Reachable Sets](/202605/01/2604.26899v1-safe-navigation-using-neural-radiance-fields-via-reachable-sets)  
    标签：评分：7.0/10、query:tp
-   evidence：无人机目标导航中的自预测表示学习
-3. [Encoder-Free Human Motion Understanding via Structured Motion Descriptions](/202604/30/2604.21668v1-encoder-free-human-motion-understanding-via-structured-motion-descriptions)  
+   evidence：自主系统在拥挤环境中的路径规划
+5. [Three-Step Nav: A Hierarchical Global-Local Planner for Zero-Shot Vision-and-Language Navigation](/202605/01/2604.26946v1-three-step-nav-a-hierarchical-global-local-planner-for-zero-shot-vision-and-language-navigation)  
    标签：评分：7.0/10、query:tp
-   evidence：人体运动运动学的结构化运动描述
-4. [UAV Trajectory and Bandwidth Allocation for Efficient Data Collection in Low-Altitude Intelligent IoT: A Hierarchical DRL Approach](/202604/30/2604.23132v1-uav-trajectory-and-bandwidth-allocation-for-efficient-data-collection-in-low-altitude-intelligent-iot-a-hierarchical-drl-approach)  
+   evidence：视觉语言导航中的运动序列规划
+6. [PALCAS: A Priority-Aware Intelligent Lane Change Advisory System for Autonomous Vehicles using Federated Reinforcement Learning](/202605/01/2604.27118v1-palcas-a-priority-aware-intelligent-lane-change-advisory-system-for-autonomous-vehicles-using-federated-reinforcement-learning)  
    标签：评分：7.0/10、query:tp
-   evidence：用于数据收集的无人机轨迹和带宽分配
-5. [Safe Navigation in Unknown and Cluttered Environments via Direction-Aware Convex Free-Region Generation](/202604/30/2604.23648v1-safe-navigation-in-unknown-and-cluttered-environments-via-direction-aware-convex-free-region-generation)  
+   evidence：自动驾驶汽车的多智能体换道系统
+7. [Neural Aided Kalman Filtering for UAV State Estimation in Degraded Sensing Environments](/202605/01/2604.28107v1-neural-aided-kalman-filtering-for-uav-state-estimation-in-degraded-sensing-environments)  
    标签：评分：7.0/10、query:tp
-   evidence：杂乱环境下的安全运动生成与轨迹采样
-6. [Cooptimizing Safety and Performance Using Safety Value-Constrained Model Predictive Control](/202604/30/2604.23863v1-cooptimizing-safety-and-performance-using-safety-value-constrained-model-predictive-control)  
+   evidence：对具有敏捷运动的对抗性无人机进行在线跟踪
+8. [Action Motifs: Self-Supervised Hierarchical Representation of Human Body Movements](/202605/01/2604.28173v1-action-motifs-self-supervised-hierarchical-representation-of-human-body-movements)  
    标签：评分：7.0/10、query:tp
-   evidence：自主系统安全轨迹的实时综合
-7. [Object Referring-Guided Scanpath Prediction with Perception-Enhanced Vision-Language Models](/202604/30/2604.20361v1-object-referring-guided-scanpath-prediction-with-perception-enhanced-vision-language-models)  
+   evidence：人体运动的层次化表示与时间模式学习
+9. [Robust Grounding with MLLMs against Occlusion and Small Objects via Language-guided Semantic Cues](/202605/01/2604.24036v1-robust-grounding-with-mllms-against-occlusion-and-small-objects-via-language-guided-semantic-cues)  
    标签：评分：6.0/10、query:tp
-   evidence：使用视觉语言模型预测人类注意力扫描路径
-8. [CodeGraphVLP: Code-as-Planner Meets Semantic-Graph State for Non-Markovian Vision-Language-Action Models](/202604/30/2604.22238v1-codegraphvlp-code-as-planner-meets-semantic-graph-state-for-non-markovian-vision-language-action-models)  
+   evidence：在遮挡和小目标的拥挤场景中的鲁棒性
+10. [AsyncShield: A Plug-and-Play Edge Adapter for Asynchronous Cloud-based VLA Navigation](/202605/01/2604.24086v1-asyncshield-a-plug-and-play-edge-adapter-for-asynchronous-cloud-based-vla-navigation)  
    标签：评分：6.0/10、query:tp
-   evidence：用于轨迹推理的语义图状态
-9. [Learning from Demonstration with Failure Awareness for Safe Robot Navigation](/202604/30/2604.23360v1-learning-from-demonstration-with-failure-awareness-for-safe-robot-navigation)  
+   evidence：纠正移动导航中的陈旧意图
+11. [Leveraging Previous-Traversal Point Cloud Map Priors for Camera-Based 3D Object Detection and Tracking](/202605/01/2604.25405v1-leveraging-previous-traversal-point-cloud-map-priors-for-camera-based-3d-object-detection-and-tracking)  
    标签：评分：6.0/10、query:tp
-   evidence：机器人安全导航及在不安全状态下的动作模仿
-10. [GeoCert: Certified Geometric AI for Reliable Forecasting](/202604/30/2604.23474v1-geocert-certified-geometric-ai-for-reliable-forecasting)  
-   标签：评分：6.0/10、query:tp
-   evidence：用于交通系统可靠预测的几何人工智能
-11. [On the Generalization Properties of Selective State-Space Models for Filtering Tasks for Unknown Systems](/202604/30/2604.23818v1-on-the-generalization-properties-of-selective-state-space-models-for-filtering-tasks-for-unknown-systems)  
-   标签：评分：6.0/10、query:tp
-   evidence：序列建模中的输出预测与轨迹样本
+   evidence：自动驾驶中的3D目标检测与跟踪
 
 
 <div class="dpr-home-promo-card">
