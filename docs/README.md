@@ -6,74 +6,58 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-05-01
-- 运行时间：2026-05-01 20:42:43 UTC
+- 最新运行日期：2026-05-02
+- 运行时间：2026-05-02 19:58:26 UTC
 - 运行状态：成功
-- 本次总论文数：17
-- 精读区：6
+- 本次总论文数：12
+- 精读区：1
 - 速读区：11
 
 ### 今日简报（AI）
-- 今日共生成 17 篇推荐（精读 6 篇，速读 11 篇）
-- 精读：《Frozen LLMs as Map-Aware Spatio-Temporal Reasoners for Vehicle Trajectory Prediction》（10.0/10）, 《Judge, Then Drive: A Critic-Centric Vision Language Action Framework for Autonomous Driving》（9.0/10）
-- 速读：《RAY-TOLD: Ray-Based Latent Dynamics for Dense Dynamic Obstacle Avoidance with TDMPC》（8.0/10）, 《GSDrive: Reinforcing Driving Policies by Multi-mode Trajectory Probing with 3D Gaussian Splatting Environment》（8.0/10）, 《Guiding Vector Field Generation via Score-based Diffusion Model》（7.0/10）
-- 这些结果覆盖了当下较热的方向，建议先看精读区论文的关键问题与方法。
-- 详情：[/202605/01/README](/202605/01/README)
+今日聚焦自动驾驶与机器人前沿，深度解析了 HERMES++ 等 12 篇关于统一世界模型与数据质量的最新研究。
+重点关注 HERMES++ 如何通过统一架构实现 3D 场景理解与生成的跨越，以及 STARRY 在机器人操作中引入的时空动作建模。
+建议优先研读世界模型在感知决策一体化中的应用，并关注如何利用平滑度指标筛选高质量数据以优化模仿学习。
+- 详情：[/202605/02/README](/202605/02/README)
 
 ### 精读区论文标签
-1. [Frozen LLMs as Map-Aware Spatio-Temporal Reasoners for Vehicle Trajectory Prediction](/202605/01/2604.21479v3-frozen-llms-as-map-aware-spatio-temporal-reasoners-for-vehicle-trajectory-prediction)  
-   标签：评分：10.0/10、query:tp
-   evidence：冻结的LLM作为车辆轨迹预测的时空推理器
-2. [Judge, Then Drive: A Critic-Centric Vision Language Action Framework for Autonomous Driving](/202605/01/2604.27366v1-judge-then-drive-a-critic-centric-vision-language-action-framework-for-autonomous-driving)  
-   标签：评分：9.0/10、query:tp
-   evidence：用于自动驾驶轨迹生成与优化的VLA框架
-3. [Flying by Inference: Active Inference World Models for Adaptive UAV Swarms](/202605/01/2604.27935v1-flying-by-inference-active-inference-world-models-for-adaptive-uav-swarms)  
-   标签：评分：9.0/10、query:tp
-   evidence：多无人机集群轨迹规划与运动行为
-4. [Trajectory Planning for an Articulated Commercial Vehicle using Model Predictive Contouring Control](/202605/01/2604.24064v1-trajectory-planning-for-an-articulated-commercial-vehicle-using-model-predictive-contouring-control)  
+1. [HERMES++: Toward a Unified Driving World Model for 3D Scene Understanding and Generation](/202605/02/2604.28196v1-hermes-toward-a-unified-driving-world-model-for-3d-scene-understanding-and-generation)  
    标签：评分：8.0/10、query:tp
-   evidence：使用 MPCC 的铰接式商用车轨迹规划
-5. [GateMOT: Q-Gated Attention for Dense Object Tracking](/202605/01/2604.26353v1-gatemot-q-gated-attention-for-dense-object-tracking)  
-   标签：评分：8.0/10、query:tp
-   evidence：拥挤和重度遮挡场景下的密集运动估计
-6. [Walk With Me: Long-Horizon Social Navigation for Human-Centric Outdoor Assistance](/202605/01/2604.26839v1-walk-with-me-long-horizon-social-navigation-for-human-centric-outdoor-assistance)  
-   标签：评分：8.0/10、query:tp
-   evidence：户外辅助中的社交合规导航与路径点建议
+   evidence：未来几何预测与环境动力学模拟
 
 ### 速读区论文标签
-1. [RAY-TOLD: Ray-Based Latent Dynamics for Dense Dynamic Obstacle Avoidance with TDMPC](/202605/01/2604.27450v1-ray-told-ray-based-latent-dynamics-for-dense-dynamic-obstacle-avoidance-with-tdmpc)  
-   标签：评分：8.0/10、query:tp
-   evidence：密集动态障碍物规避与针对人群的潜空间动力学
-2. [GSDrive: Reinforcing Driving Policies by Multi-mode Trajectory Probing with 3D Gaussian Splatting Environment](/202605/01/2604.28111v1-gsdrive-reinforcing-driving-policies-by-multi-mode-trajectory-probing-with-3d-gaussian-splatting-environment)  
-   标签：评分：8.0/10、query:tp
-   evidence：自动驾驶策略的多模式轨迹探测
-3. [Guiding Vector Field Generation via Score-based Diffusion Model](/202605/01/2604.24487v1-guiding-vector-field-generation-via-score-based-diffusion-model)  
+1. [Learning from the Best: Smoothness-Driven Metrics for Data Quality in Imitation Learning](/202605/02/2604.23000v1-learning-from-the-best-smoothness-driven-metrics-for-data-quality-in-imitation-learning)  
    标签：评分：7.0/10、query:tp
-   evidence：基于得分的生成模型用于机器人路径跟随和向量场生成
-4. [Safe Navigation using Neural Radiance Fields via Reachable Sets](/202605/01/2604.26899v1-safe-navigation-using-neural-radiance-fields-via-reachable-sets)  
+   evidence：基于轨迹平滑度为模仿学习的演示数据评分
+2. [Should I Replan? Learning to Spot the Right Time in Robust MAPF Execution](/202605/02/2604.25567v1-should-i-replan-learning-to-spot-the-right-time-in-robust-mapf-execution)  
    标签：评分：7.0/10、query:tp
-   evidence：自主系统在拥挤环境中的路径规划
-5. [Three-Step Nav: A Hierarchical Global-Local Planner for Zero-Shot Vision-and-Language Navigation](/202605/01/2604.26946v1-three-step-nav-a-hierarchical-global-local-planner-for-zero-shot-vision-and-language-navigation)  
+   evidence：多智能体路径规划与鲁棒执行
+3. [STARRY: Spatial-Temporal Action-Centric World Modeling for Robotic Manipulation](/202605/02/2604.26848v1-starry-spatial-temporal-action-centric-world-modeling-for-robotic-manipulation)  
    标签：评分：7.0/10、query:tp
-   evidence：视觉语言导航中的运动序列规划
-6. [PALCAS: A Priority-Aware Intelligent Lane Change Advisory System for Autonomous Vehicles using Federated Reinforcement Learning](/202605/01/2604.27118v1-palcas-a-priority-aware-intelligent-lane-change-advisory-system-for-autonomous-vehicles-using-federated-reinforcement-learning)  
+   evidence：机器人操作中与动作生成对齐的时空预测
+4. [SpaAct: Spatially-Activated Transition Learning with Curriculum Adaptation for Vision-Language Navigation](/202605/02/2604.27620v1-spaact-spatially-activated-transition-learning-with-curriculum-adaptation-for-vision-language-navigation)  
    标签：评分：7.0/10、query:tp
-   evidence：自动驾驶汽车的多智能体换道系统
-7. [Neural Aided Kalman Filtering for UAV State Estimation in Degraded Sensing Environments](/202605/01/2604.28107v1-neural-aided-kalman-filtering-for-uav-state-estimation-in-degraded-sensing-environments)  
+   evidence：具身智能体导航的前向状态转移预测
+5. [MotuBrain: An Advanced World Action Model for Robot Control](/202605/02/2604.27792v1-motubrain-an-advanced-world-action-model-for-robot-control)  
    标签：评分：7.0/10、query:tp
-   evidence：对具有敏捷运动的对抗性无人机进行在线跟踪
-8. [Action Motifs: Self-Supervised Hierarchical Representation of Human Body Movements](/202605/01/2604.28173v1-action-motifs-self-supervised-hierarchical-representation-of-human-body-movements)  
+   evidence：用于视频和动作联合预测的多模态生成模型
+6. [Dreaming Across Towns: Semantic Rollout and Town-Adversarial Regularization for Zero-Shot Held-Out-Town Fixed-Route Driving in CARLA](/202605/02/2604.27994v1-dreaming-across-towns-semantic-rollout-and-town-adversarial-regularization-for-zero-shot-held-out-town-fixed-route-driving-in-carla)  
    标签：评分：7.0/10、query:tp
-   evidence：人体运动的层次化表示与时间模式学习
-9. [Robust Grounding with MLLMs against Occlusion and Small Objects via Language-guided Semantic Cues](/202605/01/2604.24036v1-robust-grounding-with-mllms-against-occlusion-and-small-objects-via-language-guided-semantic-cues)  
+   evidence：驾驶智能体未来视觉语义嵌入的多时界预测
+7. [Agentic World Modeling: Foundations, Capabilities, Laws, and Beyond](/202605/02/2604.22748v1-agentic-world-modeling-foundations-capabilities-laws-and-beyond)  
    标签：评分：6.0/10、query:tp
-   evidence：在遮挡和小目标的拥挤场景中的鲁棒性
-10. [AsyncShield: A Plug-and-Play Edge Adapter for Asynchronous Cloud-based VLA Navigation](/202605/01/2604.24086v1-asyncshield-a-plug-and-play-edge-adapter-for-asynchronous-cloud-based-vla-navigation)  
+   evidence：智能体导航的预测环境模型和状态转移算子
+8. [Bridging the Pose-Semantic Gap: A Cascade Framework for Text-Based Person Anomaly Search](/202605/02/2604.23282v1-bridging-the-pose-semantic-gap-a-cascade-framework-for-text-based-person-anomaly-search)  
    标签：评分：6.0/10、query:tp
-   evidence：纠正移动导航中的陈旧意图
-11. [Leveraging Previous-Traversal Point Cloud Map Priors for Camera-Based 3D Object Detection and Tracking](/202605/01/2604.25405v1-leveraging-previous-traversal-point-cloud-map-priors-for-camera-based-3d-object-detection-and-tracking)  
+   evidence：行为事件检索与骨架相似性过滤
+9. [AgenticCache: Cache-Driven Asynchronous Planning for Embodied AI Agents](/202605/02/2604.24039v1-agenticcache-cache-driven-asynchronous-planning-for-embodied-ai-agents)  
    标签：评分：6.0/10、query:tp
-   evidence：自动驾驶中的3D目标检测与跟踪
+   evidence：多智能体规划与规划可预测性
+10. [Featurising Pixels from Dynamic 3D Scenes with Linear In-Context Learners](/202605/02/2604.26488v1-featurising-pixels-from-dynamic-3d-scenes-with-linear-in-context-learners)  
+   标签：评分：6.0/10、query:tp
+   evidence：从视频中学习时空特征描述符
+11. [Uni-HOI:A Unified framework for Learning the Joint distribution of Text and Human-Object Interaction](/202605/02/2604.27491v1-uni-hoia-unified-framework-for-learning-the-joint-distribution-of-text-and-human-object-interaction)  
+   标签：评分：6.0/10、query:tp
+   evidence：文本、人体运动和物体运动的联合分布
 
 
 <div class="dpr-home-promo-card">
