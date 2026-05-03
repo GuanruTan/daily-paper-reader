@@ -1,0 +1,526 @@
+Title: No Pedestrian Left Behind: Real-Time Detection and Tracking of Vulnerable Road Users for Adaptive Traffic Signal Control
+
+URL Source: https://arxiv.org/pdf/2604.25887v1
+
+Published Time: Wed, 29 Apr 2026 01:17:36 GMT
+
+Number of Pages: 9
+
+Markdown Content:
+# No Pedestrian Left Behind: Real-Time Detection and Tracking of Vulnerable Road Users for Adaptive Traffic Signal Control 
+
+## Anas Gamal Aly 
+
+Stetson University DeLand, Florida, USA agamal@stetson.edu 
+
+## Hala ElAarag 
+
+Stetson University DeLand, Florida, USA helaarag@stetson.edu 
+
+Abstract 
+
+Current pedestrian crossing signals operate on fixed timing without adjustment to pedestrian behavior, which can leave vulnerable road users (VRUs) such as the elderly, disabled, or distracted pedestrians stranded when the light changes. We introduce No Pedestrian Left Behind (NPLB) , a real-time adaptive traffic signal system that monitors VRUs in crosswalks and automatically extends signal timing when needed. We evaluated five State-of-the-Art object detection models on the BG Vulnerable Pedestrian (BGVP) dataset, with You Only Look Once (YOLO) v12 achieving the highest mean Average Precision at 50% (mAP@0.5) of 0.756. NPLB integrates our fine-tuned YOLOv12 with ByteTrack multi-object tracking and an adaptive controller that extends pedestrian phases when remaining time falls below a critical threshold. Through 10,000 Monte Carlo simulations, we demonstrate that NPLB improves VRU safety by 71.4%, reducing stranding rates from 9.10% to 2.60%, while requiring signal extensions in only 12.1% of crossing cycles. 
+
+CCS Concepts 
+
+• Computing methodologies → Object detection ; Tracking ;
+
+• Computer systems organization → Embedded systems ; •
+
+Applied computing → Transportation ; • Mathematics of com-puting → Markov-chain Monte Carlo methods .
+
+Keywords 
+
+pedestrian detection, vulnerable road users, adaptive traffic signal control, computer vision, object tracking, AI for social good, real-time systems 
+
+ACM Reference Format: 
+
+Anas Gamal Aly and Hala ElAarag. 2026. No Pedestrian Left Behind: Real-Time Detection and Tracking of Vulnerable Road Users for Adaptive Traffic Signal Control. In 2026 ACM Southeast Conference (ACMSE 2026), April 23–25, 2026, Troy, AL, USA. ACM, New York, NY, USA, 9 pages. https://doi.org/10. 1145/3746467.3801496 
+
+1 Introduction 
+
+Pedestrian safety remains a critical challenge for modern cities. The World Health Organization estimates that more than 270,000 pedestrians die annually in road traffic crashes, representing nearly  
+
+> This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License.
+> ACMSE 2026, April 23–25, 2026, Troy, AL, USA
+> ©2026 Copyright held by the owner/author(s). ACM ISBN 979-8-4007-2062-8/2026/04 https://doi.org/10.1145/3746467.3801496
+
+22% of global road fatalities [ 29 ]. Urban intersections are particu-larly risky because fixed-time pedestrian phases assume uniform walking speeds; in reality, speeds vary substantially across individ-uals and are often lower for elderly, disabled, or visually impaired pedestrians. This creates a risk that some pedestrians are still in the crosswalk when the signal expires. Evaluations of mid-block pedestrian signals (MPS) have shown measurable reductions in pedestrian–vehicle conflicts, reinforcing that timing aligned to ob-served behavior can improve safety [3]. Abdelrahman et al. [ 1 ] introduced Video-to-Text Pedestrian Mon-itoring (VTPM), a Large Language Model (LLM) framework that generates real-time reports with 0.33 second latency. There are var-ious machine learning methods that could be applied to Intelligent Transportation Systems (ITS) [ 11 ]. For traffic-flow detection, meth-ods such as k-nearest Neighbor (k-NN), support vector regression (SVR), SVM, or long short-term memory (LSTM) were used. For accident detection and prevention, methods such as regression tree (CART, k-NN) [ 11 ] were used. Mohandas et al. [ 17 ] defines smart cities as the establishment of all the facilities required in the context of demand-based needs. Machine learning methods such as Neural Networks have been found to be useful in improving the energy efficiency of street lights and creating weather-aware methods [ 7, 14 , 23 ]. To implement smart city lights, Kama et al. [ 13 ] introduced solar street lights that collect data in real time on an online server to help plan the cleaning of the solar panels. In this work, we present NPLB (No Pedestrian Left Behind), a real-time adaptive traffic signal system that uses computer vision to detect and track vulnerable road users at crosswalks and automati-cally extend pedestrian signal phases when needed. We benchmark five State-of-the-Art object detection models on the BG Vulnerable Pedestrian (BGVP) dataset to identify the best-performing architec-ture for VRU detection, and evaluate the full NPLB system through 10,000 Monte Carlo simulations that incorporate realistic detection failure rates. Our results demonstrate that NPLB reduces pedestrian stranding rates by 71.4% while requiring signal extensions in only 12.1% of crossing cycles, establishing the viability of vision-based adaptive signal control as an equity-focused safety intervention. 
+
+2 Related Works 
+
+Adaptive Signal Control. Traditional practice in pedestrian signal design relies on assumed walking speeds, which often under-serve slower pedestrians. Muley et al. [ 19 ] reviewed global practices and highlighted the limitations of fixed-time approaches. Adaptive sig-nal control strategies have been shown to improve multimodal performance; for example, Akyol et al. [ 4] demonstrated that ad-justing green times dynamically based on demand improved both 
+
+> arXiv:2604.25887v1 [cs.CV] 28 Apr 2026
+
+throughput and pedestrian safety. Field evaluations of mid-block pedestrian signals (MPS) report reduced probabilities of moderate and serious conflicts in before-and-after studies [ 3]. Networked sensor-based adaptive controllers also show potential for scaling adaptive strategies across corridors and cities [ 27 ]. Deploying Split Cycle Offset Optimisation Technique (SCOOT) algorithm for adap-tive signal timings improved the pedestrian travel times by 30% while increasing vehicle delays by 11% [4] 
+
+Prediction Models for Pedestrian Intention. Several recent studies move beyond detection to forecasting pedestrian behavior. Ab-delrahman et al. [ 2] introduced VRUCrossSafe, a framework that predicts the crossing intention of pedestrians, cyclists, and scooter riders in real time, achieving high accuracy and inference speed. Such predictive models highlight the potential of CV-based moni-toring but stop short of integrating predictions into traffic control. Our work builds on this literature by coupling real-time perception with a rule-based controller that dynamically extends pedestrian phases, addressing an important research gap. YOLO (You Only Look Once) models offer fast, accurate pedes-trian detection, while trackers such as DeepSORT [ 28 ], OC-SORT [ 8]and ByteTrack [ 30 ] maintain consistent pedestrian IDs across frames. Together, these tools allow estimation of walking speed and cross-ing progress directly from video feeds. Beyond detection, recent works have applied CV to predict pedestrian crossing intention, such as VRUCrossSafe, which achieved 94.7% accuracy at real-time speed by leveraging pose and appearance features [2]. Despite this progress, much of the literature optimizes signals primarily for vehicles or focuses on predicting pedestrian behavior without adapting the signal timing itself. Studies on adaptive signal control emphasize the benefits for traffic throughput and delay reduction, but few directly extend pedestrian crossing time based on real-time trajectory data. Moreover, vulnerable road users (VRUs), such as wheelchair users or visually impaired pedestrians, remain underrepresented in such studies [ 4 , 5, 19 , 27 ]. To address this gap, we introduce the following contributions: (1) NPLB: An Adaptive Pedestrian-Safety System. A real-time traffic signal architecture (Figure 1) that integrates a fine-tuned VRU YOLOv12 detector with an adaptive signal controller to dynamically extend pedestrian crossing times based on the detection of VRUs. (2) Comprehensive Benchmarking Of VRU Detection Mod-els. We conduct a comparative evaluation of State-of-the-Art object detectors (YOLOv5, YOLOv11, YOLOv12, SSDLite, Fas.ter R-CNN) on the BGVP dataset, establishing perfor-mance baselines for VRU detection. (3) State-of-the-Art YOLOv12 Model For VRU Detection. 
+
+We fine-tune YOLOv12 for VRU detection and achieve an mAP@0.5 of 0.756, outperforming all tested models and demonstrating its suitability for real-time integration within NPLB due to its speed and accuracy. 
+
+3 NPLB (No Pedestrian Left Behind) System 
+
+Our research explores an approach to improving pedestrian safety through computer vision technology. We focus on enhancing de-tection capabilities specifically for vulnerable road users and imple-ment proper mitigation through our NPLB system. Video Input (.mp4)       
+
+> YOLOv12 Object Detection (VRU Bounding Boxes + Classes)
+> ByteTrack Tracking (Track IDs for VRUs)
+> VRU Classification Filter (children wo disability, elderly wo disability, with disability)
+> VRU detected in last 10 frames?
+> Is VRU present AND time left
+> < τ t(4s)?
+> Extend Signal (time left += τe= 3s) No Extension
+> Signal Timer Update (time left -= 1)
+> Yes
+> No (vru timeout >
+> 10): Reset vru detected, clear vru ids
+> Yes No
+> Perception Layer
+> Detection Layer
+> Control Layer
+
+Figure 1: NPLB Architecture 
+
+The NPLB system addresses a critical gap in pedestrian safety by dynamically adapting traffic signal timing based on real-time detection of vulnerable road users. The system architecture, illus-trated in Figure 1, consists of three integrated layers: perception, detection, and control. 
+
+3.1 System Architecture 
+
+(1) Perception Layer processes video input through our fine-tuned YOLOv12 model, which detects VRUs and generates bounding boxes with class labels for each frame. These detec-tions are then passed to ByteTrack , a multi-object tracking algorithm that maintains consistent track IDs across frames, enabling the system to follow individual pedestrians through-out their crossing journey. (2) Detection Layer filters the tracked objects to identify VRUs specifically, focusing on three vulnerability categories: chil-dren without disabilities, elderly individuals without disabil-ities, and persons with disabilities. This layer maintains a set of unique VRU track IDs and implements a timeout mecha-nism to handle temporary occlusions or detection gaps. If no VRU is detected for 10 consecutive frames (approximately 0.33 seconds at 30 fps), the system resets its VRU tracking state to prevent false positives from stale detections. (3) Control Layer implements the adaptive signal timing logic. When a VRU is detected in the crosswalk and the remaining signal time falls below a 𝜏 𝑡 critical threshold (4 seconds), the system automatically extends the pedestrian phase by a 𝜏 𝑒 predefined extension time (3 seconds). This threshold is based on typical walking speeds and crosswalk widths, ensuring that pedestrians who have already committed to crossing have sufficient time to complete their journey safely. 
+
+3.2 Assumptions and Scope 
+
+The current NPLB implementation assumes (1) Pedestrians are crossing legally at designated crosswalks during pedestrian signal phases (2) Pedestrians are crossing during pedestrian signal phases (3) An environment with pre-existing clearly marked crosswalks (4) Adequate lighting conditions for computer vision processing. Illegal crossings or jaywalking scenarios require different de-tection and response strategies and are outside the scope of this work. The extension time parameter can be calibrated based on local intersection characteristics, including crosswalk width, typical VRU walking speeds, and traffic patterns. We use a 𝜏 𝑒 extension of 3 seconds. 
+
+3.3 Operational Logic 
+
+Algorithm 1 describes the complete NPLB workflow. The system operates on a per-frame basis, processing each video frame through the YOLOv12 detector with ByteTrack integration. For each de-tected bounding box, the system checks whether the object belongs to one of the three VRU classes. When a VRU is identified, its track ID is added to the active VRU set, and the timeout counter is reset. The decision to extend signal timing is governed by two condi-tions: (1) At least one VRU must be actively detected in the current frame or have been detected within the last 10 frames (2) The remaining signal time must be less than the critical threshold. When both conditions are satisfied, the system issues a command indicated as EXTEND_SIGNAL and increments the remaining time by the extension duration. This approach ensures that the system only extends signals when necessary, balancing pedestrian safety with traffic flow efficiency. The timeout mechanism prevents indefinite signal extensions due to detection artifacts or pedestrians who have already cleared the crosswalk, while the track ID maintenance allows the system to recognize returning or persistently present VRUs. 
+
+4 Experiment Design and Evaluation 4.1 NPLB Evaluation 
+
+To evaluate the safety impact of the NPLB system, we conducted Monte Carlo simulations comparing fixed-time signals against NPLB control. Our simulation framework models pedestrian cross-ing scenarios with varying crosswalk widths, and walking speeds based on pedestrian types. Our evaluation is carried out in two phases. First, we benchmark five object detection models on the BGVP dataset to select the best-performing computer vision model. Second, we evaluate the NPLB system through Monte Carlo simulation, which incorporates the best computer vision model’s empirical recall as a parameter (𝛼 = 1 − recall = 0.26 ) to realistically model per-frame missed detections without requiring a labeled video dataset. 
+
+Algorithm 1: No Pedestrian Left Behind (NPLB)  
+
+> 1:
+
+Input: video_stream, initial_signal_time  
+
+> 2:
+
+Parameters: 𝜏 𝑒 = 3.0s (extension_time), 𝜏 𝑡 = 4.0s(threshold_time), 𝑛 𝑚𝑎𝑥 = 2 (max_extensions)  
+
+> 3:
+
+model ← YOLOv12.load("weights.pt")  
+
+> 4:
+
+vru_ids ← ∅ {Set of unique VRU track IDs}  
+
+> 5:
+
+vru_detected ← False  
+
+> 6:
+
+vru_timeout ← 0 
+
+> 7:
+
+time_left ← initial_signal_time  
+
+> 8:
+
+extension_count ← 0 
+
+> 9:
+
+for each frame in video_stream.track(tracker="ByteTrack") do  
+
+> 10:
+
+detections ← frame.boxes  
+
+> 11:
+
+vru_detected ← False {Reset per frame}  
+
+> 12:
+
+for each box in detections do  
+
+> 13:
+
+cls ← box.class  
+
+> 14:
+
+track_id ← box.id  
+
+> 15:
+
+if cls ∈ {children_wo_disability, elderly_wo_disability, with_disability} then  
+
+> 16:
+
+vru_detected ← True  
+
+> 17:
+
+if track_id ≠ −1 and track_id ∉ vru_ids then  
+
+> 18:
+
+vru_ids ← vru_ids ∪ {track_id}  
+
+> 19:
+
+end if  
+
+> 20:
+
+end if  
+
+> 21:
+
+end for  
+
+> 22:
+
+if not vru_detected then  
+
+> 23:
+
+vru_timeout ← vru_timeout + 1  
+
+> 24:
+
+if vru_timeout > 10 then  
+
+> 25:
+
+vru_detected ← False  
+
+> 26:
+
+vru_ids ← ∅  
+
+> 27:
+
+vru_timeout ← 0 
+
+> 28:
+
+end if  
+
+> 29:
+
+else  
+
+> 30:
+
+vru_timeout ← 0 {Reset timeout}  
+
+> 31:
+
+end if  
+
+> 32:
+
+if vru_detected and time_left < 𝜏 𝑡 and extension_count 
+
+< 𝑛 𝑚𝑎𝑥 then  
+
+> 33:
+
+time_left ← time_left + 𝜏 𝑒  
+
+> 34:
+
+extension_count ← extension_count + 1  
+
+> 35:
+
+output "EXTEND_SIGNAL"  
+
+> 36:
+
+end if  
+
+> 37:
+
+time_left ← time_left - 1  
+
+> 38:
+
+end for 
+
+4.1.1 Simulation Framework. We simulated 10,000 crossing sce-narios using pedestrian walking speeds from U.S. Department of Transportation guidelines [ 25 ]: average adults (4.00 ft/s), wheelchair users (3.55 ft/s), and elderly adults (2.80 ft/s). Pedestrian type dis-tribution was based on 2023-2024 U.S. Census data [ 24 , 26 ]: 18% elderly, 1.6% wheelchair users, and 80.4% general adults. Consistent with recent city-wide measurements reported by Moran and Lae-fer [ 18 ], crosswalk lengths in our study fall within a range of 30 to 60 feet. Longer crossings exceeding 50–60 feet are associated with higher pedestrian-collision risk [18]. Each simulation trial proceeds as follows. A pedestrian is as-signed a type (general adult, elderly, or wheelchair user). Then according to U.S. Census proportions, a walking speed is drawn from the corresponding distribution. A crosswalk length sampled uniformly from 30-60 feet, and a randomized entry delay of 0–3 sec-onds to model natural crossing behavior. The fixed-time signal dura-tion is computed using the Colorado Department of Transportation (CDOT) formula [ 9] formula for that pedestrian’s assigned speed and crosswalk length. For the NPLB condition, the adaptive controller monitors the pedestrian’s estimated position frame-by-frame: at each simulated frame, the detector either successfully identifies the VRU (with probability 1 − 𝛼 = recall ) or misses the detection (with probability 
+
+𝛼 = 0.26 ). When a VRU is detected and remaining signal time falls below 𝜏 𝑡 , the controller issues an extension. A pedestrian is considered stranded if they remain in the crosswalk when the signal phase expires. Stranding rates are computed as the fraction of stranded pedestrians across all 10,000 trials. Monte Carlo simulation has proven effective in pedestrian safety research [ 6, 12 ], allowing comprehensive exploration of parameter space and edge cases. 
+
+4.1.2 NPLB System Parameters. The NPLB system operates with the parameters in Table 1: 
+
+Table 1: System Parameters Symbol Parameter Value Description 
+
+𝜌 Detection Rate 0.756 mAP@0.5 
+
+𝜏 𝑒 Extension Time 3.0 s Extension duration 
+
+𝜏 𝑡 Threshold Time 4.0 s Time-remaining trigger 
+
+𝑛 𝑚𝑎𝑥 Max Extensions 2 Allowed per crossing 
+
+𝛼 Systemic Failure 0.26 1 - recall 
+
+𝜏 𝑒 and 𝜏 𝑡 parameters were selected through sensitivity analysis to balance pedestrian safety with minimal traffic flow disruption. 
+
+4.1.3 Baseline Comparison. For the fixed-time baseline, we calcu-lated signal durations using the Colorado Department of Trans-portation formula [ 9 ]: signal time = (crossing distance / walking speed) + buffer, where buffer ≥ 2 seconds. We used a 5-second buffer, representing conservative engineering practices. 
+
+4.1.4 Parameter Optimization. We conducted a parameter sweep across extension times (3.0-6.0 s) and threshold times (3.0-6.0 s) to identify optimal values (Figure 2). The analysis revealed that 
+
+𝜏 𝑒 = 3.0 seconds provides sufficient protection while minimizing signal extensions, and 𝜏 𝑡 = 4.0 seconds offers the most significant stranding reduction without excessive impact on total signal dura-tion. These values represent the minimum effective intervention that maintains safety benefits. 
+
+4.2 Model Evaluation 
+
+Mean average precision (mAP) [ 21 ] provides a meaningful evalua-tion over multiple classes for Computer Vision models. We describe it mathematically as shown in Equation 1: 
+
+𝑚𝐴𝑃 = 1
+
+𝑛 ·
+
+> 𝑛
+
+∑︁ 
+
+> 𝑖 =1
+
+𝐴𝑃 𝑖 (1) 
+
+Intersection over Union (IoU) measures the overlap between a predicted bounding box and the ground-truth box, defined as the 3.0 4.0 5.0 6.0              
+
+> τt(Threshold Time, s)
+> 3.0
+> 4.0
+> 5.0
+> 6.0
+> τe (Extension Time, s)
+> 2.99 2.60 2.59 2.59
+> 2.96 2.60 2.59 2.59
+> 2.96 2.60 2.59 2.59
+> 2.96 2.60 2.59 2.59
+> Sensitivity Analysis
+> 2.60
+> 2.65
+> 2.70
+> 2.75
+> 2.80
+> 2.85
+> 2.90
+> 2.95
+> Stranding Rate (%)
+
+Figure 2: Heatmap of Parameter Sweep Showing Stranding Rates Across Different Combinations of Extension Time ( 𝜏 𝑒 )and Threshold Time ( 𝜏 𝑡 )
+
+area of intersection divided by the area of their union. Higher IoU values indicate more accurate localization of the detected object. mAP@0.5 considers a detection correct if the predicted bounding box overlaps the ground truth by at least 50% IoU, providing a lenient measure of detection. On the other hand, mAP@[0.5:0.95] averages the mean Average Precision over IoU thresholds from 0.5 to 0.95 in increments of 0.05, providing a stricter and more comprehensive evaluation that accounts for both detection and localization accuracy across multiple overlap levels. 
+
+4.3 Data Collection 
+
+After examining different pedestrian datasets including Pedestrian Intention Estimation (PIE) [ 20 ], Joint Attention in Autonomous Driving (JAAD) [ 15 ], and Caltech Pedestrians [ 10 ], we found that these datasets do not contain VRUs. We selected the BGVP dataset [ 22 ] because it is, to our knowledge, the only publicly available annotated dataset containing the VRU demographics targeted by NPLB: elderly pedestrians, wheelchair users, and children. Widely used video datasets such as PIE [ 20 ] and JAAD [ 15 ] do not include these labels. The BGVP dataset follows the COCO [ 16 ] dataset format. To use the BGVP dataset with our YOLO models, we employ Algorithm 2 to convert the BGVP dataset format into YOLO format. 
+
+5 Model Implementation 
+
+To identify the most effective architecture for VRU detection, we evaluate 5 State-of-the-Art object detection models fine-tuned on the BGVP dataset. Our evaluation includes three variants from the YOLO family (YOLOv5, YOLOv11, YOLOv12), known for real-time performance, alongside Faster R-CNN and SSDLite, which represent two-stage and lightweight detection approaches, respectively. 
+
+5.1 YOLOv5, YOLOv11, YOLOv12 
+
+For real-time VRU detection, we fine-tuned three YOLO object-detection models (v5, v11, v12) on the BGVP dataset. The YOLO models are single-stage detectors designed for speed and accuracy, and output bounding boxes, objectness scores, and class probabili-ties in a unified framework. Algorithm 2: BGVP Dataset Preprocessing  
+
+> 1:
+
+Input: BGVP dataset with split archives and COCO annotations  
+
+> 2:
+
+Output: YOLO-formatted dataset  
+
+> 3:
+
+Create dataset configuration with 4 VRU classes  
+
+> 4:
+
+for each split in {train, validation, test} do  
+
+> 5:
+
+Extract images from archive to organized directory structure  
+
+> 6:
+
+end for  
+
+> 7:
+
+for each split in {train, validation, test} do  
+
+> 8:
+
+Load COCO annotations for split  
+
+> 9:
+
+for each annotated image do  
+
+> 10:
+
+Convert bounding boxes: YOLO format → COCO format  
+
+> 11:
+
+Normalize coordinates by image dimensions  
+
+> 12:
+
+Write YOLO label file with class and bbox per object  
+
+> 13:
+
+end for  
+
+> 14:
+
+end for  
+
+> 15:
+
+Validate image and label counts match across all splits  
+
+> 16:
+
+return Preprocessed dataset ready for YOLO training 
+
+Training Procedure. We initialized each model with pre-trained weights provided by Ultralytics and trained on the BGVP dataset with 3 VRU classes. Training parameters were set to ensure suffi-cient learning while mitigating overfitting: 
+
+• Image Size: 640 × 640 pixels 
+
+• Batch Size: 16 
+
+• Epochs: 500, with early stopping patience of 50 epochs 
+
+• Data Augmentation: horizontal flips, mosaic augmentation, small geometric transformations (rotation ±10 ◦, translation up to 10%, scaling up to 50%), and mild color augmentations (hue ± 0.015, saturation ± 0.7, brightness ± 0.4) 
+
+Implementation. Model training was performed using a Python library called ultralytics . We monitor validation performance via the mean Average Precision (mAP) metric, saving the best weights automatically. Augmentation strategies, such as mosaic and hor-izontal flips, were included to improve generalization given the limited size of the VRU-specific dataset. 
+
+5.2 Faster R-CNN 
+
+For comparison with real-time YOLO models, we fine-tuned a Faster R-CNN model with a ResNet-50 backbone on the BGVP dataset. Faster R-CNN is a two-stage detector that first generates region proposals and then classifies each proposal while refining bounding box coordinates, offering high accuracy at the expense of inference speed. 
+
+Training Procedure. The model is initialized with weights pre-trained on the COCO dataset and trained to detect the same 3 VRU classes. Key training parameters include: 
+
+• Backbone: ResNet-50 with Feature Pyramid Network (FPN) 
+
+• Batch Size: 2
+
+• Epochs: 100, with early stopping patience of 10 epochs 
+
+• Optimizer: Stochastic Gradient Descent (SGD) with learn-ing rate 0.005, momentum 0.9, weight decay 0.0005 
+
+• Learning Rate Scheduler: StepLR with step size 3 and decay factor 0.1 
+
+• Data Augmentation: Random horizontal flips (50%) and normalization 
+
+Implementation. Training is performed using PyTorch and the TorchVision library. We monitor validation performance using mean Average Precision (mAP) and save the best-performing model weights automatically. Faster R-CNN is computationally more ex-pensive than YOLO, so fewer epochs are used to balance training time and accuracy. 
+
+5.3 SSDLite 
+
+To explore lightweight detection architectures suitable for mobile and edge deployment, we fine-tuned an SSDLite320 model with a MobileNetV3-Large backbone on the BGVP dataset. SSDLite is a single-stage detector that uses depthwise separable convolutions to significantly reduce computational cost while maintaining com-petitive accuracy, making it well-suited for resource-constrained environments. 
+
+Training Procedure. The model is initialized with weights pre-trained on the COCO dataset and fine-tuned to detect 3 VRU classes plus background (5 classes total). We replaced the original classifi-cation head with a new SSDLiteClassificationHead configured for our target classes while preserving the backbone and feature extraction layers. Key training parameters include: 
+
+• Input Resolution: 320 × 320 pixels 
+
+• Backbone: MobileNetV3-Large with depthwise separable convolutions 
+
+• Batch Size: 2
+
+• Epochs: 150, with early stopping patience of 30 epochs 
+
+• Optimizer: AdamW with learning rate 0.001 and weight decay 0.0005 
+
+• Learning Rate Scheduler: StepLR with step size 3 and decay factor 0.1 
+
+Implementation. Training is performed using Python libraries called PyTorch and TorchVision . We monitor validation perfor-mance using mean Average Precision (mAP). Category IDs from the COCO-format annotations are remapped to 1-indexed labels to ensure compatibility with the model’s classification head, where background is implicitly class 0. 
+
+6 Results 6.1 NPLB 
+
+Figure 3 demonstrates that NPLB achieved a 71.4% improvement in stranding rates compared to fixed-time signals — reducing stranding rates from 9.10% to 2.60%. The distribution of signal extensions (Figure 4) shows that 87.9% of crossing cycles require no intervention, because extensions are triggered only when VRUs are detected near signal expiration. NPLB did not impact the majority of crossing cycles, mostly grant-ing 1 extension in 10.6% of crossing cycles and rarely 2 extensions in 1.5%. The signal duration analysis (Figure 5) demonstrates that NPLB maintains the average signal time achieved by fixed-time signals, Fixed-Time  
+
+> Signal
+> NPLB
+> (Adaptive)
+> 0
+> 2
+> 4
+> 6
+> 8
+> 10
+> Stranding Rate (%)
+> 9.10%
+> 2.60%
+> System Safety Comparison ( α= 0.26 )
+
+Figure 3: Comparison of Stranding Rates Between Fixed-Time Signal and NPLB Adaptive Control 0 1 2  
+
+> Extensions Triggered ( n<nmax )
+> 0
+> 2000
+> 4000
+> 6000
+> 8000
+> Frequency (count)
+> 87.9%
+> 10.6%
+> 1.5%
+
+Figure 4: Frequency Distribution of Signal Extensions Trig-gered by NPLB System Fixed-Time NPLB 
+
+> 14
+> 16
+> 18
+> 20
+> 22
+> 24
+> 26
+> 28
+> Signal Duration (seconds)
+
+Figure 5: Box Plot Comparing Pedestrian Signal Durations Between Fixed-Time and NPLB Systems 
+
+the upper bound for fixed-time signals was 22 seconds, while NPLB was 28 seconds. The extension remains modest and only affects 12.1% of scenarios where VRUs are at risk. 
+
+6.2 Object Detection 
+
+Table 2 presents the performance of all five object detection models on the BGVP dataset. Among the YOLO variants, YOLOv12 achieved the highest mAP@0.5 of 0.756, followed closely by YOLOv5 (0.746) and YOLOv11 (0.741). mAP@[0.5:0.95] is a stricter metric which averages performance across multiple IoU thresholds, when evalu-ating using this stricter metric, YOLOv11 slightly outperforms the other YOLO models with a score of 0.509, compared to 0.506 for YOLOv5 and 0.502 for YOLOv12. The two-stage Faster R-CNN model achieved a mAP@0.5 of 0.659, performing below all YOLO variants despite its reputation for high accuracy. This suggests that the COCO pre-trained weights may require more extensive fine-tuning on the VRU-specific dataset. The lightweight SSDLite model obtained the lowest performance with a mAP@0.5 of 0.558, which is expected given its design prioritizes computational efficiency over accuracy. Overall, the YOLO family demonstrates superior performance for VRU detection on the BGVP dataset, with all three variants achieving mAP@0.5 scores above 0.74 as shown in Figures 6, 7, and 8. The minimal performance differences between YOLOv5, YOLOv11, YOLOv12 suggest that any of these architectures would be suitable for deployment in the traffic signal control system. 
+
+Table 2: Comparison of Object Detection Models Model mAP@0.5 mAP@[0.5:0.95] 
+
+YOLOv12 0.756 0.502 YOLOv5 0.746 0.506 YOLOv11 0.741 0.509 Faster R-CNN 0.659 0.355 SSDLite (MobileNetV3) 0.558 0.329 
+
+7 Discussion and Conclusion 
+
+YOLO architectures perform better than other models described in Table 2 for the VRU detection task despite smaller size and faster inference. Therefore, Single-stage detectors like YOLO rank as com-petitive contestants against two-stage architectures in pedestrian safety applications. The 71.4% stranding reduction achieved by NPLB comes at little disruption to traffic flow, as seen in Figure 4. The key to this solution is selectivity: by triggering extensions only when VRUs approach signal expiration, the system intervenes rarely but effectively. Current transportation infrastructure may unintentionally fa-vor able-bodied pedestrians. NPLB addresses this equity gap by accommodating Vulnerable Road Users. However, camera-based monitoring may raise privacy concerns for stakeholders — posing community engagement and transparent data policies as critical. Deploying NPLB at an existing crosswalk would require the following: On the hardware side: (1) a weatherproof camera with sufficient resolution positioned to cover the full crosswalk width, (2) An edge compute device capable of running YOLOv12 infer-ence in real time, (3) A hardware interface to the existing traffic signal controller (typically via a relay or controller area network connection). On the software side: (1) The NPLB system with the fine-tuned YOLOv12 weights and ByteTrack integration, (2) A sig-nal controller interface layer compatible with the intersection’s existing management system. 
+
+7.1 Future Work and Limitations 
+
+Our Monte Carlo evaluation worked under idealized assumptions: (1) consistent lighting, (2) legal crossing behavior, and (3) all de-tected pedestrians are crossing. Real-world deployment will en-counter visual occlusions caused by vehicles, weather conditions and edge cases that our simulations do not capture. The fixed threshold parameters ( 𝜏 𝑒 , 𝜏 𝑡 ) may need to be adjusted based on intersection length, the demographics of pedestrians and the traffic patterns. A more robust production system could po-tentially learn thresholds adaptively from local data rather than relying on pre-defined constants. Future work should explore devel-oping a dedicated annotated video dataset of real-world crosswalk interactions with VRU demographic labels, which would enable end-to-end video-based evaluation of NPLB and reduce reliance on simulation. 
+
+References 
+
+[1] Ahmed S Abdelrahman, Mohamed Abdel-Aty, and Dongdong Wang. 2025. Video-To-Text Pedestrian Monitoring (VTPM): Leveraging Large Language Models for Privacy-Preserve Pedestrian Activity Monitoring at Intersections. In Proceedings of the Winter Conference on Applications of Computer Vision . 366–375. [2] Ahmed S Abdelrahman, Zubayer Islam, and Mohamed Abdel-Aty. 2025. VRU-CrossSafe for Crossing Intention Prediction of Vulnerable Road Users for Im-proving Safe Crossing at Intersections. npj Sustainable Mobility and Transport 2, 1 (2025), 20. [3] Md Jamil Ahsan, Mohamed Abdel-Aty, and Ahmed S Abdelrahman. 2025. Evalu-ating the Safety Impact of Mid-Block Pedestrian Signals (MPS). Accident Analysis & Prevention 210 (2025), 107847. [4] Gorkem Akyol, Ismet Goksad Erdagi, Mehmet Ali Silgu, and Hilmi Berk Celikoglu. 2020. Adaptive Signal Control to Enhance Effective Green Times for Pedestrians: A Case Study. Transportation Research Procedia 47 (2020), 704–711. https://doi. org/10.1016/j.trpro.2020.03.150 22nd EURO Working Group on Transportation Meeting, EWGT 2019, 18th – 20th September 2019, Barcelona, Spain. [5] Raul Avelar, Eun Sug Park, Karen Dixon, Xiao Li, Minh Li, and Bahar Dadashova. 2021. Developing Crash Modification Factors for Adaptive Signal Control Tech-nologies. https://www.fhwa.dot.gov/publications/research/safety/20072/20072. pdf. [6] Alben Rome Bagabaldo and Jürgen Hackl. 2025. Improving Pedestrian Safety at Intersections Using Probabilistic Models and Monte Carlo Simulations. arXiv preprint arXiv:2503.07805 (2025). [7] Manuel Burgos-Payán, Francisco-Javier Correa-Moreno, and Jesús-Manuel Riquelme-Santos. 2012. Improving the Energy Efficiency of Street Lighting: A Case in the South of Spain. In 2012 9th International Conference on the European Energy Market . IEEE, 1–8. [8] Jinkun Cao, Jiangmiao Pang, Xinshuo Weng, Rawal Khirodkar, and Kris Kitani. 2023. Observation-Centric SORT: Rethinking SORT for Robust Multi-Object Tracking. In Proceedings of the IEEE/CVF Confer-ence on Computer Vision and Pattern Recognition (CVPR) . 9686–9696. https://openaccess.thecvf.com/content/CVPR2023/papers/Cao_Observation-Centric_SORT_Rethinking_SORT_for_Robust_Multi-Object_Tracking_CVPR_ 2023_paper.pdf [9] Colorado Department of Transportation. 2024. CDOT Pedestrian Signal Timing Guidelines. https://www.codot.gov/safety/traffic-safety/assets/documents [10] Piotr Dollar, Christian Wojek, Bernt Schiele, and Pietro Perona. 2009. Pedestrian Detection: A Benchmark. In 2009 IEEE Conference on Computer Vision and Pattern Recognition . 304–311. https://doi.org/10.1109/CVPR.2009.5206631 [11] Divya Gangwani and Pranav Gangwani. 2021. Applications of Machine Learn-ing and Artificial Intelligence in Intelligent Transportation System: A Review. 
+
+Applications of Artificial Intelligence and Machine Learning: Select Proceedings of ICAAAIML 2020 (2021), 203–216. [12] Zhi Huang, Xiangyi Liu, Xiaolin Song, and Yin He. 2017. Probabilistic Risk Assessment for Pedestrian-Vehicle Collision Considering Uncertainties of Pedes-trian Mobility. Traffic Injury Prevention 18, 6 (2017), 650–656. https://doi.org/10. 1080/15389588.2017.1283026 arXiv:https://doi.org/10.1080/15389588.2017.1283026 PMID: 28112561. [13] Abdoulaye Kama, Moussa Diallo, Mamadou S. Drame, Mamadou L. Ndiaye, Ababacar Ndiaye, and Pape A. Ndiaye. 2017. Monitoring the Performance of Solar Street Lights in Sahelian Environment: Case Study of Senegal. In 2017 10th International Conference on Developments in eSystems Engineering (DeSE) . 56–61. https://doi.org/10.1109/DeSE.2017.43 [14] Marta Kolasa. 2016. The Concept of Intelligent System for Street Lighting Control Using Artificial Neural Networks. Prz. Elektrotechniczny 92, 7 (2016), 32–37. [15] Iuliia Kotseruba, Amir Rasouli, and John K. Tsotsos. 2016. Joint Attention in Autonomous Driving (JAAD) Dataset. https://arxiv.org/abs/1609.04741. [16] Tsung-Yi Lin, Michael Maire, Serge Belongie, Lubomir Bourdev, Ross Girshick, James Hays, Pietro Perona, Deva Ramanan, C. Lawrence Zitnick, and Piotr Dollár. 2015. Microsoft COCO: Common Objects in Context. arXiv:1405.0312 [cs.CV] https://arxiv.org/abs/1405.0312 [17] Prabu Mohandas, Jerline Sheebha Anni Dhanaraj, and Xiao-Zhi Gao. 2019. Arti-ficial Neural Network Based Smart and Energy Efficient Street Lighting System: A Case Study for Residential Area in Hosur. Sustainable Cities and Society 48 (2019), 101499. https://doi.org/10.1016/j.scs.2019.101499 [18] Marcel E. Moran and Debra F. Laefer. 2024. Multiscale Analysis of Pedestrian Crossing Distance. Journal of the American Planning Asso-ciation 0, 0 (2024), 1–15. https://doi.org/10.1080/01944363.2024.2394610 arXiv:https://doi.org/10.1080/01944363.2024.2394610 [19] Deepti Muley, Wael Alhajyaseen, and Mohamed Kharbeche. 2017. An Overview of Pedestrian Signal Setting and Implementation in the State of Qatar. Procedia Computer Science 109 (2017), 545–552. https://doi.org/10.1016/j.procs.2017.05.337 8th International Conference on Ambient Systems, Networks and Technologies, ANT-2017 and the 7th International Conference on Sustainable Energy Informa-tion Technology, SEIT 2017, 16-19 May 2017, Madeira, Portugal. [20] Amir Rasouli, Iuliia Kotseruba, and John K. Tsotsos. 2019. PIE: A Large-Scale Dataset and Models for Pedestrian Intention Estimation. In Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV) . 6262–6271. https://openaccess.thecvf.com/content_ICCV_2019/papers/Rasouli_PIE_A_ Large-Scale_Dataset_and_Models_for_Pedestrian_Intention_Estimation_ ICCV_2019_paper.pdf [21] Tobias Schlosser, Michael Friedrich, Trixy Meyer, and Danny Kowerko. 2024. A Consolidated Overview of Evaluation and Performance Metrics for Machine Learning and Computer Vision. Tobias Schlosser, Michael Friedrich, Trixy Meyer, and Danny Kowerko–Junior Professorship of Media Computing, Chemnitz Univer-sity of Technology 9107 (2024). [22] Devansh Sharma, Tihitina Hade, and Qing Tian. 2022. Comparison of Deep Object Detectors on a New Vulnerable Pedestrian Dataset. arXiv preprint arXiv:2212.06218 (2022). [23] Asis Kumar Tripathy, Alekha Kumar Mishra, and Tapan Kumar Das. 2017. Smart Lighting: Intelligent and Weather Adaptive Lighting in Street Lights Using IoT. In 2017 International Conference on Intelligent Computing, Instrumentation and Control Technologies (ICICICT) . 1236–1239. https://doi.org/10.1109/ICICICT1. 2017.8342746 [24] US Census Bureau. 2025. Older Adults Outnumber Children in 11 States and Nearly Half of U.S. Counties. https://www.census.gov/newsroom/press-releases/ 2025/older-adults-outnumber-children.html [25] U.S. Department of Transportation. 2016. Lesson 8 - Federal Highway Adminis-tration University Course on Bicycle and Pedestrian Transportation, July 2006 -FHWA-HRT-05-100. https://www.fhwa.dot.gov/publications/research/safety/ pedbike/05085/pptchapt8.cfm [26] U.S. Department of Transportation. 2024. Secretary Buttigieg Announces Proposed Rule to Ensure Passengers Who Use Wheelchairs Can Fly with Dignity. https://www.transportation.gov/briefing-room/secretary-buttigieg-announces-proposed-rule-ensure-passengers-who-use-wheelchairs-can [27] Xinhai Wang and Wenhua Shao. 2025. Networked Sensor-Based Adaptive Traffic Signal Control for Dynamic Flow Optimization. Sensors 25, 11 (2025), 3501. https://doi.org/10.3390/s25113501 [28] Nicolai Wojke, Alex Bewley, and Dietrich Paulus. 2017. Simple Online and Real-time Tracking with a Deep Association Metric. arXiv preprint arXiv:1703.07402 
+
+(2017). https://arxiv.org/abs/1703.07402 [29] World Health Organization. 2023. Pedestrian Safety: A Road Safety Manual for Decision-Makers and Practitioners, 2nd Edition. https://www.who.int/ publications/i/item/9789240072497. Accessed 2025-09-18. [30] Yifu Zhang, Peize Sun, Yi Jiang, Dongdong Yu, Fucheng Weng, Zehuan Yuan, Ping Luo, Wenyu Liu, and Xinggang Wang. 2022. ByteTrack: Multi-Object Tracking by Associating Every Detection Box. In European Conference on Computer Vision .Springer, 1–21. Figure 6: Training and Validation Metrics for YOLOv5 Across 500 Epochs, Showing Convergence of Box Loss, Objectness Loss, Classification Loss, Precision, Recall, and mAP 
+
+Figure 7: Training and Validation Metrics for YOLOv11 Across 500 Epochs, Showing Convergence of Box Loss, Objectness Loss, Classification Loss, Precision, Recall, and mAP Figure 8: Training and Validation Metrics for YOLOv12 Across 500 Epochs, Showing Convergence of Box Loss, Objectness Loss, Classification Loss, Precision, Recall, and mAP
