@@ -1,0 +1,777 @@
+Title: Learning physically grounded traffic accident reconstruction from public accident reports
+
+URL Source: https://arxiv.org/pdf/2605.00050v1
+
+Published Time: Mon, 04 May 2026 00:07:37 GMT
+
+Number of Pages: 22
+
+Markdown Content:
+# Learning physically grounded traffic accident reconstruction from public accident reports 
+
+## Yanchen Guan a,b , Haicheng Liao a,c , Chengyue Wang a,b and Zhenning Li a,b,c ,∗
+
+> a
+
+State Key Laboratory of Internet of Things for Smart City, University of Macau, Macau SAR, 999078, China 
+
+> b
+
+Department of Civil Engineering, University of Macau, Macau SAR, 999078, China 
+
+> c
+
+Department of Computer and Information Science, University of Macau, Macau SAR, 999078, China 
+
+A R T I C L E I N F O 
+
+Keywords :Traffic accident reconstruction Public accident reports Scene-grounded reconstruction Multimodal learning Vehicle trajectory reconstruction 
+
+A B S T R A C T 
+
+Traffic accidents are routinely documented in textual reports, yet physically grounded accident reconstruction remains difficult because detailed scene measurements and expert reconstructions are scarce, costly and hard to scale. Here we formulate accident reconstruction from publicly accessible reports and scene measurements as a parameterized multimodal learning problem. We construct CISS-REC, a dataset of 6,217 real-world accident cases curated from the NHTSA Crash Investigation Sampling System, and develop a reconstruction framework that grounds report semantics to road topology and participant attributes, reconstructs lane consistent pre-impact motion, and refines colli-sion relevant interactions through localized geometric reasoning and temporal allocation. Our method outperforms representative baselines on CISS-REC, achieving the strongest overall reconstruction fidelity, including improved accident point accuracy and collision consistency. These results show that public accident reports can serve as scalable computational substrates for quantitatively verifiable accident reconstruction, with potential value for traffic safety analysis, simulation and autonomous driving research. 
+
+## 1. Introduction 
+
+Traffic crashes are among the most extensively docu-mented events in modern transportation systems, yet they re-main surprisingly difficult to study as physical processes [1, 2]. In most large-scale accident archives, crashes are recorded as narratives: who was involved, what maneuver was at-tempted, where the collision occurred, and under what road and environmental conditions [3]. But many of the questions that matter most to safety science are dynamic rather than narrative [4]. How did the vehicles move before impact? How did their interaction evolve? At what point did an initially feasible traffic situation become an inevitable collision? Answering such questions requires accidents to be represented not merely as reports, but as physically grounded motion histories. This representational gap has become a major bot-tleneck for traffic safety research, forensic analysis, and autonomous-driving development. High-fidelity accident reconstruction can in principle recover scene-specific road geometry, pre-impact trajectories, speeds, and collision-relevant temporal interaction, but doing so usually requires reconstruction-grade evidence such as Event Data Recorder (EDR) logs, multi-view videos, detailed scene measure-ments, and expert post-crash analysis [5]. Such evidence is expensive to collect, difficult to standardize, and often available only for a very small subset of crashes. Even when formal investigation systems exist, access to high-quality reconstructed cases is frequently limited by privacy, legal restrictions, heterogeneous investigation procedures, 
+
+> ∗
+
+Corresponding author  
+
+> zhenningli@um.edu.mo
+
+(Z. Li) 
+
+> ORCID
+
+(s): 0000-0002-0877-6829 (Z. Li) 
+
+and the substantial manual effort required for scene inter-pretation [6, 7, 8, 9]. As a result, physically measurable accident dynamics remain scarce precisely where scale is most needed. By contrast, textual accident reports are produced rou-tinely and at massive scale by police, investigators, insurers, and transportation agencies worldwide [10]. These reports are imperfect, but they are not uninformative. They often encode roadway context, participant maneuvers, travel di-rections, collision configuration, environmental conditions, and scene-level summaries that are directly relevant to crash formation. This creates a striking asymmetry in accident data: public archives are rich in semantic evidence but poor in dynamic, physically interpretable representations. If that asymmetry could be narrowed, accident reports could be-come more than administrative records. They could serve as computational resources for studying real-world crash dynamics at scale [11]. The difficulty, however, is fundamental rather than merely technical. A textual report does not directly specify trajec-tories, velocities, or precise timing, and the same narrative description may be compatible with many visually plausible scenes [12]. In this sense, recovering accident dynamics from reports is an underdetermined inverse problem. Yet semantic plausibility is not enough. For accident data to support safety analysis, simulation, and autonomous-driving research, the recovered dynamics must be scene-specific, collision-consistent, and quantitatively assessable against measured evidence [13]. The challenge is therefore not simply to generate accident-like scenes from text, but to determine whether weak semantic descriptions can be trans-formed into physically meaningful and testable reconstruc-tions of how crashes actually formed. 
+
+Yanchen Guan et al.: Preprint submitted to Elsevier Page 1 of 22 
+
+> arXiv:2605.00050v1 [cs.LG] 29 Apr 2026
+
+Recent progress in multimodal learning, simulation, and generative modeling has made this possibility increasingly compelling. Existing studies have shown that accident de-scriptions, sketches, or structured scene cues can support scene synthesis and visually plausible replay [14, 15, 16]. These advances are important, but they do not by themselves resolve the central issue. Most current approaches remain closer to semantic restoration than to physically grounded motion recovery. They often rely on fixed templates, as-sumed initial conditions, approximate map priors, or per-ceptual realism objectives, and therefore do not recover scene-specific road topology, trajectory-level motion, and collision-consistent spatiotemporal dynamics in a quanti-tatively verifiable manner. What is still missing is a for-mulation that treats public accident reports not merely as descriptive narratives, but as weak yet scalable supervision for reconstructing physically meaningful pre-impact motion. In this work, we argue that this problem becomes sub-stantially more structured once report semantics are grounded to scene geometry and participant interaction. The key observation is that accident dynamics are not equally uncon-strained over the entire pre-impact horizon. For much of the motion history, vehicle behavior is strongly regularized by roadway topology, lane assignment, travel direction, and ma-neuver intent. The decisive deviation that produces the crash is often concentrated near localized interaction between the collision-relevant participants. This view suggests that report-based accident reconstruction should not be framed as unrestricted scene generation. Instead, it can be posed as a constrained recovery problem in which global motion is shaped by road structure and behavioral intent, while crash formation is governed by localized geometric and temporal interaction. Based on this view, we formulate accident reconstruc-tion from public accident reports as a weakly supervised multimodal inverse problem. Rather than treating reports as purely narrative descriptions, we treat them as scalable supervisory carriers whose information can be progressively grounded through road topology, participant attributes, and collision structure to recover pre-impact vehicle motion. To support this problem, we construct CISS-REC, a real-world benchmark derived from the National Highway Traf-fic Safety Administration (NHTSA) Crash Investigation Sampling System (CISS), which systematically organizes public accident reports, scene measurements, road geom-etry, and motion-related evidence into a unified recon-struction dataset [17]. Building on this benchmark, we develop a scene-grounded reconstruction framework that jointly models report semantics, road structure, partici-pant attributes, and collision-localized interaction to recon-struct lane-consistent pre-impact motion and refine accident-critical geometric deviations under temporal and physical constraints. Our contributions are threefold. First, we introduce a new formulation of accident reconstruction in which public accident reports are treated as weak but scalable super-vision for physically grounded motion recovery, shifting the focus from semantic replay toward quantitatively ver-ifiable reconstruction. Second, we construct CISS-REC, a large-scale real-world benchmark that enables systematic study of scene-specific accident reconstruction from het-erogeneous semantic and geometric evidence. Third, we propose a scene-grounded reconstruction framework that exploits the structural decomposition of accident dynamics into globally constrained motion and localized collision-critical interaction, and we show that this formulation im-proves reconstruction fidelity over representative baselines. More broadly, this work suggests a different role for public accident archives in transportation research. Rather than viewing them only as textual records of completed events, we show that they can be used as scalable sub-strates for recovering physically interpretable crash dynam-ics. This opens a path toward studying accident mechanisms, generating reconstruction-grade safety data, and supporting downstream applications in simulation, safety analysis, and autonomous driving. 
+
+## 2. Related work 
+
+Forensic accident reconstruction and its scaling limits. 
+
+Traffic accident reconstruction has traditionally been studied as a forensic and engineering problem aimed at determin-ing how a crash occurred and which factors contributed to its outcome [18, 19, 20, 21]. In conventional practice, investigators reconstruct accident processes by combining scene measurements, photography, sketches, vehicle inspec-tions, witness interviews, and in-vehicle data retrieval into a structured account of pre-impact motion and collision formation [22, 23]. Standard workflows typically involve evidence preservation, roadway measurement, coordinate establishment, geometric reconstruction, and expert post-analysis [24, 25, 26, 27, 28, 29, 30, 31]. These procedures can yield physically meaningful and case-specific recon-structions, but they are difficult to scale because they require specialized expertise, dedicated equipment, and substantial on-site effort. As a result, high-quality reconstruction-grade accident data remain scarce relative to the much larger population of real-world crashes [32, 33, 34, 35]. 
+
+The gap between large-scale accident archives and reconstruction-grade data. This scarcity has become a central bottleneck for data-driven accident analysis [36]. Detailed reconstruc-tion is impractical for the vast majority of crashes, especially when accurate measurement, manual interpretation, and expert validation are required. In addition, reconstruction data often involve sensitive legal and personal information, which further limits accessibility and standardization [37, 38]. Even official in-depth investigation systems release only a small fraction of crashes in reconstruction-ready form, and the resulting records may still differ in completeness, consistency, or reliability [39]. Taken together, these factors have produced a persistent mismatch between the scale at which crashes are documented and the scale at which physically interpretable accident dynamics are available for computational study.   
+
+> Yanchen Guan et al.: Preprint submitted to Elsevier Page 2 of 22
+
+From narrative evidence to structured accident scenes. 
+
+Because exhaustive reconstruction is infeasible in routine practice, most crashes are documented primarily through textual reports [40, 41, 42, 43]. These reports were not de-signed for motion recovery, yet they encode information that is highly relevant to accident formation, including roadway context, participant maneuvers, travel directions, collision configuration, and environmental conditions. This has moti-vated a recent line of research that attempts to convert textual or weakly structured accident evidence into structured scene representations [44, 45]. One direction combines textual reports with simulation priors. SoVAR [14], for example, uses accident reports to-gether with predefined road-structure maps to generate can-didate trajectories and simulate the resulting scenes. Such approaches demonstrate that textual reports can support scene generation, but they typically depend on fixed road templates and assumption-driven initial conditions rather than on scene-specific physical evidence. The generated scenes may therefore satisfy coarse semantic consistency without constituting faithful reconstruction of individual real-world accidents. A second direction emphasizes perceptual realism through generative modeling. AVD2 [46] reconstructs accident pro-cesses from semantic descriptions using diffusion-based video generation, while AccidentSim [47] leverages large language models to translate report narratives into simula-tion cues and accident videos. These methods are valuable for producing visually plausible scenes and semantically coherent replay, but their outputs are primarily perceptual rather than reconstruction-grade. They do not explicitly en-force strict correspondence to real road geometry, measured motion, or collision-consistent spatiotemporal dynamics, which makes it difficult to regard them as physically faithful reconstruction of specific accidents. A third direction uses sketches or other intermediate visual representations as stronger structural cues. CrashA-gent [48], for instance, employs vision–language models to generate simulator-ready scenes from accident sketches, including sketched trajectories and keypoints. This formu-lation is appealing because sketches often contain stronger spatial information than free-form narratives. However, it re-lies on the availability of complete and informative sketches, which are uncommon in many public accident archives. Moreover, road layouts are typically recovered by matching recognized road categories to parameterized templates, so the resulting topology aligns with the true scene only at a coarse categorical level rather than through strict geometric grounding. 
+
+What is still missing. Taken together, existing studies show that public accident records can support scene synthesis, semantic replay, and visually plausible accident simulation. However, most current approaches still stop short of phys-ically grounded and quantitatively verifiable recovery of crash dynamics. They generally rely on fixed templates, assumed initial conditions, approximate map priors, or per-ceptual realism objectives, and therefore remain limited in scene specificity, geometric grounding, and physical testa-bility. In other words, they help bridge the gap from narrative evidence to plausible scene generation, but not yet the more difficult gap from narrative evidence to reconstruction-grade dynamic representation. The present work is motivated pre-cisely by this missing step: how to recover scene-specific pre-impact motion from public accident archives in a manner that is not only semantically consistent, but also geometri-cally grounded, collision-consistent, and assessable against measured evidence. 
+
+## 3. Methodology 
+
+3.1. Problem setup 
+
+We formulate accident reconstruction as the recovery of scene specific vehicle motion from sparse report seman-tics and measured road geometry. For each accident case, the model is conditioned on two types of input evidence: report-derived semantic information and scene geometry. The goal is to infer a physically plausible and semantically consistent pre-impact scene whose motion evolution remains compatible with the accident description, road topology, and collision context. Formally, let the model input for one accident case be denoted by  = ( , ), where  denotes report-derived semantic information, including the global crash summary and vehicle-level attributes, and  denotes scene geometry, including road curves, lane centerlines, and lane polygons. Suppose that the case involves 𝑁 vehicles and that the pre-impact horizon is discretized into 𝐾 time steps. For vehicle 𝑖 ∈ {1 , … , 𝑁 }, the target pre-impact trajectory is represented as 𝑖 = {( 𝐩 𝑖,𝑘 , 𝑣 𝑖,𝑘 )} 𝐾 𝑘 =1 , where 𝐩 𝑖,𝑘 ∈ ℝ2
+
+denotes the planar position of vehicle 𝑖 at time step 𝑘 , and 
+
+𝑣 𝑖,𝑘 denotes the corresponding speed. The reconstruction model aims to reconstruct ̂  ={̂𝑖 }𝑁 𝑖 =1 , such that the reconstructed trajectories remain close to the reference motion under the available supervision, while preserving consistency with behavior-related cues, collision relevant interaction, and scene-specific road geom-etry. During training, the model is supervised using sparse motion annotations,  = ( obs , , edr ), where obs de-notes ordered pre-impact investigation points,  denotes impact-related annotations, and edr denotes EDR-derived speed cues. Among these signals, obs and edr are used only to construct reconstruction supervision during training, rather than as model inputs at inference time. Under this for-mulation, accident reconstruction is cast as a parameterized multimodal learning problem that maps sparse semantic and geometric evidence to quantitatively verifiable pre-impact motion. 
+
+3.2. Input representation 
+
+To reconstruct motion from accident reports, we orga-nize the model input into three complementary components: scene-level semantics, vehicle-level semantics, and scene geometry. This decomposition follows the native structure    
+
+> Yanchen Guan et al.: Preprint submitted to Elsevier Page 3 of 22 Figure 1: The input representations and corresponding input examples derived from the original accident report. In the same traffic accident report, scene factors are global attributes, while vehicle factors are individual attributes of the accident participants.
+
+of accident reports, in which global scene descriptions and vehicle-specific records are provided separately but jointly constrain accident evolution. The scene-level semantic input summarizes the global accident context shared by all involved vehicles. It includes the crash summary together with scene attributes that are relevant to reconstruction, such as accident time, lighting condition, weather, roadway condition, and geographic con-text. These variables provide coarse but globally informative constraints on the reconstructed scene. The vehicle-level semantic input describes the motion-related attributes of each involved vehicle. For vehicle 𝑖 ,these attributes include its initial travel lane, travel direc-tion, pre-impact movement, attempted avoidance maneuver, vehicle category, and posted speed limit. Collectively, these variables specify the local behavioral cues that condition the reconstruction of vehicle-specific motion. The geometric input describes the scene-specific road structure. It consists of standardized road curves together with lane centerlines and lane polygons, which provide explicit spatial support for grounding report semantics to the physical scene. In particular, the combination of lane assignment, travel direction, and road geometry constrains the feasible spatial initialization and subsequent motion of each vehicle. Figure 1 illustrates the key factors selected as input for reconstruction of traffic accidents at the scene-level and vehicle-level. Under this representation, an accident case is encoded as  = (scene , veh , ), where scene denotes scene-level semantic descriptors, veh = {veh  
+
+> 𝑖
+
+}𝑁 𝑖 =1 de-notes vehicle-level semantic descriptors for the 𝑁 involved vehicles, and  denotes scene geometry. This representa-tion preserves the semantic hierarchy of the original report while exposing the global context, vehicle-specific cues, and spatial structure required for scene-grounded accident reconstruction. 
+
+3.3. Overall framework 
+
+The proposed framework reconstructs accident scenes from report semantics and scene geometry in three stages: input standardization, scene-grounded motion reconstruc-tion, and downstream visual rendering. First, heterogeneous accident evidence is converted into a unified representa-tion that aligns semantic descriptions, road structure, and motion-related annotations within a common spatial and temporal frame. This step provides the structured input and supervision required for learning-based reconstruction. Second, based on the standardized representation, we de-velop an encoder–decoder architecture for scene-grounded accident reconstruction. The encoder integrates scene-level semantics, vehicle-level semantic descriptors, and scene ge-ometry into a shared latent representation that associates report semantics with road structure and participating vehi-cles. Conditioned on this representation, the decoder recon-structs motion for all involved vehicles, and further refines collision relevant interaction through localized geometric reasoning and temporally constrained motion allocation. As a result, the model jointly captures global scene context, vehicle-specific behavioral cues, and accident-critical inter-action patterns within a unified reconstruction process. Finally, the reconstructed trajectories can be coupled with a downstream rendering pipeline to produce con-trollable visualizations of the accident scene from multi-ple viewpoints. In this way, the framework links report-conditioned motion reconstruction to visually interpretable accident replay while preserving consistency with the recon-structed scene dynamics. 
+
+3.4. Data preprocessing 
+
+We convert each accident case into a standardized rep-resentation by jointly processing report semantics, scene geometry, and motion annotations. The purpose of prepro-cessing is twofold: to align heterogeneous accident evidence within a common spatial frame, and to construct dense reference supervision from sparse measurements. Under this design, semantic inputs used for reconstruction are kept separate from motion annotations used only during training. We first standardize the semantic and geometric content of each case. From the original accident reports, we retain only the variables that directly constrain accident recon-struction, including the global crash summary and vehicle-level attributes such as initial travel lane, travel direction, posted speed limit, pre-impact movement, and attempted avoidance maneuver, while normalizing missing entries as unknown to maintain a consistent schema across cases. Raw measurement geometry is then transformed from the local total station coordinate system to a common world coor-dinate system using the recorded rigid transformation. All map and trajectory entities are further rotated into a north-up convention, with the rotation angle determined preferentially from north-arrow annotations and otherwise from default scene metadata. This step aligns road curves, lane geometry,    
+
+> Yanchen Guan et al.: Preprint submitted to Elsevier Page 4 of 22 Figure 2: The preprocessing of velocity and trajectory data. Sparse trajectories and EDR records in the original accident reports are transformed into temporally dense supervision through alignment, fitting, and reconstruction, providing structured training targets for accident reconstruction.
+
+fitted keypoints, and trajectory evidence across accident cases under a unified spatial convention. To support scene-grounded reconstruction, road geom-etry is represented as fixed-size tensors of ordered poly-lines with point-wise semantic category labels, while lane centerlines and lane polygons are extracted in parallel to provide lane-level structural support. Vehicle records are aligned with case-level summaries to form a fixed number of participant slots with harmonized semantic attributes. After this step, each accident case is represented by standardized scene-level semantics, vehicle-level semantic descriptors, and scene geometry, which together constitute the model input defined in Section 3.1. Because the original accident reports provide sparse and heterogeneous motion evidence rather than dense trajecto-ries, we further construct dense reference supervision for training by combining impact-related annotations, ordered investigation trajectories, and EDR-derived speed measure-ments when available. As shown in Figure 2, sparse EDR observations are interpolated onto a uniform temporal grid covering the 5 s interval before impact, yielding a normal-ized speed sequence at 0.1 s resolution. The availability and temporal coverage of valid EDR records are retained as reliability indicators for supervision. For each vehicle, ordered investigation points are aligned with the annotated impact location and truncated at the colli-sion related endpoint so that only the physically relevant pre-impact segment is retained. When an exact impact-location match is unavailable, the last valid observation point is used as a fallback endpoint to preserve supervision continuity. The resulting sparse path is then regularized by piecewise 
+
+𝐺 2-continuous curve fitting, yielding a smooth reference path with continuous heading and curvature [49]. Formally, let the interpolated speed sequence of vehicle 
+
+𝑖 be denoted by 
+
+𝑖 = {( 𝑡 𝑘 , 𝑣 𝑖,𝑘 )} 𝐾 𝑘 =1 , 𝑡 𝑘 ∈ [−5 , 0] , (1) where the timestamps are uniformly sampled at 0.1 s inter-vals. Let 
+
+𝑖 = {( 𝑥 𝑖,𝑛 , 𝑦 𝑖,𝑛 , 𝜃 𝑖,𝑛 )} 𝑁 𝑖 
+
+> 𝑛 =1
+
+, (2) denote the ordered pre-impact trajectory points after impact-aligned truncation, and let ̃ 𝑖 (𝓁 ) denote the corresponding 
+
+𝐺 2-continuous reference curve parameterized by arc length 
+
+𝓁 . Taking the impact location as the spatial anchor at 𝑡 =0, the cumulative backward travel distance at time 𝑡 𝑘 is computed as 
+
+𝓁 𝑖,𝑘 = ∫
+
+> 0
+> 𝑡 𝑘
+
+̂𝑣 𝑖 (𝑡 ) 𝑑𝑡, (3) where ̂𝑣 𝑖 (𝑡 ) denotes the interpolated speed profile. The dense pre-impact reference supervision is then written as 
+
+𝑖 = {( 𝑡 𝑘 , 𝑣 𝑖,𝑘 , 𝑥 𝑖,𝑘 , 𝑦 𝑖,𝑘 , 𝜃 𝑖,𝑘 )} 𝐾 𝑘 =1 , (4) where (𝑥 𝑖,𝑘 , 𝑦 𝑖,𝑘 , 𝜃 𝑖,𝑘 ) is obtained by tracing backward along ̃
+
+𝑖 according to 𝓁 𝑖,𝑘 .For vehicles without sufficiently reliable EDR measure-ments, we derive weak speed-conditioned supervision from    
+
+> Yanchen Guan et al.: Preprint submitted to Elsevier Page 5 of 22 Figure 3: Overall framework of our physically grounded accident reconstruction model. The overall architecture of the proposed model follows an encoder–decoder paradigm. The input scene is first encoded into a latent representation space. Based on this representation, a graph structure is constructed to model interactions among multiple traffic participants. The decoder then generates candidate trajectories from the latent space, which are subsequently refined through accident-specific constraints and temporal reordering.
+
+the reported speed limit and retain both vehicle-level and timestep-level validity masks to distinguish strongly con-strained supervision from weakly constrained estimates. Ad-ditional accident-related annotations, including impact-side labels, collision pair cues, and other reliability-aware masks, are used only during training to support supervision con-struction and auxiliary objectives. After preprocessing, each accident case therefore provides standardized semantic and geometric inputs for reconstruction, together with dense and reliability-aware reference supervision for model training. 
+
+3.5. Semantic scene encoder 
+
+Following preprocessing, each accident case is repre-sented by standardized scene-level semantics, vehicle-level semantic descriptors, and scene geometry as shown in Fig-ure 3. Because accident reports do not directly provide dense trajectories, the encoder maps heterogeneous semantic and geometric inputs into a shared latent scene representation from which reconstruction can be inferred. The key objective of the encoder is therefore to ground report semantics to both participating vehicles and the surrounding road structure. Road geometry is encoded through two complementary streams. First, the standardized road curves are rasterized into a multi-channel bird’s-eye-view (BEV) tensor, in which different semantic categories are assigned to separate chan-nels. A convolutional backbone extracts dense road tokens from this raster representation, capturing local occupancy patterns, geometric continuity, and nearby spatial support. Second, each ordered road polyline is summarized into a compact geometric descriptor containing its midpoint, dominant orientation, normalized length, spatial extent, and semantic class, and is then projected into a sparse shape token. The final road-token sequence is obtained by con-catenating the dense BEV tokens and sparse shape tokens, thereby preserving both local geometric detail and higher-level road organization. A pooled road representation is further obtained by masked aggregation over the full road-token sequence: 
+
+𝐫 global = Pool ({𝐫 𝑛 }) . (5) Each vehicle is encoded from its textual and structured descriptors. Let 𝐞 veh  
+
+> 𝑖
+
+denote the vehicle-level text embed-ding, and let 𝐛 𝑖 denote its structured semantic attributes, in-cluding initial travel lane, travel direction, pre-impact move-ment, attempted avoidance maneuver, vehicle category, and posted speed limit. These features are fused into a vehicle token, 
+
+𝐳 𝑖 = Ψ veh (𝐞 veh  
+
+> 𝑖
+
+, 𝐛 𝑖 ). (6) Only valid participant slots contribute to downstream aggre-gation. Masked pooling over valid vehicles yields a global participant representation, 
+
+𝐳 global = 1
+
+|valid |∑
+
+> 𝑖 ∈valid
+
+𝐳 𝑖 . (7) The global crash summary is encoded in parallel as a scene-level textual descriptor 𝐭 . To align report seman-tics with scene entities, the encoder applies two successive cross-attention operations. The scene text first attends to the vehicle-token sequence, allowing the global narrative to   
+
+> Yanchen Guan et al.: Preprint submitted to Elsevier Page 6 of 22
+
+focus on participant-specific evidence, and then attends to the road-token sequence, aligning the refined semantics with scene geometry: ̃
+
+𝐭 veh = 𝐭 + MHA (𝐭 , {𝐳 𝑖 }, {𝐳 𝑖 }) ,̃ 
+
+𝐭 road =̃ 𝐭 veh + MHA (̃ 𝐭 veh , {𝐫 𝑛 }, {𝐫 𝑛 }) . (8) This hierarchical grounding reflects the structure of ac-cident reports, in which the global narrative primarily de-scribes vehicle-level behavior and is subsequently inter-preted within the surrounding road environment. Finally, the pooled road representation, pooled partic-ipant representation, refined scene text, and scene-level speed-related cues are fused to form the scene context: 
+
+𝐜 = Ψ fuse 
+
+(𝐫 global , 𝐳 global ,̃ 𝐭 road , 𝐮 spd ) , (9) where 𝐮 spd denotes the encoded speed-related cues. The en-coder therefore outputs a scene context vector 𝐜 , a sequence of vehicle tokens {𝐳 𝑖 }, and a sequence of road tokens {𝐫 𝑛 },together with the corresponding validity masks. These latent variables provide the common conditioning interface for following geometric reconstruction and temporal allocation. 
+
+3.6. Interaction-localized geometric reconstruction 
+
+Conditioned on the encoded scene representation, the decoder reconstructs pre-impact motion in two stages: a globally lane consistent trajectory reconstruction stage and a localized collision refinement stage. This design reflects the structure of accident formation. For most of the pre-impact horizon, vehicle motion is primarily constrained by lane geometry and report-derived intent, whereas the deci-sive geometric deviation typically occurs in the vicinity of collision relevant interaction. For each vehicle 𝑖 , the decoder first predicts a coarse start location from its vehicle token, the scene context, and the corresponding structured semantic descriptors: ̃
+
+𝐩 𝑖, 0 = Ψ start (𝐳 𝑖 , 𝐜 , 𝐛 𝑖 ). (10) Because the coarse prediction may not yet be spatially aligned with the road layout, it is further grounded to scene-specific lane priors. Let 𝑚 denote the 𝑚 -th candidate lane centerline, and let 𝐮 𝑖 and 𝐮 𝑚 denote the reported travel direction of vehicle 𝑖 and the local tangent direction of lane 𝑚 , respectively. Candidate lanes are scored jointly by spatial proximity and directional consistency: 
+
+score( 𝑖, 𝑚 ) = − 
+
+[
+
+𝑑 (̃
+
+𝐩 𝑖, 0, 𝑚 
+
+)−𝜆 dir max (0, cos ∠( 𝐮 𝑖 , 𝐮 𝑚 ))]
+
+.
+
+(11) The top-ranked candidates are converted into forward anchor paths, 
+
+𝐀 (𝑚 ) 
+
+> 𝑖
+
+= { 𝐚 (𝑚 ) 
+
+> 𝑖,𝑘
+
+}𝐾 𝑘 =1 , (12) and a learned mixture model assigns a probability to each candidate hypothesis: 
+
+𝜋 (𝑚 ) 
+
+> 𝑖
+
+= exp( 𝜂 (𝑚 ) 
+
+> 𝑖
+
+)
+
+∑𝑚 ′ exp( 𝜂 (𝑚 ′) 
+
+> 𝑖
+
+)
+
+. (13) The selected lane prior is then used to project the coarse start state onto the lane consistent initialization 𝐩 𝑖, 0, which serves as the geometric origin of downstream reconstruction. Based on the aligned start state and lane anchor cues, the decoder reconstructs a globally lane consistent base trajectory. A spacetime graph is built over valid vehicles and time steps, where each node corresponds to one vehicle at one time step. Node representations combine the vehicle to-ken with anchor-derived motion cues, while temporal edges connect adjacent steps of the same vehicle and interaction edges connect nearby vehicles. A graph transformer (GT) propagates information on this sparse spacetime graph: 
+
+𝐡 (𝓁 +1)  
+
+> 𝑖,𝑘
+
+= GT (𝓁 )(
+
+𝐡 (𝓁 ) 
+
+> 𝑖,𝑘
+
+,  (𝑖, 𝑘 ), 𝐞 (𝑖,𝑘 )→(𝑗,𝑘 ′)
+
+)
+
+. (14) The updated node states are decoded into step-wise displacement increments, 
+
+Δ𝐩 𝑖,𝑘 = Ψ disp (𝐡 (𝐿 ) 
+
+> 𝑖,𝑘
+
+), (15) whose cumulative integration yields a dense motion branch, 
+
+𝐩 dense  
+
+> 𝑖,𝑘
+
+= 𝐩 𝑖, 0 +
+
+> 𝑘
+
+∑
+
+> 𝜅 =1
+
+Δ𝐩 𝑖,𝜅 . (16) To improve global path regularity, the decoder addition-ally predicts a sparse set of control points, 
+
+{𝐪 𝑖,𝑟 }𝑅 𝑟 =1 = Ψ ctrl (𝐳 𝑖 , 𝐜 ), (17) which are interpolated into a smooth fitted path, 
+
+𝐩 f it  
+
+> 𝑖,𝑘
+
+= Interp ({𝐪 𝑖,𝑟 }𝑅 𝑟 =1 
+
+) . (18) A learned blending gate then combines the locally flexi-ble dense branch with the globally regular fitted branch: 
+
+𝐩 base  
+
+> 𝑖,𝑘
+
+= (1 − 𝛾 𝑖 )𝐩 dense  
+
+> 𝑖,𝑘
+
++ 𝛾 𝑖 𝐩 f it 
+
+> 𝑖,𝑘
+
+. (19) In parallel, the decoder predicts a transition variable ̂ 𝜏 𝑖 
+
+for each vehicle, ̂𝜏 𝑖 = Ψ 𝜏 (𝐳 𝑖 , 𝐜 , 𝐛 𝑖 ), (20) which represents the onset of accident-relevant motion change. Because the geometric deviation that determines colli-sion formation is typically concentrated on the collision rele-vant pair, the decoder further applies a localized interaction-refinement branch. Let (𝑖, 𝑗 ) denote the target collision pair derived from accident annotations. The base relative motion of this pair is written as 
+
+𝐫 base  
+
+> 𝑖𝑗,𝑘
+
+= 𝐩 base  
+
+> 𝑗,𝑘
+
+− 𝐩 base  
+
+> 𝑖,𝑘
+
+. (21)   
+
+> Yanchen Guan et al.: Preprint submitted to Elsevier Page 7 of 22
+
+A pair token is then constructed from the two vehicle tokens, their relative start state, impact-related annotations, and the average transition variable: 
+
+𝐳 pair  
+
+> 𝑖𝑗
+
+= Ψ pair 
+
+(
+
+𝐳 𝑖 , 𝐳 𝑗 , 𝐩 𝑗, 0 − 𝐩 𝑖, 0, 𝐪 side  
+
+> 𝑖𝑗
+
+, 𝐪 init  
+
+> 𝑖
+
+, 𝐪 init  
+
+> 𝑗
+
+,̂ 𝜏 𝑖 +̂𝜏 𝑗 
+
+2
+
+)
+
+.
+
+(22) This pair token is broadcast across time and processed by a temporal pair graph: 
+
+𝐠 (𝓁 +1)  
+
+> 𝑖𝑗,𝑘
+
+= GT (𝓁 )pair 
+
+(
+
+𝐠 (𝓁 )
+
+> 𝑖𝑗,𝑘
+
+, pair (𝑘 ), 𝐞 pair 
+
+> 𝑘 →𝑘 ′
+
+)
+
+. (23) The updated pair states are decoded into relative-motion corrections, 
+
+Δ𝐫 𝑖𝑗,𝑘 = Ψ pair _out (𝐠 (𝐿 )
+
+> 𝑖𝑗,𝑘
+
+), (24) yielding the refined pair trajectory ̂
+
+𝐫 𝑖𝑗,𝑘 = 𝐫 base  
+
+> 𝑖𝑗,𝑘
+
++
+
+> 𝑘
+
+∑
+
+> 𝜅 =1
+
+Δ𝐫 𝑖𝑗,𝜅 . (25) The pairwise refinement is then injected back into the scene through a post-transition fusion module. Let Δ𝐨 𝑖,𝑘 and 
+
+Δ𝐨 𝑗,𝑘 denote the fusion offsets predicted for the target pair. Using a sigmoid gate centered on the average transition time, 
+
+𝑔 𝑖𝑗,𝑘 = 𝜎 
+
+(
+
+𝜆 𝜏 
+
+(
+
+𝑡 𝑘 −̂ 𝜏 𝑖 +̂𝜏 𝑗 
+
+2
+
+)) 
+
+, (26) the fused trajectories are written as 
+
+𝐩 fuse  
+
+> 𝑖,𝑘
+
+= 𝐩 base  
+
+> 𝑖,𝑘
+
++ 𝑔 𝑖𝑗,𝑘 Δ𝐨 𝑖,𝑘 ,
+
+𝐩 fuse  
+
+> 𝑗,𝑘
+
+= 𝐩 base  
+
+> 𝑗,𝑘
+
++ 𝑔 𝑖𝑗,𝑘 Δ𝐨 𝑗,𝑘 . (27) Finally, the annotated accident location provides a weak scene-level geometric anchor. Let ̄
+
+𝐩 end = 1
+
+|valid |∑
+
+> 𝑖 ∈valid
+
+𝐩 fuse  
+
+> 𝑖,𝐾
+
+(28) denote the mean terminal position of all valid vehicles, and let 
+
+Δ𝐚 = 𝐚 ∗ −̄ 𝐩 end (29) denote the offset from the reconstructed terminal configu-ration to the annotated accident location 𝐚 ∗. This offset is softly injected after the transition boundary: 
+
+𝐩 geom  
+
+> 𝑖,𝑘
+
+= 𝐩 fuse  
+
+> 𝑖,𝑘
+
++ 𝜎 (𝜆 𝑎 (𝑡 𝑘 −̂𝜏 𝑖 ))Δ𝐚 . (30) As a result, the geometric decoder produces scene-grounded trajectories that remain lane consistent at the global level while preserving collision relevant interaction at the local level. 
+
+3.7. Temporal allocation under physical consistency 
+
+After geometric reconstruction, the timing head allo-cates motion along the reconstructed path so that the fi-nal trajectories remain dynamically plausible under report-derived behavioral and speed-related cues. Rather than re-generating geometry, this module re-parameterizes motion along the scene-grounded paths produced by the geomet-ric decoder. This design disentangles where each vehicle moves from how quickly it traverses the reconstructed path, which is particularly important when geometric evidence is stronger than temporal supervision. For vehicle 𝑖 , let 𝐩 geom  
+
+> 𝑖,𝑘
+
+denote the geometrically re-constructed trajectory at time step 𝑘 . The corresponding geometric step length is defined as 
+
+𝑑 geom  
+
+> 𝑖,𝑘
+
+= ‖‖‖𝐩 geom  
+
+> 𝑖,𝑘
+
+− 𝐩 geom 
+
+> 𝑖,𝑘 −1
+
+‖‖‖2 . (31) Conditioned on vehicle-level semantic descriptors, speed-related cues, and the transition variable ̂𝜏 𝑖 , the timing head predicts a residual temporal adjustment factor 𝛿 𝑖,𝑘 , which modulates the geometric step length as ̃𝑑 𝑖,𝑘 = 𝑑 geom  
+
+> 𝑖,𝑘
+
+exp( 𝛿 𝑖,𝑘 ). (32) To preserve motion plausibility, the adjusted step length is further regularized by soft speed and smoothness con-straints: 
+
+𝑑 f inal  
+
+> 𝑖,𝑘
+
+= Φ phys 
+
+(̃𝑑 𝑖,𝑘 ; 𝐛 𝑖 , 𝐮 spd  
+
+> 𝑖
+
+,̂𝜏 𝑖 
+
+)
+
+, (33) where Φphys (⋅) denotes a physics-aware temporal adjustment operator that suppresses implausible speed excursions and abrupt local fluctuations while preserving consistency with the available motion cues. The resulting cumulative arc length along the recon-structed path is then written as 
+
+𝓁 𝑖,𝑘 =
+
+> 𝑘
+
+∑
+
+> 𝜅 =1
+
+𝑑 f inal  
+
+> 𝑖,𝜅
+
+. (34) The final pre-impact trajectory is obtained by arc-length resampling of the geometric path: ̂
+
+𝐩 𝑖,𝑘 = ArcResample 
+
+(
+
+𝐩 geom  
+
+> 𝑖, ∶
+
+, 𝓁 𝑖,𝑘 
+
+)
+
+. (35) The corresponding speed is recovered from adjacent dis-placements, ̂𝑣 𝑖,𝑘 =
+
+‖‖̂ 𝐩 𝑖,𝑘 −̂ 𝐩 𝑖,𝑘 −1 ‖‖2
+
+Δ𝑡 , Δ𝑡 = 0 .1 s . (36) As a result, the final reconstruction preserves both the geometric structure inferred from scene-grounded accident reasoning and the temporal evolution required for behavior-consistent and physically plausible pre-impact motion. 
+
+Yanchen Guan et al.: Preprint submitted to Elsevier Page 8 of 22 3.8. Loss function 
+
+We optimize the model using a structured objective that emphasizes trajectory fidelity, collision relevant interaction, temporal consistency, and motion plausibility. The primary supervision is imposed on the final reconstructed motion, the localized collision geometry, and the speed profile, while additional auxiliary terms are used only to stabilize training and improve structural consistency. The primary geometric supervision is given by the tra-jectory reconstruction loss, which constrains the final re-constructed trajectory ̂ 𝐩 𝑖,𝑘 to match the dense reference trajectory 𝐩 ∗ 
+
+> 𝑖,𝑘
+
+on all valid vehicle–time pairs: 
+
+traj = 1
+
+|Ω|∑
+
+> (𝑖,𝑘 )∈Ω
+
+SmoothL1 
+
+(̂
+
+𝐩 𝑖,𝑘 , 𝐩 ∗
+
+> 𝑖,𝑘
+
+)
+
+, (37) where Ω denotes the set of valid spatiotemporal states. To preserve the geometry of collision relevant interac-tion, we further impose a pairwise interaction loss on the selected target collision pair (𝑖, 𝑗 ):
+
+pair = 1
+
+𝐾 
+
+> 𝐾
+
+∑
+
+> 𝑘 =1
+
+‖‖‖̂
+
+𝐫 𝑖𝑗,𝑘 − 𝐫 ∗
+
+> 𝑖𝑗,𝑘
+
+‖‖‖1 , (38) where ̂ 𝐫 𝑖𝑗,𝑘 and 𝐫 ∗ 
+
+> 𝑖𝑗,𝑘
+
+denote the predicted and reference relative motion, respectively. This term directly constrains the localized interaction geometry that governs approach, evasive deviation, and collision formation. Beyond relative motion, accident reconstruction also requires consistency with the annotated collision configu-ration. We therefore introduce a collision consistency loss, 
+
+coll = 𝜙 coll 
+
+(̂
+
+𝐩 𝑖, ∶,̂ 𝐩 𝑗, ∶, 𝐚 ∗) , (39) where 𝜙 coll (⋅) penalizes incompatibility between the recon-structed target-pair motion and the annotated accident loca-tion 𝐚 ∗ in the vicinity of collision. Temporal consistency is supervised through a speed fitting loss on reliable speed annotations: 
+
+spd = 1
+
+|Ω𝑣 |∑
+
+> (𝑖,𝑘 )∈Ω 𝑣
+
+||̂𝑣 𝑖,𝑘 − 𝑣 𝑖,𝑘 || , (40) where Ω𝑣 denotes the set of valid speed-supervision steps. To ensure that the temporally allocated trajectories re-main dynamically plausible, we impose a compact physical-consistency regularization on the reconstructed motion, 
+
+phys = beh + limit + smooth . (41) Rather than enforcing hard kinematic rules, these terms act as soft priors on behavior consistency, speed reasonableness, and local motion continuity. For behavior consistency, we constrain the post-transition acceleration trend to remain compatible with the annotated avoidance maneuver. Let 𝑎 𝑡 denote the discrete acceleration and let Ωpost be the valid post-transition interval. We com-pute the mean post-transition acceleration ̄𝑎 post = 1
+
+|Ωpost |∑
+
+> 𝑡 ∈Ω post
+
+𝑎 𝑡 , (42) and define beh according to the behavior label: acceleration-related behaviors are encouraged to have positive ̄ 𝑎 post ,braking-related behaviors are encouraged to have negative ̄𝑎 post , whereas neutral behaviors are regularized to avoid unnecessary acceleration fluctuations. In this way, the re-constructed post-event motion remains semantically aligned with the reported avoidance response. For speed reasonableness, we introduce a soft speed-limit constraint based on the reported speed prior 𝑠 lim . In-stead of enforcing a hard upper bound, we penalize only excessive overspeeding beyond a tolerance margin 𝛿 ,
+
+limit = 1
+
+|Ω𝑣 |∑
+
+> 𝑡 ∈Ω 𝑣
+
+SmoothL1 (max (0, 𝑣 𝑡 − ( 𝑠 lim + 𝛿 )), 0) ,
+
+(43) where 𝑣 𝑡 is the reconstructed speed and Ω𝑣 denotes the valid time steps. This term suppresses unrealistic high-speed motion while retaining flexibility for accident scenarios that may involve moderate speed deviation. For local motion continuity, we regularize abrupt tempo-ral changes in motion direction. Let Δ𝐩 𝑡 = 𝐩 𝑡 − 𝐩 𝑡 −1 denote the displacement between adjacent steps, and let 
+
+𝑐 𝑡 = Δ𝐩 ⊤𝑡 Δ𝐩 𝑡 +1 
+
+‖Δ𝐩 𝑡 ‖2 ‖Δ𝐩 𝑡 +1 ‖2
+
+(44) be the cosine similarity between consecutive motion direc-tions. The smoothness term is then written as 
+
+smooth = 1
+
+|Ω𝑑 |∑
+
+> 𝑡 ∈Ω 𝑑
+
+max (0, cos 𝜃 0 − 𝑐 𝑡 
+
+) , (45) where Ω𝑑 contains valid non-stationary time steps and 𝜃 0
+
+is the maximum turning angle allowed without penalty. This term discourages implausible high-frequency oscillation and overly sharp local turns, thereby improving temporal coher-ence. Together, these three components provide weak but ef-fective physical priors that guide the reconstructed trajecto-ries toward behavior-consistent, speed-reasonable, and tem-porally smooth pre-impact motion. The overall training objective is therefore written as 
+
+ = traj + pair + coll + spd + phys (46) Taken together, these objectives supervise accident re-construction from complementary but aligned perspectives. The primary terms enforce trajectory fidelity, collision rel-evant interaction, temporal consistency, and motion plausi-bility, whereas the auxiliary terms mainly improve optimiza-tion stability and structural coherence.    
+
+> Yanchen Guan et al.: Preprint submitted to Elsevier Page 9 of 22 Figure 4: Controllable visual reconstruction of traffic accident scenes. The framework first uses traffic simulation to preserve the physical consistency of scene geometry, vehicle motion and participant interactions, and then applies AI-based video generation to translate simulator outputs into realistic accident visualizations with matched environmental conditions and post-collision appearance.
+
+3.9. Controllable visual rendering 
+
+To facilitate qualitative analysis of the reconstructed motion and scene observation, we further couple the in-ferred trajectories with a downstream controllable rendering pipeline that converts scene-grounded accident reconstruc-tion into visually interpretable accident replay. This mod-ule renders the reconstructed trajectories within a scene-consistent visual environment and provides a controllable interface for examining accident dynamics from multiple viewpoints and under different contextual conditions, as illustrated in Figure 4. The rendering pipeline consists of three stages: scene instantiation, visual style transfer, and post-impact exten-sion. First, the reconstructed scene geometry and vehicle trajectories are instantiated in a simulation environment. We use SUMO [50] to obtain or construct the street-level map associated with the accident location, and then import the reconstructed trajectories together with the corresponding road layout into CARLA. This stage converts the recon-structed 2D scene representation into a simulation-ready 3D environment, enabling scene-consistent visualization of the inferred pre-impact dynamics. Second, the simulator-style rendering is transferred into a more realistic visual domain. Specifically, we employ Cosmos-Transfer2.5-2B [51] to convert the rendered out-puts into visually richer accident scenes while allowing environmental attributes such as weather, illumination, and scene appearance to be adjusted in a controllable manner. In this way, the rendered videos preserve consistency with the reconstructed scene layout and vehicle motion while providing more interpretable visual presentation. f Because the core reconstruction model focuses on the pre-impact phase, post-impact visualization is treated as a downstream generative extension rather than as a supervised reconstruction target. To extend the rendered results beyond the moment of collision, we further condition on damage-related descriptions and post-impact behavioral cues, and use Seedance 2.0 to generate post-collision visualizations. This extension is intended to provide qualitative visual-ization of accident aftermath, including vehicle damage manifestation and post-impact scene evolution, rather than quantitatively supervised accident reconstruction. Figure 5 illustrates the realistic visualization results of a single traffic accident case, including multi-view com-parisons, post-impact reconstruction, and visual renderings under different environmental conditions. Specifically, Fig-ure 5(a) presents the accident scene from the ego-vehicle dashcam perspective, while Figure 5(b) shows the viewpoint of the opposing vehicle involved in the Figure 5(c) provides a BEV visualization of the accident scene, offering an objec-tive and comprehensive overview of the spatial relationships and vehicle interactions. Figure 5(d) depicts the post-impact scene generated ac-cording to the described vehicle damage conditions, re-constructing the accident aftermath after the collision. As shown in the figure, the hood of the ego vehicle is lifted due to frontal impact, while the side door of the target vehicle is deformed, reflecting the collision geometry and impact severity. Figure 5(e–g) present video style transfer results under different environmental conditions, demon-strating controllable rendering of diverse accident contexts. It can be observed that across all generated videos, the road structure and vehicle behaviors remain consistent, strictly following the reconstructed map and inferred trajec-tories. The multi-view renderings mutually validate the spa-tial consistency of the reconstruction. Meanwhile, control-lable environmental rendering aims to faithfully reproduce the contextual conditions at the time of the accident. As a result, the final outputs achieve strong consistency with real-world traffic accidents in terms of both physical structure and visual realism. 
+
+## 4. Experiments 
+
+4.1. Dataset 
+
+To promote the sustainability and reproducibility of research in this domain, we focus on processing accident reports derived from publicly accessible data sources and release a corresponding accident reconstruction dataset CISS-REC. Specifically, we curate accident reports from the NHTSA CISS and perform data preprocessing as described                                                      
+
+> Yanchen Guan et al.: Preprint submitted to Elsevier Page 10 of 22 Figure 5: Controllable visualization results of a reconstructed traffic accident case, including multi-view pre-impact replay, post-impact scene extension, and rendering under different environmental conditions.
+> Table 1
+> Noise analysis of key input information in CISS-REC. The reported values correspond to the percentage of vehicles in the subset for which the corresponding fields are missing, labeled as unknown or contain content but do not conform to the expected format. Subset Source Trajectory Impact Area Speed Limit Pre-movement Avoidance EDR Data Initial Lane Training Missing 5.98 02.97 2.97 2.97 59.03 2.97 Unknown -0.95 0.75 0.07 34.95 00.15 Error -00.62 0000.05 Testing Missing 5.89 03.32 3.32 3.32 57.09 3.32 Unknown -0.80 0.97 032.21 00.06 Error -00.11 0000.06
+
+in Section 3.4. During the data preparation process, we exclude cases in which the accident sketches were generated through simple manual drawing using tools such as Google Maps. Instead, we retain only those cases in which the accident scenes were measured on site using total station surveying equipment and documented with sketches that strictly follow standardized naming conventions. This selection strategy aims to eliminate inconsisten-cies introduced by variations in investigation workflows and heterogeneous labeling or naming systems across accident reports. By restricting the dataset to cases with precise surveying measurements and standardized documentation, we ensure a higher level of geometric accuracy and structural consistency in the reconstructed accident scenes. After filtering, the resulting dataset contains a total of 6,217 accident cases. Among them, 1,000 cases are ran-domly selected as the test set, while the remaining cases are used for training. This dataset provides a structured founda-tion for studying parameterized accident reconstruction and for evaluating the performance of machine-learning-based reconstruction models under realistic conditions. As shown in Fig. 6, the training and testing sets follow closely matched distributions across vehicle composition, participant behavior, impact configuration, environmental condition, and temporal context, suggesting that the random split preserves the overall statistical structure of CISS-REC. Across both subsets, two-vehicle crashes form the dominant scenario type, while crashes involving more participants are progressively less frequent. Pre-event movement is primarily characterized by going straight, negotiating a curve, and turning left, whereas more complex behaviors, such as lane changing, overtaking, and U-turn-related maneuvers, occur only sparsely. A similarly skewed pattern is observed for avoidance maneuvers and impact areas. Unknown or absent avoidance annotations account for a substantial proportion, followed by no maneuver and braking-related responses, while cou-pled steering-and-braking actions remain relatively uncom-mon. Front-impact collisions constitute the largest category, whereas rear and lateral impact configurations are more weakly represented. These observations indicate that the dataset reflects the intrinsic long-tailed nature of accident   
+
+> Yanchen Guan et al.: Preprint submitted to Elsevier Page 11 of 22
+
+Figure 6: Data distribution of key factors in the CISS-REC dataset. Yanchen Guan et al.: Preprint submitted to Elsevier Page 12 of 22 reports, where common traffic interactions dominate but rare yet safety-critical patterns are still retained. Environmental distributions further show that most cases occur on dry roads, under clear weather, and during day-light, with smaller yet non-negligible proportions under wet, rainy, dark, or dusk conditions. Posted speed limits are mainly concentrated in the medium-speed intervals, and crash occurrence is more frequent during daytime than overnight periods. In addition, about 75% of accidents occur on straight roads, while the proportions for left-turn and right-turn roads are about 15% and 10%, respectively. Taken together, these results demonstrate that CISS-REC provides a realistic and statistically coherent benchmark for accident reconstruction, while preserving the class imbalance and contextual heterogeneity inherent to real-world in-depth crash data. Table 1 presents the noise distribution of key attributes in the CISS-REC dataset. These noise sources mainly originate from missing entries in the original records as well as data entry errors during the documentation process. For exam-ple, missing trajectory information is primarily caused by inaccuracies in accident sketch drawing and annotation. In contrast, noise in objective attributes such as speed limits mainly arises from incomplete data collected during the investigation process. Notably, attributes related to driver intent and those requiring specialized equipment exhibit a relatively high proportion of missing or unknown values. This is largely due to privacy protection considerations, the varying depth of accident investigation procedures, and limitations in vehicle instrumentation. As a result, certain fields are unavailable for a partial subset of cases. Therefore, during the acci-dent reconstruction process, it is necessary to selectively utilize valid and reliable information for supervised learning, ensuring that model training is guided by consistent and informative inputs. 
+
+4.2. Evaluation metrics 
+
+To quantitatively evaluate the discrepancy between the reconstructed traffic accident scenes and the scenarios de-scribed in the original accident reports, we define the fol-lowing evaluation metrics. 
+
+Average Keypoint Distance (AKD). This metric mea-sures the spatial deviation of each traffic participant at crit-ical trajectory points mapped in the reconstructed scene. Specifically, for each participant involved in the accident, we compute the Euclidean distance between the reconstructed position and the ground-truth position at keypoints obtained from the surveyed accident report. The final score is obtained by averaging the distances across all participants and all keypoints, 
+
+𝐴𝐾𝐷 = 1
+
+𝑁𝐾 
+
+> 𝑁
+
+∑
+
+> 𝑖 =1
+> 𝐾
+
+∑
+
+> 𝑘 =1
+
+‖‖‖𝐩 𝑟𝑒𝑐 𝑖,𝑘 − 𝐩 𝑔𝑡 𝑖,𝑘 
+
+‖‖‖2 , (47) where 𝑁 is the number of traffic participants, 𝐾 is the num-ber of keypoints, and 𝐩 𝑖,𝑘 denotes the position of participant 
+
+𝑖 at keypoint 𝑘 .
+
+Average Velocity Deviation (AVD). This metric quanti-fies the difference between the reconstructed motion states and the original EDR measurements. For each participant and each timestamp specified in the EDR data, the absolute error between the reconstructed velocity and the reference velocity is calculated. The errors are then averaged over all timestamps and all participants. This metric primarily reflects the capability of the reconstruction model to capture the motion intensity, driving speed, and dynamic evolution of the accident process, 
+
+𝐴𝑉 𝐷 = 1
+
+𝑁𝑇 
+
+> 𝑁
+
+∑
+
+> 𝑖 =1
+> 𝑇
+
+∑
+
+> 𝑡 =1
+
+|||𝑉 𝑟𝑒𝑐 𝑖,𝑡 − 𝑉 𝑔𝑡 𝑖,𝑡 
+
+||| , (48) where 𝑇 is the number of evaluated timestamps. 
+
+Average Accident-Point Distance ( 𝐴𝐴𝑃 𝐷 𝑡𝑎𝑛 &𝑛𝑜𝑟𝑚 ). The accident-point distance specifically evaluates the accuracy of the reconstructed collision location. Considering that a single Euclidean distance cannot fully capture the semantic implications of collision errors, we decompose the positional error into two orthogonal components: the tangential error along the road direction (or the principal motion direction of the vehicle) and the normal error perpendicular to that direction. The tangential distance reflects the longitudinal displacement of the collision point, indicating whether the collision occurred “too early” or “too late” along the tra-jectory. The normal distance measures the lateral deviation of the collision position, indicating whether the collision occurred in the correct lane and whether the relative lateral alignment between vehicles is reasonable. This decomposi-tion is more suitable for traffic accident scenarios because it distinguishes between temporal misalignment and lateral localization errors, 
+
+𝐴𝐴𝑃 𝐷 𝑡𝑎𝑛 = ||(𝐜 𝑟𝑒𝑐 − 𝐜 𝑔𝑡 ) ⋅ 𝐞 𝑡𝑎𝑛 || ,𝐴𝐴𝑃 𝐷 𝑛𝑜𝑟𝑚 = ||(𝐜 𝑟𝑒𝑐 − 𝐜 𝑔𝑡 ) ⋅ 𝐞 𝑛𝑜𝑟𝑚 || , (49) where 𝐜 denotes the collision point and 𝐞 𝑡𝑎𝑛 , 𝐞 𝑛𝑜𝑟𝑚 represent the unit vectors along the tangential and normal directions respectively. 
+
+Collision Rate (CR). The collision rate measures whether the reconstructed multi-vehicle scene successfully repro-duces the collision event described in the original accident report. For accident samples where a collision is known to occur, if the reconstructed trajectories of the involved par-ticipants satisfy a predefined collision detection condition, the reconstruction is considered successful; otherwise, it is regarded as a failure. Assuming typical passenger vehicle dimensions (approximately 15 ft in length and 6 ft in width), the conservative circular approximation yields a geometric contact condition when the center distance between two ve-hicles is less than or equal to 16 .2 ft. In our implementation,                                                                                                                             
+
+> Yanchen Guan et al.: Preprint submitted to Elsevier Page 13 of 22 Table 2
+> Quantitative comparison of different models for text-based conditional inverse inference on partially observed multi-agent trajectories. Distance-based metrics are reported in 𝑚 , velocity-based metrics in 𝑚 ∕𝑠 , and accuracy-based metrics in %. Model AKD ↓AVD AAPD CR CSA BA RA Acc Curvature tan norm STGCN [52] 12.15 4.82 9.09 3.71 19.70 28.79 4.95 74.73 25.35 1.03 Spline [53] 12.01 7.42 16.57 6.21 22.73 53.73 3.30 61.54 14.44 0.18 LSTM [54] 11.88 10.85 9.28 4.68 16.67 41.79 40.11 76.81 4.10 0.43 Wayformer [55] 11.64 5.72 8.83 3.52 22.73 32.58 5.49 75.27 39.32 1.08 Spline with temporal allocation 11.35 6.62 8.06 3.45 21.21 44.78 2.20 59.34 11.71 0.20 HiVT [56] 11.34 6.12 8.54 3.56 19.70 41.04 1.65 72.53 51.65 1.05 Kinematic fitting 7.80 8.90 9.49 5.41 22.73 20.45 42.86 79.01 3.67 0.02 VectorNet [57] 7.63 6.36 6.37 3.82 40.91 26.87 40.11 87.91 33.40 0.89 PC-Crash [58] 6.29 9.53 5.31 3.29 98.48 8.96 37.91 84.07 21.81 0.14 Momentum-Energy [59] 6.09 13.81 5.63 3.43 100.00 17.91 17.58 73.08 28.46 0.05 Our 4.98 6.84 3.47 1.41 85.71 56.35 59.69 87.88 2.23 0.04
+
+we adopt the larger value between 15 ft and the original collision distance recorded in the report as the collision detection threshold. 
+
+Collision Surface Accuracy (CSA). Collision surface accuracy evaluates whether the contact surfaces involved in the reconstructed collision match those described in the accident report. This metric assesses the correctness of the collision topology and the geometric semantics of the con-tact region, providing a finer-grained evaluation of collision reconstruction quality. 
+
+Behavior Accuracy (BA). Behavior accuracy evaluates whether the model correctly reconstructs the key actions or driving behaviors of each participant before and during the accident. During evaluation, LLMs are used to analyze the reconstructed driving behaviors and evasive maneuvers of the participants. The inferred behaviors are then compared with those described in the original data to calculate the overall accuracy. 
+
+Role Accuracy (RA). Role accuracy measures whether the model correctly recovers the functional or causal roles of traffic participants in the accident. In traffic accident anal-ysis, different participants may assume distinct roles, and the identification of the initiator is particularly important for determining accident responsibility. In our evaluation, LLMs are employed to assist in identifying the roles of reconstructed participants. The predicted roles are then com-pared with the roles specified in the original accident report to compute classification accuracy. 
+
+4.3. Experimental setups 
+
+All experiments are conducted on the preprocessed mul-timodal accident dataset described above. Each sample con-tains road geometry, scene- and vehicle-level textual em-beddings, structured behavioral attributes, accident priors, dense trajectory supervision, and reliability masks. Unless otherwise specified, each scene contains up to five partici-pant slots, the prediction horizon is fixed to 𝐾 = 51 time steps covering the 5 s interval before impact, and all trajecto-ries are represented in the standardized north-up coordinate frame. The model is implemented in PyTorch. The latent fea-ture dimension follows the default architecture configu-ration used in the released implementation, and the en-coder, base decoder, pairwise interaction branch, and timing head are trained jointly under automatic mixed precision when CUDA is available. Optimization is performed using AdamW with grouped learning rates, so that the encoder is updated more conservatively than the newly introduced conditional decoding modules. Gradient clipping is applied throughout training to maintain numerical stability, and batches that produce non-finite losses are skipped during optimization. Rather than optimizing the full architecture end-to-end from the outset, we adopt a three-stage training strategy. In the first stage, only the base decoder is trained while the encoder remains frozen, allowing the model to first learn stable lane-aware trajectory reconstruction and transition-time estimation. In the second stage, the pairwise interaction branch and post-𝜏 fusion module are activated, still with the encoder frozen, so that collision relevant refinement can be learned on top of an already stable geometric prior. In the final stage, all parameters are jointly fine-tuned, enabling scene encoding, interaction reasoning, and timing adjust-ment to be co-adapted. The contribution of different supervision signals is not kept constant throughout optimization. Instead, stage loss warmup is applied so that collision related, semantic, and behavior-aware losses are introduced progressively rather than dominating early training. In parallel, the teacher-forcing ratio associated with the transition variable 𝜏 is gradually reduced across stages, allowing the model to move smoothly from strongly guided temporal supervision toward autonomous transition-time inference. 
+
+4.4. Evaluation results 
+
+Table 2 presents the experimental results of our proposed framework and several baseline models for traffic accident   
+
+> Yanchen Guan et al.: Preprint submitted to Elsevier Page 14 of 22
+
+Figure 7: Metric landscape of accident reconstruction performance across baselines. Higher scores represent better performance across trajectory, collision, behavior, and geometry metrics. 
+
+Figure 8: Visualization results of representative accident cases. The dark solid lines denote the inferred trajectories generated by the proposed model, while the light dashed lines indicate the ground-truth trajectories recorded during the actual traffic accidents. 
+
+trajectory reconstruction. To better simulate the real-world scenario of non-deep accident investigation, we injected random Gaussian noise with a maximum value of 1 m into the accident site before conducting the experiment to simulate real-world positioning errors. The selected base-lines are broadly representative of mainstream trajectory modeling paradigms, including recurrent sequence models, graph-based interaction models, vectorized map encoders, multimodal forecasting frameworks, and transformer-based 
+
+Yanchen Guan et al.: Preprint submitted to Elsevier Page 15 of 22 Figure 9: Visualization of an external traffic accident report. Some of the input information is inferred from the original accident report using Qwen3. To avoid privacy breaches, we have blurred the specific coordinates. 
+
+architectures. All models use the same input, training pro-cess, and supervision. It is worth noting that PC-Crash and the Momentum-Energy, as classical baselines specifically designed for collision reconstruction, explicitly force the involved vehicles to converge to the same spatial point to form a collision. This design naturally leads to extremely high collision rates for both methods. However, such forced alignment does not preserve realistic interaction dynamics, resulting in unsatisfactory performance in terms of colli-sion surface accuracy, scene-level semantic consistency, and other dynamical metrics. As described in Section 4.2, the evaluation metrics serve different roles in assessing reconstruction quality. Specifi-cally, AKD mainly measures the discrepancy between the overall reconstructed trajectories and the ground-truth tra-jectories, reflecting global spatial accuracy. AVD evaluates the reconstruction quality of vehicle speed and characterizes the consistency of motion dynamics. In contrast, AAPD, CR, and CSA focus on the reconstruction quality near the collision phase, measuring the accuracy of collision lo-calization, collision occurrence, and collision contact ge-ometry, respectively. In addition, to measure the physical consistency between the reconstructed vehicle motion and the real accident data, we compared the average acceleration error (Acc) and curvature error (Curvature) of the vehicle trajectories reconstructed by different models. Figure 7 presents a heatmap constructed from the ex-perimental results, providing an intuitive visualization of the performance of different baseline models across vari-ous evaluation metrics. The experimental results show that the proposed model significantly outperforms the general accident reconstruction baselines in terms of both spatial and temporal consistency of reconstructed accident trajec-tories. In particular, the proposed method yields the lowest spatial and collision point errors ( 𝐴𝐾𝐷 ,𝐴𝐴𝑃 𝐷 𝑡𝑎𝑛 &𝑛𝑜𝑟𝑚 ), while substantially improving collision recovery and seman-tic consistency ( 𝐶𝑅 , 𝐶𝑆𝐴 , and 𝐵𝐴 ). These results indicate that the model does not merely generate plausible trajecto-ries, but more effectively reconstructs the coupled geomet-ric, dynamic and semantic structure of real-world accident processes. This improvement stems from our semantic– geometric–dynamical coupled conditional inverse inference framework, which enables the model to maintain strong spatial alignment with the underlying road topology and collision regions while simultaneously recovering realistic dynamic patterns of accident evolution, including braking behavior, evasive maneuvers, and the temporal progression leading to near-collision and impact events. However, the velocity reconstruction error in our frame-work remains relatively large. This limitation primarily arises from the fact that accident reports typically provide only the posted speed limit of the roadway, rather than the actual driving speeds of individual vehicles. As a result, the model must infer plausible velocity profiles under weak supervision, which makes learning accurate speed patterns more challenging, particularly when trajectory reconstruc-tion and dynamic consistency must be optimized simultane-ously. Despite this limitation, the superior performance of our framework in behavior accuracy indicates that, although the absolute velocity error is slightly higher than that of some baseline models, our method better captures the overall motion patterns that jointly characterize vehicle trajectories and speed evolution. In other words, the reconstructed tra-jectories and velocity profiles remain dynamically consistent with the behavioral semantics of the accident process. To further investigate this issue, we conducted an additional experiment in which the maximum velocity recorded in the EDR data was used to replace the roadway speed limit as the velocity constraint. Under this setting, the 𝐴𝑉 𝐷 
+
+decreased to 2.55 , providing additional evidence that the primary source of velocity error originates from the limited speed information available in accident reports rather than from deficiencies in the proposed reconstruction framework. In terms of acceleration and curvature, the proposed model also significantly outperforms other baselines, indi-cating that the reconstructed vehicle motions better adhere   
+
+> Yanchen Guan et al.: Preprint submitted to Elsevier Page 16 of 22
+
+to real-world physical dynamics in both velocity evolution and trajectory variation. Notably, simple kinematic fitting also achieves competitive performance. Despite performing substantially worse in most other metrics, it even yields lower curvature error than the proposed model. This ob-servation suggests that real-world vehicle motion tends to exhibit relatively smooth and stable patterns, which can be partially captured by simplified kinematic assumptions. Figure 8 presents visualization results of several rep-resentative cases. In the scenarios shown in Fig. 8(a)-(c), the proposed model successfully reconstructs the accident scenes with relatively small errors, and the inferred trajecto-ries closely match the ground-truth vehicle motions. On the contrary, in the cases shown in Fig. 8(d)-(f), noticeable deviations exist between the inferred trajectories and the actual accident trajectories. In Fig. 8(d), the map corresponding to the lane from which the blue vehicle enters the scene is incomplete. As a result, the model selects an incorrect candidate lane during the lane assignment stage, leading to a significant shift in the initial position of the blue vehicle. This initial misalignment propagates through the trajectory inference process, producing a large overall deviation from the real accident trajectory. In the case shown in Fig. 8(e), although the two vehicles successfully collide, the overall scenario still deviates from the original accident, particularly when considering the ve-hicle speed and position at specific time steps. This issue mainly arises because the input map emphasizes geometric shape information rather than topological constraints. Con-sequently, the model fails to fully capture lane-level turning restrictions, allowing vehicles to proceed straight or turn right from lanes that are intended for left-turn movements only. Although the resulting deviation corresponds to a shift of approximately one lane, this discrepancy leads to a substantial difference between the reconstructed scenario and the actual accident configuration. Furthermore, the case shown in Fig. 8(f) reveals another important source of reconstruction error, namely the insuffi-cient granularity of collision surface annotations. In the real accident, the two vehicles collide head-on at a certain angle; however, this angular information is not explicitly captured in the structured data. As a result, during reconstruction, the model tends to enforce a strictly frontal collision. To satisfy this constraint while maintaining physical plausibility and accurate collision positioning, the model reconstructs a large arc trajectory for the red vehicle prior to impact. This behavior deviates significantly from realistic driving patterns and human driving habits, ultimately leading to noticeable discrepancies in the reconstructed scene. To further evaluate the generalization capability of the proposed model, Figure 9 presents a reconstruction result based on a traffic accident report obtained from the Ohio De-partment of Public Safety. In this experiment, key structured inputs, including Initial Lane , Pre-movement , and Avoidance behavior , are extracted from the accident description using Qwen3. A high-resolution map of the area near the accident point, downloaded from OpenStreetMap, is used as the input map. Although quantitative evaluation is not available due to the lack of parameterized ground-truth annotations in this data source, qualitative analysis shows that the reconstructed trajectories are largely consistent with the semantic content of the accident report. In particular, the reconstructed scene preserves the key interaction patterns and event structure described in the original report, indicating that the model is capable of generalizing to unseen data sources and recov-ering semantically coherent accident scenarios. However, during this process we also identified an im-portant limitation. When using real-world high-definition maps, inferring the initial vehicle position based solely on the initial lane and direction can be ambiguous. Specifically, when multiple parallel roads share the same direction, the model cannot reliably determine which road the vehicle actually belongs to. In contrast, this issue does not arise when using sketch-based inputs, since such sketches typically include only the road structures directly relevant to the accident, thereby eliminating ambiguity. This observation highlights that, in real-world traffic accident reconstruction, recording addi-tional contextual information, such as the exact road name, is crucial for resolving spatial ambiguity and improving reconstruction accuracy. 
+
+4.5. Ablation studies 
+
+Table 3 presents the ablation study conducted on the CISS-REC dataset, evaluating the influence of key modules within the proposed framework on traffic accident trajec-tory reconstruction performance. Compared with the bal-anced reconstruction capability of the full model, the effect of Stage-wise training mainly lies in improving training stability and facilitating coordinated optimization among modules. By progressively introducing different components during training, the framework allows each submodule to establish cooperative relationships in a more structured man-ner, leading to a more stable learning process. After ablating this module, both AKD and AVD increase significantly, in-dicating that jointly learning trajectory and velocity without staged optimization introduces strong optimization conflicts, preventing the model from converging to a physically con-sistent solution. The Lane candidate module serves as one of the core sources of geometric-semantic priors. It assists the model in determining the roadway affiliation, driving corridor, and geometric contact relationships of vehicles prior to the ac-cident. Consequently, this module plays a crucial role in ac-curately localizing accident points and recovering collision contact surfaces. Due to trajectory continuity, the initial lane selection globally influences the entire trajectory, including both the initial position and subsequent motion evolution. Therefore, ablating this module leads to performance degra-dation across nearly all metrics. The Temporal allocation module primarily focuses on velocity modeling and temporal coordination. It enables the   
+
+> Yanchen Guan et al.: Preprint submitted to Elsevier Page 17 of 22
+
+Table 3 
+
+Ablation study of key modules of our proposed model. Distance-based metrics are reported in 𝑚 , velocity-based metrics in 𝑚 ∕𝑠 ,and accuracy-based metrics in %. Model AKD AVD AAPD CR CSA tan norm w/o Post-𝜏 fusion 7.44 8.39 8.04 3.82 27.27 20.45 w/o Graph transformer decoder 7.21 7.25 7.69 3.55 25.76 21.97 w/o Lane candidate 6.40 7.53 5.73 2.81 86.36 41.67 w/o Stage-wise training 6.25 8.11 3.09 1.20 86.36 58.21 w/o Temporal allocation 4.45 9.44 3.10 1.15 85.45 53.03 w/o EDR supervision 4.64 9.35 3.09 1.21 86.25 51.34 Full 4.98 6.84 3.47 1.41 85.71 56.35 
+
+Table 4 
+
+Ablation study of input attributes in accident reports. Distance-based metrics are reported in 𝑚 , velocity-based metrics in 𝑚 ∕𝑠 ,and accuracy-based metrics in %. Model AKD AVD AAPD CR CSA tan norm w/o Speed limit 24.60 13.14 11.39 4.64 81.82 45.52 w/o Initial line 16.75 8.24 5.96 5.18 68.18 44.78 w/o Location 9.83 8.25 11.74 5.85 90.91 54.48 w/o Avoid 6.45 7.35 3.31 1.85 83.33 50.75 w/o Pre-movement 5.81 7.51 2.86 1.49 87.88 55.30 w/o Summary 5.67 7.78 3.59 1.46 86.36 56.82 w/o Impact side 5.50 8.64 2.96 1.53 85.91 34.09 w/o Direction 5.26 8.28 3.46 1.41 89.39 48.51 Full 4.98 6.84 3.47 1.41 85.71 56.35 
+
+Table 5 
+
+Experimental results on the robustness of the model against specific input noise. Distance-based metrics are reported in 𝑚 ,velocity-based metrics in 𝑚 ∕𝑠 , and accuracy-based metrics in %. Eval AKD AVD AAPD CR CSA tan norm w/o Speed limit 7.08 7.63 3.47 1.35 84.04 61.73 w/o Initial line 13.59 6.81 1.96 1.23 88.32 47.52 w/o Location 5.68 6.93 4.28 3.06 85.10 56.79 w/o Avoid 4.68 7.14 3.81 1.58 85.82 56.36 w/o Pre-movement 5.99 7.49 2.80 1.22 88.67 59.22 w/o Summary 4.93 6.93 3.45 1.45 84.35 57.06 w/o Impact side 4.95 6.92 3.52 1.48 86.35 40.68 w/o Direction 5.18 6.90 3.72 1.57 84.75 51.42 60% map 6.83 6.86 3.29 1.43 86.89 48.56 Full 4.98 6.84 3.47 1.41 85.71 56.35 
+
+Table 6 
+
+Experimental results on the robustness of the model against random entry missing. Distance-based metrics are reported in 𝑚 ,velocity-based metrics in 𝑚 ∕𝑠 , and accuracy-based metrics in %. Eval AKD AVD AAPD CR CSA tan norm 3% entry missing 5.16 7.05 3.46 1.46 85.46 55.19 5% entry missing 5.32 7.03 3.41 1.46 85.28 53.51 10% entry missing 6.08 7.10 3.36 1.47 84.39 51.09 15% entry missing 6.55 7.23 3.27 1.43 84.39 49.26 20% entry missing 7.27 7.35 3.19 1.44 83.85 47.55 30% entry missing 8.78 7.46 3.09 1.43 83.67 43.33 50% entry missing 11.59 7.81 2.92 1.43 84.75 38.44 Full 4.98 6.84 3.47 1.41 85.71 56.35 Yanchen Guan et al.: Preprint submitted to Elsevier Page 18 of 22 Figure 10: Sensitivity of reconstruction metrics to random report-entry missingness. 
+
+model to learn the temporal organization of trajectory evo-lution, including speed distribution, motion rhythm, and the timing structure leading to collision events. After removing this module, the inferred velocity error increases substan-tially, while trajectory-related errors slightly decrease. This observation further confirms the optimization conflict be-tween trajectory and velocity learning during joint training. Finally, the Post-𝜏 fusion and Graph transformer de-coder constitute the backbone modules responsible for col-lision reconstruction capability. Without explicit mecha-nisms for modeling inter-vehicle interactions and learning the temporal boundary between normal driving and evasive maneuvers, the model would struggle to capture the most fundamental aspect of traffic accidents—namely, trajectory deflections, contact formation, and geometric collision evo-lution resulting from vehicle interactions. Ablating these two modules not only degrades overall trajectory and velocity inference performance, but also directly affects trajectory learning near the collision moment, making it difficult for the reconstructed vehicles to collide in accordance with the accident description. In addition, to investigate how the content of traffic accident reports influences reconstruction performance, we conduct an input ablation study by selectively removing specific report attributes from the model input. The results are summarized in Table 4. The experiments indicate that structured factors directly constraining vehicle dynamics boundaries, roadway affiliation, and collision contact rela-tionships play a decisive role in reconstruction accuracy. The Speed limit , as the only speed-related information available in accident reports, acts as a crucial physical boundary for the entire accident dynamics. It not only affects velocity prediction itself but also participates deeply in modeling trajectory length, collision arrival time, and the spatial scale of motion evolution. The Initial lane directly determines the roadway affiliation of the vehicle prior to the accident, its entry path, and the relative interaction positions among participants, making it closely tied to spatial trajectory reconstruction. In contrast, the Location 
+
+attribute mainly determines the approximate spatial region where the accident occurs. Without location information, the model is more likely to achieve a higher CR through coarse collision matching strategies, but this substantially degrades spatial realism and scene consistency. For other semantic attributes, ablating a single factor results in relatively limited performance degradation. This is because many of these attributes serve as auxiliary con-ditions and partially overlap with each other in semantic content. For example, directional information and driving behaviors are often implicitly contained within the overall accident description. This observation is also consistent with the structure of real-world accident reports, where some reports do not require an explicit narrative summary but instead record accident details through a set of structured fields. Notably, removing the Impact side attribute leads to the largest decrease in CSA, highlighting its critical role in recovering the contact geometry of collisions rather than affecting the global trajectory reconstruction quality. 
+
+4.6. Robustness studies 
+
+To evaluate the robustness of the proposed model under potential data noise, we keep the testing checkpoint fixed and measure performance under different input-missing con-ditions, as shown in Table 5. For the model trained with complete inputs, as discussed previously, semantic redun-dancy and overlap among textual attributes reduce sensitiv-ity to partial missing information. Consequently, removing individual textual fields produces only marginal changes in overall performance.   
+
+> Yanchen Guan et al.: Preprint submitted to Elsevier Page 19 of 22
+
+In contrast, the removal of Initial lane , which determines the initial vehicle placement, and Location , which constrains the spatial range of the accident, has a clear impact on both AKD and AAPD. These two attributes directly affect the global spatial configuration of the reconstructed trajectories, making them critical for accurate accident reconstruction. The absence of Speed limit affects both trajectory length and velocity inference, since it acts as a physical constraint on vehicle dynamics. As a result, removing this attribute leads to increases in both AKD and AVD, reflecting de-graded spatial and dynamical consistency. Furthermore, we evaluate the impact of incomplete map geometry by randomly removing 40% of map polylines. Under this setting, AKD increases noticeably, indicating that the overall trajectory reconstruction is significantly affected. However, the influence on velocity estimation and accident-point localization remains relatively small, suggesting that map geometry primarily affects spatial trajectory alignment rather than temporal dynamics or collision positioning. In addition to robustness evaluation under specific miss-ing attributes, we further conduct random ablation of tex-tual inputs at different proportions to simulate the effect of stochastic input incompleteness. The results are summarized in Table 6. As the proportion of missing text increases, both AKD and AVD (metrics associated with global trajectory reconstruction) gradually increase, indicating that the model becomes less capable of accurately localizing the overall trajectory under insufficient information. In contrast, due to the presence of the Post-𝜏 fusion module, the collision rate (CR) remains relatively stable and fluctuates within a normal range, showing limited sensitivity to missing textual inputs. Moreover, as the model struggles to learn the overall trajectory under increasing information loss, the optimization process becomes more focused on the collision region, which in turn leads to improved perfor-mance in AAPD. Finally, as the amount of missing collision-related se-mantic information increases, CSA gradually deteriorates. This trend is consistent with the expectation that collision surface accuracy is highly dependent on detailed semantic cues describing contact geometry. Figure 10 clearly illustrates the process of structural degradation as the proportion of missing textual inputs in-creases. In particular, both AKD and CSA exhibit an approx-imately linear degradation trend when the missing rate re-mains below 50% , indicating a steady decline in reconstruc-tion quality due to the loss of semantic information. Further-more, we analyze the distribution of AKD at the per-vehicle level. The results show that the variance of AKD gradually increases as more textual information is removed, leading to a wider error distribution. This observation highlights the critical role of original textual inputs in constraining the global trajectory reconstruction of individual vehicles. 
+
+## 5. Conclusion 
+
+In this work, we formulated traffic accident reconstruc-tion from publicly accessible accident reports and scene measurements as a parameterized multimodal learning prob-lem. To support this task, we constructed CISS-REC, a real-world accident reconstruction dataset curated from the NHTSA Crash Investigation Sampling System, and devel-oped a scene-grounded reconstruction framework that inte-grates report semantics, road geometry, and sparse motion evidence into a unified reconstruction process. Experimental results show that the proposed framework achieves the strongest overall reconstruction fidelity among representative baselines, with clear advantages in accident-point localization and collision consistency. These findings suggest that publicly available accident reports can sup-port quantitatively verifiable accident reconstruction beyond coarse semantic restoration. We further demonstrated that the reconstructed trajectories can be coupled with a down-stream controllable rendering pipeline, enabling visually interpretable multi-view replay and post-impact scene exten-sion. Overall, this study provides a scalable route from pub-lic accident reports to scene-specific accident reconstruc-tion, with potential value for transportation safety analysis, simulation-based investigation, and autonomous-driving re-search. 
+
+## Acknowledgment 
+
+This work was supported by the Science and Technology Development Fund of Macau [0007/2025/RIC, 0122/2024/RIB2, 0215/2024/AGJ, 0074/2025/AMJ, 001/2024/SKL, 0002/2025/EQP], the Research Services and Knowledge Transfer Office, Uni-versity of Macau [SRG2023-00037-IOTSC, MYRG-GRG2024-00284-IOTSC], the Shenzhen-Hong Kong-Macau Science and Technology Program Category C [SGDX20230821095159012], the Science and Technology Planning Project of Guangdong [2025A0505010016], National Natural Science Foundation of China [52572354], the State Key Lab of Intelligent Trans-portation System [2024-B001], and the Jiangsu Provincial Science and Technology Program [BZ2024055]. 
+
+## Data availability 
+
+The data used in this work will be publicly released. 
+
+## References          
+
+> [1] D. Lord, F. Mannering, The statistical analysis of crash-frequency data: A review and assessment of methodological alternatives, Trans-portation research part A: policy and practice 44 (2010) 291–305. [2] P. T. Savolainen, F. L. Mannering, D. Lord, M. A. Quddus, The statistical analysis of highway crash-injury severities: A review and assessment of methodological alternatives, Accident Analysis & Prevention 43 (2011) 1666–1676. [3] C. Arteaga, A. Paz, J. Park, Injury severity on traffic crashes: A text mining with an interpretable machine-learning approach, Safety Science 132 (2020) 104988.
+> Yanchen Guan et al.: Preprint submitted to Elsevier Page 20 of 22
+
+[4] S. Lee, R. Arvin, A. J. Khattak, Advancing investigation of automated vehicle crashes using text analytics of crash narratives and bayesian analysis, Accident Analysis & Prevention 181 (2023) 106932. [5] G. Tiwari, D. Mohan, G. Agrawal, Transport planning and traffic safety: making cities, roads, and vehicles safer, CRC Press, 2018. [6] L. Hu, X. Bao, M. Lin, C. Yu, F. Wang, Research on risky driving be-havior evaluation model based on cidas real data, Proceedings of the Institution of Mechanical Engineers, Part D: Journal of Automobile Engineering 235 (2021) 2176–2187. [7] D. Otte, M. Jänsch, C. Haasper, Injury protection and accident causation parameters for vulnerable road users based on german in-depth accident study gidas, Accident Analysis & Prevention 44 (2012) 149–153. [8] J.-P. Kreiss, G. Feng, J. Krampe, M. Meyer, T. Niebuhr, C. Pastor, J. Dobberstein, Extrapolation of gidas accident data to europe, in: Proceedings of the 24th ESV Conference Proceedings, NHTSA Washington, DC, 2015. [9] A. Montella, D. Andreassen, A. P. Tarko, S. Turner, F. Mauriello, L. L. Imbriani, M. A. Romero, Crash databases in australasia, the european union, and the united states: review and prospects for improvement, Transportation research record 2386 (2013) 128–136. [10] Z. Zhang, Q. He, J. Gao, M. Ni, A deep learning approach for detecting traffic accidents from social media data, Transportation research part C: emerging technologies 86 (2018) 580–596. [11] C. S. Shin, W. Pang, C. Li, F. Bai, F. Ahmad, J. Paek, R. Govindan, Recap: 3d traffic reconstruction, in: Proceedings of the 30th Annual International Conference on Mobile Computing and Networking, 2024, pp. 1252–1267. [12] J. Beck, R. Arvin, S. Lee, A. Khattak, S. Chakraborty, Automated vehicle data pipeline for accident reconstruction: New insights from lidar, camera, and radar data, Accident Analysis & Prevention 180 (2023) 106923. [13] W. Wach, Calculation reliability in vehicle accident reconstruction, Forensic science international 263 (2016) 27–38. [14] A. Guo, Y. Zhou, H. Tian, C. Fang, Y. Sun, W. Sun, X. Gao, A. T. Luu, Y. Liu, Z. Chen, Sovar: Build generalizable scenarios from accident reports for autonomous driving testing, in: Proceedings of the 39th IEEE/ACM International Conference on Automated Software Engineering, 2024, pp. 268–280. [15] F. Tan, S. Feng, V. Ordonez, Text2scene: Generating compositional scenes from textual descriptions, in: Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition, 2019, pp. 6710–6719. [16] Z. Li, Z. Cui, H. Liao, J. Ash, G. Zhang, C. Xu, Y. Wang, Steering the future: Redefining intelligent transportation systems with foundation models, Chain 1 (2024) 46–53. [17] R. L. Griffin, S. Carroll, J. O. Jansen, Automatic collision notification availability and emergency response times following vehicle colli-sion—an analysis of the 2017 crash investigation sampling system, Traffic injury prevention 21 (2020) S135–S139. [18] Z. Zheng, Z. Wang, L. Zhu, H. Jiang, Determinants of the congestion caused by a traffic accident in urban road networks, Accident Analysis & Prevention 136 (2020) 105327. [19] D. E. Struble, J. D. Struble, Automotive accident reconstruction: practices and principles, CRC Press, 2020. [20] F. A. Fernandes, R. J. Alves de Sousa, M. Ptak, Application of numerical methods for accident reconstruction and forensic analysis, in: Head Injury Simulation in Road Traffic Accidents, Springer, 2018, pp. 59–98. [21] D. S. Ryan, E. Zarei, Accident investigation processes and techniques in sociotechnical systems, in: Safety Causation Analysis in Sociotech-nical Systems: Advanced Models and Techniques, Springer, 2024, pp. 21–45. [22] R. W. Rivers, Technical Traffic Crash Investigators’ Handbook:(level 3): a Technical Reference, Training, Investigation and Reconstruction Manual, Charles C Thomas Publisher, 2010. [23] R. W. Rivers, Evidence in traffic crash investigation and recon-struction: identification, interpretation and analysis of evidence, and the traffic crash investigation and reconstruction process, Charles C Thomas Publisher, 2006. [24] S. I. Mohammed, An overview of traffic accident investigation using different techniques, Automotive experiences 6 (2023) 68–79. [25] G. Vida, G. Melegh, Á. Süveges, N. Wenszky, Á. Török, Analysis of uav flight patterns for road accident site investigation, Vehicles 5 (2023) 1707–1726. [26] S. Su, W. Liu, K. Li, G. Yang, C. Feng, J. Ming, G. Liu, S. Liu, Z. Yin, Developing an unmanned aerial vehicle-based rapid mapping system for traffic accident investigation, Australian journal of forensic sciences 48 (2016) 454–468. [27] S. Jiang, W. Jiang, L. Wang, Unmanned aerial vehicle-based pho-togrammetric 3d mapping: A survey of techniques, applications, and challenges, IEEE Geoscience and Remote Sensing Magazine 10 (2021) 135–171. [28] M. Lemmens, Terrestrial laser scanning, in: Geo-information: technologies, applications and the environment, Springer, 2011, pp. 101–121. [29] M. Scherer, J. L. Lerma, From the conventional total station to the prospective image assisted photogrammetric scanning total station: Comprehensive review, Journal of Surveying Engineering 135 (2009) 173–178. [30] M. Clamann, A. J. Khattak, K. Clark, et al., Advancing crash investi-gation with connected and automated vehicle data, Technical Report, Collaborative Sciences Center for Road Safety, 2021. [31] B. Dhanam, P. Marichamy, B. Mohan, E. Manoj, J. Johnson, K. Bal-avignesh, Event data recorder for investigation, legal claim and fault analysis in vehicles, in: 2025 3rd International Conference on Artificial Intelligence and Machine Learning Applications Theme: Healthcare and Internet of Things (AIMLA), IEEE, 2025, pp. 1–5. [32] K. L. Carper, Forensic engineering, CRC press, 2000. [33] G. Raviv, B. Fishbain, A. Shapira, Analyzing risk factors in crane-related near-miss and accident reports, Safety science 91 (2017) 192– 205. [34] K. Faizan, A. Abid, Forensic investigation of road traffic accident cases in pakistan and types of physical evidence, Pakistan Social Sciences Review 5 (2021) 405–422. [35] H. W. Smith, Physical evidence in the investigation of traffic acci-dents, J. Crim. L. Criminology & Police Sci. 48 (1957) 93. [36] D. Liu, D. Li, N. Sze, H. Ding, Y. Song, An integrated data-and theory-driven crash severity model, Accident Analysis & Prevention 193 (2023) 107282. [37] A. Gadotti, L. Rocher, F. Houssiau, A.-M. Creţu, Y.-A. De Montjoye, Anonymization: The imperfect science of using data while preserving privacy, Science advances 10 (2024) eadn7053. [38] K. N. Morehouse, B. Kurdi, B. A. Nosek, Responsible data sharing: Identifying and remedying possible re-identification of human partic-ipants., American Psychologist (2024). [39] M. M. Hossain, H. Zhou, S. Das, Data mining approach to explore emergency vehicle crash patterns: A comparative study of crash severity in emergency and non-emergency response modes, Accident Analysis & Prevention 191 (2023) 107217. [40] J. Font Mezquita, Reconstrucción de accidentes:“la importancia del atestado oficial”, Securitas Vialis 4 (2012) 9–15. [41] R. R. Rider, The impact of new technology on crash reconstruction, Tarleton State University, 2017. [42] M. Ball, Working with images in daily life and police practice: an assessment of the documentary tradition, Qualitative Research 5 (2005) 499–521. [43] M. L. Komter, From talk to text: The interactional construction of a police record, Research on Language and Social interaction 39 (2006) 201–228. [44] Y. Chen, Q. Zhang, F. Yu, Transforming traffic accident investiga-tions: a virtual-real-fusion framework for intelligent 3d traffic accident reconstruction, Complex & Intelligent Systems 11 (2025) 76. [45] P. Jiao, Q. Miao, M. Zhang, W. Zhao, A virtual reality method for digitally reconstructing traffic accidents from videos or still images, Forensic science international 292 (2018) 176–180. 
+
+Yanchen Guan et al.: Preprint submitted to Elsevier Page 21 of 22 [46] C. Li, K. Zhou, T. Liu, Y. Wang, M. Zhuang, H.-a. Gao, B. Jin, H. Zhao, Avd2: Accident video diffusion for accident video descrip-tion, arXiv preprint arXiv:2502.14801 (2025). [47] X. Zhang, Q. Zhang, L. Han, Q. Qu, X. Chen, Accidentsim: Gen-erating physically realistic vehicle collision videos from real-world accident reports, arXiv preprint arXiv:2503.20654 (2025). [48] M. Li, W. Ding, H. Lin, Y. Lyu, Y. Yao, Y. Zhang, D. Zhao, Crasha-gent: Crash scenario generation via multi-modal reasoning, arXiv preprint arXiv:2505.18341 (2025). [49] E. Bertolazzi, M. Frego, On the g2 hermite interpolation problem with clothoids, Journal of Computational and Applied Mathematics 341 (2018) 99–116. [50] D. Krajzewicz, J. Erdmann, M. Behrisch, L. Bieker, et al., Recent development and applications of sumo-simulation of urban mobility, International journal on advances in systems and measurements 5 (2012) 128–138. [51] A. Ali, J. Bai, M. Bala, Y. Balaji, A. Blakeman, T. Cai, J. Cao, T. Cao, E. Cha, Y.-W. Chao, et al., World simulation with video foundation models for physical ai, arXiv preprint arXiv:2511.00062 (2025). [52] H. Han, M. Zhang, M. Hou, F. Zhang, Z. Wang, E. Chen, H. Wang, J. Ma, Q. Liu, Stgcn: a spatial-temporal aware graph learning method for poi recommendation, in: 2020 IEEE International Conference on Data Mining (ICDM), IEEE, 2020, pp. 1052–1057. [53] L. Schumaker, Spline functions: basic theory, Cambridge university press, 2007. [54] G. Van Houdt, C. Mosquera, G. Nápoles, A review on the long short-term memory model, Artificial intelligence review 53 (2020) 5929– 5955. [55] N. Nayakanti, R. Al-Rfou, A. Zhou, K. Goel, K. S. Refaat, B. Sapp, Wayformer: Motion forecasting via simple & efficient attention net-works, arXiv preprint arXiv:2207.05844 (2022). [56] Z. Zhou, L. Ye, J. Wang, K. Wu, K. Lu, Hivt: Hierarchical vector transformer for multi-agent motion prediction, in: Proceedings of the IEEE/CVF conference on computer vision and pattern recognition, 2022, pp. 8823–8833. [57] J. Gao, C. Sun, H. Zhao, Y. Shen, D. Anguelov, C. Li, C. Schmid, Vectornet: Encoding hd maps and agent dynamics from vectorized representation, in: Proceedings of the IEEE/CVF conference on computer vision and pattern recognition, 2020, pp. 11525–11533. [58] H. Steffan, A. Moser, The collision and trajectory models of PC-CRASH, Technical Report, SAE Technical Paper, 1996. [59] X. Zhang, X. Jin, J. Shen, Virtual reconstruction of two types of traffic accident by the tire marks, in: International Conference on Artificial Reality and Telexistence, Springer, 2006, pp. 1128–1135. 
+
+Yanchen Guan et al.: Preprint submitted to Elsevier Page 22 of 22

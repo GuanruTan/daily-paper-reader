@@ -1,0 +1,528 @@
+Title: Learning from the Unseen: Generative Data Augmentation for Geometric-Semantic Accident Anticipation
+
+URL Source: https://arxiv.org/pdf/2605.00051v1
+
+Published Time: Mon, 04 May 2026 00:07:44 GMT
+
+Number of Pages: 26
+
+Markdown Content:
+# Learning from the Unseen: Generative Data Augmentation for Geometric-Semantic Accident Anticipation 
+
+## Yanchen Guan 1,2 , Haicheng Liao 1,3 , Chengyue Wang 1,2 ,Xingcheng Liu 1,3 , Jiaxun Zhang 1,2 , Keqiang Li 4, Zhenning Li 1,2,3* 
+
+> 1
+
+State Key Laboratory of Internet of Things for Smart City, University of Macau, Macau SAR, 999078, China. 
+
+> 2
+
+Department of Civil Engineering, University of Macau, Macau SAR, 999078, China. 
+
+> 3
+
+Department of Computer and Information Science, University of Macau, Macau SAR, 999078, China. 
+
+> 4
+
+Department of Automotive Engineering, Tsinghua University, Beijing, 100084, China. 
+
+Abstract 
+
+Anticipating traffic accidents is a critical yet unresolved problem for autonomous driving, hindered by the inherent complexity of modeling interactions between road users and the limited availability of diverse, large-scale datasets. To address these issues, we propose a dual-path framework. On the one hand, we employ a video synthesis pipeline that, guided by structured prompts, derives feature distributions from existing corpora and produces high-fidelity synthetic driving scenes consistent with the statistical patterns of real data. On the other hand, we design a graph neural network enriched with semantic cues, enabling dynamic reasoning over both spatial and semantic relations among participants. To val-idate the effectiveness of our approach, we release a new benchmark dataset containing standardized, finely annotated video sequences that cover a broad spectrum of regions, weather, and traffic conditions. Evaluations across exist-ing datasets and our new benchmark confirm notable gains in both accuracy and anticipation lead time, highlighting the capacity of the proposed framework to mitigate current data bottlenecks and enhance the reliability of autonomous driving systems. 
+
+1 
+
+> arXiv:2605.00051v1 [cs.CV] 29 Apr 2026 Keywords: Autonomous driving, Accident anticipation, Synthetic videos, Vision language model
+
+# 1 Introduction 
+
+In recent years, autonomous driving technologies have progressed rapidly, and self-driving vehicles are increasingly regarded as promising solutions for enhancing road safety [1–3]. Anticipating potential accidents is a key component in ensuring timely risk awareness within such scenarios, as it focuses on forecasting potential collisions from dashcam recordings and issuing early alerts. This ability allows drivers or automated systems to take preventive actions in advance, thereby lowering accident likelihood and improving traffic safety [4–6]. Distinct from generic time-series prediction tasks, accident anticipation is char-acterized by its reliance on anomalous interactions among traffic participants within specific environments, rather than merely long-term sequential dynamics. Existing studies mainly emphasize extending temporal modeling, thereby improving general sequence understanding but overlooking the underlying causes of accidents [7, 8]. This often results in weakly perceived interactions among distant targets, while close inter-actions suffer from extremely short time-to-accident (ToA), occlusions, or blurred cues—issues that are particularly detrimental in rapidly evolving traffic scenes [9]. Furthermore, the lack of sufficiently large and reliable datasets is also a primary obstacle. Since traffic crashes occur infrequently and in unpredictable circumstances, their randomness and time-critical nature make the collection, curation, and labeling of accident videos particularly costly and labor-intensive [10]. Consequently, acci-dent datasets are limited in size and vary substantially across sources, leading to instability in model performance and a heightened risk of overfitting when evaluated on small, independent datasets [11]. Moreover, cross-dataset discrepancies are pro-nounced, for example, the DAD dataset [12] reflects subtropical urban scenes without snowfall, while the CCD dataset [13] primarily captures traffic scenarios on temperate open roads. Such differences may cause systematic biases, where specific scenarios or categories are underrepresented. To tackle these challenges, we propose a dual-pronged pipeline. We first integrate a frozen video generation module into the processing pipeline of the original data, leveraging the environmental feature distribution of the raw dataset to construct new traffic scenarios. This approach increases both the volume and diversity of training data while preserving the intrinsic characteristics of the dataset to the greatest extent. Subsequently, to overcome limitations of prior research, we propose a semantic and geometric enhanced dynamic graph convolutional network for accident anticipation inference. This architecture captures complex behavioral interactions among partici-pants through joint semantic and spatial-visual fusion, adaptively weighting critical targets to guide the model’s focus toward hazardous interactions. Furthermore, instead of treating frames independently, our model processes short video segments, effectively enlarging the receptive field, alleviating transient information loss, and enhancing prediction accuracy. 2For empirical validation, we present the Multi-source Accident Anticipation (MAA) dataset, a new and challenging real-world benchmark with richer accident samples and more detailed annotations than prior datasets. We further replicate several represen-tative models based on RNNs, GCNs, Transformers, and self-supervised approaches on the MAA dataset. Results indicate that our framework consistently surpasses prior art across diverse datasets. Moreover, the proposed augmentation strategy effectively mitigates model performance bottlenecks, leading to more stable accident anticipation. Our main contributions can be summarized as follows: 
+
+• We present a traffic video synthesis pipeline for data augmentation in accident anticipation. The method produces diverse driving scenarios while maintaining the statistical characteristics of the original environments, thereby alleviating the challenge of limited training data. 
+
+• We develop a semantic and geometric enhanced dynamic graph convolutional net-work with temporal convolutional layers. By integrating the behavioral semantics and visual information of traffic participants with an enhanced temporal reason-ing module, our framework achieves more accurate accident anticipation in multiple experiments. 
+
+• We provide the MAA dataset, which constitutes the most extensive collection of accident cases with detailed annotations, supporting reproducible evaluation and future exploration. 
+
+# 2 Related Work 
+
+Accident anticipation aims to forecast collisions before they occur and to provide early warnings, allowing proactive safety measures to be taken. The concept was first explored by Chan et al. [12], who introduced a Dynamic Spatial Attention frame-work using egocentric visual input, demonstrating the potential of predicting accidents directly from dashcam footage. Subsequent advances extended this idea: Karim et al. [14] incorporated temporal dependencies through a Dynamic Spatio-Temporal Atten-tion model, while others introduced graph-based approaches that represent vehicles and pedestrians as nodes, with edges encoding their interactions [15–18]. Such meth-ods often rely on dense connectivity to approximate relational structures [4, 11, 19]. Parallel efforts have explored incorporating motion cues such as optical flow and depth information to refine object perception, which further improves accident anticipation accuracy [20, 21]. Despite these developments, key challenges persist, including the inefficiency of relation modeling and the limited scale of available datasets. Graph structures constructed solely from visual information struggle to capture real-world traffic semantics such as road constraints and vehicle priority relationships, and they often exhibit instability in rare scenarios [22, 23]. Moreover, the limited scale of exist-ing public datasets further exacerbates the long-tailed distribution of rare events, resulting in weak model generalization capability [24, 25]. Beyond structured interaction modeling, research on scene graph generation has shown that explicitly representing semantic relations between objects can enrich video interpretation [26, 27]. In addition, recognizing human actions from video provides a pathway to deeper understanding of ongoing events. Vision–language models (VLMs) 3Fig. 1 The overall framework of our proposed model. (a) The process from raw video to accident anticipation results including traffic video generation and accident anticipation. (b) The important factors that constitute the traffic scene and the order in which they are obtained. (c) Semantic feature and visual feature fusion module. 
+
+have become a promising tool to bridge visual signals with textual representations [28, 29]. These pretrained systems bring zero-shot interpretability, enhancing both contextual reasoning and content recognition [30]. In video analysis specifically, VLMs exploit temporal continuity across frames, enabling them to capture evolving actions and mitigate the limitations of single-frame inference, thereby converting continuous visual information into semantic information [31]. Compared with fragmented frame-level visual cues, such continuous semantic information provides a more coherent description of inter-agent interactions and critical environmental influences [32, 33]. In addition, the zero-shot reasoning capability of VLMs enables the extraction of diverse semantic attributes for each sample without relying on multiple specialized models [28]. This facilitates a unified characterization of dataset-wide semantic distributions and offers valuable guidance for constructing semantically aligned synthetic data [34, 35]. 
+
+# 3 Method 
+
+## 3.1 Problem Setup 
+
+This work aims to determine, from a stream of dashcam frames, how the risk of a traffic accident evolves over time and to identify the moment at which such risk becomes critical. Let I = {i1, i 2, . . . , i L} denote the input video sequence consisting of L frames. At each frame index m, the proposed model produces a risk estimate, yielding a probabilistic profile U = {u1, u 2, . . . , u L}, where um indicates the inferred accident likelihood at that instant. An accident-warning decision is triggered once the predicted score surpasses a decision level δ for the first time at index ˆm, that is, u ˆm ≥ δ with ˆm < L . To characterize how far ahead of the true event the model can raise an alarm, we compute the Time-to-Accident (TTA) as TTA = λ − ˆm, where λ marks the ground-truth 4frame at which the accident begins, and we set λ = 0 for sequences without accidents. Larger TTA values indicate that the system identifies dangerous situations earlier, thus demonstrating a higher level of anticipatory ability. The overall objective is to learn a reliable risk curve U while maximizing the advance-detection index ˆ m for videos in which an accident occurs. 
+
+## 3.2 Traffic Video Synthesis 
+
+Figure 1 shows our entire model framework. We first start with the generation of synthetic data. This module generates driving videos for data augmentation to tackle the data insufficient. Given the restricted diversity of existing datasets, we propose a controllable traffic video synthesis framework for synthesizing plausible driving videos. The proposed framework leverages environmental distributions extracted from existing data and reconstructs them into novel scenarios, ensuring that the generated samples preserve the statistical properties of the original dataset. Concretely, we first employ Qwen-VL [36] to obtain the underlying environmental distributions (Figure 2). When the testing samples remain fixed, preserving the original distribution of the dataset helps prevent the training process from being contaminated by environmental conditions absent from the dataset. However, for broader real-world applications, it is essential to address the missing environmental feature distributions, enabling the model to learn from more diverse scenarios. Next, random mapping based on the extracted distributions is applied to controllably determine the environment of new scenarios. We then adopt two different strategies to assign maps for negative and positive videos. For positive samples, the inherent complexity of designing accident trajectories necessitates pre-defining both the accident type and its spatial location. To address this challenge, we employ preset maps that simplify trajectory design while ensuring coverage of common accident scenarios. According to the National Motor Vehicle Crash Causation Survey (NMVCCS), more than 70% of accidents occur on intersections or straight roads, with intersections alone accounting for nearly 40% [37]. Therefore, as illustrated in Figure 3, our preset maps primarily consist of intersections, T-junctions, straight segments, as well as single-lane and multi-lane configurations. For negative samples, the map assignment is comparatively straightforward. To increase terrain diversity, we randomly select coordinates from publicly available road data provided by the U.S. National Highway Traffic Safety Administration (NHTSA) and download the corresponding high-definition maps. Figure 1b illustrates the key information required for generating driving scenar-ios. After obtaining the map and defining drivable regions, it is necessary to assign origins and destinations for traffic participants. For participants that do not require fine-grained control, random routes are assigned based on the map and traffic rules, ensuring conflict-free trajectories. Beyond these initial trajectories, each participant’s real-time actions are governed by a driving agent. Specifically, a directed weighted graph is first constructed based on the road network, denoted as: 
+
+G = ( V, E, w ) (1) 5Fig. 2 Heatmap of positive sample proportions under different environment in MAA dataset. Within the dataset, accidents’ occurrence varies substantially across different conditions. Moreover, despite being the largest accident anticipation dataset to date, certain environments still lack sufficient sam-ples. 
+
+where V represents the set of road nodes, E ⊆ V × V denotes the set of directed edges corresponding to traversable road segments, and w is the temporal weight function that assigns a travel cost to each edge. Each edge eij ∈ E is associated with the following attribute: 
+
+w(eij ) = Lij 
+
+vij 
+
+(2) where Lij denotes the road length and vij represents the speed limit. The sets of traversable and non-internal edges are defined as the origin and desti-nation edge sets, denoted by Esrc and Edst , respectively. For each vehicle k, its starting and ending edges are obtained by random sampling: 
+
+es(k) ∼ Esrc , et(k) ∼ Edst (3) Vehicle departures are modeled as a Poisson process with rate λ. Let {N (t)}t≥0
+
+denote the counting process of vehicle insertions, then N (t) ∼ Poisson( λt ) and the inter-arrival times ∆ tk follow an exponential distribution: ∆tk ∼ Exp( λ), t(k) = 
+
+> k
+
+X
+
+> i=1
+
+∆ti (4) 6Fig. 3 The preset maps of accident driving scenarios generation and corresponding accident types. We have designed some preset maps for common scenarios and summarized the corresponding typical accident types to ensure that common accidents can be reconstructed. 
+
+where t(k) is the departure time of vehicle k, λ = pb , p denotes the expected number of vehicle departures within a time window of length b.For each origin–destination (OD) edge pair  es(k), e t(k), the shortest path is computed using the Dijkstra [38] algorithm: 
+
+π(k) = arg min 
+
+> π∈Π
+
+ es(k),e t(k)
+
+X 
+
+> eij ∈π
+
+w(eij ) (5) where Π  es(k), e t(k) denotes the set of all feasible paths from the origin to the destination. The corresponding path length is given by: 
+
+L(k) = X 
+
+> eij ∈π(k)
+
+Lij (6) Given a simulation horizon Tsim , the expected number of vehicles is: 
+
+E[N ] = λT sim (7) and in our implementation, we set Tsim = 6 s and discard the first and last 0 .5 s when rendering, in order to stabilize the number of visible vehicles and the visual quality. The entire set of random trips (OD, route, and time for each vehicle) is defined as: 
+
+T =   es(k), e t(k), t (k), π (k) k = 1 , 2, . . . , N (8) 7For any trip  es(k), e t(k), t (k), π (k), the continuous geometric curve along π(k) is formed by concatenating the edge-wise centerlines: 
+
+r(k)(s) = concat  re1 (s), r e2 (s), . . . , s ∈ [0 , L (k)] (9) According to the edge speed ve, a temporal mapping t(s) is established as: 
+
+t(s) = t(k) + 
+
+Z s
+
+> 0
+
+1
+
+v(σ) dσ (10) For each temporal sample t(k) 
+
+> n
+
+, the spatial position is obtained by inverting the mapping t(s) to find sn such that t(sn) = t(k) 
+
+> n
+
+, and evaluating the curve r(k)(sn). The trajectory is sampled with a fixed time step ∆ t as: 
+
+X(k) =
+
+n x(k) 
+
+> n
+
+, y (k) 
+
+> n
+
+, t (k)
+
+> n
+
+oNk
+
+> n=1
+
+, t(k) 
+
+> n
+
+= t(k) + n∆t (11) where Nk = T (k)/∆t and T (k) is the travel time of vehicle k.All trajectories collectively constitute the output trajectory set: 
+
+X = Φ( T ) = 
+
+n
+
+X(1) , X (2) , . . . , X (N )o
+
+(12) After obtaining the initial trajectories, UniAD [39] is employed as the driving agent of each vehicle to establish a closed-loop control system among trajectories, rendered images, and the agent itself. When no surrounding vehicles are present within the ego vehicle’s interaction range, the ego vehicle follows its predefined trajectory X(i).When potential interactions with nearby vehicles occur, driving agent infers the motion relationships between the ego and surrounding vehicles based on real-time rendered images. It then combines this perception with the target route to control the ego vehicle, yielding an updated driving trajectory denoted as ˆX(i).For accident-related vehicles and the ego vehicle in positive scenarios, trajecto-ries are deterministically generated to ensure that the accident occurs within the ego vehicle’s dashcam field of view at a specific time step. Therefore, after obtaining Π es(k), e t(k), we feed the textual description of the accident type, the candidate OD pairs of the primary vehicles, and the road network map in XML format into Qwen3-Max [36]. The LLM is instructed to stochastically generate multiple trajectory scenarios corresponding to the same accident type under the following constraints: (i) the origins and destinations of all accident-involved vehicles must satisfy the input OD pairs; (ii) the trajectories of the accident vehicles must contain at least an intersection point to ensure that a collision occurs; (iii) an additional ego vehicle must be present in the scene, and the accident location at the moment of collision must lie within the ego vehicle’s forward field of view, specifically within the ±30 ◦ range of the front-facing camera; and (iv) the generated trajectories for all vehicles must be provided with the accident time explicitly annotated. All generated samples are then manually inspected, and those that exhibit clearly unreasonable behaviors are discarded. 8Fig. 4 The denoising process of scenes’ rendering. Geometric constraints use vehicle projection and maps as mandatory constraints, while semantic and temporal controls guide the content of the generated images in terms of semantics and temporal continuity. 
+
+After generating trajectories for all agents, the environmental distributions extracted from the original dataset are used as prompts to guide a pretrained stable diffusion model trained in nuScenes [40] in rendering the scenes. The denoising pro-cess is shown in Figure 4. Let the diffusion timestep be denoted as τ , and the noise prediction network as ϵθ . The reverse diffusion process is defined as: 
+
+zτ −1 = fθ (zτ , e cond ) (13) where the conditional embedding is given by: 
+
+econd = {etext , e cam , e map , e layout , e ref , e rel } (14) Here, etext is obtained using a CLIP text encoder. The intrinsic and extrinsic camera parameters ecam are encoded via Fourier embeddings. The BEV grid emap 
+
+is extracted using a convolutional encoder with positional encoding. All lane and boundary maps, together with vehicle bounding boxes in BEV, are projected onto the image plane of each camera. The concatenation of the lane and vehicle projections is then fed into a conditional encoder to produce elayout . The reference embedding eref 
+
+corresponds to a randomly sampled historical frame, introduced to maintain temporal semantic consistency. Let the current ego pose be Tt and the reference pose be Tr ; the relative transformation is given by: ∆T = TtT −1 
+
+> r
+
+(15) and its Fourier embedding is expressed as: 
+
+erel = γ(∆ T ) (16) 9Table 1 Visual quality comparison of synthetic videos. Bold numbers indicate superior performance for the corresponding metric.                   
+
+> Dataset FID IS FVD PSNR SSIM CLIP EMM-AU [41] 175.58 2.71 30.87 9.38 0.39 0.84 Ours 91.28 2.17 34.46 10.18 0.40 0.84
+
+which enforces temporal consistency of the background. To ensure geometric coherence among multi-camera views, a cross-view attention mechanism is introduced: 
+
+h′ 
+
+> i
+
+= Attn  hi, {hj }j̸ =i
+
+ (17) where hi denotes the latent feature corresponding to the i-th camera. During inference, an autoregressive strategy is adopted to enhance temporal sta-bility. For the t-th generated frame, the reference embedding is obtained from the previously generated frame t − 1, and the relative ego-pose embedding is derived from the motion between consecutive poses: 
+
+e(t)ref = CLIP( It−1), e(t)rel = γ(TtT −1
+
+> t−1
+
+) (18) leading to the final reverse diffusion based generation for frame t:
+
+It = gθ
+
+ z(t) 
+
+> τ
+
+, e text , e cam , e map , e layout , e (t)ref , e (t)rel 
+
+ (19) where z(t) 
+
+> τ
+
+denotes the noisy latent variable at diffusion step τ for frame t.Figure 5 shows some examples of actual synthetic traffic scenes, including HD maps and corresponding multi-view images of both negative and positive scenes, rendering examples in different weather conditions, and some synthetic dashcam videos. To evaluate the quality of the synthetic traffic scene videos, we conduct a com-parative study using the DAD dataset as a reference and benchmark against another synthetic dataset, EMM-AU [41]. The evaluation metrics include Fr´ echet Inception Distance (FID), Inception Score (IS), Fr´ echet Video Distance (FVD), Peak Signal-to-Noise Ratio (PSNR), Structural Similarity Index (SSIM), and CLIP similarity [42–46]. The experimental results in Table 1 demonstrate that, compared with EMM-AU, our generated videos are substantially closer to the real distribution, achieving superior fidelity and clarity. However, in terms of temporal consistency and discriminability, our method is slightly weaker than EMM-AU. Moreover, under the same benchmarks, both approaches exhibit comparable levels of semantic alignment. From a visual stand-point, our generated videos display certain imperfections in lane line consistency and distortions in the continuous shapes of vehicles and buildings. Nevertheless, compared with EMM-AU, since our generative model is employed solely for rendering, the syn-thesized videos avoid unrealistic vehicle dynamics and remain kinematically closer to real-world behavior. 10 Fig. 5 Examples of the generated videos. (a) Multi-view videos generated for accident and non-accident scenarios along with corresponding high-definition maps and traffic flows. (b) Video examples of different weather and road conditions. (c) Examples of primary perspective videos in chronological order. 
+
+## 3.3 Accident Anticipation Framework 
+
+3.3.1 Video Preprocessing 
+
+In the initial stage of video processing, as shown in Figure 6, it is essential to rapidly and accurately detect vehicles, pedestrians, and other traffic-related entities in each frame. We first apply YOLOv8 [47], a lightweight and high-performance object detec-tion model widely adopted in industrial applications, to perform object detection on the input videos. Subsequently, the number of detected objects per frame is capped at 19, and the ByteTracker [48] algorithm is utilized to assign a consistent ID across frames for each target. Visual features are extracted from both the entire frame and the detected objects using a VGG16 backbone [49], while depth information for every pixel is estimated with the ZOE Depth model [50]. In addition, Qwen-VL [36] is employed to generate behavioral descriptions of each target and a scene-level summary, which are then matched with their corresponding visual IDs. Finally, textual information is 11 Fig. 6 Video preprocessing framework. We preprocess each video to obtain the key info required for inference, including object- and frame-level visual features, semantic features, and geometric cues. 
+
+encoded with BERT [51] and aligned with the visual feature dimensions, thereby com-pleting the preprocessing stage. The data structure after the above data processing is as follows: 
+
+Fvis ∈ RB×T ×N ×F
+
+Det ∈ RB×T ×(N −1) ×F
+
+Ftext ∈ RB×T ×N ×F
+
+Depth ∈ RB×T ×W ×H
+
+(20) where Fvis , Det , Ftext , and Depth refer to the visual feature representation, the object detection output, the text-derived feature tensor, and the depth informa-tion. The symbols B, T , N , and F indicate the batch count, the temporal length of the sequence, the total number of aggregated features (covering both frame-level and object-level cues), and the dimensionality of each feature vector. For the depth modality Depth , the parameters W and H specify the spatial resolution of each frame. 
+
+3.3.2 Graph Construction with Geometric and Semantic Guided Connectivity 
+
+To capture spatial interactions among traffic participants, we model each frame as a graph where objects are nodes and pairwise relations form edges. The adjacency matrix is adaptively learned and further refined by both geometric and semantic cues. Given detected objects per frame O = N − 1 , we parameterize the adjacency matrix with low-rank factorization: 
+
+A = ϕsoftmax (U V ) ∈ RO×O, ˜A = D− 12 (A + I)D− 12 (21) where U ∈ RO×O and V ∈ RO×O are learnable embeddings, I is the identity matrix, and D is the diagonal degree matrix. The role of this adaptive adjacency matrix is to dynamically model the relationship between objects in a learnable way, and to ensure stable and reasonable feature aggregation by determining which objects will interact with each other and the strength of the interaction. 12 Traffic participants located near one another exhibit an increased risk of poten-tial crashes, particularly when their speed differences are large. In contrast, entities separating from each other are less likely to be engaged in hazardous interactions. Therefore, to enrich connectivity with physical constraints, we compute the 3D geo-metric distances and relative velocities between objects. For each video, let ct,i denotes the 2D center of object i at frame t, and zt,i denotes its depth from Depth . The combined distance is defined as: 
+
+dt,ij = s2∥ct,i − ct,j ∥22 + |zt,i − zt,j |2 (22) where s is a normalization constant. The relative velocity is estimated by frame-wise differences: 
+
+vt,ij = dt,ij − dt−1,ij (23) After normalization, geometry-driven edge weights are given by: 
+
+W geo t,ij = α exp( − ¯dt,ij ) + (1 − α) ¯ vt,ij , α = aa + 1 (24) with the initial balance parameter a = 1. In addition to visual-spatial relationships, we explicitly model semantic object interactions in the construction of the graph structure, thereby simultaneously con-sidering the spatial and semantic dependencies between objects. This significantly improves the ability to model long-term dependencies and causal reasoning, making the model’s understanding of complex scenes more comprehensive and accurate. For semantics, object-level textual embeddings aligned with IDs are normalized, and cosine similarities are converted into text-driven edge weights: 
+
+W text t,ij = exp  ⟨ˆxtext t,i , ˆxtext t,j ⟩/τ text 
+
+P 
+
+> j′
+
+exp  ⟨ˆxtext t,i , ˆxtext t,j ′ ⟩/τ text 
+
+ (25) where ˆ xtext t,i denotes normalized text features and τtext is a temperature parameter. The overall edge weight matrix combines geometry- and text-driven terms via a learnable gate: 
+
+Wt = (1 − λ)W geo t + λW text t , λ = σ(β) (26) where Wt ∈ RO×O encodes both geometry-aware and text-guided connectivity, and 
+
+λ is dynamically controlled by β, which allows our model to learn the distribution of semantic and geometric weights in different scenarios during training. Once the structural graph is constructed, we perform multi-granularity multimodal fusion to ensure semantic consistency across modalities. Specifically, at the object level, we align each detected entity’s visual embedding with its corresponding textual embedding and apply a gating mechanism to adaptively emphasize the more reliable modality. This design allows the model to preserve fine-grained semantic cues while remaining robust to noise or missing information in either modality. At the frame level, we further integrate global visual scene embeddings with sentence-level textual 13 descriptions to provide a coherent context that guides object interactions. Such hier-archical fusion guarantees that both local interactions and global scene semantics are consistently represented. For each object i at frame t, let xvis t,i ∈ RF denote its visual embedding extracted from Fvis , and ˆ xtext t,i ∈ RF denote the aligned textual embedding. We employ a gating mechanism to adaptively combine the two representations: 
+
+xf use t,i = g [xvis t,i ; ˆ xtext t,i ] ⊙ xvis t,i + (1 − g(·)) ⊙ ˆxtext t,i (27) where, 
+
+g(·) = σ Wg [xvis t,i ; ˆ xtext t,i ] + bg
+
+ (28) 
+
+σ(·) is the sigmoid activation, and [; ] denotes feature concatenation. Similarly, we fuse frame-level features. Let f vis t be the global visual embedding from Fvis , and ˆf text t the sentence-level embedding from Ftext . Their fusion is defined as: 
+
+f f use t = g
+
+
+
+[f vis t ; ˆf text t ]
+
+
+
+⊙ f vis t + (1 − g(·)) ⊙ ˆf text t (29) 
+
+3.3.3 Temporal Modeling 
+
+To jointly capture spatial and temporal dependencies, we propose a dynamic weighted graph convolutional network followed by multi-scale temporal encoders. Given fused object-level features Xf use t = [xf use t, 1 , . . . , x f use t,O ], the GCN layer updates node embeddings as: 
+
+H(l+1)  
+
+> t
+
+= σ
+
+
+
+Wt ⊙ ˜AtH(l) 
+
+> t
+
+Ψ(l)
+
+(30) where H(0)  
+
+> t
+
+= Xf use t , ˜At is the normalized adjacency, and Ψ (l) are learnable weights. After L = 2 layers, node embeddings are pooled: 
+
+ut = 1
+
+O
+
+> O
+
+X
+
+> i=1
+
+H(L) 
+
+> t,i
+
+(31) The pooled representation ut is concatenated with f f use t to form zt. To enlarge temporal receptive fields, we apply temporal convolutional network: ˜z1: T = TCN( z1: T ) (32) followed by a GRU for sequential modeling: 
+
+h1: T = GRU(˜ z1: T ) (33) Frame-level predictions are computed as: 
+
+ℓt = W2 ϕ(W1ht + b1) + b2, pt = softmax( ℓt) (34) 14 where ℓt ∈ R2 are accident anticipation logits. 
+
+3.3.4 Loss Function 
+
+The model is supervised with three complementary objectives. 
+
+(i) Frame-level anticipation loss. 
+
+Positive samples are reweighted according to their distance from the time-of-accident 
+
+τ , which encourages models to make predictions as early as possible and with greater confidence closer to the moment of an accident: 
+
+w+ 
+
+> t
+
+= exp( − max(0 , τ − t − 1/f ps )) (35) and the frame-level anticipation loss is 
+
+L1 = 1
+
+BT 
+
+> B
+
+X
+
+> b=1
+> T
+
+X
+
+> t=1
+
+
+
+y w + 
+
+> t
+
+CE( ℓt, y ) + (1 − y) CE( ℓt, y )
+
+
+
+(36) 
+
+(ii) Video-level pooling loss. 
+
+From the perspective of the entire positive scene video, at least one frame in the first 
+
+Tpool frames should be sufficient to determine the occurrence of an accident. Therefore, video-level classification loss is applied to improve the accuracy of the model’s accident prediction: 
+
+L2 = 1
+
+B
+
+> B
+
+X
+
+> b=1
+
+CE 
+
+
+
+max 
+
+> t≤Tpool
+
+ℓt, y 
+
+
+
+(37) 
+
+(iii) Semantic alignment loss. 
+
+To enforce cross-modal semantic consistency, we impose a contrastive constraint between visual and textual representations. For each time step t, we take the global visual embedding f vis  
+
+> t
+
+and the corresponding sentence-level textual embedding ˆf text  
+
+> t
+
+,and apply a temperature-scaled, bidirectional Information Noise-Contrastive Estima-tion (InfoNCE) objective to pull the cross-modal positive pair at the same time step closer while pushing other samples/time steps in the mini-batch apart as negatives: 
+
+Lv→t(t) = − log exp  ⟨ ¯f vis  
+
+> t
+
+, ¯f text  
+
+> t
+
+⟩/τ c
+
+P 
+
+> (b′, t ′)∈B
+
+m(t),(b′,t ′) exp  ⟨ ¯f vis  
+
+> t
+
+, ¯f text ,(b′) 
+
+> t′
+
+⟩/τ c
+
+
+
+Lt→v (t) = − log exp  ⟨ ¯f text  
+
+> t
+
+, ¯f vis  
+
+> t
+
+⟩/τ c
+
+P 
+
+> (b′, t ′)∈B
+
+m(t),(b′,t ′) exp  ⟨ ¯f text  
+
+> t
+
+, ¯f vis ,(b′) 
+
+> t′
+
+⟩/τ c
+
+
+
+L3 = 1
+
+|T |
+
+X
+
+> t∈T
+
+12
+
+
+
+Lv→t(t) + Lt→v (t)
+
+
+
+(38) For numerical stability, we perform ℓ2 normalization before projection and use a lightweight MLP as the projection head; we also adopt a temporal-neighborhood mask 15 to avoid treating adjacent frames from the same video as negatives. Serving as an orthogonal regularizer to the main task, this loss strengthens cross-modal alignment, encourages the object/frame-level fusion gates to learn more reliable evidence weight-ing, and stabilizes the text-driven edge weights in the graph, thereby improving the modeling of long-range dependencies and causal cues. 
+
+(iv) Final objective. 
+
+The overall training loss is: 
+
+L = L1 + γL 2 + L3, γ = T (39) where, L1 is a frame-level loss, and L2 is a video-level loss. The frame number T is used as an amplification factor to prevent L2 from being overwhelmed by L1. L3 serves as an auxiliary loss to stabilize cross-modal alignment, achieving the complementary advantages of frame-level fine supervision, video-level early anticipation constraints, and cross-modal consistency. 
+
+# 4 Experiments 
+
+We assess the effectiveness of our pipeline on four real-world datasets: the Dashcam Accidents Dataset (DAD) [12], the AnAn Accident Detection (A3D) dataset [52], The Car Crash Dataset (CCD) [13] and the Multi-source Accident Anticipation (MAA) dataset introduced in this work. The detailed information of the existing datasets is shown in Table 2. The MAA dataset is introduced as a benchmark dedicated to accident anticipa-tion, constructed by integrating multiple publicly available video resources such as D²-City, BDD100K, and DOTA [53–55]. MAA consists of 6,000 clips, of which two-thirds are accident-positive and the rest are negative samples. To ensure fairness, we re-processed all clips to maintain consistent resolution, frame rate, and duration, and re-annotated the accident start time within a specific frame interval. The dataset is partitioned into 4,500 samples for training and 1,500 for testing. A detailed compar-ison between MAA and existing datasets is provided in Table 2. Compared to other datasets, MAA not only contains more videos but also offers greater coverage. Because MAA draws from multiple sources, its scenes span diverse geographic regions, includ-ing Asia, the Americas, and internet videos (while DAD is limited to a single region). Furthermore, MAA encompasses a wider range of climate and traffic conditions, along with richer annotations, providing a more comprehensive resource for accident pre-diction research. We have deployed several representative baseline models on MAA to provide performance references for future research. 
+
+## 4.1 Evaluation Results 
+
+Table 3 summarizes comparative results across DAD, A3D, CCD, and MAA using Average Precision (AP) and Mean Time-to-Accident (mTTA) as the main evaluation indicators. On the DAD dataset, our method surpasses existing approaches with gains 16 Table 2 The detailed information of MAA and other existing datasets. mToA represents the mean start time of accident. 
+
+Dataset Videos Positives Negative Total Length (h) FPS mToA DAD [12] 1750 620 1130 2.43 20 4.50 DADA-2000 [56] 2000 2000 - 6.09 30 -CCD [13] 4500 1500 3000 6.25 10 3.82 CADP [57] 1416 1416 - 5.2 28 3.69 A3D [52] 1500 1500 - 2.08 20 3.37 MAA (Ours) 6000 4000 2000 8.33 10 3.16 
+
+Table 3 Comparison of models on DAD, A3D, CCD, MAA and Synthetic DAD (sDAD). Bold 
+
+and underlined values represent the best and second-best performance. Instances where values are not available are marked with a dash (“-”).                                                                                                                     
+
+> Model DAD A3D CCD MAA sDAD AP (%) ↑mTTA (s) AP (%) mTTA (s) AP (%) mTTA (s) AP (%) mTTA (s) AP (%) mTTA (s) DSA [12] 48.1 1.34 92.3 2.95 98.7 3.08 ----VideoMAE [58] 48.1 3.93 ----76.5 1.90 55.1 4.02
+> AdaLEA [59] 52.3 3.43 92.9 3.16 99.2 3.45 ----UString [13] 53.7 3.53 93.2 3.24 99.5 3.74 69.9 1.61 58.2 3.10 DSTA [14] 56.1 3.66 93.5 2.87 99.3 3.87 174.5 1.85 76.5 2.21 GSC [11] 60.4 2.55 94.9 2.62 99.4 3.68 ----AccNet [21] 60.8 3.58 94.9 2.62 99.5 3.78 73.1 1.69 73.8 2.55 VideoCLIP [46] 68.5 3.75 ----74.7 1.72 72.4 3.73 THAT-NET [20] 77.8 3.64 --99.5 4.59 1----ViViT-FE [60] 78.8 4.03 ----75.8 1.97 82.1 3.86
+> Ours 85.8 4.11 95.5 3.20 99.7 3.68 80.8 1.99 90.1 3.71
+
+of 10.3% in AP and 12.3% in mTTA. For A3D and CCD, where AP values are close to saturation, our model still shows noticeable improvements. For the MAA benchmark, we replicate multiple representative baselines, including advanced accident anticipation models based on RNNs and graph neural networks, as well as temporal reasoning frameworks based on Transformers, self-supervised learning, and multimodal models. Evaluation on MAA shows our method outper-forming the runner-up by 6.5% AP and 1% mTTA, validating the advantage of the semantic–geometric graph design and positioning it as a new benchmark for accident anticipation. We further investigate the impact of integrating synthetic data into the DAD benchmark. When 40% of the training set is expanded with generated videos, most baselines show certain gains. For models with advanced performance, this improve-ment ranges from 4.2% to 5.0%. Additional trials include supplementing the dataset with 40% real traffic clips and, alternatively, substituting 40% of the original training data with generated samples. The reported results are AP = 90.9 / mTTA = 4.02 for the former and AP = 83.8 / mTTA = 3.40 for the latter. These findings indicate that, while synthetic augmentation contributes positively, its effectiveness remains inferior to augmenting with genuine traffic footage. Besides, when generated data directly replaces part of the original training set, performance deteriorates, indicating the pres-ence of a measurable domain gap, which is expected when synthetic samples replace 
+
+> 1As shown in Table 2, the mToA of the CCD dataset is 3.82, so results larger than this value cannot be compared on the same scale.
+
+17 Fig. 7 The computational efficiency of the key modules within the overall framework. The efficiency of each module is quantified by the average number of video frames it can process per second. 
+
+real data. Based on the experimental results, the performance difference between the two data sources ranges from 0.9% to 2.3%, with this gap further diminishing as the dataset size increases. Moreover, the performance discrepancy between synthetic and real data is substantially smaller than the performance gains achieved through the use of synthetic data. It is worth noting that when additional data is incorporated into the training set, the mTTA metric shows a moderate decline. We observe that the ratio of mTTA to mToA in the DAD dataset reaches 91.3%, whereas in the larger-scale MAA dataset this ratio drops to 63.0%. This result aligns with expectations: the expansion of data volume mitigates overfitting observed in smaller datasets, requiring the model to rely on richer contextual information for accident prediction rather than making rapid forecasts solely based on recurring visual patterns. Considering practical deployment scenarios, we analyze the computational effi-ciency of the proposed framework. Under the experimental settings, the runtime of each module is shown in Figure 7. Given that Qwen-VL contains approximately 3.4B parameters, on-device deployment is generally infeasible in real-world applications. Therefore, in our efficiency analysis, we assume an edge–cloud collaborative archi-tecture, in which Qwen-VL is deployed in the cloud to accommodate its substantial computational demands. Moreover, because scene semantics evolve slowly across con-secutive frames, performing VLM-based scene analysis once every 5 or 10 frames (i.e., every 0.1–0.2 seconds) is sufficient. In the ideal steady-state pipeline, the throughput is determined by the slowest mod-ule (the depth estimation module), yielding a pipeline frame rate of F P S pipeline = 86 .3. The per-frame output latency corresponds to the cumulative time of the longest sequence of serial operations, which is approximately 16 .6 ms. Overall, the depth esti-mation and VLM modules constitute the primary bottlenecks in the computational pipeline; however, these limitations can be effectively mitigated through cloud-based execution and do not pose significant obstacles to real-world deployment. 18 4.2 Ablation Studies 
+
+Table 4 summarizes the ablation outcomes on the DAD dataset, highlighting how individual components such as the input representations, the GRU unit, the tem-poral convolutional module and the GCN layers contribute to overall performance. The results show that removing or replacing critical components consistently degrades inference accuracy. Among these modules, visual information, GCN, and GRU con-tribute most significantly to performance, corresponding to primary information input, scene interaction modeling, and temporal reasoning, respectively. The optimal num-ber of GCN layers is found to be 2, while gated fusion provides the most effective approach for information integration.                                                                                                                                                                          
+
+> Table 4 Ablation studies on DAD dataset. AAM, TCN represent adaptive adjacency matrix and temporal convolutional network.
+> Model Input GCN layers Fuse AAM TCN GRU Input Vision Frame Text Object Text 123Gated Concat AP% mTTA(s) A-✓✓-✓---✓✓✓44.3 3.12 B✓-✓-✓-✓-✓✓✓84.4 3.51 C✓✓--✓-✓-✓✓✓77.4 3.44 D✓---✓---✓✓✓76.1 3.72 E✓✓✓✓--✓-✓✓✓83.2 3.68 F✓✓✓--✓✓-✓✓✓84.3 3.61 G✓✓✓-✓--✓✓✓✓81.9 3.98 H✓✓✓-✓-✓--✓✓77.7 3.51 I✓✓✓-✓-✓-✓-✓78.4 3.85 J✓✓✓-✓-✓-✓✓-50.1 3.55 K✓✓✓---✓--✓✓46.9 3.90 Final ✓✓✓-✓-✓-✓✓✓85.8 4.11
+
+## 4.3 Qualitative Analysis 
+
+To further evaluate the effectiveness of this pipeline, we visualize several traffic scenes from the MAA dataset and compare its performance against the second-best baseline. Figure 8 (a–d) illustrates four challenging scenarios, where Figure 8 (a–c) are positive accident scenes and Figure 8 (d) is a negative case. In Figure 8 (a), the blue car in front initiates a rightward lane change while a white car drives straight at high speed along the right lane, ultimately colliding with the blue car without deceleration. From a geometric perspective, the relative speed is high and the distance between the two vehicles is short. From a semantic perspective, a yielding conflict arises between lane changing and straight-line driving. Our model rapidly increases accident confidence and correctly anticipates the accident, with confidence declining after the white car exits the view. By contrast, the baseline model, which relies more heavily on visual features, fails to predict the accident due to the white car’s brief appearance in the camera’s field of view. In Figure 8 (b), a heavy truck traveling near the right lane edge runs over a raised roadside curb with its front-right wheel, causing a minor accident. Since no vehicle-to-vehicle interaction occurs and the curb feature is visually obscure due to snow coverage, 19 Fig. 8 Visualization of model performance in some scenes. (a) Successful anticipation of positive scene. (b-c): Failed anticipation of positive scene. (d) Failed anticipation of negative scene. 
+
+neither our model nor the baseline successfully anticipates the accident beforehand. Both models only trigger warnings after detecting changes in the truck’s pose. Scene Figure 8 (c) depicts a rear-end collision while the ego vehicle is waiting at a red light. Because the colliding vehicle is not visible, both models lack access to critical cues and fail to predict the accident in advance. Notably, in both Figure 8 (b) and Figure 8 (c), abnormal post-accident vehicle pose changes cause a rise in accident confidence, demonstrating the models’ sensitivity to traffic anomalies. Finally, in Figure 8 (d), after the traffic light turns green, the white car begins moving forward while the car ahead remains stationary. The distance decreases, rela-tive speed increases, and semantically there appears to be a rear-end risk. In reality, however, the distance remains safe but is obscured by partial occlusion. Our model 20 mistakenly raises an accident warning, while the baseline remains at a moderate-to-low confidence level in the multi-vehicle scenario and is not misled. 
+
+# 5 Conclusion 
+
+This research presents an accident anticipation pipeline that leverages a dynamic graph convolutional network enriched with geometric and semantic cues. To support sys-tematic evaluation, we also introduce the Multi-source Accident Anticipation dataset, which contains diverse accident scenarios with comprehensive annotations. In addition, we design a world model-based video augmentation pipeline that generates synthetic driving scenes and verify its benefit in enhancing anticipation accuracy. Extensive experiments have proven that our method is superior to previous methods on several benchmarks, setting new performance standards. Importantly, our analysis highlights that synthetic data, although still imperfect, provides measurable benefits for targeted tasks. Looking ahead, future work should emphasize improving the realism of gener-ated content, particularly in terms of object consistency, noise suppression, and scene fidelity. 
+
+# Acknowledgment 
+
+This work was supported by the Science and Technology Development Fund of Macau [0122/2024/RIB2, 0215/2024/AGJ, 001/2024/SKL], the Research Services and Knowledge Transfer Office, University of Macau [SRG2023-00037-IOTSC, MYRG-GRG2024-00284-IOTSC], the Shenzhen-Hong Kong-Macau Science and Technology Program Category C [SGDX20230821095159012], the Science and Technology Plan-ning Project of Guangdong [2025A0505010016], National Natural Science Foundation of China [52572354], the State Key Lab of Intelligent Transportation System [2024-B001], and the Jiangsu Provincial Science and Technology Program [BZ2024055]. 
+
+# DATA availability 
+
+The data used in this work are publicly released at: https://github.com/humanlabmembers/Multi-source-Accident-Anticipation. 
+
+# References 
+
+[1] Bagloee, S.A., Tavana, M., Asadi, M., Oliver, T.: Autonomous vehicles: chal-lenges, opportunities, and future implications for transportation policies. Journal of modern transportation 24 , 284–303 (2016) [2] Kalra, N., Paddock, S.M.: Driving to safety: How many miles of driving would it take to demonstrate autonomous vehicle reliability? Transportation Research Part A: Policy and Practice 94 , 182–193 (2016) 21 [3] Li, Z., Cui, Z., Liao, H., Ash, J., Zhang, G., Xu, C., Wang, Y.: Steering the future: Redefining intelligent transportation systems with foundation models. Chain 1(1), 46–53 (2024) [4] Fang, J., Qiao, J., Xue, J., Li, Z.: Vision-based traffic accident detection and anticipation: A survey. IEEE Transactions on Circuits and Systems for Video Technology (2023) [5] Jiang, Y., Zhang, X., Xu, X., Zhou, X., Dong, Z.: Event-triggered shared lat-eral control for safe-maneuver of intelligent vehicles. Science China Information Sciences 64 (7), 172203 (2021) [6] Liu, J., Guo, H., Song, L., Dai, Q., Chen, H.: Driver-automation shared steering control for highly automated vehicles. Science China Information Sciences 63 ,1–16 (2020) [7] Wang, L., Cheng, K., Lei, S., Wang, S., Yin, W., Lei, C., Long, X., Lu, C.-T.: Dc-gaussian: Improving 3d gaussian splatting for reflective dash cam videos. arXiv preprint arXiv:2405.17705 (2024) [8] Guan, Y., Liao, H., Wang, C., Wang, B., Zhang, J., Hu, J., Li, Z.: Domain-enhanced dual-branch model for efficient and interpretable accident anticipation. arXiv preprint arXiv:2507.12755 (2025) [9] Cheong, J.Y., Simon, C., Kim, C.-S., Park, I.K.: Reflection removal under fast forward camera motion. IEEE Transactions on Image Processing 26 (12), 6061– 6073 (2017) [10] Sadeky, S., Al-Hamadiy, A., Michaelisy, B., Sayed, U.: Real-time automatic traffic accident recognition using hfg. In: 2010 20th International Conference on Pattern Recognition, pp. 3348–3351 (2010). IEEE [11] Wang, T., Chen, K., Chen, G., Li, B., Li, Z., Liu, Z., Jiang, C.: Gsc: A graph and spatio-temporal continuity based framework for accident anticipation. IEEE Transactions on Intelligent Vehicles 9(1), 2249–2261 (2023) [12] Chan, F.-H., Chen, Y.-T., Xiang, Y., Sun, M.: Anticipating accidents in dashcam videos. In: Computer Vision–ACCV 2016: 13th Asian Conference on Computer Vision, Taipei, Taiwan, November 20-24, 2016, Revised Selected Papers, Part IV 13, pp. 136–153 (2017). Springer [13] Bao, W., Yu, Q., Kong, Y.: Uncertainty-based traffic accident anticipation with spatio-temporal relational learning. In: ACM Multimedia Conference (2020) [14] Karim, M.M., Li, Y., Qin, R., Yin, Z.: A dynamic spatial-temporal attention net-work for early anticipation of traffic accidents. IEEE Transactions on Intelligent Transportation Systems 23 (7), 9590–9600 (2022) 22 [15] Fatima, M., Khan, M.U.K., Kyung, C.-M.: Global feature aggregation for acci-dent anticipation. In: 2020 25th International Conference on Pattern Recognition (ICPR), pp. 2809–2816 (2021). IEEE [16] Song, W., Li, S., Chang, T., Xie, K., Hao, A., Qin, H.: Dynamic attention aug-mented graph network for video accident anticipation. Pattern Recognition 147 ,110071 (2024) [17] Chen, S., Dong, J., Ha, P., Li, Y., Labi, S.: Graph neural network and rein-forcement learning for multi-agent cooperative control of connected autonomous vehicles. Computer-Aided Civil and Infrastructure Engineering 36 (7), 838–857 (2021) [18] Ou, J., Xia, J., Wang, Y., Wang, C., Lu, Z.: A data-driven approach to determin-ing freeway incident impact areas with fuzzy and graph theory-based clustering. Computer-Aided Civil and Infrastructure Engineering 35 (2), 178–199 (2020) [19] Thakur, N., Gouripeddi, P., Li, B.: Graph (graph): A nested graph-based frame-work for early accident anticipation. In: Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision, pp. 7533–7541 (2024) [20] Liu, W., Zhang, T., Lu, Y., Chen, J., Wei, L.: That-net: Two-layer hidden state aggregation based two-stream network for traffic accident prediction. Information Sciences 634 , 744–760 (2023) [21] Liao, H., Li, Y., Li, Z., Bian, Z., Lee, J., Cui, Z., Zhang, G., Xu, C.: Real-time accident anticipation for autonomous driving through monocular depth-enhanced 3d modeling. Accident Analysis & Prevention 207 , 107760 (2024) [22] Liang, M., Yang, B., Hu, R., Chen, Y., Liao, R., Feng, S., Urtasun, R.: Learning lane graph representations for motion forecasting. In: European Conference on Computer Vision, pp. 541–556 (2020). Springer [23] Mohamed, A., Qian, K., Elhoseiny, M., Claudel, C.: Social-stgcnn: A social spatio-temporal graph convolutional neural network for human trajectory prediction. In: Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition, pp. 14424–14432 (2020) [24] Gesnouin, J., Pechberti, S., Stanciulescu, B., Moutarde, F.: Assessing cross-dataset generalization of pedestrian crossing predictors. In: 2022 IEEE Intelligent Vehicles Symposium (IV), pp. 419–426 (2022). IEEE [25] Martin, M., Roitberg, A., Haurilet, M., Horne, M., Reiß, S., Voit, M., Stiefelhagen, R.: Drive&act: A multi-modal dataset for fine-grained driver behavior recogni-tion in autonomous vehicles. In: Proceedings of the IEEE/CVF International Conference on Computer Vision, pp. 2801–2810 (2019) 23 [26] Wu, Z., Pan, S., Chen, F., Long, G., Zhang, C., Yu, P.S.: A comprehensive survey on graph neural networks. IEEE transactions on neural networks and learning systems 32 (1), 4–24 (2020) [27] Xiao, D., Dianati, M., Geiger, W.G., Woodman, R.: Review of graph-based hazardous event detection methods for autonomous driving systems. IEEE Transactions on Intelligent Transportation Systems 24 (5), 4697–4715 (2023) [28] Zhang, J., Huang, J., Jin, S., Lu, S.: Vision-language models for vision tasks: A survey. IEEE transactions on pattern analysis and machine intelligence 46 (8), 5625–5644 (2024) [29] Radford, A., Kim, J.W., Hallacy, C., Ramesh, A., Goh, G., Agarwal, S., Sastry, G., Askell, A., Mishkin, P., Clark, J., et al. : Learning transferable visual models from natural language supervision. In: International Conference on Machine Learning, pp. 8748–8763 (2021). PmLR [30] Lohner, A., Compagno, F., Francis, J., Oltramari, A.: Enhancing vision-language models with scene graphs for traffic accident understanding. In: 2024 IEEE Inter-national Automated Vehicle Validation Conference (IAVVC), pp. 1–7 (2024). IEEE [31] Gao, P., Geng, S., Zhang, R., Ma, T., Fang, R., Zhang, Y., Li, H., Qiao, Y.: Clip-adapter: Better vision-language models with feature adapters. International Journal of Computer Vision 132 (2), 581–595 (2024) [32] Fang, H., Xiong, P., Xu, L., Chen, Y.: Clip2video: Mastering video-text retrieval via image clip. arXiv preprint arXiv:2106.11097 (2021) [33] Zellers, R., Lu, X., Hessel, J., Yu, Y., Park, J.S., Cao, J., Farhadi, A., Choi, Y.: Merlot: Multimodal neural script knowledge models. Advances in neural information processing systems 34 , 23634–23651 (2021) [34] Bar-Tal, O., Ofri-Amar, D., Fridman, R., Kasten, Y., Dekel, T.: Text2live: Text-driven layered image and video editing. In: European Conference on Computer Vision, pp. 707–723 (2022). Springer [35] Wendland, P., Birkenbihl, C., Gomez-Freixa, M., Sood, M., Kschischo, M., Fr¨ ohlich, H.: Generation of realistic synthetic data using multimodal neural ordinary differential equations. NPJ Digital Medicine 5(1), 122 (2022) [36] Bai, J., Bai, S., Chu, Y., Cui, Z., Dang, K., Deng, X., Fan, Y., Ge, W., Han, Y., Huang, F., et al.: Qwen technical report. arXiv preprint arXiv:2309.16609 (2023) [37] Shinar, D.: Accident/crash causation and analysis. Traffic Safety and Human Behavior, 1039–1083 (2017) 24 [38] Wang, H., Yu, Y., Yuan, Q.: Application of dijkstra algorithm in robot path-planning. In: 2011 Second International Conference on Mechanic Automation and Control Engineering, pp. 1067–1069 (2011). IEEE [39] Hu, Y., Yang, J., Chen, L., Li, K., Sima, C., Zhu, X., Chai, S., Du, S., Lin, T., Wang, W., et al. : Planning-oriented autonomous driving. In: Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition, pp. 17853–17862 (2023) [40] Caesar, H., Bankiti, V., Lang, A.H., Vora, S., Liong, V.E., Xu, Q., Krish-nan, A., Pan, Y., Baldan, G., Beijbom, O.: nuscenes: A multimodal dataset for autonomous driving. In: Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition, pp. 11621–11631 (2020) [41] Li, C., Zhou, K., Liu, T., Wang, Y., Zhuang, M., Gao, H.-a., Jin, B., Zhao, H.: Avd2: Accident video diffusion for accident video description. arXiv preprint arXiv:2502.14801 (2025) [42] Obukhov, A., Krasnyanskiy, M.: Quality assessment method for gan based on modified metrics inception score and fr´ echet inception distance. Proceedings of the Computational Methods in Systems and Software, 102–114 (2020) [43] Ge, S., Mahapatra, A., Parmar, G., Zhu, J.-Y., Huang, J.-B.: On the content bias in fr´ echet video distance. In: Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition, pp. 7277–7288 (2024) [44] Korhonen, J., You, J.: Peak signal-to-noise ratio revisited: Is simple beautiful? In: 2012 Fourth International Workshop on Quality of Multimedia Experience, pp. 37–38 (2012). IEEE [45] Brunet, D., Vrscay, E.R., Wang, Z.: On the mathematical properties of the struc-tural similarity index. IEEE Transactions on Image Processing 21 (4), 1488–1499 (2011) [46] Xu, H., Ghosh, G., Huang, P.-Y., Okhonko, D., Aghajanyan, A., Metze, F., Zettle-moyer, L., Feichtenhofer, C.: Videoclip: Contrastive pre-training for zero-shot video-text understanding. arXiv preprint arXiv:2109.14084 (2021) [47] Sohan, M., Sai Ram, T., Rami Reddy, C.V.: A review on yolov8 and its advancements. In: International Conference on Data Intelligence and Cognitive Informatics, pp. 529–545 (2024). Springer [48] Zhang, Y., Sun, P., Jiang, Y., Yu, D., Weng, F., Yuan, Z., Luo, P., Liu, W., Wang, X.: Bytetrack: Multi-object tracking by associating every detection box. In: European Conference on Computer Vision, pp. 1–21 (2022). Springer [49] Simonyan, K., Zisserman, A.: Very deep convolutional networks for large-scale 25 image recognition. arXiv preprint arXiv:1409.1556 (2014) [50] Bhat, S.F., Birkl, R., Wofk, D., Wonka, P., M¨ uller, M.: Zoedepth: Zero-shot transfer by combining relative and metric depth. arXiv preprint arXiv:2302.12288 (2023) [51] Aftan, S., Shah, H.: A survey on bert and its applications. In: 2023 20th Learning and Technology Conference (L&T), pp. 161–166 (2023). IEEE [52] Yao, Y., Xu, M., Wang, Y., Crandall, D.J., Atkins, E.M.: Unsupervised traf-fic accident detection in first-person videos. In: 2019 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS), pp. 273–280 (2019). IEEE [53] Yao, Y., Wang, X., Xu, M., Pu, Z., Wang, Y., Atkins, E., Crandall, D.J.: Dota: Unsupervised detection of traffic anomaly in driving videos. IEEE transactions on pattern analysis and machine intelligence 45 (1), 444–459 (2022) [54] Che, Z., Li, G., Li, T., Jiang, B., Shi, X., Zhang, X., Lu, Y., Wu, G., Liu, Y., Ye, J.: D 2-city: a large-scale dashcam video dataset of diverse traffic scenarios. arXiv preprint arXiv:1904.01975 (2019) [55] Yu, F., Chen, H., Wang, X., Xian, W., Chen, Y., Liu, F., Madhavan, V., Dar-rell, T.: Bdd100k: A diverse driving dataset for heterogeneous multitask learning. In: Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition, pp. 2636–2645 (2020) [56] Fang, J., Yan, D., Qiao, J., Xue, J., Wang, H., Li, S.: Dada-2000: Can driving acci-dent be predicted by driver attention ƒ analyzed by a benchmark. In: 2019 IEEE Intelligent Transportation Systems Conference (ITSC), pp. 4303–4309 (2019). IEEE [57] Shah, A.P., Lamare, J.-B., Nguyen-Anh, T., Hauptmann, A.: Cadp: A novel dataset for cctv traffic camera based accident analysis. In: 2018 15th IEEE Inter-national Conference on Advanced Video and Signal Based Surveillance (AVSS), pp. 1–9 (2018). IEEE [58] Tong, Z., Song, Y., Wang, J., Wang, L.: Videomae: Masked autoencoders are data-efficient learners for self-supervised video pre-training. Advances in neural information processing systems 35 , 10078–10093 (2022) [59] Suzuki, T., Kataoka, H., Aoki, Y., Satoh, Y.: Anticipating traffic accidents with adaptive loss and large-scale incident db. In: Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition, pp. 3521–3529 (2018) [60] Arnab, A., Dehghani, M., Heigold, G., Sun, C., Luˇ ci´ c, M., Schmid, C.: Vivit: A video vision transformer. In: Proceedings of the IEEE/CVF International Conference on Computer Vision, pp. 6836–6846 (2021) 26
